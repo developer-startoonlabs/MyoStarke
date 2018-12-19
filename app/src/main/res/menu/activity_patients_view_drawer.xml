@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <!--<item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Settings" />-->
+
+        <item
+            android:id="@+id/nav_app_version"
+            android:icon="@drawable/app_version"
+            android:title="App version" />
+
+        <item
+            android:id="@+id/pheeze_device_info"
+            android:icon="@drawable/app_version"
+            android:title="Device Info"/>
+        <item
+            android:id="@+id/demo_app"
+            android:icon="@drawable/app_version"
+            android:title="Demo App" />
+
+        <item
+            android:id="@+id/rawdatacollection"
+            android:title="Raw Data"/>
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Share" />
+
+            <item
+                android:id="@+id/ota_device"
+                android:title="OTA"/>
+
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/logout_icon_black"
+                android:title="Logout" />
+        </menu>
+    </item>
+
+</menu>

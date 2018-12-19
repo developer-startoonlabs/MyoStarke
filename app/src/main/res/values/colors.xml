@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#4B7080</color>
+    <color name="colorPrimaryDark">#4B7080</color>
+    <color name="colorAccent">#4b7080</color>
+    <color name="button_color">#CCA586</color>
+    <color name="white_opaque">#FFFFFFFF</color>
+    <color name="pitch_black">#FF000000</color>
+    <color name="title_color">#4B7080</color>
+</resources>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:id="@+id/rl_listmodel">
+
+
+        <TextView
+            android:id="@+id/tv_deviceName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="12dp"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/tv_deviceMacAdress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/tv_deviceName"
+            android:layout_centerVertical="true"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/tv_deviceBondState"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_deviceMacAdress"
+            android:layout_alignStart="@+id/tv_deviceName"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="11dp"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/tv_deviceRssi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tv_deviceBondState"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="142dp"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/tv_iDontKnowYet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tv_deviceBondState"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="32dp"
+            android:text="TextView" />
+
+        <Button
+            android:id="@+id/btn_connectToDevice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tv_deviceMacAdress"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="CONNECT" />
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

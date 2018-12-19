@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/swiperefresh"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/reportEmgGraph"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.9"/>
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/reportRepsGraph"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.9"/>
+
+
+
+        <com.warkiz.widget.IndicatorSeekBar
+            android:id="@+id/barChartScroller"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.05"
+            app:isb_indicator_color="#CCA586"
+            app:isb_indicator_text_color="@color/colorAccent"
+            app:isb_indicator_text_size="18sp"
+            app:isb_min="0"
+            app:isb_progress="0"
+            app:isb_seek_smoothly="true"
+            app:isb_show_indicator="rounded_rectangle"
+            app:isb_show_tick_marks_type="oval"
+            app:isb_show_tick_texts="true"
+            app:isb_thumb_color="#CCA586"
+            app:isb_thumb_size="20dp"
+            app:isb_tick_marks_size="13dp"
+            app:isb_tick_texts_color="@color/colorPrimary"
+            app:isb_tick_texts_size="15sp"
+            app:isb_track_background_color="#CCA586"
+            app:isb_track_background_size="2dp"
+            app:isb_track_progress_color="@color/colorPrimary"
+            app:isb_track_progress_size="4dp" />
+
+
+    </LinearLayout>
+
+
+
+
+
+    <!--<com.jjoe64.graphview.GraphView-->
+        <!--android:id="@+id/reportGraph"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="463dp"-->
+        <!--android:layout_above="@+id/getFromCloud"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_weight="0.8" />-->
+
+    <!--<android.support.v7.widget.AppCompatImageView-->
+        <!--android:id="@+id/getFromCloud"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="48dp"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:background="@drawable/ripple"-->
+        <!--android:onClick="getFromCloud"-->
+        <!--android:src="@drawable/ic_cloud_download_green_800_24dp" />-->
+    <ProgressBar
+        android:id="@+id/graphLoader"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
+
+</android.support.v4.widget.SwipeRefreshLayout>
+
