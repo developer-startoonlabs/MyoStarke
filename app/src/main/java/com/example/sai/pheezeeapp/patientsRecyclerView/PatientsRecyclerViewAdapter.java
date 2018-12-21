@@ -77,7 +77,7 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
         // - replace the contents of the view with that element
         PatientsListData patientsList = patientsListData.get(position);
         holder.patientName.setText(patientsList.getPatientName());
-        holder.patientId.setText("Patient Id : "+patientsList.getPatientId());
+        holder.patientId.setText("Id : "+patientsList.getPatientId());
 
         String patientUrl = patientsList.getPatientUrl();
 

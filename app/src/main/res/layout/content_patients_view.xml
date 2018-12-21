@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:paddingTop="80dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".Activities.PatientsView"
+    tools:context="com.example.sai.pheezeeapp.Activities.PatientsView"
     tools:showIn="@layout/app_bar_patients_view">
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"

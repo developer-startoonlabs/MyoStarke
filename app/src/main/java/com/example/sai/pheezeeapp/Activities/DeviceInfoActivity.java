@@ -74,6 +74,9 @@ public class DeviceInfoActivity extends AppCompatActivity {
         tv_firmware_version = (TextView)findViewById(R.id.tv_deviceinfo_device_firmware);
 
 
+        tv_connection_status.setText("N/C");
+
+
 
 
 
@@ -95,7 +98,6 @@ public class DeviceInfoActivity extends AppCompatActivity {
             remoteDevice = bluetoothAdapter.getRemoteDevice(getIntent().getStringExtra("deviceMacAddress"));
         //Log.i("Remote Device",remoteDevice.getName());
         if(remoteDevice!=null){
-            Log.i("hello","hello");
             tv_device_mamc.setText(remoteDevice.getAddress());
 
             tv_device_name.setText(remoteDevice.getName());
@@ -106,10 +108,6 @@ public class DeviceInfoActivity extends AppCompatActivity {
             public void run() {
                 if(remoteDevice!=null) {
                     bluetoothGatt = remoteDevice.connectGatt(DeviceInfoActivity.this, true, callback);
-                    if (bluetoothGatt != null) {
-                        Log.i("BLGATT", "not connected");
-                        Log.i("Remote Device", remoteDevice.getName());
-                    }
                 }
             }
         });

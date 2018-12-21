@@ -53,7 +53,6 @@
         </activity>
 
         <service android:name="org.eclipse.paho.android.service.MqttService" />
-        <service android:name=".ConnectivityChangeReceiver" />
         <service android:name=".MqttService" />
 
         <activity
@@ -99,6 +98,7 @@
 
         <activity
             android:name=".Activities.OnStartActivity"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

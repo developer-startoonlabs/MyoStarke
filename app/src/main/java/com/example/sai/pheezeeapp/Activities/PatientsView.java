@@ -2,6 +2,7 @@ package com.example.sai.pheezeeapp.Activities;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
@@ -18,9 +19,14 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
+import android.opengl.Visibility;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -46,14 +52,19 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
+import android.text.Layout;
 import android.util.Base64;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -65,6 +76,7 @@ import android.widget.Toast;
 
 import com.example.sai.pheezeeapp.Classes.BluetoothGattSingleton;
 import com.example.sai.pheezeeapp.Classes.BluetoothSingelton;
+import com.example.sai.pheezeeapp.Classes.MyBottomSheetDialog;
 import com.example.sai.pheezeeapp.DFU.DfuActivity;
 import com.example.sai.pheezeeapp.DemoActivity;
 import com.example.sai.pheezeeapp.R;
@@ -100,6 +112,8 @@ public class PatientsView extends AppCompatActivity
 
 
     View patientLayoutView;
+    MyBottomSheetDialog myBottomSheetDialog;
+    Dialog optionsPopdialog ;
 
     //For Alert Dialog
     final CharSequence[] items = { "Take Photo", "Choose from Library",
@@ -444,6 +458,7 @@ public class PatientsView extends AppCompatActivity
                 Intent intent = new Intent(Intent.ACTION_MAIN);
                 intent.addCategory(Intent.CATEGORY_HOME);
                 startActivity(intent);
+                finish();
             }
 
         }
@@ -845,7 +860,7 @@ public class PatientsView extends AppCompatActivity
 
                 for(int k=0;k<jsonData.length();k++){
                     try {
-                        if(jsonData.getJSONObject(k).getString("patientid").equals(patientIdTemp.getText().toString().substring(13))){
+                        if(jsonData.getJSONObject(k).getString("patientid").equals(patientIdTemp.getText().toString().substring(5))){
 
                             jsonData.getJSONObject(k).put("patientname",patientName);
                             json_phizio.put("phiziopatients",jsonData);
@@ -878,7 +893,7 @@ public class PatientsView extends AppCompatActivity
             public void onClick(DialogInterface dialogInterface, int i) {
                 for(int k=0;k<jsonData.length();k++){
                     try {
-                        if(jsonData.getJSONObject(k).getString("patientid").equals(patientIdTemp.getText().toString().substring(13))){
+                        if(jsonData.getJSONObject(k).getString("patientid").equals(patientIdTemp.getText().toString().substring(5))){
 
 
                             object.put("phizioemail", json_phizio.get("phizioemail"));
@@ -1050,7 +1065,7 @@ public class PatientsView extends AppCompatActivity
         Intent intent = new Intent(PatientsView.this, DashboardActivity.class);
         intent.putExtra("exerciseType",exerciseType);
         intent.putExtra("deviceMacAddress", sharedPref.getString("deviceMacaddress", ""));
-        intent.putExtra("patientId", patientId.getText().toString().substring(13));
+        intent.putExtra("patientId", patientId.getText().toString().substring(5));
         try {
             intent.putExtra("phizioemail",json_phizio.getString("phizioemail"));
         } catch (JSONException e) {
@@ -1145,7 +1160,7 @@ public class PatientsView extends AppCompatActivity
                 if (item.getItemId()==R.id.history){
                     Intent intent= new Intent(PatientsView.this,SessionList.class);
                     final TextView patientIdTemp = view.findViewById(R.id.patientId);
-                    intent.putExtra("patientid",patientIdTemp.getText().toString().substring(12).replaceAll("\\s+",""));
+                    intent.putExtra("patientid",patientIdTemp.getText().toString().substring(4).replaceAll("\\s+",""));
                     //Toast.makeText(context, patientIdTemp.getText().toString(), Toast.LENGTH_SHORT).show();
                     startActivity(intent);
                 }
@@ -1228,7 +1243,7 @@ public class PatientsView extends AppCompatActivity
                 try {
                     object.put("image",encodedString);
                     object.put("phizioemail",json_phizio.getString("phizioemail"));
-                    object.put("patientid",tv_patientId.getText().toString().substring(12).replaceAll("\\s+",""));
+                    object.put("patientid",tv_patientId.getText().toString().substring(4).replaceAll("\\s+",""));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -1260,7 +1275,7 @@ public class PatientsView extends AppCompatActivity
             try {
                 object.put("image",encodedString);
                 object.put("phizioemail",json_phizio.getString("phizioemail"));
-                object.put("patientid",tv_patientId.getText().toString().substring(12).replaceAll("\\s+",""));
+                object.put("patientid",tv_patientId.getText().toString().substring(4).replaceAll("\\s+",""));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -1283,5 +1298,28 @@ public class PatientsView extends AppCompatActivity
             }
         }
     }
+
+
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @SuppressLint("ResourceType")
+    public void openOpionsPopupWindow(View view){
+        myBottomSheetDialog = new MyBottomSheetDialog();
+        myBottomSheetDialog.show(getSupportFragmentManager(),"MyBottomSheet");
+
+
+
+        patientTabLayout= (LinearLayout) ((LinearLayout)view).getParent();
+        patientTabLayout = (LinearLayout) patientTabLayout.getChildAt(1);
+
+    }
+
+
+    public void editThePatientDetails(View view){
+        myBottomSheetDialog.dismiss();
+
+        editPatientDetails(patientTabLayout);
+    }
+
 
 }
