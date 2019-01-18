@@ -909,6 +909,21 @@ public class MonitorFragment extends Fragment {
         }
     };
 
+    private  void initiatePopupWindowModified(View v){
+        View layout = getLayoutInflater().inflate(R.layout.session_summary, null);
+
+        report = new PopupWindow(layout, ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT);
+        report.setOutsideTouchable(true);
+        report.setContentView(layout);
+        report.setFocusable(true);
+        report.showAtLocation(rootView, Gravity.CENTER, 0, 0);
+
+        ProgressBar progressBar = layout.findViewById(R.id.activeProgress);
+        progressBar.setMax(400);
+        progressBar.setProgress(260);
+        progressBar.setEnabled(false);
+    }
+
     private void initiatePopupWindow(View v) {
 
             View layout = getLayoutInflater().inflate(R.layout.session_analysis, null);
@@ -918,6 +933,8 @@ public class MonitorFragment extends Fragment {
             report.setContentView(layout);
             report.setFocusable(true);
             report.showAtLocation(rootView, Gravity.CENTER, 0, 0);
+
+            //imp stuff 921-968
             LinearLayout cancelbtn = layout.findViewById(R.id.cancel_action);
             LinearLayout shareIcon = layout.findViewById(R.id.shareIcon);
             final ConstraintLayout summaryView = layout.findViewById(R.id.summaryView);
