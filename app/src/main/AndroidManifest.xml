@@ -13,7 +13,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-feature
         android:name="android.hardware.bluetooth_le"
@@ -31,6 +31,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <provider
+            android:name=".Classes.GenericFileProvider"
+            android:authorities="${applicationId}.my.package.name.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
+
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -126,7 +136,9 @@
         <activity
             android:name=".Activities.PhizioProfile"
             android:theme="@style/AppTheme.customDesign.noActionBar" />
-        <activity android:name=".Activities.DeviceInfoActivity"></activity>
+        <activity android:name=".Activities.DeviceInfoActivity" />
+        <activity android:name=".Activities.MmtSession" />
+        <activity android:name=".Activities.CalibrationSession"></activity>
     </application>
 
 </manifest>

@@ -54,23 +54,23 @@ public class DashboardActivity extends AppCompatActivity implements ReportFragme
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         editor = sharedPref.edit();
         patientId = getIntent().getStringExtra("patientId");
-        try {
-            JSONArray data = new JSONArray(sharedPref.getString("patientsData",""));
-            for(int i = 0; i<data.length();i++){
-                if(data.getJSONObject(i).getString("patientId").equals(patientId)){
-                    JSONObject tempObj = new JSONObject();
-                    tempObj.put("patientId",patientId);
-                    tempObj.put("patientName",data.getJSONObject(i).getString("patientName"));
-                    data.remove(i);
-                    data.put(tempObj);
-                    editor.putString("patientsData",data.toString());
-                    editor.apply();
-                    break;
-                }
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            JSONArray data = new JSONArray(sharedPref.getString("patientsData",""));
+//            for(int i = 0; i<data.length();i++){
+//                if(data.getJSONObject(i).getString("patientId").equals(patientId)){
+//                    JSONObject tempObj = new JSONObject();
+//                    tempObj.put("patientId",patientId);
+//                    tempObj.put("patientName",data.getJSONObject(i).getString("patientName"));
+//                    data.remove(i);
+//                    data.put(tempObj);
+//                    editor.putString("patientsData",data.toString());
+//                    editor.apply();
+//                    break;
+//                }
+//            }
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
         context = getApplicationContext();
 
 
@@ -93,8 +93,8 @@ public class DashboardActivity extends AppCompatActivity implements ReportFragme
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 //do stuff here
-                if (tab.getText().equals("Report"))
-                    StartMqtt();
+//                if (tab.getText().equals("Report"))
+//                    StartMqtt();
             }
 
             @Override
@@ -175,42 +175,6 @@ public class DashboardActivity extends AppCompatActivity implements ReportFragme
 
     }
 
-    public void StartMqtt(){
-        String clientId = MqttClient.generateClientId();
-        client = new MqttAndroidClient(context, "tcp://18.236.141.171:1883", clientId);
-        try {
-            IMqttToken token = client.connect();
-            token.setActionCallback(new IMqttActionListener() {
-                static final String TAG = "Mqtt Message";
 
-                @Override
-                public void onSuccess(IMqttToken asyncActionToken) {
-                    // We are connected
-                    Log.d(TAG, "onSuccess");
-                    //syncDataToServer();
-                    try {
-                        client.publish("newapk/getreport", patientId.getBytes(), 0, false);
-                        client.close();
-                    } catch (MqttException e) {
-                        e.printStackTrace();
-                    }
-                    client.setCallback(new MqttCallback() {
-                        public void messageArrived(String topic, MqttMessage message) {}
-                        public void connectionLost(Throwable cause) {}
-                        public void deliveryComplete(IMqttDeliveryToken token) {}
-                    });
-                }
-
-                @Override
-                public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                    // Something went wrong e.g. connection timeout or firewall problems
-                    Log.d(TAG, "onFailure");
-
-                }
-            });
-        } catch (MqttException e) {
-            e.printStackTrace();
-        }
-    }
 
 }

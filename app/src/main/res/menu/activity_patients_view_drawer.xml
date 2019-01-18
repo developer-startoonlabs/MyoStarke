@@ -10,11 +10,6 @@
             android:title="Settings" />-->
 
         <item
-            android:id="@+id/nav_app_version"
-            android:icon="@drawable/app_version"
-            android:title="App version" />
-
-        <item
             android:id="@+id/pheeze_device_info"
             android:icon="@drawable/app_version"
             android:title="Device Info"/>

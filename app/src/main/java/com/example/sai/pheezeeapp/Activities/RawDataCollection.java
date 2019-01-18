@@ -98,7 +98,7 @@ public class RawDataCollection extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (!et_timer_raw.getText().equals("")) {
+                if (!et_timer_raw.getText().toString().equals("")) {
                     if (btn_startrawdatacollection.getText().equals("START")) {
                         int x = Integer.parseInt(et_timer_raw.getText().toString());
                         tv_rawdata_timer.setText("" + x);

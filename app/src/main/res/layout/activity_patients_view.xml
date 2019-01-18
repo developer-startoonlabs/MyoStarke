@@ -20,7 +20,24 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_patients_view"
-        app:menu="@menu/activity_patients_view_drawer" />
+        app:menu="@menu/activity_patients_view_drawer">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingRight="7dp"
+            android:paddingBottom="15dp"
+            android:layout_gravity="bottom"
+            android:gravity="end">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10dp"
+                android:fontFamily="@font/ebrima"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:text="Application Version:  1.0"/>
+        </LinearLayout>
+
+    </android.support.design.widget.NavigationView>
 
 
 </android.support.v4.widget.DrawerLayout>

@@ -42,6 +42,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -96,12 +97,14 @@ import com.squareup.picasso.Picasso;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
+import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -110,7 +113,8 @@ import java.util.Objects;
 public class PatientsView extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener, PopupMenu.OnMenuItemClickListener {
 
-
+    PopupWindow bodyPartLayoutWndow;
+    PopupWindow bodyPartLayout;
     View patientLayoutView;
     MyBottomSheetDialog myBottomSheetDialog;
     Dialog optionsPopdialog ;
@@ -380,6 +384,11 @@ public class PatientsView extends AppCompatActivity
     @Override
     protected void onDestroy() {
         unregisterReceiver(bluetoothReceiver);
+//        try {
+////            mqttHelper.mqttAndroidClient.disconnect();
+//        } catch (MqttException e) {
+//            e.printStackTrace();
+//        }
         super.onDestroy();
     }
 
@@ -521,7 +530,14 @@ public class PatientsView extends AppCompatActivity
              finish();
 
         } else if (id == R.id.nav_share) {
+             File file = new File(Environment.getExternalStorageDirectory() + "/ca.pdf");
+             Uri pdfURI = FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() + ".my.package.name.provider", file);
 
+             Intent i = new Intent();
+             i.setAction(Intent.ACTION_SEND);
+             i.putExtra(Intent.EXTRA_STREAM,pdfURI);
+             i.setType("application/pdf");
+             startActivity(Intent.createChooser(i, "share pdf"));
         }
 
         else if(id == R.id.ota_device) {
@@ -982,10 +998,6 @@ public class PatientsView extends AppCompatActivity
             Toast.makeText(this, "Make sure that the pheezee is on", Toast.LENGTH_LONG).show();
         }
 
-        else if (isBleConnected==false){
-            Toast.makeText(this, "Make sure that the pheezee is on", Toast.LENGTH_LONG).show();
-        }
-
         else {
            bodyPartsPopupWindow(view);
 //            patientTabLayout= (LinearLayout) ((Button)view).getParent().getParent();
@@ -1010,12 +1022,12 @@ public class PatientsView extends AppCompatActivity
 
         View layout = this.getLayoutInflater().inflate(R.layout.bady_parts_layout,null);
 
-        final PopupWindow bodyPartLayout = new PopupWindow(layout, ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT);
+        bodyPartLayout = new PopupWindow(layout, ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT);
 
         patientTabLayout= (LinearLayout) ((Button)view).getParent().getParent();
         patientTabLayout = (LinearLayout) patientTabLayout.getChildAt(1);
 
-        bodyPartLayout.showAtLocation(view.getRootView().getRootView(), Gravity.CENTER, 0, 0);
+        bodyPartLayout.showAtLocation(view.getRootView(), Gravity.CENTER, 0, 0);
         LinearLayout cancelbtn = layout.findViewById(R.id.cancel_action);
         CardView elbowView = layout.findViewById(R.id.elbow);
         CardView kneeView = layout.findViewById(R.id.knee);
@@ -1054,9 +1066,8 @@ public class PatientsView extends AppCompatActivity
                 bodyPartLayout.dismiss();
             }
         });
-
-
     }
+
     public void openDashboard(LinearLayout view,String exerciseType) {
 
         TextView patientName = (TextView) view.getChildAt(0);
@@ -1322,4 +1333,116 @@ public class PatientsView extends AppCompatActivity
     }
 
 
+    public void startMmtSession(View view){
+        myBottomSheetDialog.dismiss();
+        if(bleStatusTextView.getText().toString().equals("C")) {
+            bodyPartsPopup(view,1);
+        }
+        else{
+            Toast.makeText(PatientsView.this, "Please Connect pheezee..", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void startCalibrationSession(View view){
+        myBottomSheetDialog.dismiss();
+        if(bleStatusTextView.getText().toString().equals("C")) {
+            bodyPartsPopup(view,2);
+        }
+        else{
+            Toast.makeText(PatientsView.this, "Please Connect pheezee..", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void bodyPartsPopup(View view, final int requestCode) {
+
+        View layout = this.getLayoutInflater().inflate(R.layout.bady_parts_layout,null);
+
+        bodyPartLayoutWndow = new PopupWindow(layout, ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT);
+
+        bodyPartLayoutWndow.showAtLocation(view.getRootView(), Gravity.CENTER, 0, 0);
+        LinearLayout cancelbtn = layout.findViewById(R.id.cancel_action);
+        CardView elbowView = layout.findViewById(R.id.elbow);
+        CardView kneeView = layout.findViewById(R.id.knee);
+        CardView sholderView = layout.findViewById(R.id.sholder);
+        CardView hipView = layout.findViewById(R.id.hip);
+
+        elbowView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(requestCode==1){
+                    openMqttActivity("elbow");
+                }
+                else if(requestCode==2){
+                    openCalibrationActivity("elbow");
+                }
+            }
+        });
+        kneeView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(requestCode==1){
+                    openMqttActivity("knee");
+                }
+                else if(requestCode==2){
+                    openCalibrationActivity("knee");
+                }
+            }
+        });
+
+        sholderView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(requestCode==1){
+                    openMqttActivity("shoulder");
+                }
+                else if(requestCode==2){
+                    openCalibrationActivity("shoulder");
+                }
+            }
+        });
+        hipView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(requestCode==1){
+                    openMqttActivity("hip");
+                }
+                else if(requestCode==2){
+                    openCalibrationActivity("hip");
+                }
+            }
+        });
+
+        cancelbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bodyPartLayoutWndow.dismiss();
+            }
+        });
+    }
+
+    private void openCalibrationActivity(String bodypart) {
+        final TextView patientIdTemp = patientTabLayout.findViewById(R.id.patientId);
+        TextView patientNameTemp = patientTabLayout.findViewById(R.id.patientName);
+
+        Intent mmt_intent = new Intent(PatientsView.this, CalibrationSession.class);
+        mmt_intent.putExtra("deviceMacAddress", sharedPref.getString("deviceMacaddress", ""));
+        mmt_intent.putExtra("patientid", patientIdTemp.getText().toString().substring(5));
+        mmt_intent.putExtra("bodypart", bodypart);
+        mmt_intent.putExtra("patientname", patientNameTemp.getText().toString());
+        startActivity(mmt_intent);
+        bodyPartLayoutWndow.dismiss();
+    }
+
+    private void openMqttActivity(String bodypart) {
+        final TextView patientIdTemp = patientTabLayout.findViewById(R.id.patientId);
+        TextView patientNameTemp = patientTabLayout.findViewById(R.id.patientName);
+
+        Intent mmt_intent = new Intent(PatientsView.this, MmtSession.class);
+        mmt_intent.putExtra("deviceMacAddress", sharedPref.getString("deviceMacaddress", ""));
+        mmt_intent.putExtra("patientid", patientIdTemp.getText().toString().substring(5));
+        mmt_intent.putExtra("bodypart", bodypart);
+        mmt_intent.putExtra("patientname", patientNameTemp.getText().toString());
+        startActivity(mmt_intent);
+        bodyPartLayoutWndow.dismiss();
+    }
 }

@@ -15,6 +15,8 @@ anim design_bottom_sheet_slide_in
 anim design_bottom_sheet_slide_out
 anim design_snackbar_in
 anim design_snackbar_out
+anim slide_out_down
+anim slide_up_dialog
 animator design_appbar_state_list_animator
 animator design_fab_hide_motion_spec
 animator design_fab_show_motion_spec
@@ -683,8 +685,10 @@ color abc_tint_spinner
 color abc_tint_switch_track
 color accent_material_dark
 color accent_material_light
+color average_blue
 color background_floating_material_dark
 color background_floating_material_light
+color background_green
 color background_material_dark
 color background_material_light
 color bright_foreground_disabled_material_dark
@@ -754,10 +758,12 @@ color dim_foreground_disabled_material_dark
 color dim_foreground_disabled_material_light
 color dim_foreground_material_dark
 color dim_foreground_material_light
+color dirtyWhite
 color error_color_material_dark
 color error_color_material_light
 color foreground_material_dark
 color foreground_material_light
+color good_green
 color highlighted_text_material_dark
 color highlighted_text_material_light
 color isb_selector_tick_marks_color
@@ -800,6 +806,7 @@ color mtrl_textinput_default_box_stroke_color
 color mtrl_textinput_disabled_color
 color mtrl_textinput_filled_box_default_background_color
 color mtrl_textinput_hovered_box_stroke_color
+color not_good_orange
 color notification_action_color_filter
 color notification_icon_bg_color
 color notification_material_background_media_default_color
@@ -812,10 +819,13 @@ color primary_text_default_material_dark
 color primary_text_default_material_light
 color primary_text_disabled_material_dark
 color primary_text_disabled_material_light
+color progress_background
+color progress_bar_color
 color progress_gray
 color progress_gray_dark
 color progress_gray_dark_teans
 color progress_gray_trans
+color red
 color ripple_material_dark
 color ripple_material_light
 color scanner_line
@@ -832,6 +842,7 @@ color switch_thumb_normal_material_light
 color title_color
 color tooltip_background_dark
 color tooltip_background_light
+color translucent_black
 color white_opaque
 dimen abc_action_bar_content_inset_material
 dimen abc_action_bar_content_inset_with_nav
@@ -1170,9 +1181,13 @@ drawable app_icon
 drawable app_version
 drawable avd_hide_password
 drawable avd_show_password
+drawable back_arrow
+drawable background_color_patientview
 drawable battery
 drawable bluetooth
 drawable circular
+drawable circular_textview
+drawable circular_textview_yellow
 drawable com_facebook_auth_dialog_background
 drawable com_facebook_auth_dialog_cancel_background
 drawable com_facebook_auth_dialog_header_background
@@ -1258,6 +1273,7 @@ drawable ic_share_24dp
 drawable ic_share_black_24dp
 drawable ic_stat_notify_dfu
 drawable image_icon
+drawable info_icon
 drawable inputfield_background
 drawable isb_indicator_rounded_corners
 drawable isb_indicator_square_corners
@@ -1295,6 +1311,9 @@ drawable report_view_demo
 drawable report_view_landscape_demo
 drawable ripple
 drawable ripple_effect
+drawable round_corner_layout
+drawable round_corners_textboxes_time
+drawable rounded_corners_progress_bar
 drawable rounded_start_button
 drawable rounded_stop_button
 drawable saline
@@ -1342,6 +1361,7 @@ id action_mode_bar_stub
 id action_mode_close_button
 id action_text
 id actions
+id activeProgress
 id activity_chooser_view_content
 id add
 id addBtn
@@ -1376,6 +1396,8 @@ id btn_dfu_file_upload
 id btn_dfu_select_file
 id btn_login_login
 id btn_signup_create
+id btn_start_calibration_session
+id btn_start_mmt_session
 id btn_startrawdatacollection
 id btn_update_details
 id button
@@ -1530,8 +1552,12 @@ id ll_4
 id ll_5
 id ll_6
 id ll_calibration
+id ll_click_to_view_report
+id ll_dialog_title
 id ll_edit_patient_details
+id ll_min_max_arc
 id ll_mmt
+id ll_overall_summary
 id ll_report
 id ll_set_goal
 id ll_setting
@@ -1541,6 +1567,7 @@ id lv_deviceList
 id masked
 id maxAngle
 id maxEmg
+id maximumEmgView
 id media_actions
 id message
 id middle
@@ -1551,7 +1578,6 @@ id monospace
 id mtrl_child_content_container
 id mtrl_internal_children_alpha_tag
 id multiply
-id nav_app_version
 id nav_logout
 id nav_share
 id nav_view
@@ -1642,6 +1668,7 @@ id selected
 id serif
 id sessTimeView
 id sessionTime
+id session_held_on
 id shareIcon
 id sholder
 id shortcut
@@ -1686,6 +1713,7 @@ id textView2
 id textView3
 id textView4
 id textView5
+id textView6
 id text_input_password_toggle
 id textinput_counter
 id textinput_error
@@ -1710,6 +1738,12 @@ id transition_layout_save
 id transition_position
 id transition_scene_layoutid_cache
 id transition_transform
+id tv_about_to_start
+id tv_action_time
+id tv_bodypart
+id tv_calibration_patientid
+id tv_calibration_patientname
+id tv_cancel_grade_dialog
 id tv_cancel_signup
 id tv_create_account
 id tv_deviceBondState
@@ -1732,16 +1766,39 @@ id tv_dfu_filestate
 id tv_dfu_filestatus
 id tv_dfu_filetype
 id tv_email
+id tv_grade_given
+id tv_grade_option_1
+id tv_grade_option_2
+id tv_grade_option_2p
+id tv_grade_option_3
+id tv_grade_option_3p
+id tv_grade_option_4
+id tv_grade_option_5
+id tv_hold_time
 id tv_iDontKnowYet
+id tv_max_angle
+id tv_max_emg
+id tv_maxangle_mmt
+id tv_min_angle
+id tv_min_emg
+id tv_minangle_mmt
+id tv_num_of_reps
+id tv_overall_summary
 id tv_password
 id tv_phizio_email
 id tv_phizio_name
 id tv_phizio_phone
 id tv_phone
 id tv_rawdata_timer
+id tv_relax_or_tight
+id tv_session_about_to_start
 id tv_session_heldon
+id tv_session_status
 id tv_signup
 id tv_stopscan
+id tv_submit_grade_dilog
+id tv_sucessfully_recorded
+id tv_total_time
 id two
 id uniform
 id unknown
@@ -1808,12 +1865,14 @@ layout abc_search_dropdown_item_icons_2line
 layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
+layout activity_calibration_session
 layout activity_demo
 layout activity_device_info
 layout activity_dfu
 layout activity_home
 layout activity_login
 layout activity_main2
+layout activity_mmt_session
 layout activity_on_start
 layout activity_patients_view
 layout activity_phizio_profile
@@ -1874,6 +1933,7 @@ layout notification_template_media
 layout notification_template_media_custom
 layout notification_template_part_chronometer
 layout notification_template_part_time
+layout patient_grade_dialog_layout
 layout patient_layout
 layout popup
 layout scanned_devices_listview_model
@@ -1882,6 +1942,8 @@ layout select_dialog_multichoice_material
 layout select_dialog_singlechoice_material
 layout session_analysis
 layout session_list
+layout session_summary
+layout session_summary_modified
 layout support_simple_spinner_dropdown_item
 menu activity_patients_view_drawer
 menu patientoptionmenu
@@ -2112,6 +2174,7 @@ string title_activity_scan_devices
 string title_activity_session_list
 string use_flash
 string yes
+string you_are_doing_good
 style AlertDialog_AppCompat
 style AlertDialog_AppCompat_Light
 style Animation_AppCompat_Dialog
@@ -2315,6 +2378,8 @@ style Base_Widget_MaterialComponents_TextInputLayout
 style CardView
 style CardView_Dark
 style CardView_Light
+style DialogAnimation
+style DialogSlideAnim
 style Platform_AppCompat
 style Platform_AppCompat_Light
 style Platform_MaterialComponents
@@ -2715,4 +2780,5 @@ styleable ViewStubCompat android_id android_layout android_inflatedId
 styleable com_facebook_like_view com_facebook_auxiliary_view_position com_facebook_foreground_color com_facebook_horizontal_alignment com_facebook_object_id com_facebook_object_type com_facebook_style
 styleable com_facebook_login_view com_facebook_confirm_logout com_facebook_login_text com_facebook_logout_text com_facebook_tooltip_mode
 styleable com_facebook_profile_picture_view com_facebook_is_cropped com_facebook_preset_size
+xml provider_paths
 xml settings_dfu

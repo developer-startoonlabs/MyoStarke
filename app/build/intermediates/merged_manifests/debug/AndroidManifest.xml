@@ -40,8 +40,17 @@
         android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:testOnly="true"
         android:theme="@style/AppTheme" >
+        <provider
+            android:name="com.example.sai.pheezeeapp.Classes.GenericFileProvider"
+            android:authorities="com.example.sai.pheezeeappnew.my.package.name.provider"
+            android:exported="false"
+            android:grantUriPermissions="true" >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -65,7 +74,6 @@
         </activity>
 
         <service android:name="org.eclipse.paho.android.service.MqttService" />
-        <service android:name="com.example.sai.pheezeeapp.ConnectivityChangeReceiver" />
         <service android:name="com.example.sai.pheezeeapp.MqttService" />
 
         <activity
@@ -111,6 +119,7 @@
 
         <activity
             android:name="com.example.sai.pheezeeapp.Activities.OnStartActivity"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -139,6 +148,8 @@
             android:name="com.example.sai.pheezeeapp.Activities.PhizioProfile"
             android:theme="@style/AppTheme.customDesign.noActionBar" />
         <activity android:name="com.example.sai.pheezeeapp.Activities.DeviceInfoActivity" />
+        <activity android:name="com.example.sai.pheezeeapp.Activities.MmtSession" />
+        <activity android:name="com.example.sai.pheezeeapp.Activities.CalibrationSession" />
         <activity
             android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
             android:excludeFromRecents="true"

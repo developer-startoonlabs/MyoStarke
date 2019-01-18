@@ -49,7 +49,7 @@ public class MqttService extends Service {
         sessionDataUnTrackedFile    = generateFile( "sessionDataUnTracked.txt");
         connectivityManager=(ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-        registerReceiver(networkReceiver,filter);
+        //registerReceiver(networkReceiver,filter);
         return super.onStartCommand(intent, flags, startId);
     }
 
