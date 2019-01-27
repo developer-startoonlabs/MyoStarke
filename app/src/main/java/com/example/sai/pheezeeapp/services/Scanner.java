@@ -1,14 +1,20 @@
 package com.example.sai.pheezeeapp.services;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.SparseArray;
 
 import com.example.sai.pheezeeapp.Activities.PatientsView;
 import com.example.sai.pheezeeapp.R;
 import com.google.android.gms.vision.barcode.Barcode;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import info.androidhive.barcode.BarcodeReader;
 
 public class Scanner extends AppCompatActivity   implements BarcodeReader.BarcodeReaderListener {
@@ -17,6 +23,8 @@ public class Scanner extends AppCompatActivity   implements BarcodeReader.Barcod
 //    JSONArray jsonData = new JSONArray();
 //    AlertDialog.Builder builder;
 //    SharedPreferences.Editor editor;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,13 +32,24 @@ public class Scanner extends AppCompatActivity   implements BarcodeReader.Barcod
         setContentView(R.layout.activity_scanner);
         //builder = new AlertDialog.Builder(this);
 
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        editor = sharedPreferences.edit();
+
     }
 
     @Override
     public void onScanned(Barcode barcode) {
         Intent intent = new Intent(this, PatientsView.class);
-        intent.putExtra("macAddress", barcode.displayValue);
+        boolean isMac = validate(barcode.displayValue);
+        Log.i("m.find", String.valueOf(isMac));
+        if(isMac) {
+            Log.i("mac add","true");
+            editor.putString("deviceMacaddress", barcode.displayValue);
+            editor.commit();
+        }
+//        intent.putExtra("macAddress", barcode.displayValue);
         startActivity(intent);
+        finish();
     }
 
     @Override
@@ -51,6 +70,12 @@ public class Scanner extends AppCompatActivity   implements BarcodeReader.Barcod
     @Override
     public void onCameraPermissionDenied() {
 
+    }
+
+    public boolean validate(String mac) {
+        Pattern p = Pattern.compile("^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$");
+        Matcher m = p.matcher(mac);
+        return m.find();
     }
 
 //    private void displayDialogBox(final String macAddress) {

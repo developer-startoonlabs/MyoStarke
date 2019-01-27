@@ -41,7 +41,6 @@ public class DashboardActivity extends AppCompatActivity implements ReportFragme
     Context context;
     String patientId;
     TabLayout tabLayout;
-    MqttAndroidClient client;
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor editor;
 
@@ -54,23 +53,6 @@ public class DashboardActivity extends AppCompatActivity implements ReportFragme
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         editor = sharedPref.edit();
         patientId = getIntent().getStringExtra("patientId");
-//        try {
-//            JSONArray data = new JSONArray(sharedPref.getString("patientsData",""));
-//            for(int i = 0; i<data.length();i++){
-//                if(data.getJSONObject(i).getString("patientId").equals(patientId)){
-//                    JSONObject tempObj = new JSONObject();
-//                    tempObj.put("patientId",patientId);
-//                    tempObj.put("patientName",data.getJSONObject(i).getString("patientName"));
-//                    data.remove(i);
-//                    data.put(tempObj);
-//                    editor.putString("patientsData",data.toString());
-//                    editor.apply();
-//                    break;
-//                }
-//            }
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
         context = getApplicationContext();
 
 
@@ -92,9 +74,6 @@ public class DashboardActivity extends AppCompatActivity implements ReportFragme
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                //do stuff here
-//                if (tab.getText().equals("Report"))
-//                    StartMqtt();
             }
 
             @Override

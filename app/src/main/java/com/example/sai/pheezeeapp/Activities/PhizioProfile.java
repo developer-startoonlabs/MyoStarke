@@ -83,6 +83,7 @@ public  int RESULT_LOAD_IMAGE = 1;
         //Shared Preference
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         editor = sharedPref.edit();
+
         try {
             json_phizio = new JSONObject(sharedPref.getString("phiziodetails", ""));
             Log.i("Patient View", json_phizio.toString());
@@ -108,6 +109,7 @@ public  int RESULT_LOAD_IMAGE = 1;
 
 
         iv_phizio_profilepic = (ImageView)findViewById(R.id.iv_phizio_profilepic);
+        iv_phizio_profilepic.setImageDrawable(PatientsView.ivBasicImage.getDrawable());
         /*Glide.with(getBaseContext())
                 .load("https://s3.ap-south-1.amazonaws.com/pheezee/physiotherapist/ankushsharma8210%40gmail.co/images/profilepic.png")
                 .into(iv_phizio_profilepic);*/

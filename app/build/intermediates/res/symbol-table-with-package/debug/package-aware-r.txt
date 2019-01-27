@@ -27,6 +27,7 @@ animator mtrl_fab_hide_motion_spec
 animator mtrl_fab_show_motion_spec
 animator mtrl_fab_transformation_sheet_collapse_spec
 animator mtrl_fab_transformation_sheet_expand_spec
+array bodyPartName
 array dfu_app_file_browser
 array dfu_app_file_browser_action
 array dfu_file_type
@@ -691,6 +692,7 @@ color background_floating_material_light
 color background_green
 color background_material_dark
 color background_material_light
+color bodypart_heading
 color bright_foreground_disabled_material_dark
 color bright_foreground_disabled_material_light
 color bright_foreground_inverse_material_dark
@@ -843,6 +845,7 @@ color title_color
 color tooltip_background_dark
 color tooltip_background_light
 color translucent_black
+color white
 color white_opaque
 dimen abc_action_bar_content_inset_material
 dimen abc_action_bar_content_inset_with_nav
@@ -1177,6 +1180,7 @@ drawable abc_textfield_search_default_mtrl_alpha
 drawable abc_textfield_search_material
 drawable abc_vector_test
 drawable add_device_icon
+drawable ankle_part
 drawable app_icon
 drawable app_version
 drawable avd_hide_password
@@ -1185,6 +1189,7 @@ drawable back_arrow
 drawable background_color_patientview
 drawable battery
 drawable bluetooth
+drawable calibration_logo
 drawable circular
 drawable circular_textview
 drawable circular_textview_yellow
@@ -1233,6 +1238,7 @@ drawable common_google_signin_btn_text_light_normal
 drawable common_google_signin_btn_text_light_normal_background
 drawable custom_button_color
 drawable custom_indicator
+drawable delete_logo
 drawable design_bottom_navigation_item_background
 drawable design_fab_background
 drawable design_ic_visibility
@@ -1240,16 +1246,22 @@ drawable design_ic_visibility_off
 drawable design_password_eye
 drawable design_snackbar_background
 drawable doctor_stethoscope
+drawable edit_logo
 drawable elbow_icon
+drawable elbow_part
+drawable elbow_preview_pop
 drawable emg_background
 drawable empty_patient_screen_icon
 drawable fab_background
 drawable facebook_logo
 drawable fb_icon
+drawable goal_logo
 drawable google_plus_icon
 drawable googleg_disabled_color_18
 drawable googleg_standard_color_18
+drawable help_logo
 drawable hip_icon
+drawable hip_part
 drawable ic_action_notify_cancel
 drawable ic_add_circle_white_24dp
 drawable ic_add_white_24dp
@@ -1279,9 +1291,11 @@ drawable isb_indicator_rounded_corners
 drawable isb_indicator_square_corners
 drawable key_icon
 drawable knee_icon
+drawable knee_part
 drawable listitemlayout
 drawable logout_icon
 drawable logout_icon_black
+drawable mmt_logo
 drawable monitoring_landscape_demo
 drawable monitoring_view_demo
 drawable mtrl_snackbar_background
@@ -1306,7 +1320,10 @@ drawable patient_view_demo
 drawable pheezee_logo
 drawable pheezee_logo_topbar
 drawable popup_window
+drawable preview_cross
 drawable progress
+drawable report_arrow
+drawable report_logo
 drawable report_view_demo
 drawable report_view_landscape_demo
 drawable ripple
@@ -1319,6 +1336,7 @@ drawable rounded_stop_button
 drawable saline
 drawable session_analysis_demo
 drawable shoulder_icon
+drawable shoulder_part
 drawable side_nav_bar
 drawable text_view_shape
 drawable thumb_disabled
@@ -1331,6 +1349,7 @@ drawable tooltip_frame_light
 drawable triple_dot
 drawable tripple_dot_option
 drawable user_icon
+drawable wrist_part
 font ebrima
 font font
 id ALT
@@ -1361,7 +1380,6 @@ id action_mode_bar_stub
 id action_mode_close_button
 id action_text
 id actions
-id activeProgress
 id activity_chooser_view_content
 id add
 id addBtn
@@ -1383,6 +1401,8 @@ id barrier
 id beginning
 id bleStatus
 id blocking
+id bodyPartRecyclerView
+id bodypartImage
 id bottom
 id box_count
 id browser_actions_header_text
@@ -1432,6 +1452,7 @@ id container
 id content
 id contentPanel
 id coordinator
+id coordinator_patient_option
 id custom
 id customPanel
 id dark
@@ -1484,6 +1505,7 @@ id fill_vertical
 id filled
 id fixed
 id forever
+id framelayout_preview
 id fullName
 id ghost_view
 id glide_custom_view_target_tag
@@ -1500,6 +1522,7 @@ id holdtimeContainter
 id holdtimeText
 id home
 id homeAsUp
+id horizontal_recent
 id icon
 id icon_group
 id icon_only
@@ -1553,14 +1576,18 @@ id ll_5
 id ll_6
 id ll_calibration
 id ll_click_to_view_report
+id ll_delete_patient
 id ll_dialog_title
 id ll_edit_patient_details
+id ll_help
 id ll_min_max_arc
 id ll_mmt
 id ll_overall_summary
+id ll_patient_section
 id ll_report
 id ll_set_goal
-id ll_setting
+id ll_spinner_section
+id ll_tv_section
 id lnl_filedetails
 id login_button
 id lv_deviceList
@@ -1578,6 +1605,7 @@ id monospace
 id mtrl_child_content_container
 id mtrl_internal_children_alpha_tag
 id multiply
+id my_toolbar
 id nav_logout
 id nav_share
 id nav_view
@@ -1611,6 +1639,8 @@ id patientNameContainter
 id patientNameText
 id patientProfilePic
 id patientTab
+id patient_info_section
+id patient_profilepic_section
 id patients_recycler_view
 id percent
 id pheeze_device_info
@@ -1620,9 +1650,11 @@ id phizio_phone
 id pieChart
 id pin
 id preview
+id previewImage
 id progress_bar
 id progress_circular
 id progress_horizontal
+id progress_max_emg
 id progressbar_file
 id qrcode_scan
 id radio
@@ -1697,6 +1729,8 @@ id stretch
 id submenuarrow
 id submit_area
 id summaryView
+id summary_go_back
+id summary_share
 id swiperefresh
 id tabMode
 id tabs
@@ -1738,8 +1772,10 @@ id transition_layout_save
 id transition_position
 id transition_scene_layoutid_cache
 id transition_transform
+id tv_180
 id tv_about_to_start
 id tv_action_time
+id tv_body_part_name
 id tv_bodypart
 id tv_calibration_patientid
 id tv_calibration_patientname
@@ -1782,15 +1818,22 @@ id tv_maxangle_mmt
 id tv_min_angle
 id tv_min_emg
 id tv_minangle_mmt
+id tv_minus_goal
 id tv_num_of_reps
 id tv_overall_summary
 id tv_password
+id tv_patient_id_section
+id tv_patient_joindate_section
+id tv_patient_name_section
 id tv_phizio_email
 id tv_phizio_name
 id tv_phizio_phone
 id tv_phone
+id tv_plus_goal
 id tv_rawdata_timer
+id tv_recently_items
 id tv_relax_or_tight
+id tv_selected_goal_text
 id tv_session_about_to_start
 id tv_session_heldon
 id tv_session_status
@@ -1798,6 +1841,8 @@ id tv_signup
 id tv_stopscan
 id tv_submit_grade_dilog
 id tv_sucessfully_recorded
+id tv_summary_patient_id
+id tv_summary_patient_name
 id tv_total_time
 id two
 id uniform
@@ -1865,6 +1910,7 @@ layout abc_search_dropdown_item_icons_2line
 layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
+layout activity_body_part_selection
 layout activity_calibration_session
 layout activity_demo
 layout activity_device_info
@@ -1883,6 +1929,7 @@ layout activity_session_list
 layout activity_sign_up
 layout activity_test_view
 layout activity_user_type
+layout app_bar_body_part_selection
 layout app_bar_patients_view
 layout bady_parts_layout
 layout browser_actions_context_menu_page
@@ -1914,6 +1961,7 @@ layout fragment_monitor
 layout fragment_report
 layout fragment_zip_info
 layout isb_indicator
+layout layout_body_part_selection_model
 layout layout_patient_options
 layout mtrl_layout_snackbar
 layout mtrl_layout_snackbar_include
@@ -2164,6 +2212,7 @@ string path_password_strike_through
 string permission_camera
 string permission_camera_rationale
 string read_barcode
+string repetition
 string search_menu_title
 string section_format
 string status_bar_notification_info_overflow
@@ -2380,6 +2429,7 @@ style CardView_Dark
 style CardView_Light
 style DialogAnimation
 style DialogSlideAnim
+style HeaderBar
 style Platform_AppCompat
 style Platform_AppCompat_Light
 style Platform_MaterialComponents

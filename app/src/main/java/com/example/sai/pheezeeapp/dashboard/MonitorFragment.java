@@ -38,15 +38,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sai.pheezeeapp.Classes.BluetoothSingelton;
 import com.example.sai.pheezeeapp.R;
 import com.example.sai.pheezeeapp.services.MqttHelper;
+import com.example.sai.pheezeeapp.views.ArcView;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
@@ -94,7 +97,7 @@ public class MonitorFragment extends Fragment {
 
 
     public final int sub_byte_size = 26;
-
+    boolean f_report_pop = false;
     boolean servicesDiscovered = false;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
@@ -107,7 +110,7 @@ public class MonitorFragment extends Fragment {
     String mqtt_publish_add_patient_session = "phizio/addpatientsession";
     String mqtt_publish_add_patient_session_emg_data = "patient/entireEmgData";
 
-
+    ConstraintLayout cl_monitor;
     public static Context context;
     public String exercise_type;
     PopupWindow report;
@@ -239,6 +242,7 @@ public class MonitorFragment extends Fragment {
         emgSignal                   = rootView.findViewById(R.id.emg);
         handler                     = new Handler();
         emgJsonArray                = new JSONArray();
+        cl_monitor                  = rootView.findViewById(R.id.monitorLayout);
 
         //mqtt
         mqttHelper = new MqttHelper(getActivity());
@@ -347,7 +351,7 @@ public class MonitorFragment extends Fragment {
                 timer.setText("Start");
                 recieverState = false;
                 Log.i("minAngle",""+minAngle);
-                if(maxAngle!=0&&!(maxAngle>180)&&minAngle!=180&&!(minAngle<-15)) {
+                if(maxAngle!=0&&!(maxAngle>180)&&minAngle!=180&&!(minAngle<0)) {
                     tsLong = System.currentTimeMillis();
                     String ts = tsLong.toString();
                     try {
@@ -383,7 +387,8 @@ public class MonitorFragment extends Fragment {
 
 //                StartTime = SystemClock.uptimeMillis();
 //                handler.postDelayed(runnable, 0);
-                    initiatePopupWindow(v);
+                    //initiatePopupWindow(v);
+                    initiatePopupWindowModified(v);
                 }else {
                     Toast.makeText(context,"your alignment is wrong!! try again,",Toast.LENGTH_LONG).show();
                 }
@@ -440,6 +445,7 @@ public class MonitorFragment extends Fragment {
 
         return rootView;
     }
+
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -912,16 +918,102 @@ public class MonitorFragment extends Fragment {
     private  void initiatePopupWindowModified(View v){
         View layout = getLayoutInflater().inflate(R.layout.session_summary, null);
 
-        report = new PopupWindow(layout, ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT);
+        report = new PopupWindow(layout, ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT,true);
+        report.setWindowLayoutMode(ConstraintLayout.LayoutParams.MATCH_PARENT,ConstraintLayout.LayoutParams.MATCH_PARENT);
         report.setOutsideTouchable(true);
-        report.setContentView(layout);
-        report.setFocusable(true);
-        report.showAtLocation(rootView, Gravity.CENTER, 0, 0);
+        report.showAtLocation(v, Gravity.CENTER, 0, 0);
 
-        ProgressBar progressBar = layout.findViewById(R.id.activeProgress);
+        ProgressBar progressBar = layout.findViewById(R.id.progress_max_emg);
         progressBar.setMax(400);
         progressBar.setProgress(260);
         progressBar.setEnabled(false);
+
+        //Gettig all the view items from the layout
+
+        LinearLayout ll_min_max_arc = (LinearLayout)layout.findViewById(R.id.ll_min_max_arc);
+        TextView tv_patient_name = (TextView)layout.findViewById(R.id.tv_summary_patient_name);
+        TextView tv_patient_id = (TextView)layout.findViewById(R.id.tv_summary_patient_id);
+        TextView tv_held_on = (TextView)layout.findViewById(R.id.session_held_on);
+        TextView tv_overall_summary = (TextView)layout.findViewById(R.id.tv_overall_summary);
+        TextView tv_min_angle = (TextView)layout.findViewById(R.id.tv_min_angle);
+        TextView tv_max_angle = (TextView)layout.findViewById(R.id.tv_max_angle);
+        TextView tv_total_time = (TextView)layout.findViewById(R.id.tv_total_time);
+        TextView tv_action_time = (TextView)layout.findViewById(R.id.tv_action_time);
+        TextView tv_hold_time = (TextView)layout.findViewById(R.id.tv_hold_time);
+        TextView tv_num_of_reps = (TextView)layout.findViewById(R.id.tv_num_of_reps);
+        TextView tv_max_emg = (TextView)layout.findViewById(R.id.tv_max_emg);
+
+
+        //Share and cancel image view
+
+        LinearLayout summary_go_back = (LinearLayout) layout.findViewById(R.id.summary_go_back);
+        LinearLayout summary_share = (LinearLayout) layout.findViewById(R.id.summary_share);
+
+
+        summary_go_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                report.dismiss();
+            }
+        });
+
+
+        //Emg Progress Bar
+
+        ProgressBar pb_max_emg = (ProgressBar)layout.findViewById(R.id.progress_max_emg);
+
+        //Setting the text views
+        tv_patient_id.setText(patientId.getText().toString());
+        tv_patient_name.setText(patientName.getText().toString());
+
+
+        //for held on date
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat formatter_date = new SimpleDateFormat("yyyy-MM-dd");
+        String dateString = formatter.format(new Date(tsLong));
+        String dateString_date = formatter_date.format(new Date(tsLong));
+        tv_held_on.setText(dateString_date);
+
+
+        tv_min_angle.setText(Integer.toString(minAngle)+"°");
+        tv_max_angle.setText(Integer.toString(maxAngle)+"°");
+
+
+        //total session time
+        String tempSessionTime = time.getText().toString().substring(16);
+        tempSessionTime = tempSessionTime.substring(0,2)+"m"+tempSessionTime.substring(3,7)+"s";
+        tv_total_time.setText(tempSessionTime);
+
+
+        tv_action_time.setText(tempSessionTime);
+        tv_hold_time.setText(holdTimeValue.substring(0,2)+"m"+holdTimeValue.substring(2)+"s");
+
+
+        tv_num_of_reps.setText(Repetitions.getText().toString());
+        tv_max_emg.setText(Integer.toString(maxEmgValue)+"μA");
+
+        //Creating the arc
+        ArcView arcView = new ArcView(getActivity());
+        arcView.setMaxAngle(maxAngle);
+        arcView.setMinAngle(minAngle);
+        TextView tv_180 = (TextView)layout.findViewById(R.id.tv_180);
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+            tv_180.setPadding(5,1,170,1);
+        }
+
+        arcView.setRangeColor(getResources().getColor(R.color.good_green));
+        ll_min_max_arc.addView(arcView);
+
+
+        //Max Emg Progress
+        pb_max_emg.setMax(400);
+        pb_max_emg.setProgress(maxEmgValue);
+        pb_max_emg.setEnabled(false);
+
+
+        storeLocalSessionDetails(dateString,tempSessionTime);
+
+
     }
 
     private void initiatePopupWindow(View v) {

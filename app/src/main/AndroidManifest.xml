@@ -38,7 +38,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"/>
+                android:resource="@xml/provider_paths" />
         </provider>
 
         <meta-data
@@ -138,7 +138,9 @@
             android:theme="@style/AppTheme.customDesign.noActionBar" />
         <activity android:name=".Activities.DeviceInfoActivity" />
         <activity android:name=".Activities.MmtSession" />
-        <activity android:name=".Activities.CalibrationSession"></activity>
+        <activity android:name=".Activities.CalibrationSession" />
+        <activity android:name=".Activities.BodyPartSelection"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

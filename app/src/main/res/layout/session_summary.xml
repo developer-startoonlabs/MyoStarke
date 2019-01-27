@@ -3,12 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+<android.support.constraint.ConstraintLayout
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/white_opaque"
     android:fontFamily="@font/ebrima">
 
     <LinearLayout
-        android:id="@+id/shareIcon"
+        android:id="@+id/summary_go_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -20,7 +28,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/cancel_action"
+        android:id="@+id/summary_share"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -62,7 +70,7 @@
             android:fontFamily="@font/ebrima"
             android:text="Session Summary"
             android:textColor="#4B7080"
-            android:textSize="20dp"
+            android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.318"
             app:layout_constraintStart_toStartOf="parent"
@@ -72,9 +80,8 @@
             android:id="@+id/patientDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="20dp"
+            android:layout_marginVertical="25dp"
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
             android:layout_marginRight="8dp"
             android:gravity="center"
             android:orientation="horizontal"
@@ -85,9 +92,9 @@
 
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.3"
+                android:layout_weight="0.25"
                 android:gravity="left">
 
                 <TextView
@@ -96,22 +103,22 @@
                     android:fontFamily="@font/ebrima"
                     android:text="Name : "
                     android:textColor="@color/pitch_black"
-                    android:textSize="17dp" />
+                    android:textSize="15sp" />
 
                 <TextView
-                    android:id="@+id/patientName"
+                    android:id="@+id/tv_summary_patient_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/ebrima"
                     android:text="sai"
                     android:textColor="@color/pitch_black"
-                    android:textSize="17dp" />
+                    android:textSize="15sp" />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.3"
+                android:layout_weight="0.2"
                 android:gravity="center">
 
                 <TextView
@@ -120,31 +127,31 @@
                     android:fontFamily="@font/ebrima"
                     android:text="Id : "
                     android:textColor="@color/pitch_black"
-                    android:textSize="17dp" />
+                    android:textSize="15sp" />
 
                 <TextView
-                    android:id="@+id/patientId"
+                    android:id="@+id/tv_summary_patient_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/ebrima"
                     android:text="sai"
                     android:textColor="@color/pitch_black"
-                    android:textSize="17dp" />
+                    android:textSize="15sp" />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.3"
+                android:layout_weight="0.4"
                 android:gravity="right">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/ebrima"
-                    android:text="Id : "
+                    android:text="Date : "
                     android:textColor="@color/pitch_black"
-                    android:textSize="17dp" />
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/session_held_on"
@@ -153,7 +160,7 @@
                     android:fontFamily="@font/ebrima"
                     android:text="03-jan-19"
                     android:textColor="@color/pitch_black"
-                    android:textSize="17dp" />
+                    android:textSize="15sp" />
             </LinearLayout>
         </LinearLayout>
 
@@ -163,7 +170,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="20dp"
             android:layout_marginRight="8dp"
             android:background="@drawable/round_corner_layout"
             android:orientation="vertical"
@@ -179,11 +186,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/ebrima"
+                    android:alpha="0.7"
                     android:paddingLeft="8dp"
                     android:paddingTop="5dp"
                     android:text="Overall Summary"
                     android:textColor="@color/pitch_black"
-                    android:textSize="15dp" />
+                    android:textSize="16sp" />
 
 
             </LinearLayout>
@@ -203,7 +211,7 @@
                     android:paddingBottom="10dp"
                     android:text="@string/you_are_doing_good"
                     android:textColor="@color/pitch_black"
-                    android:textSize="13dp" />
+                    android:textSize="14sp" />
             </LinearLayout>
 
         </LinearLayout>
@@ -213,7 +221,7 @@
             android:id="@+id/rangeOfMotionData"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="20dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:background="@drawable/round_corner_layout"
@@ -239,14 +247,14 @@
                     android:paddingBottom="10dp"
                     android:text="RANGE OF MOTION"
                     android:textColor="@color/pitch_black"
-                    android:textSize="16dp" />
+                    android:textSize="16sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="7dp"
-                android:layout_marginLeft="8dp"
+                android:layout_marginLeft="5dp"
                 android:layout_marginRight="18dp"
                 android:gravity="center"
                 android:orientation="horizontal"
@@ -267,7 +275,7 @@
                         android:padding="8dp"
                         android:text="Min "
                         android:textColor="@color/pitch_black"
-                        android:textSize="17dp" />
+                        android:textSize="15sp" />
 
                     <TextView
                         android:id="@+id/tv_min_angle"
@@ -281,8 +289,8 @@
                         android:paddingRight="5dp"
                         android:paddingBottom="1dp"
                         android:text="20°"
-                        android:textColor="@color/pitch_black"
-                        android:textSize="17dp" />
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -298,7 +306,7 @@
                         android:padding="8dp"
                         android:text="Max "
                         android:textColor="@color/pitch_black"
-                        android:textSize="17dp" />
+                        android:textSize="15sp" />
 
                     <TextView
                         android:id="@+id/tv_max_angle"
@@ -311,16 +319,16 @@
                         android:paddingRight="5dp"
                         android:paddingBottom="1dp"
                         android:text="165°"
-                        android:textColor="@color/pitch_black"
-                        android:textSize="17dp" />
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
                 </LinearLayout>
             </LinearLayout>
 
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:layout_marginVertical="7dp"
+                android:layout_height="140dp"
+                android:layout_marginVertical="5dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:orientation="horizontal"
@@ -328,13 +336,65 @@
                 app:layout_constraintStart_toStartOf="parent">
 
                 <LinearLayout
-                    android:id="@+id/ll_min_max_arc"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.5"
-                    android:orientation="horizontal">
-
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:id="@+id/ll_min_max_arc"
+                        android:layout_height="110dp"
+                        android:orientation="horizontal"></LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="10dp"
+                        android:layout_gravity="bottom"
+                        android:orientation="horizontal">
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="2dp"
+                            android:paddingBottom="2dp"
+                            android:layout_weight="0.5">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/ebrima"
+                                android:paddingLeft="5dp"
+                                android:paddingTop="1dp"
+                                android:paddingRight="5dp"
+                                android:paddingBottom="1dp"
+                                android:text="180°"
+                                android:textColor="@color/pitch_black"
+                                android:textSize="10sp" />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="8dp"
+                            android:paddingTop="2dp"
+                            android:layout_gravity="right"
+                            android:gravity="right"
+                            android:paddingBottom="2dp"
+                            android:layout_weight="0.5">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/ebrima"
+                                android:paddingLeft="5dp"
+                                android:id="@+id/tv_180"
+                                android:paddingTop="1dp"
+                                android:paddingRight="17dp"
+                                android:gravity="right"
+                                android:paddingBottom="1dp"
+                                android:text="0°"
+                                android:textColor="@color/pitch_black"
+                                android:textSize="10sp" />
+                        </LinearLayout>
+                    </LinearLayout>
                 </LinearLayout>
+
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -366,7 +426,7 @@
                                     android:padding="8dp"
                                     android:text="Total Time"
                                     android:textColor="@color/pitch_black"
-                                    android:textSize="13dp" />
+                                    android:textSize="12sp" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -377,15 +437,16 @@
 
                                 <TextView
                                     android:id="@+id/tv_total_time"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="right"
+                                    android:gravity="center"
                                     android:background="@drawable/round_corners_textboxes_time"
                                     android:fontFamily="@font/ebrima"
-                                    android:padding="8dp"
+                                    android:padding="5dp"
                                     android:text="00 : 00 : 00"
                                     android:textColor="@color/pitch_black"
-                                    android:textSize="12dp" />
+                                    android:textSize="12sp" />
                             </LinearLayout>
                         </LinearLayout>
 
@@ -409,7 +470,7 @@
                                     android:padding="8dp"
                                     android:text="Action Time"
                                     android:textColor="@color/pitch_black"
-                                    android:textSize="13dp" />
+                                    android:textSize="12sp" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -420,15 +481,16 @@
 
                                 <TextView
                                     android:id="@+id/tv_action_time"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="right"
                                     android:background="@drawable/round_corners_textboxes_time"
                                     android:fontFamily="@font/ebrima"
-                                    android:padding="8dp"
+                                    android:padding="5dp"
+                                    android:gravity="center"
                                     android:text="00 : 00 : 00"
                                     android:textColor="@color/pitch_black"
-                                    android:textSize="12dp" />
+                                    android:textSize="12sp" />
                             </LinearLayout>
                         </LinearLayout>
 
@@ -452,7 +514,7 @@
                                     android:padding="8dp"
                                     android:text="Hold Time"
                                     android:textColor="@color/pitch_black"
-                                    android:textSize="13dp" />
+                                    android:textSize="12sp" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -463,15 +525,16 @@
 
                                 <TextView
                                     android:id="@+id/tv_hold_time"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="right"
                                     android:background="@drawable/round_corners_textboxes_time"
                                     android:fontFamily="@font/ebrima"
-                                    android:padding="8dp"
+                                    android:padding="5dp"
+                                    android:gravity="center"
                                     android:text="00 : 00 : 00"
                                     android:textColor="@color/pitch_black"
-                                    android:textSize="12dp" />
+                                    android:textSize="12sp" />
                             </LinearLayout>
                         </LinearLayout>
 
@@ -486,7 +549,7 @@
                 android:layout_marginLeft="2dp"
                 android:layout_marginRight="2dp"
                 android:orientation="horizontal"
-                android:paddingBottom="5dp"
+                android:paddingBottom="15dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
@@ -495,6 +558,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
                     android:orientation="vertical">
+
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -589,7 +653,7 @@
                                     android:fontFamily="@font/ebrima"
                                     android:text="Good"
                                     android:textColor="@color/pitch_black"
-                                    android:textSize="10dp" />
+                                    android:textSize="8sp" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -604,7 +668,7 @@
                                     android:fontFamily="@font/ebrima"
                                     android:text="Average"
                                     android:textColor="@color/pitch_black"
-                                    android:textSize="10dp" />
+                                    android:textSize="8sp" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -619,7 +683,7 @@
                                     android:fontFamily="@font/ebrima"
                                     android:text="Not Good"
                                     android:textColor="@color/pitch_black"
-                                    android:textSize="10dp" />
+                                    android:textSize="8sp" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -634,7 +698,7 @@
                                     android:fontFamily="@font/ebrima"
                                     android:text="Bad"
                                     android:textColor="@color/pitch_black"
-                                    android:textSize="10dp" />
+                                    android:textSize="8sp" />
                             </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>
@@ -656,7 +720,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="left"
-                            android:layout_weight="0.5">
+                            android:layout_weight="0.65">
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -664,29 +728,31 @@
                                 android:fontFamily="@font/ebrima"
                                 android:gravity="left"
                                 android:padding="8dp"
-                                android:text="Repetitions"
+                                android:text="@string/repetition"
                                 android:textColor="@color/pitch_black"
-                                android:textSize="14dp" />
+                                android:textSize="15sp" />
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="6dp"
-                            android:layout_weight="0.5"
+                            android:layout_weight="0.35"
                             android:gravity="right">
 
                             <TextView
                                 android:id="@+id/tv_num_of_reps"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="right"
+                                android:gravity="center"
                                 android:background="@drawable/round_corners_textboxes_time"
                                 android:fontFamily="@font/ebrima"
                                 android:padding="8dp"
-                                android:text="00 : 00 : 00"
+                                android:textStyle="bold"
+                                android:text="0"
                                 android:textColor="@color/pitch_black"
-                                android:textSize="12dp" />
+                                android:textSize="15sp" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
@@ -699,7 +765,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="8dp"
             android:layout_marginBottom="8dp"
             android:background="@drawable/round_corner_layout"
@@ -721,12 +787,46 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/ebrima"
                     android:paddingLeft="8dp"
-                    android:paddingTop="5dp"
+                    android:paddingTop="15dp"
                     android:paddingRight="10dp"
-                    android:paddingBottom="10dp"
                     android:text="ELECTROMAYOGRAM (EMG)"
                     android:textColor="@color/pitch_black"
-                    android:textSize="16dp" />
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
+                    android:layout_marginRight="15dp"
+                    android:gravity="right">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/ebrima"
+                        android:padding="8dp"
+                        android:text="Max "
+                        android:textColor="@color/pitch_black"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tv_max_emg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/background_green"
+                        android:fontFamily="@font/ebrima"
+                        android:paddingLeft="5dp"
+                        android:paddingTop="1dp"
+                        android:paddingRight="5dp"
+                        android:paddingBottom="1dp"
+                        android:text="165"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -736,10 +836,10 @@
                 android:layout_marginBottom="10dp">
 
                 <ProgressBar
-                    android:id="@+id/activeProgress"
+                    android:id="@+id/progress_max_emg"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="25dp"
+                    android:layout_height="22dp"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentBottom="true"
                     android:layout_weight="1"
@@ -754,7 +854,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="8dp"
             android:layout_marginBottom="8dp"
             android:gravity="center"
@@ -766,15 +866,33 @@
             app:layout_constraintVertical_bias="0.0"
             tools:ignore="MissingConstraints">
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/ebrima"
                 android:paddingLeft="8dp"
                 android:paddingTop="5dp"
+                android:alpha="0.5"
                 android:text="click to view report "
                 android:textColor="@color/pitch_black"
-                android:textSize="15dp" />
+                android:textSize="12sp" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/report_arrow"
+                    android:layout_gravity="center"
+
+                    android:paddingLeft="8dp"
+                    android:paddingTop="7dp"/>
+            </LinearLayout>
+
         </LinearLayout>
 
 
@@ -782,4 +900,6 @@
     </android.support.constraint.ConstraintLayout>
 
 
+</android.support.constraint.ConstraintLayout>
+</ScrollView>
 </android.support.constraint.ConstraintLayout>

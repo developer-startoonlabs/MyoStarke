@@ -17,6 +17,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -25,6 +26,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
+import android.net.ParseException;
 import android.net.Uri;
 import android.opengl.Visibility;
 import android.os.Build;
@@ -38,6 +40,8 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
@@ -75,6 +79,8 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.sai.pheezeeapp.Classes.BluetoothGattSingleton;
 import com.example.sai.pheezeeapp.Classes.BluetoothSingelton;
 import com.example.sai.pheezeeapp.Classes.MyBottomSheetDialog;
@@ -102,21 +108,34 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
+
+
 
 public class PatientsView extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener, PopupMenu.OnMenuItemClickListener {
+
+    //Boolean for weather the bodypart window is present or not on the activity
+    boolean f_bodypart_popup = false;
+
 
     PopupWindow bodyPartLayoutWndow;
     PopupWindow bodyPartLayout;
     View patientLayoutView;
     MyBottomSheetDialog myBottomSheetDialog;
+    BottomSheetBehavior behavior;
     Dialog optionsPopdialog ;
 
     //For Alert Dialog
@@ -319,6 +338,7 @@ public class PatientsView extends AppCompatActivity
                 bleStatusHandler.sendMessage(message);
             }
             if(!sharedPref.getString("deviceMacaddress", "").equals("")) {
+                Log.i("Enabled","true");
                 remoteDevice = bluetoothAdapter.getRemoteDevice(sharedPref.getString("deviceMacaddress", "EC:24:B8:31:BD:67"));
 
 
@@ -367,7 +387,6 @@ public class PatientsView extends AppCompatActivity
 
             @Override
             public void messageArrived(String topic, MqttMessage message) throws Exception {
-                Log.i("MQTT ARRIVED",""+message);
                  if(topic.equals(mqtt_get_profile_pic_response)){
                     Bitmap bitmap = BitmapFactory.decodeByteArray(message.getPayload(), 0, message.getPayload().length);
                     ivBasicImage.setImageBitmap(bitmap);
@@ -384,11 +403,8 @@ public class PatientsView extends AppCompatActivity
     @Override
     protected void onDestroy() {
         unregisterReceiver(bluetoothReceiver);
-//        try {
-////            mqttHelper.mqttAndroidClient.disconnect();
-//        } catch (MqttException e) {
-//            e.printStackTrace();
-//        }
+            mqttHelper.mqttAndroidClient.unregisterResources();
+            mqttHelper.mqttAndroidClient.close();
         super.onDestroy();
     }
 
@@ -442,32 +458,36 @@ public class PatientsView extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            backpressCount++;
-            if (backpressCount == 1) {
-                Toast.makeText(PatientsView.this, "press again to close pheezee app", Toast.LENGTH_SHORT).show();
-                Thread thread = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Thread.sleep(1000);
-                            backpressCount = 0;
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+            if(f_bodypart_popup){ bodyPartLayout.dismiss(); f_bodypart_popup = false; }
+           else {
+                backpressCount++;
+                if (backpressCount == 1) {
+                    Toast.makeText(PatientsView.this, "press again to close pheezee app", Toast.LENGTH_SHORT).show();
+                    Thread thread = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                Thread.sleep(1000);
+                                backpressCount = 0;
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                         }
-                    }
-                });
-                thread.start();
-            }
-            if (backpressCount == 2) {
-                Intent intent = new Intent(Intent.ACTION_MAIN);
-                intent.addCategory(Intent.CATEGORY_HOME);
-                startActivity(intent);
-                finish();
+                    });
+                    thread.start();
+                }
+                if (backpressCount == 2) {
+                    Intent intent = new Intent(Intent.ACTION_MAIN);
+                    intent.addCategory(Intent.CATEGORY_HOME);
+                    startActivity(intent);
+                    finish();
+                }
             }
 
         }
@@ -497,9 +517,7 @@ public class PatientsView extends AppCompatActivity
 
          if(id == R.id.demo_app){
             startActivity(new Intent(PatientsView.this,DemoActivity.class));
-        }/*else if (id == R.id.nav_settings) {
-
-        }*/
+        }
 
          else if (id==R.id.pheeze_device_info){
              Intent i = new Intent(PatientsView.this, DeviceInfoActivity.class);
@@ -518,16 +536,15 @@ public class PatientsView extends AppCompatActivity
             }
         }
         else if (id == R.id.nav_logout) {
-            if (GoogleSignIn.getLastSignedInAccount(this) != null)
-                signOut();
-            else
-                AccessToken.setCurrentAccessToken(null);
-            editor.putBoolean("isLoggedIn",false);
-             editor.clear();
-             editor.commit();
+//            if (GoogleSignIn.getLastSignedInAccount(this) != null)
+//                signOut();
+//            else
+//                AccessToken.setCurrentAccessToken(null);
+                editor.clear();
+                editor.commit();
 
-             startActivity(new Intent(this, LoginActivity.class));
-             finish();
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
 
         } else if (id == R.id.nav_share) {
              File file = new File(Environment.getExternalStorageDirectory() + "/ca.pdf");
@@ -596,6 +613,12 @@ public class PatientsView extends AppCompatActivity
 
             final TextView patientName = layout.findViewById(R.id.patientName);
             final TextView patientId = layout.findViewById(R.id.patientId);
+
+            final String todaysDate = dateInMmDdYyyy();
+
+
+            Log.i("Date", todaysDate);
+
             Button addBtn = layout.findViewById(R.id.addBtn);
             Button cancelBtn = layout.findViewById(R.id.cancelBtn);
             /*if (!sharedPref.getString("patientsData", "").equals("")) {
@@ -693,6 +716,7 @@ public class PatientsView extends AppCompatActivity
                             jsonObject.put("numofsessions", "0");
                             jsonObject.put("patientphone", patientId.getText().toString());
                             jsonObject.put("patientprofilepicurl", "empty");
+                            jsonObject.put("dateofjoin",todaysDate);
                             jsonObject.put("sessions", new JSONArray());
                             jsonData.put(jsonObject);
                             jsonObject.put("phizioemail",json_phizio.get("phizioemail"));
@@ -902,33 +926,7 @@ public class PatientsView extends AppCompatActivity
                 dialogInterface.cancel();
             }
         });
-        editPatientBuilder.setNeutralButton("Delete", new DialogInterface.OnClickListener() {
-            final MqttMessage mqttMessage = new MqttMessage();
-            final JSONObject object = new JSONObject();
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                for(int k=0;k<jsonData.length();k++){
-                    try {
-                        if(jsonData.getJSONObject(k).getString("patientid").equals(patientIdTemp.getText().toString().substring(5))){
 
-
-                            object.put("phizioemail", json_phizio.get("phizioemail"));
-                            object.put("patientid",jsonData.getJSONObject(k).get("patientid"));
-                            jsonData.remove(k);
-                            json_phizio.put("phiziopatients",jsonData);
-
-                            editor.putString("phiziodetails",json_phizio.toString());
-                            editor.apply();
-                            pushJsonData(new JSONArray(json_phizio.getString("phiziopatients")));
-                            mqttMessage.setPayload(object.toString().getBytes());
-                            mqttHelper.publishMqttTopic(mqtt_publish_phizio_deletepatient,mqttMessage);
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
         editPatientBuilder.show();
     }
 
@@ -944,6 +942,7 @@ public class PatientsView extends AppCompatActivity
 
             String action = intent.getAction();
             if(BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)){
+                Log.i("Device Status: ", "Device Disconnected");
                 Toast.makeText(PatientsView.this, "The device has got disconnected...", Toast.LENGTH_LONG).show();
                 isBleConnected = false;
                 Message message = Message.obtain();
@@ -952,6 +951,7 @@ public class PatientsView extends AppCompatActivity
                 Intent i = getIntent();
                 finish();
                 startActivity(i);
+
             }
             if (BluetoothAdapter.ACTION_STATE_CHANGED.equals(action)) {
                 if (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1) == BluetoothAdapter.STATE_ON) {
@@ -991,6 +991,10 @@ public class PatientsView extends AppCompatActivity
     }
 
     public void startSession(View view) {
+
+//        startActivity(new Intent(this,BodyPartSelection.class));
+
+
         LinearLayout linearLayout = (LinearLayout) view;
         if (sharedPref.getString("deviceMacaddress", "").equals("")) {
             Toast.makeText(this, "First add pheezee to your application", Toast.LENGTH_LONG).show();
@@ -1000,18 +1004,6 @@ public class PatientsView extends AppCompatActivity
 
         else {
            bodyPartsPopupWindow(view);
-//            patientTabLayout= (LinearLayout) ((Button)view).getParent().getParent();
-//            patientTabLayout = (LinearLayout) patientTabLayout.getChildAt(0);
-//
-//            TextView patientName = (TextView) patientTabLayout.getChildAt(0);
-//            TextView patientId = (TextView) patientTabLayout.getChildAt(1);
-//            System.out.println(patientId.getText().toString());
-//            Intent intent = new Intent(PatientsView.this, DashboardActivity.class);
-//            //intent.putExtra("exerciseType",exerciseType);
-//            intent.putExtra("deviceMacAddress", sharedPref.getString("deviceMacaddress", ""));
-//            intent.putExtra("patientId", patientId.getText().toString().substring(13));
-//            intent.putExtra("patientName", patientName.getText().toString());
-//            startActivity(intent);
         }
     }
 
@@ -1028,6 +1020,7 @@ public class PatientsView extends AppCompatActivity
         patientTabLayout = (LinearLayout) patientTabLayout.getChildAt(1);
 
         bodyPartLayout.showAtLocation(view.getRootView(), Gravity.CENTER, 0, 0);
+        f_bodypart_popup = true;
         LinearLayout cancelbtn = layout.findViewById(R.id.cancel_action);
         CardView elbowView = layout.findViewById(R.id.elbow);
         CardView kneeView = layout.findViewById(R.id.knee);
@@ -1038,6 +1031,7 @@ public class PatientsView extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 openDashboard(patientTabLayout,"elbow");
+
             }
         });
         kneeView.setOnClickListener(new View.OnClickListener() {
@@ -1084,6 +1078,7 @@ public class PatientsView extends AppCompatActivity
         }
         intent.putExtra("patientName", patientName.getText().toString());
         startActivity(intent);
+        bodyPartLayout.dismiss();
 }
 
 
@@ -1227,6 +1222,7 @@ public class PatientsView extends AppCompatActivity
 
     private void cameraIntent() {
         Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
         startActivityForResult(takePicture, 5);
     }
 
@@ -1269,12 +1265,25 @@ public class PatientsView extends AppCompatActivity
             patientTabLayout= (LinearLayout) ((LinearLayout)patientLayoutView).getParent().getParent();
             patientTabLayout = (LinearLayout) patientTabLayout.getChildAt(1);
             Uri selectedImage = data.getData();
-            imageView_patientpic.setImageURI(selectedImage);
+            //new work
+            Glide.with(this).load(selectedImage).apply(new RequestOptions().centerCrop()).into(imageView_patientpic);
+
+
+
+
+
+
+//            imageView_patientpic.setImageURI(selectedImage);
             TextView tv_patientId = (TextView) patientTabLayout.getChildAt(1);;
-            Log.i("tv value",tv_patientId.getText().toString());
-            imageView_patientpic.invalidate();
-            BitmapDrawable drawable = (BitmapDrawable) imageView_patientpic.getDrawable();
-            Bitmap photo = drawable.getBitmap();
+//            Log.i("tv value",tv_patientId.getText().toString());
+//            imageView_patientpic.invalidate();
+
+            Bitmap photo = null;
+            try {
+                photo = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             JSONObject object = new JSONObject();
 
             MqttMessage message = new MqttMessage();
@@ -1315,13 +1324,31 @@ public class PatientsView extends AppCompatActivity
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @SuppressLint("ResourceType")
     public void openOpionsPopupWindow(View view){
-        myBottomSheetDialog = new MyBottomSheetDialog();
-        myBottomSheetDialog.show(getSupportFragmentManager(),"MyBottomSheet");
-
+        Bitmap patientpic_bitmap=null;
 
 
         patientTabLayout= (LinearLayout) ((LinearLayout)view).getParent();
+
+        LinearLayout iv_layout = (LinearLayout)patientTabLayout.getChildAt(0);
         patientTabLayout = (LinearLayout) patientTabLayout.getChildAt(1);
+
+        ImageView iv_patient_pic = (ImageView)iv_layout.findViewById(R.id.patientProfilePic);
+
+        if(!(iv_patient_pic.getDrawable() ==null)) {
+            patientpic_bitmap = ((BitmapDrawable) iv_patient_pic.getDrawable()).getBitmap();
+        }
+
+        String dateofjoin = getJoinDateOfPatiet();
+        dateofjoin = getDateInMonthAndDate(dateofjoin);
+
+        TextView tv_patient_name = (TextView)patientTabLayout.findViewById(R.id.patientName);
+        TextView tv_patient_id = (TextView)patientTabLayout.findViewById(R.id.patientId);
+
+        myBottomSheetDialog = new MyBottomSheetDialog(tv_patient_name.getText().toString(),patientpic_bitmap,tv_patient_id.getText().toString().substring(5),dateofjoin);
+
+
+
+        myBottomSheetDialog.show(getSupportFragmentManager(),"MyBottomSheet");
 
     }
 
@@ -1444,5 +1471,108 @@ public class PatientsView extends AppCompatActivity
         mmt_intent.putExtra("patientname", patientNameTemp.getText().toString());
         startActivity(mmt_intent);
         bodyPartLayoutWndow.dismiss();
+    }
+
+
+    public void deletePatient(View view){
+        myBottomSheetDialog.dismiss();
+        final MqttMessage mqttMessage = new MqttMessage();
+        final JSONObject object = new JSONObject();
+        try {
+            jsonData = new JSONArray(json_phizio.getString("phiziopatients"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        final TextView patientIdTemp = patientTabLayout.findViewById(R.id.patientId);
+        TextView patientNameTemp = patientTabLayout.findViewById(R.id.patientName);
+        for(int k=0;k<jsonData.length();k++){
+            try {
+                if(jsonData.getJSONObject(k).getString("patientid").equals(patientIdTemp.getText().toString().substring(5))){
+
+
+                    object.put("phizioemail", json_phizio.get("phizioemail"));
+                    object.put("patientid",jsonData.getJSONObject(k).get("patientid"));
+                    jsonData.remove(k);
+                    json_phizio.put("phiziopatients",jsonData);
+
+                    editor.putString("phiziodetails",json_phizio.toString());
+                    editor.apply();
+                    pushJsonData(new JSONArray(json_phizio.getString("phiziopatients")));
+                    mqttMessage.setPayload(object.toString().getBytes());
+                    mqttHelper.publishMqttTopic(mqtt_publish_phizio_deletepatient,mqttMessage);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    public String dateInMmDdYyyy(){
+        Date today =new Date();
+        int date = today.getDate();
+        int month = today.getMonth()+1;
+        int year = today.getYear()+1900;
+        String todaysDate, d,m;
+        d=date+""; m=month+"";
+        if(date<10)
+            d = "0"+date;
+
+        if(month<10)
+            m = "0"+month;
+
+
+
+            todaysDate = d+"/"+m+"/"+year+"";
+
+        return todaysDate;
+    }
+
+    public String getJoinDateOfPatiet(){
+        String dateofjoin="";
+        final JSONObject object = new JSONObject();
+        try {
+            jsonData = new JSONArray(json_phizio.getString("phiziopatients"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        final TextView patientIdTemp = patientTabLayout.findViewById(R.id.patientId);
+        TextView patientNameTemp = patientTabLayout.findViewById(R.id.patientName);
+        for(int k=0;k<jsonData.length();k++){
+            try {
+                if(jsonData.getJSONObject(k).getString("patientid").equals(patientIdTemp.getText().toString().substring(5))){
+                    if(jsonData.getJSONObject(k).has("dateofjoin")){
+                        dateofjoin = jsonData.getJSONObject(k).getString("dateofjoin");
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        Log.i("dateofjoin",dateofjoin);
+        return dateofjoin;
+    }
+
+
+    private static String getDateInMonthAndDate(String date) throws ParseException {
+        if(!date.equals("")) {
+            int d= Integer.parseInt(date.substring(0,2));
+            int m  = (Integer.parseInt(date.substring(3,5))-1);
+            int y = Integer.parseInt(date.substring(6,10));
+            Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.DATE,d);
+            cal.set(Calendar.MONTH,m);
+            cal.set(Calendar.YEAR,y);
+            String monthName = new SimpleDateFormat("MMMM").format(cal.getTime());
+            String dayName = new SimpleDateFormat("EEEE").format(cal.getTime());
+            String dat = new SimpleDateFormat("dd").format(cal.getTime());
+            return (monthName.substring(0,3)+" "+dat+", "+dayName);
+        }
+
+        return "";
     }
 }

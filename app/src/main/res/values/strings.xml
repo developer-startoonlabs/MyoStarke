@@ -16,11 +16,22 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="add_patients_text">+ <u>Add patients</u></string>
     <string name="title_activity_scan_devices">ScanDevicesActivity</string>
+    <string name="repetition"><b>Repetition</b></string>
 
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="title_activity_session_list">SessionList</string>
 
     <string name="you_are_doing_good">You are improving day by day which is a good sign, so continue you will be recovering soon</string>
+
+
+    <string-array name="bodyPartName">
+        <item>Elbow</item>
+        <item>Knee</item>
+        <item>Ankle</item>
+        <item>Hip</item>
+        <item>Wrist</item>
+        <item>Shoulder</item>
+    </string-array>
 
 </resources>

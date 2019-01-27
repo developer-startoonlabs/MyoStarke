@@ -40,6 +40,7 @@
         android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:testOnly="true"
         android:theme="@style/AppTheme" >
         <provider
             android:name="com.example.sai.pheezeeapp.Classes.GenericFileProvider"
@@ -150,6 +151,9 @@
         <activity android:name="com.example.sai.pheezeeapp.Activities.DeviceInfoActivity" />
         <activity android:name="com.example.sai.pheezeeapp.Activities.MmtSession" />
         <activity android:name="com.example.sai.pheezeeapp.Activities.CalibrationSession" />
+        <activity
+            android:name="com.example.sai.pheezeeapp.Activities.BodyPartSelection"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
             android:excludeFromRecents="true"

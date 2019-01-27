@@ -171,6 +171,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                         Intent i = new Intent(LoginActivity.this, PatientsView.class);
                         startActivity(i);
+                        finish();
                     }
                 }
             }
@@ -355,9 +356,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @SuppressLint("ResourceType")
     public void showToast(String message){
          Toast.makeText(getApplicationContext(),message,Toast.LENGTH_LONG).show();
-        /*View view = toast.getView();
-        view.setBackgroundResource(Color.BLACK);
-        toast.setView(view);
-        toast.show();*/
+
     }
 }

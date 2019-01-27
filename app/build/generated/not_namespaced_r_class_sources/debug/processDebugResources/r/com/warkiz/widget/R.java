@@ -54,38 +54,38 @@ public final class R {
     public static final class color {
         private color() {}
 
-        public static final int isb_selector_tick_marks_color = 0x7f06006b;
-        public static final int isb_selector_tick_texts_color = 0x7f06006c;
+        public static final int isb_selector_tick_marks_color = 0x7f06006c;
+        public static final int isb_selector_tick_texts_color = 0x7f06006d;
     }
     public static final class drawable {
         private drawable() {}
 
-        public static final int isb_indicator_rounded_corners = 0x7f0800be;
-        public static final int isb_indicator_square_corners = 0x7f0800bf;
+        public static final int isb_indicator_rounded_corners = 0x7f0800c7;
+        public static final int isb_indicator_square_corners = 0x7f0800c8;
     }
     public static final class id {
         private id() {}
 
-        public static final int circular_bubble = 0x7f0a0050;
-        public static final int custom = 0x7f0a0063;
-        public static final int divider = 0x7f0a0074;
-        public static final int indicator_arrow = 0x7f0a00b0;
-        public static final int indicator_container = 0x7f0a00b1;
-        public static final int isb_progress = 0x7f0a00b5;
-        public static final int monospace = 0x7f0a00f1;
-        public static final int none = 0x7f0a00fc;
-        public static final int normal = 0x7f0a00fd;
-        public static final int oval = 0x7f0a0105;
-        public static final int rectangle = 0x7f0a0128;
-        public static final int rounded_rectangle = 0x7f0a0133;
-        public static final int sans = 0x7f0a0135;
-        public static final int serif = 0x7f0a014c;
-        public static final int square = 0x7f0a0160;
+        public static final int circular_bubble = 0x7f0a0051;
+        public static final int custom = 0x7f0a0065;
+        public static final int divider = 0x7f0a0076;
+        public static final int indicator_arrow = 0x7f0a00b4;
+        public static final int indicator_container = 0x7f0a00b5;
+        public static final int isb_progress = 0x7f0a00b9;
+        public static final int monospace = 0x7f0a00f9;
+        public static final int none = 0x7f0a0105;
+        public static final int normal = 0x7f0a0106;
+        public static final int oval = 0x7f0a010e;
+        public static final int rectangle = 0x7f0a0135;
+        public static final int rounded_rectangle = 0x7f0a0140;
+        public static final int sans = 0x7f0a0142;
+        public static final int serif = 0x7f0a0159;
+        public static final int square = 0x7f0a016d;
     }
     public static final class layout {
         private layout() {}
 
-        public static final int isb_indicator = 0x7f0d004c;
+        public static final int isb_indicator = 0x7f0d004e;
     }
     public static final class styleable {
         private styleable() {}
