@@ -11,7 +11,8 @@
     <color name="background_green">#00B386</color>
     <color name="white">#FFFFFF</color>
     <color name="bodypart_heading">#8e8d8d</color>
-    
+    <color name="darkGray">#716f6f  </color>
+    <color name="yellow">#fdaf3b</color>
     
     <color name="red">#CC2016</color>
     <color name="good_green">#00B386</color>
@@ -22,4 +23,7 @@
     <color name="progress_bar_color">#00B386</color>
 
     <color name="dirtyWhite">#cfcdcd</color>
+
+
+    <color name="color_session_report_background">#e0e6e4</color>
 </resources>

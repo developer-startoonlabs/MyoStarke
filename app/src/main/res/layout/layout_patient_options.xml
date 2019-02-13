@@ -120,6 +120,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:onClick="openReportActivity"
             app:layout_constraintTop_toBottomOf="@+id/ll_patient_section"
             android:id="@+id/ll_report">
             <LinearLayout
@@ -269,6 +270,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:onClick="editThePatientDetails"
+        android:clickable="true"
         android:id="@+id/ll_edit_patient_details"
         app:layout_constraintTop_toBottomOf="@+id/ll_set_goal"
         app:layout_constraintBottom_toTopOf="@+id/ll_delete_patient">

@@ -1,81 +1,156 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/my_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        style="@style/HeaderBar"
-        app:elevation="5dp"
-        android:elevation="5dp"
-        android:background="@color/white_opaque"
-        ></android.support.v7.widget.Toolbar>
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/my_toolbar_bodypart"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_alignParentStart="true"
+            app:elevation="5dp"
+            android:elevation="5dp"
+            android:background="@color/white_opaque"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="2dp"
+                    android:id="@+id/iv_back_body_part_selection"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    android:src="@drawable/green_back_arrow"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/body_part"
+                    android:textSize="16sp"
+                    android:textColor="@color/good_green"
+                    android:layout_gravity="center"
+                    android:paddingStart="30dp"/>
+            </LinearLayout>
+        </android.support.v7.widget.Toolbar>
+<android.support.design.widget.CoordinatorLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsig_horizontalscroll"
+            android:layout_width="match_parent"
+            app:layout_scrollFlags="scroll|snap"
+            android:background="@color/white"
+            android:layout_height="105dp">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/my_toolbar"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="3dp"
+                android:layout_marginTop="6dp"
+                android:fontFamily="@font/ebrima"
+                android:paddingLeft="10dp"
+                android:text="Recently"
+                android:textColor="@color/bodypart_heading"
+                android:textSize="18sp" />
+
+            <HorizontalScrollView
+                android:id="@+id/horizontal_recent"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_below="@+id/my_toolbar"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="44dp">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/ll_recent_section"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                </LinearLayout>
+            </HorizontalScrollView>
+                <TextView
+                    android:id="@+id/tv_recently_items"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:alpha="0.5"
+                    android:fontFamily="@font/ebrima"
+                    android:text="No items recently selected"
+                    android:textColor="@color/pitch_black"
+                    android:textSize="14sp"
+                    android:visibility="invisible" />
+            </FrameLayout>
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="9dp"
+                android:fontFamily="@font/ebrima"
+                android:paddingLeft="10dp"
+                android:text="All body parts"
+                android:textColor="@color/bodypart_heading"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+    </android.support.design.widget.AppBarLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/bodyPartRecyclerView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/my_toolbar"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="3dp"
-        android:layout_marginTop="6dp"
-        android:fontFamily="@font/ebrima"
-        android:paddingLeft="10dp"
-        android:text="Recently"
-        android:textColor="@color/bodypart_heading"
-        android:textSize="22sp" />
+        android:fillViewport="true"
+        android:paddingBottom="40dp"
+        android:clipToPadding="false"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-    <HorizontalScrollView
-        android:id="@+id/horizontal_recent"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_below="@+id/my_toolbar"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="44dp">
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:onClick="startMonitorSession"
+        android:id="@+id/fl_fab_background">
+
+        <com.robertlevonyan.views.customfloatingactionbutton.FloatingLayout
+            android:layout_width="match_parent"
+            android:id="@+id/fab_done"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom"
+            android:background="@color/good_green"></com.robertlevonyan.views.customfloatingactionbutton.FloatingLayout>
 
         <TextView
-            android:id="@+id/tv_recently_items"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:alpha="0.5"
-            android:fontFamily="@font/ebrima"
-            android:text="No items recently selected"
-            android:textColor="@color/pitch_black"
-            android:textSize="20sp"
-            android:visibility="visible" />
-    </HorizontalScrollView>
+            android:text="@string/start_bodypart_to_monitor"
+            android:elevation="16dp"
+            android:textColor="@android:color/white"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+    </FrameLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/horizontal_recent"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="9dp"
-        android:fontFamily="@font/ebrima"
-        android:paddingLeft="10dp"
-        android:text="All body parts"
-        android:textColor="@color/bodypart_heading"
-        android:textSize="22sp" />
-
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/bodyPartRecyclerView"
-        android:layout_width="393dp"
-        android:layout_height="367dp"
-        android:layout_below="@+id/horizontal_recent"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="7dp"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="7dp"
-        android:layout_marginBottom="6dp"
-        android:fillViewport="true" />
-
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>
+</LinearLayout>

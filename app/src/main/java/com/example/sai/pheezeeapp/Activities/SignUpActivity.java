@@ -160,7 +160,7 @@ public class SignUpActivity extends AppCompatActivity {
                             jsonObject.put("phizioname",str_signup_name);
                             jsonObject.put("phizioemail",str_signup_email);
                             jsonObject.put("phiziophone",str_signup_phone);
-                            jsonObject.put("phizioprofilepicurl","url defauld now");
+                            jsonObject.put("phizioprofilepicurl","empty");
                             jsonObject.put("phiziopatients",jsonArray);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -170,6 +170,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                         Intent i = new Intent(SignUpActivity.this, PatientsView.class);
                         startActivity(i);
+                        finish();
                     }
                     else{
                         Log.i("MQTT MESSAGE", ""+"cacaaca");

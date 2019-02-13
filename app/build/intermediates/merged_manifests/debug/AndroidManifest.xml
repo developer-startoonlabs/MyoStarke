@@ -153,7 +153,21 @@
         <activity android:name="com.example.sai.pheezeeapp.Activities.CalibrationSession" />
         <activity
             android:name="com.example.sai.pheezeeapp.Activities.BodyPartSelection"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.example.sai.pheezeeapp.Activities.MonitorActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.example.sai.pheezeeapp.Activities.SessionReportActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <provider
+            android:name="com.squareup.picasso.PicassoProvider"
+            android:authorities="com.example.sai.pheezeeappnew.com.squareup.picasso"
+            android:exported="false" />
+
+        <activity android:name="com.facebook.CustomTabMainActivity" />
         <activity
             android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
             android:excludeFromRecents="true"
@@ -168,12 +182,6 @@
             android:exported="true"
             android:permission="com.google.android.gms.auth.api.signin.permission.REVOCATION_NOTIFICATION" />
 
-        <provider
-            android:name="com.squareup.picasso.PicassoProvider"
-            android:authorities="com.example.sai.pheezeeappnew.com.squareup.picasso"
-            android:exported="false" />
-
-        <activity android:name="com.facebook.CustomTabMainActivity" />
         <activity
             android:name="com.google.android.gms.common.api.GoogleApiActivity"
             android:exported="false"
@@ -203,6 +211,11 @@
                 <action android:name="com.facebook.sdk.ACTION_CURRENT_ACCESS_TOKEN_CHANGED" />
             </intent-filter>
         </receiver>
+
+        <provider
+            android:name="com.android.tools.ir.server.InstantRunContentProvider"
+            android:authorities="com.example.sai.pheezeeappnew.com.android.tools.ir.server.InstantRunContentProvider"
+            android:multiprocess="true" />
     </application>
 
 </manifest>

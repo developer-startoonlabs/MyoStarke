@@ -358,4 +358,27 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
          Toast.makeText(getApplicationContext(),message,Toast.LENGTH_LONG).show();
 
     }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mqttHelper.mqttAndroidClient.unregisterResources();
+        mqttHelper.mqttAndroidClient.close();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mqttHelper.mqttAndroidClient.unregisterResources();
+        mqttHelper.mqttAndroidClient.close();
+
+    }
+
+    @Override
+    public void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        mqttHelper.mqttAndroidClient.unregisterResources();
+        mqttHelper.mqttAndroidClient.close();
+    }
 }

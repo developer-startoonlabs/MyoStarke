@@ -23,7 +23,7 @@
     <string name="title_activity_session_list">SessionList</string>
 
     <string name="you_are_doing_good">You are improving day by day which is a good sign, so continue you will be recovering soon</string>
-
+    <string name="start_bodypart_to_monitor">Done</string>
 
     <string-array name="bodyPartName">
         <item>Elbow</item>
@@ -33,5 +33,55 @@
         <item>Wrist</item>
         <item>Shoulder</item>
     </string-array>
+
+
+    <string-array name="setGoalSpinner">
+        <item>Set Goal</item>
+        <item>05 min</item>
+        <item>10 min</item>
+        <item>15 min</item>
+        <item>20 min</item>
+        <item>25 min</item>
+        <item>30 min</item>
+        <item>01 hr</item>
+    </string-array>
+
+
+    <string name="overall_feedback">Overall Feedback</string>
+
+    <string name="report_day">Day</string>
+    <string name="report_week">Week</string>
+    <string name="report_month">Month</string>
+
+
+    <string name="left_day">Go to previous day</string>
+    <string name="right_day">Go to to next day</string>
+
+    <string name="left_week">Go to previous week</string>
+    <string name="right_week">Go to to next week</string>
+
+    <string name="left_month">Go to previous month</string>
+    <string name="right_month">Go to to next month</string>
+
+
+    <string name="left_joint">Previous Joint</string>
+    <string name="right_joint">Right Joint</string>
+
+
+    <string name="session_report">Session Report</string>
+    <string name="monitor">Monitor</string>
+    <string name="body_part">Select Body Part</string>
+    <string name="range_of_motion">Range Of Motion</string>
+
+
+    <string name="total_repetition">Total Repetition</string>
+    <string name="action_time">Action Time</string>
+    <string name="idle_time">Idle Time</string>
+    <string name="hold_time">Hold Time</string>
+    <string name="emg">EMG</string>
+    <string name="back">Back</string>
+
+    <string name="total_time">Total Time - </string>
+
 
 </resources>

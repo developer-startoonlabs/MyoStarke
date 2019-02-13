@@ -27,6 +27,8 @@ import android.widget.TextView;
 
 import com.example.sai.pheezeeapp.R;
 import com.example.sai.pheezeeapp.services.MqttHelper;
+import com.example.sai.pheezeeapp.services.PicassoCircleTransformation;
+import com.squareup.picasso.Picasso;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
@@ -35,6 +37,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+
+import static com.example.sai.pheezeeapp.Activities.PatientsView.ivBasicImage;
 
 public class PhizioProfile extends AppCompatActivity {
     EditText et_phizio_name, et_phizio_email, et_phizio_phone;
@@ -46,14 +50,8 @@ public class PhizioProfile extends AppCompatActivity {
 
 
     String mqtt_phizio_profilepic_change = "phizio/profilepic/upload";
-    String mqtt_get_profile_pic = "phizio/getprofilepicture";
+    String mqtt_phizio_profilepic_change_response = "phizio/profilepic/upload/response";
     String mqtt_get_profile_pic_response = "phizio/getprofilepic/response";
-
-
-    //final MqttAndroidClient = new MqttAndroidClient();
-
-
-public  int RESULT_LOAD_IMAGE = 1;
     TextView tv_edit_profile_pic, tv_edit_profile_details;
 
 
@@ -97,11 +95,11 @@ public  int RESULT_LOAD_IMAGE = 1;
     }
 
     private void setPhizioDetails() {
-        et_phizio_name = (EditText) findViewById(R.id.tv_phizio_name);
-        et_phizio_email = (EditText) findViewById(R.id.tv_phizio_email);
-        et_phizio_phone = (EditText) findViewById(R.id.tv_phizio_phone);
-        tv_edit_profile_details  = (TextView)findViewById(R.id.edit_phizio_details);
-        tv_edit_profile_pic = (TextView)findViewById(R.id.change_profile_pic);
+        et_phizio_name =  findViewById(R.id.tv_phizio_name);
+        et_phizio_email =  findViewById(R.id.tv_phizio_email);
+        et_phizio_phone =  findViewById(R.id.tv_phizio_phone);
+        tv_edit_profile_details  = findViewById(R.id.edit_phizio_details);
+        tv_edit_profile_pic = findViewById(R.id.change_profile_pic);
 
 
         tv_edit_profile_details.setPaintFlags(tv_edit_profile_details.getPaintFlags()|Paint.UNDERLINE_TEXT_FLAG);
@@ -109,13 +107,32 @@ public  int RESULT_LOAD_IMAGE = 1;
 
 
         iv_phizio_profilepic = (ImageView)findViewById(R.id.iv_phizio_profilepic);
-        iv_phizio_profilepic.setImageDrawable(PatientsView.ivBasicImage.getDrawable());
-        /*Glide.with(getBaseContext())
-                .load("https://s3.ap-south-1.amazonaws.com/pheezee/physiotherapist/ankushsharma8210%40gmail.co/images/profilepic.png")
-                .into(iv_phizio_profilepic);*/
+        try {
+            if(!json_phizio.getString("phizioprofilepicurl").equals("empty")) {
+                String temp = null;
+                try {
+                    temp = json_phizio.getString("phizioprofilepicurl");
+                    Log.i("temp",temp);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                temp = temp.replaceFirst("@", "%40");
+                temp = "https://s3.ap-south-1.amazonaws.com/pheezee/" + temp;
+                Log.i("inside check", temp);
+                Picasso.get().load(temp)
+                        .placeholder(R.drawable.user_icon)
+                        .error(R.drawable.user_icon)
+                        .transform(new PicassoCircleTransformation())
+                        .into(iv_phizio_profilepic);
+            }
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-        btn_update = (Button)findViewById(R.id.btn_update_details);
-        btn_cancel_update = (Button)findViewById(R.id.btn_cancel_update);
+
+        btn_update = findViewById(R.id.btn_update_details);
+        btn_cancel_update = findViewById(R.id.btn_cancel_update);
 
 
 
@@ -150,6 +167,20 @@ public  int RESULT_LOAD_IMAGE = 1;
                     iv_phizio_profilepic.setImageBitmap(bitmap);
                     PatientsView.ivBasicImage.setImageBitmap(bitmap);*/
                 }
+
+                else if(topic.equals(mqtt_phizio_profilepic_change_response)){
+
+                    editor = sharedPref.edit();
+                    try {
+                        json_phizio.put("phizioprofilepicurl",message.toString());
+                        editor.putString("phiziodetails",json_phizio.toString());
+                        editor.commit();
+                        Log.i("array",json_phizio.toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
             }
 
             @Override
@@ -324,7 +355,7 @@ public  int RESULT_LOAD_IMAGE = 1;
                 if(resultCode == RESULT_OK){
                     Bitmap photo = (Bitmap) imageReturnedIntent.getExtras().get("data");
                     iv_phizio_profilepic.setImageBitmap(photo);
-                    PatientsView.ivBasicImage.setImageBitmap(photo);
+                    ivBasicImage.setImageBitmap(photo);
                     JSONObject object = new JSONObject();
 
                     MqttMessage message = new MqttMessage();
@@ -349,7 +380,7 @@ public  int RESULT_LOAD_IMAGE = 1;
                 if(resultCode == RESULT_OK){
                     Uri selectedImage = imageReturnedIntent.getData();
                     iv_phizio_profilepic.setImageURI(selectedImage);
-                    PatientsView.ivBasicImage.setImageURI(selectedImage);
+                    ivBasicImage.setImageURI(selectedImage);
 
                     iv_phizio_profilepic.invalidate();
                     BitmapDrawable drawable = (BitmapDrawable) iv_phizio_profilepic.getDrawable();
@@ -378,20 +409,6 @@ public  int RESULT_LOAD_IMAGE = 1;
     @Override
     protected void onStart() {
         super.onStart();
-
-        /*MqttMessage message = new MqttMessage();
-        JSONObject obj = new JSONObject();
-        try {
-            obj.put("phizioemail",json_phizio.getString("phizioemail"));
-            message.setPayload(obj.toString().getBytes());
-            Log.i("message",message.toString());
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        mqttHelper = new MqttHelper(this);
-        if(mqttHelper!=null)
-            mqttHelper.publishMqttTopic(mqtt_get_profile_pic,message);*/
     }
 
 

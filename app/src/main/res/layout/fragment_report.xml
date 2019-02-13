@@ -10,11 +10,12 @@
         android:orientation="vertical">
 
 
+
         <com.github.mikephil.charting.charts.BarChart
-        android:id="@+id/reportEmgGraph"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.9"/>
+            android:id="@+id/reportEmgGraph"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.9"/>
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/reportRepsGraph"
             android:layout_width="match_parent"
@@ -55,22 +56,22 @@
 
 
     <!--<com.jjoe64.graphview.GraphView-->
-        <!--android:id="@+id/reportGraph"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="463dp"-->
-        <!--android:layout_above="@+id/getFromCloud"-->
-        <!--android:layout_alignParentStart="true"-->
-        <!--android:layout_weight="0.8" />-->
+    <!--android:id="@+id/reportGraph"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="463dp"-->
+    <!--android:layout_above="@+id/getFromCloud"-->
+    <!--android:layout_alignParentStart="true"-->
+    <!--android:layout_weight="0.8" />-->
 
     <!--<android.support.v7.widget.AppCompatImageView-->
-        <!--android:id="@+id/getFromCloud"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="48dp"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:layout_alignParentStart="true"-->
-        <!--android:background="@drawable/ripple"-->
-        <!--android:onClick="getFromCloud"-->
-        <!--android:src="@drawable/ic_cloud_download_green_800_24dp" />-->
+    <!--android:id="@+id/getFromCloud"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="48dp"-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--android:layout_alignParentStart="true"-->
+    <!--android:background="@drawable/ripple"-->
+    <!--android:onClick="getFromCloud"-->
+    <!--android:src="@drawable/ic_cloud_download_green_800_24dp" />-->
     <ProgressBar
         android:id="@+id/graphLoader"
         android:visibility="gone"
@@ -79,4 +80,3 @@
         android:layout_centerInParent="true" />
 
 </android.support.v4.widget.SwipeRefreshLayout>
-

@@ -167,12 +167,13 @@ public class DeviceInfoActivity extends AppCompatActivity {
                 Log.i("Check",serial_characteristic.getUuid().toString());
                 gatt.setCharacteristicNotification(mCharacteristic,true);
                 mBluetoothGattDescriptor = mCharacteristic.getDescriptor(descriptor_characteristic1_service1_uuid);
-                mBluetoothGattDescriptor.setValue(BluetoothGattDescriptor.ENABLE_INDICATION_VALUE);
+                mBluetoothGattDescriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
                 bluetoothGatt.writeDescriptor(mBluetoothGattDescriptor);
 
 
                 arrayList.add(firmware_characteristic);
                 arrayList.add(serial_characteristic);
+                arrayList.add(mCharacteristic);
 
                 Message message = new Message();
                 message.obj = "setvalues";
@@ -203,9 +204,6 @@ public class DeviceInfoActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-
-            Log.i("characteristic",str);
-
             if(characteristic.getUuid().equals(firmware_version_characteristic_uuid)){
                 final String string = str;
                 runOnUiThread(new Runnable() {
@@ -229,6 +227,15 @@ public class DeviceInfoActivity extends AppCompatActivity {
                     }
                 });
             }
+            else if(characteristic.getUuid().equals(battery_level_battery_service_characteristic_uuid)){
+                final int battery  = b[0];
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        tv_battery_level.setText(battery+"%");
+                    }
+                });
+            }
 
             arrayList.remove(0);
             if(arrayList.size()>0){
@@ -237,13 +244,15 @@ public class DeviceInfoActivity extends AppCompatActivity {
 
 
         }
-
-
-        @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         public void onCharacteristicChanged(final BluetoothGatt gatt, final BluetoothGattCharacteristic characteristic) {
-            if(battery_level_battery_service_characteristic_uuid.equals(characteristic.getUuid())){
-                Log.i("Battery",characteristic.getValue().toString());
+            if(characteristic.getUuid().equals(battery_level_battery_service_characteristic_uuid)){
+                byte b[] = characteristic.getValue();
+                final int battery  = b[0];
+                Log.i("battery",battery+"");
+                Message message = new Message();
+                message.obj = battery+"";
+                batteryStatus.sendMessage(message);
             }
         }
 
@@ -275,7 +284,6 @@ public class DeviceInfoActivity extends AppCompatActivity {
                             bluetoothGatt.readCharacteristic(arrayList.get(0));
                     }
                 });
-
             }
             else {
                 tv_connection_status.setText((String) msg.obj);
@@ -283,18 +291,20 @@ public class DeviceInfoActivity extends AppCompatActivity {
         }
     };
 
-    public final Handler firmware_hadler = new Handler() {
-        public void handleMessage(Message msg) {
-            tv_firmware_version.setText(msg.obj.toString());
-        }
-    };
 
-    public final Handler serial_hadler = new Handler() {
+    public final Handler batteryStatus = new Handler(){
+        @Override
         public void handleMessage(Message msg) {
-            tv_serial_id.setText(msg.obj.toString());
+            tv_battery_level.setText(msg.obj.toString()+"%");
         }
     };
 
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        bluetoothGatt.setCharacteristicNotification(mCharacteristic,false);
+        mBluetoothGattDescriptor.setValue(BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
+        bluetoothGatt.writeDescriptor(mBluetoothGattDescriptor);
+    }
 }

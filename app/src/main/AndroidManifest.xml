@@ -139,7 +139,14 @@
         <activity android:name=".Activities.DeviceInfoActivity" />
         <activity android:name=".Activities.MmtSession" />
         <activity android:name=".Activities.CalibrationSession" />
-        <activity android:name=".Activities.BodyPartSelection"
+        <activity
+            android:name=".Activities.BodyPartSelection"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activities.MonitorActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Activities.SessionReportActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

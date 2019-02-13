@@ -106,6 +106,7 @@
                             android:layout_height="wrap_content"
                             android:paddingLeft="5dp"
                             android:paddingTop="7dp"
+                            android:id="@+id/tv_battery_percentage"
                             android:fontFamily="@font/ebrima"
                             android:text="--"
                             android:textSize="12sp" />

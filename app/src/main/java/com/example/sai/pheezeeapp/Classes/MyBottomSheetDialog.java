@@ -21,8 +21,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.sai.pheezeeapp.Activities.PatientsView;
 import com.example.sai.pheezeeapp.R;
 
 @SuppressLint("ValidFragment")
@@ -49,6 +52,15 @@ public class MyBottomSheetDialog extends BottomSheetDialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View layout = inflater.inflate(R.layout.layout_patient_options,container,false);
+
+//        LinearLayout ll_edit_patient = layout.findViewById(R.id.ll_edit_patient_details);
+//        ll_edit_patient.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                PatientsView patientsView = new PatientsView();
+//                Toast.makeText(getActivity(), "Hello", Toast.LENGTH_SHORT).show();
+//            }
+//        });
         findviews(layout);
 
         return layout;
