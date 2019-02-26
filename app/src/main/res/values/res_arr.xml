@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="emonji_array">
+        <item>@drawable/i0</item>
+        <item>@drawable/i1</item>
+        <item>@drawable/i5</item>
+        <item>@drawable/i6</item>
+        <item>@drawable/i8</item>
+    </array>
+    <array name="color_array">
+        <item>#FF5521</item>
+        <item>#F09712</item>
+        <item>#AC9B1D</item>
+        <item>#62D36C</item>
+        <item>#26A69A</item>
+    </array>
+</resources>
