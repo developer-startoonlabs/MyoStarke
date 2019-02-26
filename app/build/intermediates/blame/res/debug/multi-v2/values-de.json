@@ -4,7 +4,7 @@
             "outputFile": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-de\\values-de.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-15.0.1.aar\\2296ddd660cf095ffee0e2f9f28898c9\\res\\values-de\\values.xml",
+                    "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-16.0.1.aar\\a9897198ab7392b64c40e53c9c82690a\\res\\values-de\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -35,6 +35,23 @@
                         "startOffsets": "105,210,308,420,506,611,726,803,879,971,1065,1162,1263,1371,1471,1575,1675,1773,1870,1952,2063,2166,2265,2376,2478,2585,2741,8259",
                         "endColumns": "104,97,111,85,104,114,76,75,91,93,96,100,107,99,103,99,97,96,81,110,102,98,110,101,106,155,101,81",
                         "endOffsets": "205,303,415,501,606,721,798,874,966,1060,1157,1258,1366,1466,1570,1670,1768,1865,1947,2058,2161,2260,2371,2473,2580,2736,2838,8336"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-basement-16.1.0.aar\\bcc19ca225f72f4d8cc5a65a5fc87ea6\\res\\values-de\\values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "247",
+                        "endColumns": "203",
+                        "endOffsets": "450"
+                    },
+                    "to": {
+                        "startLines": "60",
+                        "startColumns": "4",
+                        "startOffsets": "6639",
+                        "endColumns": "203",
+                        "endOffsets": "6838"
                     }
                 },
                 {
@@ -69,23 +86,6 @@
                         "startOffsets": "2843,3006,3146,3288,3409,3497,3589,3672,3764,3860,3971,4080,4172,4264,4366,4483,4565,4648,4855,4951,5060,5171,5281",
                         "endColumns": "162,139,141,120,87,91,82,91,95,110,108,91,91,101,116,81,82,206,95,108,110,109,137",
                         "endOffsets": "3001,3141,3283,3404,3492,3584,3667,3759,3855,3966,4075,4167,4259,4361,4478,4560,4643,4850,4946,5055,5166,5276,5414"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-basement-15.0.1.aar\\d78b42a66333ef0cac3ae66aa26ee8a0\\res\\values-de\\values.xml",
-                    "from": {
-                        "startLines": "4",
-                        "startColumns": "0",
-                        "startOffsets": "247",
-                        "endColumns": "203",
-                        "endOffsets": "450"
-                    },
-                    "to": {
-                        "startLines": "60",
-                        "startColumns": "4",
-                        "startOffsets": "6639",
-                        "endColumns": "203",
-                        "endOffsets": "6838"
                     }
                 }
             ]

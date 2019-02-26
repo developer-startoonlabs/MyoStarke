@@ -24,12 +24,12 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="43dp"
-        android:layout_marginTop="116dp"
-        android:layout_marginEnd="42dp"
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="210dp"
+        android:layout_marginEnd="54dp"
         android:ems="10"
-        android:inputType="numberSigned"
-        android:hint="please enter the time....."/>
+        android:hint="please enter the time....."
+        android:inputType="numberSigned" />
 
     <TextView
         android:id="@+id/tv_rawdata_timer"
@@ -38,6 +38,20 @@
         android:layout_centerInParent="true"
         android:text=""
         android:textSize="25dp" />
+
+    <EditText
+        android:id="@+id/et_type_of_packet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:hint="@string/raw_packet_hint"
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="117dp"
+        android:layout_marginEnd="56dp"
+        android:ems="10"
+        android:inputType="textPersonName"/>
 
 
 </RelativeLayout>

@@ -84,4 +84,16 @@
     <string name="total_time">Total Time - </string>
 
 
+    <string name="new_user">new user?</string>
+    <string name="have_account">have an account?</string>
+    <string name="login">Log in</string>
+    <string name="signup">Sign up</string>
+
+    <string name="continue_with">Continue with</string>
+
+    <string name="by_signing_in">By Signing up you agree with our terms and private policy</string>
+    <string name="cd_facebook_icon">Facebook Log in</string>
+    <string name="cd_google_icon">Google Log in</string>
+
+    <string name="raw_packet_hint">0:-EMG, 1:-LSM</string>
 </resources>

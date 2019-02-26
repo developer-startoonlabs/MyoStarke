@@ -22,6 +22,8 @@ import com.example.sai.pheezeeapp.Activities.PatientsView;
 import com.example.sai.pheezeeapp.Activities.SessionReportActivity;
 import com.example.sai.pheezeeapp.R;
 import com.example.sai.pheezeeapp.utils.TimeOperations;
+import com.example.sai.pheezeeapp.views.custom_graph.ApiData;
+import com.example.sai.pheezeeapp.views.custom_graph.EmonjiBarGraph;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
@@ -84,6 +86,14 @@ public class ReportMonth extends Fragment {
     ArrayList<String> str_part;
     Iterator iterator;
 
+
+    //custom bar graph related stuff
+    private String[] weeks = {"Week1", "Week2", "Week3", "Week4"};
+    EmonjiBarGraph mbg,emg;
+    ArrayList<ApiData> data;
+    ApiData data1[] = null;
+    ApiData data2[] = null;
+
     public ReportMonth() {
         // Required empty public constructor
     }
@@ -94,6 +104,16 @@ public class ReportMonth extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view=  inflater.inflate(R.layout.fragment_report_month, container, false);
+
+
+        //custom bar graph
+        mbg = view.findViewById(R.id.graphView);
+        mbg.setBarNames(weeks);
+
+        emg = view.findViewById(R.id.month_emggraph);
+        emg.setBarNames(weeks);
+        data = new ArrayList<>();
+
 
         anyChartView_rom = view.findViewById(R.id.rom_chartView);
         barChart = view.findViewById(R.id.emg_barchart_report);
@@ -123,7 +143,7 @@ public class ReportMonth extends Fragment {
 
             }
         });
-        datapoints=new DataPoint[]{};
+        datapoints = new DataPoint[]{};
         series = new BarGraphSeries<>(datapoints);
 
 
@@ -480,60 +500,111 @@ public class ReportMonth extends Fragment {
     }
 
     private void updateRomGraph(JSONArray array) {
-        List<DataEntry> data = new ArrayList<>();
-        Log.i("Length",array.length()+"");
-        if(array.length()==0){
-            data.add(new CustomDataEntry(0,0,0));
-        }
-        else {
+//        List<DataEntry> data = new ArrayList<>();
+//
+//        Log.i("Length",array.length()+"");
+//        if(array.length()==0){
+//            data.add(new CustomDataEntry(0,0,0));
+//        }
+//        else {
+//            for (int i = 0; i < array.length(); i++) {
+//                try {
+//                    int x = i + 1;
+//                    JSONObject object = array.getJSONObject(i);
+//                    int maxAngle = Integer.parseInt(object.getString("maxangle"));
+//                    int minAngle = Integer.parseInt(object.getString("minangle"));
+//                    data.add(new CustomDataEntry(x, maxAngle, minAngle));
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//        set.data(data);
+
+//        if(array.length()==0){
+//            data.add(new ApiData());
+//        }
+//        else {
+
+        try {
+            data1 = new ApiData[array.length()];
+            Log.i("Response",array.length()+"");
             for (int i = 0; i < array.length(); i++) {
-                try {
+
                     int x = i + 1;
                     JSONObject object = array.getJSONObject(i);
+                    Log.i("Response",object.toString());
+//                    String weekday = arr.getString("week");
                     int maxAngle = Integer.parseInt(object.getString("maxangle"));
                     int minAngle = Integer.parseInt(object.getString("minangle"));
-                    data.add(new CustomDataEntry(x, maxAngle, minAngle));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                    data1[i] = new ApiData(i,minAngle,maxAngle);
             }
+            } catch (JSONException e) {
+            e.printStackTrace();
         }
-        set.data(data);
+
+            mbg.setBarData(data1);
+            mbg.notifyDataSetChanged();
+
+            //hello
+        //hello
+//        }
     }
 
     private void updateEmgGraph(JSONArray array){
-        dataPoints.clear();
-        barChart.invalidate();
-        barChart.notifyDataSetChanged();
-        barChart.clear();
-        series = new BarGraphSeries<>(datapoints);
+//        dataPoints.clear();
+//        barChart.invalidate();
+//        barChart.notifyDataSetChanged();
+//        barChart.clear();
+//        series = new BarGraphSeries<>(datapoints);
+//
+//        barChartDataSet=new BarDataSet(dataPoints, "Sessions Vs EMG Graph");
+//        Log.i("emg data set",array.length()+"");
+//        int j=0;
+//        for (int i=0;i<array.length();i++){
+//            String maxemg = null;
+//            try {
+//                maxemg = array.getJSONObject(i).get("maxemg").toString();
+//                barChartData.addEntry(new BarEntry(++j,Integer.parseInt(maxemg)),0);
+//                barChart.moveViewToX(j);
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//            //maxemg = maxemg.substring(0,maxemg.length());
+//
+//
+//        }
+//        barChart.setData(barChartData);
+//        barChart.notifyDataSetChanged();
+//        barChart.invalidate();
+//
+//        setEmgChartCharacteristics();
+//        XAxis xAxis = barChart.getXAxis();
+//        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+//        xAxis.setAxisMinimum(0f);
+//        xAxis.setAxisMaximum(array.length()+1);
+//        xAxis.setGranularity(1f);
 
-        barChartDataSet=new BarDataSet(dataPoints, "Sessions Vs EMG Graph");
-        Log.i("emg data set",array.length()+"");
-        int j=0;
-        for (int i=0;i<array.length();i++){
-            String maxemg = null;
-            try {
-                maxemg = array.getJSONObject(i).get("maxemg").toString();
-                barChartData.addEntry(new BarEntry(++j,Integer.parseInt(maxemg)),0);
-                barChart.moveViewToX(j);
-            } catch (JSONException e) {
-                e.printStackTrace();
+
+
+        try {
+            data2 = new ApiData[array.length()];
+            Log.i("Response",array.length()+"");
+            for (int i = 0; i < array.length(); i++) {
+
+                int x = i + 1;
+                JSONObject object = array.getJSONObject(i);
+                Log.i("Response",object.toString());
+//                    String weekday = arr.getString("week");
+                int maxEmg = Integer.parseInt(object.getString("maxemg"));
+                data2[i] = new ApiData(i,-1,maxEmg);
             }
-            //maxemg = maxemg.substring(0,maxemg.length());
-
-
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        barChart.setData(barChartData);
-        barChart.notifyDataSetChanged();
-        barChart.invalidate();
 
-        setEmgChartCharacteristics();
-        XAxis xAxis = barChart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setAxisMinimum(0f);
-        xAxis.setAxisMaximum(array.length()+1);
-        xAxis.setGranularity(1f);
+        emg.setBarData(data2);
+        emg.notifyDataSetChanged();
 
     }
 

@@ -75,7 +75,7 @@
             android:theme="@style/AppTheme.custom.noActionBar" />
         <activity
             android:name=".Activities.LoginActivity"
-            android:theme="@style/AppTheme.customDesign.noActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activities.PatientsView"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -145,6 +145,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activities.MonitorActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activities.SessionReportActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>

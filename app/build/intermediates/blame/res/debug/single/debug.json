@@ -101,7 +101,7 @@
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_common_google_signin_btn_text_light_normal_background.9.png.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-15.0.1.aar\\2296ddd660cf095ffee0e2f9f28898c9\\res\\drawable-xxhdpi-v4\\common_google_signin_btn_text_light_normal_background.9.png"
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-16.0.1.aar\\a9897198ab7392b64c40e53c9c82690a\\res\\drawable-xxhdpi-v4\\common_google_signin_btn_text_light_normal_background.9.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\layout-land_activity_user_type.xml.flat",
@@ -185,7 +185,7 @@
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_googleg_disabled_color_18.png.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-15.0.1.aar\\2296ddd660cf095ffee0e2f9f28898c9\\res\\drawable-xhdpi-v4\\googleg_disabled_color_18.png"
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-16.0.1.aar\\a9897198ab7392b64c40e53c9c82690a\\res\\drawable-xhdpi-v4\\googleg_disabled_color_18.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_abc_scrubber_primary_mtrl_alpha.9.png.flat",
@@ -237,7 +237,7 @@
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable_common_google_signin_btn_text_dark.xml.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-15.0.1.aar\\2296ddd660cf095ffee0e2f9f28898c9\\res\\drawable\\common_google_signin_btn_text_dark.xml"
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-16.0.1.aar\\a9897198ab7392b64c40e53c9c82690a\\res\\drawable\\common_google_signin_btn_text_dark.xml"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_abc_textfield_search_default_mtrl_alpha.9.png.flat",
@@ -296,12 +296,16 @@
         "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-28.0.0.aar\\8d23bb8d77ccb24125c52340e4210c02\\res\\drawable\\notification_tile_bg.xml"
     },
     {
+        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_i0.png.flat",
+        "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable-mdpi\\i0.png"
+    },
+    {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_elbow_part.png.flat",
         "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable-hdpi\\elbow_part.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_common_google_signin_btn_icon_light_normal_background.9.png.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-15.0.1.aar\\2296ddd660cf095ffee0e2f9f28898c9\\res\\drawable-xhdpi-v4\\common_google_signin_btn_icon_light_normal_background.9.png"
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-16.0.1.aar\\a9897198ab7392b64c40e53c9c82690a\\res\\drawable-xhdpi-v4\\common_google_signin_btn_icon_light_normal_background.9.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_shoulder_part.png.flat",
@@ -309,7 +313,7 @@
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_common_full_open_on_phone.png.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-15.0.1.aar\\2296ddd660cf095ffee0e2f9f28898c9\\res\\drawable-xhdpi-v4\\common_full_open_on_phone.png"
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-16.0.1.aar\\a9897198ab7392b64c40e53c9c82690a\\res\\drawable-xhdpi-v4\\common_full_open_on_phone.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\layout_design_layout_snackbar.xml.flat",
@@ -417,7 +421,7 @@
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable_common_google_signin_btn_text_light_normal.xml.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-15.0.1.aar\\2296ddd660cf095ffee0e2f9f28898c9\\res\\drawable\\common_google_signin_btn_text_light_normal.xml"
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-16.0.1.aar\\a9897198ab7392b64c40e53c9c82690a\\res\\drawable\\common_google_signin_btn_text_light_normal.xml"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_abc_ic_star_black_16dp.png.flat",
@@ -549,7 +553,7 @@
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable_common_google_signin_btn_icon_dark_normal.xml.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-15.0.1.aar\\2296ddd660cf095ffee0e2f9f28898c9\\res\\drawable\\common_google_signin_btn_icon_dark_normal.xml"
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-16.0.1.aar\\a9897198ab7392b64c40e53c9c82690a\\res\\drawable\\common_google_signin_btn_icon_dark_normal.xml"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\layout_layout_patient_options.xml.flat",
@@ -580,12 +584,12 @@
         "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0.aar\\8c34ab288258c11de6cfd1922403e47d\\res\\drawable-xxxhdpi-v4\\abc_text_select_handle_right_mtrl_light.png"
     },
     {
-        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\color-v23_abc_btn_colored_borderless_text_material.xml.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0.aar\\8c34ab288258c11de6cfd1922403e47d\\res\\color-v23\\abc_btn_colored_borderless_text_material.xml"
-    },
-    {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_abc_spinner_mtrl_am_alpha.9.png.flat",
         "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0.aar\\8c34ab288258c11de6cfd1922403e47d\\res\\drawable-mdpi-v4\\abc_spinner_mtrl_am_alpha.9.png"
+    },
+    {
+        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\color-v23_abc_btn_colored_borderless_text_material.xml.flat",
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0.aar\\8c34ab288258c11de6cfd1922403e47d\\res\\color-v23\\abc_btn_colored_borderless_text_material.xml"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable_fab_rounded_square_shadow.xml.flat",
@@ -614,6 +618,10 @@
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_knee_part.png.flat",
         "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable-mdpi\\knee_part.png"
+    },
+    {
+        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable_drawable_pheezee_shape.xml.flat",
+        "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable\\drawable_pheezee_shape.xml"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_abc_scrubber_control_to_pressed_mtrl_005.png.flat",
@@ -661,7 +669,7 @@
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable_common_google_signin_btn_icon_dark_focused.xml.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-15.0.1.aar\\2296ddd660cf095ffee0e2f9f28898c9\\res\\drawable\\common_google_signin_btn_icon_dark_focused.xml"
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-16.0.1.aar\\a9897198ab7392b64c40e53c9c82690a\\res\\drawable\\common_google_signin_btn_icon_dark_focused.xml"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable_background_session_report_dwm.xml.flat",
@@ -677,7 +685,7 @@
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_common_google_signin_btn_text_dark_normal_background.9.png.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-15.0.1.aar\\2296ddd660cf095ffee0e2f9f28898c9\\res\\drawable-xhdpi-v4\\common_google_signin_btn_text_dark_normal_background.9.png"
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-16.0.1.aar\\a9897198ab7392b64c40e53c9c82690a\\res\\drawable-xhdpi-v4\\common_google_signin_btn_text_dark_normal_background.9.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\layout_browser_actions_context_menu_row.xml.flat",
@@ -693,7 +701,11 @@
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\color_common_google_signin_btn_text_dark.xml.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-15.0.1.aar\\2296ddd660cf095ffee0e2f9f28898c9\\res\\color\\common_google_signin_btn_text_dark.xml"
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-16.0.1.aar\\a9897198ab7392b64c40e53c9c82690a\\res\\color\\common_google_signin_btn_text_dark.xml"
+    },
+    {
+        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_mailid_icon.png.flat",
+        "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable-mdpi\\mailid_icon.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\animator_mtrl_fab_show_motion_spec.xml.flat",
@@ -744,6 +756,10 @@
         "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-28.0.0.aar\\8d23bb8d77ccb24125c52340e4210c02\\res\\layout\\notification_template_part_time.xml"
     },
     {
+        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi_background_login.png.flat",
+        "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable-xxxhdpi\\background_login.png"
+    },
+    {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v21_ic_menu_camera.xml.flat",
         "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable-v21\\ic_menu_camera.xml"
     },
@@ -758,6 +774,14 @@
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable_round_corner_layout_preview.xml.flat",
         "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable\\round_corner_layout_preview.xml"
+    },
+    {
+        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_mailid_icon.png.flat",
+        "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable-xhdpi\\mailid_icon.png"
+    },
+    {
+        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi_facebook_icon.png.flat",
+        "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable-xxhdpi\\facebook_icon.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable_fab_background.xml.flat",
@@ -796,12 +820,20 @@
         "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0.aar\\8c34ab288258c11de6cfd1922403e47d\\res\\drawable-xxxhdpi-v4\\abc_ic_star_black_36dp.png"
     },
     {
+        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_facebook_icon.png.flat",
+        "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable-hdpi\\facebook_icon.png"
+    },
+    {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_com_facebook_button_icon_white.png.flat",
         "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\facebook-common-4.35.0.aar\\a8104318439e1b5c9654bd7b80e6d614\\res\\drawable-mdpi-v4\\com_facebook_button_icon_white.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\layout_activity_scanner.xml.flat",
         "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\layout\\activity_scanner.xml"
+    },
+    {
+        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_i4.png.flat",
+        "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable-mdpi\\i4.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\color_switch_thumb_material_dark.xml.flat",
@@ -936,12 +968,12 @@
         "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable-v21\\ic_menu_share.xml"
     },
     {
-        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_abc_textfield_search_activated_mtrl_alpha.9.png.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0.aar\\8c34ab288258c11de6cfd1922403e47d\\res\\drawable-xhdpi-v4\\abc_textfield_search_activated_mtrl_alpha.9.png"
-    },
-    {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_abc_text_select_handle_right_mtrl_light.png.flat",
         "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0.aar\\8c34ab288258c11de6cfd1922403e47d\\res\\drawable-xxhdpi-v4\\abc_text_select_handle_right_mtrl_light.png"
+    },
+    {
+        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_abc_textfield_search_activated_mtrl_alpha.9.png.flat",
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0.aar\\8c34ab288258c11de6cfd1922403e47d\\res\\drawable-xhdpi-v4\\abc_textfield_search_activated_mtrl_alpha.9.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\raw_ble_app_hrs_dfu_s110_v8_0_0_sdk_v9_0.zip.flat",
@@ -997,7 +1029,7 @@
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_common_google_signin_btn_text_light_normal_background.9.png.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-15.0.1.aar\\2296ddd660cf095ffee0e2f9f28898c9\\res\\drawable-hdpi-v4\\common_google_signin_btn_text_light_normal_background.9.png"
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-16.0.1.aar\\a9897198ab7392b64c40e53c9c82690a\\res\\drawable-hdpi-v4\\common_google_signin_btn_text_light_normal_background.9.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable_abc_spinner_textfield_background_material.xml.flat",
@@ -1072,16 +1104,16 @@
         "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0.aar\\8c34ab288258c11de6cfd1922403e47d\\res\\drawable-xhdpi-v4\\abc_ic_menu_paste_mtrl_am_alpha.png"
     },
     {
-        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_abc_ic_menu_selectall_mtrl_alpha.png.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0.aar\\8c34ab288258c11de6cfd1922403e47d\\res\\drawable-hdpi-v4\\abc_ic_menu_selectall_mtrl_alpha.png"
+        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_notification_bg_normal_pressed.9.png.flat",
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-28.0.0.aar\\8d23bb8d77ccb24125c52340e4210c02\\res\\drawable-xhdpi-v4\\notification_bg_normal_pressed.9.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable_custom_indicator.xml.flat",
         "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable\\custom_indicator.xml"
     },
     {
-        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_notification_bg_normal_pressed.9.png.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-28.0.0.aar\\8d23bb8d77ccb24125c52340e4210c02\\res\\drawable-xhdpi-v4\\notification_bg_normal_pressed.9.png"
+        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_abc_ic_menu_selectall_mtrl_alpha.png.flat",
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0.aar\\8c34ab288258c11de6cfd1922403e47d\\res\\drawable-hdpi-v4\\abc_ic_menu_selectall_mtrl_alpha.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldrtl-xxhdpi-v17_abc_ic_menu_cut_mtrl_alpha.png.flat",
@@ -1097,7 +1129,7 @@
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\color_common_google_signin_btn_text_light.xml.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-15.0.1.aar\\2296ddd660cf095ffee0e2f9f28898c9\\res\\color\\common_google_signin_btn_text_light.xml"
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-16.0.1.aar\\a9897198ab7392b64c40e53c9c82690a\\res\\color\\common_google_signin_btn_text_light.xml"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_com_facebook_tooltip_black_xout.png.flat",
@@ -1126,6 +1158,10 @@
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\layout_session_analysis.xml.flat",
         "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\layout\\session_analysis.xml"
+    },
+    {
+        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi_password_icon.png.flat",
+        "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable-xxhdpi\\password_icon.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_abc_scrubber_control_off_mtrl_alpha.png.flat",
@@ -1180,6 +1216,10 @@
         "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\facebook-login-4.35.0.aar\\c1f9b9b636baa42f12c23c44d64e6c12\\res\\drawable-xhdpi-v4\\com_facebook_tooltip_blue_topnub.png"
     },
     {
+        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi_mainid_icon.png.flat",
+        "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable-xxxhdpi\\mainid_icon.png"
+    },
+    {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable_abc_ic_menu_overflow_material.xml.flat",
         "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0.aar\\8c34ab288258c11de6cfd1922403e47d\\res\\drawable\\abc_ic_menu_overflow_material.xml"
     },
@@ -1220,12 +1260,12 @@
         "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0.aar\\8c34ab288258c11de6cfd1922403e47d\\res\\color\\abc_primary_text_material_dark.xml"
     },
     {
-        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable_logout_icon.png.flat",
-        "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable\\logout_icon.png"
-    },
-    {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\layout_abc_list_menu_item_icon.xml.flat",
         "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0.aar\\8c34ab288258c11de6cfd1922403e47d\\res\\layout\\abc_list_menu_item_icon.xml"
+    },
+    {
+        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable_logout_icon.png.flat",
+        "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable\\logout_icon.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable_com_facebook_auth_dialog_cancel_background.xml.flat",
@@ -1260,16 +1300,16 @@
         "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\facebook-login-4.35.0.aar\\c1f9b9b636baa42f12c23c44d64e6c12\\res\\drawable-mdpi-v4\\com_facebook_tooltip_black_xout.png"
     },
     {
-        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable_common_google_signin_btn_text_dark_focused.xml.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-15.0.1.aar\\2296ddd660cf095ffee0e2f9f28898c9\\res\\drawable\\common_google_signin_btn_text_dark_focused.xml"
-    },
-    {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\layout_notification_action.xml.flat",
         "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-28.0.0.aar\\8d23bb8d77ccb24125c52340e4210c02\\res\\layout\\notification_action.xml"
     },
     {
+        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable_common_google_signin_btn_text_dark_focused.xml.flat",
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-16.0.1.aar\\a9897198ab7392b64c40e53c9c82690a\\res\\drawable\\common_google_signin_btn_text_dark_focused.xml"
+    },
+    {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_googleg_standard_color_18.png.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-15.0.1.aar\\2296ddd660cf095ffee0e2f9f28898c9\\res\\drawable-hdpi-v4\\googleg_standard_color_18.png"
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-16.0.1.aar\\a9897198ab7392b64c40e53c9c82690a\\res\\drawable-hdpi-v4\\googleg_standard_color_18.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_hip_part.png.flat",
@@ -1344,6 +1384,10 @@
         "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0.aar\\8c34ab288258c11de6cfd1922403e47d\\res\\drawable-xxxhdpi-v4\\abc_ic_star_half_black_36dp.png"
     },
     {
+        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_google_icon.png.flat",
+        "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable-xhdpi\\google_icon.png"
+    },
+    {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable_abc_list_selector_background_transition_holo_light.xml.flat",
         "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0.aar\\8c34ab288258c11de6cfd1922403e47d\\res\\drawable\\abc_list_selector_background_transition_holo_light.xml"
     },
@@ -1401,7 +1445,7 @@
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable_common_google_signin_btn_text_disabled.xml.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-15.0.1.aar\\2296ddd660cf095ffee0e2f9f28898c9\\res\\drawable\\common_google_signin_btn_text_disabled.xml"
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-16.0.1.aar\\a9897198ab7392b64c40e53c9c82690a\\res\\drawable\\common_google_signin_btn_text_disabled.xml"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi_preview_cross.png.flat",
@@ -1409,15 +1453,19 @@
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_common_google_signin_btn_icon_dark_normal_background.9.png.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-15.0.1.aar\\2296ddd660cf095ffee0e2f9f28898c9\\res\\drawable-mdpi-v4\\common_google_signin_btn_icon_dark_normal_background.9.png"
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-16.0.1.aar\\a9897198ab7392b64c40e53c9c82690a\\res\\drawable-mdpi-v4\\common_google_signin_btn_icon_dark_normal_background.9.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v21_abc_dialog_material_background.xml.flat",
         "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0.aar\\8c34ab288258c11de6cfd1922403e47d\\res\\drawable-v21\\abc_dialog_material_background.xml"
     },
     {
+        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_facebook_icon.png.flat",
+        "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable-mdpi\\facebook_icon.png"
+    },
+    {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_common_google_signin_btn_text_dark_normal_background.9.png.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-15.0.1.aar\\2296ddd660cf095ffee0e2f9f28898c9\\res\\drawable-xxhdpi-v4\\common_google_signin_btn_text_dark_normal_background.9.png"
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-16.0.1.aar\\a9897198ab7392b64c40e53c9c82690a\\res\\drawable-xxhdpi-v4\\common_google_signin_btn_text_dark_normal_background.9.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_abc_scrubber_primary_mtrl_alpha.9.png.flat",
@@ -1464,6 +1512,10 @@
         "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\design-28.0.0-rc01.aar\\2a2e077ee80a9068830c2784270a3626\\res\\drawable\\design_fab_background.xml"
     },
     {
+        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_background_login.png.flat",
+        "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable-xhdpi\\background_login.png"
+    },
+    {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\layout_layout_body_part_selection_model.xml.flat",
         "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\layout\\layout_body_part_selection_model.xml"
     },
@@ -1488,8 +1540,16 @@
         "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0.aar\\8c34ab288258c11de6cfd1922403e47d\\res\\drawable-hdpi-v4\\abc_ic_star_black_36dp.png"
     },
     {
+        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_i7.png.flat",
+        "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable-mdpi\\i7.png"
+    },
+    {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_abc_ic_commit_search_api_mtrl_alpha.png.flat",
         "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0.aar\\8c34ab288258c11de6cfd1922403e47d\\res\\drawable-xhdpi-v4\\abc_ic_commit_search_api_mtrl_alpha.png"
+    },
+    {
+        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_i8.png.flat",
+        "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable-mdpi\\i8.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\layout_activity_device_info.xml.flat",
@@ -1549,7 +1609,7 @@
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-watch-v20_common_google_signin_btn_text_dark_normal.xml.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-auth-16.0.0.aar\\cd2ae88534dd3b17d2edb6ce242e8e0d\\res\\drawable-watch-v20\\common_google_signin_btn_text_dark_normal.xml"
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-auth-16.0.1.aar\\1dbbf4629e238f94c780cc6eb3302803\\res\\drawable-watch-v20\\common_google_signin_btn_text_dark_normal.xml"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\color_abc_tint_seek_thumb.xml.flat",
@@ -1557,11 +1617,15 @@
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_common_full_open_on_phone.png.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-15.0.1.aar\\2296ddd660cf095ffee0e2f9f28898c9\\res\\drawable-hdpi-v4\\common_full_open_on_phone.png"
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-16.0.1.aar\\a9897198ab7392b64c40e53c9c82690a\\res\\drawable-hdpi-v4\\common_full_open_on_phone.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\raw_readme.txt.flat",
         "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\raw\\readme.txt"
+    },
+    {
+        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_i9.png.flat",
+        "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable-mdpi\\i9.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_abc_ic_star_half_black_16dp.png.flat",
@@ -1585,7 +1649,7 @@
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_googleg_disabled_color_18.png.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-15.0.1.aar\\2296ddd660cf095ffee0e2f9f28898c9\\res\\drawable-mdpi-v4\\googleg_disabled_color_18.png"
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-16.0.1.aar\\a9897198ab7392b64c40e53c9c82690a\\res\\drawable-mdpi-v4\\googleg_disabled_color_18.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_calibration_logo.png.flat",
@@ -1616,6 +1680,10 @@
         "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0.aar\\8c34ab288258c11de6cfd1922403e47d\\res\\drawable-mdpi-v4\\abc_scrubber_control_to_pressed_mtrl_000.png"
     },
     {
+        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_google_icon.png.flat",
+        "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable-mdpi\\google_icon.png"
+    },
+    {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\layout_select_dialog_item_material.xml.flat",
         "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0.aar\\8c34ab288258c11de6cfd1922403e47d\\res\\layout\\select_dialog_item_material.xml"
     },
@@ -1625,7 +1693,7 @@
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_common_google_signin_btn_icon_light_normal_background.9.png.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-15.0.1.aar\\2296ddd660cf095ffee0e2f9f28898c9\\res\\drawable-mdpi-v4\\common_google_signin_btn_icon_light_normal_background.9.png"
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-16.0.1.aar\\a9897198ab7392b64c40e53c9c82690a\\res\\drawable-mdpi-v4\\common_google_signin_btn_icon_light_normal_background.9.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_abc_list_divider_mtrl_alpha.9.png.flat",
@@ -1656,8 +1724,16 @@
         "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0.aar\\8c34ab288258c11de6cfd1922403e47d\\res\\anim\\abc_slide_out_top.xml"
     },
     {
+        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_google_icon.png.flat",
+        "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable-hdpi\\google_icon.png"
+    },
+    {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_elbow_preview_pop.png.flat",
         "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable-mdpi\\elbow_preview_pop.png"
+    },
+    {
+        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable_drawable_mailid_icon.xml.flat",
+        "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable\\drawable_mailid_icon.xml"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v23_abc_control_background_material.xml.flat",
@@ -1725,7 +1801,7 @@
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable_common_google_signin_btn_icon_light.xml.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-15.0.1.aar\\2296ddd660cf095ffee0e2f9f28898c9\\res\\drawable\\common_google_signin_btn_icon_light.xml"
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-16.0.1.aar\\a9897198ab7392b64c40e53c9c82690a\\res\\drawable\\common_google_signin_btn_icon_light.xml"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldrtl-xxhdpi-v17_abc_spinner_mtrl_am_alpha.9.png.flat",
@@ -1753,11 +1829,15 @@
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_common_google_signin_btn_text_light_normal_background.9.png.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-15.0.1.aar\\2296ddd660cf095ffee0e2f9f28898c9\\res\\drawable-mdpi-v4\\common_google_signin_btn_text_light_normal_background.9.png"
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-16.0.1.aar\\a9897198ab7392b64c40e53c9c82690a\\res\\drawable-mdpi-v4\\common_google_signin_btn_text_light_normal_background.9.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi-v4_abc_ic_star_black_48dp.png.flat",
         "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0.aar\\8c34ab288258c11de6cfd1922403e47d\\res\\drawable-xxxhdpi-v4\\abc_ic_star_black_48dp.png"
+    },
+    {
+        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi_facebook_icon.png.flat",
+        "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable-xxxhdpi\\facebook_icon.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi_nav_icon.png.flat",
@@ -1849,7 +1929,7 @@
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_common_google_signin_btn_text_dark_normal_background.9.png.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-15.0.1.aar\\2296ddd660cf095ffee0e2f9f28898c9\\res\\drawable-hdpi-v4\\common_google_signin_btn_text_dark_normal_background.9.png"
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-16.0.1.aar\\a9897198ab7392b64c40e53c9c82690a\\res\\drawable-hdpi-v4\\common_google_signin_btn_text_dark_normal_background.9.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_abc_scrubber_control_to_pressed_mtrl_000.png.flat",
@@ -1885,7 +1965,7 @@
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable_common_google_signin_btn_icon_disabled.xml.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-15.0.1.aar\\2296ddd660cf095ffee0e2f9f28898c9\\res\\drawable\\common_google_signin_btn_icon_disabled.xml"
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-16.0.1.aar\\a9897198ab7392b64c40e53c9c82690a\\res\\drawable\\common_google_signin_btn_icon_disabled.xml"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\layout_abc_screen_simple_overlay_action_mode.xml.flat",
@@ -1909,7 +1989,7 @@
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-watch-v20_common_google_signin_btn_text_disabled.xml.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-auth-16.0.0.aar\\cd2ae88534dd3b17d2edb6ce242e8e0d\\res\\drawable-watch-v20\\common_google_signin_btn_text_disabled.xml"
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-auth-16.0.1.aar\\1dbbf4629e238f94c780cc6eb3302803\\res\\drawable-watch-v20\\common_google_signin_btn_text_disabled.xml"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v24_ic_launcher_foreground.xml.flat",
@@ -1941,7 +2021,7 @@
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_common_google_signin_btn_text_light_normal_background.9.png.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-15.0.1.aar\\2296ddd660cf095ffee0e2f9f28898c9\\res\\drawable-xhdpi-v4\\common_google_signin_btn_text_light_normal_background.9.png"
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-16.0.1.aar\\a9897198ab7392b64c40e53c9c82690a\\res\\drawable-xhdpi-v4\\common_google_signin_btn_text_light_normal_background.9.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_ic_settings_red_200_24dp.png.flat",
@@ -1966,6 +2046,10 @@
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_abc_text_select_handle_left_mtrl_light.png.flat",
         "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0.aar\\8c34ab288258c11de6cfd1922403e47d\\res\\drawable-xxhdpi-v4\\abc_text_select_handle_left_mtrl_light.png"
+    },
+    {
+        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_i2.png.flat",
+        "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable-mdpi\\i2.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_abc_text_select_handle_right_mtrl_light.png.flat",
@@ -2089,7 +2173,7 @@
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable_common_google_signin_btn_icon_light_normal.xml.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-15.0.1.aar\\2296ddd660cf095ffee0e2f9f28898c9\\res\\drawable\\common_google_signin_btn_icon_light_normal.xml"
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-16.0.1.aar\\a9897198ab7392b64c40e53c9c82690a\\res\\drawable\\common_google_signin_btn_icon_light_normal.xml"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\layout_design_navigation_menu.xml.flat",
@@ -2118,6 +2202,10 @@
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable_saline.png.flat",
         "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable\\saline.png"
+    },
+    {
+        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi_google_icon.png.flat",
+        "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable-xxxhdpi\\google_icon.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable_com_facebook_button_login_silver_background.xml.flat",
@@ -2301,7 +2389,7 @@
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_common_google_signin_btn_icon_light_normal_background.9.png.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-15.0.1.aar\\2296ddd660cf095ffee0e2f9f28898c9\\res\\drawable-hdpi-v4\\common_google_signin_btn_icon_light_normal_background.9.png"
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-16.0.1.aar\\a9897198ab7392b64c40e53c9c82690a\\res\\drawable-hdpi-v4\\common_google_signin_btn_icon_light_normal_background.9.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi_ic_settings_red_200_24dp.png.flat",
@@ -2325,7 +2413,7 @@
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable_common_google_signin_btn_text_dark_normal.xml.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-15.0.1.aar\\2296ddd660cf095ffee0e2f9f28898c9\\res\\drawable\\common_google_signin_btn_text_dark_normal.xml"
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-16.0.1.aar\\a9897198ab7392b64c40e53c9c82690a\\res\\drawable\\common_google_signin_btn_text_dark_normal.xml"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\layout_activity_user_type.xml.flat",
@@ -2353,7 +2441,7 @@
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_common_google_signin_btn_icon_dark_normal_background.9.png.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-15.0.1.aar\\2296ddd660cf095ffee0e2f9f28898c9\\res\\drawable-hdpi-v4\\common_google_signin_btn_icon_dark_normal_background.9.png"
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-16.0.1.aar\\a9897198ab7392b64c40e53c9c82690a\\res\\drawable-hdpi-v4\\common_google_signin_btn_icon_dark_normal_background.9.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable_fab_square_shadow.xml.flat",
@@ -2398,6 +2486,10 @@
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_ic_add_white_24dp.png.flat",
         "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable-hdpi\\ic_add_white_24dp.png"
+    },
+    {
+        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_i6.png.flat",
+        "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable-mdpi\\i6.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable_monitoring_landscape_demo.png.flat",
@@ -2472,6 +2564,10 @@
         "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\generated\\res\\pngs\\debug\\drawable-hdpi\\ic_launcher_background.png"
     },
     {
+        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_password_icon.png.flat",
+        "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable-xhdpi\\password_icon.png"
+    },
+    {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable_abc_cab_background_top_material.xml.flat",
         "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0.aar\\8c34ab288258c11de6cfd1922403e47d\\res\\drawable\\abc_cab_background_top_material.xml"
     },
@@ -2537,7 +2633,7 @@
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable_common_google_signin_btn_icon_light_focused.xml.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-15.0.1.aar\\2296ddd660cf095ffee0e2f9f28898c9\\res\\drawable\\common_google_signin_btn_icon_light_focused.xml"
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-16.0.1.aar\\a9897198ab7392b64c40e53c9c82690a\\res\\drawable\\common_google_signin_btn_icon_light_focused.xml"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\color_design_tint_password_toggle.xml.flat",
@@ -2552,8 +2648,16 @@
         "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable-hdpi\\tripple_dot_option.png"
     },
     {
+        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_mailid_icon.png.flat",
+        "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable-hdpi\\mailid_icon.png"
+    },
+    {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\layout_isb_indicator.xml.flat",
         "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\indicatorseekbar-2.1.0.aar\\820a9cd69532312960d52be9b98f142e\\res\\layout\\isb_indicator.xml"
+    },
+    {
+        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_background_login.png.flat",
+        "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable-hdpi\\background_login.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi_wrist_part.png.flat",
@@ -2565,7 +2669,11 @@
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_googleg_standard_color_18.png.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-15.0.1.aar\\2296ddd660cf095ffee0e2f9f28898c9\\res\\drawable-xxhdpi-v4\\googleg_standard_color_18.png"
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-16.0.1.aar\\a9897198ab7392b64c40e53c9c82690a\\res\\drawable-xxhdpi-v4\\googleg_standard_color_18.png"
+    },
+    {
+        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi_mailid_icon.png.flat",
+        "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable-xxhdpi\\mailid_icon.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_abc_btn_radio_to_on_mtrl_015.png.flat",
@@ -2630,6 +2738,10 @@
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v21_ripple_effect.xml.flat",
         "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable-v21\\ripple_effect.xml"
+    },
+    {
+        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_i5.png.flat",
+        "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable-mdpi\\i5.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi_ic_cloud_download_black_24dp.png.flat",
@@ -2708,6 +2820,10 @@
         "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable-xhdpi\\right_arrow.png"
     },
     {
+        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_password_icon.png.flat",
+        "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable-hdpi\\password_icon.png"
+    },
+    {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\layout_fragment_fragment_report_day.xml.flat",
         "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\layout\\fragment_fragment_report_day.xml"
     },
@@ -2781,7 +2897,7 @@
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_googleg_standard_color_18.png.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-15.0.1.aar\\2296ddd660cf095ffee0e2f9f28898c9\\res\\drawable-mdpi-v4\\googleg_standard_color_18.png"
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-16.0.1.aar\\a9897198ab7392b64c40e53c9c82690a\\res\\drawable-mdpi-v4\\googleg_standard_color_18.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\interpolator-v21_mtrl_fast_out_slow_in.xml.flat",
@@ -2840,8 +2956,12 @@
         "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\facebook-common-4.35.0.aar\\a8104318439e1b5c9654bd7b80e6d614\\res\\drawable\\com_facebook_button_like_background.xml"
     },
     {
+        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_i1.png.flat",
+        "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable-mdpi\\i1.png"
+    },
+    {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_common_google_signin_btn_icon_dark_normal_background.9.png.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-15.0.1.aar\\2296ddd660cf095ffee0e2f9f28898c9\\res\\drawable-xhdpi-v4\\common_google_signin_btn_icon_dark_normal_background.9.png"
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-16.0.1.aar\\a9897198ab7392b64c40e53c9c82690a\\res\\drawable-xhdpi-v4\\common_google_signin_btn_icon_dark_normal_background.9.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_abc_list_longpressed_holo.9.png.flat",
@@ -2980,6 +3100,10 @@
         "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0.aar\\8c34ab288258c11de6cfd1922403e47d\\res\\drawable-xhdpi-v4\\abc_text_select_handle_right_mtrl_dark.png"
     },
     {
+        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_i3.png.flat",
+        "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable-mdpi\\i3.png"
+    },
+    {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_report_arrow.png.flat",
         "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable-hdpi\\report_arrow.png"
     },
@@ -3000,6 +3124,10 @@
         "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable-hdpi\\mmt_logo.png"
     },
     {
+        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable_layout_login_corner_1.xml.flat",
+        "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable\\layout_login_corner_1.xml"
+    },
+    {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_com_facebook_tooltip_blue_topnub.png.flat",
         "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\facebook-login-4.35.0.aar\\c1f9b9b636baa42f12c23c44d64e6c12\\res\\drawable-hdpi-v4\\com_facebook_tooltip_blue_topnub.png"
     },
@@ -3012,8 +3140,16 @@
         "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0.aar\\8c34ab288258c11de6cfd1922403e47d\\res\\drawable-v21\\abc_btn_colored_material.xml"
     },
     {
+        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\layout_layout_login_continue.xml.flat",
+        "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\layout\\layout_login_continue.xml"
+    },
+    {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_abc_ab_share_pack_mtrl_alpha.9.png.flat",
         "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0.aar\\8c34ab288258c11de6cfd1922403e47d\\res\\drawable-xxhdpi-v4\\abc_ab_share_pack_mtrl_alpha.9.png"
+    },
+    {
+        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_facebook_icon.png.flat",
+        "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable-xhdpi\\facebook_icon.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable_abc_tab_indicator_material.xml.flat",
@@ -3022,6 +3158,10 @@
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_design_ic_visibility.png.flat",
         "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\design-28.0.0-rc01.aar\\2a2e077ee80a9068830c2784270a3626\\res\\drawable-mdpi-v4\\design_ic_visibility.png"
+    },
+    {
+        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_password_icon.png.flat",
+        "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable-mdpi\\password_icon.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable_fab_circle_shadow_normal.xml.flat",
@@ -3041,7 +3181,7 @@
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_googleg_disabled_color_18.png.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-15.0.1.aar\\2296ddd660cf095ffee0e2f9f28898c9\\res\\drawable-xxhdpi-v4\\googleg_disabled_color_18.png"
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-16.0.1.aar\\a9897198ab7392b64c40e53c9c82690a\\res\\drawable-xxhdpi-v4\\googleg_disabled_color_18.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_com_facebook_tooltip_black_topnub.png.flat",
@@ -3192,6 +3332,10 @@
         "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_share_24dp.png"
     },
     {
+        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi_background_login.png.flat",
+        "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable-xxhdpi\\background_login.png"
+    },
+    {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\animator_design_fab_hide_motion_spec.xml.flat",
         "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\design-28.0.0-rc01.aar\\2a2e077ee80a9068830c2784270a3626\\res\\animator\\design_fab_hide_motion_spec.xml"
     },
@@ -3209,7 +3353,7 @@
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable_common_google_signin_btn_text_light.xml.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-15.0.1.aar\\2296ddd660cf095ffee0e2f9f28898c9\\res\\drawable\\common_google_signin_btn_text_light.xml"
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-16.0.1.aar\\a9897198ab7392b64c40e53c9c82690a\\res\\drawable\\common_google_signin_btn_text_light.xml"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_abc_btn_radio_to_on_mtrl_015.png.flat",
@@ -3277,7 +3421,7 @@
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_googleg_standard_color_18.png.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-15.0.1.aar\\2296ddd660cf095ffee0e2f9f28898c9\\res\\drawable-xhdpi-v4\\googleg_standard_color_18.png"
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-16.0.1.aar\\a9897198ab7392b64c40e53c9c82690a\\res\\drawable-xhdpi-v4\\googleg_standard_color_18.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_abc_text_select_handle_middle_mtrl_light.png.flat",
@@ -3302,6 +3446,10 @@
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\interpolator_mtrl_linear.xml.flat",
         "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\design-28.0.0-rc01.aar\\2a2e077ee80a9068830c2784270a3626\\res\\interpolator\\mtrl_linear.xml"
+    },
+    {
+        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi_password_icon.png.flat",
+        "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable-xxxhdpi\\password_icon.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\color_abc_tint_spinner.xml.flat",
@@ -3473,7 +3621,7 @@
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_common_google_signin_btn_text_dark_normal_background.9.png.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-15.0.1.aar\\2296ddd660cf095ffee0e2f9f28898c9\\res\\drawable-mdpi-v4\\common_google_signin_btn_text_dark_normal_background.9.png"
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-16.0.1.aar\\a9897198ab7392b64c40e53c9c82690a\\res\\drawable-mdpi-v4\\common_google_signin_btn_text_dark_normal_background.9.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\layout_activity_raw_data_collection.xml.flat",
@@ -3481,7 +3629,7 @@
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_googleg_disabled_color_18.png.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-15.0.1.aar\\2296ddd660cf095ffee0e2f9f28898c9\\res\\drawable-hdpi-v4\\googleg_disabled_color_18.png"
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-16.0.1.aar\\a9897198ab7392b64c40e53c9c82690a\\res\\drawable-hdpi-v4\\googleg_disabled_color_18.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_com_facebook_tooltip_blue_topnub.png.flat",
@@ -3501,7 +3649,11 @@
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable_common_google_signin_btn_text_light_focused.xml.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-15.0.1.aar\\2296ddd660cf095ffee0e2f9f28898c9\\res\\drawable\\common_google_signin_btn_text_light_focused.xml"
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-16.0.1.aar\\a9897198ab7392b64c40e53c9c82690a\\res\\drawable\\common_google_signin_btn_text_light_focused.xml"
+    },
+    {
+        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi_google_icon.png.flat",
+        "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable-xxhdpi\\google_icon.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\color_com_facebook_button_text_color.xml.flat",
@@ -3533,7 +3685,7 @@
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_common_google_signin_btn_icon_light_normal_background.9.png.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-15.0.1.aar\\2296ddd660cf095ffee0e2f9f28898c9\\res\\drawable-xxhdpi-v4\\common_google_signin_btn_icon_light_normal_background.9.png"
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-16.0.1.aar\\a9897198ab7392b64c40e53c9c82690a\\res\\drawable-xxhdpi-v4\\common_google_signin_btn_icon_light_normal_background.9.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_abc_btn_switch_to_on_mtrl_00012.9.png.flat",
@@ -3569,11 +3721,19 @@
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\color_common_google_signin_btn_tint.xml.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-15.0.1.aar\\2296ddd660cf095ffee0e2f9f28898c9\\res\\color\\common_google_signin_btn_tint.xml"
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-16.0.1.aar\\a9897198ab7392b64c40e53c9c82690a\\res\\color\\common_google_signin_btn_tint.xml"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable_abc_seekbar_track_material.xml.flat",
         "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0.aar\\8c34ab288258c11de6cfd1922403e47d\\res\\drawable\\abc_seekbar_track_material.xml"
+    },
+    {
+        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_background_login.png.flat",
+        "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable-mdpi\\background_login.png"
+    },
+    {
+        "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable_drawable_password_icon.xml.flat",
+        "source": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\src\\main\\res\\drawable\\drawable_password_icon.xml"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\layout-land_fragment_monitor.xml.flat",
@@ -3629,11 +3789,11 @@
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable_common_google_signin_btn_icon_dark.xml.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-15.0.1.aar\\2296ddd660cf095ffee0e2f9f28898c9\\res\\drawable\\common_google_signin_btn_icon_dark.xml"
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-16.0.1.aar\\a9897198ab7392b64c40e53c9c82690a\\res\\drawable\\common_google_signin_btn_icon_dark.xml"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-watch-v20_common_google_signin_btn_text_light_normal.xml.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-auth-16.0.0.aar\\cd2ae88534dd3b17d2edb6ce242e8e0d\\res\\drawable-watch-v20\\common_google_signin_btn_text_light_normal.xml"
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-auth-16.0.1.aar\\1dbbf4629e238f94c780cc6eb3302803\\res\\drawable-watch-v20\\common_google_signin_btn_text_light_normal.xml"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi_knee_part.png.flat",
@@ -3669,7 +3829,7 @@
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_common_google_signin_btn_icon_dark_normal_background.9.png.flat",
-        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-15.0.1.aar\\2296ddd660cf095ffee0e2f9f28898c9\\res\\drawable-xxhdpi-v4\\common_google_signin_btn_icon_dark_normal_background.9.png"
+        "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-16.0.1.aar\\a9897198ab7392b64c40e53c9c82690a\\res\\drawable-xxhdpi-v4\\common_google_signin_btn_icon_dark_normal_background.9.png"
     },
     {
         "merged": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\res\\merged\\debug\\color_mtrl_tabs_ripple_color.xml.flat",

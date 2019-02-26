@@ -2,16 +2,13 @@ package com.example.sai.pheezeeapp.Activities;
 
 import android.app.ProgressDialog;
 import android.graphics.Typeface;
-import android.service.autofill.TextValueSanitizer;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.sai.pheezeeapp.Fragments.FragmentReportDay;
@@ -19,6 +16,8 @@ import com.example.sai.pheezeeapp.Fragments.ReportMonth;
 import com.example.sai.pheezeeapp.Fragments.ReportWeek;
 import com.example.sai.pheezeeapp.R;
 import com.example.sai.pheezeeapp.services.MqttHelper;
+import com.example.sai.pheezeeapp.views.custom_graph.ApiData;
+import com.example.sai.pheezeeapp.views.custom_graph.EmonjiBarGraph;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
@@ -37,6 +36,9 @@ public class SessionReportActivity extends AppCompatActivity {
     ProgressDialog progress;
 
     TextView tv_day, tv_week, tv_month, tv_overall_summary;
+
+
+
 
 
     ImageView iv_go_back;
@@ -114,6 +116,7 @@ public class SessionReportActivity extends AppCompatActivity {
         tv_week = findViewById(R.id.tv_session_report_week);
         tv_overall_summary = findViewById(R.id.tv_session_report_overall_report);
         iv_go_back = findViewById(R.id.iv_back_session_report);
+
 
 
         iv_go_back.setOnClickListener(new View.OnClickListener() {

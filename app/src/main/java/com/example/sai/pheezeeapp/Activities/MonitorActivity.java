@@ -52,6 +52,7 @@ import com.example.sai.pheezeeapp.views.ArcView;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -94,7 +95,6 @@ public class MonitorActivity extends AppCompatActivity {
     String mqtt_publish_add_patient_session_response = "phizio/addpatientsession/response";
     String mqtt_publish_add_patient_session_emg_data_response = "patient/entireEmgData/response";
 
-    ConstraintLayout cl_monitor;
     PopupWindow report;
     int visiblity=View.VISIBLE;
     long k;
@@ -171,7 +171,6 @@ public class MonitorActivity extends AppCompatActivity {
         emgSignal                   = findViewById(R.id.emg);
         handler                     = new Handler();
         emgJsonArray                = new JSONArray();
-        cl_monitor                  = findViewById(R.id.monitorLayout);
         iv_back_monitor = findViewById(R.id.iv_back_monitor);
 
 
@@ -205,8 +204,12 @@ public class MonitorActivity extends AppCompatActivity {
                 maxAngle = 0;
                 minAngle = 360;
                 maxEmgValue = 0;
+//                dataPoints.clear();
+//                lineChart.notifyDataSetChanged();
                 creatGraphView();
-                //dataPoints.clear();
+//                if(dataPoints!=null)
+//                    dataPoints.clear();
+//                lineChart.setScaleEnabled(true);
                 k = 0;
                 timer.setVisibility(View.GONE);
                 SessionTimeForGraph = 0;
@@ -217,28 +220,12 @@ public class MonitorActivity extends AppCompatActivity {
                     timer.setVisibility(View.VISIBLE);
                     Toast.makeText(MonitorActivity.this, "Make Sure Pheeze is On", Toast.LENGTH_SHORT).show();
                 } else {
-
-                    //Sending the enable to the device
-
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             sendParticularDataToPheeze(exerciseType);
                         }
                     }, 100);
-
-                    new Handler(Looper.getMainLooper()).post(new Runnable() {
-                        @Override
-                        public void run() {
-                            mBluetoothGatt.setCharacteristicNotification(mCharacteristic, true);
-                            mBluetoothGattDescriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
-                            mBluetoothGatt.writeDescriptor(mBluetoothGattDescriptor);
-                            Log.i("HEllo", "HELLO");
-                        }
-                    });
-
-
-
 
 
                     StartTime = SystemClock.uptimeMillis();
@@ -279,7 +266,7 @@ public class MonitorActivity extends AppCompatActivity {
                 timer.setText("Start");
                 recieverState = false;
                 Log.i("minAngle",""+minAngle);
-                if(maxAngle!=0&&!(maxAngle>180)&&minAngle!=180&&!(minAngle<0)) {
+//                if(maxAngle!=0&&!(maxAngle>180)&&minAngle!=180&&!(minAngle<0)) {
                     tsLong = System.currentTimeMillis();
                     String ts = tsLong.toString();
                     try {
@@ -299,9 +286,9 @@ public class MonitorActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     initiatePopupWindowModified(v);
-                }else {
-                    Toast.makeText(MonitorActivity.this,"your alignment is wrong!! try again,",Toast.LENGTH_LONG).show();
-                }
+//                }else {
+//                    Toast.makeText(MonitorActivity.this,"your alignment is wrong!! try again,",Toast.LENGTH_LONG).show();
+//                }
             }
         });
 
@@ -387,9 +374,6 @@ public class MonitorActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
-
-
         iv_back_monitor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -400,38 +384,44 @@ public class MonitorActivity extends AppCompatActivity {
 
 
 
-
-
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        ConstraintSet mConstraintSet1 = new ConstraintSet();
-        mConstraintSet1.clone(this,R.layout.fragment_monitor);
-        ConstraintLayout mConstraintLayout = rootView.findViewById(R.id.monitorLayout);
-        LinearLayout linearLayout = mConstraintLayout.findViewById(R.id.pIdAndPName);
-        ProtractorView rangeOfMotionTemp = mConstraintLayout.findViewById(R.id.rangeOfMotion);
-        TextView angleTemp = mConstraintLayout.findViewById(R.id.Angle);
+//        ConstraintSet mConstraintSet1 = new ConstraintSet();
+//        mConstraintSet1.clone(this,R.layout.fragment_monitor);
+//        ConstraintLayout mConstraintLayout = findViewById(R.id.monitorLayout);
+//        LinearLayout linearLayout = mConstraintLayout.findViewById(R.id.pIdAndPName);
+//        ProtractorView rangeOfMotionTemp = mConstraintLayout.findViewById(R.id.rangeOfMotion);
+//        TextView angleTemp = mConstraintLayout.findViewById(R.id.Angle);
+//        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+//            linearLayout.setOrientation(LinearLayout.VERTICAL);
+//            rangeOfMotionTemp.setVisibility(View.GONE);
+//            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+//            params.setMargins(0,0,0,0);
+//            angleTemp.setTextColor(Color.parseColor("#000000"));
+//            angleTemp.setLayoutParams(params);
+//        }
+//
+//        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+//            linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+//            rangeOfMotionTemp.setVisibility(View.VISIBLE);
+//            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+//            params.setMargins(0,-120,0,0);
+//            angleTemp.setTextColor(Color.parseColor("#4B7080"));
+//            angleTemp.setLayoutParams(params);
+//        }
+//
+//        mConstraintSet1.setVisibility(R.id.timer,visiblity);
+//        mConstraintSet1.setVisibility(R.id.stopBtn,ConstraintSet.VISIBLE);
+//        mConstraintSet1.applyTo(mConstraintLayout);
+
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            linearLayout.setOrientation(LinearLayout.VERTICAL);
-            rangeOfMotionTemp.setVisibility(View.GONE);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            params.setMargins(0,0,0,0);
-            angleTemp.setTextColor(Color.parseColor("#000000"));
-            angleTemp.setLayoutParams(params);
+            rangeOfMotion.setVisibility(View.INVISIBLE);
         }
 
         if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            linearLayout.setOrientation(LinearLayout.HORIZONTAL);
-            rangeOfMotionTemp.setVisibility(View.VISIBLE);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            params.setMargins(0,-120,0,0);
-            angleTemp.setTextColor(Color.parseColor("#4B7080"));
-            angleTemp.setLayoutParams(params);
+            rangeOfMotion.setVisibility(View.VISIBLE);
         }
-
-        mConstraintSet1.setVisibility(R.id.timer,visiblity);
-        mConstraintSet1.setVisibility(R.id.stopBtn,ConstraintSet.VISIBLE);
-        mConstraintSet1.applyTo(mConstraintLayout);
     }
 
     private void creatGraphView() {
@@ -446,6 +436,10 @@ public class MonitorActivity extends AppCompatActivity {
         lineChart.getXAxis();
         lineChart.setVisibleXRangeMaximum(1000);
         lineChart.getXAxis().setAxisMinimum(0f);
+        lineChart.getAxisLeft().setSpaceTop(60f);
+        lineChart.getAxisRight().setSpaceTop(60f);
+        lineChart.getAxisLeft().setStartAtZero(false);
+        lineChart.getAxisRight().setStartAtZero(false);
         lineChart.getAxisLeft().setDrawGridLines(false);
         lineChart.getXAxis().setDrawGridLines(false);
         lineChart.getXAxis().setDrawAxisLine(false);
@@ -509,6 +503,19 @@ public class MonitorActivity extends AppCompatActivity {
         @Override
         public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
             super.onCharacteristicWrite(gatt, characteristic, status);
+
+            if(characteristic.getUuid().equals(characteristic1_service1_uuid)) {
+                Log.i("characteristic", characteristic.getUuid().toString() + " Written");
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mBluetoothGatt.setCharacteristicNotification(mCharacteristic, true);
+                        mBluetoothGattDescriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+                        mBluetoothGatt.writeDescriptor(mBluetoothGattDescriptor);
+                        Log.i("HEllo", "HELLO");
+                    }
+                });
+            }
         }
 
         @Override
@@ -679,7 +686,7 @@ public class MonitorActivity extends AppCompatActivity {
                 lineChart.getAxisLeft().setValueFormatter(new IAxisValueFormatter() {
                     @Override
                     public String getFormattedValue(float value, AxisBase axis) {
-                        return (int) value + "μA";
+                        return (int) value + "μV";
                     }
                 });
                 if (UpdateTime / 1000 > 3)
@@ -800,10 +807,10 @@ public class MonitorActivity extends AppCompatActivity {
 
 
         tv_num_of_reps.setText(Repetitions.getText().toString());
-        tv_max_emg.setText(Integer.toString(maxEmgValue)+"μA");
+        tv_max_emg.setText(Integer.toString(maxEmgValue)+"μV");
 
         //Creating the arc
-        ArcView arcView = new ArcView(this);
+        ArcView arcView =layout.findViewById(R.id.session_summary_arcview);
         arcView.setMaxAngle(maxAngle);
         arcView.setMinAngle(minAngle);
         TextView tv_180 = layout.findViewById(R.id.tv_180);
@@ -812,8 +819,6 @@ public class MonitorActivity extends AppCompatActivity {
         }
 
         arcView.setRangeColor(getResources().getColor(R.color.good_green));
-        ll_min_max_arc.addView(arcView);
-
 
         //Max Emg Progress
         pb_max_emg.setMax(400);
@@ -854,7 +859,7 @@ public class MonitorActivity extends AppCompatActivity {
         popUpPatientName.setText(patientName.getText().toString());
         maxAngleView.setText(Integer.toString(maxAngle)+"°");
         minAngleView.setText(Integer.toString(minAngle)+"°");
-        maxEmgView.setText(Integer.toString(maxEmgValue)+"μA");
+        maxEmgView.setText(Integer.toString(maxEmgValue)+"μV");
         holdTimeView.setText(holdTimeValue.substring(0,2)+"m"+holdTimeValue.substring(2)+"s");
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String dateString = formatter.format(new Date(tsLong));
@@ -988,6 +993,13 @@ public class MonitorActivity extends AppCompatActivity {
         super.onDestroy();
         mqttHelper.mqttAndroidClient.unregisterResources();
         mqttHelper.mqttAndroidClient.close();
+
+        if(mBluetoothGatt!=null && mCharacteristic!=null){
+            mBluetoothGatt.setCharacteristicNotification(mCharacteristic,false);
+            mBluetoothGattDescriptor.setValue(BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
+            mBluetoothGatt.writeDescriptor(mBluetoothGattDescriptor);
+            mBluetoothGatt.writeCharacteristic(mCharacteristic);
+        }
     }
 
     public void OnClickShare(View view){
@@ -1029,10 +1041,57 @@ public class MonitorActivity extends AppCompatActivity {
     public void sendParticularDataToPheeze(String string){
 
         switch (string.toLowerCase()){
-            case "knee":{
-                byte b[] = hexStringToByteArray("AA01");
+
+            case "elbow":{
+                byte b[] = hexStringToByteArray("AA03");
                 if(send(b)){
-                    Log.i("SENDING","MESSAGE SENT");
+                    Log.i("SENDING","MESSAGE SENT AA03");
+                }
+                else {
+                    Log.i("SENDING","UNSUCCESSFULL");
+                }
+                break;
+            }
+
+            case "knee":{
+                byte b[] = hexStringToByteArray("AA04");
+                if(send(b)){
+                    Log.i("SENDING","MESSAGE SENT AA04");
+                }
+                else {
+                    Log.i("Knee", "true");
+                    Log.i("SENDING","UNSUCCESSFULL");
+                }
+                break;
+            }
+
+            case "ankle":{
+                byte b[] = hexStringToByteArray("AA05");
+                if(send(b)){
+                    Log.i("SENDING","MESSAGE SENT AA05");
+                }
+                else {
+                    Log.i("Knee", "true");
+                    Log.i("SENDING","UNSUCCESSFULL");
+                }
+                break;
+            }
+            case "hip":{
+                byte b[] = hexStringToByteArray("AA06");
+                if(send(b)){
+                    Log.i("SENDING","MESSAGE SENT AA06");
+                }
+                else {
+                    Log.i("Knee", "true");
+                    Log.i("SENDING","UNSUCCESSFULL");
+                }
+                break;
+            }
+
+            case "wrist":{
+                byte b[] = hexStringToByteArray("AA07");
+                if(send(b)){
+                    Log.i("SENDING","MESSAGE SENT AA07");
                 }
                 else {
                     Log.i("Knee", "true");
@@ -1042,35 +1101,12 @@ public class MonitorActivity extends AppCompatActivity {
             }
 
             case "sholder":{
-                byte b[] = hexStringToByteArray("AA01");
+                byte b[] = hexStringToByteArray("AA08");
                 if(send(b)){
-                    Log.i("SENDING","MESSAGE SENT");
+                    Log.i("SENDING","MESSAGE SENT AA08");
                 }
                 else {
                     Log.i("Knee", "true");
-                    Log.i("SENDING","UNSUCCESSFULL");
-                }
-                break;
-            }
-
-            case "hip":{
-                byte b[] = hexStringToByteArray("AA01");
-                if(send(b)){
-                    Log.i("SENDING","MESSAGE SENT");
-                }
-                else {
-                    Log.i("Knee", "true");
-                    Log.i("SENDING","UNSUCCESSFULL");
-                }
-                break;
-            }
-
-            case "elbow":{
-                byte b[] = hexStringToByteArray("AA01");
-                if(send(b)){
-                    Log.i("SENDING","MESSAGE SENT");
-                }
-                else {
                     Log.i("SENDING","UNSUCCESSFULL");
                 }
                 break;

@@ -18,7 +18,8 @@
     <LinearLayout
         android:id="@+id/summary_go_back"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -344,8 +345,14 @@
                         android:layout_width="match_parent"
                         android:id="@+id/ll_min_max_arc"
                         android:layout_height="110dp"
-                        android:gravity="center"
-                        android:orientation="horizontal"></LinearLayout>
+                        android:layout_gravity="center"
+                        android:orientation="horizontal">
+                        <com.example.sai.pheezeeapp.views.ArcView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/session_summary_arcview"
+                            app:arc_radius="100dp"/>
+                    </LinearLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

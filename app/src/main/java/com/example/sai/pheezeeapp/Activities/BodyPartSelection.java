@@ -124,12 +124,7 @@ public class BodyPartSelection extends AppCompatActivity {
         bodyPartRecyclerView = (RecyclerView)findViewById(R.id.bodyPartRecyclerView);
         bodyPartRecyclerView.addItemDecoration(new DividerItemDecoration(this,0));
         bodyPartRecyclerView.setHasFixedSize(true);
-//        if(getResources().getConfiguration().orientation==Configuration.ORIENTATION_LANDSCAPE){
-//            manager = new GridLayoutManager(this,4);
-//        }
-//
-//        else
-            manager = new GridLayoutManager(this,2);
+        manager = new GridLayoutManager(this,2);
         bodyPartRecyclerView.setLayoutManager(manager);
         bodyPartSelectionList = new ArrayList<>();
 

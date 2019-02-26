@@ -34,7 +34,7 @@ public class DeviceInfoActivity extends AppCompatActivity {
     BluetoothAdapter bluetoothAdapter;
     //BluetoothManager mBluetoothManager;
     BluetoothGattDescriptor mBluetoothGattDescriptor;
-    BluetoothGattCharacteristic mCharacteristic,firmware_characteristic,serial_characteristic;
+    BluetoothGattCharacteristic mCharacteristic,firmware_characteristic,serial_characteristic,devicename_characteristic;
     BluetoothGatt bluetoothGatt;
 
 
@@ -43,7 +43,7 @@ public class DeviceInfoActivity extends AppCompatActivity {
     TextView tv_device_name,tv_device_mamc, tv_firmware_version, tv_serial_id, tv_battery_level,tv_connection_status;
 
 
-    ArrayList<BluetoothGattCharacteristic> arrayList = new ArrayList<>();
+    ArrayList<BluetoothGattCharacteristic> arrayList;
 
 
     //Service uuid declearation00002A25-0000-1000-8000-00805f9b34fb
@@ -55,6 +55,7 @@ public class DeviceInfoActivity extends AppCompatActivity {
     public static final UUID battery_level_battery_service_characteristic_uuid = UUID.fromString("00002a19-0000-1000-8000-00805f9b34fb");
     public static final UUID firmware_version_characteristic_uuid = UUID.fromString("00002a26-0000-1000-8000-00805f9b34fb");
     public static final UUID serial_number_characteristic = UUID.fromString("00002a25-0000-1000-8000-00805f9b34fb");
+    public static final UUID device_name_characteristic = UUID.fromString("00002a29-0000-1000-8000-00805f9b34fb");
    // public static final UUID manufacture_number_characteristic = UUID.fromString("0x180A");
     // public static final UUID hardware_version_characteristic = UUID.fromString("0x180A");
 
@@ -75,7 +76,7 @@ public class DeviceInfoActivity extends AppCompatActivity {
 
 
         tv_connection_status.setText("N/C");
-
+        arrayList = new ArrayList<>();
 
 
 
@@ -99,7 +100,6 @@ public class DeviceInfoActivity extends AppCompatActivity {
         //Log.i("Remote Device",remoteDevice.getName());
         if(remoteDevice!=null){
             tv_device_mamc.setText(remoteDevice.getAddress());
-
             tv_device_name.setText(remoteDevice.getName());
         }
 
@@ -131,11 +131,8 @@ public class DeviceInfoActivity extends AppCompatActivity {
 
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
-
-
-
-
             if(newState == BluetoothProfile.STATE_CONNECTED){
+                arrayList = new ArrayList<>();
                 Log.i("GATT CONNECTED", "Attempting to start the service discovery");
                 Message message = new Message();
                 message.obj = "Connected";
@@ -165,28 +162,20 @@ public class DeviceInfoActivity extends AppCompatActivity {
                 Log.i("Check",firmware_characteristic.getUuid().toString());
                 serial_characteristic = gatt.getService(device_info_service1_uuid).getCharacteristic(serial_number_characteristic);
                 Log.i("Check",serial_characteristic.getUuid().toString());
+                devicename_characteristic = gatt.getService(device_info_service1_uuid).getCharacteristic(device_name_characteristic);
                 gatt.setCharacteristicNotification(mCharacteristic,true);
-                mBluetoothGattDescriptor = mCharacteristic.getDescriptor(descriptor_characteristic1_service1_uuid);
-                mBluetoothGattDescriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
-                bluetoothGatt.writeDescriptor(mBluetoothGattDescriptor);
+
 
 
                 arrayList.add(firmware_characteristic);
                 arrayList.add(serial_characteristic);
+                arrayList.add(devicename_characteristic);
                 arrayList.add(mCharacteristic);
+
 
                 Message message = new Message();
                 message.obj = "setvalues";
                 bleStatusHandler.sendMessage(message);
-
-
-
-                /*new Handler(Looper.getMainLooper()).post(new Runnable() {
-                    @Override
-                    public void run() {
-                        bluetoothGatt.readCharacteristic(serial_characteristic);
-                    }
-                });*/
 
 
 
@@ -227,12 +216,25 @@ public class DeviceInfoActivity extends AppCompatActivity {
                     }
                 });
             }
+            else if(characteristic.getUuid().equals(device_name_characteristic)){
+                final String finalStr = str;
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        tv_device_name.setText(finalStr);
+                        // Stuff that updates the UI
+                    }
+                });
+            }
             else if(characteristic.getUuid().equals(battery_level_battery_service_characteristic_uuid)){
                 final int battery  = b[0];
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         tv_battery_level.setText(battery+"%");
+                        mBluetoothGattDescriptor = mCharacteristic.getDescriptor(descriptor_characteristic1_service1_uuid);
+                        mBluetoothGattDescriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+                        bluetoothGatt.writeDescriptor(mBluetoothGattDescriptor);
                     }
                 });
             }
@@ -303,8 +305,12 @@ public class DeviceInfoActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        bluetoothGatt.setCharacteristicNotification(mCharacteristic,false);
-        mBluetoothGattDescriptor.setValue(BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
-        bluetoothGatt.writeDescriptor(mBluetoothGattDescriptor);
+        Log.i("blutooth gatt",bluetoothGatt.toString());
+        String conn_status = tv_connection_status.getText().toString();
+        if(bluetoothGatt!=null && conn_status.equals("Connected")) {
+            bluetoothGatt.setCharacteristicNotification(mCharacteristic, false);
+            mBluetoothGattDescriptor.setValue(BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
+            bluetoothGatt.writeDescriptor(mBluetoothGattDescriptor);
+        }
     }
 }

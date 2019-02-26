@@ -7,6 +7,7 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
+import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothProfile;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -43,11 +44,12 @@ import java.util.UUID;
 public class RawDataCollection extends AppCompatActivity {
 
     private static final int REQUEST_ENABLE_BT = 1;
+    private static final String TAG = "Characteristing send";
 
     public final int both_mpu_xyz_size = 12;
     public final int mpu_packet_sub_size = 24;
-    public final int emg_data_size = 10;
-    public final int emg_num_packets = 20;
+    public final int emg_data_size = 20;
+    public final int emg_num_packets = 40;
     BluetoothGatt bluetoothGatt;
     int REQUEST_STORAGE = 1;
     BluetoothDevice remoteDevice;
@@ -68,10 +70,8 @@ public class RawDataCollection extends AppCompatActivity {
     CountDownTimer mCountdownTimer;
 
     Button btn_startrawdatacollection;
-    EditText et_timer_raw;
+    EditText et_timer_raw,et_type_of_packet;
     TextView tv_rawdata_timer;
-
-
 
     public static final UUID service1_uuid = UUID.fromString("909a0309-9693-4920-96e6-893c0157fedd");
     public static final UUID characteristic1_service1_uuid = UUID.fromString("909a7777-9693-4920-96e6-893c0157fedd");
@@ -90,6 +90,7 @@ public class RawDataCollection extends AppCompatActivity {
         btn_startrawdatacollection = (Button)findViewById(R.id.btn_startrawdatacollection);
         et_timer_raw = (EditText)findViewById(R.id.et_timer_raw);
         tv_rawdata_timer = (TextView)findViewById(R.id.tv_rawdata_timer);
+        et_type_of_packet = findViewById(R.id.et_type_of_packet);
         checkExternalStoragePermissions();
 
 
@@ -98,7 +99,7 @@ public class RawDataCollection extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (!et_timer_raw.getText().toString().equals("")) {
+                if (!et_timer_raw.getText().toString().equals("") && !et_type_of_packet.getText().toString().equals("")) {
                     if (btn_startrawdatacollection.getText().equals("START")) {
                         int x = Integer.parseInt(et_timer_raw.getText().toString());
                         tv_rawdata_timer.setText("" + x);
@@ -123,48 +124,77 @@ public class RawDataCollection extends AppCompatActivity {
                         rawdata_timestamp = Calendar.getInstance().getTime();
                         String s = rawdata_timestamp.toString().substring(0, 19);
                         if(hasStoragePermissionGranted()) {
-                            file_dir_mpu = new File(Environment.getExternalStorageDirectory()+"/Pheeze/files","MpuData");
-                            file_dir_emgdata = new File(Environment.getExternalStorageDirectory()+"/Pheeze/files","EmgData");
-                            if (!file_dir_emgdata.exists() && !file_dir_mpu.exists()) {
-                                file_dir_emgdata.mkdirs();
-                                file_dir_mpu.mkdirs();
+                            if(et_type_of_packet.getText().toString().equals("0")){
+                                file_dir_emgdata = new File(Environment.getExternalStorageDirectory()+"/Pheeze/files","EmgData");
+                                if (!file_dir_emgdata.exists()) {
+                                    file_dir_emgdata.mkdirs();
+                                }
+                                file_emgdata = new File(file_dir_emgdata, ""+s+".txt");
+                                try {
+                                    file_emgdata.createNewFile();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+
+                                try {
+                                    outputStream_emgdata = new FileOutputStream(file_emgdata, true);
+                                    outputStream_emgdata.write("EMG".getBytes());
+                                    outputStream_emgdata.write("\n".getBytes());
+                                } catch (FileNotFoundException e) {
+                                    e.printStackTrace();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            else if(et_type_of_packet.getText().toString().equals("1")){
+                                file_dir_mpu = new File(Environment.getExternalStorageDirectory()+"/Pheeze/files","MpuData");
+                                if (!file_dir_mpu.exists()) {
+                                    file_dir_mpu.mkdirs();
+                                }
+                                file_mpu = new File(file_dir_mpu,""+s+".txt");
+                                try {
+                                    file_mpu.createNewFile();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                try {
+                                    outputStream_mpu = new FileOutputStream(file_mpu, true);
+                                } catch (FileNotFoundException e) {
+                                    e.printStackTrace();
+                                }
                             }
 
-                            file_mpu = new File(file_dir_mpu,""+s+".txt");
-                            file_emgdata = new File(file_dir_emgdata, ""+s+".txt");
-                            try {
-                                file_mpu.createNewFile();
-                                file_emgdata.createNewFile();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
 
 
 
-                            try {
-                                outputStream_mpu = new FileOutputStream(file_mpu, true);
-                                outputStream_emgdata = new FileOutputStream(file_emgdata, true);
-                                outputStream_emgdata.write("EMG".getBytes());
-                                outputStream_emgdata.write("\n".getBytes());
-                            } catch (FileNotFoundException e) {
-                                e.printStackTrace();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
+
+
+
+
+
 
 
                             if (characteristic1_service1_uuid.equals(mCharacteristic.getUuid()))
                                 bluetoothGatt.setCharacteristicNotification(mCharacteristic, true);
                             if (descriptor_characteristic1_service1_uuid.equals(mBluetoothGattDescriptor.getUuid())) {
 
+                                if(et_type_of_packet.getText().toString().equals("0")){
+                                    byte b[] = hexStringToByteArray("BB01");
+                                    send(b);
+                                }
+                                else if(et_type_of_packet.getText().toString().equals("1")) {
+                                    byte b[] = hexStringToByteArray("BB02");
+                                    send(b);
+                                }
 
-                                new Handler(Looper.getMainLooper()).post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        mBluetoothGattDescriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
-                                        bluetoothGatt.writeDescriptor(mBluetoothGattDescriptor);
-                                    }
-                                });
+
+//                                new Handler(Looper.getMainLooper()).post(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        mBluetoothGattDescriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+//                                        bluetoothGatt.writeDescriptor(mBluetoothGattDescriptor);
+//                                    }
+//                                });
 
                             }
 
@@ -204,28 +234,33 @@ public class RawDataCollection extends AppCompatActivity {
 
                                     }
                                     Log.i("NO OF PCKETS", "" + i);
-                                    MediaScannerConnection.scanFile(
-                                            getApplicationContext(),
-                                            new String[]{file_emgdata.getAbsolutePath()},
-                                            null,
-                                            new MediaScannerConnection.OnScanCompletedListener() {
-                                                @Override
-                                                public void onScanCompleted(String path, Uri uri) {
-                                                    Log.v("grokkingandroid",
-                                                            "file " + path + " was scanned seccessfully: " + uri);
-                                                }
-                                            });
-                                    MediaScannerConnection.scanFile(
-                                            getApplicationContext(),
-                                            new String[]{file_mpu.getAbsolutePath()},
-                                            null,
-                                            new MediaScannerConnection.OnScanCompletedListener() {
-                                                @Override
-                                                public void onScanCompleted(String path, Uri uri) {
-                                                    Log.v("grokkingandroid",
-                                                            "file " + path + " was scanned seccessfully: " + uri);
-                                                }
-                                            });
+
+                                    if(et_type_of_packet.getText().toString().equals("0")) {
+                                        MediaScannerConnection.scanFile(
+                                                getApplicationContext(),
+                                                new String[]{file_emgdata.getAbsolutePath()},
+                                                null,
+                                                new MediaScannerConnection.OnScanCompletedListener() {
+                                                    @Override
+                                                    public void onScanCompleted(String path, Uri uri) {
+                                                        Log.v("grokkingandroid",
+                                                                "file " + path + " was scanned seccessfully: " + uri);
+                                                    }
+                                                });
+                                    }
+                                    if(et_type_of_packet.getText().toString().equals("1")) {
+                                        MediaScannerConnection.scanFile(
+                                                getApplicationContext(),
+                                                new String[]{file_mpu.getAbsolutePath()},
+                                                null,
+                                                new MediaScannerConnection.OnScanCompletedListener() {
+                                                    @Override
+                                                    public void onScanCompleted(String path, Uri uri) {
+                                                        Log.v("grokkingandroid",
+                                                                "file " + path + " was scanned seccessfully: " + uri);
+                                                    }
+                                                });
+                                    }
 
 
                                     Log.i("num of packets",""+i);
@@ -353,26 +388,30 @@ public class RawDataCollection extends AppCompatActivity {
             }
         }
 
+        @Override
+        public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+            super.onCharacteristicWrite(gatt, characteristic, status);
+            if(characteristic1_service1_uuid.equals(characteristic.getUuid())) {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        mBluetoothGattDescriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+                                        bluetoothGatt.writeDescriptor(mBluetoothGattDescriptor);
+                                    }
+                                });
+            }
+        }
+
         @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         public void onCharacteristicChanged(final BluetoothGatt gatt, final BluetoothGattCharacteristic characteristic) {
             if(characteristic1_service1_uuid.equals(characteristic.getUuid())) {
-                try {
-                    outputStream_mpu = new FileOutputStream(file_mpu, true);
-                    outputStream_emgdata = new FileOutputStream(file_emgdata, true);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-
-
                 int ra[] = new int[both_mpu_xyz_size];
                 int temp = 20;
 
                 int[] emg_data = new int[emg_data_size];
                 byte[] b = characteristic.getValue();
-                int x  = getIntValue(b[22],b[23]);
-                Log.i("Packet Accel VAl", ""+x);
-                byte sub_byte[] = new byte[b.length-2];
+                byte sub_byte[] = new byte[b.length - 2];
                 int j = 2;
                 for (int i = 0; i < sub_byte.length; i++, j++) {
                     sub_byte[i] = b[j];
@@ -380,84 +419,103 @@ public class RawDataCollection extends AppCompatActivity {
                 byte header_main = b[0];
                 byte header_sub = b[1];
 
-
+                Log.i("header_sub",byteToStringHexadecimal(header_sub));
 
                 if (byteToStringHexadecimal(header_main).equals("BB")) {
-                    if (byteToStringHexadecimal(header_sub).equals("00")) {
-                        i++;
-                        byte temp_array[] = new byte[emg_num_packets];
-                        for (int i=0;i<emg_num_packets;i++){
-                            temp_array[i] = sub_byte[i];
+                    if (byteToStringHexadecimal(header_sub).equals("02")) {
+                        try {
+                            outputStream_mpu = new FileOutputStream(file_mpu, true);
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
                         }
-                        emg_data = constructEmgData(temp_array);
 
 
+                        for (int i = 0; i < ra.length; i++, temp++) {
+                            ra[i] = getIntValue(sub_byte[temp], sub_byte[temp + 1]);
+                            temp++;
+                        }
 
-                       for (int i=0;i<ra.length;i++,temp++){
-                           ra[i] = getIntValue(sub_byte[temp], sub_byte[temp+1]);
-                           temp++;
-                       }
 
-
-                        String accelero = ""+ra[0] + "," + ra[1] + "," + ra[2];
-                        String gyro = ""+ra[3] + "," + ra[4] + "," + ra[5];
+                        String accelero = "" + ra[0] + "," + ra[1] + "," + ra[2];
+                        String gyro = "" + ra[3] + "," + ra[4] + "," + ra[5];
 
                         String accelero2 = ra[6] + "," + ra[7] + "," + ra[8];
                         String gyro2 = ra[9] + "," + ra[10] + "," + ra[11];
 
                         try {
 
-                                outputStream_mpu.write("A1(X Y Z)".getBytes());
-                                outputStream_mpu.write(",".getBytes());
-                                outputStream_mpu.write(accelero.getBytes());
-                                outputStream_mpu.write(",,".getBytes());
-                                outputStream_mpu.write("G1(X Y Z)".getBytes());
-                                outputStream_mpu.write(",".getBytes());
-                                outputStream_mpu.write(gyro.getBytes());
-                                outputStream_mpu.write(",,".getBytes());
-                                outputStream_mpu.write("A2(X Y Z)".getBytes());
-                                outputStream_mpu.write(",".getBytes());
-                                outputStream_mpu.write(accelero2.getBytes());
-                                outputStream_mpu.write(",,".getBytes());
-                                outputStream_mpu.write("G2(X Y Z)".getBytes());
-                                outputStream_mpu.write(",".getBytes());
-                                outputStream_mpu.write(gyro2.getBytes());
-                                //outputStream.write(newstring.getBytes());
-                                outputStream_mpu.write("\n".getBytes());
+                            outputStream_mpu.write("A1(X Y Z)".getBytes());
+                            outputStream_mpu.write(",".getBytes());
+                            outputStream_mpu.write(accelero.getBytes());
+                            outputStream_mpu.write(",,".getBytes());
+                            outputStream_mpu.write("G1(X Y Z)".getBytes());
+                            outputStream_mpu.write(",".getBytes());
+                            outputStream_mpu.write(gyro.getBytes());
+                            outputStream_mpu.write(",,".getBytes());
+                            outputStream_mpu.write("A2(X Y Z)".getBytes());
+                            outputStream_mpu.write(",".getBytes());
+                            outputStream_mpu.write(accelero2.getBytes());
+                            outputStream_mpu.write(",,".getBytes());
+                            outputStream_mpu.write("G2(X Y Z)".getBytes());
+                            outputStream_mpu.write(",".getBytes());
+                            outputStream_mpu.write(gyro2.getBytes());
+                            //outputStream.write(newstring.getBytes());
+                            outputStream_mpu.write("\n".getBytes());
 
-                                Log.i("ACCELERO ",accelero);
+                            Log.i("ACCELERO ", accelero);
 
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            outputStream_mpu.flush();
+                            outputStream_mpu.close();
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
 
                     }
+                }
+
+                if (byteToStringHexadecimal(header_main).equals("BB")) {
+                    if (byteToStringHexadecimal(header_sub).equals("01")) {
+                        try {
+                            outputStream_emgdata = new FileOutputStream(file_emgdata, true);
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                        i++;
+                        byte temp_array[] = new byte[emg_num_packets];
+                        for (int i = 0; i < emg_num_packets; i++) {
+                            temp_array[i] = sub_byte[i];
+                        }
+                        emg_data = constructEmgData(temp_array);
+
                         String str[] = new String[emg_data_size];
-                        for (int i=0;i<emg_data.length;i++){
-                            str[i] = ""+emg_data[i];
+                        for (int i = 0; i < emg_data.length; i++) {
+                            str[i] = "" + emg_data[i];
                         }
 
                         try {
-                            for (int i=0;i<str.length;i++){
+                            for (int i = 0; i < str.length; i++) {
                                 outputStream_emgdata.write(str[i].getBytes());
-                                    outputStream_emgdata.write("\n".getBytes());
+                                outputStream_emgdata.write("\n".getBytes());
                             }
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                    try {
-                        outputStream_mpu.flush();
-                        outputStream_mpu.close();
-                        outputStream_emgdata.flush();
-                        outputStream_emgdata.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                        try {
+                            outputStream_emgdata.flush();
+                            outputStream_emgdata.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
 
 
                     }
                 }
             }
+        }
 
 
         @Override
@@ -510,9 +568,6 @@ public class RawDataCollection extends AppCompatActivity {
     private void checkExternalStoragePermissions() {
         if (hasStoragePermissionGranted()) {
             //You can do what whatever you want to do as permission is granted
-
-
-
         } else {
             requestExternalStoragePermission();
         }
@@ -527,6 +582,45 @@ public class RawDataCollection extends AppCompatActivity {
             ActivityCompat.requestPermissions(RawDataCollection.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     REQUEST_STORAGE);
         }
+    }
+
+    public boolean send(byte[] data) {
+
+        if (bluetoothGatt == null ) {
+            Log.w(TAG, "BluetoothGatt not initialized");
+            return false;
+        }
+        if (mCharacteristic == null) {
+            Log.w(TAG, "Send characteristic not found");
+            return false;
+        }
+
+        BluetoothGattService service = bluetoothGatt.getService(service1_uuid);
+
+        if(service==null){
+            if (mCharacteristic == null) {
+                Log.w(TAG, "Send service not found");
+                return false;
+            }
+        }
+        if(characteristic1_service1_uuid.equals(mCharacteristic.getUuid())){
+            Log.i("TRUE", "TRUE");
+        }
+
+
+        mCharacteristic.setValue(data);
+
+        return bluetoothGatt.writeCharacteristic(mCharacteristic);
+    }
+
+    public static byte[] hexStringToByteArray(String s) {
+        int len = s.length();
+        byte[] data = new byte[len / 2];
+        for (int i = 0; i < len; i += 2) {
+            data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
+                    + Character.digit(s.charAt(i+1), 16));
+        }
+        return data;
     }
 
 }

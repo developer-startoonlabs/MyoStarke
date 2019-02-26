@@ -24,6 +24,8 @@ import com.example.sai.pheezeeapp.Activities.PatientsView;
 import com.example.sai.pheezeeapp.Activities.SessionReportActivity;
 import com.example.sai.pheezeeapp.R;
 import com.example.sai.pheezeeapp.utils.TimeOperations;
+import com.example.sai.pheezeeapp.views.custom_graph.ApiData;
+import com.example.sai.pheezeeapp.views.custom_graph.EmonjiBarGraph;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
@@ -59,6 +61,10 @@ public class ReportWeek extends Fragment {
     Set set;
     Cartesian cartesian;
 
+    //custom chart
+    private String[] days = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
+    EmonjiBarGraph rom;
+
 
     //Bar chart
     BarChart barChart;
@@ -90,6 +96,10 @@ public class ReportWeek extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_report_week, container, false);
 
+
+        //custom bar gaph android
+        rom = view.findViewById(R.id.graphView);
+        rom.setBarNames(days);
 
         anyChartView_rom = view.findViewById(R.id.rom_chartView);
         barChart = view.findViewById(R.id.emg_barchart_report);
@@ -472,23 +482,36 @@ public class ReportWeek extends Fragment {
     private void updateRomGraph(JSONArray array) {
         List<DataEntry> data = new ArrayList<>();
         Log.i("Length",array.length()+"");
-        if(array.length()==0){
-            data.add(new CustomDataEntry(0,0,0));
-        }
-        else {
-            for (int i = 0; i < array.length(); i++) {
+//        if(array.length()==0){
+//            data.add(new CustomDataEntry(0,0,0));
+//        }
+//        else {
+//            for (int i = 0; i < array.length(); i++) {
+//                try {
+//                    int x = i + 1;
+//                    JSONObject object = array.getJSONObject(i);
+//                    int maxAngle = Integer.parseInt(object.getString("maxangle"));
+//                    int minAngle = Integer.parseInt(object.getString("minangle"));
+//                    data.add(new CustomDataEntry(x, maxAngle, minAngle));
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//        set.data(data);
+        ApiData[] data1 = new ApiData[array.length()];
+        for (int i = 0; i < array.length(); i++) {
                 try {
                     int x = i + 1;
                     JSONObject object = array.getJSONObject(i);
                     int maxAngle = Integer.parseInt(object.getString("maxangle"));
                     int minAngle = Integer.parseInt(object.getString("minangle"));
-                    data.add(new CustomDataEntry(x, maxAngle, minAngle));
+                    data1[i] = new ApiData(i,minAngle,maxAngle);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            }
         }
-        set.data(data);
+        rom.setBarData(data1);  
     }
 
     private void updateEmgGraph(JSONArray array) {

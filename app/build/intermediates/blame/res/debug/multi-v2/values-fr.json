@@ -55,24 +55,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-basement-15.0.1.aar\\d78b42a66333ef0cac3ae66aa26ee8a0\\res\\values-fr\\values.xml",
-                    "from": {
-                        "startLines": "4",
-                        "startColumns": "0",
-                        "startOffsets": "247",
-                        "endColumns": "223",
-                        "endOffsets": "470"
-                    },
-                    "to": {
-                        "startLines": "60",
-                        "startColumns": "4",
-                        "startOffsets": "6721",
-                        "endColumns": "223",
-                        "endOffsets": "6940"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-15.0.1.aar\\2296ddd660cf095ffee0e2f9f28898c9\\res\\values-fr\\values.xml",
+                    "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-16.0.1.aar\\a9897198ab7392b64c40e53c9c82690a\\res\\values-fr\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -86,6 +69,23 @@
                         "startOffsets": "5500,5608,5820,5952,6063,6293,6428,6579,6945,7182,7296,7512,7650,7869,8078,8181,8278",
                         "endColumns": "107,211,131,110,229,134,150,141,236,113,215,137,218,208,102,96,112",
                         "endOffsets": "5603,5815,5947,6058,6288,6423,6574,6716,7177,7291,7507,7645,7864,8073,8176,8273,8386"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-basement-16.1.0.aar\\bcc19ca225f72f4d8cc5a65a5fc87ea6\\res\\values-fr\\values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "247",
+                        "endColumns": "223",
+                        "endOffsets": "470"
+                    },
+                    "to": {
+                        "startLines": "60",
+                        "startColumns": "4",
+                        "startOffsets": "6721",
+                        "endColumns": "223",
+                        "endOffsets": "6940"
                     }
                 }
             ]

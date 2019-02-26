@@ -10,4 +10,10 @@
     <dimen name="alert_dialog_padding">24dp</dimen>
     <dimen name="alert_dialog_padding_top">18dp</dimen>
     <dimen name="alert_dialog_padding_bottom">0dp</dimen>
+
+
+    <dimen name="edittext_mail_left_width">30dp</dimen>
+    <dimen name="edittext_mail_left_height">18dp</dimen>
+    <dimen name="edittext_pass_left_width">30dp</dimen>
+    <dimen name="edittext_pass_left_height">22dp</dimen>
 </resources>
