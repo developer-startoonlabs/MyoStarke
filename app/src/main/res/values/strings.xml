@@ -96,4 +96,7 @@
     <string name="cd_google_icon">Google Log in</string>
 
     <string name="raw_packet_hint">0:-EMG, 1:-LSM</string>
+
+    <string name="forgot_password">Forgot password?</string>
+    <string name="welcome">Welcome</string>
 </resources>

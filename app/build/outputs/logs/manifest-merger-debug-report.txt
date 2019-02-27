@@ -26,7 +26,7 @@ MERGED from [com.facebook.android:facebook-common:4.35.0] C:\Users\sivam\.gradle
 MERGED from [com.android.support:customtabs:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\customtabs-28.0.0-rc01.aar\8f4096cd500cbbdc7dd633e7d156daa7\AndroidManifest.xml:17:1-22:12
 MERGED from [com.github.GoodieBag:ProtractorView:v1.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\ProtractorView-v1.2.aar\732d3a94fee7137c524b5c969ea9ca64\AndroidManifest.xml:2:1-17:12
 MERGED from [com.github.AnyChart:AnyChart-Android:1.1.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\AnyChart-Android-1.1.2.aar\ae04af3ae14329739e04ec199c0aa023\AndroidManifest.xml:2:1-17:12
-MERGED from [com.github.silvestrpredko:dot-progress-bar:1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\dot-progress-bar-1.1.aar\d9adf3ada549f6998cf65a99e9b0e039\AndroidManifest.xml:2:1-16:12
+MERGED from [com.github.igortrncic.dotted-progress-bar:library:1.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\library-1.0.0.aar\d3be2695a69f403e5386e96acc3861fc\AndroidManifest.xml:2:1-16:12
 MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\appcompat-v7-28.0.0.aar\8c34ab288258c11de6cfd1922403e47d\AndroidManifest.xml:17:1-22:12
 MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-28.0.0.aar\bd92396687066a43d2e4a3325327acb2\AndroidManifest.xml:17:1-22:12
 MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\graphview-4.2.2.aar\1753c93f015972872311c8c68afd320d\AndroidManifest.xml:2:1-14:12
@@ -170,8 +170,8 @@ MERGED from [com.github.GoodieBag:ProtractorView:v1.2] C:\Users\sivam\.gradle\ca
 MERGED from [com.github.GoodieBag:ProtractorView:v1.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\ProtractorView-v1.2.aar\732d3a94fee7137c524b5c969ea9ca64\AndroidManifest.xml:11:5-15:19
 MERGED from [com.github.AnyChart:AnyChart-Android:1.1.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\AnyChart-Android-1.1.2.aar\ae04af3ae14329739e04ec199c0aa023\AndroidManifest.xml:11:5-15:19
 MERGED from [com.github.AnyChart:AnyChart-Android:1.1.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\AnyChart-Android-1.1.2.aar\ae04af3ae14329739e04ec199c0aa023\AndroidManifest.xml:11:5-15:19
-MERGED from [com.github.silvestrpredko:dot-progress-bar:1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\dot-progress-bar-1.1.aar\d9adf3ada549f6998cf65a99e9b0e039\AndroidManifest.xml:11:5-14:19
-MERGED from [com.github.silvestrpredko:dot-progress-bar:1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\dot-progress-bar-1.1.aar\d9adf3ada549f6998cf65a99e9b0e039\AndroidManifest.xml:11:5-14:19
+MERGED from [com.github.igortrncic.dotted-progress-bar:library:1.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\library-1.0.0.aar\d3be2695a69f403e5386e96acc3861fc\AndroidManifest.xml:11:5-14:19
+MERGED from [com.github.igortrncic.dotted-progress-bar:library:1.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\library-1.0.0.aar\d3be2695a69f403e5386e96acc3861fc\AndroidManifest.xml:11:5-14:19
 MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\graphview-4.2.2.aar\1753c93f015972872311c8c68afd320d\AndroidManifest.xml:11:5-12:19
 MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\graphview-4.2.2.aar\1753c93f015972872311c8c68afd320d\AndroidManifest.xml:11:5-12:19
 MERGED from [com.google.android.gms:play-services-vision:17.0.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-vision-17.0.2.aar\5299fd5507407a31b7eb93a40e594251\AndroidManifest.xml:7:5-20
@@ -480,8 +480,8 @@ MERGED from [com.github.GoodieBag:ProtractorView:v1.2] C:\Users\sivam\.gradle\ca
 MERGED from [com.github.GoodieBag:ProtractorView:v1.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\ProtractorView-v1.2.aar\732d3a94fee7137c524b5c969ea9ca64\AndroidManifest.xml:7:5-9:41
 MERGED from [com.github.AnyChart:AnyChart-Android:1.1.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\AnyChart-Android-1.1.2.aar\ae04af3ae14329739e04ec199c0aa023\AndroidManifest.xml:7:5-9:41
 MERGED from [com.github.AnyChart:AnyChart-Android:1.1.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\AnyChart-Android-1.1.2.aar\ae04af3ae14329739e04ec199c0aa023\AndroidManifest.xml:7:5-9:41
-MERGED from [com.github.silvestrpredko:dot-progress-bar:1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\dot-progress-bar-1.1.aar\d9adf3ada549f6998cf65a99e9b0e039\AndroidManifest.xml:7:5-9:41
-MERGED from [com.github.silvestrpredko:dot-progress-bar:1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\dot-progress-bar-1.1.aar\d9adf3ada549f6998cf65a99e9b0e039\AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.igortrncic.dotted-progress-bar:library:1.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\library-1.0.0.aar\d3be2695a69f403e5386e96acc3861fc\AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.igortrncic.dotted-progress-bar:library:1.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\library-1.0.0.aar\d3be2695a69f403e5386e96acc3861fc\AndroidManifest.xml:7:5-9:41
 MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\appcompat-v7-28.0.0.aar\8c34ab288258c11de6cfd1922403e47d\AndroidManifest.xml:20:5-44
 MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\appcompat-v7-28.0.0.aar\8c34ab288258c11de6cfd1922403e47d\AndroidManifest.xml:20:5-44
 MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-28.0.0.aar\bd92396687066a43d2e4a3325327acb2\AndroidManifest.xml:20:5-44
