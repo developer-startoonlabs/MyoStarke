@@ -5,6 +5,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:theme="@style/NavigationView"
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
@@ -21,21 +22,30 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_patients_view"
         app:menu="@menu/activity_patients_view_drawer">
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="bottom"-->
+            <!--android:gravity="end">-->
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textSize="10dp"-->
+
+                <!--android:paddingRight="7dp"-->
+                <!--android:paddingBottom="15dp"-->
+                <!--android:fontFamily="@font/ebrima"-->
+                <!--android:textAppearance="@style/TextAppearance.AppCompat.Body1"-->
+                <!--android:text="Application Version:  1.0"/>-->
+        <!--</LinearLayout>-->
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingRight="7dp"
-            android:paddingBottom="15dp"
+            android:layout_height="200dp"
             android:layout_gravity="bottom"
-            android:gravity="end">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="10dp"
-                android:fontFamily="@font/ebrima"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:text="Application Version:  1.0"/>
-        </LinearLayout>
+            android:background="@drawable/phizio_patient_relation"
+            android:gravity="end"/>
+
 
     </android.support.design.widget.NavigationView>
 

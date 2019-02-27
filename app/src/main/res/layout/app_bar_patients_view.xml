@@ -36,14 +36,18 @@
                     android:layout_marginLeft="5dp"
                     android:id="@+id/down_sider_navigation"
                     android:onClick="drawSideBar"
-                    android:src="@drawable/image_icon"
+                    android:src="@drawable/burger_menu_green"
                     android:contentDescription="TODO" />
 
-                <ImageView
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/pheezee_logo_topbar"
-                    android:contentDescription="TODO" />
+                    android:text="@string/home_home"
+                    android:layout_marginTop="20dp"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:layout_marginLeft="25dp"
+                    android:textColor="@color/good_green"/>
             </LinearLayout>
 
             <LinearLayout

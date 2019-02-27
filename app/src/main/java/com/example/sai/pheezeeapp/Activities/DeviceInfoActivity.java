@@ -45,7 +45,6 @@ public class DeviceInfoActivity extends AppCompatActivity {
 
     ArrayList<BluetoothGattCharacteristic> arrayList;
 
-
     //Service uuid declearation00002A25-0000-1000-8000-00805f9b34fb
     public static final UUID battery_service1_uuid = UUID.fromString("0000180f-0000-1000-8000-00805f9b34fb");
     public static final UUID device_info_service1_uuid = UUID.fromString("0000180a-0000-1000-8000-00805f9b34fb");
@@ -305,7 +304,6 @@ public class DeviceInfoActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.i("blutooth gatt",bluetoothGatt.toString());
         String conn_status = tv_connection_status.getText().toString();
         if(bluetoothGatt!=null && conn_status.equals("Connected")) {
             bluetoothGatt.setCharacteristicNotification(mCharacteristic, false);

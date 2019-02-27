@@ -76,23 +76,23 @@ public final class R {
         public static final int barrier = 0x7f0a002d;
         public static final int bottom = 0x7f0a0033;
         public static final int chains = 0x7f0a004e;
-        public static final int dimensions = 0x7f0a0075;
-        public static final int direct = 0x7f0a0076;
-        public static final int end = 0x7f0a0087;
-        public static final int gone = 0x7f0a00a5;
-        public static final int invisible = 0x7f0a00c4;
-        public static final int left = 0x7f0a00e2;
+        public static final int dimensions = 0x7f0a0074;
+        public static final int direct = 0x7f0a0075;
+        public static final int end = 0x7f0a0086;
+        public static final int gone = 0x7f0a00a4;
+        public static final int invisible = 0x7f0a00c3;
+        public static final int left = 0x7f0a00e1;
         public static final int none = 0x7f0a0132;
-        public static final int packed = 0x7f0a013d;
-        public static final int parent = 0x7f0a0140;
-        public static final int percent = 0x7f0a014f;
-        public static final int right = 0x7f0a0176;
-        public static final int spread = 0x7f0a01ac;
-        public static final int spread_inside = 0x7f0a01ad;
-        public static final int standard = 0x7f0a01b2;
-        public static final int start = 0x7f0a01b3;
-        public static final int top = 0x7f0a01e0;
-        public static final int wrap = 0x7f0a0251;
+        public static final int packed = 0x7f0a013c;
+        public static final int parent = 0x7f0a013f;
+        public static final int percent = 0x7f0a014e;
+        public static final int right = 0x7f0a0174;
+        public static final int spread = 0x7f0a01aa;
+        public static final int spread_inside = 0x7f0a01ab;
+        public static final int standard = 0x7f0a01b0;
+        public static final int start = 0x7f0a01b1;
+        public static final int top = 0x7f0a01de;
+        public static final int wrap = 0x7f0a024f;
     }
     public static final class styleable {
         private styleable() {}

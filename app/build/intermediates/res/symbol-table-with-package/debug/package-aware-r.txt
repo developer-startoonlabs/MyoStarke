@@ -1260,6 +1260,7 @@ drawable background_login
 drawable background_session_report_dwm
 drawable battery
 drawable bluetooth
+drawable burger_menu_green
 drawable calibration_logo
 drawable circular
 drawable circular_textview
@@ -1319,6 +1320,8 @@ drawable design_snackbar_background
 drawable doctor_stethoscope
 drawable drawable_background_yellow
 drawable drawable_mailid_icon
+drawable drawable_nav_header_left
+drawable drawable_nav_header_right
 drawable drawable_password_icon
 drawable drawable_pheezee_shape
 drawable drawable_welcome_background
@@ -1421,6 +1424,7 @@ drawable patient_item_layout
 drawable patient_view_demo
 drawable pheezee_logo
 drawable pheezee_logo_topbar
+drawable phizio_patient_relation
 drawable popup_window
 drawable preview_cross
 drawable progress
@@ -1567,7 +1571,6 @@ id customPanel
 id dark
 id decor_content_parent
 id default_activity_button
-id demo_app
 id design_bottom_sheet
 id design_menu_item_action_area
 id design_menu_item_action_area_stub
@@ -1710,7 +1713,6 @@ id ll_delete_patient
 id ll_dialog_title
 id ll_edit_patient_details
 id ll_emg
-id ll_help
 id ll_login_btn
 id ll_min_max_arc
 id ll_mmt
@@ -1718,7 +1720,6 @@ id ll_overall_summary
 id ll_patient_section
 id ll_recent_section
 id ll_report
-id ll_set_goal
 id ll_signup
 id ll_time
 id ll_tv_minus
@@ -1756,8 +1757,11 @@ id multiply
 id my_toolbar
 id my_toolbar_bodypart
 id my_toolbar_session_report
+id nav_add_device
+id nav_add_patient
+id nav_app_version
+id nav_home
 id nav_logout
-id nav_share
 id nav_view
 id navigation_header_container
 id never
@@ -1770,7 +1774,6 @@ id notification_main_column
 id notification_main_column_container
 id one
 id open_graph
-id ota_device
 id outline
 id oval
 id pIdAndPName
@@ -1814,7 +1817,6 @@ id qrcode_scan
 id radio
 id rangeOfMotion
 id rangeOfMotionData
-id rawdatacollection
 id rectangle
 id reportEmgGraph
 id reportIcon
@@ -2405,6 +2407,7 @@ string have_account
 string hello_blank_fragment
 string hide_bottom_view_on_scroll_behavior
 string hold_time
+string home_home
 string idle_time
 string left_day
 string left_joint
@@ -2414,9 +2417,15 @@ string login
 string low_storage_error
 string monitor
 string mtrl_chip_close_icon_content_description
+string nav_add_device
+string nav_add_patient
+string nav_app_version
+string nav_device_info
 string nav_header_desc
 string nav_header_subtitle
 string nav_header_title
+string nav_home
+string nav_logout
 string navigation_drawer_close
 string navigation_drawer_open
 string new_user
@@ -2667,6 +2676,7 @@ style DialogAnimation
 style DialogSlideAnim
 style HeaderBar
 style MyAppearance
+style NavigationView
 style Platform_AppCompat
 style Platform_AppCompat_Light
 style Platform_MaterialComponents

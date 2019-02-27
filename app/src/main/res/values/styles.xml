@@ -74,6 +74,11 @@
         <item name="android:backgroundTint" tools:targetApi="lollipop_mr1">@color/white</item>
     </style>
 
+
+    <style name="NavigationView" >
+        <item name="fontFamily">@font/ebrima</item>
+    </style>
+
     <!--<style name="ErrorText" parent="TextAppearance.AppCompat">-->
         <!--<item name="android:textColor">@android:color/red</item>-->
         <!--<item name="android:textSize">16sp</item>-->

@@ -510,59 +510,78 @@ public class PatientsView extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-         if(id == R.id.demo_app){
-            startActivity(new Intent(PatientsView.this,DemoActivity.class));
-        }
-
-         else if (id==R.id.pheeze_device_info){
-             Intent i = new Intent(PatientsView.this, DeviceInfoActivity.class);
-             i.putExtra("deviceMacAddress", sharedPref.getString("deviceMacaddress", ""));
-             startActivity(i);
-         }
-
-        else if (id == R.id.rawdatacollection){
-            if (bleStatusTextView.getText().equals("C")) {
-                Intent i = new Intent(PatientsView.this, RawDataCollection.class);
-                i.putExtra("deviceMacAddress", sharedPref.getString("deviceMacaddress", ""));
-                startActivity(i);
-            }
-            else {
-                Toast.makeText(context, "Please connect to pheeze" , Toast.LENGTH_SHORT).show();
-            }
-        }
-        else if (id == R.id.nav_logout) {
-//            if (GoogleSignIn.getLastSignedInAccount(this) != null)
-//                signOut();
-//            else
-//                AccessToken.setCurrentAccessToken(null);
-                editor.clear();
-                editor.commit();
-
-                startActivity(new Intent(this, LoginActivity.class));
-                finish();
-
-        } else if (id == R.id.nav_share) {
-             File file = new File(Environment.getExternalStorageDirectory() + "/ca.pdf");
-             Uri pdfURI = FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() + ".my.package.name.provider", file);
-
-             Intent i = new Intent();
-             i.setAction(Intent.ACTION_SEND);
-             i.putExtra(Intent.EXTRA_STREAM,pdfURI);
-             i.setType("application/pdf");
-             startActivity(Intent.createChooser(i, "share pdf"));
-        }
-
-        else if(id == R.id.ota_device) {
-            Intent intent;
-            if (!bleStatusTextView.getText().toString().equals("C")) {
-                Toast.makeText(context, "Please Connect to Pheeze.", Toast.LENGTH_SHORT).show();
-            } else {
-                intent = new Intent(this, DfuActivity.class);
-                intent.putExtra("deviceMacAddress", sharedPref.getString("deviceMacaddress", ""));
-                startActivity(intent);
+//         if(id == R.id.demo_app){
+//            startActivity(new Intent(PatientsView.this,DemoActivity.class));
+//        }
+//
+//         else
+            if (id==R.id.pheeze_device_info){
+                 Intent i = new Intent(PatientsView.this, DeviceInfoActivity.class);
+                 i.putExtra("deviceMacAddress", sharedPref.getString("deviceMacaddress", ""));
+                 startActivity(i);
             }
 
-        }
+            else if(id==R.id.nav_home){
+
+            }
+
+            else if(id==R.id.nav_add_device){
+//                PopupMenu popupMenu = new PopupMenu(PatientsView.this, view, Gravity.CENTER);
+//                popupMenu.setOnMenuItemClickListener(PatientsView.this);
+//                popupMenu.inflate(R.menu.popupmenu);
+//                popupMenu.show();
+            }
+            else if(id==R.id.nav_add_patient){
+
+            }
+            else if(id==R.id.nav_app_version){
+
+            }
+
+//        else if (id == R.id.rawdatacollection){
+//            if (bleStatusTextView.getText().equals("C")) {
+//                Intent i = new Intent(PatientsView.this, RawDataCollection.class);
+//                i.putExtra("deviceMacAddress", sharedPref.getString("deviceMacaddress", ""));
+//                startActivity(i);
+//            }
+//            else {
+//                Toast.makeText(context, "Please connect to pheeze" , Toast.LENGTH_SHORT).show();
+//            }
+//        }
+            else if (id == R.id.nav_logout) {
+    //            if (GoogleSignIn.getLastSignedInAccount(this) != null)
+    //                signOut();
+    //            else
+    //                AccessToken.setCurrentAccessToken(null);
+                 editor.clear();
+                 editor.commit();
+
+                 startActivity(new Intent(this, LoginActivity.class));
+                 finish();
+             }
+
+//        } else if (id == R.id.nav_share) {
+//             File file = new File(Environment.getExternalStorageDirectory() + "/ca.pdf");
+//             Uri pdfURI = FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() + ".my.package.name.provider", file);
+//
+//             Intent i = new Intent();
+//             i.setAction(Intent.ACTION_SEND);
+//             i.putExtra(Intent.EXTRA_STREAM,pdfURI);
+//             i.setType("application/pdf");
+//             startActivity(Intent.createChooser(i, "share pdf"));
+//        }
+
+//        else if(id == R.id.ota_device) {
+//            Intent intent;
+//            if (!bleStatusTextView.getText().toString().equals("C")) {
+//                Toast.makeText(context, "Please Connect to Pheeze.", Toast.LENGTH_SHORT).show();
+//            } else {
+//                intent = new Intent(this, DfuActivity.class);
+//                intent.putExtra("deviceMacAddress", sharedPref.getString("deviceMacaddress", ""));
+//                startActivity(intent);
+//            }
+//
+//        }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

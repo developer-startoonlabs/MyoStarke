@@ -99,4 +99,13 @@
 
     <string name="forgot_password">Forgot password?</string>
     <string name="welcome">Welcome</string>
+
+    <string name="nav_home">Home</string>
+    <string name="nav_add_device">Add device</string>
+    <string name="nav_add_patient">Add patient</string>
+    <string name="nav_device_info">Device info</string>
+    <string name="nav_app_version">App version</string>
+    <string name="nav_logout">Logout</string>
+
+    <string name="home_home">HOME</string>
 </resources>
