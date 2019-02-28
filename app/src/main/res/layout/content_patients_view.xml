@@ -23,20 +23,6 @@
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:background="#FFFFFF">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:id="@+id/rl_home_disconnections_add"
-            android:background="@drawable/drawable_middle_option_home"
-            tools:ignore="MissingConstraints">
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:id="@+id/rl_home_disconnec_one_add"
-            android:background="@drawable/drawable_layout_device_home_background"
-            tools:ignore="MissingConstraints">
-        </RelativeLayout>
         <ImageView
             android:id="@+id/reportIcon"
             android:layout_width="100dp"
