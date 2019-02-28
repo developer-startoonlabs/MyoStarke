@@ -1319,7 +1319,10 @@ drawable design_password_eye
 drawable design_snackbar_background
 drawable doctor_stethoscope
 drawable drawable_background_yellow
+drawable drawable_home_add_patientn
+drawable drawable_layout_device_home_background
 drawable drawable_mailid_icon
+drawable drawable_middle_option_home
 drawable drawable_nav_header_left
 drawable drawable_nav_header_right
 drawable drawable_password_icon
@@ -1352,6 +1355,7 @@ drawable green_back_arrow
 drawable help_logo
 drawable hip_icon
 drawable hip_part
+drawable home_add_patient
 drawable i0
 drawable i1
 drawable i2
@@ -1837,6 +1841,8 @@ id right
 id right_icon
 id right_side
 id rl_dismiss_dialog
+id rl_home_disconnec_one_add
+id rl_home_disconnections_add
 id rl_listmodel
 id rl_login_section
 id rl_preview

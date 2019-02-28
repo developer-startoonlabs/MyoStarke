@@ -15,10 +15,10 @@ ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\ma
 INJECTED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:2:1-155:12
 INJECTED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:2:1-155:12
 INJECTED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:2:1-155:12
+MERGED from [com.android.support:multidex:1.0.3] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\multidex-1.0.3.aar\ee3f42a391065e9741efdf7d7b9b787e\AndroidManifest.xml:17:1-22:12
 MERGED from [info.androidhive:barcode-reader:1.1.5] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\barcode-reader-1.1.5.aar\be227e02591bc27514e0c96b86b111a6\AndroidManifest.xml:2:1-15:12
 MERGED from [com.robertlevonyan.view:CustomFloatingActionButton:2.1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\CustomFloatingActionButton-2.1.1.aar\4a770bc52629cf333902d5fc22e46245\AndroidManifest.xml:2:1-17:12
 MERGED from [com.android.support:design:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\design-28.0.0-rc01.aar\2a2e077ee80a9068830c2784270a3626\AndroidManifest.xml:17:1-24:12
-MERGED from [com.android.support:multidex:1.0.3] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\multidex-1.0.3.aar\ee3f42a391065e9741efdf7d7b9b787e\AndroidManifest.xml:17:1-22:12
 MERGED from [com.squareup.picasso:picasso:2.71828] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\picasso-2.71828.aar\49028c7ac5808ec24ccdf7c15858ebea\AndroidManifest.xml:2:1-14:12
 MERGED from [com.android.support:exifinterface:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\exifinterface-28.0.0-rc01.aar\9ff5785dd0fb177b2a2cbfa8437a2eec\AndroidManifest.xml:17:1-22:12
 MERGED from [com.facebook.android:facebook-login:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-login-4.35.0.aar\c1f9b9b636baa42f12c23c44d64e6c12\AndroidManifest.xml:21:1-31:12
@@ -295,9 +295,9 @@ ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\ma
 	android:name
 		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:74:13-48
 activity#com.example.sai.pheezeeapp.Activities.LoginActivity
-ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:76:9-78:59
+ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:76:9-78:72
 	android:theme
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:78:13-56
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:78:13-69
 	android:name
 		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:77:13-53
 activity#com.example.sai.pheezeeapp.Activities.PatientsView
@@ -458,14 +458,14 @@ uses-sdk
 INJECTED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml
 INJECTED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml
+MERGED from [com.android.support:multidex:1.0.3] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\multidex-1.0.3.aar\ee3f42a391065e9741efdf7d7b9b787e\AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:multidex:1.0.3] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\multidex-1.0.3.aar\ee3f42a391065e9741efdf7d7b9b787e\AndroidManifest.xml:20:5-43
 MERGED from [info.androidhive:barcode-reader:1.1.5] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\barcode-reader-1.1.5.aar\be227e02591bc27514e0c96b86b111a6\AndroidManifest.xml:7:5-9:41
 MERGED from [info.androidhive:barcode-reader:1.1.5] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\barcode-reader-1.1.5.aar\be227e02591bc27514e0c96b86b111a6\AndroidManifest.xml:7:5-9:41
 MERGED from [com.robertlevonyan.view:CustomFloatingActionButton:2.1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\CustomFloatingActionButton-2.1.1.aar\4a770bc52629cf333902d5fc22e46245\AndroidManifest.xml:7:5-9:41
 MERGED from [com.robertlevonyan.view:CustomFloatingActionButton:2.1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\CustomFloatingActionButton-2.1.1.aar\4a770bc52629cf333902d5fc22e46245\AndroidManifest.xml:7:5-9:41
 MERGED from [com.android.support:design:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\design-28.0.0-rc01.aar\2a2e077ee80a9068830c2784270a3626\AndroidManifest.xml:20:5-44
 MERGED from [com.android.support:design:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\design-28.0.0-rc01.aar\2a2e077ee80a9068830c2784270a3626\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:multidex:1.0.3] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\multidex-1.0.3.aar\ee3f42a391065e9741efdf7d7b9b787e\AndroidManifest.xml:20:5-43
-MERGED from [com.android.support:multidex:1.0.3] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\multidex-1.0.3.aar\ee3f42a391065e9741efdf7d7b9b787e\AndroidManifest.xml:20:5-43
 MERGED from [com.squareup.picasso:picasso:2.71828] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\picasso-2.71828.aar\49028c7ac5808ec24ccdf7c15858ebea\AndroidManifest.xml:5:5-44
 MERGED from [com.squareup.picasso:picasso:2.71828] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\picasso-2.71828.aar\49028c7ac5808ec24ccdf7c15858ebea\AndroidManifest.xml:5:5-44
 MERGED from [com.android.support:exifinterface:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\exifinterface-28.0.0-rc01.aar\9ff5785dd0fb177b2a2cbfa8437a2eec\AndroidManifest.xml:20:5-44

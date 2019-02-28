@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="80dp"
+    android:paddingTop="60dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.sai.pheezeeapp.Activities.PatientsView"
     tools:showIn="@layout/app_bar_patients_view">
@@ -12,13 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#FFFFFF">
-        <LinearLayout
-            android:id="@+id/patientTab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-        </LinearLayout>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/patients_recycler_view"
             android:scrollbars="vertical"
@@ -30,6 +23,20 @@
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:background="#FFFFFF">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:id="@+id/rl_home_disconnections_add"
+            android:background="@drawable/drawable_middle_option_home"
+            tools:ignore="MissingConstraints">
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/rl_home_disconnec_one_add"
+            android:background="@drawable/drawable_layout_device_home_background"
+            tools:ignore="MissingConstraints">
+        </RelativeLayout>
         <ImageView
             android:id="@+id/reportIcon"
             android:layout_width="100dp"
@@ -77,17 +84,13 @@
         android:id="@+id/addPatients"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        app:backgroundTint="#4B7080"
+        app:backgroundTint="@android:color/transparent"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
-        android:scaleType="center"
-        android:src="@drawable/ic_add_circle_white_24dp"
-        android:theme="@style/AppTheme.customDesign.noActionBar"
-        app:elevation="10dp"
+        android:src="@drawable/home_add_patient"
         app:fabCustomSize="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:maxImageSize="60dp" />
+        app:maxImageSize="75dp" />
 
 </android.support.constraint.ConstraintLayout>

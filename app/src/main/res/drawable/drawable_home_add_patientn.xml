@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:height="56dp" android:width="56dp">
+        <bitmap android:src="@drawable/home_add_patient"
+            xmlns:android="http://schemas.android.com/apk/res/android" >
+        </bitmap>
+    </item>
+</layer-list>

@@ -60,8 +60,8 @@ public final class R {
     public static final class drawable {
         private drawable() {}
 
-        public static final int isb_indicator_rounded_corners = 0x7f0800e9;
-        public static final int isb_indicator_square_corners = 0x7f0800ea;
+        public static final int isb_indicator_rounded_corners = 0x7f0800ed;
+        public static final int isb_indicator_square_corners = 0x7f0800ee;
     }
     public static final class id {
         private id() {}
@@ -77,10 +77,10 @@ public final class R {
         public static final int normal = 0x7f0a0133;
         public static final int oval = 0x7f0a013a;
         public static final int rectangle = 0x7f0a0164;
-        public static final int rounded_rectangle = 0x7f0a017d;
-        public static final int sans = 0x7f0a017f;
-        public static final int serif = 0x7f0a0196;
-        public static final int square = 0x7f0a01ac;
+        public static final int rounded_rectangle = 0x7f0a017f;
+        public static final int sans = 0x7f0a0181;
+        public static final int serif = 0x7f0a0198;
+        public static final int square = 0x7f0a01ae;
     }
     public static final class layout {
         private layout() {}
