@@ -117,9 +117,9 @@
                 android:id="@+id/tv_session_report_week"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:alpha="0.5"
                 android:padding="2dp"
                 android:text="@string/report_week"
+                android:textStyle="bold"
                 android:textColor="@color/pitch_black"
                 android:textSize="15sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -137,10 +137,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="2dp"
+                android:alpha="0.5"
                 android:text="@string/report_month"
                 android:textColor="@color/pitch_black"
                 android:textSize="15sp"
-                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView7" />
         </LinearLayout>

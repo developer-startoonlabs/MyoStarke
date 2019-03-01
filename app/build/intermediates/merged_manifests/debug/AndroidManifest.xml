@@ -87,7 +87,7 @@
             android:theme="@style/AppTheme.custom.noActionBar" />
         <activity
             android:name="com.example.sai.pheezeeapp.Activities.LoginActivity"
-            android:theme="@style/AppTheme.customDesign.noActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.example.sai.pheezeeapp.Activities.PatientsView"
             android:theme="@style/AppTheme.NoActionBar" />

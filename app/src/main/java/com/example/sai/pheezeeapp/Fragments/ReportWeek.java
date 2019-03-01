@@ -62,8 +62,8 @@ public class ReportWeek extends Fragment {
     Cartesian cartesian;
 
     //custom chart
-    private String[] days = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
-    EmonjiBarGraph rom;
+    private String[] days = {"sun","Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+    EmonjiBarGraph rom,emg;
 
 
     //Bar chart
@@ -79,7 +79,7 @@ public class ReportWeek extends Fragment {
     int currentWeek=0,current_bodypart=0;
     String start_date, end_date;
 
-    boolean mTypeSelected = true;   //true for over all and false for individual
+    boolean mTypeSelected = false;   //true for over all and false for individual
 
     JSONArray session_array;
     ArrayList<String> str_part;
@@ -100,6 +100,9 @@ public class ReportWeek extends Fragment {
         //custom bar gaph android
         rom = view.findViewById(R.id.graphView);
         rom.setBarNames(days);
+
+        emg = view.findViewById(R.id.graphView_emg);
+        emg.setBarNames(days);
 
         anyChartView_rom = view.findViewById(R.id.rom_chartView);
         barChart = view.findViewById(R.id.emg_barchart_report);
@@ -175,11 +178,11 @@ public class ReportWeek extends Fragment {
         iv_right_joint = view.findViewById(R.id.iv_right_joint);
 
         tv_report_week = view.findViewById(R.id.tv_report_date);
-        tv_overall = view.findViewById(R.id.tv_overall);
-        tv_individual = view.findViewById(R.id.tv_individual);
-        tv_total_hours = view.findViewById(R.id.tv_total_hours_session);
-        tv_total_reps_report = view.findViewById(R.id.total_reps_report);
-        tv_total_holdtime = view.findViewById(R.id.report_week_tv_hold_time);
+//        tv_overall = view.findViewById(R.id.tv_overall);
+//        tv_individual = view.findViewById(R.id.tv_individual);
+//        tv_total_hours = view.findViewById(R.id.tv_total_hours_session);
+//        tv_total_reps_report = view.findViewById(R.id.total_reps_report);
+//        tv_total_holdtime = view.findViewById(R.id.report_week_tv_hold_time);
         tv_body_part = view.findViewById(R.id.tv_individual_joint_name);
         tv_back = view.findViewById(R.id.tv_back_report);
 
@@ -231,22 +234,23 @@ public class ReportWeek extends Fragment {
                     makeIndividualInvisible();
                     Toast.makeText(getActivity(), "No Exercises done", Toast.LENGTH_SHORT).show();
                 }
-            }
-        });
-
-
-
-        tv_overall.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mTypeSelected = true;
-                changeViewOverallAndIndividual();
-                tv_overall.setTypeface(null, Typeface.BOLD);
-                tv_overall.setAlpha(1);
-                makeIndividualInvisible();
                 updateScreen(mTypeSelected);
             }
         });
+
+
+
+//        tv_overall.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mTypeSelected = true;
+//                changeViewOverallAndIndividual();
+//                tv_overall.setTypeface(null, Typeface.BOLD);
+//                tv_overall.setAlpha(1);
+//                makeIndividualInvisible();
+//                updateScreen(mTypeSelected);
+//            }
+//        });
 
         iv_left_joint.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -279,13 +283,51 @@ public class ReportWeek extends Fragment {
             }
         });
 
-        tv_individual.setOnClickListener(new View.OnClickListener() {
+//        tv_individual.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mTypeSelected = false;
+//                changeViewOverallAndIndividual();
+//                tv_individual.setTypeface(null, Typeface.BOLD);
+//                tv_individual.setAlpha(1);
+//                makeIndividualVisible();
+//                str_part = new ArrayList<>();
+//                HashSet<String> set_part = fetchAllParts();
+//                str_part = new ArrayList<>();
+//                iterator = set_part.iterator();
+//                while (iterator.hasNext()){
+//                    str_part.add(iterator.next()+"");
+//                }
+//                Log.i("array",str_part.toString());
+//                if(str_part.size()>0) {
+//                    makeIndividualVisible();
+//                    tv_body_part.setText(str_part.get(current_bodypart));
+//                }
+//                else {
+//                    makeIndividualInvisible();
+//                    Toast.makeText(getActivity(), "No Exercises done", Toast.LENGTH_SHORT).show();
+//                }
+//                updateScreen(mTypeSelected);
+//
+//            }
+//        });
+
+        tv_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mTypeSelected = false;
-                changeViewOverallAndIndividual();
-                tv_individual.setTypeface(null, Typeface.BOLD);
-                tv_individual.setAlpha(1);
+                startActivity(new Intent(getActivity(), PatientsView.class));
+                getActivity().finish();
+            }
+        });
+
+        return view;
+    }
+
+    private void setInitialweek() {
+        getWeek(currentWeek);
+        JSONArray array = getCurrentWeekJson(false);
+        mTypeSelected = false;
+                //changeViewOverallAndIndividual();
                 makeIndividualVisible();
                 str_part = new ArrayList<>();
                 HashSet<String> set_part = fetchAllParts();
@@ -304,27 +346,9 @@ public class ReportWeek extends Fragment {
                     Toast.makeText(getActivity(), "No Exercises done", Toast.LENGTH_SHORT).show();
                 }
                 updateScreen(mTypeSelected);
-
-            }
-        });
-
-        tv_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), PatientsView.class));
-                getActivity().finish();
-            }
-        });
-
-        return view;
-    }
-
-    private void setInitialweek() {
-        getWeek(currentWeek);
-        JSONArray array = getCurrentWeekJson(true);
-        updateTotalTime();
-        updateHoldTime(array);
-        updateTotalReps(array);
+//        updateTotalTime();
+//        updateHoldTime(array);
+//        updateTotalReps(array);
         updateGraphs();
 
     }
@@ -515,44 +539,66 @@ public class ReportWeek extends Fragment {
     }
 
     private void updateEmgGraph(JSONArray array) {
-        dataPoints.clear();
-        barChart.invalidate();
-        barChart.notifyDataSetChanged();
-        barChart.clear();
-        series = new BarGraphSeries<>(datapoints);
+//        dataPoints.clear();
+//        barChart.invalidate();
+//        barChart.notifyDataSetChanged();
+//        barChart.clear();
+//        series = new BarGraphSeries<>(datapoints);
+//
+//        barChartDataSet=new BarDataSet(dataPoints, "Sessions Vs EMG Graph");
+//        Log.i("emg data set",array.length()+"");
+//        int j=0;
+//        for (int i=0;i<array.length();i++){
+//            String maxemg = null;
+//            try {
+//                maxemg = array.getJSONObject(i).get("maxemg").toString();
+//                barChartData.addEntry(new BarEntry(++j,Integer.parseInt(maxemg)),0);
+//                barChart.moveViewToX(j);
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//            //maxemg = maxemg.substring(0,maxemg.length());
+//
+//
+//        }
+//        barChart.setData(barChartData);
+//        barChart.notifyDataSetChanged();
+//        barChart.invalidate();
+//
+//        setEmgChartCharacteristics();
+//        XAxis xAxis = barChart.getXAxis();
+//        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+//        xAxis.setAxisMinimum(0f);
+//        xAxis.setAxisMaximum(array.length()+1);
+//        xAxis.setGranularity(1f);
 
-        barChartDataSet=new BarDataSet(dataPoints, "Sessions Vs EMG Graph");
-        Log.i("emg data set",array.length()+"");
-        int j=0;
-        for (int i=0;i<array.length();i++){
-            String maxemg = null;
-            try {
-                maxemg = array.getJSONObject(i).get("maxemg").toString();
-                barChartData.addEntry(new BarEntry(++j,Integer.parseInt(maxemg)),0);
-                barChart.moveViewToX(j);
-            } catch (JSONException e) {
-                e.printStackTrace();
+
+        Log.i("array",array.toString());
+        ApiData data2[] = null;
+        try {
+            data2 = new ApiData[array.length()];
+            Log.i("Response",array.length()+"");
+            for (int i = 0; i < array.length(); i++) {
+
+                int x = i + 1;
+                JSONObject object = array.getJSONObject(i);
+                Log.i("Response",object.toString());
+//                    String weekday = arr.getString("week");
+                int maxEmg = Integer.parseInt(object.getString("maxemg"));
+                data2[i] = new ApiData(i,-1,maxEmg);
             }
-            //maxemg = maxemg.substring(0,maxemg.length());
-
-
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        barChart.setData(barChartData);
-        barChart.notifyDataSetChanged();
-        barChart.invalidate();
 
-        setEmgChartCharacteristics();
-        XAxis xAxis = barChart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setAxisMinimum(0f);
-        xAxis.setAxisMaximum(array.length()+1);
-        xAxis.setGranularity(1f);
+        emg.setBarData(data2);
+
     }
     public void updateScreen(boolean mTypeSelected){
         JSONArray array = getCurrentWeekJson(mTypeSelected);
-        updateTotalTime();
-        updateHoldTime(array);
-        updateTotalReps(array);
+//        updateTotalTime();
+//        updateHoldTime(array);
+//        updateTotalReps(array);
         updateGraphs();
     }
 

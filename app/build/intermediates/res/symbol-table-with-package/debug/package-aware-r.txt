@@ -1399,6 +1399,8 @@ drawable knee_icon
 drawable knee_part
 drawable layout_login_corner_1
 drawable listitemlayout
+drawable login_illu
+drawable login_illus
 drawable logout_icon
 drawable logout_icon_black
 drawable mailid_icon
@@ -1410,6 +1412,7 @@ drawable mtrl_snackbar_background
 drawable mtrl_tabs_default_indicator
 drawable nav_icon
 drawable navigation_empty_icon
+drawable new_pheezee_logo
 drawable notification_action_background
 drawable notification_bg
 drawable notification_bg_low
@@ -1652,6 +1655,7 @@ id image
 id imageView
 id imageView2
 id imageView3
+id imageView4
 id imageView5
 id imageViewdp
 id improvement_emg_report
@@ -1722,6 +1726,7 @@ id ll_min_max_arc
 id ll_mmt
 id ll_overall_summary
 id ll_patient_section
+id ll_phezee_logo
 id ll_recent_section
 id ll_report
 id ll_signup
@@ -1826,14 +1831,6 @@ id reportEmgGraph
 id reportIcon
 id reportRepsGraph
 id report_day_reps
-id report_month_reps
-id report_month_tv_action_time
-id report_month_tv_hold_time
-id report_month_tv_idle_time
-id report_week_reps
-id report_week_tv_action_time
-id report_week_tv_hold_time
-id report_week_tv_idle_time
 id repsAndHoldTime
 id repsContainter
 id repsText
@@ -1841,8 +1838,6 @@ id right
 id right_icon
 id right_side
 id rl_dismiss_dialog
-id rl_home_disconnec_one_add
-id rl_home_disconnections_add
 id rl_listmodel
 id rl_login_section
 id rl_preview
@@ -1890,6 +1885,7 @@ id snackbar_action
 id snackbar_text
 id snap
 id snapMargins
+id snap_monitor
 id sp_set_goal
 id spacer
 id split_action_bar

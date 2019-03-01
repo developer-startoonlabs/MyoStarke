@@ -80,7 +80,7 @@ public class ReportMonth extends Fragment {
     TextView tv_report_month, tv_overall, tv_individual, tv_joint_name, tv_total_hours, tv_total_reps_report, tv_total_holdtime,tv_body_part,tv_back;
     int currentMonth,current_bodypart=0;
 
-    boolean mTypeSelected = true;   //true for over all and false for individual
+    boolean mTypeSelected = false;   //true for over all and false for individual
 
     JSONArray session_array;
     ArrayList<String> str_part;
@@ -192,12 +192,12 @@ public class ReportMonth extends Fragment {
         iv_right_joint = view.findViewById(R.id.iv_right_joint);
 
         tv_report_month = view.findViewById(R.id.tv_report_date);
-        tv_overall = view.findViewById(R.id.tv_overall);
-        tv_individual = view.findViewById(R.id.tv_individual);
+//        tv_overall = view.findViewById(R.id.tv_overall);
+//        tv_individual = view.findViewById(R.id.tv_individual);
         tv_joint_name = view.findViewById(R.id.tv_individual_joint_name);
-        tv_total_hours = view.findViewById(R.id.tv_total_hours_session);
-        tv_total_reps_report = view.findViewById(R.id.total_reps_report);
-        tv_total_holdtime = view.findViewById(R.id.report_month_tv_hold_time);
+//        tv_total_hours = view.findViewById(R.id.tv_total_hours_session);
+//        tv_total_reps_report = view.findViewById(R.id.total_reps_report);
+//        tv_total_holdtime = view.findViewById(R.id.report_month_tv_hold_time);
         tv_body_part = view.findViewById(R.id.tv_individual_joint_name);
         tv_back = view.findViewById(R.id.tv_back_report);
 
@@ -233,7 +233,7 @@ public class ReportMonth extends Fragment {
                     Toast.makeText(getActivity(), "No Exercises done", Toast.LENGTH_SHORT).show();
                 }
                 try {
-                    updateScreen(mTypeSelected);
+                    updateScreen(false);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -263,7 +263,7 @@ public class ReportMonth extends Fragment {
                     Toast.makeText(getActivity(), "No Exercises done", Toast.LENGTH_SHORT).show();
                 }
                 try {
-                    updateScreen(mTypeSelected);
+                    updateScreen(false);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -287,7 +287,7 @@ public class ReportMonth extends Fragment {
                     tv_body_part.setText(str_part.get(current_bodypart));
                 }
                 try {
-                    updateScreen(mTypeSelected);
+                    updateScreen(false);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -306,23 +306,7 @@ public class ReportMonth extends Fragment {
                     tv_body_part.setText(str_part.get(current_bodypart));
                 }
                 try {
-                    updateScreen(mTypeSelected);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        tv_overall.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mTypeSelected=true;
-                changeViewOverallAndIndividual();
-                tv_overall.setTypeface(null, Typeface.BOLD);
-                tv_overall.setAlpha(1);
-                makeIndividualInvisible();
-                try {
-                    updateScreen(mTypeSelected);
+                    updateScreen(false);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -330,37 +314,55 @@ public class ReportMonth extends Fragment {
         });
 
 
-        tv_individual.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mTypeSelected = false;
-                changeViewOverallAndIndividual();
-                tv_individual.setTypeface(null, Typeface.BOLD);
-                tv_individual.setAlpha(1);
-                makeIndividualVisible();
-                str_part = new ArrayList<>();
-                HashSet<String> set_part = fetchAllParts();
-                str_part = new ArrayList<>();
-                iterator = set_part.iterator();
-                while (iterator.hasNext()){
-                    str_part.add(iterator.next()+"");
-                }
-                Log.i("array",str_part.toString());
-                if(str_part.size()>0) {
-                    makeIndividualVisible();
-                    tv_body_part.setText(str_part.get(current_bodypart));
-                }
-                else {
-                    makeIndividualInvisible();
-                    Toast.makeText(getActivity(), "No Exercises done", Toast.LENGTH_SHORT).show();
-                }
-                try {
-                    updateScreen(mTypeSelected);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        //individual and overall
+//        tv_overall.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mTypeSelected=true;
+//                changeViewOverallAndIndividual();
+//                tv_overall.setTypeface(null, Typeface.BOLD);
+//                tv_overall.setAlpha(1);
+//                makeIndividualInvisible();
+//                try {
+//                    updateScreen(mTypeSelected);
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
+//
+//
+//        tv_individual.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mTypeSelected = false;
+//                changeViewOverallAndIndividual();
+//                tv_individual.setTypeface(null, Typeface.BOLD);
+//                tv_individual.setAlpha(1);
+//                makeIndividualVisible();
+//                str_part = new ArrayList<>();
+//                HashSet<String> set_part = fetchAllParts();
+//                str_part = new ArrayList<>();
+//                iterator = set_part.iterator();
+//                while (iterator.hasNext()){
+//                    str_part.add(iterator.next()+"");
+//                }
+//                Log.i("array",str_part.toString());
+//                if(str_part.size()>0) {
+//                    makeIndividualVisible();
+//                    tv_body_part.setText(str_part.get(current_bodypart));
+//                }
+//                else {
+//                    makeIndividualInvisible();
+//                    Toast.makeText(getActivity(), "No Exercises done", Toast.LENGTH_SHORT).show();
+//                }
+//                try {
+//                    updateScreen(mTypeSelected);
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
 
         tv_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -378,11 +380,34 @@ public class ReportMonth extends Fragment {
         currentMonth = Calendar.getInstance().get(Calendar.MONTH);
         String month = getMonthForInt(currentMonth);
         tv_report_month.setText(month);
-        JSONArray array = getCurrentMonthJson(true);
-        updateTotalTime();
-        updateHoldTime(array);
-        updateTotalReps(array);
-        updateGraphs();
+        JSONArray array = getCurrentMonthJson(false);
+
+        makeIndividualVisible();
+        str_part = new ArrayList<>();
+        HashSet<String> set_part = fetchAllParts();
+        str_part = new ArrayList<>();
+        iterator = set_part.iterator();
+        while (iterator.hasNext()){
+            str_part.add(iterator.next()+"");
+        }
+        Log.i("array",str_part.toString());
+        if(str_part.size()>0) {
+            makeIndividualVisible();
+            tv_body_part.setText(str_part.get(current_bodypart));
+        }
+        else {
+            makeIndividualInvisible();
+            Toast.makeText(getActivity(), "No Exercises done", Toast.LENGTH_SHORT).show();
+        }
+        try {
+            updateScreen(false);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+//        updateTotalTime();
+//        updateHoldTime(array);
+//        updateTotalReps(array);
+//        updateGraphs();
     }
 
     private void updateHoldTime(JSONArray array) throws JSONException {
@@ -486,14 +511,14 @@ public class ReportMonth extends Fragment {
     public void updateScreen(boolean mTypeSelected) throws JSONException {
         JSONArray array = getCurrentMonthJson(mTypeSelected);
         Log.i("array",array.toString());
-        updateTotalTime();
-        updateHoldTime(array);
-        updateTotalReps(array);
+//        updateTotalTime();
+//        updateHoldTime(array);
+//        updateTotalReps(array);
         updateGraphs();
     }
 
     private void updateGraphs() {
-        JSONArray array = fetchAllWeeksArray(mTypeSelected);
+        JSONArray array = fetchAllWeeksArray(false);
         Log.i("Graphs",array.toString());
         updateEmgGraph(array);
         updateRomGraph(array);
@@ -544,7 +569,7 @@ public class ReportMonth extends Fragment {
         }
 
             mbg.setBarData(data1);
-            mbg.notifyDataSetChanged();
+//            mbg.notifyDataSetChanged();
 
             //hello
         //hello
@@ -588,6 +613,7 @@ public class ReportMonth extends Fragment {
 //        xAxis.setGranularity(1f);
 
 
+        Log.i("array",array.toString());
 
         try {
             data2 = new ApiData[array.length()];
@@ -606,7 +632,7 @@ public class ReportMonth extends Fragment {
         }
 
         emg.setBarData(data2);
-        emg.notifyDataSetChanged();
+//        emg.notifyDataSetChanged();
 
     }
 

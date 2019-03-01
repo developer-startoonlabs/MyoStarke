@@ -94,7 +94,7 @@ public class SessionReportActivity extends AppCompatActivity {
                 if(topic.equals(mqtt_publish_getpatientReport_response)) {
                     initia = false;
                     progress.dismiss();
-                    openMonthFragment();
+                    openWeekFragment();
                     session_arry = new JSONArray(message.toString());
                 }
             }
@@ -127,28 +127,28 @@ public class SessionReportActivity extends AppCompatActivity {
         });
 
 
-        tv_day.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                changeViewOfDayMonthWeek();
-                tv_day.setTypeface(null, Typeface.BOLD);
-                tv_day.setAlpha(1);
+//        tv_day.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                changeViewOfDayMonthWeek();
+//                tv_day.setTypeface(null, Typeface.BOLD);
+//                tv_day.setAlpha(1);
+//
+//                openDayFragment();
+//            }
+//        });
 
-                openDayFragment();
-            }
-        });
 
-
-        tv_month.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                changeViewOfDayMonthWeek();
-                tv_month.setTypeface(null, Typeface.BOLD);
-                tv_month.setAlpha(1);
-
-                openMonthFragment();
-            }
-        });
+//        tv_month.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                changeViewOfDayMonthWeek();
+//                tv_month.setTypeface(null, Typeface.BOLD);
+//                tv_month.setAlpha(1);
+//
+//                openMonthFragment();
+//            }
+//        });
 
         tv_week.setOnClickListener(new View.OnClickListener() {
             @Override

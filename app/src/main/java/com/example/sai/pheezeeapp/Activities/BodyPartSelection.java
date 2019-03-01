@@ -77,7 +77,7 @@ public class BodyPartSelection extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_body_part_selection);
 //        toolbar = findViewById(R.id.my_toolbar_bodypart);
-//        toolbar.setElevation(5);
+//         toolbar.setElevation(5);
 //        toolbar.setTitle("");
 //        setSupportActionBar(toolbar);
         tv_body_part_recent = (TextView)findViewById(R.id.tv_recently_items);

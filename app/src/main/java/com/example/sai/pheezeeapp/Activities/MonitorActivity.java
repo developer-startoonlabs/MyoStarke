@@ -14,16 +14,19 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.media.MediaScannerConnection;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -34,6 +37,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -69,6 +73,7 @@ import org.json.JSONObject;
 import java.io.File;
 
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -108,7 +113,7 @@ public class MonitorActivity extends AppCompatActivity {
     private static final String TAG = null;
     BluetoothGattCharacteristic mCharacteristic;
     BluetoothGatt mBluetoothGatt;
-    TextView Angle;
+    TextView Angle,tv_snap;
     TextView Repetitions;
     TextView holdTime;
     TextView EMG;
@@ -172,6 +177,15 @@ public class MonitorActivity extends AppCompatActivity {
         handler                     = new Handler();
         emgJsonArray                = new JSONArray();
         iv_back_monitor = findViewById(R.id.iv_back_monitor);
+        tv_snap = findViewById(R.id.snap_monitor);
+
+
+        tv_snap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                takeScreenshot(v);
+            }
+        });
 
 
 
@@ -661,6 +675,8 @@ public class MonitorActivity extends AppCompatActivity {
             sub_byte = (byte[]) message.obj;
             emg_data = constructEmgData(sub_byte);
             angleDetected = getAngleFromData(sub_byte[20],sub_byte[21]);
+
+            Log.i("angle detected", angleDetected+"");
             num_of_reps = getNumberOfReps(sub_byte[22], sub_byte[23]);
             hold_time_minutes = sub_byte[24];
             hold_time_seconds = sub_byte[25];
@@ -1177,5 +1193,59 @@ public class MonitorActivity extends AppCompatActivity {
             }
         });
         builder.show();
+    }
+
+
+    private void takeScreenshot(View view) {
+
+        Date now = new Date();
+        DateFormat.format("yyyy-MM-dd_hh:mm:ss", now);
+
+        try {
+            // image naming and path  to include sd card  appending name you choose for file
+            String mPath = Environment.getExternalStorageDirectory().toString() + "/" + now + ".jpg";
+            String child = patientName.getText().toString()+patientId.getText().toString();
+            File f1 =  new File(Environment.getExternalStorageDirectory()+"/Pheezee/files/Monitor",child);
+
+            if (!f1.exists()) {
+                f1.mkdirs();
+            }
+
+            File snap = new File(f1,now+".jpg");
+
+            try {
+                snap.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            // create bitmap screen capture
+            View v1 = getWindow().getDecorView().getRootView();
+            v1.setDrawingCacheEnabled(true);
+            Bitmap bitmap = Bitmap.createBitmap(v1.getDrawingCache());
+            v1.setDrawingCacheEnabled(false);
+
+            FileOutputStream outputStream = new FileOutputStream(snap);
+            int quality = 100;
+            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
+            outputStream.flush();
+            outputStream.close();
+
+
+            MediaScannerConnection.scanFile(
+                    getApplicationContext(),
+                    new String[]{snap.getAbsolutePath()},
+                    null,
+                    new MediaScannerConnection.OnScanCompletedListener() {
+                        @Override
+                        public void onScanCompleted(String path, Uri uri) {
+                            Log.v("grokkingandroid",
+                                    "file " + path + " was scanned seccessfully: " + uri);
+                        }
+                    });
+            //openScreenshot(imageFile);
+        } catch (Throwable e) {
+            // Several error may come out with file handling or DOM
+            e.printStackTrace();
+        }
     }
 }

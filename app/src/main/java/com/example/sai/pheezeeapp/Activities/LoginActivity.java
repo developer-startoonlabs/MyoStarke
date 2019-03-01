@@ -94,7 +94,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     String mqtt_pubs_login_phizio = "login/phizio";    //phizio login response from server
 
 
-    TextView tv_signup,tv_login,tv_welcome_message,tv_login_welcome_user;
+    TextView tv_signup,tv_login,tv_welcome_message,tv_login_welcome_user,tv_signup_screen;
 
     LinearLayout ll_login,ll_signin_section,btn_login,tv_forgot_password,ll_signup_section,ll_welcome;
     RelativeLayout rl_login_section;
@@ -274,6 +274,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         ll_welcome = findViewById(R.id.ll_welcome_section);
         tv_welcome_message = findViewById(R.id.tv_welcome_message);
         tv_login_welcome_user = findViewById(R.id.login_tv_welcome_user);
+        tv_signup_screen = findViewById(R.id.login_tv_signup);
+
+        tv_signup_screen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this,UserType.class));
+            }
+        });
 
         tv_login.setOnClickListener(new View.OnClickListener() {
             @Override

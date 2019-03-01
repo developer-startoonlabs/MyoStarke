@@ -125,7 +125,7 @@ public class RawDataCollection extends AppCompatActivity {
                         String s = rawdata_timestamp.toString().substring(0, 19);
                         if(hasStoragePermissionGranted()) {
                             if(et_type_of_packet.getText().toString().equals("0")){
-                                file_dir_emgdata = new File(Environment.getExternalStorageDirectory()+"/Pheeze/files","EmgData");
+                                file_dir_emgdata = new File(Environment.getExternalStorageDirectory()+"/Pheezee/files","EmgData");
                                 if (!file_dir_emgdata.exists()) {
                                     file_dir_emgdata.mkdirs();
                                 }
@@ -147,7 +147,7 @@ public class RawDataCollection extends AppCompatActivity {
                                 }
                             }
                             else if(et_type_of_packet.getText().toString().equals("1")){
-                                file_dir_mpu = new File(Environment.getExternalStorageDirectory()+"/Pheeze/files","MpuData");
+                                file_dir_mpu = new File(Environment.getExternalStorageDirectory()+"/Pheezee/files","MpuData");
                                 if (!file_dir_mpu.exists()) {
                                     file_dir_mpu.mkdirs();
                                 }

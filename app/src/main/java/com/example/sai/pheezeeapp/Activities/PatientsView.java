@@ -237,6 +237,13 @@ public class PatientsView extends AppCompatActivity
 
 
 
+        //external storage permission
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+            }
+        }
+
         //Getting previous patient data
 
         try {
@@ -809,11 +816,12 @@ public class PatientsView extends AppCompatActivity
             super.onCharacteristicRead(gatt, characteristic, status);
             Log.i("chatacteristic","read");
 
-                byte b[] = characteristic.getValue();
+                byte info_packet[] = characteristic.getValue();
                 Log.i("inside","inside");
-                int battery = b[2]&0xFF;
-                int device_status = b[3]&0xFF;
-                Log.i("device",battery+" "+device_status);
+                int battery = info_packet[2]&0xFF;
+                int device_status = info_packet[3]&0xFF;
+                int device_usb_state = info_packet[4]&0xFF;
+                Log.i("device",battery+" "+device_status+" "+device_usb_state);
 
                 //remove comments later now.
 
@@ -1046,7 +1054,6 @@ public class PatientsView extends AppCompatActivity
         else {
             startActivity(intent);
         }
-
 
 //        LinearLayout linearLayout = (LinearLayout) view;
 //        if (sharedPref.getString("deviceMacaddress", "").equals("")) {
@@ -1657,7 +1664,6 @@ public class PatientsView extends AppCompatActivity
             else {
                 Log.i("SENDING","UNSUCCESSFULL");
             }
-
             return null;
         }
 

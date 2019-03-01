@@ -295,9 +295,9 @@ ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\ma
 	android:name
 		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:74:13-48
 activity#com.example.sai.pheezeeapp.Activities.LoginActivity
-ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:76:9-78:72
+ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:76:9-78:59
 	android:theme
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:78:13-69
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:78:13-56
 	android:name
 		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:77:13-53
 activity#com.example.sai.pheezeeapp.Activities.PatientsView
