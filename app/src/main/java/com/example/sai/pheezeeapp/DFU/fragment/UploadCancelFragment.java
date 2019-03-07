@@ -1,4 +1,4 @@
-package com.example.sai.pheezeeapp.DFU.fragment;
+package com.example.sai.pheezeeapp.dfu.fragment;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -11,7 +11,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
-import com.example.sai.pheezeeapp.DFU.DfuService;
+import com.example.sai.pheezeeapp.dfu.DfuService;
 import com.example.sai.pheezeeapp.R;
 
 

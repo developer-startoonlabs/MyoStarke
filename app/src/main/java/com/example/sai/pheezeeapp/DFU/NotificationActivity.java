@@ -1,10 +1,10 @@
-package com.example.sai.pheezeeapp.DFU;
+package com.example.sai.pheezeeapp.dfu;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.example.sai.pheezeeapp.Activities.PatientsView;
+import com.example.sai.pheezeeapp.activities.PatientsView;
 
 
 public class NotificationActivity extends Activity {

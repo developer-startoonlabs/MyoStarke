@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context="com.example.sai.pheezeeapp.Activities.PatientsView">
+    tools:context="com.example.sai.pheezeeapp.activities.PatientsView">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -60,7 +60,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/ebrima"
                     android:text="sai"
-                    android:textColor="#4b7080"
+                    android:textColor="@color/pitch_black"
                     android:textSize="18sp" />
 
                 <TextView
@@ -69,7 +69,8 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/ebrima"
                     android:text="hai"
-                    android:textColor="#808080"
+                    android:textColor="@color/pitch_black"
+                    android:alpha="0.7"
                     android:textSize="14sp" />
             </LinearLayout>
 
@@ -97,7 +98,7 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:onClick="openOpionsPopupWindow"
+                android:id="@+id/options_popup_window"
                 android:background="@drawable/patient_item_layout"
                 android:layout_weight="0.09"
                 android:gravity="right">

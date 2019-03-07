@@ -1,6 +1,7 @@
-package com.example.sai.pheezeeapp.Activities;
+package com.example.sai.pheezeeapp.activities;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
@@ -15,15 +16,15 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.RequiresApi;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.sai.pheezeeapp.Adapters.DeviceListArrayAdapter;
+import com.example.sai.pheezeeapp.adapters.DeviceListArrayAdapter;
 import com.example.sai.pheezeeapp.Classes.BluetoothSingelton;
 import com.example.sai.pheezeeapp.Classes.DeviceListClass;
 import com.example.sai.pheezeeapp.R;
@@ -36,14 +37,14 @@ public class ScanDevicesActivity extends AppCompatActivity {
 
     private static final String TAG = "ScanDevicesActivity";
     ListView lv_scandevices;
-
+    SwipeRefreshLayout swipeRefreshLayout;
 
     private boolean mScanning = false;
     Handler handler;
 
 
     private static final int REQUEST_FINE_LOCATION = 1;
-    TextView tv_stoScan, tv_bleStatus;
+    TextView tv_stoScan; public static TextView tv_bleStatus;
     ArrayList<DeviceListClass> mScanResults;
     DeviceListArrayAdapter deviceListArrayAdapter;
     private BtleScanCallback mScanCallback;
@@ -53,6 +54,7 @@ public class ScanDevicesActivity extends AppCompatActivity {
     BluetoothAdapter madapter_scandevices;
     public static String selectedDeviceMacAddress;
 
+    @SuppressLint("ResourceAsColor")
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +68,7 @@ public class ScanDevicesActivity extends AppCompatActivity {
         tv_bleStatus = (TextView)findViewById(R.id.bleStatus);
         tv_stoScan = (TextView)findViewById(R.id.tv_stopscan);
         lv_scandevices = (ListView)findViewById(R.id.lv_deviceList);
+        swipeRefreshLayout = findViewById(R.id.scandevices_swiperefresh);
         handler = new Handler();
         mScanResults = new ArrayList<>();
         deviceListArrayAdapter = new DeviceListArrayAdapter(this, mScanResults);
@@ -110,6 +113,20 @@ public class ScanDevicesActivity extends AppCompatActivity {
             }
         });
 
+        swipeRefreshLayout.setColorSchemeResources(R.color.good_green,R.color.pale_good_green);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                startScan();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                },2000);
+            }
+        });
+
         lv_scandevices.setAdapter(deviceListArrayAdapter);
 
         startScan();
@@ -127,7 +144,6 @@ public class ScanDevicesActivity extends AppCompatActivity {
     private void startScan() {
         if(Build.VERSION.SDK_INT>22) {
             if (!hasPermissions() || mScanning) {
-                Toast.makeText(this, "lol", Toast.LENGTH_SHORT).show();
                 //return;
             }
         }
@@ -208,6 +224,13 @@ public class ScanDevicesActivity extends AppCompatActivity {
         requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_FINE_LOCATION);
     }
 
+
+    public static void setBleStatus(String str){
+        if(tv_bleStatus!=null){
+            tv_bleStatus.setText(str);
+        }
+    }
+
 }
 
 
@@ -276,16 +299,20 @@ class BtleScanCallback extends ScanCallback {
 
 
         if (!flag) {
-            DeviceListClass deviceListClass = new DeviceListClass();
-            deviceListClass.setDeviceName(deviceName);
-            deviceListClass.setDeviceMacAddress(deviceAddress);
-            deviceListClass.setDeviceRssi("" + deviceRssi);
-            if (deviceBondState == 0)
-                deviceListClass.setDeviceBondState("BONDED");
-            else
-                deviceListClass.setDeviceBondState("NOT BONDED");
+            Log.i("device name",deviceName);
+            String str = "pheezee";
+            if(deviceName.toLowerCase().contains(str)) {
+                DeviceListClass deviceListClass = new DeviceListClass();
+                deviceListClass.setDeviceName(deviceName);
+                deviceListClass.setDeviceMacAddress(deviceAddress);
+                deviceListClass.setDeviceRssi("" + deviceRssi);
+                if (deviceBondState == 0)
+                    deviceListClass.setDeviceBondState("BONDED");
+                else
+                    deviceListClass.setDeviceBondState("NOT BONDED");
 
-            mScanResults.add(deviceListClass);
+                mScanResults.add(deviceListClass);
+            }
 
 
         }

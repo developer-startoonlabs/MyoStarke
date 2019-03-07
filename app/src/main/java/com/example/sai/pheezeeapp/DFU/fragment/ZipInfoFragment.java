@@ -1,4 +1,4 @@
-package com.example.sai.pheezeeapp.DFU.fragment;
+package com.example.sai.pheezeeapp.dfu.fragment;
 
 import android.app.Dialog;
 import android.os.Bundle;

@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <RelativeLayout
+        android:id="@+id/rl_listmodel"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:id="@+id/rl_listmodel">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
 
         <TextView
@@ -14,6 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
+            android:textColor="@color/good_green"
             android:layout_marginStart="20dp"
             android:layout_marginTop="12dp"
             android:text="TextView" />
@@ -22,6 +29,7 @@
             android:id="@+id/tv_deviceMacAdress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/good_green"
             android:layout_alignStart="@+id/tv_deviceName"
             android:layout_centerVertical="true"
             android:text="TextView" />
@@ -32,6 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_deviceMacAdress"
             android:layout_alignStart="@+id/tv_deviceName"
+            android:textColor="@color/good_green"
             android:layout_marginStart="1dp"
             android:layout_marginTop="11dp"
             android:text="TextView" />
@@ -40,18 +49,10 @@
             android:id="@+id/tv_deviceRssi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/good_green"
             android:layout_alignBottom="@+id/tv_deviceBondState"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="142dp"
-            android:text="TextView" />
-
-        <TextView
-            android:id="@+id/tv_iDontKnowYet"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/tv_deviceBondState"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="32dp"
             android:text="TextView" />
 
         <Button
@@ -59,10 +60,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/tv_deviceMacAdress"
+            android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
+            android:layout_marginTop="7dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="CONNECT" />
+            android:layout_marginBottom="5dp"
+            android:background="@color/good_green"
+            android:text="CONNECT"
+            android:textColor="@color/white" />
     </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>

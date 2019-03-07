@@ -81,15 +81,15 @@
             android:name="com.example.sai.pheezeeapp.dashboard.DashboardActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name="com.example.sai.pheezeeapp.services.Scanner" />
         <activity
-            android:name="com.example.sai.pheezeeapp.Activities.UserType"
-            android:theme="@style/AppTheme.custom.noActionBar" />
-        <activity
-            android:name="com.example.sai.pheezeeapp.Activities.LoginActivity"
+            android:name="com.example.sai.pheezeeapp.services.Scanner"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.example.sai.pheezeeapp.Activities.PatientsView"
+            android:name="com.example.sai.pheezeeapp.activities.LoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBarLogin" />
+        <activity
+            android:name="com.example.sai.pheezeeapp.activities.PatientsView"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <receiver android:name="com.example.sai.pheezeeapp.services.BluetoothReceiver" >
@@ -108,7 +108,7 @@
         </receiver>
 
         <service
-            android:name="com.example.sai.pheezeeapp.DFU.DfuService"
+            android:name="com.example.sai.pheezeeapp.dfu.DfuService"
             android:exported="true"
             android:label="@string/dfu_service_title" >
             <intent-filter>
@@ -119,7 +119,7 @@
         </service>
 
         <activity
-            android:name="com.example.sai.pheezeeapp.Activities.OnStartActivity"
+            android:name="com.example.sai.pheezeeapp.activities.OnStartActivity"
             android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
@@ -129,39 +129,35 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.sai.pheezeeapp.DemoActivity"
-            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:theme="@style/AppTheme.custom.noActionBar" />
-        <activity
-            android:name="com.example.sai.pheezeeapp.Activities.ScanDevicesActivity"
+            android:name="com.example.sai.pheezeeapp.activities.ScanDevicesActivity"
             android:label="@string/title_activity_scan_devices"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name="com.example.sai.pheezeeapp.Activities.RawDataCollection" />
-        <activity android:name="com.example.sai.pheezeeapp.DFU.DfuActivity" />
+        <activity android:name="com.example.sai.pheezeeapp.activities.RawDataCollection" />
+        <activity android:name="com.example.sai.pheezeeapp.dfu.DfuActivity" />
         <activity
-            android:name="com.example.sai.pheezeeapp.Activities.SignUpActivity"
+            android:name="com.example.sai.pheezeeapp.activities.SignUpActivity"
             android:theme="@style/AppTheme.customDesign.noActionBar" />
         <activity
-            android:name="com.example.sai.pheezeeapp.Activities.SessionList"
-            android:label="@string/title_activity_session_list"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name="com.example.sai.pheezeeapp.Activities.PhizioProfile"
+            android:name="com.example.sai.pheezeeapp.activities.PhizioProfile"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.customDesign.noActionBar" />
-        <activity android:name="com.example.sai.pheezeeapp.Activities.DeviceInfoActivity" />
-        <activity android:name="com.example.sai.pheezeeapp.Activities.MmtSession" />
-        <activity android:name="com.example.sai.pheezeeapp.Activities.CalibrationSession" />
         <activity
-            android:name="com.example.sai.pheezeeapp.Activities.BodyPartSelection"
+            android:name="com.example.sai.pheezeeapp.activities.DeviceInfoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name="com.example.sai.pheezeeapp.activities.CalibrationSession" />
+        <activity
+            android:name="com.example.sai.pheezeeapp.activities.BodyPartSelection"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.example.sai.pheezeeapp.Activities.MonitorActivity"
+            android:name="com.example.sai.pheezeeapp.activities.MonitorActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.example.sai.pheezeeapp.Activities.SessionReportActivity"
+            android:name="com.example.sai.pheezeeapp.activities.SessionReportActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <provider

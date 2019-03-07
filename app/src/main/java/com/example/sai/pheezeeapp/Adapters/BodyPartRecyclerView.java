@@ -1,4 +1,4 @@
-package com.example.sai.pheezeeapp.Adapters;
+package com.example.sai.pheezeeapp.adapters;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -21,8 +21,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.sai.pheezeeapp.Activities.BodyPartSelection;
-import com.example.sai.pheezeeapp.Activities.PatientsView;
+import com.example.sai.pheezeeapp.activities.BodyPartSelection;
 import com.example.sai.pheezeeapp.Classes.BodyPartSelectionModel;
 import com.example.sai.pheezeeapp.R;
 

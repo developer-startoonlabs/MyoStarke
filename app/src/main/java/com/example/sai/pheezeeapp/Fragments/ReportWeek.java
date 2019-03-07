@@ -1,4 +1,4 @@
-package com.example.sai.pheezeeapp.Fragments;
+package com.example.sai.pheezeeapp.fragments;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -20,8 +20,8 @@ import com.anychart.charts.Cartesian;
 import com.anychart.core.cartesian.series.RangeColumn;
 import com.anychart.data.Mapping;
 import com.anychart.data.Set;
-import com.example.sai.pheezeeapp.Activities.PatientsView;
-import com.example.sai.pheezeeapp.Activities.SessionReportActivity;
+import com.example.sai.pheezeeapp.activities.PatientsView;
+import com.example.sai.pheezeeapp.activities.SessionReportActivity;
 import com.example.sai.pheezeeapp.R;
 import com.example.sai.pheezeeapp.utils.TimeOperations;
 import com.example.sai.pheezeeapp.views.custom_graph.ApiData;

@@ -1,10 +1,8 @@
-package com.example.sai.pheezeeapp.Fragments;
+package com.example.sai.pheezeeapp.fragments;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -18,14 +16,12 @@ import android.widget.Toast;
 import com.anychart.AnyChart;
 import com.anychart.AnyChartView;
 import com.anychart.chart.common.dataentry.DataEntry;
-import com.anychart.chart.common.listener.Event;
-import com.anychart.chart.common.listener.ListenersInterface;
 import com.anychart.charts.Cartesian;
 import com.anychart.core.cartesian.series.RangeColumn;
 import com.anychart.data.Mapping;
 import com.anychart.data.Set;
-import com.example.sai.pheezeeapp.Activities.PatientsView;
-import com.example.sai.pheezeeapp.Activities.SessionReportActivity;
+import com.example.sai.pheezeeapp.activities.PatientsView;
+import com.example.sai.pheezeeapp.activities.SessionReportActivity;
 import com.example.sai.pheezeeapp.R;
 import com.example.sai.pheezeeapp.utils.TimeOperations;
 import com.github.mikephil.charting.charts.BarChart;
@@ -45,7 +41,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

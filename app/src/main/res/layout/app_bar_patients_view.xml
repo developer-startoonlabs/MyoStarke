@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.PatientsView">
+    tools:context=".activities.PatientsView">
 
 
     <android.support.v7.widget.Toolbar
@@ -14,9 +14,9 @@
         app:elevation="5dp"
         android:elevation="5dp"
         android:background="@color/white_opaque">
-
         <LinearLayout
             android:layout_width="match_parent"
+            android:id="@+id/ll_toolbar"
             android:layout_height="match_parent"
             android:orientation="horizontal"
             android:baselineAligned="false">
@@ -50,11 +50,19 @@
                     android:textColor="@color/good_green"/>
             </LinearLayout>
 
+            <android.support.v7.widget.SearchView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_gravity="center"
+                android:gravity="right"
+                android:id="@+id/search_view"/>
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.4"
-                android:gravity="center|end"
+                android:layout_weight="0.2"
+                android:gravity="center"
                 android:layout_gravity="right"
                 android:orientation="vertical">
 
@@ -62,18 +70,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
 
-                    android:layout_gravity="bottom"
-                    android:gravity="center|start"
+                    android:layout_gravity="right"
+                    android:gravity="center|top"
                     android:orientation="horizontal"
                     android:paddingBottom="5dp">
-
-                    <LinearLayout
-                        android:layout_width="35dp"
-                        android:layout_height="wrap_content"></LinearLayout>
-
+                        <!--<android.support.v7.widget.SearchView-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="match_parent"-->
+                            <!--android:layout_marginEnd="5dp"-->
+                            <!--android:id="@+id/search_view"/>-->
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="30dp"
+                        android:layout_marginEnd="5dp"
+                        android:id="@+id/bluetooth_imamge"
                         android:src="@drawable/bluetooth"
                         android:contentDescription="TODO" />
 
@@ -84,17 +94,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/ebrima"
-
+                        android:layout_marginEnd="5dp"
                         android:gravity="bottom"
                         android:text="N/C"
                         android:textColor="@color/pitch_black"
                         android:textSize="12sp" />
-                    <LinearLayout
-                        android:layout_width="10dp"
-                        android:layout_height="wrap_content"></LinearLayout>
+
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="35dp"
+                        android:layout_marginEnd="5dp"
                         android:layout_gravity="center|start"
                         android:orientation="horizontal">
 
@@ -143,6 +152,7 @@
                     <!--app:backgroundTint="#4b7080"/>-->
 
             </LinearLayout>
+
 
         </LinearLayout>
 

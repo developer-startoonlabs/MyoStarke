@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:paddingTop="60dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".Activities.PatientsView"
+    tools:context=".activities.PatientsView"
     tools:showIn="@layout/app_bar_patients_view">
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -40,6 +40,7 @@
             android:textSize="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            android:textColor="@color/good_green"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -56,7 +57,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text="@string/add_patients_text"
-            android:textColor="#4b7080"
+            android:textColor="@color/good_green"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

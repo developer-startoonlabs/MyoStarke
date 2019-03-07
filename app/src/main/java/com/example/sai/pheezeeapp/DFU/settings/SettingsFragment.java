@@ -1,4 +1,4 @@
-package com.example.sai.pheezeeapp.DFU.settings;
+package com.example.sai.pheezeeapp.dfu.settings;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;

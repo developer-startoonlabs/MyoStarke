@@ -1,5 +1,6 @@
-package com.example.sai.pheezeeapp.Activities;
+package com.example.sai.pheezeeapp.activities;
 
+import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
@@ -8,21 +9,21 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothProfile;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sai.pheezeeapp.Classes.BluetoothSingelton;
 import com.example.sai.pheezeeapp.R;
 
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -32,7 +33,6 @@ public class DeviceInfoActivity extends AppCompatActivity {
     private static final int REQUEST_ENABLE_BT = 1;
     BluetoothDevice remoteDevice;
     BluetoothAdapter bluetoothAdapter;
-    //BluetoothManager mBluetoothManager;
     BluetoothGattDescriptor mBluetoothGattDescriptor;
     BluetoothGattCharacteristic mCharacteristic,firmware_characteristic,serial_characteristic,devicename_characteristic;
     BluetoothGatt bluetoothGatt;
@@ -41,7 +41,7 @@ public class DeviceInfoActivity extends AppCompatActivity {
 
     //Declaring all the view items
     TextView tv_device_name,tv_device_mamc, tv_firmware_version, tv_serial_id, tv_battery_level,tv_connection_status;
-
+    ImageView iv_back_device_info;
 
     ArrayList<BluetoothGattCharacteristic> arrayList;
 
@@ -55,8 +55,6 @@ public class DeviceInfoActivity extends AppCompatActivity {
     public static final UUID firmware_version_characteristic_uuid = UUID.fromString("00002a26-0000-1000-8000-00805f9b34fb");
     public static final UUID serial_number_characteristic = UUID.fromString("00002a25-0000-1000-8000-00805f9b34fb");
     public static final UUID device_name_characteristic = UUID.fromString("00002a29-0000-1000-8000-00805f9b34fb");
-   // public static final UUID manufacture_number_characteristic = UUID.fromString("0x180A");
-    // public static final UUID hardware_version_characteristic = UUID.fromString("0x180A");
 
 
 
@@ -66,12 +64,20 @@ public class DeviceInfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_device_info);
 
 
-        tv_device_name = (TextView)findViewById(R.id.tv_deviceinfo_device_name);
-        tv_device_mamc = (TextView)findViewById(R.id.tv_deviceinfo_device_mac);
-        tv_battery_level = (TextView)findViewById(R.id.tv_deviceinfo_device_battery);
-        tv_connection_status = (TextView)findViewById(R.id.tv_deviceinfo_device_connection_status);
-        tv_serial_id = (TextView)findViewById(R.id.tv_deviceinfo_device_serial);
-        tv_firmware_version = (TextView)findViewById(R.id.tv_deviceinfo_device_firmware);
+        tv_device_name = findViewById(R.id.tv_deviceinfo_device_name);
+        tv_device_mamc = findViewById(R.id.tv_deviceinfo_device_mac);
+        tv_battery_level = findViewById(R.id.tv_deviceinfo_device_battery);
+        tv_connection_status = findViewById(R.id.tv_deviceinfo_device_connection_status);
+        tv_serial_id = findViewById(R.id.tv_deviceinfo_device_serial);
+        tv_firmware_version = findViewById(R.id.tv_deviceinfo_device_firmware);
+        iv_back_device_info = findViewById(R.id.iv_back_device_info);
+
+        iv_back_device_info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
 
         tv_connection_status.setText("N/C");
@@ -182,45 +188,38 @@ public class DeviceInfoActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+        public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, final int status) {
             super.onCharacteristicRead(gatt, characteristic, status);
             byte b[] = characteristic.getValue();
-            String str = null;
-            try {
-                str = new String(b, "UTF-8");
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
+            final String str;
+            str = new String(b, StandardCharsets.UTF_8);
 
             if(characteristic.getUuid().equals(firmware_version_characteristic_uuid)){
-                final String string = str;
                 runOnUiThread(new Runnable() {
 
                     @Override
                     public void run() {
-                        tv_firmware_version.setText(string);
+                        tv_firmware_version.setText(str);
                         // Stuff that updates the UI
 
                     }
                 });
             }
             else if(characteristic.getUuid().equals(serial_number_characteristic)){
-                final String finalStr = str;
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        tv_serial_id.setText(finalStr);
+                        tv_serial_id.setText(str);
                         // Stuff that updates the UI
 
                     }
                 });
             }
             else if(characteristic.getUuid().equals(device_name_characteristic)){
-                final String finalStr = str;
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        tv_device_name.setText(finalStr);
+                        tv_device_name.setText(str);
                         // Stuff that updates the UI
                     }
                 });
@@ -230,7 +229,8 @@ public class DeviceInfoActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        tv_battery_level.setText(battery+"%");
+
+                        tv_battery_level.setText(String.valueOf(battery).concat("%"));
                         mBluetoothGattDescriptor = mCharacteristic.getDescriptor(descriptor_characteristic1_service1_uuid);
                         mBluetoothGattDescriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
                         bluetoothGatt.writeDescriptor(mBluetoothGattDescriptor);
@@ -275,6 +275,7 @@ public class DeviceInfoActivity extends AppCompatActivity {
         }
     };
 
+    @SuppressLint("HandlerLeak")
     public final Handler bleStatusHandler = new Handler() {
         public void handleMessage(Message msg) {
             if(msg.obj.equals("setvalues")){
@@ -293,10 +294,11 @@ public class DeviceInfoActivity extends AppCompatActivity {
     };
 
 
+    @SuppressLint("HandlerLeak")
     public final Handler batteryStatus = new Handler(){
         @Override
         public void handleMessage(Message msg) {
-            tv_battery_level.setText(msg.obj.toString()+"%");
+            tv_battery_level.setText(msg.obj.toString().concat("%"));
         }
     };
 

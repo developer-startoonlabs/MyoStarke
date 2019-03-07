@@ -1,24 +1,17 @@
-package com.example.sai.pheezeeapp.Activities;
+package com.example.sai.pheezeeapp.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -26,24 +19,6 @@ import android.widget.Toast;
 
 import com.example.sai.pheezeeapp.R;
 import com.example.sai.pheezeeapp.services.MqttHelper;
-import com.facebook.AccessToken;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.login.Login;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.Task;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 import com.trncic.library.DottedProgressBar;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
@@ -52,56 +27,25 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Arrays;
 
-
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
-
-
-
-
-
-    private static final String TAG = "Google Api";
-    GoogleSignInOptions gso;
-    GoogleSignInClient mGoogleSignInClient;
-    private int RC_SIGN_IN=1;
-    LoginButton loginButton;
-    CallbackManager callbackManager;
+public class LoginActivity extends AppCompatActivity {
     MqttHelper mqttHelper;
 
     SharedPreferences.Editor editor;
     SharedPreferences sharedPref;
     DottedProgressBar dottedProgressBar;
 
-    Button btn_login_login;
-
-
-    //EditTexts for email and password
-    EditText et_login_email, getEt_login_password;
-
     //Srings for edittexts
     String str_login_email, str_login_password;
-
-
-
 
     //Mqtt Topics
     String mqtt_subs_login_response = "login/phizio/response";    //phizio login response from server
     String mqtt_pubs_login_phizio = "login/phizio";    //phizio login response from server
 
-
     TextView tv_signup,tv_login,tv_welcome_message,tv_login_welcome_user,tv_signup_screen;
-
     LinearLayout ll_login,ll_signin_section,btn_login,tv_forgot_password,ll_signup_section,ll_welcome;
     RelativeLayout rl_login_section;
-
-
     EditText et_mail,et_password;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,8 +54,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         initializeView();
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-
-//        //MqttHelper base connecting class object defination
 
         mqttHelper = new MqttHelper(this);
         mqttHelper.setCallback(new MqttCallbackExtended() {
@@ -175,75 +117,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             }
         });
-//
-//
-//        LoginManager.getInstance().registerCallback(callbackManager,
-//                new FacebookCallback<LoginResult>() {
-//                    @Override
-//                    public void onSuccess(final LoginResult loginResult) {
-//                        startActivity(new Intent(LoginActivity.this,OnStartActivity.class));
-//                        GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
-//                            @Override
-//                            public void onCompleted(JSONObject object, GraphResponse response) {
-//                                Log.e(TAG,object.toString());
-//                                Log.e(TAG,response.toString());
-//
-//                                try {
-//                                    String userId = object.getString("id");
-//                                    URL profilePicture = new URL("https://graph.facebook.com/" + userId + "/picture?width=500&height=500");
-//                                    String firstName = null;
-//                                    if(object.has("first_name"))
-//                                        firstName = object.getString("first_name");
-//                                    String lastName = null;
-//                                    if(object.has("last_name"))
-//                                        lastName = object.getString("last_name");
-//                                    String email = null;
-//                                    if (object.has("email"))
-//                                        email = object.getString("email");
-//                                    String birthday;
-//                                    if (object.has("birthday"))
-//                                        birthday = object.getString("birthday");
-//                                    String gender;
-//                                    if (object.has("gender"))
-//                                        gender = object.getString("gender");
-//
-//                                    Picasso.get().load(profilePicture.toString()).into(getTarget("profilePic"));
-//                                    editor = sharedPref.edit();
-//                                    editor.putString("fullName",firstName+" "+lastName);
-//                                    editor.putString("email",email);
-//                                    editor.apply();
-//                                } catch (JSONException | MalformedURLException e) {
-//                                    e.printStackTrace();
-//                                }
-//                            }
-//                        });
-//                        //Here we put the requested fields to be returned from the JSONObject
-//                        Bundle parameters = new Bundle();
-//                        parameters.putString("fields", "id, first_name, last_name, email, birthday, gender");
-//                        request.setParameters(parameters);
-//                        request.executeAsync();
-//                    }
-//
-//                    @Override
-//                    public void onCancel() {
-//                        // App code
-//                    }
-//
-//                    @Override
-//                    public void onError(FacebookException exception) {
-//                        // App code
-//                    }
-//                });
-//        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//                .requestEmail()
-//                .build();
-//        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-//        googleLoginButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                signIn();
-//            }
-//        });
     }
 
     private void disableWelcomeView() {
@@ -279,7 +152,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         tv_signup_screen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this,UserType.class));
+                startActivity(new Intent(LoginActivity.this,SignUpActivity.class));
             }
         });
 
@@ -342,102 +215,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        if (requestCode == RC_SIGN_IN) {
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-
-            handleSignInResult(task);
-            //startActivity(new Intent(LoginActivity.this,OnStartActivity.class));
-        }
-        Toast.makeText(this,"done1",Toast.LENGTH_LONG).show();
-        callbackManager.onActivityResult(requestCode, resultCode, data);
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-
-
-    @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
-    }
-
-    @Override
-    public void onClick(View view) {
-    }
-
-    private void signIn() {
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
-
-    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
-        try {
-            Log.i("TESTING","inside handlesignin");
-            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            //String name = account.getDisplayName();
-            //Log.i("GOOGLE",name);
-            //Toast.makeText(this,account.getId(),Toast.LENGTH_LONG).show();
-            // Signed in successfully, show authenticated UI.
-        } catch (ApiException e) {
-            // The ApiException status code indicates the detailed failure reason.
-            // Please refer to the GoogleSignInStatusCodes class reference for more information.
-            Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
-        }
-
-    }
-
-    public void loginWithGoogle(View view) {
-        signIn();
-    }
-
-    public void goToUserType(View view) {
-        startActivity(new Intent(this,UserType.class));
-    }
-
-    public void loginWithFacebook(View view) {
-        loginButton.callOnClick();
-    }
-
-
-
-    private Target getTarget(final String fileName){
-        Target target = new Target(){
-            @Override
-            public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        File file = Environment.getExternalStoragePublicDirectory(fileName);
-
-                        try {
-                            if(file.createNewFile())
-                                System.out.println("created-------------------------");
-                            FileOutputStream ostream = new FileOutputStream(file);
-                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, ostream);
-                            ostream.flush();
-                            ostream.close();
-                        }
-                        catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }).start();
-            }
-
-            @Override
-            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-            }
-
-            @Override
-            public void onPrepareLoad(Drawable placeHolderDrawable) {
-            }
-        };
-        return target;
     }
 
 
@@ -452,22 +231,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onStop() {
         super.onStop();
-//        mqttHelper.mqttAndroidClient.unregisterResources();
-//        mqttHelper.mqttAndroidClient.close();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        mqttHelper.mqttAndroidClient.unregisterResources();
-//        mqttHelper.mqttAndroidClient.close();
+        mqttHelper.mqttAndroidClient.unregisterResources();
+        mqttHelper.mqttAndroidClient.close();
 
     }
 
     @Override
     public void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-//        mqttHelper.mqttAndroidClient.unregisterResources();
-//        mqttHelper.mqttAndroidClient.close();
+        mqttHelper.mqttAndroidClient.unregisterResources();
+        mqttHelper.mqttAndroidClient.close();
     }
 }

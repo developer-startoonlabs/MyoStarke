@@ -1,316 +1,372 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context="com.example.sai.pheezeeapp.activities.DeviceInfoActivity">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar_bodypart"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentStart="true"
+        app:elevation="5dp"
+        android:elevation="5dp"
+        android:background="@color/white_opaque">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="2dp"
+                android:id="@+id/iv_back_device_info"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                android:src="@drawable/green_back_arrow"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/device_info"
+                android:textSize="20dp"
+                android:textColor="@color/good_green"
+                android:layout_gravity="center"
+                android:paddingStart="25dp"/>
+        </LinearLayout>
+    </android.support.v7.widget.Toolbar>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#E7E7E7"
-    tools:context="com.example.sai.pheezeeapp.Activities.DeviceInfoActivity">
+    android:background="@color/progress_gray_trans"
+    android:layout_height="match_parent">
 
 
     <LinearLayout
+        android:id="@+id/ll_1"
         android:layout_width="match_parent"
         android:layout_height="75dp"
-        android:id="@+id/ll_1"
-        >
+        android:layout_marginTop="8dp"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:orientation="horizontal"
             android:gravity="right"
-            android:background="#FFFFFFFF"
-            android:layout_marginTop="10dp">
+            android:orientation="horizontal">
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="0.4">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Device Name:"
-
-                    android:textColor="#527387"
-                    android:fontFamily="@font/ebrima"
-                    android:textSize="20dp"
-                    android:layout_margin="5dp"
                     android:layout_gravity="center"
-                    />
+
+                    android:layout_margin="5dp"
+                    android:fontFamily="@font/ebrima"
+                    android:text="@string/device_name"
+                    android:textColor="@color/good_green"
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
+                android:layout_weight="0.6"
                 android:gravity="right"
-                android:layout_weight="1">
+                android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/tv_deviceinfo_device_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Null"
-                    android:id="@+id/tv_deviceinfo_device_name"
-                    android:textColor="#527387"
-                    android:fontFamily="@font/ebrima"
-                    android:textSize="20dp"
+                    android:layout_gravity="center"
                     android:layout_margin="5dp"
-                    android:layout_gravity="center"/>
+                    android:fontFamily="@font/ebrima"
+                    android:text="@string/device_null"
+                    android:textColor="@color/good_green"
+                    android:textSize="18sp" />
             </LinearLayout>
         </LinearLayout>
 
 
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="75dp"
 
-        app:layout_constraintTop_toBottomOf="@+id/ll_1"
-        app:layout_constraintBottom_toTopOf="@+id/ll_3"
+    <LinearLayout
         android:id="@+id/ll_2"
-        android:orientation="vertical">
+        android:layout_width="match_parent"
+
+        android:layout_height="75dp"
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/ll_3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ll_1">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:background="#FFFFFFFF"
-            android:layout_marginTop="10dp">
+            android:layout_height="match_parent">
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.75">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Device Mac:"
-                    android:textColor="#527387"
-                    android:fontFamily="@font/ebrima"
-                    android:textSize="20dp"
-                    android:layout_margin="5dp"
                     android:layout_gravity="center"
-                    />
+                    android:layout_margin="5dp"
+                    android:fontFamily="@font/ebrima"
+                    android:text="@string/device_mac"
+                    android:textColor="@color/good_green"
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
+                android:layout_weight="1"
                 android:gravity="right"
-                android:layout_weight="1">
+                android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Null"
-                    android:textColor="#527387"
-                    android:fontFamily="@font/ebrima"
                     android:id="@+id/tv_deviceinfo_device_mac"
-                    android:textSize="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="5dp"
-                    android:layout_gravity="center"/>
+                    android:fontFamily="@font/ebrima"
+                    android:text="@string/device_null"
+                    android:textColor="@color/good_green"
+                    android:textSize="18sp" />
             </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>
 
 
-
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="75dp"
         android:id="@+id/ll_3"
-        app:layout_constraintTop_toBottomOf="@+id/ll_2"
-        android:orientation="vertical">
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ll_2">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:background="#FFFFFFFF"
-            android:layout_marginTop="10dp">
+            android:layout_height="match_parent">
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1.5">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Firmware Version:"
-                    android:textSize="20dp"
-                    android:textColor="#527387"
-                    android:fontFamily="@font/ebrima"
-                    android:layout_margin="5dp"
                     android:layout_gravity="center"
-                    />
+                    android:layout_margin="5dp"
+                    android:fontFamily="@font/ebrima"
+                    android:text="@string/firmware_version"
+                    android:textColor="@color/good_green"
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
+                android:layout_weight="1"
                 android:gravity="right"
-                android:layout_weight="1">
+                android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Null"
-                    android:textColor="#527387"
-                    android:fontFamily="@font/ebrima"
                     android:id="@+id/tv_deviceinfo_device_firmware"
-                    android:textSize="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="5dp"
-                    android:layout_gravity="center"/>
+                    android:fontFamily="@font/ebrima"
+                    android:text="@string/device_null"
+                    android:textColor="@color/good_green"
+                    android:textSize="18sp" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
 
     <LinearLayout
+        android:id="@+id/ll_4"
         android:layout_width="match_parent"
         android:layout_height="75dp"
-        android:id="@+id/ll_4"
-        app:layout_constraintTop_toBottomOf="@+id/ll_3"
-        android:orientation="vertical">
+        android:layout_marginTop="8dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ll_3">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:background="#FFFFFFFF"
-            android:layout_marginTop="10dp">
+            android:layout_height="match_parent">
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1.5">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Device Serial ID:"
-                    android:textColor="#527387"
-                    android:fontFamily="@font/ebrima"
-                    android:textSize="20dp"
-                    android:layout_margin="5dp"
                     android:layout_gravity="center"
-                    />
+                    android:layout_margin="5dp"
+                    android:fontFamily="@font/ebrima"
+                    android:text="@string/device_serial_id"
+                    android:textColor="@color/good_green"
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
+                android:layout_weight="1"
                 android:gravity="right"
-                android:layout_weight="1">
+                android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Null"
-                    android:textColor="#527387"
-                    android:fontFamily="@font/ebrima"
                     android:id="@+id/tv_deviceinfo_device_serial"
-                    android:textSize="20dp"
-                    android:layout_margin="5dp"
-                    android:layout_gravity="center"/>
-            </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="75dp"
-        android:id="@+id/ll_5"
-        app:layout_constraintTop_toBottomOf="@+id/ll_4"
-        android:orientation="vertical">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:background="#FFFFFFFF"
-            android:layout_marginTop="10dp">
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Battery:"
-                    android:textSize="20dp"
-                    android:textColor="#527387"
-                    android:fontFamily="@font/ebrima"
-                    android:layout_margin="5dp"
                     android:layout_gravity="center"
-                    />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:gravity="right"
-                android:layout_weight="1">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Null"
-                    android:textColor="#527387"
-                    android:fontFamily="@font/ebrima"
-                    android:id="@+id/tv_deviceinfo_device_battery"
-                    android:textSize="20dp"
                     android:layout_margin="5dp"
-                    android:layout_gravity="center"/>
+                    android:fontFamily="@font/ebrima"
+                    android:text="@string/device_null"
+                    android:textColor="@color/good_green"
+                    android:textSize="18sp" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/ll_5"
         android:layout_width="match_parent"
         android:layout_height="75dp"
-        android:id="@+id/ll_6"
-        app:layout_constraintTop_toBottomOf="@+id/ll_5"
-        android:orientation="vertical">
+        android:layout_marginTop="8dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ll_4">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:background="#FFFFFFFF"
-            android:layout_marginTop="10dp">
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:fontFamily="@font/ebrima"
+                    android:text="@string/device_battery"
+                    android:textColor="@color/good_green"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_deviceinfo_device_battery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:fontFamily="@font/ebrima"
+                    android:text="@string/device_null"
+                    android:textColor="@color/good_green"
+                    android:textSize="18sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_6"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ll_5">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1.55">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Connection Status:"
-                    android:textSize="20dp"
-                    android:textColor="#527387"
-                    android:fontFamily="@font/ebrima"
-                    android:layout_margin="5dp"
                     android:layout_gravity="center"
-                    />
+                    android:layout_margin="5dp"
+                    android:fontFamily="@font/ebrima"
+                    android:text="@string/device_connection_state"
+                    android:textColor="@color/good_green"
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
+                android:layout_weight="1"
                 android:gravity="right"
-                android:layout_weight="1">
+                android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/tv_deviceinfo_device_connection_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Null"
-                    android:textColor="#527387"
-                    android:fontFamily="@font/ebrima"
-                    android:id="@+id/tv_deviceinfo_device_connection_status"
-                    android:textSize="20dp"
+                    android:layout_gravity="center"
                     android:layout_margin="5dp"
-                    android:layout_gravity="center"/>
+                    android:fontFamily="@font/ebrima"
+                    android:text="@string/device_null"
+                    android:textColor="@color/good_green"
+                    android:textSize="18sp" />
             </LinearLayout>
         </LinearLayout>
 
 
-
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
+
+</LinearLayout>

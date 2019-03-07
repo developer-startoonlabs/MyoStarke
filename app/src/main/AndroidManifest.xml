@@ -69,15 +69,14 @@
             android:name=".dashboard.DashboardActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".services.Scanner" />
+        <activity android:name=".services.Scanner"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".Activities.UserType"
-            android:theme="@style/AppTheme.custom.noActionBar" />
+            android:name=".activities.LoginActivity"
+            android:theme="@style/AppTheme.NoActionBarLogin"
+            android:screenOrientation="portrait"/>
         <activity
-            android:name=".Activities.LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".Activities.PatientsView"
+            android:name=".activities.PatientsView"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <receiver android:name=".services.BluetoothReceiver">
@@ -96,7 +95,7 @@
         </receiver>
 
         <service
-            android:name=".DFU.DfuService"
+            android:name=".dfu.DfuService"
             android:exported="true"
             android:label="@string/dfu_service_title">
             <intent-filter>
@@ -107,7 +106,7 @@
         </service>
 
         <activity
-            android:name=".Activities.OnStartActivity"
+            android:name=".activities.OnStartActivity"
             android:exported="true"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -117,39 +116,34 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".DemoActivity"
-            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:theme="@style/AppTheme.custom.noActionBar" />
-        <activity
-            android:name=".Activities.ScanDevicesActivity"
+            android:name=".activities.ScanDevicesActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_scan_devices"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Activities.RawDataCollection" />
-        <activity android:name=".DFU.DfuActivity" />
+        <activity android:name=".activities.RawDataCollection" />
+        <activity android:name=".dfu.DfuActivity" />
         <activity
-            android:name=".Activities.SignUpActivity"
+            android:name=".activities.SignUpActivity"
             android:theme="@style/AppTheme.customDesign.noActionBar" />
         <activity
-            android:name=".Activities.SessionList"
-            android:label="@string/title_activity_session_list"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".Activities.PhizioProfile"
+            android:name=".activities.PhizioProfile"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.customDesign.noActionBar" />
-        <activity android:name=".Activities.DeviceInfoActivity" />
-        <activity android:name=".Activities.MmtSession" />
-        <activity android:name=".Activities.CalibrationSession" />
+        <activity android:name=".activities.DeviceInfoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".activities.CalibrationSession" />
         <activity
-            android:name=".Activities.BodyPartSelection"
+            android:name=".activities.BodyPartSelection"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Activities.MonitorActivity"
+            android:name=".activities.MonitorActivity"
             android:screenOrientation="portrait"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Activities.SessionReportActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".activities.SessionReportActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

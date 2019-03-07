@@ -1,4 +1,4 @@
-package com.example.sai.pheezeeapp.Activities;
+package com.example.sai.pheezeeapp.activities;
 
 import android.app.ProgressDialog;
 import android.graphics.Typeface;
@@ -11,13 +11,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.sai.pheezeeapp.Fragments.FragmentReportDay;
-import com.example.sai.pheezeeapp.Fragments.ReportMonth;
-import com.example.sai.pheezeeapp.Fragments.ReportWeek;
+import com.example.sai.pheezeeapp.fragments.FragmentReportDay;
+import com.example.sai.pheezeeapp.fragments.ReportMonth;
+import com.example.sai.pheezeeapp.fragments.ReportWeek;
 import com.example.sai.pheezeeapp.R;
 import com.example.sai.pheezeeapp.services.MqttHelper;
-import com.example.sai.pheezeeapp.views.custom_graph.ApiData;
-import com.example.sai.pheezeeapp.views.custom_graph.EmonjiBarGraph;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;

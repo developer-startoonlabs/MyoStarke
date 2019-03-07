@@ -1,4 +1,4 @@
-package com.example.sai.pheezeeapp.Activities;
+package com.example.sai.pheezeeapp.activities;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -37,22 +37,22 @@ import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
-import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Display;
@@ -75,8 +75,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.sai.pheezeeapp.Classes.BluetoothGattSingleton;
 import com.example.sai.pheezeeapp.Classes.BluetoothSingelton;
 import com.example.sai.pheezeeapp.Classes.MyBottomSheetDialog;
-import com.example.sai.pheezeeapp.DFU.DfuActivity;
-import com.example.sai.pheezeeapp.DemoActivity;
 import com.example.sai.pheezeeapp.R;
 import com.example.sai.pheezeeapp.dashboard.DashboardActivity;
 import com.example.sai.pheezeeapp.patientsRecyclerView.PatientsListData;
@@ -87,8 +85,6 @@ import com.example.sai.pheezeeapp.services.Scanner;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.squareup.picasso.Picasso;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
@@ -99,7 +95,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
@@ -145,6 +140,7 @@ public class PatientsView extends AppCompatActivity
 
     TextView email,fullName;
     public static ImageView ivBasicImage;
+    ImageView bluetooth_image;
     //new
     JSONObject json_phizio = new JSONObject();
     //MQTT HELPER
@@ -158,6 +154,8 @@ public class PatientsView extends AppCompatActivity
 
     String mqtt_get_profile_pic_response = "phizio/getprofilepic/response";
 
+    String mqtt_update_patient_status = "phizio/update/patientStatus";
+
 
 
     String mqtt_subs_phizio_addpatient_response = "phizio/addpatient/response";
@@ -165,6 +163,7 @@ public class PatientsView extends AppCompatActivity
     //Request action intents
 
     int REQUEST_ENABLE_BT = 1;
+    final int REQUEST_ENABLE_BT_SCAN = 2;
 
     boolean isBleConnected;
     public boolean gattconnection_established = false;
@@ -197,6 +196,8 @@ public class PatientsView extends AppCompatActivity
     private LinearLayout patientLayout;
 
     RecyclerView mRecyclerView;
+
+    android.support.v7.widget.SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -235,7 +236,7 @@ public class PatientsView extends AppCompatActivity
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.nav_header_patients_view, navigationView);
 
-
+        Log.i("shared pref",sharedPref.getString("sync_emg_session",""));
 
         //external storage permission
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -253,7 +254,8 @@ public class PatientsView extends AppCompatActivity
             e.printStackTrace();
         }
 
-
+        bluetooth_image = findViewById(R.id.bluetooth_imamge);
+        searchView = findViewById(R.id.search_view);
         ivBasicImage =  view.findViewById(R.id.imageViewdp);
         Picasso.get().load(Environment.getExternalStoragePublicDirectory("profilePic"))
                 .placeholder(R.drawable.user_icon)
@@ -395,7 +397,6 @@ public class PatientsView extends AppCompatActivity
             public void messageArrived(String topic, MqttMessage message){
                 Log.i(topic,message.toString());
                  if(topic.equals(mqtt_get_profile_pic_response)){
-                     Log.i(topic,message.toString());
                     Bitmap bitmap = BitmapFactory.decodeByteArray(message.getPayload(), 0, message.getPayload().length);
                     ivBasicImage.setImageBitmap(bitmap);
                 }
@@ -415,6 +416,24 @@ public class PatientsView extends AppCompatActivity
 
             }
         });
+
+
+        //search option android
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                mAdapter.getFilter().filter(s);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                mAdapter.getFilter().filter(s);
+                return false;
+            }
+        });
+
     }
 
     @Override
@@ -431,22 +450,28 @@ public class PatientsView extends AppCompatActivity
             PatientsListData patientsList;
             for (int i = data.length() - 1; i >= 0; i--) {
                 try {
-                    patientsList = new PatientsListData(data.getJSONObject(i).getString("patientname"), data.getJSONObject(i).getString("patientid"),data.getJSONObject(i).getString("patientid"));
-                    mdataset.add(patientsList);
+                    if(!data.getJSONObject(i).has("status")  || data.getJSONObject(i).getString("status").equals("active")) {
+                        patientsList = new PatientsListData(data.getJSONObject(i).getString("patientname"), data.getJSONObject(i).getString("patientid"), data.getJSONObject(i).getString("patientid"));
+                        mdataset.add(patientsList);
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
 
-            findViewById(R.id.noPatient).setVisibility(View.GONE);
+
 
         }
+
+        if(mdataset.size()>0)
+            findViewById(R.id.noPatient).setVisibility(View.GONE);
         else {
             findViewById(R.id.noPatient).setVisibility(View.VISIBLE);
         }
         mAdapter.notifyDataSetChanged();
 
     }
+
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
@@ -516,12 +541,6 @@ public class PatientsView extends AppCompatActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-//         if(id == R.id.demo_app){
-//            startActivity(new Intent(PatientsView.this,DemoActivity.class));
-//        }
-//
-//         else
             if (id==R.id.pheeze_device_info){
                  Intent i = new Intent(PatientsView.this, DeviceInfoActivity.class);
                  i.putExtra("deviceMacAddress", sharedPref.getString("deviceMacaddress", ""));
@@ -544,17 +563,6 @@ public class PatientsView extends AppCompatActivity
             else if(id==R.id.nav_app_version){
 
             }
-
-//        else if (id == R.id.rawdatacollection){
-//            if (bleStatusTextView.getText().equals("C")) {
-//                Intent i = new Intent(PatientsView.this, RawDataCollection.class);
-//                i.putExtra("deviceMacAddress", sharedPref.getString("deviceMacaddress", ""));
-//                startActivity(i);
-//            }
-//            else {
-//                Toast.makeText(context, "Please connect to pheeze" , Toast.LENGTH_SHORT).show();
-//            }
-//        }
             else if (id == R.id.nav_logout) {
     //            if (GoogleSignIn.getLastSignedInAccount(this) != null)
     //                signOut();
@@ -684,6 +692,7 @@ public class PatientsView extends AppCompatActivity
                             jsonObject.put("patientname", patientName.getText().toString());
                             jsonObject.put("patientid", patientId.getText().toString());
                             jsonObject.put("numofsessions", "0");
+                            jsonObject.put("status","active");
                             jsonObject.put("patientphone", patientId.getText().toString());
                             jsonObject.put("patientprofilepicurl", "empty");
                             jsonObject.put("dateofjoin",todaysDate);
@@ -972,7 +981,9 @@ public class PatientsView extends AppCompatActivity
     @SuppressLint("HandlerLeak")
     public final Handler bleStatusHandler = new Handler() {
         public void handleMessage(Message msg) {
+            String status = (String) msg.obj;
             bleStatusTextView.setText((String) msg.obj);
+            ScanDevicesActivity.setBleStatus(status);
         }
     };
 
@@ -1019,16 +1030,6 @@ public class PatientsView extends AppCompatActivity
         }
     };
 
-    private void signOut() {
-        mGoogleSignInClient.signOut()
-                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        // ...
-                    }
-                });
-    }
-
     public void startSession(View view) {
         patientTabLayout= (LinearLayout) ((Button)view).getParent().getParent();
         patientTabLayout = (LinearLayout) patientTabLayout.getChildAt(1);
@@ -1069,58 +1070,6 @@ public class PatientsView extends AppCompatActivity
 
     //target to save
 
-    private void bodyPartsPopupWindow(View view) {
-
-        View layout = this.getLayoutInflater().inflate(R.layout.bady_parts_layout,null);
-
-        bodyPartLayout = new PopupWindow(layout, ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT);
-
-        patientTabLayout= (LinearLayout) ((Button)view).getParent().getParent();
-        patientTabLayout = (LinearLayout) patientTabLayout.getChildAt(1);
-
-        bodyPartLayout.showAtLocation(view.getRootView(), Gravity.CENTER, 0, 0);
-        f_bodypart_popup = true;
-        LinearLayout cancelbtn = layout.findViewById(R.id.cancel_action);
-        CardView elbowView = layout.findViewById(R.id.elbow);
-        CardView kneeView = layout.findViewById(R.id.knee);
-        CardView sholderView = layout.findViewById(R.id.sholder);
-        CardView hipView = layout.findViewById(R.id.hip);
-
-        elbowView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openDashboard(patientTabLayout,"elbow");
-
-            }
-        });
-        kneeView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openDashboard(patientTabLayout,"knee");
-            }
-        });
-
-        sholderView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openDashboard(patientTabLayout,"sholder");
-            }
-        });
-        hipView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openDashboard(patientTabLayout,"hip");
-            }
-        });
-
-        cancelbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                bodyPartLayout.dismiss();
-            }
-        });
-    }
-
     public void openDashboard(LinearLayout view,String exerciseType) {
 
         TextView patientName = (TextView) view.getChildAt(0);
@@ -1147,7 +1096,12 @@ public class PatientsView extends AppCompatActivity
         switch (menuItem.getItemId()){
             case R.id.scan_nearby_devices: {
                 to_scan_devices_activity = new Intent(PatientsView.this, ScanDevicesActivity.class);
-                startActivity(to_scan_devices_activity);
+                if (bluetoothAdapter==null || !bluetoothAdapter.isEnabled()) {
+                    Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                    startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT_SCAN);
+                }
+                else
+                    startActivity(to_scan_devices_activity);
                 break;
             }
             case R.id.qrcode_scan:{
@@ -1157,7 +1111,7 @@ public class PatientsView extends AppCompatActivity
             }
 
             case R.id.enter_mac_address:{
-                builder = new AlertDialog.Builder(this);
+                builder = new AlertDialog.Builder(this,R.style.AlertDialogStyle_entermac);
                 builder.setTitle("ENTER THE MAC ADDRESS");
                 final EditText input_macAddress = new EditText(this);
 
@@ -1174,12 +1128,10 @@ public class PatientsView extends AppCompatActivity
             builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-
                     dialog.cancel();
                 }
             });
             builder.show();
-
                 break;
             }
         }
@@ -1331,6 +1283,12 @@ public class PatientsView extends AppCompatActivity
 
             }
         }
+
+        if(requestCode==2){
+            if(resultCode!=0){
+                startActivity(new Intent(this,ScanDevicesActivity.class));
+            }
+        }
     }
 
 
@@ -1377,111 +1335,24 @@ public class PatientsView extends AppCompatActivity
     }
 
 
-    public void startMmtSession(View view){
-        myBottomSheetDialog.dismiss();
-        if(bleStatusTextView.getText().toString().equals("C")) {
-            bodyPartsPopup(view,1);
-        }
-        else{
-            Toast.makeText(PatientsView.this, "Please Connect pheezee..", Toast.LENGTH_SHORT).show();
-        }
-    }
+    //Self reference
 
-    public void startCalibrationSession(View view){
-        myBottomSheetDialog.dismiss();
-        if(bleStatusTextView.getText().toString().equals("C")) {
-            bodyPartsPopup(view,2);
-        }
-        else{
-            Toast.makeText(PatientsView.this, "Please Connect pheezee..", Toast.LENGTH_SHORT).show();
-        }
-    }
+//    public void startCalibrationSession(View view){
+//        myBottomSheetDialog.dismiss();
+//        if(bleStatusTextView.getText().toString().equals("C")) {
+//            bodyPartsPopup(view,2);
+//        }
+//        else{
+//            Toast.makeText(PatientsView.this, "Please Connect pheezee..", Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
-    private void bodyPartsPopup(View view, final int requestCode) {
-
-        View layout = this.getLayoutInflater().inflate(R.layout.bady_parts_layout,null);
-
-        bodyPartLayoutWndow = new PopupWindow(layout, ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT);
-
-        bodyPartLayoutWndow.showAtLocation(view.getRootView(), Gravity.CENTER, 0, 0);
-        LinearLayout cancelbtn = layout.findViewById(R.id.cancel_action);
-        CardView elbowView = layout.findViewById(R.id.elbow);
-        CardView kneeView = layout.findViewById(R.id.knee);
-        CardView sholderView = layout.findViewById(R.id.sholder);
-        CardView hipView = layout.findViewById(R.id.hip);
-
-        elbowView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(requestCode==1){
-                    openMqttActivity("elbow");
-                }
-                else if(requestCode==2){
-                    openCalibrationActivity("elbow");
-                }
-            }
-        });
-        kneeView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(requestCode==1){
-                    openMqttActivity("knee");
-                }
-                else if(requestCode==2){
-                    openCalibrationActivity("knee");
-                }
-            }
-        });
-
-        sholderView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(requestCode==1){
-                    openMqttActivity("shoulder");
-                }
-                else if(requestCode==2){
-                    openCalibrationActivity("shoulder");
-                }
-            }
-        });
-        hipView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(requestCode==1){
-                    openMqttActivity("hip");
-                }
-                else if(requestCode==2){
-                    openCalibrationActivity("hip");
-                }
-            }
-        });
-
-        cancelbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                bodyPartLayoutWndow.dismiss();
-            }
-        });
-    }
 
     private void openCalibrationActivity(String bodypart) {
         final TextView patientIdTemp = patientTabLayout.findViewById(R.id.patientId);
         TextView patientNameTemp = patientTabLayout.findViewById(R.id.patientName);
 
         Intent mmt_intent = new Intent(PatientsView.this, CalibrationSession.class);
-        mmt_intent.putExtra("deviceMacAddress", sharedPref.getString("deviceMacaddress", ""));
-        mmt_intent.putExtra("patientid", patientIdTemp.getText().toString().substring(5));
-        mmt_intent.putExtra("bodypart", bodypart);
-        mmt_intent.putExtra("patientname", patientNameTemp.getText().toString());
-        startActivity(mmt_intent);
-        bodyPartLayoutWndow.dismiss();
-    }
-
-    private void openMqttActivity(String bodypart) {
-        final TextView patientIdTemp = patientTabLayout.findViewById(R.id.patientId);
-        TextView patientNameTemp = patientTabLayout.findViewById(R.id.patientName);
-
-        Intent mmt_intent = new Intent(PatientsView.this, MmtSession.class);
         mmt_intent.putExtra("deviceMacAddress", sharedPref.getString("deviceMacaddress", ""));
         mmt_intent.putExtra("patientid", patientIdTemp.getText().toString().substring(5));
         mmt_intent.putExtra("bodypart", bodypart);
@@ -1508,6 +1379,61 @@ public class PatientsView extends AppCompatActivity
         else {
             networkError();
         }
+    }
+
+    public void updatePatientStatus(View view){
+        myBottomSheetDialog.dismiss();
+        final MqttMessage mqttMessage = new MqttMessage();
+        final JSONObject object = new JSONObject();
+        try {
+            jsonData = new JSONArray(json_phizio.getString("phiziopatients"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Delete Patient");
+        builder.setMessage("Are you sure you want to archive the patient?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(isNetworkAvailable()){
+                    final TextView patientIdTemp = patientTabLayout.findViewById(R.id.patientId);
+                    for(int k=0;k<jsonData.length();k++){
+                        try {
+                            if(jsonData.getJSONObject(k).getString("patientid").equals(patientIdTemp.getText().toString().substring(5))){
+
+
+                                object.put("phizioemail", json_phizio.get("phizioemail"));
+                                object.put("patientid",jsonData.getJSONObject(k).get("patientid"));
+                                object.put("status","inactive");
+                                jsonData.getJSONObject(k).put("status","inactive");
+                                json_phizio.put("phiziopatients",jsonData);
+
+                                editor.putString("phiziodetails",json_phizio.toString());
+                                editor.apply();
+                                pushJsonData(new JSONArray(json_phizio.getString("phiziopatients")));
+                                mqttMessage.setPayload(object.toString().getBytes());
+                                mqttHelper.publishMqttTopic(mqtt_update_patient_status,mqttMessage);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                else {
+                    networkError();
+                }
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.show();
+
     }
 
 
@@ -1713,7 +1639,6 @@ public class PatientsView extends AppCompatActivity
 
         return bluetoothGatt.writeCharacteristic(mCustomCharacteristic);
     }
-
 
     public final Handler batteryStatus = new Handler(){
         @Override

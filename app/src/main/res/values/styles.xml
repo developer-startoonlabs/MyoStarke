@@ -9,15 +9,16 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-    <style name="AppTheme.custom.bodypart" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="android:background">@color/white_opaque</item>
-        <item name="android:windowBackground">@color/white_opaque</item>
-        <item name="android:colorBackground">@color/white_opaque</item>
-        <item name="android:windowNoTitle">true</item>
-    </style>
 
     <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.NoActionBarLogin">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -28,8 +29,6 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="android:windowContentOverlay">@null</item>
     </style>
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="AppTheme.customDesign.noActionBar" parent="Theme.Design.Light.NoActionBar">
         <item name="android:background">@color/white_opaque</item>
@@ -43,35 +42,6 @@
         <item name="android:windowBackground">@color/white_opaque</item>
         <item name="android:colorBackground">@color/white_opaque</item>
         <item name="android:buttonStyle">@drawable/custom_button_color</item>
-    </style>
-
-
-    <style name="DialogAnimation">
-        <item name="android:windowEnterAnimation">@anim/slide_up_dialog</item>
-        <item name="android:windowExitAnimation">@anim/slide_out_down</item>
-        <item name="android:windowBackground">@null</item>
-        <item name="android:windowFrame">@null</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:fadeEnabled">true</item>
-        <item name="android:background">@color/translucent_black</item>
-    </style>
-
-    <style name="DialogSlideAnim" parent="@android:style/Theme.Dialog">
-        <item name="android:windowAnimationStyle">@style/DialogAnimation</item>
-
-        <item name="android:windowBackground">@null</item>
-        <item name="android:windowFrame">@null</item>
-        <item name="android:windowNoTitle">true</item>
-    </style>
-
-    <style name="HeaderBar">
-        <item name="android:background">#303F9F</item>
-    </style>
-
-
-    <style name="MyAppearance" parent="TextAppearance.AppCompat">
-        <item name="android:textColor">@color/white</item>
-        <item name="android:backgroundTint" tools:targetApi="lollipop_mr1">@color/white</item>
     </style>
 
 
@@ -101,5 +71,8 @@
         <!--<item name="colorControlActivated">@color/white</item>-->
         <!--<item name="colorControlHighlight">@color/white</item>-->
     <!--</style>-->
+
+
+    <!--enter mac edress connect related style-->
 
 </resources>

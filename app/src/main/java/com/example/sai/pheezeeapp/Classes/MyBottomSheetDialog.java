@@ -23,9 +23,8 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.sai.pheezeeapp.Activities.PatientsView;
+import com.example.sai.pheezeeapp.activities.PatientsView;
 import com.example.sai.pheezeeapp.R;
 
 @SuppressLint("ValidFragment")
@@ -37,6 +36,8 @@ public class MyBottomSheetDialog extends BottomSheetDialogFragment {
     ImageView iv_patient_profile_pic;
     String name,id,dateofjoin;
     Bitmap bitmap;
+
+    LinearLayout ll_report,ll_calibration,ll_edit_patient_details,ll_delete_patient,ll_archive_patient;
 
     @SuppressLint("ValidFragment")
     public MyBottomSheetDialog(String name, Bitmap bitmap, String id, String dateofjoin){
@@ -72,6 +73,47 @@ public class MyBottomSheetDialog extends BottomSheetDialogFragment {
         tv_patient_id_section = layout.findViewById(R.id.tv_patient_id_section);
         iv_patient_profile_pic = layout.findViewById(R.id.patient_profilepic_section);
         tv_date_of_join = layout.findViewById(R.id.tv_patient_joindate_section);
+
+        ll_calibration = layout.findViewById(R.id.ll_calibration);
+        ll_report = layout.findViewById(R.id.ll_report);
+        ll_edit_patient_details = layout.findViewById(R.id.ll_edit_patient_details);
+        ll_delete_patient = layout.findViewById(R.id.ll_delete_patient);
+        ll_archive_patient = layout.findViewById(R.id.ll_archive_patient);
+
+        ll_calibration.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        ll_archive_patient.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((PatientsView)getActivity()).updatePatientStatus(v);
+            }
+        });
+
+        ll_report.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((PatientsView)getActivity()).openReportActivity(v);
+            }
+        });
+
+        ll_edit_patient_details.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((PatientsView)getActivity()).editThePatientDetails(v);
+            }
+        });
+
+        ll_delete_patient.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((PatientsView)getActivity()).deletePatient(v);
+            }
+        });
         tv_patient_name_section.setText(name);
         tv_date_of_join.setText(dateofjoin);
         String s = tv_patient_id_section.getText().toString();

@@ -26,8 +26,7 @@
             android:id="@+id/rl_preview"
             android:layout_width="match_parent"
             android:layout_height="185dp"
-            android:layout_alignParentTop="true"
-            android:visibility="invisible">
+            android:layout_alignParentTop="true">
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/previewImage"
@@ -61,8 +60,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:background="@drawable/drawable_background_yellow"
-                android:orientation="horizontal"
-                android:visibility="invisible">
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="0dp"

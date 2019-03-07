@@ -1,4 +1,4 @@
-package com.example.sai.pheezeeapp.Activities;
+package com.example.sai.pheezeeapp.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;

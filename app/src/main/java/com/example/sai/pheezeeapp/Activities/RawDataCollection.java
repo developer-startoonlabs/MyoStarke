@@ -1,4 +1,4 @@
-package com.example.sai.pheezeeapp.Activities;
+package com.example.sai.pheezeeapp.activities;
 
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;

@@ -1,4 +1,4 @@
-package com.example.sai.pheezeeapp.Activities;
+package com.example.sai.pheezeeapp.activities;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -14,7 +14,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -34,7 +33,6 @@ import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
-import android.support.constraint.ConstraintSet;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateFormat;
@@ -56,14 +54,11 @@ import com.example.sai.pheezeeapp.views.ArcView;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.goodiebag.protractorview.ProtractorView;
-
-import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
@@ -72,10 +67,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.File;
 
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -88,10 +85,20 @@ public class MonitorActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     JSONObject json_phizio = new JSONObject();
+
+    boolean isSessionRunning=false, enteredInsideTwenty = true;
     JSONArray jsonData;
     JSONArray emgJsonArray;
+    public final int emg_data_size_raw = 20;
+    public final int emg_num_packets_raw = 40;
 
+
+    public final int emg_data_size_session = 10;
+    public final int emg_num_packets_session = 20;
     ImageView iv_back_monitor;
+
+    File  file_emgdata,file_dir_emgdata;
+    FileOutputStream  outputStream_emgdata;
 
     //MQTT
     MqttHelper mqttHelper;
@@ -108,10 +115,9 @@ public class MonitorActivity extends AppCompatActivity {
     LineChart lineChart;
     LineDataSet lineDataSet;
     int SessionTimeForGraph;
-    MqttAndroidClient client;
     View rootView;
     private static final String TAG = null;
-    BluetoothGattCharacteristic mCharacteristic;
+    BluetoothGattCharacteristic mCharacteristic,mCharacteristic2;
     BluetoothGatt mBluetoothGatt;
     TextView Angle,tv_snap;
     TextView Repetitions;
@@ -139,17 +145,22 @@ public class MonitorActivity extends AppCompatActivity {
     LinearLayout emgSignal;
     String holdTimeValue;
     int maxAngle,minAngle,maxEmgValue;
+    Date rawdata_timestamp;
     Long tsLong=0L;
     String exerciseType;
-    BluetoothGattDescriptor mBluetoothGattDescriptor;
+    BluetoothGattDescriptor mBluetoothGattDescriptor,mBluetoothGattDescriptor_raw;
 
-
+    ArrayList<BluetoothGattCharacteristic> arrayList;
 
 
     //All the constant uuids are written here
     public static final UUID service1_uuid = UUID.fromString("909a1400-9693-4920-96e6-893c0157fedd");
     public static final UUID characteristic1_service1_uuid = UUID.fromString("909a1401-9693-4920-96e6-893c0157fedd");
     public static final UUID descriptor_characteristic1_service1_uuid = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
+
+
+    public static final UUID service2_uuid = UUID.fromString("909a0309-9693-4920-96e6-893c0157fedd");
+    public static final UUID characteristic1_service2_uuid = UUID.fromString("909a7777-9693-4920-96e6-893c0157fedd");
 
 
 
@@ -214,6 +225,8 @@ public class MonitorActivity extends AppCompatActivity {
         timer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                enteredInsideTwenty = true;
+                isSessionRunning = true;
                 emgJsonArray = new JSONArray();
                 maxAngle = 0;
                 minAngle = 360;
@@ -242,6 +255,30 @@ public class MonitorActivity extends AppCompatActivity {
                     }, 100);
 
 
+                    rawdata_timestamp = Calendar.getInstance().getTime();
+                    String s = rawdata_timestamp.toString().substring(0, 19);
+
+                    file_dir_emgdata = new File(Environment.getExternalStorageDirectory()+"/Pheezee/files","EmgData");
+                    if (!file_dir_emgdata.exists()) {
+                        file_dir_emgdata.mkdirs();
+                    }
+                    file_emgdata = new File(file_dir_emgdata, ""+s+".txt");
+                    try {
+                        file_emgdata.createNewFile();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    try {
+                        outputStream_emgdata = new FileOutputStream(file_emgdata, true);
+                        outputStream_emgdata.write("EMG".getBytes());
+                        outputStream_emgdata.write("\n".getBytes());
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
                     StartTime = SystemClock.uptimeMillis();
                     visiblity = View.GONE;
                     recieverState = true;
@@ -253,6 +290,7 @@ public class MonitorActivity extends AppCompatActivity {
         stopBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                isSessionRunning=false;
                 timer.setBackgroundResource(R.drawable.rounded_start_button);
                 visiblity = View.VISIBLE;
                 stopBtn.setVisibility(View.GONE);
@@ -267,6 +305,8 @@ public class MonitorActivity extends AppCompatActivity {
                         mBluetoothGatt.writeCharacteristic(mCharacteristic);
                     }
                 });
+
+
                 TimeBuff += MillisecondTime;
                 handler.removeCallbacks(runnable);
                 MillisecondTime = 0L ;
@@ -277,7 +317,7 @@ public class MonitorActivity extends AppCompatActivity {
                 Minutes = 0 ;
                 MilliSeconds = 0 ;
                 pheezeeState =false;
-                timer.setText("Start");
+                timer.setText(R.string.timer_start);
                 recieverState = false;
                 Log.i("minAngle",""+minAngle);
 //                if(maxAngle!=0&&!(maxAngle>180)&&minAngle!=180&&!(minAngle<0)) {
@@ -300,6 +340,17 @@ public class MonitorActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     initiatePopupWindowModified(v);
+                    MediaScannerConnection.scanFile(
+                            getApplicationContext(),
+                            new String[]{file_emgdata.getAbsolutePath()},
+                            null,
+                            new MediaScannerConnection.OnScanCompletedListener() {
+                                @Override
+                                public void onScanCompleted(String path, Uri uri) {
+                                    Log.v("grokkingandroid",
+                                            "file " + path + " was scanned seccessfully: " + uri);
+                                }
+                            });
 //                }else {
 //                    Toast.makeText(MonitorActivity.this,"your alignment is wrong!! try again,",Toast.LENGTH_LONG).show();
 //                }
@@ -320,7 +371,7 @@ public class MonitorActivity extends AppCompatActivity {
             }
 
             @Override
-            public void messageArrived(String topic, MqttMessage message) throws Exception {
+            public void messageArrived(String topic, MqttMessage message){
                 Log.i(topic,message.toString());
                 if(topic.equals(mqtt_publish_add_patient_session_response)){
                     if(message.toString().equals("inserted")){
@@ -396,8 +447,6 @@ public class MonitorActivity extends AppCompatActivity {
         });
     }
 
-
-
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -453,7 +502,6 @@ public class MonitorActivity extends AppCompatActivity {
         lineChart.getAxisLeft().setSpaceTop(60f);
         lineChart.getAxisRight().setSpaceTop(60f);
         lineChart.getAxisLeft().setStartAtZero(false);
-        lineChart.getAxisRight().setStartAtZero(false);
         lineChart.getAxisLeft().setDrawGridLines(false);
         lineChart.getXAxis().setDrawGridLines(false);
         lineChart.getXAxis().setDrawAxisLine(false);
@@ -530,6 +578,19 @@ public class MonitorActivity extends AppCompatActivity {
                     }
                 });
             }
+
+            else if(characteristic.getUuid().equals(characteristic1_service2_uuid)){
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        mBluetoothGatt.setCharacteristicNotification(mCharacteristic2, true);
+                        mBluetoothGattDescriptor_raw.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+                        mBluetoothGatt.writeDescriptor(mBluetoothGattDescriptor_raw);
+                        Log.i("HEllo", "HELLO_raw");
+                    }
+                });
+            }
         }
 
         @Override
@@ -539,11 +600,19 @@ public class MonitorActivity extends AppCompatActivity {
                 BluetoothGattCharacteristic characteristic = gatt.getService(service1_uuid).getCharacteristic(characteristic1_service1_uuid);
                 Log.i("TEST", "INSIDE IF");
 
+
                 if(characteristic1_service1_uuid.equals(characteristic.getUuid()))
                     mCharacteristic = characteristic;
+
+                mCharacteristic2 = gatt.getService(service2_uuid).getCharacteristic(characteristic1_service2_uuid);
                 mBluetoothGatt = gatt;
                 gatt.setCharacteristicNotification(characteristic,true);
+                gatt.setCharacteristicNotification(mCharacteristic2,true);
                 mBluetoothGattDescriptor = characteristic.getDescriptor(descriptor_characteristic1_service1_uuid);
+                mBluetoothGattDescriptor_raw = mCharacteristic2.getDescriptor(descriptor_characteristic1_service1_uuid);
+
+                arrayList.add(mCharacteristic);
+                arrayList.add(mCharacteristic2);
             }
         }
 
@@ -584,13 +653,113 @@ public class MonitorActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                     }
-                    else {
-                        Log.i("HELLO","HELLO");
+                }
+            }
+
+            else if(characteristic.getUuid().equals(characteristic1_service2_uuid)){
+                byte[] b = characteristic.getValue();
+
+                if(b.length<47){
+                    int[] emg_data;
+
+                    byte sub_byte[] = new byte[b.length ];
+                    for (int i = 0; i < sub_byte.length; i++) {
+                        sub_byte[i] = b[i];
+                    }
+                    try {
+                        outputStream_emgdata = new FileOutputStream(file_emgdata, true);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    byte temp_array[] = new byte[emg_data_size_raw];
+                    for (int i = 0; i < emg_data_size_raw; i++) {
+                        temp_array[i] = sub_byte[i];
+                    }
+                    emg_data = constructEmgDataRawWithoutCombine(temp_array);
+
+                    String str[] = new String[emg_data_size_raw];
+                    for (int i = 0; i < emg_data.length; i++) {
+                        str[i] = "" + emg_data[i];
+                    }
+
+                    if(enteredInsideTwenty){
+                        String temp = "From here 20 byte packets are coming.";
+                        try {
+                            outputStream_emgdata.write(temp.getBytes());
+                            outputStream_emgdata.write("\n".getBytes());
+                            outputStream_emgdata.write("\n".getBytes());
+                            outputStream_emgdata.write("\n".getBytes());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        enteredInsideTwenty= false;
+                    }
+
+                    try {
+                        for (int i = 0; i < str.length; i++) {
+                            if(str[i]!=null) {
+                                outputStream_emgdata.write(str[i].getBytes());
+                                outputStream_emgdata.write("\n".getBytes());
+                            }
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        outputStream_emgdata.flush();
+                        outputStream_emgdata.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
                 }
                 else {
-                    Toast.makeText(MonitorActivity.this, "HELLO", Toast.LENGTH_SHORT).show();
+                    int[] emg_data;
+                    byte sub_byte[] = new byte[b.length - 2];
+                    int j = 2;
+                    for (int i = 0; i < sub_byte.length; i++, j++) {
+                        sub_byte[i] = b[j];
+                    }
+                    byte header_main = b[0];
+                    byte header_sub = b[1];
+
+                    if(byteToStringHexadecimal(header_main).equals("BB")) {
+                        if (byteToStringHexadecimal(header_sub).equals("01")) {
+                            try {
+                                outputStream_emgdata = new FileOutputStream(file_emgdata, true);
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            }
+                            byte temp_array[] = new byte[emg_num_packets_raw];
+                            for (int i = 0; i < emg_num_packets_raw; i++) {
+                                temp_array[i] = sub_byte[i];
+                            }
+                            emg_data = constructEmgDataRaw(temp_array);
+
+                            String str[] = new String[emg_data_size_raw];
+                            for (int i = 0; i < emg_data.length; i++) {
+                                str[i] = "" + emg_data[i];
+                            }
+
+                            try {
+                                for (int i = 0; i < str.length; i++) {
+                                    if(str[i]!=null) {
+                                        outputStream_emgdata.write(str[i].getBytes());
+                                        outputStream_emgdata.write("\n".getBytes());
+                                    }
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            try {
+                                outputStream_emgdata.flush();
+                                outputStream_emgdata.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
                 }
+
             }
         }
 
@@ -606,6 +775,21 @@ public class MonitorActivity extends AppCompatActivity {
         @Override
         public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
             Log.i("DES", "ENTERED DESCRIPTOR");
+            if(descriptor.getCharacteristic().getUuid().equals(mCharacteristic.getUuid())){
+                if(isSessionRunning)
+                    sendRaw();
+                else {
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            mBluetoothGatt.setCharacteristicNotification(mCharacteristic2,false);
+                            mBluetoothGattDescriptor_raw.setValue(BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
+                            mBluetoothGatt.writeDescriptor(mBluetoothGattDescriptor_raw);
+                            mBluetoothGatt.writeCharacteristic(mCharacteristic2);
+                        }
+                    });
+                }
+            }
         }
     };
 
@@ -637,6 +821,37 @@ public class MonitorActivity extends AppCompatActivity {
         mCharacteristic.setValue(data);
 
         return mBluetoothGatt.writeCharacteristic(mCharacteristic);
+    }
+
+
+    public boolean sendRaw(){
+        Log.i("send raw","send raw");
+        byte data[] = hexStringToByteArray("BB01");
+        if (mBluetoothGatt == null ) {
+            Log.w(TAG, "BluetoothGatt not initialized");
+            return false;
+        }
+        if (mCharacteristic2 == null) {
+            Log.w(TAG, "Send characteristic not found");
+            return false;
+        }
+
+        BluetoothGattService service = mBluetoothGatt.getService(service2_uuid);
+
+        if(service==null){
+            if (mCharacteristic2 == null) {
+                Log.w(TAG, "Send service not found");
+                return false;
+            }
+        }
+        if(characteristic1_service2_uuid.equals(mCharacteristic2.getUuid())){
+            Log.i("TRUE", "TRUE");
+        }
+
+
+        mCharacteristic2.setValue(data);
+
+        return mBluetoothGatt.writeCharacteristic(mCharacteristic2);
     }
 
     public Runnable runnable = new Runnable() {
@@ -675,8 +890,6 @@ public class MonitorActivity extends AppCompatActivity {
             sub_byte = (byte[]) message.obj;
             emg_data = constructEmgData(sub_byte);
             angleDetected = getAngleFromData(sub_byte[20],sub_byte[21]);
-
-            Log.i("angle detected", angleDetected+"");
             num_of_reps = getNumberOfReps(sub_byte[22], sub_byte[23]);
             hold_time_minutes = sub_byte[24];
             hold_time_seconds = sub_byte[25];
@@ -1148,8 +1361,8 @@ public class MonitorActivity extends AppCompatActivity {
 
     public int[] constructEmgData(byte[] sub_byte){
         int k=0;
-        int[] emg_data = new int[10];
-        for (int i=0;i<20;i++){
+        int[] emg_data = new int[emg_data_size_session];
+        for (int i=0;i<emg_num_packets_session;i++){
             int a = sub_byte[i]&0xFF;
             int b = sub_byte[i+1]&0xFF;
 
@@ -1159,6 +1372,33 @@ public class MonitorActivity extends AppCompatActivity {
         }
         return emg_data;
     }
+
+
+    public int[] constructEmgDataRaw(byte[] sub_byte){
+        int k=0;
+        int[] emg_data = new int[emg_data_size_raw];
+        for (int i=0;i<sub_byte.length;i++){
+            int a = sub_byte[i]&0xFF;
+            int b = sub_byte[i+1]&0xFF;
+
+            emg_data[k] = b<<8 | a;
+            i++;
+            k++;
+        }
+        return emg_data;
+    }
+
+    public int[] constructEmgDataRawWithoutCombine(byte[] sub_byte){
+        int k=0;
+        int[] emg_data = new int[emg_data_size_raw];
+        for (int i=0;i<sub_byte.length;i++){
+            emg_data[k] = sub_byte[i]&0xFF;
+            i++;
+            k++;
+        }
+        return emg_data;
+    }
+
 
     public int getAngleFromData(byte a, byte b){
         return b<<8 | a&0xFF;

@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.sai.pheezeeapp.Activities.ScanDevicesActivity">
+    android:orientation="vertical"
+    tools:context="com.example.sai.pheezeeapp.activities.ScanDevicesActivity"
+    android:layout_height="match_parent">
 
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar_scandevices"
@@ -29,7 +26,6 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="0.4"
-                        android:paddingEnd="10dp"
                         android:paddingBottom="10dp"
                         >
                         <ImageView
@@ -120,10 +116,10 @@
                             android:id="@+id/tv_stopscan"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-
                             android:text="STOP"
-                            android:textSize="20dp"
-                            android:textColor="@color/pitch_black"/>
+                            android:padding="4dp"
+                            android:textSize="16sp"
+                            android:textColor="@color/good_green"/>
 
                         <!--<android.support.design.widget.FloatingActionButton-->
                         <!--android:layout_width="wrap_content"-->
@@ -142,8 +138,15 @@
 
 
 
-    </android.support.design.widget.AppBarLayout>
 
+
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context="com.example.sai.pheezeeapp.activities.ScanDevicesActivity">
     <include layout="@layout/content_scan_devices" />
 
 </android.support.design.widget.CoordinatorLayout>
+</LinearLayout>

@@ -1,4 +1,4 @@
-package com.example.sai.pheezeeapp.Adapters;
+package com.example.sai.pheezeeapp.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,9 +10,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.sai.pheezeeapp.Activities.ScanDevicesActivity;
+import com.example.sai.pheezeeapp.activities.ScanDevicesActivity;
 import com.example.sai.pheezeeapp.Classes.DeviceListClass;
-import com.example.sai.pheezeeapp.Activities.PatientsView;
+import com.example.sai.pheezeeapp.activities.PatientsView;
 import com.example.sai.pheezeeapp.R;
 
 import java.util.ArrayList;
@@ -21,9 +21,8 @@ public class DeviceListArrayAdapter extends ArrayAdapter<DeviceListClass> {
 
     ScanDevicesActivity scanDevicesActivity;
 
-    TextView tv_deviceName,tv_deviceMacAddress, tv_deviceBondState, tv_deviceRssi, tv_idontKnowYet;
+    TextView tv_deviceName,tv_deviceMacAddress, tv_deviceBondState, tv_deviceRssi;
     Button btn_connectToDevice;
-
 
     Context context;
     ArrayList<DeviceListClass> mdeviceArrayList;
@@ -47,13 +46,12 @@ public class DeviceListArrayAdapter extends ArrayAdapter<DeviceListClass> {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
         View row = inflater.inflate(R.layout.scanned_devices_listview_model,parent,false);
 
-        tv_deviceName = (TextView)row.findViewById(R.id.tv_deviceName);
-        tv_deviceMacAddress = (TextView)row.findViewById(R.id.tv_deviceMacAdress);
-        tv_deviceBondState = (TextView)row.findViewById(R.id.tv_deviceBondState);
-        tv_deviceRssi = (TextView)row.findViewById(R.id.tv_deviceRssi);
-        tv_idontKnowYet = (TextView)row.findViewById(R.id.tv_iDontKnowYet);
+        tv_deviceName = row.findViewById(R.id.tv_deviceName);
+        tv_deviceMacAddress = row.findViewById(R.id.tv_deviceMacAdress);
+        tv_deviceBondState = row.findViewById(R.id.tv_deviceBondState);
+        tv_deviceRssi = row.findViewById(R.id.tv_deviceRssi);
 
-        btn_connectToDevice = (Button)row.findViewById(R.id.btn_connectToDevice);
+        btn_connectToDevice = row.findViewById(R.id.btn_connectToDevice);
 
 
 
@@ -66,10 +64,9 @@ public class DeviceListArrayAdapter extends ArrayAdapter<DeviceListClass> {
         btn_connectToDevice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String macAddressOfTheSelectedDevice  = mdeviceArrayList.get(position).getDeviceMacAddress();
                 //Toast.makeText(context, macAddressOfTheSelectedDevice, Toast.LENGTH_SHORT).show();
-                ScanDevicesActivity.selectedDeviceMacAddress = macAddressOfTheSelectedDevice;
-                Toast.makeText(context, ScanDevicesActivity.selectedDeviceMacAddress, Toast.LENGTH_SHORT).show();
+                ScanDevicesActivity.selectedDeviceMacAddress = mdeviceArrayList.get(position).getDeviceMacAddress();
+                Toast.makeText(context, "connecting....", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(context, PatientsView.class);
                 context.startActivity(i);
             }

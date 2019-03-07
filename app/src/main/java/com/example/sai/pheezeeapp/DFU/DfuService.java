@@ -1,4 +1,4 @@
-package com.example.sai.pheezeeapp.DFU;
+package com.example.sai.pheezeeapp.dfu;
 
 
 import android.app.Activity;

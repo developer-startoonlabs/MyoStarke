@@ -1,4 +1,4 @@
-package com.example.sai.pheezeeapp.Activities;
+package com.example.sai.pheezeeapp.activities;
 
 import android.Manifest;
 import android.content.Context;
@@ -38,7 +38,7 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 
-import static com.example.sai.pheezeeapp.Activities.PatientsView.ivBasicImage;
+import static com.example.sai.pheezeeapp.activities.PatientsView.ivBasicImage;
 
 public class PhizioProfile extends AppCompatActivity {
     EditText et_phizio_name, et_phizio_email, et_phizio_phone;

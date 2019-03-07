@@ -1,4 +1,4 @@
-package com.example.sai.pheezeeapp.DFU;
+package com.example.sai.pheezeeapp.dfu;
 
 import android.app.ActivityManager;
 import android.app.AlertDialog;
@@ -35,9 +35,9 @@ import android.widget.Toast;
 
 import com.example.sai.pheezeeapp.Classes.BluetoothSingelton;
 import com.example.sai.pheezeeapp.Classes.FileHelper;
-import com.example.sai.pheezeeapp.DFU.fragment.UploadCancelFragment;
-import com.example.sai.pheezeeapp.DFU.fragment.ZipInfoFragment;
-import com.example.sai.pheezeeapp.DFU.settings.SettingsFragment;
+import com.example.sai.pheezeeapp.dfu.fragment.UploadCancelFragment;
+import com.example.sai.pheezeeapp.dfu.fragment.ZipInfoFragment;
+import com.example.sai.pheezeeapp.dfu.settings.SettingsFragment;
 import com.example.sai.pheezeeapp.R;
 
 import java.io.File;

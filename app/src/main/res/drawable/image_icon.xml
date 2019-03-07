@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android" android:variablePadding="true">
-    <item android:drawable="@drawable/nav_icon" android:top="30dp">
-        <shape android:shape="rectangle">
-
-        </shape>
-    </item>
-</selector>

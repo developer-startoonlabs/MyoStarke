@@ -54,14 +54,14 @@ public final class R {
     public static final class color {
         private color() {}
 
-        public static final int isb_selector_tick_marks_color = 0x7f060073;
-        public static final int isb_selector_tick_texts_color = 0x7f060074;
+        public static final int isb_selector_tick_marks_color = 0x7f060071;
+        public static final int isb_selector_tick_texts_color = 0x7f060072;
     }
     public static final class drawable {
         private drawable() {}
 
-        public static final int isb_indicator_rounded_corners = 0x7f0800ed;
-        public static final int isb_indicator_square_corners = 0x7f0800ee;
+        public static final int isb_indicator_rounded_corners = 0x7f0800c7;
+        public static final int isb_indicator_square_corners = 0x7f0800c8;
     }
     public static final class id {
         private id() {}
@@ -69,23 +69,23 @@ public final class R {
         public static final int circular_bubble = 0x7f0a0054;
         public static final int custom = 0x7f0a0069;
         public static final int divider = 0x7f0a0079;
-        public static final int indicator_arrow = 0x7f0a00c0;
-        public static final int indicator_container = 0x7f0a00c1;
-        public static final int isb_progress = 0x7f0a00c5;
-        public static final int monospace = 0x7f0a0120;
-        public static final int none = 0x7f0a0134;
-        public static final int normal = 0x7f0a0135;
-        public static final int oval = 0x7f0a013c;
-        public static final int rectangle = 0x7f0a0166;
-        public static final int rounded_rectangle = 0x7f0a0177;
-        public static final int sans = 0x7f0a0179;
-        public static final int serif = 0x7f0a0190;
-        public static final int square = 0x7f0a01a7;
+        public static final int indicator_arrow = 0x7f0a00b6;
+        public static final int indicator_container = 0x7f0a00b7;
+        public static final int isb_progress = 0x7f0a00bb;
+        public static final int monospace = 0x7f0a0109;
+        public static final int none = 0x7f0a011d;
+        public static final int normal = 0x7f0a011e;
+        public static final int oval = 0x7f0a0126;
+        public static final int rectangle = 0x7f0a0150;
+        public static final int rounded_rectangle = 0x7f0a0161;
+        public static final int sans = 0x7f0a0162;
+        public static final int serif = 0x7f0a017b;
+        public static final int square = 0x7f0a0191;
     }
     public static final class layout {
         private layout() {}
 
-        public static final int isb_indicator = 0x7f0d0051;
+        public static final int isb_indicator = 0x7f0d0049;
     }
     public static final class styleable {
         private styleable() {}
