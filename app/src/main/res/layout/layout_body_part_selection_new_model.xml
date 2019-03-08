@@ -5,27 +5,18 @@
 
     <RelativeLayout
         android:layout_width="180dp"
-        android:layout_height="225dp">
+        android:layout_height="200dp">
 
-        <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/bodypartImage"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
-            android:outlineProvider="background"
-            android:scaleType="fitXY"
-            android:visibility="visible" />
-
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rl_main">
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/rl_preview"
             android:layout_width="match_parent"
-            android:layout_height="185dp"
-            android:layout_alignParentTop="true">
+            android:layout_height="150dp"
+            android:layout_alignParentTop="true"
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -35,16 +26,18 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
                 android:orientation="horizontal">
+
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:gravity="center"
+                    android:layout_weight="0.5"
                     android:background="@color/body_part_left"
-                    android:layout_weight="0.5">
+                    android:gravity="center">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Left"/>
+                        android:text="Left" />
                 </LinearLayout>
 
 
@@ -52,157 +45,151 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.5"
-                    android:gravity="center"
                     android:background="@color/body_part_right"
+                    android:gravity="center"
                     android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
-                        android:text="Right"/>
+                        android:text="Right" />
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/rl_operation"
-        android:layout_width="match_parent"
-        android:layout_height="185dp"
-        android:visibility="gone"
-        android:layout_alignParentTop="true">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:orientation="horizontal">
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:background="@color/body_part_left"
-                android:layout_weight="0.5">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Left"/>
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"
-                android:gravity="center"
-                android:background="@color/body_part_right"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:text="Right"/>
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_tv_section"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:background="@drawable/drawable_background_yellow"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/ll_tv_section"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.3"
-                    android:gravity="center"
-                    android:id="@+id/ll_tv_minus">
-
-                    <TextView
-                        android:id="@+id/tv_minus_goal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="-"
-                        android:paddingRight="5dp"
-                        android:paddingBottom="5dp"
-                        android:textColor="@color/pitch_black"
-                        android:textSize="25sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.4"
-                    android:gravity="center">
-
-                    <TextView
-                        android:id="@+id/tv_selected_goal_text"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text=""
-                        android:paddingLeft="5dp"
-                        android:textColor="@color/pitch_black" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.3"
-                    android:gravity="center"
-                    android:id="@+id/ll_tv_plus">
-
-                    <TextView
-                        android:id="@+id/tv_plus_goal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="+"
-                        android:paddingLeft="15dp"
-                        android:paddingBottom="5dp"
-                        android:textSize="25sp"
-                        android:textColor="@color/pitch_black" />
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/ll_tv_section"
-            android:layout_marginBottom="5dp">
-            <Spinner
-                android:id="@+id/sp_set_goal"
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/rl_operation"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="0dp"
-                android:elevation="3dp"
-                android:layout_marginRight="15dp"
-                android:background="@drawable/spinner_background"
-                android:gravity="center"
-                android:outlineProvider="background"
-                android:scaleType="fitXY"
-                android:visibility="invisible"></Spinner>
+                android:layout_height="150dp"
+                android:layout_alignParentTop="true">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="9dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginRight="20dp">
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/bodypartImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginTop="1dp"
+                        android:outlineProvider="background"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ankle_part"
+                        android:visibility="visible" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:layout_margin="4dp"
+                        android:background="@drawable/drawable_iv_left_part_ankle"></RelativeLayout>
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_tv_section"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="13dp"
+                    android:layout_marginRight="24dp"
+                    android:background="@drawable/drawable_background_yellow"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/ll_tv_section"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:id="@+id/ll_tv_minus"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.3"
+                            android:gravity="center">
+
+                            <TextView
+                                android:id="@+id/tv_minus_goal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingRight="5dp"
+                                android:paddingBottom="5dp"
+                                android:text="-"
+                                android:textColor="@color/pitch_black"
+                                android:textSize="25sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.4"
+                            android:gravity="center">
+
+                            <TextView
+                                android:id="@+id/tv_selected_goal_text"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingLeft="5dp"
+                                android:text=""
+                                android:textColor="@color/pitch_black" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/ll_tv_plus"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.3"
+                            android:gravity="center">
+
+                            <TextView
+                                android:id="@+id/tv_plus_goal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingLeft="15dp"
+                                android:paddingBottom="5dp"
+                                android:text="+"
+                                android:textColor="@color/pitch_black"
+                                android:textSize="25sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/ll_tv_section">
+
+                    <Spinner
+                        android:id="@+id/sp_set_goal"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="13dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginRight="25dp"
+                        android:background="@drawable/spinner_background"
+                        android:elevation="3dp"
+                        android:gravity="center"
+                        android:outlineProvider="background"
+                        android:scaleType="fitXY"
+                        android:visibility="invisible"></Spinner>
+                </RelativeLayout>
+            </RelativeLayout>
+
         </RelativeLayout>
-    </RelativeLayout>
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/bodypartImage"
+            android:layout_below="@id/rl_main"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="25dp"
             android:layout_marginRight="20dp"

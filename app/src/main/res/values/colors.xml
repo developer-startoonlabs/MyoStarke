@@ -29,4 +29,7 @@
 
     <color name="body_part_left">#58A8C0</color>
     <color name="body_part_right">#F2DFB4</color>
+
+    <color name="body_part_left_overlay">#9658A8C0</color>
+    <color name="body_part_right_overlay">#96F2DFB4</color>
 </resources>
