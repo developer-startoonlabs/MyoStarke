@@ -40,6 +40,16 @@
     </string-array>
 
 
+    <string-array name="setSessionGoalSpinner">
+        <item>Set Goal</item>
+        <item>5 Reps</item>
+        <item>10 Reps</item>
+        <item>15 Reps</item>
+        <item>20 Reps</item>
+        <item>25 Reps</item>
+    </string-array>
+
+
     <string name="overall_feedback">Overall Feedback</string>
 
     <string name="report_day">Day</string>

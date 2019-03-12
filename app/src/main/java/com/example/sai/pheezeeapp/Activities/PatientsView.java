@@ -1047,24 +1047,15 @@ public class PatientsView extends AppCompatActivity
 
 
         LinearLayout linearLayout = (LinearLayout) view;
-        if (sharedPref.getString("deviceMacaddress", "").equals("")) {
-            Toast.makeText(this, "First add pheezee to your application", Toast.LENGTH_LONG).show();
-        } else if (!bleStatusTextView.getText().toString().equals("C")  ) {
-            Toast.makeText(this, "Make sure that the pheezee is on", Toast.LENGTH_LONG).show();
-        }
-        else {
-            startActivity(intent);
-        }
-
-//        LinearLayout linearLayout = (LinearLayout) view;
 //        if (sharedPref.getString("deviceMacaddress", "").equals("")) {
 //            Toast.makeText(this, "First add pheezee to your application", Toast.LENGTH_LONG).show();
 //        } else if (!bleStatusTextView.getText().toString().equals("C")  ) {
 //            Toast.makeText(this, "Make sure that the pheezee is on", Toast.LENGTH_LONG).show();
 //        }
 //        else {
-//           bodyPartsPopupWindow(view);
+            startActivity(intent);
 //        }
+
     }
 
 

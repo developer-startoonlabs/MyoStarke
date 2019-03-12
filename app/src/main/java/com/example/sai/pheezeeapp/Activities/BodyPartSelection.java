@@ -23,9 +23,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.sai.pheezeeapp.Classes.BodyPartWithMmtSelectionModel;
 import com.example.sai.pheezeeapp.adapters.BodyPartRecyclerView;
 import com.example.sai.pheezeeapp.Classes.BodyPartSelectionModel;
 import com.example.sai.pheezeeapp.R;
+import com.example.sai.pheezeeapp.adapters.BodyPartWithMmtRecyclerView;
 import com.robertlevonyan.views.customfloatingactionbutton.FloatingLayout;
 
 import org.json.JSONArray;
@@ -46,7 +48,11 @@ public class BodyPartSelection extends AppCompatActivity {
     SharedPreferences.Editor editor;
     RecyclerView bodyPartRecyclerView;
     BodyPartRecyclerView bodyPartRecyclerViewAdapter;
+
+    BodyPartWithMmtRecyclerView bodyPartWithMmtRecyclerView;
     ArrayList<BodyPartSelectionModel> bodyPartSelectionList;
+
+    ArrayList<BodyPartWithMmtSelectionModel> bodyPartWithMmtSelectionModels;
     LinearLayout ll_recent_bodypart;
 
     //Floating action button for done
@@ -74,7 +80,7 @@ public class BodyPartSelection extends AppCompatActivity {
 //         toolbar.setElevation(5);
 //        toolbar.setTitle("");
 //        setSupportActionBar(toolbar);
-        tv_body_part_recent = (TextView)findViewById(R.id.tv_recently_items);
+        tv_body_part_recent = findViewById(R.id.tv_recently_items);
         fab_done =  findViewById(R.id.fab_done);
         fl_fab_background = findViewById(R.id.fl_fab_background);
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -115,23 +121,30 @@ public class BodyPartSelection extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-        bodyPartRecyclerView = (RecyclerView)findViewById(R.id.bodyPartRecyclerView);
+        bodyPartRecyclerView = findViewById(R.id.bodyPartRecyclerView);
         bodyPartRecyclerView.addItemDecoration(new DividerItemDecoration(this,0));
         bodyPartRecyclerView.setHasFixedSize(true);
         manager = new GridLayoutManager(this,2);
         bodyPartRecyclerView.setLayoutManager(manager);
         bodyPartSelectionList = new ArrayList<>();
+        bodyPartWithMmtSelectionModels = new ArrayList<>();
 
         string = getResources().getStringArray(R.array.bodyPartName);
+//        for (int i=0;i<string.length;i++){
+//            BodyPartSelectionModel bodyPartSelectionModel = new BodyPartSelectionModel(myPartList[i],myPreviewList[i],string[i]);
+//            bodyPartSelectionList.add(bodyPartSelectionModel);
+//        }
+
         for (int i=0;i<string.length;i++){
-            BodyPartSelectionModel bodyPartSelectionModel = new BodyPartSelectionModel(myPartList[i],myPreviewList[i],string[i]);
-            bodyPartSelectionList.add(bodyPartSelectionModel);
+            BodyPartWithMmtSelectionModel bp = new BodyPartWithMmtSelectionModel(myPartList[i],string[i]);
+            bodyPartWithMmtSelectionModels.add(bp);
         }
-
         bodyPartRecyclerViewAdapter = new BodyPartRecyclerView(bodyPartSelectionList,this);
+        bodyPartWithMmtRecyclerView = new BodyPartWithMmtRecyclerView(bodyPartWithMmtSelectionModels,this);
 
+//        bodyPartRecyclerView.setAdapter(bodyPartRecyclerViewAdapter);
 
-        bodyPartRecyclerView.setAdapter(bodyPartRecyclerViewAdapter);
+        bodyPartRecyclerView.setAdapter(bodyPartWithMmtRecyclerView);
 
 
 
@@ -193,13 +206,24 @@ public class BodyPartSelection extends AppCompatActivity {
 //        bodyPartRecyclerViewAdapter.notifyItemChanged();
             View view = manager.findViewByPosition(Integer.parseInt(preferences.getString("bodyPartClicked","")));
             ImageView imageView = view.findViewById(R.id.bodypartImage);
-            RelativeLayout rl_preview = view.findViewById(R.id.rl_preview);
+            RelativeLayout rl_left_right = view.findViewById(R.id.rl_left_right);
+            RelativeLayout rl_left = view.findViewById(R.id.rl_left);
+            RelativeLayout rl_right = view.findViewById(R.id.rl_right);
+            RelativeLayout rl_mmt_and_session = view.findViewById(R.id.rl_mmt_and_session);
+            RelativeLayout rl_mmt_session = view.findViewById(R.id.rl_mmt_section);
+            LinearLayout ll_tv_section = view.findViewById(R.id.ll_tv_section);
             Spinner sp_set_goal = view.findViewById(R.id.sp_set_goal);
-            sp_set_goal.setSelection(0);
-            sp_set_goal.setVisibility(View.INVISIBLE);
-            imageView.setVisibility(View.VISIBLE);
-            rl_preview.setVisibility(View.INVISIBLE);
 
+            sp_set_goal.setVisibility(View.INVISIBLE);
+            sp_set_goal.setSelection(0);
+            rl_left_right.setVisibility(View.INVISIBLE);
+            rl_left.setVisibility(View.INVISIBLE);
+            rl_right.setVisibility(View.INVISIBLE);
+            rl_mmt_and_session.setVisibility(View.INVISIBLE);
+            rl_mmt_session.setVisibility(View.INVISIBLE);
+            ll_tv_section.setVisibility(View.INVISIBLE);
+            imageView.setVisibility(View.VISIBLE);
+            imageView.setEnabled(true);
     }
 
     public void startMonitorSession(View view){
@@ -211,7 +235,6 @@ public class BodyPartSelection extends AppCompatActivity {
         str_time = str_time.replaceAll("[a-zA-Z]","").trim();
         TextView tv_body_part_name = list_item.findViewById(R.id.tv_body_part_name);
         Toast.makeText(this, ""+str_time+tv_body_part_name.getText(), Toast.LENGTH_SHORT).show();
-
         editor = preferences.edit();
 
         JSONArray array = new JSONArray();

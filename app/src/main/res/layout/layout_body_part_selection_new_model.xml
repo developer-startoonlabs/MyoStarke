@@ -11,27 +11,44 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/rl_main">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/bodypartImage"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="15dp"
+                android:outlineProvider="background"
+                android:scaleType="fitXY"
+                android:src="@drawable/ankle_part"
+                android:visibility="visible" />
+
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/rl_preview"
+            android:id="@+id/rl_left_right"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_alignParentTop="true"
             android:visibility="gone">
 
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-
-                android:layout_marginLeft="12dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginEnd="15dp"
                 android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:id="@+id/bp_model_left"
                     android:layout_weight="0.5"
-                    android:background="@color/body_part_left"
+                    android:background="@drawable/drawable_body_part_left_section"
                     android:gravity="center">
 
                     <TextView
@@ -44,8 +61,9 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:id="@+id/bp_model_right"
                     android:layout_weight="0.5"
-                    android:background="@color/body_part_right"
+                    android:background="@drawable/drawable_body_part_right_section"
                     android:gravity="center"
                     android:orientation="horizontal">
 
@@ -57,132 +75,359 @@
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
+        </RelativeLayout>
 
-            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/rl_operation"
+
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/rl_left"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginLeft="14dp"
+            android:visibility="gone"
+            android:layout_marginTop="9dp"
+            android:layout_marginRight="15dp"
+            android:layout_alignParentTop="true">
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
-                android:layout_alignParentTop="true">
+                android:layout_margin="4dp"
+                android:background="@drawable/drawable_iv_left_overlay"></RelativeLayout>
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="9dp"
-                    android:layout_marginTop="9dp"
-                    android:layout_marginRight="20dp">
+        </RelativeLayout>
 
-                    <android.support.v7.widget.AppCompatImageView
-                        android:id="@+id/bodypartImage"
-                        android:layout_width="match_parent"
-                        android:layout_height="150dp"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginLeft="1dp"
-                        android:layout_marginTop="1dp"
-                        android:outlineProvider="background"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/ankle_part"
-                        android:visibility="visible" />
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/rl_right"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginLeft="14dp"
+            android:layout_marginTop="9dp"
+            android:layout_marginRight="15dp"
+            android:visibility="gone"
+            android:layout_alignParentTop="true">
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="150dp"
-                        android:layout_margin="4dp"
-                        android:background="@drawable/drawable_iv_left_part_ankle"></RelativeLayout>
-                </RelativeLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_tv_section"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginLeft="13dp"
-                    android:layout_marginRight="24dp"
-                    android:background="@drawable/drawable_background_yellow"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_alignTop="@+id/ll_tv_section"
-                        android:layout_weight="1"
-                        android:orientation="horizontal">
-
-                        <LinearLayout
-                            android:id="@+id/ll_tv_minus"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="0.3"
-                            android:gravity="center">
-
-                            <TextView
-                                android:id="@+id/tv_minus_goal"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingRight="5dp"
-                                android:paddingBottom="5dp"
-                                android:text="-"
-                                android:textColor="@color/pitch_black"
-                                android:textSize="25sp" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="0.4"
-                            android:gravity="center">
-
-                            <TextView
-                                android:id="@+id/tv_selected_goal_text"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingLeft="5dp"
-                                android:text=""
-                                android:textColor="@color/pitch_black" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/ll_tv_plus"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="0.3"
-                            android:gravity="center">
-
-                            <TextView
-                                android:id="@+id/tv_plus_goal"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingLeft="15dp"
-                                android:paddingBottom="5dp"
-                                android:text="+"
-                                android:textColor="@color/pitch_black"
-                                android:textSize="25sp" />
-                        </LinearLayout>
-                    </LinearLayout>
-                </LinearLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/ll_tv_section">
-
-                    <Spinner
-                        android:id="@+id/sp_set_goal"
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:layout_marginLeft="13dp"
-                        android:layout_marginTop="0dp"
-                        android:layout_marginRight="25dp"
-                        android:background="@drawable/spinner_background"
-                        android:elevation="3dp"
-                        android:gravity="center"
-                        android:outlineProvider="background"
-                        android:scaleType="fitXY"
-                        android:visibility="invisible"></Spinner>
-                </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_margin="4dp"
+                android:background="@drawable/drawable_iv_right_overlay">
             </RelativeLayout>
 
+        </RelativeLayout>
+
+
+        <RelativeLayout android:id="@+id/rl_mmt_and_session"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginLeft="14dp"
+            android:layout_marginTop="9dp"
+            android:visibility="gone"
+            android:layout_marginRight="15dp"
+            android:layout_alignParentTop="true">
+            <RelativeLayout
+                android:id="@+id/rl_left_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:id="@+id/bp_model_mmt_grade_left"
+                    android:layout_marginRight="8dp"
+                    android:text="Mmt Grade - 2"
+                    android:layout_marginTop="22dp"
+                    android:textSize="12sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingBottom="2dp"
+                    android:paddingTop="2dp"
+                    android:text="Left"
+                    android:background="@color/white"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="4dp"/>
+
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/rl_right_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginStart="4dp"
+                    android:id="@+id/bp_model_mmt_grade_right"
+                    android:text="Mmt Grade - 2"
+                    android:layout_marginTop="22dp"
+                    android:textSize="12sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Right"
+                    android:paddingStart="8dp"
+                    android:paddingBottom="2dp"
+                    android:paddingTop="2dp"
+                    android:paddingEnd="8dp"
+                    android:background="@color/white"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_alignParentRight="true"
+                    />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout android:id="@+id/rl_mmt_section"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginLeft="14dp"
+            android:layout_marginTop="9dp"
+            android:layout_marginRight="15dp"
+            android:visibility="gone"
+            android:layout_alignParentTop="true">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="55dp"
+                android:gravity="center">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:text="Select MMT grading"
+                    android:textSize="10sp"
+                    android:textColor="@color/pitch_black"
+                    />
+            </RelativeLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:gravity="center"
+                android:layout_marginBottom="50dp"
+                >
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/bp_model_tv_0"
+                    android:gravity="center"
+                    android:layout_weight="0.2">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:background="@drawable/drawable_mmt_circular_tv"
+                        android:text="0"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/bp_model_tv_1"
+                    android:layout_weight="0.2">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:background="@drawable/drawable_mmt_circular_tv"
+                        android:text="1"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/bp_model_tv_2"
+                    android:layout_weight="0.2">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:background="@drawable/drawable_mmt_circular_tv"
+                        android:text="2"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/bp_model_tv_3"
+                    android:layout_weight="0.2">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:background="@drawable/drawable_mmt_circular_tv"
+                        android:text="3"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/bp_model_tv_4"
+                    android:layout_weight="0.2">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:background="@drawable/drawable_mmt_circular_tv"
+                        android:text="4"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/bp_model_tv_5"
+                    android:layout_weight="0.2">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:background="@drawable/drawable_mmt_circular_tv"
+                        android:text="5"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="15dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/bp_model_mmt_confirm"
+                    android:gravity="center"
+                    android:layout_weight="0.5">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/pitch_black"
+                        android:alpha="0.8"
+                        android:text="confim"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/bp_model_mmt_cancel"
+                    android:gravity="center"
+                    android:layout_weight="0.5">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/pitch_black"
+                        android:alpha="0.8"
+                        android:text="cancel"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:id="@+id/ll_tv_section"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginLeft="17dp"
+            android:layout_marginTop="128dp"
+            android:layout_marginRight="17dp"
+            android:visibility="gone"
+            android:background="@drawable/drawable_background_yellow"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/ll_tv_section"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:layout_gravity="center">
+                <LinearLayout
+                    android:id="@+id/ll_tv_minus"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.1"
+                    android:orientation="vertical"
+                    android:layout_marginStart="5dp"
+                    android:background="@drawable/drawable_mmt_circular_tv"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/tv_minus_goal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="-"
+                        android:textColor="@color/pitch_black"
+
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.6"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/tv_selected_goal_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:text=""
+                        android:textColor="@color/pitch_black" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_tv_plus"
+                    android:layout_width="0dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/drawable_mmt_circular_tv"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="0.1"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/tv_plus_goal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="+"
+
+                        android:textColor="@color/pitch_black"
+                        android:textSize="15sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/ll_tv_section"
+            android:layout_marginTop="124dp">
+
+            <Spinner
+                android:id="@+id/sp_set_goal"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/spinner_background"
+                android:elevation="3dp"
+                android:gravity="center"
+                android:outlineProvider="background"
+                android:scaleType="fitXY"
+                android:visibility="invisible"></Spinner>
         </RelativeLayout>
 
 
@@ -190,9 +435,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/rl_main"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="25dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"
             android:gravity="center"
             android:orientation="horizontal"
             android:visibility="visible">
