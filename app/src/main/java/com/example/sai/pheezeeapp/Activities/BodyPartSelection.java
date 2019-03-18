@@ -13,6 +13,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
@@ -64,6 +65,7 @@ public class BodyPartSelection extends AppCompatActivity {
     String str_recent;
 
     FrameLayout fl_fab_background;
+    boolean flag_recent = false;
 
     int height_fl;
 
@@ -92,30 +94,40 @@ public class BodyPartSelection extends AppCompatActivity {
         //int_ll
         height_fl = fl_fab_background.getHeight();
 
-
+        Log.i("str_recent",str_recent);
         if (str_recent.equals("")){
             tv_body_part_recent.setVisibility(View.VISIBLE);
         }
         else {
             try {
                 JSONArray array = new JSONArray(str_recent);
-                ImageView iv_recent_body[] = new ImageView[array.length()];
-                for (int i=0;i<array.length();i++){
-                    int width = dpToPixel(95);
-                    iv_recent_body[i] =new ImageView(getApplicationContext());
-                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                            width, LinearLayout.LayoutParams.WRAP_CONTENT);
-                    JSONObject object = array.getJSONObject(i);
-                    int res_id = object.getInt("res_id");
-                    iv_recent_body[i].setImageResource(res_id);
-                    int left_padding = dpToPixel(20);
-                    iv_recent_body[i].setPadding(left_padding,0,0,0);
-                    Log.i("res_id",res_id+"");
-                    iv_recent_body[i].setTag(i);
-                    iv_recent_body[i].setScaleType(ImageView.ScaleType.FIT_XY);
-                    iv_recent_body[i].setOnClickListener(onclicklistner);
-                    ll_recent_bodypart.addView(iv_recent_body[i],layoutParams);
 
+                for (int i=0;i<array.length();i++){
+                    JSONObject object1 = array.getJSONObject(i);
+                    if(object1.getString("patientid").equals(getPatientId())) {
+                        JSONArray array1 = new JSONArray(object1.getString("recent"));
+                        ImageView iv_recent_body[] = new ImageView[array1.length()];
+                        for (int j=0;j<array1.length();j++) {
+                            flag_recent = true;
+                            int width = dpToPixel(95);
+                            iv_recent_body[j] = new ImageView(getApplicationContext());
+                            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                                    width, LinearLayout.LayoutParams.WRAP_CONTENT);
+                            JSONObject object = array1.getJSONObject(j);
+                            int res_id = object.getInt("res_id");
+                            iv_recent_body[j].setImageResource(res_id);
+                            int left_padding = dpToPixel(20);
+                            iv_recent_body[j].setPadding(left_padding, 0, 0, 0);
+                            Log.i("res_id", res_id + "");
+                            iv_recent_body[j].setTag(j);
+                            iv_recent_body[j].setScaleType(ImageView.ScaleType.FIT_XY);
+                            iv_recent_body[j].setOnClickListener(onclicklistner);
+                            ll_recent_bodypart.addView(iv_recent_body[j], layoutParams);
+                        }
+                    }
+                }
+                if(!flag_recent){
+                    tv_body_part_recent.setVisibility(View.VISIBLE);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -203,31 +215,65 @@ public class BodyPartSelection extends AppCompatActivity {
     };
 
     public void visibilityChanged(){
-//        bodyPartRecyclerViewAdapter.notifyItemChanged();
             View view = manager.findViewByPosition(Integer.parseInt(preferences.getString("bodyPartClicked","")));
             ImageView imageView = view.findViewById(R.id.bodypartImage);
             RelativeLayout rl_left_right = view.findViewById(R.id.rl_left_right);
             RelativeLayout rl_left = view.findViewById(R.id.rl_left);
             RelativeLayout rl_right = view.findViewById(R.id.rl_right);
             RelativeLayout rl_mmt_and_session = view.findViewById(R.id.rl_mmt_and_session);
+            RelativeLayout rl_left_section = view.findViewById(R.id.rl_left_section);
+            RelativeLayout rl_right_section = view.findViewById(R.id.rl_right_section);
             RelativeLayout rl_mmt_session = view.findViewById(R.id.rl_mmt_section);
             LinearLayout ll_tv_section = view.findViewById(R.id.ll_tv_section);
-            Spinner sp_set_goal = view.findViewById(R.id.sp_set_goal);
+            Spinner spinner = view.findViewById(R.id.sp_set_goal);
 
-            sp_set_goal.setVisibility(View.INVISIBLE);
-            sp_set_goal.setSelection(0);
-            rl_left_right.setVisibility(View.INVISIBLE);
-            rl_left.setVisibility(View.INVISIBLE);
-            rl_right.setVisibility(View.INVISIBLE);
-            rl_mmt_and_session.setVisibility(View.INVISIBLE);
-            rl_mmt_session.setVisibility(View.INVISIBLE);
-            ll_tv_section.setVisibility(View.INVISIBLE);
-            imageView.setVisibility(View.VISIBLE);
+
+
+            if(rl_left_section.getVisibility()==View.VISIBLE)
+                rl_left_section.setVisibility(View.INVISIBLE);
+
+            if(rl_right_section.getVisibility()==View.VISIBLE)
+                rl_right_section.setVisibility(View.INVISIBLE);
+
+            if(rl_left_right.getVisibility()==View.VISIBLE)
+                rl_left_right.setVisibility(View.INVISIBLE);
+            if(rl_left.getVisibility()==View.VISIBLE)
+                rl_left.setVisibility(View.INVISIBLE);
+            if(rl_right.getVisibility()==View.VISIBLE)
+                rl_right.setVisibility(View.INVISIBLE);
+            if(rl_mmt_and_session.getVisibility()==View.VISIBLE)
+                rl_mmt_and_session.setVisibility(View.INVISIBLE);
+            if(rl_mmt_session.getVisibility()==View.VISIBLE)
+                rl_mmt_session.setVisibility(View.INVISIBLE);
+            if(ll_tv_section.getVisibility()==View.VISIBLE)
+                ll_tv_section.setVisibility(View.GONE);
+            if (spinner.getVisibility()==View.VISIBLE){
+                spinner.setSelection(0);
+                spinner.setVisibility(View.GONE);
+            }
+            if(imageView.getVisibility()==View.INVISIBLE)
+                imageView.setVisibility(View.VISIBLE);
+
+
             imageView.setEnabled(true);
     }
 
+
+
+    public String getPatientId(){
+        String patientID = null;
+
+        if(!getIntent().getStringExtra("patientId").equals("")) {
+            patientID = getIntent().getStringExtra("patientId");
+            Log.i("test",getIntent().getStringExtra("patientId"));
+        }
+
+        return patientID;
+    }
+
     public void startMonitorSession(View view){
-        boolean flag = false;
+        int temp_index = -1;
+        boolean flag = false, present = false;
         int position_list_selected = Integer.parseInt(preferences.getString("bodyPartClicked",""));
         View list_item = manager.findViewByPosition(position_list_selected);
         TextView tv_middle  = list_item.findViewById(R.id.tv_selected_goal_text);
@@ -240,6 +286,8 @@ public class BodyPartSelection extends AppCompatActivity {
         JSONArray array = new JSONArray();
         JSONArray array1 = new JSONArray();
         JSONObject object = new JSONObject();
+        JSONArray temp_array  = new JSONArray();
+        JSONObject patient_object = new JSONObject();
         try {
             object.put("part_name",tv_body_part_name.getText().toString());
             object.put("res_id",myPartList[position_list_selected]);
@@ -250,7 +298,15 @@ public class BodyPartSelection extends AppCompatActivity {
         }
 
         if(preferences.getString("recently","").equals("")){
-            array.put(object);
+
+            array1.put(object);
+            try {
+                patient_object.put("patientid",getPatientId());
+                patient_object.put("recent",array1.toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            array.put(patient_object);
             editor.putString("recently",array.toString());
             editor.commit();
         }
@@ -259,29 +315,56 @@ public class BodyPartSelection extends AppCompatActivity {
                 array = new JSONArray(preferences.getString("recently",""));
                 for (int i=0;i<array.length();i++){
                     JSONObject object1 = array.getJSONObject(i);
-                    if(object1.getString("position").equals(object.getString("position"))){
-                        flag = true;
-                        array.remove(i);
-                        array1.put(object);
-                        for (int j=0;j<array.length();j++){
-                            array1.put(array.getJSONObject(j));
+                    if(object1.getString("patientid").equals(getPatientId())){
+                        present = true;
+                        temp_index = i;
+                        JSONArray recent_array = new JSONArray(object1.getString("recent"));
+                        for (int j=0;j<recent_array.length();j++){
+                            JSONObject recent_object = recent_array.getJSONObject(j);
+                            if(recent_object.getString("position").equals(object.getString("position"))){
+                                flag = true;
+                                recent_array.remove(j);
+                                temp_array.put(object);
+                                for (int k=0;k<recent_array.length();k++){
+                                    temp_array.put(recent_array.getJSONObject(k));
+                                }
+                                break;
+                            }
                         }
                         break;
                     }
+
                 }
 
                 if (flag){
-                    editor.putString("recently",array1.toString());
-                    editor.commit();
-                }
-                else {
-                    array1.put(0,object);
-                    for (int j=0;j<array.length();j++){
-                        array1.put(array.getJSONObject(j));
+                    if(temp_index!=-1){
+                        array.getJSONObject(temp_index).put("recent",temp_array.toString());
                     }
-                    editor.putString("recently",array1.toString());
+                    editor.putString("recently",array.toString());
                     editor.commit();
                 }
+                else if(present==true && flag==false) {
+                    temp_array.put(0,object);
+                    JSONArray array2 = new JSONArray(array.getJSONObject(temp_index).getString("recent"));
+                    for (int j=0;j<array2.length();j++){
+                        temp_array.put(array2.getJSONObject(j));
+                    }
+                    array.getJSONObject(temp_index).put("recent",temp_array.toString());
+                    editor.putString("recently",array.toString());
+                    editor.commit();
+                }
+                else if(present==false){
+                    JSONArray temp = new JSONArray();
+                    temp.put(object);
+                    JSONObject temp_obj = new JSONObject();
+                    temp_obj.put("patientid",getPatientId());
+                    temp_obj.put("recent",temp.toString());
+                    array.put(temp_obj);
+                    editor.putString("recently",array.toString());
+                    editor.commit();
+                }
+
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }

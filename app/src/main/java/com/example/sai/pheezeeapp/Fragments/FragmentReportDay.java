@@ -150,9 +150,6 @@ public class FragmentReportDay extends Fragment {
         cartesian.tooltip().titleFormat("{%SeriesName} ({%x})");
 
 
-
-
-
         session_array = ((SessionReportActivity)getActivity()).getSessions();
         Log.i("month",session_array.toString());
 

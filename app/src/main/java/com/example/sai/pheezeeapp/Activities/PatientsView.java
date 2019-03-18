@@ -445,8 +445,8 @@ public class PatientsView extends AppCompatActivity
     }
 
     public void pushJsonData(JSONArray data) {
+        mdataset.clear();
         if (data.length() > 0) {
-            mdataset.clear();
             PatientsListData patientsList;
             for (int i = data.length() - 1; i >= 0; i--) {
                 try {
@@ -1047,14 +1047,14 @@ public class PatientsView extends AppCompatActivity
 
 
         LinearLayout linearLayout = (LinearLayout) view;
-//        if (sharedPref.getString("deviceMacaddress", "").equals("")) {
-//            Toast.makeText(this, "First add pheezee to your application", Toast.LENGTH_LONG).show();
-//        } else if (!bleStatusTextView.getText().toString().equals("C")  ) {
-//            Toast.makeText(this, "Make sure that the pheezee is on", Toast.LENGTH_LONG).show();
-//        }
-//        else {
+        if (sharedPref.getString("deviceMacaddress", "").equals("")) {
+            Toast.makeText(this, "First add pheezee to your application", Toast.LENGTH_LONG).show();
+        } else if (!bleStatusTextView.getText().toString().equals("C")  ) {
+            Toast.makeText(this, "Make sure that the pheezee is on", Toast.LENGTH_LONG).show();
+        }
+        else {
             startActivity(intent);
-//        }
+        }
 
     }
 
@@ -1383,7 +1383,7 @@ public class PatientsView extends AppCompatActivity
         }
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Delete Patient");
+        builder.setTitle("Archive Patient");
         builder.setMessage("Are you sure you want to archive the patient?");
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
@@ -1402,7 +1402,7 @@ public class PatientsView extends AppCompatActivity
                                 json_phizio.put("phiziopatients",jsonData);
 
                                 editor.putString("phiziodetails",json_phizio.toString());
-                                editor.apply();
+                                editor.commit();
                                 pushJsonData(new JSONArray(json_phizio.getString("phiziopatients")));
                                 mqttMessage.setPayload(object.toString().getBytes());
                                 mqttHelper.publishMqttTopic(mqtt_update_patient_status,mqttMessage);
@@ -1457,7 +1457,9 @@ public class PatientsView extends AppCompatActivity
                                 json_phizio.put("phiziopatients",jsonData);
 
                                 editor.putString("phiziodetails",json_phizio.toString());
-                                editor.apply();
+                                editor.commit();
+
+                                Log.i("jsonData", json_phizio.getString("phiziopatients"));
                                 pushJsonData(new JSONArray(json_phizio.getString("phiziopatients")));
                                 mqttMessage.setPayload(object.toString().getBytes());
                                 mqttHelper.publishMqttTopic(mqtt_publish_phizio_deletepatient,mqttMessage);

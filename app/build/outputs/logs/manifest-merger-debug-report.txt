@@ -31,7 +31,10 @@ MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\sivam\.gradle\cac
 MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-28.0.0.aar\bd92396687066a43d2e4a3325327acb2\AndroidManifest.xml:17:1-22:12
 MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\graphview-4.2.2.aar\1753c93f015972872311c8c68afd320d\AndroidManifest.xml:2:1-14:12
 MERGED from [com.google.android.gms:play-services-vision:17.0.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-vision-17.0.2.aar\5299fd5507407a31b7eb93a40e594251\AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.1.aar\1dbbf4629e238f94c780cc6eb3302803\AndroidManifest.xml:17:1-39:12
 MERGED from [com.google.android.gms:play-services-vision-common:17.0.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-vision-common-17.0.2.aar\484d615e03094d0ca4a1441e7a5bda34\AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.gms:play-services-auth-api-phone:16.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-api-phone-16.0.0.aar\16d7524c4a3d1d581f56fbc601d6c07a\AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.android.gms:play-services-auth-base:16.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-base-16.0.0.aar\ce8940a084759b1200c9d44f8592021b\AndroidManifest.xml:2:1-7:12
 MERGED from [com.google.android.gms:play-services-clearcut:16.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-clearcut-16.0.0.aar\7f433d584fc9d4e4269bac8c7c106a42\AndroidManifest.xml:17:1-24:12
 MERGED from [com.google.android.gms:play-services-flags:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-flags-16.0.1.aar\538e062633270567003e8eac3f8da5da\AndroidManifest.xml:17:1-22:12
 MERGED from [com.google.android.gms:play-services-phenotype:16.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-phenotype-16.0.0.aar\9011d34e0ad903b2ec126612f47af411\AndroidManifest.xml:17:1-24:12
@@ -173,6 +176,8 @@ MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\sivam\.gradle\caches\transform
 MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\graphview-4.2.2.aar\1753c93f015972872311c8c68afd320d\AndroidManifest.xml:11:5-12:19
 MERGED from [com.google.android.gms:play-services-vision:17.0.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-vision-17.0.2.aar\5299fd5507407a31b7eb93a40e594251\AndroidManifest.xml:7:5-20
 MERGED from [com.google.android.gms:play-services-vision:17.0.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-vision-17.0.2.aar\5299fd5507407a31b7eb93a40e594251\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.1.aar\1dbbf4629e238f94c780cc6eb3302803\AndroidManifest.xml:22:5-37:19
+MERGED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.1.aar\1dbbf4629e238f94c780cc6eb3302803\AndroidManifest.xml:22:5-37:19
 MERGED from [com.google.android.gms:play-services-vision-common:17.0.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-vision-common-17.0.2.aar\484d615e03094d0ca4a1441e7a5bda34\AndroidManifest.xml:7:5-20
 MERGED from [com.google.android.gms:play-services-vision-common:17.0.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-vision-common-17.0.2.aar\484d615e03094d0ca4a1441e7a5bda34\AndroidManifest.xml:7:5-20
 MERGED from [com.google.android.gms:play-services-clearcut:16.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-clearcut-16.0.0.aar\7f433d584fc9d4e4269bac8c7c106a42\AndroidManifest.xml:22:5-20
@@ -471,8 +476,14 @@ MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\sivam\.gradle\caches\transform
 MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\graphview-4.2.2.aar\1753c93f015972872311c8c68afd320d\AndroidManifest.xml:7:5-9:41
 MERGED from [com.google.android.gms:play-services-vision:17.0.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-vision-17.0.2.aar\5299fd5507407a31b7eb93a40e594251\AndroidManifest.xml:5:5-44
 MERGED from [com.google.android.gms:play-services-vision:17.0.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-vision-17.0.2.aar\5299fd5507407a31b7eb93a40e594251\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.1.aar\1dbbf4629e238f94c780cc6eb3302803\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.1.aar\1dbbf4629e238f94c780cc6eb3302803\AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-vision-common:17.0.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-vision-common-17.0.2.aar\484d615e03094d0ca4a1441e7a5bda34\AndroidManifest.xml:5:5-44
 MERGED from [com.google.android.gms:play-services-vision-common:17.0.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-vision-common-17.0.2.aar\484d615e03094d0ca4a1441e7a5bda34\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-auth-api-phone:16.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-api-phone-16.0.0.aar\16d7524c4a3d1d581f56fbc601d6c07a\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-auth-api-phone:16.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-api-phone-16.0.0.aar\16d7524c4a3d1d581f56fbc601d6c07a\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-auth-base:16.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-base-16.0.0.aar\ce8940a084759b1200c9d44f8592021b\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-auth-base:16.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-base-16.0.0.aar\ce8940a084759b1200c9d44f8592021b\AndroidManifest.xml:5:5-44
 MERGED from [com.google.android.gms:play-services-clearcut:16.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-clearcut-16.0.0.aar\7f433d584fc9d4e4269bac8c7c106a42\AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-clearcut:16.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-clearcut-16.0.0.aar\7f433d584fc9d4e4269bac8c7c106a42\AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-flags:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-flags-16.0.1.aar\538e062633270567003e8eac3f8da5da\AndroidManifest.xml:20:5-44
@@ -589,6 +600,24 @@ activity#com.facebook.CustomTabMainActivity
 ADDED from [com.facebook.android:facebook-common:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-common-4.35.0.aar\a8104318439e1b5c9654bd7b80e6d614\AndroidManifest.xml:33:9-71
 	android:name
 		ADDED from [com.facebook.android:facebook-common:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-common-4.35.0.aar\a8104318439e1b5c9654bd7b80e6d614\AndroidManifest.xml:33:19-68
+activity#com.google.android.gms.auth.api.signin.internal.SignInHubActivity
+ADDED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.1.aar\1dbbf4629e238f94c780cc6eb3302803\AndroidManifest.xml:23:9-27:75
+	android:excludeFromRecents
+		ADDED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.1.aar\1dbbf4629e238f94c780cc6eb3302803\AndroidManifest.xml:25:13-46
+	android:exported
+		ADDED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.1.aar\1dbbf4629e238f94c780cc6eb3302803\AndroidManifest.xml:26:13-37
+	android:theme
+		ADDED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.1.aar\1dbbf4629e238f94c780cc6eb3302803\AndroidManifest.xml:27:13-72
+	android:name
+		ADDED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.1.aar\1dbbf4629e238f94c780cc6eb3302803\AndroidManifest.xml:24:13-93
+service#com.google.android.gms.auth.api.signin.RevocationBoundService
+ADDED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.1.aar\1dbbf4629e238f94c780cc6eb3302803\AndroidManifest.xml:33:9-36:110
+	android:exported
+		ADDED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.1.aar\1dbbf4629e238f94c780cc6eb3302803\AndroidManifest.xml:35:13-36
+	android:permission
+		ADDED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.1.aar\1dbbf4629e238f94c780cc6eb3302803\AndroidManifest.xml:36:13-107
+	android:name
+		ADDED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.1.aar\1dbbf4629e238f94c780cc6eb3302803\AndroidManifest.xml:34:13-89
 activity#com.google.android.gms.common.api.GoogleApiActivity
 ADDED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-base-16.0.1.aar\a9897198ab7392b64c40e53c9c82690a\AndroidManifest.xml:23:9-26:75
 	android:exported

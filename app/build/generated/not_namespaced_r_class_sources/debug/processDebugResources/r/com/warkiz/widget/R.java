@@ -60,8 +60,8 @@ public final class R {
     public static final class drawable {
         private drawable() {}
 
-        public static final int isb_indicator_rounded_corners = 0x7f0800cc;
-        public static final int isb_indicator_square_corners = 0x7f0800cd;
+        public static final int isb_indicator_rounded_corners = 0x7f0800cd;
+        public static final int isb_indicator_square_corners = 0x7f0800ce;
     }
     public static final class id {
         private id() {}
@@ -69,18 +69,18 @@ public final class R {
         public static final int circular_bubble = 0x7f0a0060;
         public static final int custom = 0x7f0a0075;
         public static final int divider = 0x7f0a0085;
-        public static final int indicator_arrow = 0x7f0a00c2;
-        public static final int indicator_container = 0x7f0a00c3;
-        public static final int isb_progress = 0x7f0a00c7;
-        public static final int monospace = 0x7f0a0115;
-        public static final int none = 0x7f0a0129;
-        public static final int normal = 0x7f0a012a;
-        public static final int oval = 0x7f0a0132;
-        public static final int rectangle = 0x7f0a015c;
-        public static final int rounded_rectangle = 0x7f0a0175;
-        public static final int sans = 0x7f0a0176;
-        public static final int serif = 0x7f0a018f;
-        public static final int square = 0x7f0a01a5;
+        public static final int indicator_arrow = 0x7f0a00c4;
+        public static final int indicator_container = 0x7f0a00c5;
+        public static final int isb_progress = 0x7f0a00c9;
+        public static final int monospace = 0x7f0a011d;
+        public static final int none = 0x7f0a0131;
+        public static final int normal = 0x7f0a0132;
+        public static final int oval = 0x7f0a013a;
+        public static final int rectangle = 0x7f0a0164;
+        public static final int rounded_rectangle = 0x7f0a017d;
+        public static final int sans = 0x7f0a017e;
+        public static final int serif = 0x7f0a0197;
+        public static final int square = 0x7f0a01ad;
     }
     public static final class layout {
         private layout() {}

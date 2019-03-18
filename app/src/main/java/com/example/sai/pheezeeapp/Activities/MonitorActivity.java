@@ -417,7 +417,9 @@ public class MonitorActivity extends AppCompatActivity {
             Toast.makeText(this, "GATT CLOSED", Toast.LENGTH_SHORT).show();
         }
         Log.i("MAC ADDRESS",""+getIntent().getStringExtra("deviceMacAddress"));
-        remoteDevice = bluetoothAdapter.getRemoteDevice(getIntent().getStringExtra("deviceMacAddress"));
+        if(!getIntent().getStringExtra("deviceMacAddress").equals(""))
+
+            remoteDevice = bluetoothAdapter.getRemoteDevice(getIntent().getStringExtra("deviceMacAddress"));
         if(remoteDevice==null){
             Toast.makeText(this, "Make sure pheeze is On.", Toast.LENGTH_SHORT).show();
         }
@@ -425,7 +427,8 @@ public class MonitorActivity extends AppCompatActivity {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-                mBluetoothGatt = remoteDevice.connectGatt(MonitorActivity.this,true,callback);
+                if(remoteDevice!=null)
+                    mBluetoothGatt = remoteDevice.connectGatt(MonitorActivity.this,true,callback);
             }
         });
 

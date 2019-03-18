@@ -10,9 +10,9 @@
         android:id="@+id/tv_create_account"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
         android:fontFamily="@font/ebrima"
         android:gravity="center"
         android:text="@string/create_account_header"
@@ -27,7 +27,7 @@
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="32dp"
         android:padding="0dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -63,7 +63,7 @@
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="32dp"
         android:padding="0dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -88,7 +88,7 @@
                 android:backgroundTint="#eaeaea"
                 android:fontFamily="@font/ebrima"
                 android:hint="@string/signup_password"
-                android:inputType="textEmailAddress"
+                android:inputType="textPassword"
                 android:theme="@style/AppTheme.custom.noActionBar" />
         </LinearLayout>
     </android.support.design.widget.TextInputLayout>
@@ -98,7 +98,7 @@
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="32dp"
         android:padding="0dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -132,7 +132,7 @@
         android:id="@+id/tv_phone"
         android:layout_width="0dp"
         android:layout_height="48dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         android:padding="0dp"
@@ -169,9 +169,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="8dp"
 
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="24dp"
         android:width="120dp"
         android:background="@color/good_green"
         android:fontFamily="@font/ebrima"
@@ -181,17 +181,17 @@
         android:textColor="@color/white_opaque"
         android:textSize="18sp"
         android:theme="@style/AppTheme.customDesign.noActionBar"
+        app:layout_constraintBottom_toTopOf="@+id/tv_cancel_signup"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_phone" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/tv_cancel_signup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
         android:fontFamily="@font/ebrima"
         android:gravity="center"
         android:paddingStart="20dp"
@@ -201,10 +201,31 @@
         android:text="@string/signup_cancel"
         android:textColor="@color/good_green"
         android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_signup_create" />
+        app:layout_constraintStart_toStartOf="parent" />
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:background="@color/good_green"
+        app:layout_constraintEnd_toStartOf="@+id/btn_signup_create"
+        app:layout_constraintTop_toBottomOf="@+id/tv_phone"
+        app:srcCompat="@drawable/patient_icon" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:background="@color/good_green"
+        app:layout_constraintStart_toEndOf="@+id/btn_signup_create"
+        app:layout_constraintTop_toBottomOf="@+id/tv_phone"
+        app:srcCompat="@drawable/phizio_icon" />
 
 
 </android.support.constraint.ConstraintLayout>

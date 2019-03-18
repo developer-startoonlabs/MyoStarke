@@ -5,7 +5,7 @@
 
     <RelativeLayout
         android:layout_width="180dp"
-        android:layout_height="200dp">
+        android:layout_height="210dp">
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -17,12 +17,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="15dp"
                 android:outlineProvider="background"
+                android:layout_marginEnd="15dp"
                 android:scaleType="fitXY"
                 android:src="@drawable/ankle_part"
                 android:visibility="visible" />
@@ -40,6 +39,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="10dp"
+                android:baselineAligned="false"
                 android:layout_marginEnd="15dp"
                 android:orientation="horizontal">
 
@@ -54,7 +54,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Left" />
+                        android:text="@string/left" />
                 </LinearLayout>
 
 
@@ -71,7 +71,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
-                        android:text="Right" />
+                        android:text="@string/right" />
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
@@ -83,10 +83,10 @@
             android:id="@+id/rl_left"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:layout_marginLeft="14dp"
+            android:layout_marginStart="14dp"
             android:visibility="gone"
             android:layout_marginTop="9dp"
-            android:layout_marginRight="15dp"
+            android:layout_marginEnd="15dp"
             android:layout_alignParentTop="true">
 
             <RelativeLayout
@@ -101,9 +101,9 @@
             android:id="@+id/rl_right"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:layout_marginLeft="14dp"
+            android:layout_marginStart="14dp"
             android:layout_marginTop="9dp"
-            android:layout_marginRight="15dp"
+            android:layout_marginEnd="15dp"
             android:visibility="gone"
             android:layout_alignParentTop="true">
 
@@ -120,10 +120,10 @@
         <RelativeLayout android:id="@+id/rl_mmt_and_session"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:layout_marginLeft="14dp"
+            android:layout_marginStart="14dp"
             android:layout_marginTop="9dp"
             android:visibility="gone"
-            android:layout_marginRight="15dp"
+            android:layout_marginEnd="15dp"
             android:layout_alignParentTop="true">
             <RelativeLayout
                 android:id="@+id/rl_left_section"
@@ -134,10 +134,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:id="@+id/bp_model_mmt_grade_left"
-                    android:layout_marginRight="8dp"
-                    android:text="Mmt Grade - 2"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/mmt_grade"
                     android:layout_marginTop="22dp"
                     android:textSize="12sp" />
                 <TextView
@@ -147,7 +147,7 @@
                     android:paddingEnd="10dp"
                     android:paddingBottom="2dp"
                     android:paddingTop="2dp"
-                    android:text="Left"
+                    android:text="@string/left"
                     android:background="@color/white"
                     android:layout_marginTop="20dp"
                     android:layout_marginStart="4dp"/>
@@ -164,16 +164,16 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
                     android:layout_marginStart="4dp"
                     android:id="@+id/bp_model_mmt_grade_right"
-                    android:text="Mmt Grade - 2"
+                    android:text="@string/mmt_grade"
                     android:layout_marginTop="22dp"
                     android:textSize="12sp" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Right"
+                    android:text="@string/right"
                     android:paddingStart="8dp"
                     android:paddingBottom="2dp"
                     android:paddingTop="2dp"
@@ -181,7 +181,7 @@
                     android:background="@color/white"
                     android:layout_marginTop="20dp"
                     android:layout_marginEnd="4dp"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     />
             </RelativeLayout>
         </RelativeLayout>
@@ -189,9 +189,9 @@
         <RelativeLayout android:id="@+id/rl_mmt_section"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:layout_marginLeft="14dp"
+            android:layout_marginStart="14dp"
             android:layout_marginTop="9dp"
-            android:layout_marginRight="15dp"
+            android:layout_marginEnd="15dp"
             android:visibility="gone"
             android:layout_alignParentTop="true">
 
@@ -205,7 +205,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:text="Select MMT grading"
+                    android:text="@string/select_mmt_grading"
                     android:textSize="10sp"
                     android:textColor="@color/pitch_black"
                     />
@@ -219,6 +219,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="4dp"
+                android:baselineAligned="false"
                 android:gravity="center"
                 android:layout_marginBottom="50dp"
                 >
@@ -232,8 +233,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
+                        android:id="@+id/mmt_tv_0"
                         android:background="@drawable/drawable_mmt_circular_tv"
-                        android:text="0"/>
+                        android:text="@string/zero"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="0dp"
@@ -244,8 +246,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
+                        android:id="@+id/mmt_tv_1"
                         android:background="@drawable/drawable_mmt_circular_tv"
-                        android:text="1"/>
+                        android:text="@string/one"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="0dp"
@@ -256,8 +259,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
+                        android:id="@+id/mmt_tv_2"
                         android:background="@drawable/drawable_mmt_circular_tv"
-                        android:text="2"/>
+                        android:text="@string/two"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="0dp"
@@ -268,8 +272,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
+                        android:id="@+id/mmt_tv_3"
                         android:background="@drawable/drawable_mmt_circular_tv"
-                        android:text="3"/>
+                        android:text="@string/three"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="0dp"
@@ -280,8 +285,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
+                        android:id="@+id/mmt_tv_4"
                         android:background="@drawable/drawable_mmt_circular_tv"
-                        android:text="4"/>
+                        android:text="@string/four"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="0dp"
@@ -292,8 +298,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
+                        android:id="@+id/mmt_tv_5"
                         android:background="@drawable/drawable_mmt_circular_tv"
-                        android:text="5"/>
+                        android:text="@string/five"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -302,6 +309,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="15dp"
+                android:baselineAligned="false"
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="4dp">
                 <LinearLayout
@@ -315,12 +323,12 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/pitch_black"
                         android:alpha="0.8"
-                        android:text="confim"/>
+                        android:text="@string/confirm"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/bp_model_mmt_cancel"
+                        android:id="@+id/bp_model_mmt_cancel"
                     android:gravity="center"
                     android:layout_weight="0.5">
                     <TextView
@@ -328,7 +336,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/pitch_black"
                         android:alpha="0.8"
-                        android:text="cancel"/>
+                        android:text="@string/cancel"/>
                 </LinearLayout>
 
             </LinearLayout>
@@ -344,13 +352,14 @@
             android:layout_marginTop="128dp"
             android:layout_marginRight="17dp"
             android:visibility="gone"
+            android:baselineAligned="false"
             android:background="@drawable/drawable_background_yellow"
             android:orientation="horizontal">
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/ll_tv_section"
                 android:layout_weight="1"
+                android:baselineAligned="false"
                 android:orientation="horizontal"
                 android:layout_gravity="center">
                 <LinearLayout
@@ -367,7 +376,7 @@
                         android:id="@+id/tv_minus_goal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="-"
+                        android:text="@string/minus"
                         android:textColor="@color/pitch_black"
 
                         android:textSize="15sp" />
@@ -383,7 +392,6 @@
                         android:id="@+id/tv_selected_goal_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="5dp"
                         android:text=""
                         android:textColor="@color/pitch_black" />
                 </LinearLayout>
@@ -401,7 +409,7 @@
                         android:id="@+id/tv_plus_goal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="+"
+                        android:text="@string/plus"
 
                         android:textColor="@color/pitch_black"
                         android:textSize="15sp" />
@@ -414,20 +422,19 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/ll_tv_section"
             android:layout_marginTop="124dp">
-
             <Spinner
                 android:id="@+id/sp_set_goal"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="18dp"
                 android:layout_marginTop="0dp"
-                android:layout_marginRight="15dp"
+                android:layout_marginRight="18dp"
                 android:background="@drawable/spinner_background"
                 android:elevation="3dp"
                 android:gravity="center"
+                android:visibility="gone"
                 android:outlineProvider="background"
-                android:scaleType="fitXY"
-                android:visibility="invisible"></Spinner>
+                android:scaleType="fitXY"/>
         </RelativeLayout>
 
 
@@ -438,6 +445,7 @@
             android:layout_marginLeft="15dp"
             android:layout_marginTop="15dp"
             android:layout_marginRight="15dp"
+            android:layout_marginBottom="10dp"
             android:gravity="center"
             android:orientation="horizontal"
             android:visibility="visible">
@@ -446,7 +454,7 @@
                 android:id="@+id/tv_body_part_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Hellow"
+                android:text="@string/temp_body_part"
                 android:textSize="17sp" />
         </LinearLayout>
     </RelativeLayout>
