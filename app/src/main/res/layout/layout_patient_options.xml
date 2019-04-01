@@ -38,14 +38,26 @@
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/text_view_shape"
                     android:backgroundTint="#4b7080">
-
-                    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                        android:id="@+id/patient_profilepic_section"
+                    <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:padding="0dp"
-                        android:src="@drawable/patient_icon" />
+                        android:layout_height="match_parent">
+
+
+                        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                            android:id="@+id/patient_profilepic_section"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:padding="0dp"
+                            android:src="@color/good_green" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/tv_Image_container"
+                            android:layout_gravity="center"
+                            android:text=""
+                            android:textColor="@color/white"/>
+                    </FrameLayout>
                 </LinearLayout>
             </LinearLayout>
 

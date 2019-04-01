@@ -54,33 +54,33 @@ public final class R {
     public static final class color {
         private color() {}
 
-        public static final int isb_selector_tick_marks_color = 0x7f060075;
-        public static final int isb_selector_tick_texts_color = 0x7f060076;
+        public static final int isb_selector_tick_marks_color = 0x7f060076;
+        public static final int isb_selector_tick_texts_color = 0x7f060077;
     }
     public static final class drawable {
         private drawable() {}
 
-        public static final int isb_indicator_rounded_corners = 0x7f0800cd;
-        public static final int isb_indicator_square_corners = 0x7f0800ce;
+        public static final int isb_indicator_rounded_corners = 0x7f0800d4;
+        public static final int isb_indicator_square_corners = 0x7f0800d5;
     }
     public static final class id {
         private id() {}
 
         public static final int circular_bubble = 0x7f0a0060;
-        public static final int custom = 0x7f0a0075;
-        public static final int divider = 0x7f0a0085;
-        public static final int indicator_arrow = 0x7f0a00c4;
-        public static final int indicator_container = 0x7f0a00c5;
-        public static final int isb_progress = 0x7f0a00c9;
-        public static final int monospace = 0x7f0a011d;
-        public static final int none = 0x7f0a0131;
-        public static final int normal = 0x7f0a0132;
-        public static final int oval = 0x7f0a013a;
-        public static final int rectangle = 0x7f0a0164;
-        public static final int rounded_rectangle = 0x7f0a017d;
-        public static final int sans = 0x7f0a017e;
-        public static final int serif = 0x7f0a0197;
-        public static final int square = 0x7f0a01ad;
+        public static final int custom = 0x7f0a0076;
+        public static final int divider = 0x7f0a0086;
+        public static final int indicator_arrow = 0x7f0a00c6;
+        public static final int indicator_container = 0x7f0a00c7;
+        public static final int isb_progress = 0x7f0a00cb;
+        public static final int monospace = 0x7f0a0128;
+        public static final int none = 0x7f0a013c;
+        public static final int normal = 0x7f0a013d;
+        public static final int oval = 0x7f0a0145;
+        public static final int rectangle = 0x7f0a0170;
+        public static final int rounded_rectangle = 0x7f0a0189;
+        public static final int sans = 0x7f0a018a;
+        public static final int serif = 0x7f0a01a3;
+        public static final int square = 0x7f0a01b9;
     }
     public static final class layout {
         private layout() {}

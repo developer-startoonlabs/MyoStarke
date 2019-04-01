@@ -16,6 +16,7 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.design.widget.CoordinatorLayout;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +33,7 @@ public class MyBottomSheetDialog extends BottomSheetDialogFragment {
 
     BottomSheetBehavior behavior;
 
-   TextView tv_patient_name_section,tv_patient_id_section,tv_date_of_join;
+   TextView tv_patient_name_section,tv_patient_id_section,tv_date_of_join,tv_Image_Container;
     ImageView iv_patient_profile_pic;
     String name,id,dateofjoin;
     Bitmap bitmap;
@@ -73,6 +74,7 @@ public class MyBottomSheetDialog extends BottomSheetDialogFragment {
         tv_patient_id_section = layout.findViewById(R.id.tv_patient_id_section);
         iv_patient_profile_pic = layout.findViewById(R.id.patient_profilepic_section);
         tv_date_of_join = layout.findViewById(R.id.tv_patient_joindate_section);
+        tv_Image_Container = layout.findViewById(R.id.tv_Image_container);
 
         ll_calibration = layout.findViewById(R.id.ll_calibration);
         ll_report = layout.findViewById(R.id.ll_report);
@@ -121,6 +123,13 @@ public class MyBottomSheetDialog extends BottomSheetDialogFragment {
         tv_patient_id_section.setText(s);
         if(bitmap!=null)
             iv_patient_profile_pic.setImageBitmap(bitmap);
+        else {
+            Log.i("NOt change","no change");
+            if(tv_patient_name_section.getText().length()==1 || tv_patient_name_section.getText().length()==2)
+                tv_Image_Container.setText(tv_patient_name_section.getText().toString().toUpperCase());
+            else
+                tv_Image_Container.setText(tv_patient_name_section.getText().toString().substring(0,2).toUpperCase());
+        }
     }
 
     @Override

@@ -128,7 +128,7 @@
         <activity
             android:name=".activities.PhizioProfile"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.customDesign.noActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.DeviceInfoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
@@ -143,7 +143,8 @@
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.SessionReportActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

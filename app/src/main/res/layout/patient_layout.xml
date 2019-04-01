@@ -30,6 +30,9 @@
                     android:background="@drawable/text_view_shape"
                     android:backgroundTint="#4b7080"
                     android:onClick="chooseImageUpdateAction">
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
                     <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/patientProfilePic"
@@ -37,7 +40,19 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:padding="0dp"
-                        android:src="@drawable/patient_icon" />
+                        android:src="@color/good_green" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:id="@+id/iv_patient_name_container"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:layout_gravity="center"
+                        android:text="hello"
+                        android:textColor="@color/white"/>
+                    </FrameLayout>
+
+
+
                 </LinearLayout>
             </LinearLayout>
 
@@ -90,7 +105,7 @@
                     android:onClick="startSession"
                     android:text="Start Session"
                     android:textAllCaps="false"
-                    android:textColor="#4b7080"
+                    android:textColor="@color/good_green"
                     android:textSize="12sp" />
 
             </LinearLayout>

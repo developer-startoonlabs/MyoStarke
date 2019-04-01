@@ -28,18 +28,6 @@
     </string-array>
 
 
-    <string-array name="setGoalSpinner">
-        <item>Set Goal</item>
-        <item>05 min</item>
-        <item>10 min</item>
-        <item>15 min</item>
-        <item>20 min</item>
-        <item>25 min</item>
-        <item>30 min</item>
-        <item>01 hr</item>
-    </string-array>
-
-
     <string-array name="setSessionGoalSpinner">
         <item>Set Goal</item>
         <item>5 Reps</item>
@@ -97,6 +85,7 @@
     <string name="by_signing_in">By Signing up you agree with our terms and private policy</string>
     <string name="cd_facebook_icon">Facebook Log in</string>
     <string name="cd_google_icon">Google Log in</string>
+    <string name="bluetooth_cd">Bluetooth icon</string>
 
     <string name="raw_packet_hint">0:-EMG, 1:-LSM</string>
 
@@ -121,13 +110,12 @@
     <string name="signup_password">Password</string>
     <string name="signup_email">Email</string>
     <string name="signup_phone">Phone</string>
-    <string name="signup_create">Create</string>
     <string name="signup_cancel">Cancel</string>
+    <string name="signup_create">Create</string>
+    <string name="cd_patient">Patient icon</string>
+    <string name="cd_phiziotherapist">Phiziotherapist Icon</string>
 
 
-
-    <!--scan devices related tags-->
-    <string name="pheezee">pheezee</string>
 
 
 
@@ -160,6 +148,7 @@
     <string name="left">Left</string>
     <string name="right">Right</string>
     <string name="mmt_grade">Mmt Grade - 2</string>
+    <string name="mmt_grade_dynamic">Mmt Grade -</string>
     <string name="select_mmt_grading">Select Mmt Grading</string>
     <string name="zero">0</string>
     <string name="one">1</string>
@@ -171,6 +160,114 @@
     <string name="minus">-</string>
     <string name="plus">+</string>
     <string name="temp_body_part">Ankle</string>
+    
+    
+    
+    
+    <!--Monitor screen related tags-->
+    <string name="timer_session_time">Session time:   00 : 00 : 00</string>
+    <string name="snap">SNAP</string>
+    <string name="pv_patient_id">Patient Id:&#032;</string>
+    <string name="pv_patient_name">Patient Name:&#032;</string>
+    <string name="pv_range_of_motion">Range of motion</string>
+    <string name="pv_angle">00</string>
+    <string name="pv_repetation">Repetition</string>
+    <string name="pv_hold_time">Hold time</string>
+    <string name="pv_hold_time_static">00 : 00</string>
+
+
+    <!--Scan Devices related tags-->
+    <string name="scandevices_stop">Stop</string>
+    <string name="scandevices_scan">Scan</string>
+
+
+    <!--patient view  related tags-->
+    <string name="cd_navigation_menu">Burger menu Icon</string>
+    <string name="cd_bluetooth_connected">Bluetooth Connected Icon</string>
+    <string name="cd_bluetooth_disconnected">Bluetooth Disconnected Icon</string>
+    <string name="cd_battery_info">Battery Percentage icon</string>
+    <string name="cd_device_connected">Device Connected</string>
+    <string name="cd_device_disconnected">Device Disconnected</string>
+    <string name="battery_zero">0%</string>
+    <string name="turn_on_bluetooth">Please ON Bluetooth</string>
+    <string name="connect_to_device">Please connect Pheezee Device</string>
+    <string name="archive_patient">Archive Patients</string>
+    <string name="what_is_pheezee">What is Pheezee with out Patients!</string>
+    <string name="cd_floating">Add Patient icon</string>
+
+
+
+    <!--on start Activity related tags-->
+    <string name="onstart_image_cd">Pheezee Logo</string>
+
+
+    <string name="not_connected">N/C</string>
+
+
+
+
+    <!--Fragment report month related tags-->
+
+
+    <!--Login Related tags-->
+    <string name="login_illuslator">patient session happening image</string>
+    <string name="hint_email">abc@startoonlabs.com</string>
+    <string name="hint_password">password</string>
+
+
+    <!--Patient Layout Options-->
+    <string name="pl_id">id :</string>
+    <string name="cd_report">Report icon</string>
+    <string name="cd_selfreferance">Self Referance icon</string>
+    <string name="report">Report</string>
+    <string name="set_reference">Set Reference</string>
+    <string name="delete">Delete</string>
+
+    <!--Patient Layout-->
+    <string name="start_session">Start Session</string>
+    <string name="cd_pateint_layout">Patient layout tripple dot icon</string>
+
+
+    <!--Add Pateint pop up-->
+    <string name="patient_name">Patient Name</string>
+    <string name="patient_id">Patient Id</string>
+    <string name="add">Add</string>
+
+
+    <!--Scan Devices related tags-->
+    <string name="connect">CONNECT</string>
+
+
+    <!--Session Summary related tags-->
+    <string name="cd_share">Share icon</string>
+    <string name="session_summary">Session Summary</string>
+    <string name="ss_name">Name:&#032;</string>
+    <string name="ss_id">Id:&#032;</string>
+    <string name="ss_date">Date:&#032;</string>
+    <string name="ss_overall_summary">Overall Summary</string>
+    <string name="ss_range_of_motion">RANGE OF MOTION</string>
+    <string name="ss_min">Min&#032;</string>
+    <string name="ss_max">Max&#032;</string>
+    <string name="ss_max_angle">180°</string>
+    <string name="ss_min_angle">0°</string>
+    <string name="ss_total_time">Total Time</string>
+    <string name="ss_action_time">Action Time</string>
+    <string name="ss_hold_time">Hold Time</string>
+    <string name="ss_time_dummy">00 : 00 : 00</string>
+    <string name="ss_good">Good</string>
+    <string name="ss_average">Average</string>
+    <string name="ss_not_good">Not Good</string>
+    <string name="ss_bad">Bad</string>
+    <string name="ss_emg">ELECTROMAYOGRAM (EMG)</string>
+    <string name="ss_click_to_view_report">click to view report&#032; </string>
+
+
+    <!--Pop up comment section tags-->
+    <string name="pain_scale">Pain Scale?</string>
+    <string name="muscle_tone">Muscle Tone?</string>
+    <string name="exercise_name">Exercise Name?</string>
+    <string name="comment">Comment?</string>
+    <string name="continue_session">Continue</string>
 
 
 </resources>

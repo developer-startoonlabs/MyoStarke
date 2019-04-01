@@ -13,7 +13,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
@@ -25,7 +24,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sai.pheezeeapp.Classes.BodyPartWithMmtSelectionModel;
-import com.example.sai.pheezeeapp.adapters.BodyPartRecyclerView;
 import com.example.sai.pheezeeapp.Classes.BodyPartSelectionModel;
 import com.example.sai.pheezeeapp.R;
 import com.example.sai.pheezeeapp.adapters.BodyPartWithMmtRecyclerView;
@@ -48,8 +46,8 @@ public class BodyPartSelection extends AppCompatActivity {
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
     RecyclerView bodyPartRecyclerView;
-    BodyPartRecyclerView bodyPartRecyclerViewAdapter;
 
+    //Adapter for body part recycler view
     BodyPartWithMmtRecyclerView bodyPartWithMmtRecyclerView;
     ArrayList<BodyPartSelectionModel> bodyPartSelectionList;
 
@@ -151,10 +149,8 @@ public class BodyPartSelection extends AppCompatActivity {
             BodyPartWithMmtSelectionModel bp = new BodyPartWithMmtSelectionModel(myPartList[i],string[i]);
             bodyPartWithMmtSelectionModels.add(bp);
         }
-        bodyPartRecyclerViewAdapter = new BodyPartRecyclerView(bodyPartSelectionList,this);
         bodyPartWithMmtRecyclerView = new BodyPartWithMmtRecyclerView(bodyPartWithMmtSelectionModels,this);
 
-//        bodyPartRecyclerView.setAdapter(bodyPartRecyclerViewAdapter);
 
         bodyPartRecyclerView.setAdapter(bodyPartWithMmtRecyclerView);
 

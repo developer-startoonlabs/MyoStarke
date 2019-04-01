@@ -3,7 +3,6 @@ package com.example.sai.pheezeeapp.adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -18,8 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-
-import com.example.sai.pheezeeapp.Classes.BodyPartSelectionModel;
 import com.example.sai.pheezeeapp.Classes.BodyPartWithMmtSelectionModel;
 import com.example.sai.pheezeeapp.R;
 import com.example.sai.pheezeeapp.activities.BodyPartSelection;

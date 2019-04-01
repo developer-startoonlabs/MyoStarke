@@ -45,7 +45,6 @@ abstract class GetDay {
             return -1;
         return k;
     }
-
 }
 
 interface EmData{

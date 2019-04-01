@@ -10,6 +10,7 @@ import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanFilter;
 import android.bluetooth.le.ScanResult;
 import android.bluetooth.le.ScanSettings;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -21,6 +22,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -28,9 +30,11 @@ import com.example.sai.pheezeeapp.adapters.DeviceListArrayAdapter;
 import com.example.sai.pheezeeapp.Classes.BluetoothSingelton;
 import com.example.sai.pheezeeapp.Classes.DeviceListClass;
 import com.example.sai.pheezeeapp.R;
+import com.google.android.gms.common.internal.IAccountAccessor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class ScanDevicesActivity extends AppCompatActivity {
@@ -38,21 +42,25 @@ public class ScanDevicesActivity extends AppCompatActivity {
     private static final String TAG = "ScanDevicesActivity";
     ListView lv_scandevices;
     SwipeRefreshLayout swipeRefreshLayout;
+    public static ImageView iv_device_connected;
+    public static ImageView iv_device_disconnected;
+    public static ImageView iv_bluetooth_connected;
+    public static ImageView iv_bluetooth_disconnected;
 
     private boolean mScanning = false;
     Handler handler;
 
 
     private static final int REQUEST_FINE_LOCATION = 1;
-    TextView tv_stoScan; public static TextView tv_bleStatus;
+    TextView tv_stoScan;
     ArrayList<DeviceListClass> mScanResults;
     DeviceListArrayAdapter deviceListArrayAdapter;
     private BtleScanCallback mScanCallback;
     BluetoothLeScanner mBluetoothLeScanner;
-
     private static final int REQUEST_ENABLE_BT = 1;
     BluetoothAdapter madapter_scandevices;
     public static String selectedDeviceMacAddress;
+    ImageView iv_back_scan_devices;
 
     @SuppressLint("ResourceAsColor")
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -60,27 +68,25 @@ public class ScanDevicesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_devices);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_scandevices);
+        Toolbar toolbar = findViewById(R.id.toolbar_scandevices);
         setSupportActionBar(toolbar);
 
 
         //Initialization
-        tv_bleStatus = (TextView)findViewById(R.id.bleStatus);
-        tv_stoScan = (TextView)findViewById(R.id.tv_stopscan);
-        lv_scandevices = (ListView)findViewById(R.id.lv_deviceList);
+        tv_stoScan = findViewById(R.id.tv_stopscan);
+        iv_back_scan_devices = findViewById(R.id.back_scan_devices);
+        lv_scandevices =findViewById(R.id.lv_deviceList);
         swipeRefreshLayout = findViewById(R.id.scandevices_swiperefresh);
+
+//        iv_bluetooth_connected = findViewById(R.id.iv_bluetooth_connected);
+//        iv_bluetooth_disconnected = findViewById(R.id.iv_bluetooth_disconnected);
+//        iv_device_connected = findViewById(R.id.iv_device_connected);
+//        iv_device_disconnected = findViewById(R.id.iv_device_disconnected);
+
+
         handler = new Handler();
         mScanResults = new ArrayList<>();
         deviceListArrayAdapter = new DeviceListArrayAdapter(this, mScanResults);
-
-
-
-        if(PatientsView.bleStatusTextView.getText().equals("C")){
-            tv_bleStatus.setText("C");
-        }
-
-
-
 
         BluetoothManager bluetoothManager = (BluetoothManager) getSystemService(BLUETOOTH_SERVICE);
         madapter_scandevices = BluetoothSingelton.getmInstance().getAdapter();
@@ -91,7 +97,12 @@ public class ScanDevicesActivity extends AppCompatActivity {
         }
 
 
-
+        iv_back_scan_devices.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
 
         tv_stoScan.setOnClickListener(new View.OnClickListener() {
@@ -103,11 +114,11 @@ public class ScanDevicesActivity extends AppCompatActivity {
 
                 check_operation = tv_stoScan.getText().toString();
                 if(check_operation.equalsIgnoreCase("SCAN")){
-                    tv_stoScan.setText("STOP");
+                    tv_stoScan.setText(R.string.scandevices_stop);
                     startScan();
                 }
                 else {
-                    tv_stoScan.setText("SCAN");
+                    tv_stoScan.setText(R.string.scandevices_scan);
                     stopScan();
                 }
             }
@@ -131,6 +142,9 @@ public class ScanDevicesActivity extends AppCompatActivity {
 
         startScan();
     }
+    public Context getContext(){
+        return this;
+    }
 
     @Override
     protected void onResume() {
@@ -140,15 +154,17 @@ public class ScanDevicesActivity extends AppCompatActivity {
         super.onResume();
     }
 
+
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void startScan() {
         if(Build.VERSION.SDK_INT>22) {
             if (!hasPermissions() || mScanning) {
-                //return;
+                return;
             }
         }
 
-        tv_stoScan.setText("STOP");
+        tv_stoScan.setText(R.string.scandevices_stop);
         List<ScanFilter> filters = new ArrayList<>();
         ScanSettings settings = new ScanSettings.Builder()
                 .setScanMode(ScanSettings.SCAN_MODE_LOW_POWER)
@@ -177,7 +193,7 @@ public class ScanDevicesActivity extends AppCompatActivity {
             mBluetoothLeScanner.stopScan(mScanCallback);
             scanComplete();
         }
-        tv_stoScan.setText("SCAN");
+        tv_stoScan.setText(R.string.scandevices_scan);
         mScanCallback = null;
         mScanning = false;
     }
@@ -225,21 +241,21 @@ public class ScanDevicesActivity extends AppCompatActivity {
     }
 
 
-    public static void setBleStatus(String str){
-        if(tv_bleStatus!=null){
-            tv_bleStatus.setText(str);
-        }
-    }
+//    public static void setBleStatus(String str){
+//        if(tv_bleStatus!=null){
+//            tv_bleStatus.setText(str);
+//        }
+//    }
 
 }
 
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 class BtleScanCallback extends ScanCallback {
-    ArrayList<DeviceListClass> mScanResults;
-    DeviceListArrayAdapter deviceListArrayAdapter;
+    private ArrayList<DeviceListClass> mScanResults;
+    private DeviceListArrayAdapter deviceListArrayAdapter;
 
-    public BtleScanCallback(ArrayList<DeviceListClass> mScanResults, DeviceListArrayAdapter deviceListArrayAdapter) {
+    BtleScanCallback(ArrayList<DeviceListClass> mScanResults, DeviceListArrayAdapter deviceListArrayAdapter) {
         this.mScanResults = mScanResults;
         this.deviceListArrayAdapter = deviceListArrayAdapter;
     }
@@ -285,7 +301,7 @@ class BtleScanCallback extends ScanCallback {
         boolean flag = false;
         for (int i = 0; i < mScanResults.size(); i++) {
             if (mScanResults.get(i).getDeviceMacAddress().equals(deviceAddress)) {
-                if(mScanResults.get(i).getDeviceBondState()!= setDeviceBondState){
+                if(!Objects.equals(mScanResults.get(i).getDeviceBondState(), setDeviceBondState)){
                     mScanResults.get(i).setDeviceBondState(setDeviceBondState);
                 }
 
@@ -318,4 +334,6 @@ class BtleScanCallback extends ScanCallback {
         }
         deviceListArrayAdapter.updateList(mScanResults);
     }
-};
+
+
+}

@@ -22,6 +22,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.ParseException;
@@ -50,9 +51,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
 import android.text.InputType;
-import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Display;
@@ -65,8 +64,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupMenu;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -76,7 +75,6 @@ import com.example.sai.pheezeeapp.Classes.BluetoothGattSingleton;
 import com.example.sai.pheezeeapp.Classes.BluetoothSingelton;
 import com.example.sai.pheezeeapp.Classes.MyBottomSheetDialog;
 import com.example.sai.pheezeeapp.R;
-import com.example.sai.pheezeeapp.dashboard.DashboardActivity;
 import com.example.sai.pheezeeapp.patientsRecyclerView.PatientsListData;
 import com.example.sai.pheezeeapp.patientsRecyclerView.PatientsRecyclerViewAdapter;
 import com.example.sai.pheezeeapp.services.MqttHelper;
@@ -107,7 +105,7 @@ import java.util.UUID;
 
 
 public class PatientsView extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener, PopupMenu.OnMenuItemClickListener {
+        implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener {
 
     //Caracteristic uuids
     //All the constant uuids are written here
@@ -126,6 +124,9 @@ public class PatientsView extends AppCompatActivity
     BluetoothGattCharacteristic mCustomCharacteristic;
     BluetoothGattDescriptor mBluetoothGattDescriptor;
 
+    //bluetooth and device connection state
+    ImageView iv_bluetooth_connected, iv_bluetooth_disconnected, iv_device_connected, iv_device_disconnected;
+
 
 
     PopupWindow bodyPartLayoutWndow;
@@ -137,10 +138,12 @@ public class PatientsView extends AppCompatActivity
     final CharSequence[] items = { "Take Photo", "Choose from Library",
             "Cancel" };
 
+    final CharSequence[] peezee_items = { "Scan Nearby Devices", "Enter Mac Address",
+            "Qrcode Scan", "Cancel" };
+
 
     TextView email,fullName;
     public static ImageView ivBasicImage;
-    ImageView bluetooth_image;
     //new
     JSONObject json_phizio = new JSONObject();
     //MQTT HELPER
@@ -159,7 +162,7 @@ public class PatientsView extends AppCompatActivity
 
 
     String mqtt_subs_phizio_addpatient_response = "phizio/addpatient/response";
-    String mqtt_phizio_profilepic_change_response = "phizio/profilepic/upload/response";
+//    String mqtt_phizio_profilepic_change_response = "phizio/profilepic/upload/response";  //for the profile picture change of patient
     //Request action intents
 
     int REQUEST_ENABLE_BT = 1;
@@ -175,6 +178,7 @@ public class PatientsView extends AppCompatActivity
     private PatientsRecyclerViewAdapter mAdapter;
     EditText patientNameField;
     TextView tv_battery_percentage;
+    ProgressBar battery_bar;
     PopupWindow pw;
     int backpressCount = 0;
     DrawerLayout drawer;
@@ -182,7 +186,6 @@ public class PatientsView extends AppCompatActivity
     SharedPreferences.Editor editor;
     JSONArray jsonData;
     AlertDialog.Builder builder;
-    public static TextView bleStatusTextView;
     BluetoothGatt bluetoothGatt;
     BluetoothDevice remoteDevice;
     BluetoothAdapter bluetoothAdapter;
@@ -193,7 +196,10 @@ public class PatientsView extends AppCompatActivity
     Context context;
     FloatingActionButton addPatientsBtn;
     LinearLayout patientTabLayout;
-    private LinearLayout patientLayout;
+    LinearLayout patientLayout;
+    ImageView iv_addPatient;
+    LinearLayout ll_add_bluetooth, ll_add_device;
+
 
     RecyclerView mRecyclerView;
 
@@ -208,6 +214,8 @@ public class PatientsView extends AppCompatActivity
         editor = sharedPref.edit();
         MacAddress = sharedPref.getString("deviceMacaddress", "");
         addPatientsBtn = findViewById(R.id.addPatients);
+        iv_addPatient = findViewById(R.id.home_iv_addPatient);
+
         mRecyclerView = findViewById(R.id.patients_recycler_view);
         mRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
@@ -215,8 +223,6 @@ public class PatientsView extends AppCompatActivity
 
         mAdapter = new PatientsRecyclerViewAdapter(mdataset,PatientsView.this);
         mRecyclerView.setAdapter(mAdapter);
-        bleStatusTextView = findViewById(R.id.bleStatus);
-        tv_battery_percentage = findViewById(R.id.tv_battery_percentage);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
@@ -226,6 +232,17 @@ public class PatientsView extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.setDrawerIndicatorEnabled(false);
         toggle.syncState();
+
+        //bluetooth and device status related
+        iv_bluetooth_connected = findViewById(R.id.iv_bluetooth_connected);
+        iv_bluetooth_disconnected = findViewById(R.id.iv_bluetooth_disconnected);
+        iv_device_connected = findViewById(R.id.iv_device_connected);
+        iv_device_disconnected = findViewById(R.id.iv_device_disconnected);
+        ll_add_bluetooth = findViewById(R.id.ll_add_bluetooth);
+        ll_add_device = findViewById(R.id.ll_add_device);
+        tv_battery_percentage = findViewById(R.id.tv_battery_percent);
+        battery_bar = findViewById(R.id.progress_battery_bar);
+
 
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -253,8 +270,6 @@ public class PatientsView extends AppCompatActivity
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        bluetooth_image = findViewById(R.id.bluetooth_imamge);
         searchView = findViewById(R.id.search_view);
         ivBasicImage =  view.findViewById(R.id.imageViewdp);
         Picasso.get().load(Environment.getExternalStoragePublicDirectory("profilePic"))
@@ -294,7 +309,6 @@ public class PatientsView extends AppCompatActivity
         ivBasicImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, ":LLOO", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(PatientsView.this, PhizioProfile.class));
             }
         });
@@ -308,7 +322,7 @@ public class PatientsView extends AppCompatActivity
 
 
         try {
-            if (!sharedPref.getString("phiziodetails", "").equals("")) {
+            if (!Objects.requireNonNull(sharedPref.getString("phiziodetails", "")).equals("")) {
 
                 JSONObject object = new JSONObject(sharedPref.getString("phiziodetails", ""));
                 JSONArray array = new JSONArray(object.getString("phiziopatients"));
@@ -335,10 +349,24 @@ public class PatientsView extends AppCompatActivity
         mBluetoothManager = (BluetoothManager)getSystemService(BLUETOOTH_SERVICE);
         bluetoothAdapter = mBluetoothManager.getAdapter();
         BluetoothSingelton.getmInstance().setAdapter(bluetoothAdapter);
+        //Add device and bluetooth turn on click events
+        ll_add_device.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addPheezeeDevice(v);
+            }
+        });
+        ll_add_bluetooth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startBluetoothRequest();
+            }
+        });
         if (bluetoothAdapter==null || !bluetoothAdapter.isEnabled()) {
-            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+            bluetoothDisconnected();
+            startBluetoothRequest();
         } else {
+            bluetoothConnected();
             if (bluetoothGatt != null) {
                 bluetoothGatt.disconnect();
                 bluetoothGatt.close();
@@ -348,7 +376,7 @@ public class PatientsView extends AppCompatActivity
                 message.obj = "N/C";
                 bleStatusHandler.sendMessage(message);
             }
-            if(!sharedPref.getString("deviceMacaddress", "").equals("")) {
+            if(!Objects.requireNonNull(sharedPref.getString("deviceMacaddress", "")).equals("")) {
                 Log.i("Enabled","true");
                 remoteDevice = bluetoothAdapter.getRemoteDevice(sharedPref.getString("deviceMacaddress", "EC:24:B8:31:BD:67"));
 
@@ -371,6 +399,12 @@ public class PatientsView extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 initiatePopupWindow(view);
+            }
+        });
+        iv_addPatient.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initiatePopupWindow(v);
             }
         });
 
@@ -436,6 +470,28 @@ public class PatientsView extends AppCompatActivity
 
     }
 
+    private void startBluetoothRequest() {
+        Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+        startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+    }
+
+    private void bluetoothDisconnected() {
+        iv_bluetooth_disconnected.setVisibility(View.VISIBLE);
+        iv_bluetooth_connected.setVisibility(View.GONE);
+        ll_add_bluetooth.setVisibility(View.VISIBLE);
+        findViewById(R.id.ll_device_and_bluetooth).setVisibility(View.VISIBLE);
+        findViewById(R.id.ll_device_and_bluetooth).setBackgroundResource(R.drawable.drawable_background_connect_to_pheezee);
+    }
+
+    private void bluetoothConnected() {
+        iv_bluetooth_disconnected.setVisibility(View.GONE);
+        iv_bluetooth_connected.setVisibility(View.VISIBLE);
+        ll_add_bluetooth.setVisibility(View.GONE);
+        findViewById(R.id.ll_device_and_bluetooth).setBackgroundResource(R.drawable.drawable_background_turn_on_device);
+
+
+    }
+
     @Override
     protected void onDestroy() {
         unregisterReceiver(bluetoothReceiver);
@@ -451,7 +507,7 @@ public class PatientsView extends AppCompatActivity
             for (int i = data.length() - 1; i >= 0; i--) {
                 try {
                     if(!data.getJSONObject(i).has("status")  || data.getJSONObject(i).getString("status").equals("active")) {
-                        patientsList = new PatientsListData(data.getJSONObject(i).getString("patientname"), data.getJSONObject(i).getString("patientid"), data.getJSONObject(i).getString("patientid"));
+                        patientsList = new PatientsListData(data.getJSONObject(i).getString("patientname"), data.getJSONObject(i).getString("patientid"), data.getJSONObject(i).getString("patientprofilepicurl"));
                         mdataset.add(patientsList);
                     }
                 } catch (JSONException e) {
@@ -463,9 +519,14 @@ public class PatientsView extends AppCompatActivity
 
         }
 
-        if(mdataset.size()>0)
+        if(mdataset.size()>0) {
             findViewById(R.id.noPatient).setVisibility(View.GONE);
+            findViewById(R.id.cl_recycler_view).setVisibility(View.VISIBLE);
+//            findViewById(R.id.cl_add_bluetooth).setVisibility(View.GONE);
+//            findViewById(R.id.cl_add_device).setVisibility(View.GONE);
+        }
         else {
+            findViewById(R.id.cl_recycler_view).setVisibility(View.GONE);
             findViewById(R.id.noPatient).setVisibility(View.VISIBLE);
         }
         mAdapter.notifyDataSetChanged();
@@ -651,7 +712,7 @@ public class PatientsView extends AppCompatActivity
             Button addBtn = layout.findViewById(R.id.addBtn);
             Button cancelBtn = layout.findViewById(R.id.cancelBtn);
 
-            if (!sharedPref.getString("phiziodetails", "").equals("")) {
+            if (!Objects.requireNonNull(sharedPref.getString("phiziodetails", "")).equals("")) {
                 Log.i("Patient View","Inside");
                 jsonData = new JSONArray(json_phizio.getString("phiziopatients"));
                 if(jsonData.length()>0) {
@@ -669,7 +730,7 @@ public class PatientsView extends AppCompatActivity
                 @Override
                 public void onClick(View view) {
                     if ((!patientName.getText().toString().equals("")) && (!patientId.getText().toString().equals(""))) {
-                        if (!sharedPref.getString("phiziodetails", "").equals("")) {
+                        if (!Objects.requireNonNull(sharedPref.getString("phiziodetails", "")).equals("")) {
                             if(jsonData.length()>0) {
                                 try {
                                     for (int i = 0; i < jsonData.length(); i++) {
@@ -714,7 +775,7 @@ public class PatientsView extends AppCompatActivity
                             JSONObject object = new JSONObject();
                             object.put("topic",mqtt_publish_phizio_addpatient);
                             object.put("message",mqttMessage.toString());
-                            if(!sharedPref.getString("sync_session","").equals("")){
+                            if(!Objects.requireNonNull(sharedPref.getString("sync_session", "")).equals("")){
                                 temp = new JSONArray(sharedPref.getString("sync_session",""));
                                 temp.put(object);
                                 editor.putString("sync_session",temp.toString());
@@ -834,11 +895,11 @@ public class PatientsView extends AppCompatActivity
 
                 //remove comments later now.
 
-//            mCharacteristic = gatt.getService(battery_service1_uuid).getCharacteristic(battery_level_battery_service_characteristic_uuid);
-//            gatt.setCharacteristicNotification(mCharacteristic,true);
-//            mBluetoothGattDescriptor = mCharacteristic.getDescriptor(descriptor_characteristic1_service1_uuid);
-//            mBluetoothGattDescriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
-//            bluetoothGatt.writeDescriptor(mBluetoothGattDescriptor);
+                mCharacteristic = gatt.getService(battery_service1_uuid).getCharacteristic(battery_level_battery_service_characteristic_uuid);
+                gatt.setCharacteristicNotification(mCharacteristic,true);
+                mBluetoothGattDescriptor = mCharacteristic.getDescriptor(descriptor_characteristic1_service1_uuid);
+                mBluetoothGattDescriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+                bluetoothGatt.writeDescriptor(mBluetoothGattDescriptor);
 
         }
 
@@ -849,14 +910,6 @@ public class PatientsView extends AppCompatActivity
             bluetoothGatt.readCharacteristic(mCustomCharacteristic);
         }
     };
-
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    public void addpheezee(View view) {
-        PopupMenu popupMenu = new PopupMenu(PatientsView.this, view, Gravity.CENTER);
-        popupMenu.setOnMenuItemClickListener(PatientsView.this);
-        popupMenu.inflate(R.menu.popupmenu);
-        popupMenu.show();
-    }
 
     @Override
     protected void onResume() {
@@ -982,10 +1035,32 @@ public class PatientsView extends AppCompatActivity
     public final Handler bleStatusHandler = new Handler() {
         public void handleMessage(Message msg) {
             String status = (String) msg.obj;
-            bleStatusTextView.setText((String) msg.obj);
-            ScanDevicesActivity.setBleStatus(status);
+            if(status.equalsIgnoreCase("N/C"))
+                pheezeeDisconnected();
+            else if(status.equalsIgnoreCase("C"))
+                pheezeeConnected();
+
+
         }
     };
+
+    private void pheezeeConnected() {
+        iv_device_disconnected.setVisibility(View.GONE);
+        iv_device_connected.setVisibility(View.VISIBLE);
+        ll_add_device.setVisibility(View.GONE);
+        findViewById(R.id.ll_device_and_bluetooth).setVisibility(View.GONE);
+    }
+
+    private void pheezeeDisconnected() {
+        iv_device_disconnected.setVisibility(View.VISIBLE);
+        iv_device_connected.setVisibility(View.GONE);
+        ll_add_device.setVisibility(View.VISIBLE);
+        if(iv_bluetooth_connected.getVisibility()==View.VISIBLE)
+            findViewById(R.id.ll_device_and_bluetooth).setBackgroundResource(R.drawable.drawable_background_turn_on_device);
+        else
+            findViewById(R.id.ll_device_and_bluetooth).setBackgroundResource(R.drawable.drawable_background_connect_to_pheezee);
+        findViewById(R.id.ll_device_and_bluetooth).setVisibility(View.VISIBLE);
+    }
 
     private final BroadcastReceiver bluetoothReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
@@ -1006,7 +1081,7 @@ public class PatientsView extends AppCompatActivity
             if (BluetoothAdapter.ACTION_STATE_CHANGED.equals(action)) {
                 if (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1) == BluetoothAdapter.STATE_ON) {
                     bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-
+                    bluetoothConnected();
                     if(!MacAddress.equals("")) {
                         remoteDevice = bluetoothAdapter.getRemoteDevice(MacAddress);
                         if (remoteDevice != null) {
@@ -1020,6 +1095,7 @@ public class PatientsView extends AppCompatActivity
                     }
                 }
                 if (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1) == BluetoothAdapter.STATE_OFF) {
+                    bluetoothDisconnected();
                     Toast.makeText(PatientsView.this, "Bluetooth turned off", Toast.LENGTH_LONG).show();
                     Message message = Message.obtain();
                     message.obj = "N/C";
@@ -1031,7 +1107,7 @@ public class PatientsView extends AppCompatActivity
     };
 
     public void startSession(View view) {
-        patientTabLayout= (LinearLayout) ((Button)view).getParent().getParent();
+        patientTabLayout= (LinearLayout) (view).getParent().getParent();
         patientTabLayout = (LinearLayout) patientTabLayout.getChildAt(1);
 
 
@@ -1046,87 +1122,15 @@ public class PatientsView extends AppCompatActivity
 
 
 
-        LinearLayout linearLayout = (LinearLayout) view;
-        if (sharedPref.getString("deviceMacaddress", "").equals("")) {
+        if (Objects.requireNonNull(sharedPref.getString("deviceMacaddress", "")).equals("")) {
             Toast.makeText(this, "First add pheezee to your application", Toast.LENGTH_LONG).show();
-        } else if (!bleStatusTextView.getText().toString().equals("C")  ) {
+        } else if (!(iv_device_connected.getVisibility()==View.VISIBLE)  ) {
             Toast.makeText(this, "Make sure that the pheezee is on", Toast.LENGTH_LONG).show();
         }
         else {
             startActivity(intent);
         }
 
-    }
-
-
-    //target to save
-
-    public void openDashboard(LinearLayout view,String exerciseType) {
-
-        TextView patientName = (TextView) view.getChildAt(0);
-        TextView patientId = (TextView) view.getChildAt(1);
-        System.out.println(patientId.getText().toString());
-        Intent intent = new Intent(PatientsView.this, DashboardActivity.class);
-        intent.putExtra("exerciseType",exerciseType);
-        intent.putExtra("deviceMacAddress", sharedPref.getString("deviceMacaddress", ""));
-        intent.putExtra("patientId", patientId.getText().toString().substring(5));
-        try {
-            intent.putExtra("phizioemail",json_phizio.getString("phizioemail"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        intent.putExtra("patientName", patientName.getText().toString());
-        startActivity(intent);
-        bodyPartLayout.dismiss();
-}
-
-
-    @Override
-    public boolean onMenuItemClick(MenuItem menuItem) {
-
-        switch (menuItem.getItemId()){
-            case R.id.scan_nearby_devices: {
-                to_scan_devices_activity = new Intent(PatientsView.this, ScanDevicesActivity.class);
-                if (bluetoothAdapter==null || !bluetoothAdapter.isEnabled()) {
-                    Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                    startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT_SCAN);
-                }
-                else
-                    startActivity(to_scan_devices_activity);
-                break;
-            }
-            case R.id.qrcode_scan:{
-                final Context context = this;
-                startActivity(new Intent(context, Scanner.class));
-                break;
-            }
-
-            case R.id.enter_mac_address:{
-                builder = new AlertDialog.Builder(this,R.style.AlertDialogStyle_entermac);
-                builder.setTitle("ENTER THE MAC ADDRESS");
-                final EditText input_macAddress = new EditText(this);
-
-                builder.setMessage("Please enter the mac address and press connect");
-                input_macAddress.setInputType(InputType.TYPE_CLASS_TEXT);
-                builder.setView(input_macAddress);
-                builder.setPositiveButton("CONNECT", new DialogInterface.OnClickListener() {
-            @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            editor.putString("deviceMacaddress", input_macAddress.getText().toString());
-                            editor.commit();
-                        }
-                    });
-            builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                }
-            });
-            builder.show();
-                break;
-            }
-        }
-        return false;
     }
 
 
@@ -1145,8 +1149,7 @@ public class PatientsView extends AppCompatActivity
             BluetoothGatt localBluetoothGatt = gatt;
             Method localMethod = localBluetoothGatt.getClass().getMethod("refresh", new Class[0]);
             if (localMethod != null) {
-                boolean bool = ((Boolean) localMethod.invoke(localBluetoothGatt, new Object[0])).booleanValue();
-                return bool;
+                return (Boolean) localMethod.invoke(localBluetoothGatt, new Object[0]);
             }
         }
         catch (Exception localException) {
@@ -1181,6 +1184,54 @@ public class PatientsView extends AppCompatActivity
         builder.show();
     }
 
+    public void addPheezeeDevice(View view){
+        builder = new AlertDialog.Builder(PatientsView.this);
+        builder.setTitle("Add Pheezee Device!");
+        builder.setItems(peezee_items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                if (peezee_items[item].equals("Scan Nearby Devices")) {
+                    to_scan_devices_activity = new Intent(PatientsView.this, ScanDevicesActivity.class);
+                    if (bluetoothAdapter==null || !bluetoothAdapter.isEnabled()) {
+                        Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                        startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT_SCAN);
+                    }
+                    else
+                        startActivity(to_scan_devices_activity);
+                } else if (peezee_items[item].equals("Enter Mac Address")) {
+                    builder = new AlertDialog.Builder(PatientsView.this,R.style.AlertDialogStyle_entermac);
+                    builder.setTitle("ENTER THE MAC ADDRESS");
+                    final EditText input_macAddress = new EditText(PatientsView.this);
+
+                    builder.setMessage("Please enter the mac address and press connect");
+                    input_macAddress.setInputType(InputType.TYPE_CLASS_TEXT);
+                    builder.setView(input_macAddress);
+                    builder.setPositiveButton("CONNECT", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            editor.putString("deviceMacaddress", input_macAddress.getText().toString());
+                            editor.commit();
+                        }
+                    });
+                    builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    builder.show();
+
+                } else if (peezee_items[item].equals("Qrcode Scan")) {
+                    startActivity(new Intent(PatientsView.this, Scanner.class));
+                }
+                else{
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
+    }
+
     private void galleryIntent() {
         Intent pickPhoto = new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -1204,15 +1255,17 @@ public class PatientsView extends AppCompatActivity
                 patientTabLayout= (LinearLayout) (patientLayoutView).getParent().getParent();
                 patientTabLayout = (LinearLayout) patientTabLayout.getChildAt(1);
                 //TextView tv_patientId = patientLayoutView.getRootView().findViewById(R.id.patientId);
-                Bitmap photo = (Bitmap) data.getExtras().get("data");
+                Bitmap photo = (Bitmap) Objects.requireNonNull(data.getExtras()).get("data");
                 imageView_patientpic.setImageBitmap(photo);
-                TextView tv_patientId = (TextView) patientTabLayout.getChildAt(1);;
+                TextView tv_patientId = (TextView) patientTabLayout.getChildAt(1);
                 JSONObject object = new JSONObject();
 
                 MqttMessage message = new MqttMessage();
 
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                photo.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                if (photo != null) {
+                    photo.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                }
                 byte[] byteArray = stream.toByteArray();
                 String encodedString = Base64.encodeToString(byteArray,Base64.DEFAULT);
                 try {
@@ -1222,6 +1275,7 @@ public class PatientsView extends AppCompatActivity
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                putPatientProfilePicUrl(tv_patientId.getText().toString().substring(4).replaceAll("\\s+",""),"");
                 message.setPayload(object.toString().getBytes());
 
                 mqttHelper.publishMqttTopic(mqtt_publish_phizio_patient_profilepic,message);
@@ -1232,36 +1286,40 @@ public class PatientsView extends AppCompatActivity
             ImageView imageView_patientpic = patientLayoutView.findViewById(R.id.patientProfilePic);
             patientTabLayout= (LinearLayout) (patientLayoutView).getParent().getParent();
             patientTabLayout = (LinearLayout) patientTabLayout.getChildAt(1);
-            Uri selectedImage = data.getData();
-            Glide.with(this).load(selectedImage).apply(new RequestOptions().centerCrop()).into(imageView_patientpic);
-            TextView tv_patientId = (TextView) patientTabLayout.getChildAt(1);
-            Bitmap photo = null;
-            try {
-                photo = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
-            } catch (IOException e) {
-                e.printStackTrace();
+            if(data!=null) {
+                Uri selectedImage = data.getData();
+                Glide.with(this).load(selectedImage).apply(new RequestOptions().centerCrop()).into(imageView_patientpic);
+                TextView tv_patientId = (TextView) patientTabLayout.getChildAt(1);
+                Bitmap photo = null;
+                try {
+                    photo = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                JSONObject object = new JSONObject();
+
+                MqttMessage message = new MqttMessage();
+
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                if (photo != null) {
+                    photo.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                }
+                byte[] byteArray = stream.toByteArray();
+                String encodedString = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                try {
+                    object.put("image", encodedString);
+                    object.put("phizioemail", json_phizio.getString("phizioemail"));
+                    object.put("patientid", tv_patientId.getText().toString().substring(4).replaceAll("\\s+", ""));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                message.setPayload(object.toString().getBytes());
+
+                mqttHelper.publishMqttTopic(mqtt_publish_phizio_patient_profilepic, message);
             }
-            JSONObject object = new JSONObject();
-
-            MqttMessage message = new MqttMessage();
-
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            photo.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            byte[] byteArray = stream.toByteArray();
-            String encodedString = Base64.encodeToString(byteArray,Base64.DEFAULT);
-            try {
-                object.put("image",encodedString);
-                object.put("phizioemail",json_phizio.getString("phizioemail"));
-                object.put("patientid",tv_patientId.getText().toString().substring(4).replaceAll("\\s+",""));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            message.setPayload(object.toString().getBytes());
-
-            mqttHelper.publishMqttTopic(mqtt_publish_phizio_patient_profilepic,message);
         }
         if (resultCode != 0) {
-            if(!sharedPref.getString("deviceMacaddress", "").equals("")) {
+            if(!Objects.requireNonNull(sharedPref.getString("deviceMacaddress", "")).equals("")) {
                 remoteDevice = bluetoothAdapter.getRemoteDevice(sharedPref.getString("deviceMacaddress", ""));
 
 
@@ -1282,11 +1340,33 @@ public class PatientsView extends AppCompatActivity
         }
     }
 
+    private void putPatientProfilePicUrl(String replaceAll, String s) {
+        try {
+            jsonData = new JSONArray(json_phizio.getString("phiziopatients"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        for (int i = 0; i < jsonData.length(); i++) {
+            try {
+                int numofsessions;
+                if (jsonData.getJSONObject(i).get("patientid").equals(replaceAll)) {
+                    jsonData.getJSONObject(i).put("patientprofilepicurl",s);
+                    json_phizio.put("phiziopatients",jsonData);
+                    editor = sharedPref.edit();
+                    editor.putString("phiziodetails", json_phizio.toString());
+                    editor.apply();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @SuppressLint("ResourceType")
     public void openOpionsPopupWindow(View view){
+        Boolean bool = true;
         Bitmap patientpic_bitmap=null;
 
 
@@ -1298,7 +1378,13 @@ public class PatientsView extends AppCompatActivity
         ImageView iv_patient_pic = iv_layout.findViewById(R.id.patientProfilePic);
 
         if(!(iv_patient_pic.getDrawable() ==null)) {
-            patientpic_bitmap = ((BitmapDrawable) iv_patient_pic.getDrawable()).getBitmap();
+            try {
+                patientpic_bitmap = ((BitmapDrawable) iv_patient_pic.getDrawable()).getBitmap();
+            }
+            catch (ClassCastException e){
+                patientpic_bitmap = null;
+            }
+
         }
 
         String dateofjoin = getJoinDateOfPatiet();
@@ -1339,18 +1425,19 @@ public class PatientsView extends AppCompatActivity
 //    }
 
 
-    private void openCalibrationActivity(String bodypart) {
-        final TextView patientIdTemp = patientTabLayout.findViewById(R.id.patientId);
-        TextView patientNameTemp = patientTabLayout.findViewById(R.id.patientName);
-
-        Intent mmt_intent = new Intent(PatientsView.this, CalibrationSession.class);
-        mmt_intent.putExtra("deviceMacAddress", sharedPref.getString("deviceMacaddress", ""));
-        mmt_intent.putExtra("patientid", patientIdTemp.getText().toString().substring(5));
-        mmt_intent.putExtra("bodypart", bodypart);
-        mmt_intent.putExtra("patientname", patientNameTemp.getText().toString());
-        startActivity(mmt_intent);
-        bodyPartLayoutWndow.dismiss();
-    }
+    //For calibration or self reference activity
+//    private void openCalibrationActivity(String bodypart) {
+//        final TextView patientIdTemp = patientTabLayout.findViewById(R.id.patientId);
+//        TextView patientNameTemp = patientTabLayout.findViewById(R.id.patientName);
+//
+//        Intent mmt_intent = new Intent(PatientsView.this, CalibrationSession.class);
+//        mmt_intent.putExtra("deviceMacAddress", sharedPref.getString("deviceMacaddress", ""));
+//        mmt_intent.putExtra("patientid", patientIdTemp.getText().toString().substring(5));
+//        mmt_intent.putExtra("bodypart", bodypart);
+//        mmt_intent.putExtra("patientname", patientNameTemp.getText().toString());
+//        startActivity(mmt_intent);
+//        bodyPartLayoutWndow.dismiss();
+//    }
 
     public void openReportActivity(View view){
         if(isNetworkAvailable()){
@@ -1531,7 +1618,7 @@ public class PatientsView extends AppCompatActivity
         return dateofjoin;
     }
 
-
+    @SuppressLint("SimpleDateFormat")
     private static String getDateInMonthAndDate(String date) throws ParseException {
         if(!date.equals("")) {
             int d= Integer.parseInt(date.substring(0,2));
@@ -1633,11 +1720,15 @@ public class PatientsView extends AppCompatActivity
         return bluetoothGatt.writeCharacteristic(mCustomCharacteristic);
     }
 
+    @SuppressLint("HandlerLeak")
     public final Handler batteryStatus = new Handler(){
+        @SuppressLint("SetTextI18n")
         @Override
         public void handleMessage(Message msg) {
             tv_battery_percentage.setText(msg.obj.toString()+"%");
+            battery_bar.setProgress(Integer.parseInt(msg.obj.toString()));
         }
     };
+
 
 }

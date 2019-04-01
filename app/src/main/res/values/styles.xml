@@ -13,9 +13,9 @@
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/good_green</item>
+        <item name="colorPrimaryDark">@color/good_green</item>
+        <item name="colorAccent">@color/good_green</item>
     </style>
 
     <style name="AppTheme.NoActionBarLogin">

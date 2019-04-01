@@ -2,27 +2,37 @@ package com.example.sai.pheezeeapp.patientsRecyclerView;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.URLUtil;
 import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.example.sai.pheezeeapp.activities.PatientsView;
 import com.example.sai.pheezeeapp.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +47,7 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
-        private TextView patientName, patientId;
+        private TextView patientName, patientId,patientNameContainer;
         private ImageView patientProfilepic;
         private LinearLayout ll_option_patient_list;
         ViewHolder(View view) {
@@ -46,6 +56,7 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
             patientId   =   view.findViewById(R.id.patientId);
             patientProfilepic = view.findViewById(R.id.patientProfilePic);
             ll_option_patient_list = view.findViewById(R.id.options_popup_window);
+            patientNameContainer  = view.findViewById(R.id.iv_patient_name_container);
         }
     }
 
@@ -79,7 +90,7 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         PatientsListData patientsList = updatedPatientList.get(position);
@@ -97,14 +108,24 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
 
         String patientUrl = patientsList.getPatientUrl();
 
-//        if(!patientUrl.equals("empty")) {
-            Glide.with(context)
-                    .load("https://s3.ap-south-1.amazonaws.com/pheezee/physiotherapist/" + str_phizioemail.replaceFirst("@", "%40") + "/patients/" + patientsList.getPatientId() + "/images/profilepic.png")
-                    .apply(new RequestOptions()
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true))
-                    .into(holder.patientProfilepic);
-        //}
+        if(!patientUrl.trim().toLowerCase().equals("empty")) {
+                Glide.with(context)
+                        .load("https://s3.ap-south-1.amazonaws.com/pheezee/physiotherapist/" + str_phizioemail.replaceFirst("@", "%40") + "/patients/" + patientsList.getPatientId() + "/images/profilepic.png")
+                        .apply(new RequestOptions()
+                                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                .skipMemoryCache(true))
+                        .into(holder.patientProfilepic);
+
+        }
+        else {
+            holder.patientNameContainer.setVisibility(View.VISIBLE);
+            if(holder.patientName.getText().length()<2 || holder.patientName.getText().length()==2)
+                holder.patientNameContainer.setText(holder.patientName.getText().toString().toUpperCase());
+            else{
+                holder.patientNameContainer.setText(holder.patientName.getText().toString().substring(0,2).toUpperCase());
+            }
+
+        }
     }
 
 

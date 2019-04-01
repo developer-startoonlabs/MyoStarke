@@ -8,64 +8,132 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".activities.PatientsView"
     tools:showIn="@layout/app_bar_patients_view">
-    <android.support.constraint.ConstraintLayout
+    <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFFFFF">
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/patients_recycler_view"
-            android:scrollbars="vertical"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteY="60dp">
+
+        <LinearLayout
+            android:id="@+id/ll_device_and_bluetooth"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    </android.support.constraint.ConstraintLayout>
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/noPatient"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:background="#FFFFFF">
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/empty_patient_screen_icon"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.25" />
-
-        <TextView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="What is Pheezee with out Patients!"
-            android:textSize="16dp"
+            android:background="@drawable/drawable_background_connect_to_pheezee"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/ll_add_bluetooth"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/turn_on_bluetooth" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_add_device"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="0.5dp"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/connect_to_device" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/cl_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#FFFFFF"
+            android:visibility="gone">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/patients_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_archive_patients"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/archive_patient"
+                android:textColor="@color/good_green"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/patients_recycler_view" />
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/noPatient"
+            android:layout_width="match_parent"
+            android:layout_height="670dp"
+            android:background="#FFFFFF"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:textColor="@color/good_green"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.72" />
+            tools:layout_editor_absoluteX="0dp">
+
+            <ImageView
+                android:id="@+id/reportIcon"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/empty_patient_screen_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.304"
+                android:contentDescription="@string/add_patients_text" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/what_is_pheezee"
+                android:textColor="@color/good_green"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/inputfield_background"
-            android:clickable="true"
-            android:focusable="true"
-            android:padding="5dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text="@string/add_patients_text"
-            android:textColor="@color/good_green"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
-    </android.support.constraint.ConstraintLayout>
+            <TextView
+                android:id="@+id/tv_patient_view_add_patient"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/inputfield_background"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/add_patients_text"
+                android:textColor="@color/good_green"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.501"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.624" />
+        </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
+
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/addPatients"
@@ -75,9 +143,24 @@
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
         android:src="@drawable/home_add_patient"
+        android:visibility="gone"
         app:fabCustomSize="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:maxImageSize="75dp" />
+        app:maxImageSize="75dp" >
+
+    </android.support.design.widget.FloatingActionButton>
+
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:id="@+id/home_iv_addPatient"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="0dp"
+        android:visibility="visible"
+        android:src="@drawable/home_add_patient"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/cd_floating" />
 
 </android.support.constraint.ConstraintLayout>

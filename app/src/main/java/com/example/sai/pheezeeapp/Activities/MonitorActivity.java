@@ -33,6 +33,7 @@ import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateFormat;
@@ -50,7 +51,9 @@ import android.widget.Toast;
 import com.example.sai.pheezeeapp.Classes.BluetoothSingelton;
 import com.example.sai.pheezeeapp.R;
 import com.example.sai.pheezeeapp.services.MqttHelper;
+import com.example.sai.pheezeeapp.utils.AngleOperations;
 import com.example.sai.pheezeeapp.views.ArcView;
+import com.example.sai.pheezeeapp.views.ArcViewInside;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
@@ -80,6 +83,7 @@ import java.util.UUID;
 public class MonitorActivity extends AppCompatActivity {
 
     public final int sub_byte_size = 26;
+    int maxAnglePart, minAnglePart;
     String bodypart;
     boolean servicesDiscovered = false;
     SharedPreferences sharedPreferences;
@@ -124,6 +128,7 @@ public class MonitorActivity extends AppCompatActivity {
     TextView holdTime;
     TextView EMG;
     ProtractorView rangeOfMotion;
+    ArcViewInside arcViewInside;
     TextView time;
     TextView patientId;
     TextView patientName;
@@ -152,6 +157,8 @@ public class MonitorActivity extends AppCompatActivity {
 
     ArrayList<BluetoothGattCharacteristic> arrayList;
 
+    AngleOperations angleOperations;
+
 
     //All the constant uuids are written here
     public static final UUID service1_uuid = UUID.fromString("909a1400-9693-4920-96e6-893c0157fedd");
@@ -173,10 +180,12 @@ public class MonitorActivity extends AppCompatActivity {
         //declarations
 //        sessionDataTrackedFile      = generateFile("sessionDataTracked.txt");
 //        sessionDataUnTrackedFile    = generateFile( "sessionDataUnTracked.txt");
+        angleOperations = new AngleOperations();
         lineChart                   = findViewById(R.id.chart);
-        Angle                       = findViewById(R.id.Angle);
+//        Angle                       = findViewById(R.id.Angle);
         EMG                         = findViewById(R.id.emgValue);
-        rangeOfMotion               = findViewById(R.id.rangeOfMotion);
+//        rangeOfMotion               = findViewById(R.id.rangeOfMotion);
+        arcViewInside               = findViewById(R.id.arcViewInside);
         Repetitions                 = findViewById(R.id.Repetitions);
         holdTime                    = findViewById(R.id.holdtime);
         timer                       = findViewById(R.id.timer);
@@ -187,6 +196,7 @@ public class MonitorActivity extends AppCompatActivity {
         emgSignal                   = findViewById(R.id.emg);
         handler                     = new Handler();
         emgJsonArray                = new JSONArray();
+
         iv_back_monitor = findViewById(R.id.iv_back_monitor);
         tv_snap = findViewById(R.id.snap_monitor);
 
@@ -194,9 +204,10 @@ public class MonitorActivity extends AppCompatActivity {
         tv_snap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                takeScreenshot(v);
+                takeScreenshot(null);
             }
         });
+
 
 
 
@@ -214,6 +225,13 @@ public class MonitorActivity extends AppCompatActivity {
         patientId.setText(getIntent().getStringExtra("patientId"));
         patientName.setText(getIntent().getStringExtra("patientName"));
         bodypart = getIntent().getStringExtra("exerciseType");
+        //Getting the max and min angle of the particular body part
+        maxAnglePart = angleOperations.getMaxAngle(bodypart);
+        minAnglePart = angleOperations.getMinAngle(bodypart);
+        arcViewInside.setMinAngle(minAnglePart);
+        arcViewInside.setMaxAngle(minAnglePart);
+
+        Log.i("max and min",maxAnglePart+" "+minAnglePart);
         creatGraphView();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -482,11 +500,11 @@ public class MonitorActivity extends AppCompatActivity {
 //        mConstraintSet1.applyTo(mConstraintLayout);
 
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            rangeOfMotion.setVisibility(View.INVISIBLE);
+//            rangeOfMotion.setVisibility(View.INVISIBLE);
         }
 
         if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            rangeOfMotion.setVisibility(View.VISIBLE);
+//            rangeOfMotion.setVisibility(View.VISIBLE);
         }
     }
 
@@ -906,9 +924,11 @@ public class MonitorActivity extends AppCompatActivity {
                 secondsValue = "0"+hold_time_seconds;
             holdTimeValue = minutesValue+" : "+secondsValue;
 
-            if(angleDetected>0 && angleDetected<=180)
-                rangeOfMotion.setAngle(angleDetected);
-            Angle.setText(angleValue);
+            if(angleDetected>=minAnglePart && angleDetected<=maxAnglePart) {
+//                rangeOfMotion.setAngle(angleDetected);
+                arcViewInside.setMaxAngle(angleDetected);
+            }
+//            Angle.setText(angleValue);
             for (int i=0;i<emg_data.length;i++) {
                 lineData.addEntry(new Entry((float) UpdateTime / 1000, emg_data[i]), 0);
                 lineChart.notifyDataSetChanged();
@@ -940,12 +960,12 @@ public class MonitorActivity extends AppCompatActivity {
                     maxEmgValue = 1;
                 params.height = ((View) emgSignal.getParent()).getMeasuredHeight() * emg_data[i] / maxEmgValue;
             }
-
-            maxAngle = maxAngle<angleDetected?angleDetected:maxAngle;
-            minAngle = minAngle>angleDetected?angleDetected:minAngle;
+            if(angleDetected>=minAnglePart && angleDetected<=maxAnglePart) {
+                maxAngle = maxAngle < angleDetected ? angleDetected : maxAngle;
+                minAngle = minAngle > angleDetected ? angleDetected : minAngle;
+            }
             emgSignal.setLayoutParams(params);
             holdTime.setText(holdTimeValue);
-
         }
     };
 
@@ -973,7 +993,6 @@ public class MonitorActivity extends AppCompatActivity {
         TextView tv_max_emg = layout.findViewById(R.id.tv_max_emg);
         LinearLayout ll_click_to_view_report = layout.findViewById(R.id.ll_click_to_view_report);
 
-
         ll_click_to_view_report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -994,10 +1013,23 @@ public class MonitorActivity extends AppCompatActivity {
             }
         });
 
-
         //Share and cancel image view
         LinearLayout summary_go_back = layout.findViewById(R.id.summary_go_back);
         LinearLayout summary_share =  layout.findViewById(R.id.summary_share);
+
+        summary_share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                File file = takeScreenshot(report);
+                Uri pdfURI = FileProvider.getUriForFile(MonitorActivity.this, getApplicationContext().getPackageName() + ".my.package.name.provider", file);
+
+             Intent i = new Intent();
+             i.setAction(Intent.ACTION_SEND);
+             i.putExtra(Intent.EXTRA_STREAM,pdfURI);
+             i.setType("application/jpg");
+             startActivity(Intent.createChooser(i, "share pdf"));
+            }
+        });
 
 
         summary_go_back.setOnClickListener(new View.OnClickListener() {
@@ -1042,7 +1074,7 @@ public class MonitorActivity extends AppCompatActivity {
         tv_max_emg.setText(Integer.toString(maxEmgValue)+"μV");
 
         //Creating the arc
-        ArcView arcView =layout.findViewById(R.id.session_summary_arcview);
+        ArcViewInside arcView =layout.findViewById(R.id.session_summary_arcview);
         arcView.setMaxAngle(maxAngle);
         arcView.setMinAngle(minAngle);
         TextView tv_180 = layout.findViewById(R.id.tv_180);
@@ -1439,9 +1471,11 @@ public class MonitorActivity extends AppCompatActivity {
     }
 
 
-    private void takeScreenshot(View view) {
+    private File takeScreenshot(PopupWindow popupWindow) {
 
         Date now = new Date();
+        File snap = null;
+        View v1;
         DateFormat.format("yyyy-MM-dd_hh:mm:ss", now);
 
         try {
@@ -1454,7 +1488,7 @@ public class MonitorActivity extends AppCompatActivity {
                 f1.mkdirs();
             }
 
-            File snap = new File(f1,now+".jpg");
+            snap = new File(f1,now+".jpg");
 
             try {
                 snap.createNewFile();
@@ -1462,8 +1496,14 @@ public class MonitorActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             // create bitmap screen capture
-            View v1 = getWindow().getDecorView().getRootView();
-            v1.setDrawingCacheEnabled(true);
+            if(popupWindow!=null){
+                v1 = popupWindow.getContentView().getRootView();
+                v1.setDrawingCacheEnabled(true);
+            }
+            else {
+                v1 = getWindow().getDecorView().getRootView();
+                v1.setDrawingCacheEnabled(true);
+            }
             Bitmap bitmap = Bitmap.createBitmap(v1.getDrawingCache());
             v1.setDrawingCacheEnabled(false);
 
@@ -1490,5 +1530,7 @@ public class MonitorActivity extends AppCompatActivity {
             // Several error may come out with file handling or DOM
             e.printStackTrace();
         }
+
+        return snap;
     }
 }
