@@ -1,109 +1,109 @@
 -- Merging decision tree log ---
 provider#com.example.sai.pheezeeapp.Classes.GenericFileProvider
-INJECTED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:34:9-42:20
+INJECTED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:33:9-41:20
 	android:grantUriPermissions
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:38:13-47
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:37:13-47
 	android:authorities
 		INJECTED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:36:13-76
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:35:13-76
 	android:exported
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:37:13-37
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:36:13-37
 	android:name
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:35:13-56
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:34:13-56
 manifest
-ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:2:1-150:12
-INJECTED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:2:1-150:12
-INJECTED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:2:1-150:12
-INJECTED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:2:1-150:12
-MERGED from [com.android.support:multidex:1.0.3] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\multidex-1.0.3.aar\ee3f42a391065e9741efdf7d7b9b787e\AndroidManifest.xml:17:1-22:12
-MERGED from [info.androidhive:barcode-reader:1.1.5] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\barcode-reader-1.1.5.aar\be227e02591bc27514e0c96b86b111a6\AndroidManifest.xml:2:1-15:12
-MERGED from [com.robertlevonyan.view:CustomFloatingActionButton:2.1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\CustomFloatingActionButton-2.1.1.aar\4a770bc52629cf333902d5fc22e46245\AndroidManifest.xml:2:1-17:12
-MERGED from [com.android.support:design:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\design-28.0.0-rc01.aar\2a2e077ee80a9068830c2784270a3626\AndroidManifest.xml:17:1-24:12
-MERGED from [com.squareup.picasso:picasso:2.71828] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\picasso-2.71828.aar\49028c7ac5808ec24ccdf7c15858ebea\AndroidManifest.xml:2:1-14:12
-MERGED from [com.android.support:exifinterface:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\exifinterface-28.0.0-rc01.aar\9ff5785dd0fb177b2a2cbfa8437a2eec\AndroidManifest.xml:17:1-22:12
-MERGED from [com.facebook.android:facebook-login:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-login-4.35.0.aar\c1f9b9b636baa42f12c23c44d64e6c12\AndroidManifest.xml:21:1-31:12
-MERGED from [com.facebook.android:facebook-common:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-common-4.35.0.aar\a8104318439e1b5c9654bd7b80e6d614\AndroidManifest.xml:21:1-37:12
-MERGED from [com.android.support:customtabs:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\customtabs-28.0.0-rc01.aar\8f4096cd500cbbdc7dd633e7d156daa7\AndroidManifest.xml:17:1-22:12
-MERGED from [com.github.GoodieBag:ProtractorView:v1.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\ProtractorView-v1.2.aar\732d3a94fee7137c524b5c969ea9ca64\AndroidManifest.xml:2:1-17:12
-MERGED from [com.github.AnyChart:AnyChart-Android:1.1.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\AnyChart-Android-1.1.2.aar\ae04af3ae14329739e04ec199c0aa023\AndroidManifest.xml:2:1-17:12
-MERGED from [com.github.igortrncic.dotted-progress-bar:library:1.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\library-1.0.0.aar\d3be2695a69f403e5386e96acc3861fc\AndroidManifest.xml:2:1-16:12
-MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\appcompat-v7-28.0.0.aar\8c34ab288258c11de6cfd1922403e47d\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-28.0.0.aar\bd92396687066a43d2e4a3325327acb2\AndroidManifest.xml:17:1-22:12
-MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\graphview-4.2.2.aar\1753c93f015972872311c8c68afd320d\AndroidManifest.xml:2:1-14:12
-MERGED from [com.google.android.gms:play-services-vision:17.0.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-vision-17.0.2.aar\5299fd5507407a31b7eb93a40e594251\AndroidManifest.xml:2:1-9:12
-MERGED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.1.aar\1dbbf4629e238f94c780cc6eb3302803\AndroidManifest.xml:17:1-39:12
-MERGED from [com.google.android.gms:play-services-vision-common:17.0.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-vision-common-17.0.2.aar\484d615e03094d0ca4a1441e7a5bda34\AndroidManifest.xml:2:1-9:12
-MERGED from [com.google.android.gms:play-services-auth-api-phone:16.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-api-phone-16.0.0.aar\16d7524c4a3d1d581f56fbc601d6c07a\AndroidManifest.xml:2:1-7:12
-MERGED from [com.google.android.gms:play-services-auth-base:16.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-base-16.0.0.aar\ce8940a084759b1200c9d44f8592021b\AndroidManifest.xml:2:1-7:12
-MERGED from [com.google.android.gms:play-services-clearcut:16.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-clearcut-16.0.0.aar\7f433d584fc9d4e4269bac8c7c106a42\AndroidManifest.xml:17:1-24:12
-MERGED from [com.google.android.gms:play-services-flags:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-flags-16.0.1.aar\538e062633270567003e8eac3f8da5da\AndroidManifest.xml:17:1-22:12
-MERGED from [com.google.android.gms:play-services-phenotype:16.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-phenotype-16.0.0.aar\9011d34e0ad903b2ec126612f47af411\AndroidManifest.xml:17:1-24:12
-MERGED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-base-16.0.1.aar\a9897198ab7392b64c40e53c9c82690a\AndroidManifest.xml:17:1-29:12
-MERGED from [com.google.android.gms:play-services-tasks:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-tasks-16.0.1.aar\8e25f768b372a13e8136a8bc3d07e99a\AndroidManifest.xml:2:1-9:12
-MERGED from [com.google.android.gms:play-services-basement:16.1.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-basement-16.1.0.aar\bcc19ca225f72f4d8cc5a65a5fc87ea6\AndroidManifest.xml:17:1-28:12
-MERGED from [com.android.support:support-v4:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-v4-28.0.0-rc01.aar\5d6f3d5328289337f82d07b0bdaf3d5a\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support.constraint:constraint-layout:1.1.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.2.aar\e5caecd22da6ae2884c505b8d7147e7d\AndroidManifest.xml:2:1-11:12
-MERGED from [com.github.bumptech.glide:glide:4.8.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\glide-4.8.0.aar\45da32aaa866d3f8b32d50bde1acf4ba\AndroidManifest.xml:2:1-12:12
-MERGED from [com.github.warkiz.widget:indicatorseekbar:2.1.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\indicatorseekbar-2.1.0.aar\820a9cd69532312960d52be9b98f142e\AndroidManifest.xml:2:1-11:12
-MERGED from [no.nordicsemi.android:dfu:1.7.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\dfu-1.7.0.aar\cd28f341691b28fc1a2ef425ed8db7dd\AndroidManifest.xml:2:1-14:12
-MERGED from [de.hdodenhof:circleimageview:2.2.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\circleimageview-2.2.0.aar\6325dfd5a0c32180a66b22472fdc9f2c\AndroidManifest.xml:2:1-11:12
-MERGED from [com.android.support:transition:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\transition-28.0.0-rc01.aar\06b4f0350845abdb45d3e10d83f6b646\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:cardview-v7:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\cardview-v7-28.0.0-rc01.aar\425005fd4447eaeedfd451de37675b97\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:recyclerview-v7:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\recyclerview-v7-28.0.0-rc01.aar\a3e8462ca54e1b876684e5e8ee452182\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-media-compat:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-media-compat-28.0.0-rc01.aar\60f35acc704c1d77e1885e7987dd7c06\AndroidManifest.xml:17:1-22:12
-MERGED from [com.github.bumptech.glide:gifdecoder:4.8.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\gifdecoder-4.8.0.aar\afcdbefcc90224a27c3b6b6ca33a22cd\AndroidManifest.xml:2:1-11:12
-MERGED from [com.facebook.android:facebook-core:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-core-4.35.0.aar\07eed7beb908629cd13692aa2c5e5908\AndroidManifest.xml:21:1-53:12
-MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-fragment-28.0.0.aar\76aa8c5a6add473d1dc385c2875c9e1e\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-core-ui-28.0.0.aar\1b192aabb70e1bf4508b937f6c9a5bc1\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-core-utils-28.0.0.aar\d32794067c231147793ae45a99bc9f4a\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-28.0.0.aar\4de5baec3c96666965012661f7d52867\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:loader:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\loader-28.0.0.aar\05581ba17b323e534ce828894d0f77c9\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:viewpager:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\viewpager-28.0.0.aar\b4a40b597282137ff702aa4de7fa5400\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\coordinatorlayout-28.0.0.aar\781bb6c3fd33896938f6db75b045fb59\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\drawerlayout-28.0.0.aar\9f2d4f87bd431b9f1c583c961dfb4d90\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\slidingpanelayout-28.0.0.aar\49229617a7dffeb87c687738966edca7\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:customview:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\customview-28.0.0.aar\03b307eb7b9524d2a46b743af2d75251\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\swiperefreshlayout-28.0.0.aar\407aa402316a5c6dedcda60da1dd1c0d\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\asynclayoutinflater-28.0.0.aar\e5a35926d4d9b9e1acb4744f0dcba5f5\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-compat:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-compat-28.0.0.aar\8d23bb8d77ccb24125c52340e4210c02\AndroidManifest.xml:17:1-24:12
-MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\versionedparcelable-28.0.0.aar\ab2170fe0f496a9b82fdc22d30200aed\AndroidManifest.xml:17:1-25:12
-MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\cursoradapter-28.0.0.aar\a37084c7d2bd6f298c6cc0bc0da807f5\AndroidManifest.xml:17:1-22:12
-MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\runtime-1.1.1.aar\94891c62e1c5d30b81fe0811aa3c7d30\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:documentfile:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\documentfile-28.0.0.aar\b1df074fe69715e581a68c75dbc2ebfb\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\localbroadcastmanager-28.0.0.aar\1846847f046cfb15189923476c226be4\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:print:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\print-28.0.0.aar\c772dd9fa5cafc69732d7c6671cbe2bc\AndroidManifest.xml:17:1-22:12
-MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\viewmodel-1.1.1.aar\b179a3c25dd14256a700909349a3a4a6\AndroidManifest.xml:17:1-22:12
-MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\livedata-1.1.1.aar\e93baae5bec25144c7ed3f63a2406252\AndroidManifest.xml:17:1-22:12
-MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\livedata-core-1.1.1.aar\b472790af01c420f6614f0ee395d4f3f\AndroidManifest.xml:17:1-22:12
-MERGED from [android.arch.core:runtime:1.1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\runtime-1.1.1.aar\1e7c87955ae6a53ef1f51dc81ce3f820\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:interpolator:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\interpolator-28.0.0.aar\578fa33ee0c253ccc330cc97dae9e9d9\AndroidManifest.xml:17:1-22:12
-INJECTED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:2:1-150:12
-INJECTED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:2:1-150:12
-INJECTED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:2:1-150:12
+ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:2:1-149:12
+INJECTED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:2:1-149:12
+INJECTED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:2:1-149:12
+INJECTED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:2:1-149:12
+MERGED from [com.android.support:multidex:1.0.3] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\multidex-1.0.3.aar\03177d75f81795bf437244841b288dfe\AndroidManifest.xml:17:1-22:12
+MERGED from [info.androidhive:barcode-reader:1.1.5] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\barcode-reader-1.1.5.aar\0cfff2932fb923edd46bcacd37b5879b\AndroidManifest.xml:2:1-15:12
+MERGED from [com.robertlevonyan.view:CustomFloatingActionButton:2.1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\CustomFloatingActionButton-2.1.1.aar\fac69f6f4e67425f619bf2e31dd96ed4\AndroidManifest.xml:2:1-17:12
+MERGED from [com.android.support:design:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\design-28.0.0-rc01.aar\1fbda82f86173410f675bbf66e599128\AndroidManifest.xml:17:1-24:12
+MERGED from [com.squareup.picasso:picasso:2.71828] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\picasso-2.71828.aar\b6b67641b7a60dd5217098414bac156e\AndroidManifest.xml:2:1-14:12
+MERGED from [com.android.support:exifinterface:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\exifinterface-28.0.0-rc01.aar\6cb3870155dae37a420afa20bf318713\AndroidManifest.xml:17:1-22:12
+MERGED from [com.facebook.android:facebook-login:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-login-4.35.0.aar\bb7b7c3aebb01604fb47500306ca6098\AndroidManifest.xml:21:1-31:12
+MERGED from [com.facebook.android:facebook-common:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-common-4.35.0.aar\4f502fb2fc3e5aacb90a39707f9e8342\AndroidManifest.xml:21:1-37:12
+MERGED from [com.android.support:customtabs:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\customtabs-28.0.0-rc01.aar\a14ba88d59116f4427316911b5477072\AndroidManifest.xml:17:1-22:12
+MERGED from [com.github.GoodieBag:ProtractorView:v1.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\ProtractorView-v1.2.aar\48b5523f2885af1fe0473e99b0800766\AndroidManifest.xml:2:1-17:12
+MERGED from [com.github.AnyChart:AnyChart-Android:1.1.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\AnyChart-Android-1.1.2.aar\1fd777d16d29e12c699c0a6c09ac99f7\AndroidManifest.xml:2:1-17:12
+MERGED from [com.github.igortrncic.dotted-progress-bar:library:1.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\library-1.0.0.aar\366ef6cf4d776ed22586bac6a13b5ea6\AndroidManifest.xml:2:1-16:12
+MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\appcompat-v7-28.0.0.aar\e062b2ec6d6780ba589178c6402661a1\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-28.0.0.aar\ca6d211bf0499de11b10dce548c4c368\AndroidManifest.xml:17:1-22:12
+MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\graphview-4.2.2.aar\68f60d1560573a9a40161b3c6ec15c81\AndroidManifest.xml:2:1-14:12
+MERGED from [com.google.android.gms:play-services-vision:17.0.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-vision-17.0.2.aar\062ca644bc8e65bec40e85cb8a09e626\AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.1.aar\50db9fc44bdfc0f7018de7ef2764f489\AndroidManifest.xml:17:1-39:12
+MERGED from [com.google.android.gms:play-services-vision-common:17.0.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-vision-common-17.0.2.aar\ba9a62dd0532e631108ba03bdd1154c7\AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.gms:play-services-auth-api-phone:16.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-api-phone-16.0.0.aar\576d17c3d4f0384a05360978955dd614\AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.android.gms:play-services-auth-base:16.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-base-16.0.0.aar\62a617ab951e2b5928d93b251c5bc77a\AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.android.gms:play-services-clearcut:16.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-clearcut-16.0.0.aar\261a55558d47d923704cc718c1eb4069\AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.gms:play-services-flags:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-flags-16.0.1.aar\26ae7f2991aa0a4a2f422dbd10a60c44\AndroidManifest.xml:17:1-22:12
+MERGED from [com.google.android.gms:play-services-phenotype:16.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-phenotype-16.0.0.aar\acd0ba68476236e9f30a240dd91bb0cf\AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-base-16.0.1.aar\7a23e9b0b20493389c8b9367beb7d83c\AndroidManifest.xml:17:1-29:12
+MERGED from [com.google.android.gms:play-services-tasks:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-tasks-16.0.1.aar\3af524f0e7af0d9231e5d2ab684e4956\AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.gms:play-services-basement:16.1.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-basement-16.1.0.aar\bbad54034da9f988aeb4383a0eae0be7\AndroidManifest.xml:17:1-28:12
+MERGED from [com.android.support:support-v4:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-v4-28.0.0-rc01.aar\0e5d1df1e9312805fca33f5f3fbdfeb9\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support.constraint:constraint-layout:1.1.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.2.aar\bef5eaa422feadbb7b582d49f5b4a02d\AndroidManifest.xml:2:1-11:12
+MERGED from [com.github.bumptech.glide:glide:4.8.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\glide-4.8.0.aar\39ba170620270852c03486e20f883a86\AndroidManifest.xml:2:1-12:12
+MERGED from [com.github.warkiz.widget:indicatorseekbar:2.1.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\indicatorseekbar-2.1.0.aar\4998ef4e3da9b62025f82502e5e2b0c8\AndroidManifest.xml:2:1-11:12
+MERGED from [no.nordicsemi.android:dfu:1.7.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\dfu-1.7.0.aar\40c4c719ec773725c70961ef862c8e05\AndroidManifest.xml:2:1-14:12
+MERGED from [de.hdodenhof:circleimageview:2.2.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\circleimageview-2.2.0.aar\8d4db638168b446e38e28ea18935641b\AndroidManifest.xml:2:1-11:12
+MERGED from [com.android.support:transition:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\transition-28.0.0-rc01.aar\9dfa15ff34ced932f80d3f9751d10747\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:cardview-v7:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\cardview-v7-28.0.0-rc01.aar\3f6b5de7a23eba10874335faa5455db3\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:recyclerview-v7:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\recyclerview-v7-28.0.0-rc01.aar\0ca8f06785afa5866a1630e1a75dea6b\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-media-compat:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-media-compat-28.0.0-rc01.aar\f3cef756ecffe7b06005d29d3658e19b\AndroidManifest.xml:17:1-22:12
+MERGED from [com.github.bumptech.glide:gifdecoder:4.8.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\gifdecoder-4.8.0.aar\9c4837282b0ffd19b9da76826e8981f5\AndroidManifest.xml:2:1-11:12
+MERGED from [com.facebook.android:facebook-core:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-core-4.35.0.aar\4d7c8e14d4c271656745561d8715127e\AndroidManifest.xml:21:1-53:12
+MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-fragment-28.0.0.aar\0023faaeee3595506ef2e8f2a6ccb191\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-core-ui-28.0.0.aar\581368947c6c5ce80957d45c0379dc62\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-core-utils-28.0.0.aar\2c87dc6a945933bd2a1aa3b43e81ddaa\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-28.0.0.aar\7ecfc5cc24b036cf15e48baf7ad07b0d\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:loader:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\loader-28.0.0.aar\595bba0736d604819d5933303dd8f982\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:viewpager:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\viewpager-28.0.0.aar\e8026829eae47ea5c34ce239c5fa38df\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\coordinatorlayout-28.0.0.aar\eb096622bec24a624141acbb9c31ea53\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\drawerlayout-28.0.0.aar\360b7099f87240bad07445b5f15b8bf2\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\slidingpanelayout-28.0.0.aar\a37f5468b70fa9b116917d00d2a239c9\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:customview:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\customview-28.0.0.aar\bb79f4a0308ed569f37713094e5b97a8\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\swiperefreshlayout-28.0.0.aar\9030b7e6a3caf4246a5889bccd2bc417\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\asynclayoutinflater-28.0.0.aar\4bfc93e02beb386dd531407e4690cf68\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-compat-28.0.0.aar\108686df8de7b2f49f52227f8d4d0aba\AndroidManifest.xml:17:1-24:12
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\versionedparcelable-28.0.0.aar\131d8a29e1b11c2b7a0827dc4b3d274f\AndroidManifest.xml:17:1-25:12
+MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\cursoradapter-28.0.0.aar\412863a7b56426b4d8d4a64f70720632\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\runtime-1.1.1.aar\c323ebf753e9c6d8c46814d7fb371e82\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:documentfile:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\documentfile-28.0.0.aar\45ca9de94b15a7c02eac4e20ee5d9161\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\localbroadcastmanager-28.0.0.aar\0070957f7e971d35a243e0df1e6a316f\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:print:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\print-28.0.0.aar\ed0f79642522be132e517ea1ea72df63\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\viewmodel-1.1.1.aar\f2428626b81680d758db0e037046515b\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\livedata-1.1.1.aar\34098188b37271f4d963bd67581bd422\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\livedata-core-1.1.1.aar\02c05ae1f80a3ebd66c8fc52d41bf6c3\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.core:runtime:1.1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\runtime-1.1.1.aar\2538bafaba9277382fbed1d5fb9d14c6\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:interpolator:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\interpolator-28.0.0.aar\1dbf09d5b0931c6da0011106201a530d\AndroidManifest.xml:17:1-22:12
+INJECTED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:2:1-149:12
+INJECTED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:2:1-149:12
+INJECTED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:2:1-149:12
 	package
 		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:3:5-41
 		INJECTED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml
 		INJECTED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml
 	android:versionName
 		INJECTED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:2:1-150:12
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:2:1-149:12
 		INJECTED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml
 	android:versionCode
 		INJECTED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:2:1-150:12
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:2:1-149:12
 		INJECTED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml
 	xmlns:android
 		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:2:11-69
 uses-permission#android.permission.BLUETOOTH
 ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:5:5-68
-MERGED from [no.nordicsemi.android:dfu:1.7.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\dfu-1.7.0.aar\cd28f341691b28fc1a2ef425ed8db7dd\AndroidManifest.xml:11:5-68
-MERGED from [no.nordicsemi.android:dfu:1.7.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\dfu-1.7.0.aar\cd28f341691b28fc1a2ef425ed8db7dd\AndroidManifest.xml:11:5-68
+MERGED from [no.nordicsemi.android:dfu:1.7.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\dfu-1.7.0.aar\40c4c719ec773725c70961ef862c8e05\AndroidManifest.xml:11:5-68
+MERGED from [no.nordicsemi.android:dfu:1.7.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\dfu-1.7.0.aar\40c4c719ec773725c70961ef862c8e05\AndroidManifest.xml:11:5-68
 	android:name
 		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:5:22-65
 uses-permission#android.permission.BLUETOOTH_ADMIN
 ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:6:5-74
-MERGED from [no.nordicsemi.android:dfu:1.7.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\dfu-1.7.0.aar\cd28f341691b28fc1a2ef425ed8db7dd\AndroidManifest.xml:12:5-74
-MERGED from [no.nordicsemi.android:dfu:1.7.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\dfu-1.7.0.aar\cd28f341691b28fc1a2ef425ed8db7dd\AndroidManifest.xml:12:5-74
+MERGED from [no.nordicsemi.android:dfu:1.7.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\dfu-1.7.0.aar\40c4c719ec773725c70961ef862c8e05\AndroidManifest.xml:12:5-74
+MERGED from [no.nordicsemi.android:dfu:1.7.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\dfu-1.7.0.aar\40c4c719ec773725c70961ef862c8e05\AndroidManifest.xml:12:5-74
 	android:name
 		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:6:22-71
 uses-permission#android.permission.ACCESS_COARSE_LOCATION
@@ -144,8 +144,8 @@ ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\ma
 		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:15:22-72
 uses-permission#android.permission.CAMERA
 ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:16:5-65
-MERGED from [info.androidhive:barcode-reader:1.1.5] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\barcode-reader-1.1.5.aar\be227e02591bc27514e0c96b86b111a6\AndroidManifest.xml:11:5-65
-MERGED from [info.androidhive:barcode-reader:1.1.5] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\barcode-reader-1.1.5.aar\be227e02591bc27514e0c96b86b111a6\AndroidManifest.xml:11:5-65
+MERGED from [info.androidhive:barcode-reader:1.1.5] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\barcode-reader-1.1.5.aar\0cfff2932fb923edd46bcacd37b5879b\AndroidManifest.xml:11:5-65
+MERGED from [info.androidhive:barcode-reader:1.1.5] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\barcode-reader-1.1.5.aar\0cfff2932fb923edd46bcacd37b5879b\AndroidManifest.xml:11:5-65
 	android:name
 		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:16:22-62
 uses-feature#android.hardware.bluetooth_le
@@ -155,65 +155,63 @@ ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\ma
 	android:name
 		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:19:9-53
 application
-ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:24:5-148:19
-MERGED from [com.robertlevonyan.view:CustomFloatingActionButton:2.1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\CustomFloatingActionButton-2.1.1.aar\4a770bc52629cf333902d5fc22e46245\AndroidManifest.xml:11:5-15:19
-MERGED from [com.robertlevonyan.view:CustomFloatingActionButton:2.1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\CustomFloatingActionButton-2.1.1.aar\4a770bc52629cf333902d5fc22e46245\AndroidManifest.xml:11:5-15:19
-MERGED from [com.android.support:design:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\design-28.0.0-rc01.aar\2a2e077ee80a9068830c2784270a3626\AndroidManifest.xml:22:5-20
-MERGED from [com.android.support:design:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\design-28.0.0-rc01.aar\2a2e077ee80a9068830c2784270a3626\AndroidManifest.xml:22:5-20
-MERGED from [com.squareup.picasso:picasso:2.71828] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\picasso-2.71828.aar\49028c7ac5808ec24ccdf7c15858ebea\AndroidManifest.xml:7:5-12:19
-MERGED from [com.squareup.picasso:picasso:2.71828] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\picasso-2.71828.aar\49028c7ac5808ec24ccdf7c15858ebea\AndroidManifest.xml:7:5-12:19
-MERGED from [com.facebook.android:facebook-login:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-login-4.35.0.aar\c1f9b9b636baa42f12c23c44d64e6c12\AndroidManifest.xml:28:5-29:19
-MERGED from [com.facebook.android:facebook-login:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-login-4.35.0.aar\c1f9b9b636baa42f12c23c44d64e6c12\AndroidManifest.xml:28:5-29:19
-MERGED from [com.facebook.android:facebook-common:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-common-4.35.0.aar\a8104318439e1b5c9654bd7b80e6d614\AndroidManifest.xml:28:5-35:19
-MERGED from [com.facebook.android:facebook-common:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-common-4.35.0.aar\a8104318439e1b5c9654bd7b80e6d614\AndroidManifest.xml:28:5-35:19
-MERGED from [com.github.GoodieBag:ProtractorView:v1.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\ProtractorView-v1.2.aar\732d3a94fee7137c524b5c969ea9ca64\AndroidManifest.xml:11:5-15:19
-MERGED from [com.github.GoodieBag:ProtractorView:v1.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\ProtractorView-v1.2.aar\732d3a94fee7137c524b5c969ea9ca64\AndroidManifest.xml:11:5-15:19
-MERGED from [com.github.AnyChart:AnyChart-Android:1.1.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\AnyChart-Android-1.1.2.aar\ae04af3ae14329739e04ec199c0aa023\AndroidManifest.xml:11:5-15:19
-MERGED from [com.github.AnyChart:AnyChart-Android:1.1.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\AnyChart-Android-1.1.2.aar\ae04af3ae14329739e04ec199c0aa023\AndroidManifest.xml:11:5-15:19
-MERGED from [com.github.igortrncic.dotted-progress-bar:library:1.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\library-1.0.0.aar\d3be2695a69f403e5386e96acc3861fc\AndroidManifest.xml:11:5-14:19
-MERGED from [com.github.igortrncic.dotted-progress-bar:library:1.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\library-1.0.0.aar\d3be2695a69f403e5386e96acc3861fc\AndroidManifest.xml:11:5-14:19
-MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\graphview-4.2.2.aar\1753c93f015972872311c8c68afd320d\AndroidManifest.xml:11:5-12:19
-MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\graphview-4.2.2.aar\1753c93f015972872311c8c68afd320d\AndroidManifest.xml:11:5-12:19
-MERGED from [com.google.android.gms:play-services-vision:17.0.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-vision-17.0.2.aar\5299fd5507407a31b7eb93a40e594251\AndroidManifest.xml:7:5-20
-MERGED from [com.google.android.gms:play-services-vision:17.0.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-vision-17.0.2.aar\5299fd5507407a31b7eb93a40e594251\AndroidManifest.xml:7:5-20
-MERGED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.1.aar\1dbbf4629e238f94c780cc6eb3302803\AndroidManifest.xml:22:5-37:19
-MERGED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.1.aar\1dbbf4629e238f94c780cc6eb3302803\AndroidManifest.xml:22:5-37:19
-MERGED from [com.google.android.gms:play-services-vision-common:17.0.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-vision-common-17.0.2.aar\484d615e03094d0ca4a1441e7a5bda34\AndroidManifest.xml:7:5-20
-MERGED from [com.google.android.gms:play-services-vision-common:17.0.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-vision-common-17.0.2.aar\484d615e03094d0ca4a1441e7a5bda34\AndroidManifest.xml:7:5-20
-MERGED from [com.google.android.gms:play-services-clearcut:16.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-clearcut-16.0.0.aar\7f433d584fc9d4e4269bac8c7c106a42\AndroidManifest.xml:22:5-20
-MERGED from [com.google.android.gms:play-services-clearcut:16.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-clearcut-16.0.0.aar\7f433d584fc9d4e4269bac8c7c106a42\AndroidManifest.xml:22:5-20
-MERGED from [com.google.android.gms:play-services-phenotype:16.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-phenotype-16.0.0.aar\9011d34e0ad903b2ec126612f47af411\AndroidManifest.xml:22:5-20
-MERGED from [com.google.android.gms:play-services-phenotype:16.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-phenotype-16.0.0.aar\9011d34e0ad903b2ec126612f47af411\AndroidManifest.xml:22:5-20
-MERGED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-base-16.0.1.aar\a9897198ab7392b64c40e53c9c82690a\AndroidManifest.xml:22:5-27:19
-MERGED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-base-16.0.1.aar\a9897198ab7392b64c40e53c9c82690a\AndroidManifest.xml:22:5-27:19
-MERGED from [com.google.android.gms:play-services-tasks:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-tasks-16.0.1.aar\8e25f768b372a13e8136a8bc3d07e99a\AndroidManifest.xml:7:5-20
-MERGED from [com.google.android.gms:play-services-tasks:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-tasks-16.0.1.aar\8e25f768b372a13e8136a8bc3d07e99a\AndroidManifest.xml:7:5-20
-MERGED from [com.google.android.gms:play-services-basement:16.1.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-basement-16.1.0.aar\bcc19ca225f72f4d8cc5a65a5fc87ea6\AndroidManifest.xml:22:5-26:19
-MERGED from [com.google.android.gms:play-services-basement:16.1.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-basement-16.1.0.aar\bcc19ca225f72f4d8cc5a65a5fc87ea6\AndroidManifest.xml:22:5-26:19
-MERGED from [com.android.support.constraint:constraint-layout:1.1.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.2.aar\e5caecd22da6ae2884c505b8d7147e7d\AndroidManifest.xml:9:5-20
-MERGED from [com.android.support.constraint:constraint-layout:1.1.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.2.aar\e5caecd22da6ae2884c505b8d7147e7d\AndroidManifest.xml:9:5-20
-MERGED from [com.github.bumptech.glide:glide:4.8.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\glide-4.8.0.aar\45da32aaa866d3f8b32d50bde1acf4ba\AndroidManifest.xml:10:5-20
-MERGED from [com.github.bumptech.glide:glide:4.8.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\glide-4.8.0.aar\45da32aaa866d3f8b32d50bde1acf4ba\AndroidManifest.xml:10:5-20
-MERGED from [de.hdodenhof:circleimageview:2.2.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\circleimageview-2.2.0.aar\6325dfd5a0c32180a66b22472fdc9f2c\AndroidManifest.xml:9:5-20
-MERGED from [de.hdodenhof:circleimageview:2.2.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\circleimageview-2.2.0.aar\6325dfd5a0c32180a66b22472fdc9f2c\AndroidManifest.xml:9:5-20
-MERGED from [com.github.bumptech.glide:gifdecoder:4.8.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\gifdecoder-4.8.0.aar\afcdbefcc90224a27c3b6b6ca33a22cd\AndroidManifest.xml:9:5-20
-MERGED from [com.github.bumptech.glide:gifdecoder:4.8.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\gifdecoder-4.8.0.aar\afcdbefcc90224a27c3b6b6ca33a22cd\AndroidManifest.xml:9:5-20
-MERGED from [com.facebook.android:facebook-core:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-core-4.35.0.aar\07eed7beb908629cd13692aa2c5e5908\AndroidManifest.xml:28:5-51:19
-MERGED from [com.facebook.android:facebook-core:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-core-4.35.0.aar\07eed7beb908629cd13692aa2c5e5908\AndroidManifest.xml:28:5-51:19
-MERGED from [com.android.support:support-compat:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-compat-28.0.0.aar\8d23bb8d77ccb24125c52340e4210c02\AndroidManifest.xml:22:5-94
-MERGED from [com.android.support:support-compat:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-compat-28.0.0.aar\8d23bb8d77ccb24125c52340e4210c02\AndroidManifest.xml:22:5-94
-MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\versionedparcelable-28.0.0.aar\ab2170fe0f496a9b82fdc22d30200aed\AndroidManifest.xml:22:5-23:19
-MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\versionedparcelable-28.0.0.aar\ab2170fe0f496a9b82fdc22d30200aed\AndroidManifest.xml:22:5-23:19
+ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:24:5-147:19
+MERGED from [com.robertlevonyan.view:CustomFloatingActionButton:2.1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\CustomFloatingActionButton-2.1.1.aar\fac69f6f4e67425f619bf2e31dd96ed4\AndroidManifest.xml:11:5-15:19
+MERGED from [com.robertlevonyan.view:CustomFloatingActionButton:2.1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\CustomFloatingActionButton-2.1.1.aar\fac69f6f4e67425f619bf2e31dd96ed4\AndroidManifest.xml:11:5-15:19
+MERGED from [com.android.support:design:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\design-28.0.0-rc01.aar\1fbda82f86173410f675bbf66e599128\AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:design:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\design-28.0.0-rc01.aar\1fbda82f86173410f675bbf66e599128\AndroidManifest.xml:22:5-20
+MERGED from [com.squareup.picasso:picasso:2.71828] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\picasso-2.71828.aar\b6b67641b7a60dd5217098414bac156e\AndroidManifest.xml:7:5-12:19
+MERGED from [com.squareup.picasso:picasso:2.71828] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\picasso-2.71828.aar\b6b67641b7a60dd5217098414bac156e\AndroidManifest.xml:7:5-12:19
+MERGED from [com.facebook.android:facebook-login:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-login-4.35.0.aar\bb7b7c3aebb01604fb47500306ca6098\AndroidManifest.xml:28:5-29:19
+MERGED from [com.facebook.android:facebook-login:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-login-4.35.0.aar\bb7b7c3aebb01604fb47500306ca6098\AndroidManifest.xml:28:5-29:19
+MERGED from [com.facebook.android:facebook-common:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-common-4.35.0.aar\4f502fb2fc3e5aacb90a39707f9e8342\AndroidManifest.xml:28:5-35:19
+MERGED from [com.facebook.android:facebook-common:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-common-4.35.0.aar\4f502fb2fc3e5aacb90a39707f9e8342\AndroidManifest.xml:28:5-35:19
+MERGED from [com.github.GoodieBag:ProtractorView:v1.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\ProtractorView-v1.2.aar\48b5523f2885af1fe0473e99b0800766\AndroidManifest.xml:11:5-15:19
+MERGED from [com.github.GoodieBag:ProtractorView:v1.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\ProtractorView-v1.2.aar\48b5523f2885af1fe0473e99b0800766\AndroidManifest.xml:11:5-15:19
+MERGED from [com.github.AnyChart:AnyChart-Android:1.1.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\AnyChart-Android-1.1.2.aar\1fd777d16d29e12c699c0a6c09ac99f7\AndroidManifest.xml:11:5-15:19
+MERGED from [com.github.AnyChart:AnyChart-Android:1.1.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\AnyChart-Android-1.1.2.aar\1fd777d16d29e12c699c0a6c09ac99f7\AndroidManifest.xml:11:5-15:19
+MERGED from [com.github.igortrncic.dotted-progress-bar:library:1.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\library-1.0.0.aar\366ef6cf4d776ed22586bac6a13b5ea6\AndroidManifest.xml:11:5-14:19
+MERGED from [com.github.igortrncic.dotted-progress-bar:library:1.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\library-1.0.0.aar\366ef6cf4d776ed22586bac6a13b5ea6\AndroidManifest.xml:11:5-14:19
+MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\graphview-4.2.2.aar\68f60d1560573a9a40161b3c6ec15c81\AndroidManifest.xml:11:5-12:19
+MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\graphview-4.2.2.aar\68f60d1560573a9a40161b3c6ec15c81\AndroidManifest.xml:11:5-12:19
+MERGED from [com.google.android.gms:play-services-vision:17.0.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-vision-17.0.2.aar\062ca644bc8e65bec40e85cb8a09e626\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-vision:17.0.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-vision-17.0.2.aar\062ca644bc8e65bec40e85cb8a09e626\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.1.aar\50db9fc44bdfc0f7018de7ef2764f489\AndroidManifest.xml:22:5-37:19
+MERGED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.1.aar\50db9fc44bdfc0f7018de7ef2764f489\AndroidManifest.xml:22:5-37:19
+MERGED from [com.google.android.gms:play-services-vision-common:17.0.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-vision-common-17.0.2.aar\ba9a62dd0532e631108ba03bdd1154c7\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-vision-common:17.0.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-vision-common-17.0.2.aar\ba9a62dd0532e631108ba03bdd1154c7\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-clearcut:16.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-clearcut-16.0.0.aar\261a55558d47d923704cc718c1eb4069\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-clearcut:16.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-clearcut-16.0.0.aar\261a55558d47d923704cc718c1eb4069\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-phenotype:16.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-phenotype-16.0.0.aar\acd0ba68476236e9f30a240dd91bb0cf\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-phenotype:16.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-phenotype-16.0.0.aar\acd0ba68476236e9f30a240dd91bb0cf\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-base-16.0.1.aar\7a23e9b0b20493389c8b9367beb7d83c\AndroidManifest.xml:22:5-27:19
+MERGED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-base-16.0.1.aar\7a23e9b0b20493389c8b9367beb7d83c\AndroidManifest.xml:22:5-27:19
+MERGED from [com.google.android.gms:play-services-tasks:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-tasks-16.0.1.aar\3af524f0e7af0d9231e5d2ab684e4956\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-tasks:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-tasks-16.0.1.aar\3af524f0e7af0d9231e5d2ab684e4956\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-basement:16.1.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-basement-16.1.0.aar\bbad54034da9f988aeb4383a0eae0be7\AndroidManifest.xml:22:5-26:19
+MERGED from [com.google.android.gms:play-services-basement:16.1.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-basement-16.1.0.aar\bbad54034da9f988aeb4383a0eae0be7\AndroidManifest.xml:22:5-26:19
+MERGED from [com.android.support.constraint:constraint-layout:1.1.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.2.aar\bef5eaa422feadbb7b582d49f5b4a02d\AndroidManifest.xml:9:5-20
+MERGED from [com.android.support.constraint:constraint-layout:1.1.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.2.aar\bef5eaa422feadbb7b582d49f5b4a02d\AndroidManifest.xml:9:5-20
+MERGED from [com.github.bumptech.glide:glide:4.8.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\glide-4.8.0.aar\39ba170620270852c03486e20f883a86\AndroidManifest.xml:10:5-20
+MERGED from [com.github.bumptech.glide:glide:4.8.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\glide-4.8.0.aar\39ba170620270852c03486e20f883a86\AndroidManifest.xml:10:5-20
+MERGED from [de.hdodenhof:circleimageview:2.2.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\circleimageview-2.2.0.aar\8d4db638168b446e38e28ea18935641b\AndroidManifest.xml:9:5-20
+MERGED from [de.hdodenhof:circleimageview:2.2.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\circleimageview-2.2.0.aar\8d4db638168b446e38e28ea18935641b\AndroidManifest.xml:9:5-20
+MERGED from [com.github.bumptech.glide:gifdecoder:4.8.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\gifdecoder-4.8.0.aar\9c4837282b0ffd19b9da76826e8981f5\AndroidManifest.xml:9:5-20
+MERGED from [com.github.bumptech.glide:gifdecoder:4.8.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\gifdecoder-4.8.0.aar\9c4837282b0ffd19b9da76826e8981f5\AndroidManifest.xml:9:5-20
+MERGED from [com.facebook.android:facebook-core:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-core-4.35.0.aar\4d7c8e14d4c271656745561d8715127e\AndroidManifest.xml:28:5-51:19
+MERGED from [com.facebook.android:facebook-core:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-core-4.35.0.aar\4d7c8e14d4c271656745561d8715127e\AndroidManifest.xml:28:5-51:19
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-compat-28.0.0.aar\108686df8de7b2f49f52227f8d4d0aba\AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-compat-28.0.0.aar\108686df8de7b2f49f52227f8d4d0aba\AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\versionedparcelable-28.0.0.aar\131d8a29e1b11c2b7a0827dc4b3d274f\AndroidManifest.xml:22:5-23:19
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\versionedparcelable-28.0.0.aar\131d8a29e1b11c2b7a0827dc4b3d274f\AndroidManifest.xml:22:5-23:19
 	android:appComponentFactory
-		ADDED from [com.android.support:support-compat:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-compat-28.0.0.aar\8d23bb8d77ccb24125c52340e4210c02\AndroidManifest.xml:22:18-91
+		ADDED from [com.android.support:support-compat:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-compat-28.0.0.aar\108686df8de7b2f49f52227f8d4d0aba\AndroidManifest.xml:22:18-91
 	android:supportsRtl
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:32:9-35
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:31:9-35
 	android:label
 		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:29:9-41
 	android:fullBackupContent
 		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:27:9-41
-	android:roundIcon
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:31:9-54
 	android:largeHeap
 		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:30:9-33
 	android:icon
@@ -221,355 +219,355 @@ MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\sivam\.gra
 	android:allowBackup
 		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:26:9-35
 	android:theme
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:33:9-40
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:32:9-40
 	android:name
 		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:25:9-28
 meta-data#com.facebook.sdk.ApplicationId
-ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:44:9-46:55
+ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:43:9-45:55
 	android:value
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:46:13-52
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:45:13-52
 	android:name
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:45:13-58
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:44:13-58
 activity#com.facebook.FacebookActivity
-ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:48:9-51:48
-MERGED from [com.facebook.android:facebook-common:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-common-4.35.0.aar\a8104318439e1b5c9654bd7b80e6d614\AndroidManifest.xml:29:9-32:66
-MERGED from [com.facebook.android:facebook-common:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-common-4.35.0.aar\a8104318439e1b5c9654bd7b80e6d614\AndroidManifest.xml:29:9-32:66
+ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:47:9-50:48
+MERGED from [com.facebook.android:facebook-common:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-common-4.35.0.aar\4f502fb2fc3e5aacb90a39707f9e8342\AndroidManifest.xml:29:9-32:66
+MERGED from [com.facebook.android:facebook-common:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-common-4.35.0.aar\4f502fb2fc3e5aacb90a39707f9e8342\AndroidManifest.xml:29:9-32:66
 	android:label
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:51:13-45
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:50:13-45
 	android:configChanges
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:50:13-96
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:49:13-96
 	android:theme
-		ADDED from [com.facebook.android:facebook-common:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-common-4.35.0.aar\a8104318439e1b5c9654bd7b80e6d614\AndroidManifest.xml:32:13-63
+		ADDED from [com.facebook.android:facebook-common:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-common-4.35.0.aar\4f502fb2fc3e5aacb90a39707f9e8342\AndroidManifest.xml:32:13-63
 	android:name
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:49:13-57
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:48:13-57
 activity#com.facebook.CustomTabActivity
-ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:52:9-63:20
-MERGED from [com.facebook.android:facebook-common:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-common-4.35.0.aar\a8104318439e1b5c9654bd7b80e6d614\AndroidManifest.xml:34:9-67
-MERGED from [com.facebook.android:facebook-common:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-common-4.35.0.aar\a8104318439e1b5c9654bd7b80e6d614\AndroidManifest.xml:34:9-67
+ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:51:9-62:20
+MERGED from [com.facebook.android:facebook-common:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-common-4.35.0.aar\4f502fb2fc3e5aacb90a39707f9e8342\AndroidManifest.xml:34:9-67
+MERGED from [com.facebook.android:facebook-common:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-common-4.35.0.aar\4f502fb2fc3e5aacb90a39707f9e8342\AndroidManifest.xml:34:9-67
 	android:exported
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:54:13-36
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:53:13-36
 	android:name
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:53:13-58
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:52:13-58
 intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.BROWSABLE+category:name:android.intent.category.DEFAULT+data:scheme:@string/fb_login_protocol_scheme
-ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:55:13-62:29
+ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:54:13-61:29
 action#android.intent.action.VIEW
-ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:56:17-69
+ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:55:17-69
 	android:name
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:56:25-66
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:55:25-66
 category#android.intent.category.DEFAULT
-ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:58:17-76
+ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:57:17-76
 	android:name
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:58:27-73
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:57:27-73
 category#android.intent.category.BROWSABLE
-ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:59:17-78
+ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:58:17-78
 	android:name
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:59:27-75
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:58:27-75
 data
-ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:61:17-75
+ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:60:17-75
 	android:scheme
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:61:23-72
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:60:23-72
 service#org.eclipse.paho.android.service.MqttService
-ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:65:9-80
+ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:64:9-80
 	android:name
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:65:18-77
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:64:18-77
 service#com.example.sai.pheezeeapp.MqttService
-ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:66:9-48
+ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:65:9-48
 	android:name
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:66:18-45
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:65:18-45
 activity#com.example.sai.pheezeeapp.dashboard.DashboardActivity
-ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:68:9-71:59
+ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:67:9-70:59
 	android:configChanges
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:70:13-96
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:69:13-96
 	android:theme
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:71:13-56
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:70:13-56
 	android:name
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:69:13-56
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:68:13-56
 activity#com.example.sai.pheezeeapp.services.Scanner
-ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:72:9-73:58
+ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:71:9-72:58
 	android:theme
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:73:13-56
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:72:13-56
 	android:name
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:72:19-51
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:71:19-51
 activity#com.example.sai.pheezeeapp.activities.LoginActivity
-ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:74:9-77:51
+ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:73:9-76:51
 	android:screenOrientation
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:77:13-49
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:76:13-49
 	android:theme
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:76:13-61
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:75:13-61
 	android:name
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:75:13-53
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:74:13-53
 activity#com.example.sai.pheezeeapp.activities.PatientsView
-ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:78:9-80:59
+ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:77:9-79:59
 	android:theme
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:80:13-56
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:79:13-56
 	android:name
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:79:13-52
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:78:13-52
 receiver#com.example.sai.pheezeeapp.services.BluetoothReceiver
-ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:82:9-90:20
+ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:81:9-89:20
 	android:name
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:82:19-61
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:81:19-61
 intent-filter#action:name:android.bluetooth.a2dp.profile.action.CONNECTION_STATE_CHANGED+action:name:android.bluetooth.adapter.action.ACL_CONNECTED+action:name:android.bluetooth.adapter.action.ACL_DISCONNECTED+action:name:android.bluetooth.adapter.action.STATE_CHANGED+action:name:android.bluetooth.device.action.BOND_STATE_CHANGED
-ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:83:13-89:29
+ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:82:13-88:29
 action#android.bluetooth.adapter.action.ACL_CONNECTED
-ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:84:17-89
+ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:83:17-89
 	android:name
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:84:25-86
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:83:25-86
 action#android.bluetooth.adapter.action.ACL_DISCONNECTED
-ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:85:17-92
+ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:84:17-92
 	android:name
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:85:25-89
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:84:25-89
 action#android.bluetooth.adapter.action.STATE_CHANGED
-ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:86:17-89
+ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:85:17-89
 	android:name
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:86:25-86
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:85:25-86
 action#android.bluetooth.device.action.BOND_STATE_CHANGED
-ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:87:17-93
+ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:86:17-93
 	android:name
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:87:25-90
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:86:25-90
 action#android.bluetooth.a2dp.profile.action.CONNECTION_STATE_CHANGED
-ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:88:17-105
+ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:87:17-105
 	android:name
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:88:25-102
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:87:25-102
 receiver#com.example.sai.pheezeeapp.ConnectivityChangeReceiver
-ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:91:9-95:20
+ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:90:9-94:20
 	android:name
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:91:19-61
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:90:19-61
 intent-filter#action:name:android.net.conn.CONNECTIVITY_CHANGE
-ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:92:13-94:29
+ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:91:13-93:29
 action#android.net.conn.CONNECTIVITY_CHANGE
-ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:93:17-79
+ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:92:17-79
 	android:name
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:93:25-76
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:92:25-76
 service#com.example.sai.pheezeeapp.dfu.DfuService
-ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:97:9-106:19
+ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:96:9-105:19
 	android:label
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:100:13-54
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:99:13-54
 	android:exported
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:99:13-36
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:98:13-36
 	android:name
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:98:13-43
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:97:13-43
 intent-filter#action:name:no.nordicsemi.android.action.DFU_UPLOAD+category:name:android.intent.category.DEFAULT
-ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:101:13-105:29
+ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:100:13-104:29
 action#no.nordicsemi.android.action.DFU_UPLOAD
-ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:102:17-82
+ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:101:17-82
 	android:name
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:102:25-79
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:101:25-79
 activity#com.example.sai.pheezeeapp.activities.OnStartActivity
-ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:108:9-117:20
+ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:107:9-116:20
 	android:exported
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:110:13-36
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:109:13-36
 	android:theme
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:111:13-56
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:110:13-56
 	android:name
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:109:13-55
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:108:13-55
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:112:13-116:29
+ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:111:13-115:29
 action#android.intent.action.MAIN
-ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:113:17-69
+ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:112:17-69
 	android:name
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:113:25-66
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:112:25-66
 category#android.intent.category.LAUNCHER
-ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:115:17-77
+ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:114:17-77
 	android:name
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:115:27-74
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:114:27-74
 activity#com.example.sai.pheezeeapp.activities.ScanDevicesActivity
-ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:118:9-122:59
+ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:117:9-121:59
 	android:screenOrientation
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:120:13-49
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:119:13-49
 	android:label
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:121:13-64
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:120:13-64
 	android:theme
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:122:13-56
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:121:13-56
 	android:name
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:119:13-59
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:118:13-59
 activity#com.example.sai.pheezeeapp.activities.RawDataCollection
-ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:123:9-66
+ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:122:9-66
 	android:name
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:123:19-63
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:122:19-63
 activity#com.example.sai.pheezeeapp.dfu.DfuActivity
-ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:124:9-53
+ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:123:9-53
 	android:name
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:124:19-50
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:123:19-50
 activity#com.example.sai.pheezeeapp.activities.SignUpActivity
-ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:125:9-127:72
+ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:124:9-126:72
 	android:theme
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:127:13-69
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:126:13-69
 	android:name
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:126:13-54
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:125:13-54
 activity#com.example.sai.pheezeeapp.activities.PhizioProfile
-ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:128:9-131:59
+ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:127:9-130:59
 	android:screenOrientation
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:130:13-49
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:129:13-49
 	android:theme
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:131:13-56
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:130:13-56
 	android:name
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:129:13-53
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:128:13-53
 activity#com.example.sai.pheezeeapp.activities.DeviceInfoActivity
-ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:132:9-134:58
+ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:131:9-133:58
 	android:screenOrientation
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:133:13-49
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:132:13-49
 	android:theme
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:134:13-56
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:133:13-56
 	android:name
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:132:19-64
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:131:19-64
 activity#com.example.sai.pheezeeapp.activities.CalibrationSession
-ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:135:9-67
+ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:134:9-67
 	android:name
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:135:19-64
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:134:19-64
 activity#com.example.sai.pheezeeapp.activities.BodyPartSelection
-ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:136:9-139:59
+ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:135:9-138:59
 	android:screenOrientation
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:138:13-49
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:137:13-49
 	android:theme
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:139:13-56
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:138:13-56
 	android:name
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:137:13-57
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:136:13-57
 activity#com.example.sai.pheezeeapp.activities.MonitorActivity
-ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:140:9-144:59
+ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:139:9-143:59
 	android:screenOrientation
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:142:13-49
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:141:13-49
 	android:configChanges
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:143:13-96
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:142:13-96
 	android:theme
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:144:13-56
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:143:13-56
 	android:name
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:141:13-55
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:140:13-55
 activity#com.example.sai.pheezeeapp.activities.SessionReportActivity
-ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:145:9-147:51
+ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:144:9-146:51
 	android:screenOrientation
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:147:13-49
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:146:13-49
 	android:theme
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:146:13-56
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:145:13-56
 	android:name
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:145:19-67
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:144:19-67
 uses-sdk
 INJECTED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml
 INJECTED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml
-MERGED from [com.android.support:multidex:1.0.3] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\multidex-1.0.3.aar\ee3f42a391065e9741efdf7d7b9b787e\AndroidManifest.xml:20:5-43
-MERGED from [com.android.support:multidex:1.0.3] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\multidex-1.0.3.aar\ee3f42a391065e9741efdf7d7b9b787e\AndroidManifest.xml:20:5-43
-MERGED from [info.androidhive:barcode-reader:1.1.5] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\barcode-reader-1.1.5.aar\be227e02591bc27514e0c96b86b111a6\AndroidManifest.xml:7:5-9:41
-MERGED from [info.androidhive:barcode-reader:1.1.5] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\barcode-reader-1.1.5.aar\be227e02591bc27514e0c96b86b111a6\AndroidManifest.xml:7:5-9:41
-MERGED from [com.robertlevonyan.view:CustomFloatingActionButton:2.1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\CustomFloatingActionButton-2.1.1.aar\4a770bc52629cf333902d5fc22e46245\AndroidManifest.xml:7:5-9:41
-MERGED from [com.robertlevonyan.view:CustomFloatingActionButton:2.1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\CustomFloatingActionButton-2.1.1.aar\4a770bc52629cf333902d5fc22e46245\AndroidManifest.xml:7:5-9:41
-MERGED from [com.android.support:design:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\design-28.0.0-rc01.aar\2a2e077ee80a9068830c2784270a3626\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:design:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\design-28.0.0-rc01.aar\2a2e077ee80a9068830c2784270a3626\AndroidManifest.xml:20:5-44
-MERGED from [com.squareup.picasso:picasso:2.71828] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\picasso-2.71828.aar\49028c7ac5808ec24ccdf7c15858ebea\AndroidManifest.xml:5:5-44
-MERGED from [com.squareup.picasso:picasso:2.71828] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\picasso-2.71828.aar\49028c7ac5808ec24ccdf7c15858ebea\AndroidManifest.xml:5:5-44
-MERGED from [com.android.support:exifinterface:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\exifinterface-28.0.0-rc01.aar\9ff5785dd0fb177b2a2cbfa8437a2eec\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:exifinterface:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\exifinterface-28.0.0-rc01.aar\9ff5785dd0fb177b2a2cbfa8437a2eec\AndroidManifest.xml:20:5-44
-MERGED from [com.facebook.android:facebook-login:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-login-4.35.0.aar\c1f9b9b636baa42f12c23c44d64e6c12\AndroidManifest.xml:24:5-26:41
-MERGED from [com.facebook.android:facebook-login:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-login-4.35.0.aar\c1f9b9b636baa42f12c23c44d64e6c12\AndroidManifest.xml:24:5-26:41
-MERGED from [com.facebook.android:facebook-common:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-common-4.35.0.aar\a8104318439e1b5c9654bd7b80e6d614\AndroidManifest.xml:24:5-26:41
-MERGED from [com.facebook.android:facebook-common:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-common-4.35.0.aar\a8104318439e1b5c9654bd7b80e6d614\AndroidManifest.xml:24:5-26:41
-MERGED from [com.android.support:customtabs:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\customtabs-28.0.0-rc01.aar\8f4096cd500cbbdc7dd633e7d156daa7\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:customtabs:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\customtabs-28.0.0-rc01.aar\8f4096cd500cbbdc7dd633e7d156daa7\AndroidManifest.xml:20:5-44
-MERGED from [com.github.GoodieBag:ProtractorView:v1.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\ProtractorView-v1.2.aar\732d3a94fee7137c524b5c969ea9ca64\AndroidManifest.xml:7:5-9:41
-MERGED from [com.github.GoodieBag:ProtractorView:v1.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\ProtractorView-v1.2.aar\732d3a94fee7137c524b5c969ea9ca64\AndroidManifest.xml:7:5-9:41
-MERGED from [com.github.AnyChart:AnyChart-Android:1.1.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\AnyChart-Android-1.1.2.aar\ae04af3ae14329739e04ec199c0aa023\AndroidManifest.xml:7:5-9:41
-MERGED from [com.github.AnyChart:AnyChart-Android:1.1.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\AnyChart-Android-1.1.2.aar\ae04af3ae14329739e04ec199c0aa023\AndroidManifest.xml:7:5-9:41
-MERGED from [com.github.igortrncic.dotted-progress-bar:library:1.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\library-1.0.0.aar\d3be2695a69f403e5386e96acc3861fc\AndroidManifest.xml:7:5-9:41
-MERGED from [com.github.igortrncic.dotted-progress-bar:library:1.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\library-1.0.0.aar\d3be2695a69f403e5386e96acc3861fc\AndroidManifest.xml:7:5-9:41
-MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\appcompat-v7-28.0.0.aar\8c34ab288258c11de6cfd1922403e47d\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\appcompat-v7-28.0.0.aar\8c34ab288258c11de6cfd1922403e47d\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-28.0.0.aar\bd92396687066a43d2e4a3325327acb2\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-28.0.0.aar\bd92396687066a43d2e4a3325327acb2\AndroidManifest.xml:20:5-44
-MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\graphview-4.2.2.aar\1753c93f015972872311c8c68afd320d\AndroidManifest.xml:7:5-9:41
-MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\graphview-4.2.2.aar\1753c93f015972872311c8c68afd320d\AndroidManifest.xml:7:5-9:41
-MERGED from [com.google.android.gms:play-services-vision:17.0.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-vision-17.0.2.aar\5299fd5507407a31b7eb93a40e594251\AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.gms:play-services-vision:17.0.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-vision-17.0.2.aar\5299fd5507407a31b7eb93a40e594251\AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.1.aar\1dbbf4629e238f94c780cc6eb3302803\AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.1.aar\1dbbf4629e238f94c780cc6eb3302803\AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-vision-common:17.0.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-vision-common-17.0.2.aar\484d615e03094d0ca4a1441e7a5bda34\AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.gms:play-services-vision-common:17.0.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-vision-common-17.0.2.aar\484d615e03094d0ca4a1441e7a5bda34\AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.gms:play-services-auth-api-phone:16.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-api-phone-16.0.0.aar\16d7524c4a3d1d581f56fbc601d6c07a\AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.gms:play-services-auth-api-phone:16.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-api-phone-16.0.0.aar\16d7524c4a3d1d581f56fbc601d6c07a\AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.gms:play-services-auth-base:16.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-base-16.0.0.aar\ce8940a084759b1200c9d44f8592021b\AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.gms:play-services-auth-base:16.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-base-16.0.0.aar\ce8940a084759b1200c9d44f8592021b\AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.gms:play-services-clearcut:16.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-clearcut-16.0.0.aar\7f433d584fc9d4e4269bac8c7c106a42\AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-clearcut:16.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-clearcut-16.0.0.aar\7f433d584fc9d4e4269bac8c7c106a42\AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-flags:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-flags-16.0.1.aar\538e062633270567003e8eac3f8da5da\AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-flags:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-flags-16.0.1.aar\538e062633270567003e8eac3f8da5da\AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-phenotype:16.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-phenotype-16.0.0.aar\9011d34e0ad903b2ec126612f47af411\AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-phenotype:16.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-phenotype-16.0.0.aar\9011d34e0ad903b2ec126612f47af411\AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-base-16.0.1.aar\a9897198ab7392b64c40e53c9c82690a\AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-base-16.0.1.aar\a9897198ab7392b64c40e53c9c82690a\AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-tasks:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-tasks-16.0.1.aar\8e25f768b372a13e8136a8bc3d07e99a\AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.gms:play-services-tasks:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-tasks-16.0.1.aar\8e25f768b372a13e8136a8bc3d07e99a\AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.gms:play-services-basement:16.1.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-basement-16.1.0.aar\bcc19ca225f72f4d8cc5a65a5fc87ea6\AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-basement:16.1.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-basement-16.1.0.aar\bcc19ca225f72f4d8cc5a65a5fc87ea6\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-v4:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-v4-28.0.0-rc01.aar\5d6f3d5328289337f82d07b0bdaf3d5a\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-v4:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-v4-28.0.0-rc01.aar\5d6f3d5328289337f82d07b0bdaf3d5a\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support.constraint:constraint-layout:1.1.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.2.aar\e5caecd22da6ae2884c505b8d7147e7d\AndroidManifest.xml:5:5-7:41
-MERGED from [com.android.support.constraint:constraint-layout:1.1.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.2.aar\e5caecd22da6ae2884c505b8d7147e7d\AndroidManifest.xml:5:5-7:41
-MERGED from [com.github.bumptech.glide:glide:4.8.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\glide-4.8.0.aar\45da32aaa866d3f8b32d50bde1acf4ba\AndroidManifest.xml:6:5-8:41
-MERGED from [com.github.bumptech.glide:glide:4.8.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\glide-4.8.0.aar\45da32aaa866d3f8b32d50bde1acf4ba\AndroidManifest.xml:6:5-8:41
-MERGED from [com.github.warkiz.widget:indicatorseekbar:2.1.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\indicatorseekbar-2.1.0.aar\820a9cd69532312960d52be9b98f142e\AndroidManifest.xml:7:5-9:41
-MERGED from [com.github.warkiz.widget:indicatorseekbar:2.1.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\indicatorseekbar-2.1.0.aar\820a9cd69532312960d52be9b98f142e\AndroidManifest.xml:7:5-9:41
-MERGED from [no.nordicsemi.android:dfu:1.7.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\dfu-1.7.0.aar\cd28f341691b28fc1a2ef425ed8db7dd\AndroidManifest.xml:7:5-9:41
-MERGED from [no.nordicsemi.android:dfu:1.7.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\dfu-1.7.0.aar\cd28f341691b28fc1a2ef425ed8db7dd\AndroidManifest.xml:7:5-9:41
-MERGED from [de.hdodenhof:circleimageview:2.2.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\circleimageview-2.2.0.aar\6325dfd5a0c32180a66b22472fdc9f2c\AndroidManifest.xml:5:5-7:41
-MERGED from [de.hdodenhof:circleimageview:2.2.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\circleimageview-2.2.0.aar\6325dfd5a0c32180a66b22472fdc9f2c\AndroidManifest.xml:5:5-7:41
-MERGED from [com.android.support:transition:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\transition-28.0.0-rc01.aar\06b4f0350845abdb45d3e10d83f6b646\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:transition:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\transition-28.0.0-rc01.aar\06b4f0350845abdb45d3e10d83f6b646\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:cardview-v7:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\cardview-v7-28.0.0-rc01.aar\425005fd4447eaeedfd451de37675b97\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:cardview-v7:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\cardview-v7-28.0.0-rc01.aar\425005fd4447eaeedfd451de37675b97\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:recyclerview-v7:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\recyclerview-v7-28.0.0-rc01.aar\a3e8462ca54e1b876684e5e8ee452182\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:recyclerview-v7:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\recyclerview-v7-28.0.0-rc01.aar\a3e8462ca54e1b876684e5e8ee452182\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-media-compat:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-media-compat-28.0.0-rc01.aar\60f35acc704c1d77e1885e7987dd7c06\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-media-compat:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-media-compat-28.0.0-rc01.aar\60f35acc704c1d77e1885e7987dd7c06\AndroidManifest.xml:20:5-44
-MERGED from [com.github.bumptech.glide:gifdecoder:4.8.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\gifdecoder-4.8.0.aar\afcdbefcc90224a27c3b6b6ca33a22cd\AndroidManifest.xml:5:5-7:41
-MERGED from [com.github.bumptech.glide:gifdecoder:4.8.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\gifdecoder-4.8.0.aar\afcdbefcc90224a27c3b6b6ca33a22cd\AndroidManifest.xml:5:5-7:41
-MERGED from [com.facebook.android:facebook-core:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-core-4.35.0.aar\07eed7beb908629cd13692aa2c5e5908\AndroidManifest.xml:24:5-26:41
-MERGED from [com.facebook.android:facebook-core:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-core-4.35.0.aar\07eed7beb908629cd13692aa2c5e5908\AndroidManifest.xml:24:5-26:41
-MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-fragment-28.0.0.aar\76aa8c5a6add473d1dc385c2875c9e1e\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-fragment-28.0.0.aar\76aa8c5a6add473d1dc385c2875c9e1e\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-core-ui-28.0.0.aar\1b192aabb70e1bf4508b937f6c9a5bc1\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-core-ui-28.0.0.aar\1b192aabb70e1bf4508b937f6c9a5bc1\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-core-utils-28.0.0.aar\d32794067c231147793ae45a99bc9f4a\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-core-utils-28.0.0.aar\d32794067c231147793ae45a99bc9f4a\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-28.0.0.aar\4de5baec3c96666965012661f7d52867\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-28.0.0.aar\4de5baec3c96666965012661f7d52867\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:loader:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\loader-28.0.0.aar\05581ba17b323e534ce828894d0f77c9\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:loader:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\loader-28.0.0.aar\05581ba17b323e534ce828894d0f77c9\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:viewpager:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\viewpager-28.0.0.aar\b4a40b597282137ff702aa4de7fa5400\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:viewpager:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\viewpager-28.0.0.aar\b4a40b597282137ff702aa4de7fa5400\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\coordinatorlayout-28.0.0.aar\781bb6c3fd33896938f6db75b045fb59\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\coordinatorlayout-28.0.0.aar\781bb6c3fd33896938f6db75b045fb59\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\drawerlayout-28.0.0.aar\9f2d4f87bd431b9f1c583c961dfb4d90\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\drawerlayout-28.0.0.aar\9f2d4f87bd431b9f1c583c961dfb4d90\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\slidingpanelayout-28.0.0.aar\49229617a7dffeb87c687738966edca7\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\slidingpanelayout-28.0.0.aar\49229617a7dffeb87c687738966edca7\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:customview:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\customview-28.0.0.aar\03b307eb7b9524d2a46b743af2d75251\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:customview:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\customview-28.0.0.aar\03b307eb7b9524d2a46b743af2d75251\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\swiperefreshlayout-28.0.0.aar\407aa402316a5c6dedcda60da1dd1c0d\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\swiperefreshlayout-28.0.0.aar\407aa402316a5c6dedcda60da1dd1c0d\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\asynclayoutinflater-28.0.0.aar\e5a35926d4d9b9e1acb4744f0dcba5f5\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\asynclayoutinflater-28.0.0.aar\e5a35926d4d9b9e1acb4744f0dcba5f5\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-compat:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-compat-28.0.0.aar\8d23bb8d77ccb24125c52340e4210c02\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-compat:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-compat-28.0.0.aar\8d23bb8d77ccb24125c52340e4210c02\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\versionedparcelable-28.0.0.aar\ab2170fe0f496a9b82fdc22d30200aed\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\versionedparcelable-28.0.0.aar\ab2170fe0f496a9b82fdc22d30200aed\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\cursoradapter-28.0.0.aar\a37084c7d2bd6f298c6cc0bc0da807f5\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\cursoradapter-28.0.0.aar\a37084c7d2bd6f298c6cc0bc0da807f5\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\runtime-1.1.1.aar\94891c62e1c5d30b81fe0811aa3c7d30\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\runtime-1.1.1.aar\94891c62e1c5d30b81fe0811aa3c7d30\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:documentfile:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\documentfile-28.0.0.aar\b1df074fe69715e581a68c75dbc2ebfb\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:documentfile:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\documentfile-28.0.0.aar\b1df074fe69715e581a68c75dbc2ebfb\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\localbroadcastmanager-28.0.0.aar\1846847f046cfb15189923476c226be4\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\localbroadcastmanager-28.0.0.aar\1846847f046cfb15189923476c226be4\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:print:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\print-28.0.0.aar\c772dd9fa5cafc69732d7c6671cbe2bc\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:print:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\print-28.0.0.aar\c772dd9fa5cafc69732d7c6671cbe2bc\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\viewmodel-1.1.1.aar\b179a3c25dd14256a700909349a3a4a6\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\viewmodel-1.1.1.aar\b179a3c25dd14256a700909349a3a4a6\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\livedata-1.1.1.aar\e93baae5bec25144c7ed3f63a2406252\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\livedata-1.1.1.aar\e93baae5bec25144c7ed3f63a2406252\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\livedata-core-1.1.1.aar\b472790af01c420f6614f0ee395d4f3f\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\livedata-core-1.1.1.aar\b472790af01c420f6614f0ee395d4f3f\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.core:runtime:1.1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\runtime-1.1.1.aar\1e7c87955ae6a53ef1f51dc81ce3f820\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.core:runtime:1.1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\runtime-1.1.1.aar\1e7c87955ae6a53ef1f51dc81ce3f820\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:interpolator:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\interpolator-28.0.0.aar\578fa33ee0c253ccc330cc97dae9e9d9\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:interpolator:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\interpolator-28.0.0.aar\578fa33ee0c253ccc330cc97dae9e9d9\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:multidex:1.0.3] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\multidex-1.0.3.aar\03177d75f81795bf437244841b288dfe\AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:multidex:1.0.3] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\multidex-1.0.3.aar\03177d75f81795bf437244841b288dfe\AndroidManifest.xml:20:5-43
+MERGED from [info.androidhive:barcode-reader:1.1.5] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\barcode-reader-1.1.5.aar\0cfff2932fb923edd46bcacd37b5879b\AndroidManifest.xml:7:5-9:41
+MERGED from [info.androidhive:barcode-reader:1.1.5] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\barcode-reader-1.1.5.aar\0cfff2932fb923edd46bcacd37b5879b\AndroidManifest.xml:7:5-9:41
+MERGED from [com.robertlevonyan.view:CustomFloatingActionButton:2.1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\CustomFloatingActionButton-2.1.1.aar\fac69f6f4e67425f619bf2e31dd96ed4\AndroidManifest.xml:7:5-9:41
+MERGED from [com.robertlevonyan.view:CustomFloatingActionButton:2.1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\CustomFloatingActionButton-2.1.1.aar\fac69f6f4e67425f619bf2e31dd96ed4\AndroidManifest.xml:7:5-9:41
+MERGED from [com.android.support:design:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\design-28.0.0-rc01.aar\1fbda82f86173410f675bbf66e599128\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:design:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\design-28.0.0-rc01.aar\1fbda82f86173410f675bbf66e599128\AndroidManifest.xml:20:5-44
+MERGED from [com.squareup.picasso:picasso:2.71828] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\picasso-2.71828.aar\b6b67641b7a60dd5217098414bac156e\AndroidManifest.xml:5:5-44
+MERGED from [com.squareup.picasso:picasso:2.71828] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\picasso-2.71828.aar\b6b67641b7a60dd5217098414bac156e\AndroidManifest.xml:5:5-44
+MERGED from [com.android.support:exifinterface:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\exifinterface-28.0.0-rc01.aar\6cb3870155dae37a420afa20bf318713\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:exifinterface:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\exifinterface-28.0.0-rc01.aar\6cb3870155dae37a420afa20bf318713\AndroidManifest.xml:20:5-44
+MERGED from [com.facebook.android:facebook-login:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-login-4.35.0.aar\bb7b7c3aebb01604fb47500306ca6098\AndroidManifest.xml:24:5-26:41
+MERGED from [com.facebook.android:facebook-login:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-login-4.35.0.aar\bb7b7c3aebb01604fb47500306ca6098\AndroidManifest.xml:24:5-26:41
+MERGED from [com.facebook.android:facebook-common:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-common-4.35.0.aar\4f502fb2fc3e5aacb90a39707f9e8342\AndroidManifest.xml:24:5-26:41
+MERGED from [com.facebook.android:facebook-common:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-common-4.35.0.aar\4f502fb2fc3e5aacb90a39707f9e8342\AndroidManifest.xml:24:5-26:41
+MERGED from [com.android.support:customtabs:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\customtabs-28.0.0-rc01.aar\a14ba88d59116f4427316911b5477072\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customtabs:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\customtabs-28.0.0-rc01.aar\a14ba88d59116f4427316911b5477072\AndroidManifest.xml:20:5-44
+MERGED from [com.github.GoodieBag:ProtractorView:v1.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\ProtractorView-v1.2.aar\48b5523f2885af1fe0473e99b0800766\AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.GoodieBag:ProtractorView:v1.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\ProtractorView-v1.2.aar\48b5523f2885af1fe0473e99b0800766\AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.AnyChart:AnyChart-Android:1.1.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\AnyChart-Android-1.1.2.aar\1fd777d16d29e12c699c0a6c09ac99f7\AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.AnyChart:AnyChart-Android:1.1.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\AnyChart-Android-1.1.2.aar\1fd777d16d29e12c699c0a6c09ac99f7\AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.igortrncic.dotted-progress-bar:library:1.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\library-1.0.0.aar\366ef6cf4d776ed22586bac6a13b5ea6\AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.igortrncic.dotted-progress-bar:library:1.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\library-1.0.0.aar\366ef6cf4d776ed22586bac6a13b5ea6\AndroidManifest.xml:7:5-9:41
+MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\appcompat-v7-28.0.0.aar\e062b2ec6d6780ba589178c6402661a1\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\appcompat-v7-28.0.0.aar\e062b2ec6d6780ba589178c6402661a1\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-28.0.0.aar\ca6d211bf0499de11b10dce548c4c368\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-28.0.0.aar\ca6d211bf0499de11b10dce548c4c368\AndroidManifest.xml:20:5-44
+MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\graphview-4.2.2.aar\68f60d1560573a9a40161b3c6ec15c81\AndroidManifest.xml:7:5-9:41
+MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\graphview-4.2.2.aar\68f60d1560573a9a40161b3c6ec15c81\AndroidManifest.xml:7:5-9:41
+MERGED from [com.google.android.gms:play-services-vision:17.0.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-vision-17.0.2.aar\062ca644bc8e65bec40e85cb8a09e626\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-vision:17.0.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-vision-17.0.2.aar\062ca644bc8e65bec40e85cb8a09e626\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.1.aar\50db9fc44bdfc0f7018de7ef2764f489\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.1.aar\50db9fc44bdfc0f7018de7ef2764f489\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-vision-common:17.0.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-vision-common-17.0.2.aar\ba9a62dd0532e631108ba03bdd1154c7\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-vision-common:17.0.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-vision-common-17.0.2.aar\ba9a62dd0532e631108ba03bdd1154c7\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-auth-api-phone:16.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-api-phone-16.0.0.aar\576d17c3d4f0384a05360978955dd614\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-auth-api-phone:16.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-api-phone-16.0.0.aar\576d17c3d4f0384a05360978955dd614\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-auth-base:16.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-base-16.0.0.aar\62a617ab951e2b5928d93b251c5bc77a\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-auth-base:16.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-base-16.0.0.aar\62a617ab951e2b5928d93b251c5bc77a\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-clearcut:16.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-clearcut-16.0.0.aar\261a55558d47d923704cc718c1eb4069\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-clearcut:16.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-clearcut-16.0.0.aar\261a55558d47d923704cc718c1eb4069\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-flags:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-flags-16.0.1.aar\26ae7f2991aa0a4a2f422dbd10a60c44\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-flags:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-flags-16.0.1.aar\26ae7f2991aa0a4a2f422dbd10a60c44\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-phenotype:16.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-phenotype-16.0.0.aar\acd0ba68476236e9f30a240dd91bb0cf\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-phenotype:16.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-phenotype-16.0.0.aar\acd0ba68476236e9f30a240dd91bb0cf\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-base-16.0.1.aar\7a23e9b0b20493389c8b9367beb7d83c\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-base-16.0.1.aar\7a23e9b0b20493389c8b9367beb7d83c\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-tasks:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-tasks-16.0.1.aar\3af524f0e7af0d9231e5d2ab684e4956\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-tasks:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-tasks-16.0.1.aar\3af524f0e7af0d9231e5d2ab684e4956\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-basement:16.1.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-basement-16.1.0.aar\bbad54034da9f988aeb4383a0eae0be7\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-basement:16.1.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-basement-16.1.0.aar\bbad54034da9f988aeb4383a0eae0be7\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-v4:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-v4-28.0.0-rc01.aar\0e5d1df1e9312805fca33f5f3fbdfeb9\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-v4:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-v4-28.0.0-rc01.aar\0e5d1df1e9312805fca33f5f3fbdfeb9\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support.constraint:constraint-layout:1.1.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.2.aar\bef5eaa422feadbb7b582d49f5b4a02d\AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support.constraint:constraint-layout:1.1.2] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.2.aar\bef5eaa422feadbb7b582d49f5b4a02d\AndroidManifest.xml:5:5-7:41
+MERGED from [com.github.bumptech.glide:glide:4.8.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\glide-4.8.0.aar\39ba170620270852c03486e20f883a86\AndroidManifest.xml:6:5-8:41
+MERGED from [com.github.bumptech.glide:glide:4.8.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\glide-4.8.0.aar\39ba170620270852c03486e20f883a86\AndroidManifest.xml:6:5-8:41
+MERGED from [com.github.warkiz.widget:indicatorseekbar:2.1.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\indicatorseekbar-2.1.0.aar\4998ef4e3da9b62025f82502e5e2b0c8\AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.warkiz.widget:indicatorseekbar:2.1.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\indicatorseekbar-2.1.0.aar\4998ef4e3da9b62025f82502e5e2b0c8\AndroidManifest.xml:7:5-9:41
+MERGED from [no.nordicsemi.android:dfu:1.7.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\dfu-1.7.0.aar\40c4c719ec773725c70961ef862c8e05\AndroidManifest.xml:7:5-9:41
+MERGED from [no.nordicsemi.android:dfu:1.7.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\dfu-1.7.0.aar\40c4c719ec773725c70961ef862c8e05\AndroidManifest.xml:7:5-9:41
+MERGED from [de.hdodenhof:circleimageview:2.2.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\circleimageview-2.2.0.aar\8d4db638168b446e38e28ea18935641b\AndroidManifest.xml:5:5-7:41
+MERGED from [de.hdodenhof:circleimageview:2.2.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\circleimageview-2.2.0.aar\8d4db638168b446e38e28ea18935641b\AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support:transition:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\transition-28.0.0-rc01.aar\9dfa15ff34ced932f80d3f9751d10747\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:transition:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\transition-28.0.0-rc01.aar\9dfa15ff34ced932f80d3f9751d10747\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cardview-v7:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\cardview-v7-28.0.0-rc01.aar\3f6b5de7a23eba10874335faa5455db3\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cardview-v7:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\cardview-v7-28.0.0-rc01.aar\3f6b5de7a23eba10874335faa5455db3\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:recyclerview-v7:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\recyclerview-v7-28.0.0-rc01.aar\0ca8f06785afa5866a1630e1a75dea6b\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:recyclerview-v7:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\recyclerview-v7-28.0.0-rc01.aar\0ca8f06785afa5866a1630e1a75dea6b\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-media-compat:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-media-compat-28.0.0-rc01.aar\f3cef756ecffe7b06005d29d3658e19b\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-media-compat:28.0.0-rc01] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-media-compat-28.0.0-rc01.aar\f3cef756ecffe7b06005d29d3658e19b\AndroidManifest.xml:20:5-44
+MERGED from [com.github.bumptech.glide:gifdecoder:4.8.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\gifdecoder-4.8.0.aar\9c4837282b0ffd19b9da76826e8981f5\AndroidManifest.xml:5:5-7:41
+MERGED from [com.github.bumptech.glide:gifdecoder:4.8.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\gifdecoder-4.8.0.aar\9c4837282b0ffd19b9da76826e8981f5\AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.android:facebook-core:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-core-4.35.0.aar\4d7c8e14d4c271656745561d8715127e\AndroidManifest.xml:24:5-26:41
+MERGED from [com.facebook.android:facebook-core:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-core-4.35.0.aar\4d7c8e14d4c271656745561d8715127e\AndroidManifest.xml:24:5-26:41
+MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-fragment-28.0.0.aar\0023faaeee3595506ef2e8f2a6ccb191\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-fragment-28.0.0.aar\0023faaeee3595506ef2e8f2a6ccb191\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-core-ui-28.0.0.aar\581368947c6c5ce80957d45c0379dc62\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-core-ui-28.0.0.aar\581368947c6c5ce80957d45c0379dc62\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-core-utils-28.0.0.aar\2c87dc6a945933bd2a1aa3b43e81ddaa\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-core-utils-28.0.0.aar\2c87dc6a945933bd2a1aa3b43e81ddaa\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-28.0.0.aar\7ecfc5cc24b036cf15e48baf7ad07b0d\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-28.0.0.aar\7ecfc5cc24b036cf15e48baf7ad07b0d\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\loader-28.0.0.aar\595bba0736d604819d5933303dd8f982\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\loader-28.0.0.aar\595bba0736d604819d5933303dd8f982\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\viewpager-28.0.0.aar\e8026829eae47ea5c34ce239c5fa38df\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\viewpager-28.0.0.aar\e8026829eae47ea5c34ce239c5fa38df\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\coordinatorlayout-28.0.0.aar\eb096622bec24a624141acbb9c31ea53\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\coordinatorlayout-28.0.0.aar\eb096622bec24a624141acbb9c31ea53\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\drawerlayout-28.0.0.aar\360b7099f87240bad07445b5f15b8bf2\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\drawerlayout-28.0.0.aar\360b7099f87240bad07445b5f15b8bf2\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\slidingpanelayout-28.0.0.aar\a37f5468b70fa9b116917d00d2a239c9\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\slidingpanelayout-28.0.0.aar\a37f5468b70fa9b116917d00d2a239c9\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\customview-28.0.0.aar\bb79f4a0308ed569f37713094e5b97a8\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\customview-28.0.0.aar\bb79f4a0308ed569f37713094e5b97a8\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\swiperefreshlayout-28.0.0.aar\9030b7e6a3caf4246a5889bccd2bc417\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\swiperefreshlayout-28.0.0.aar\9030b7e6a3caf4246a5889bccd2bc417\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\asynclayoutinflater-28.0.0.aar\4bfc93e02beb386dd531407e4690cf68\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\asynclayoutinflater-28.0.0.aar\4bfc93e02beb386dd531407e4690cf68\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-compat-28.0.0.aar\108686df8de7b2f49f52227f8d4d0aba\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\support-compat-28.0.0.aar\108686df8de7b2f49f52227f8d4d0aba\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\versionedparcelable-28.0.0.aar\131d8a29e1b11c2b7a0827dc4b3d274f\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\versionedparcelable-28.0.0.aar\131d8a29e1b11c2b7a0827dc4b3d274f\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\cursoradapter-28.0.0.aar\412863a7b56426b4d8d4a64f70720632\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\cursoradapter-28.0.0.aar\412863a7b56426b4d8d4a64f70720632\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\runtime-1.1.1.aar\c323ebf753e9c6d8c46814d7fb371e82\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\runtime-1.1.1.aar\c323ebf753e9c6d8c46814d7fb371e82\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\documentfile-28.0.0.aar\45ca9de94b15a7c02eac4e20ee5d9161\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\documentfile-28.0.0.aar\45ca9de94b15a7c02eac4e20ee5d9161\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\localbroadcastmanager-28.0.0.aar\0070957f7e971d35a243e0df1e6a316f\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\localbroadcastmanager-28.0.0.aar\0070957f7e971d35a243e0df1e6a316f\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\print-28.0.0.aar\ed0f79642522be132e517ea1ea72df63\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\print-28.0.0.aar\ed0f79642522be132e517ea1ea72df63\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\viewmodel-1.1.1.aar\f2428626b81680d758db0e037046515b\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\viewmodel-1.1.1.aar\f2428626b81680d758db0e037046515b\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\livedata-1.1.1.aar\34098188b37271f4d963bd67581bd422\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\livedata-1.1.1.aar\34098188b37271f4d963bd67581bd422\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\livedata-core-1.1.1.aar\02c05ae1f80a3ebd66c8fc52d41bf6c3\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\livedata-core-1.1.1.aar\02c05ae1f80a3ebd66c8fc52d41bf6c3\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\runtime-1.1.1.aar\2538bafaba9277382fbed1d5fb9d14c6\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\runtime-1.1.1.aar\2538bafaba9277382fbed1d5fb9d14c6\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\interpolator-28.0.0.aar\1dbf09d5b0931c6da0011106201a530d\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\interpolator-28.0.0.aar\1dbf09d5b0931c6da0011106201a530d\AndroidManifest.xml:20:5-44
 INJECTED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml
 INJECTED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml
 	android:targetSdkVersion
@@ -581,76 +579,76 @@ INJECTED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src
 		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml
 		INJECTED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml
 meta-data#android.support.FILE_PROVIDER_PATHS
-ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:39:13-41:58
+ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:38:13-40:58
 	android:resource
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:41:17-55
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:40:17-55
 	android:name
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:40:17-67
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:39:17-67
 uses-feature#android.hardware.camera
-ADDED from [info.androidhive:barcode-reader:1.1.5] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\barcode-reader-1.1.5.aar\be227e02591bc27514e0c96b86b111a6\AndroidManifest.xml:13:5-60
+ADDED from [info.androidhive:barcode-reader:1.1.5] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\barcode-reader-1.1.5.aar\0cfff2932fb923edd46bcacd37b5879b\AndroidManifest.xml:13:5-60
 	android:name
-		ADDED from [info.androidhive:barcode-reader:1.1.5] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\barcode-reader-1.1.5.aar\be227e02591bc27514e0c96b86b111a6\AndroidManifest.xml:13:19-57
+		ADDED from [info.androidhive:barcode-reader:1.1.5] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\barcode-reader-1.1.5.aar\0cfff2932fb923edd46bcacd37b5879b\AndroidManifest.xml:13:19-57
 provider#com.squareup.picasso.PicassoProvider
-ADDED from [com.squareup.picasso:picasso:2.71828] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\picasso-2.71828.aar\49028c7ac5808ec24ccdf7c15858ebea\AndroidManifest.xml:8:9-11:40
+ADDED from [com.squareup.picasso:picasso:2.71828] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\picasso-2.71828.aar\b6b67641b7a60dd5217098414bac156e\AndroidManifest.xml:8:9-11:40
 	android:authorities
-		ADDED from [com.squareup.picasso:picasso:2.71828] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\picasso-2.71828.aar\49028c7ac5808ec24ccdf7c15858ebea\AndroidManifest.xml:10:13-72
+		ADDED from [com.squareup.picasso:picasso:2.71828] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\picasso-2.71828.aar\b6b67641b7a60dd5217098414bac156e\AndroidManifest.xml:10:13-72
 	android:exported
-		ADDED from [com.squareup.picasso:picasso:2.71828] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\picasso-2.71828.aar\49028c7ac5808ec24ccdf7c15858ebea\AndroidManifest.xml:11:13-37
+		ADDED from [com.squareup.picasso:picasso:2.71828] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\picasso-2.71828.aar\b6b67641b7a60dd5217098414bac156e\AndroidManifest.xml:11:13-37
 	android:name
-		ADDED from [com.squareup.picasso:picasso:2.71828] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\picasso-2.71828.aar\49028c7ac5808ec24ccdf7c15858ebea\AndroidManifest.xml:9:13-64
+		ADDED from [com.squareup.picasso:picasso:2.71828] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\picasso-2.71828.aar\b6b67641b7a60dd5217098414bac156e\AndroidManifest.xml:9:13-64
 activity#com.facebook.CustomTabMainActivity
-ADDED from [com.facebook.android:facebook-common:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-common-4.35.0.aar\a8104318439e1b5c9654bd7b80e6d614\AndroidManifest.xml:33:9-71
+ADDED from [com.facebook.android:facebook-common:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-common-4.35.0.aar\4f502fb2fc3e5aacb90a39707f9e8342\AndroidManifest.xml:33:9-71
 	android:name
-		ADDED from [com.facebook.android:facebook-common:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-common-4.35.0.aar\a8104318439e1b5c9654bd7b80e6d614\AndroidManifest.xml:33:19-68
+		ADDED from [com.facebook.android:facebook-common:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-common-4.35.0.aar\4f502fb2fc3e5aacb90a39707f9e8342\AndroidManifest.xml:33:19-68
 activity#com.google.android.gms.auth.api.signin.internal.SignInHubActivity
-ADDED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.1.aar\1dbbf4629e238f94c780cc6eb3302803\AndroidManifest.xml:23:9-27:75
+ADDED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.1.aar\50db9fc44bdfc0f7018de7ef2764f489\AndroidManifest.xml:23:9-27:75
 	android:excludeFromRecents
-		ADDED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.1.aar\1dbbf4629e238f94c780cc6eb3302803\AndroidManifest.xml:25:13-46
+		ADDED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.1.aar\50db9fc44bdfc0f7018de7ef2764f489\AndroidManifest.xml:25:13-46
 	android:exported
-		ADDED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.1.aar\1dbbf4629e238f94c780cc6eb3302803\AndroidManifest.xml:26:13-37
+		ADDED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.1.aar\50db9fc44bdfc0f7018de7ef2764f489\AndroidManifest.xml:26:13-37
 	android:theme
-		ADDED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.1.aar\1dbbf4629e238f94c780cc6eb3302803\AndroidManifest.xml:27:13-72
+		ADDED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.1.aar\50db9fc44bdfc0f7018de7ef2764f489\AndroidManifest.xml:27:13-72
 	android:name
-		ADDED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.1.aar\1dbbf4629e238f94c780cc6eb3302803\AndroidManifest.xml:24:13-93
+		ADDED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.1.aar\50db9fc44bdfc0f7018de7ef2764f489\AndroidManifest.xml:24:13-93
 service#com.google.android.gms.auth.api.signin.RevocationBoundService
-ADDED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.1.aar\1dbbf4629e238f94c780cc6eb3302803\AndroidManifest.xml:33:9-36:110
+ADDED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.1.aar\50db9fc44bdfc0f7018de7ef2764f489\AndroidManifest.xml:33:9-36:110
 	android:exported
-		ADDED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.1.aar\1dbbf4629e238f94c780cc6eb3302803\AndroidManifest.xml:35:13-36
+		ADDED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.1.aar\50db9fc44bdfc0f7018de7ef2764f489\AndroidManifest.xml:35:13-36
 	android:permission
-		ADDED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.1.aar\1dbbf4629e238f94c780cc6eb3302803\AndroidManifest.xml:36:13-107
+		ADDED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.1.aar\50db9fc44bdfc0f7018de7ef2764f489\AndroidManifest.xml:36:13-107
 	android:name
-		ADDED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.1.aar\1dbbf4629e238f94c780cc6eb3302803\AndroidManifest.xml:34:13-89
+		ADDED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.1.aar\50db9fc44bdfc0f7018de7ef2764f489\AndroidManifest.xml:34:13-89
 activity#com.google.android.gms.common.api.GoogleApiActivity
-ADDED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-base-16.0.1.aar\a9897198ab7392b64c40e53c9c82690a\AndroidManifest.xml:23:9-26:75
+ADDED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-base-16.0.1.aar\7a23e9b0b20493389c8b9367beb7d83c\AndroidManifest.xml:23:9-26:75
 	android:exported
-		ADDED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-base-16.0.1.aar\a9897198ab7392b64c40e53c9c82690a\AndroidManifest.xml:25:13-37
+		ADDED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-base-16.0.1.aar\7a23e9b0b20493389c8b9367beb7d83c\AndroidManifest.xml:25:13-37
 	android:theme
-		ADDED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-base-16.0.1.aar\a9897198ab7392b64c40e53c9c82690a\AndroidManifest.xml:26:13-72
+		ADDED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-base-16.0.1.aar\7a23e9b0b20493389c8b9367beb7d83c\AndroidManifest.xml:26:13-72
 	android:name
-		ADDED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-base-16.0.1.aar\a9897198ab7392b64c40e53c9c82690a\AndroidManifest.xml:24:13-79
+		ADDED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-base-16.0.1.aar\7a23e9b0b20493389c8b9367beb7d83c\AndroidManifest.xml:24:13-79
 meta-data#com.google.android.gms.version
-ADDED from [com.google.android.gms:play-services-basement:16.1.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-basement-16.1.0.aar\bcc19ca225f72f4d8cc5a65a5fc87ea6\AndroidManifest.xml:23:9-25:69
+ADDED from [com.google.android.gms:play-services-basement:16.1.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-basement-16.1.0.aar\bbad54034da9f988aeb4383a0eae0be7\AndroidManifest.xml:23:9-25:69
 	android:value
-		ADDED from [com.google.android.gms:play-services-basement:16.1.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-basement-16.1.0.aar\bcc19ca225f72f4d8cc5a65a5fc87ea6\AndroidManifest.xml:25:13-66
+		ADDED from [com.google.android.gms:play-services-basement:16.1.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-basement-16.1.0.aar\bbad54034da9f988aeb4383a0eae0be7\AndroidManifest.xml:25:13-66
 	android:name
-		ADDED from [com.google.android.gms:play-services-basement:16.1.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-basement-16.1.0.aar\bcc19ca225f72f4d8cc5a65a5fc87ea6\AndroidManifest.xml:24:13-58
+		ADDED from [com.google.android.gms:play-services-basement:16.1.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\play-services-basement-16.1.0.aar\bbad54034da9f988aeb4383a0eae0be7\AndroidManifest.xml:24:13-58
 provider#com.facebook.internal.FacebookInitProvider
-ADDED from [com.facebook.android:facebook-core:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-core-4.35.0.aar\07eed7beb908629cd13692aa2c5e5908\AndroidManifest.xml:39:9-42:40
+ADDED from [com.facebook.android:facebook-core:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-core-4.35.0.aar\4d7c8e14d4c271656745561d8715127e\AndroidManifest.xml:39:9-42:40
 	android:authorities
-		ADDED from [com.facebook.android:facebook-core:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-core-4.35.0.aar\07eed7beb908629cd13692aa2c5e5908\AndroidManifest.xml:41:13-72
+		ADDED from [com.facebook.android:facebook-core:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-core-4.35.0.aar\4d7c8e14d4c271656745561d8715127e\AndroidManifest.xml:41:13-72
 	android:exported
-		ADDED from [com.facebook.android:facebook-core:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-core-4.35.0.aar\07eed7beb908629cd13692aa2c5e5908\AndroidManifest.xml:42:13-37
+		ADDED from [com.facebook.android:facebook-core:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-core-4.35.0.aar\4d7c8e14d4c271656745561d8715127e\AndroidManifest.xml:42:13-37
 	android:name
-		ADDED from [com.facebook.android:facebook-core:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-core-4.35.0.aar\07eed7beb908629cd13692aa2c5e5908\AndroidManifest.xml:40:13-70
+		ADDED from [com.facebook.android:facebook-core:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-core-4.35.0.aar\4d7c8e14d4c271656745561d8715127e\AndroidManifest.xml:40:13-70
 receiver#com.facebook.CurrentAccessTokenExpirationBroadcastReceiver
-ADDED from [com.facebook.android:facebook-core:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-core-4.35.0.aar\07eed7beb908629cd13692aa2c5e5908\AndroidManifest.xml:44:9-50:20
+ADDED from [com.facebook.android:facebook-core:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-core-4.35.0.aar\4d7c8e14d4c271656745561d8715127e\AndroidManifest.xml:44:9-50:20
 	android:exported
-		ADDED from [com.facebook.android:facebook-core:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-core-4.35.0.aar\07eed7beb908629cd13692aa2c5e5908\AndroidManifest.xml:46:13-37
+		ADDED from [com.facebook.android:facebook-core:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-core-4.35.0.aar\4d7c8e14d4c271656745561d8715127e\AndroidManifest.xml:46:13-37
 	android:name
-		ADDED from [com.facebook.android:facebook-core:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-core-4.35.0.aar\07eed7beb908629cd13692aa2c5e5908\AndroidManifest.xml:45:13-86
+		ADDED from [com.facebook.android:facebook-core:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-core-4.35.0.aar\4d7c8e14d4c271656745561d8715127e\AndroidManifest.xml:45:13-86
 intent-filter#action:name:com.facebook.sdk.ACTION_CURRENT_ACCESS_TOKEN_CHANGED
-ADDED from [com.facebook.android:facebook-core:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-core-4.35.0.aar\07eed7beb908629cd13692aa2c5e5908\AndroidManifest.xml:47:13-49:29
+ADDED from [com.facebook.android:facebook-core:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-core-4.35.0.aar\4d7c8e14d4c271656745561d8715127e\AndroidManifest.xml:47:13-49:29
 action#com.facebook.sdk.ACTION_CURRENT_ACCESS_TOKEN_CHANGED
-ADDED from [com.facebook.android:facebook-core:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-core-4.35.0.aar\07eed7beb908629cd13692aa2c5e5908\AndroidManifest.xml:48:17-95
+ADDED from [com.facebook.android:facebook-core:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-core-4.35.0.aar\4d7c8e14d4c271656745561d8715127e\AndroidManifest.xml:48:17-95
 	android:name
-		ADDED from [com.facebook.android:facebook-core:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-core-4.35.0.aar\07eed7beb908629cd13692aa2c5e5908\AndroidManifest.xml:48:25-92
+		ADDED from [com.facebook.android:facebook-core:4.35.0] C:\Users\sivam\.gradle\caches\transforms-1\files-1.1\facebook-core-4.35.0.aar\4d7c8e14d4c271656745561d8715127e\AndroidManifest.xml:48:25-92

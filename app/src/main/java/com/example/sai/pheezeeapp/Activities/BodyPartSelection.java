@@ -1,23 +1,33 @@
 package com.example.sai.pheezeeapp.activities;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Point;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -60,7 +70,7 @@ public class BodyPartSelection extends AppCompatActivity {
     TextView tv_body_part_recent;
     ImageView iv_back_body_part_selection;
     String[] string;
-    String str_recent;
+    String str_recent;static String painscale, muscletone, exercisename, commentsession, symptoms;
 
     FrameLayout fl_fab_background;
     boolean flag_recent = false;
@@ -200,10 +210,18 @@ public class BodyPartSelection extends AppCompatActivity {
         public void onClick(View v) {
             ImageView imageView = ((ImageView)v);
             int pos = Integer.parseInt(imageView.getTag().toString());
+            Log.i("tag",String.valueOf(pos));
+            JSONArray array = null;
             try {
-                JSONArray array = new JSONArray(str_recent);
-                JSONObject object = array.getJSONObject(pos);
-                Toast.makeText(BodyPartSelection.this,object.toString(),Toast.LENGTH_LONG).show();
+                array = new JSONArray(str_recent);
+                for (int i=0;i<array.length();i++){
+                    JSONObject object1 = array.getJSONObject(i);
+                    if(object1.getString("patientid").equals(getPatientId())) {
+                        JSONArray array_exercises = new JSONArray(object1.getString("recent"));
+                        JSONObject object = array_exercises.getJSONObject(pos);
+                        Toast.makeText(BodyPartSelection.this,object.toString(),Toast.LENGTH_LONG).show();
+                    }
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -268,112 +286,159 @@ public class BodyPartSelection extends AppCompatActivity {
     }
 
     public void startMonitorSession(View view){
-        int temp_index = -1;
-        boolean flag = false, present = false;
-        int position_list_selected = Integer.parseInt(preferences.getString("bodyPartClicked",""));
-        View list_item = manager.findViewByPosition(position_list_selected);
-        TextView tv_middle  = list_item.findViewById(R.id.tv_selected_goal_text);
-        String str_time = tv_middle.getText().toString();
-        str_time = str_time.replaceAll("[a-zA-Z]","").trim();
-        TextView tv_body_part_name = list_item.findViewById(R.id.tv_body_part_name);
-        Toast.makeText(this, ""+str_time+tv_body_part_name.getText(), Toast.LENGTH_SHORT).show();
-        editor = preferences.edit();
 
-        JSONArray array = new JSONArray();
-        JSONArray array1 = new JSONArray();
-        JSONObject object = new JSONObject();
-        JSONArray temp_array  = new JSONArray();
-        JSONObject patient_object = new JSONObject();
-        try {
-            object.put("part_name",tv_body_part_name.getText().toString());
-            object.put("res_id",myPartList[position_list_selected]);
-            object.put("position",position_list_selected+"");
-            object.put("str_time",str_time);
-        } catch (JSONException e) {
-            e.printStackTrace();
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        int height = size.y;
+        LayoutInflater inflater = (LayoutInflater) BodyPartSelection.this
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        assert inflater != null;
+        @SuppressLint("InflateParams") View layout = inflater.inflate(R.layout.popup_comment_session, null);
+
+        final PopupWindow pw = new PopupWindow(layout, ConstraintLayout.LayoutParams.WRAP_CONTENT,ConstraintLayout.LayoutParams.WRAP_CONTENT);
+//        pw.setHeight(height - 400);
+        pw.setWidth(width - 100);
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            pw.setElevation(10);
         }
+        pw.setTouchable(true);
+        pw.setOutsideTouchable(true);
+        pw.setContentView(layout);
+        pw.setFocusable(true);
+        pw.showAtLocation(view, Gravity.CENTER, 0, 0);
 
-        if(preferences.getString("recently","").equals("")){
+        final EditText et_pain_scale = layout.findViewById(R.id.comment_et_pain_scale);
+        final EditText et_muscle_tone = layout.findViewById(R.id.comment_et_muscle_tone);
+        final EditText et_exercise_name = layout.findViewById(R.id.comment_exercise_name);
+        final EditText et_comment_section = layout.findViewById(R.id.comment_et_comment);
+        final EditText et_symptoms = layout.findViewById(R.id.comment_et_symptoms);
 
-            array1.put(object);
-            try {
-                patient_object.put("patientid",getPatientId());
-                patient_object.put("recent",array1.toString());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            array.put(patient_object);
-            editor.putString("recently",array.toString());
-            editor.commit();
-        }
-        else {
-            try {
-                array = new JSONArray(preferences.getString("recently",""));
-                for (int i=0;i<array.length();i++){
-                    JSONObject object1 = array.getJSONObject(i);
-                    if(object1.getString("patientid").equals(getPatientId())){
-                        present = true;
-                        temp_index = i;
-                        JSONArray recent_array = new JSONArray(object1.getString("recent"));
-                        for (int j=0;j<recent_array.length();j++){
-                            JSONObject recent_object = recent_array.getJSONObject(j);
-                            if(recent_object.getString("position").equals(object.getString("position"))){
-                                flag = true;
-                                recent_array.remove(j);
-                                temp_array.put(object);
-                                for (int k=0;k<recent_array.length();k++){
-                                    temp_array.put(recent_array.getJSONObject(k));
+
+        Button btn_continue = layout.findViewById(R.id.comment_btn_continue);   //buttom of the coment section pop up to continue to the session
+        btn_continue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                painscale = et_pain_scale.getText().toString();
+                muscletone = et_muscle_tone.getText().toString();
+                exercisename = et_exercise_name.getText().toString();
+                commentsession = et_comment_section.getText().toString();
+                symptoms = et_symptoms.getText().toString();
+                pw.dismiss();
+                int temp_index = -1;
+                boolean flag = false, present = false;
+                int position_list_selected = Integer.parseInt(preferences.getString("bodyPartClicked",""));
+                View list_item = manager.findViewByPosition(position_list_selected);
+                TextView tv_middle  = list_item.findViewById(R.id.tv_selected_goal_text);
+                String str_time = tv_middle.getText().toString();
+                str_time = str_time.replaceAll("[a-zA-Z]","").trim();
+                TextView tv_body_part_name = list_item.findViewById(R.id.tv_body_part_name);
+                Toast.makeText(BodyPartSelection.this, ""+str_time+tv_body_part_name.getText(), Toast.LENGTH_SHORT).show();
+                editor = preferences.edit();
+
+                JSONArray array = new JSONArray();
+                JSONArray array1 = new JSONArray();
+                JSONObject object = new JSONObject();
+                JSONArray temp_array  = new JSONArray();
+                JSONObject patient_object = new JSONObject();
+                try {
+                    object.put("part_name",tv_body_part_name.getText().toString());
+                    object.put("res_id",myPartList[position_list_selected]);
+                    object.put("position",position_list_selected+"");
+                    object.put("str_time",str_time);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if(preferences.getString("recently","").equals("")){
+
+                    array1.put(object);
+                    try {
+                        patient_object.put("patientid",getPatientId());
+                        patient_object.put("recent",array1.toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    array.put(patient_object);
+                    editor.putString("recently",array.toString());
+                    editor.commit();
+                }
+                else {
+                    try {
+                        array = new JSONArray(preferences.getString("recently",""));
+                        for (int i=0;i<array.length();i++){
+                            JSONObject object1 = array.getJSONObject(i);
+                            if(object1.getString("patientid").equals(getPatientId())){
+                                present = true;
+                                temp_index = i;
+                                JSONArray recent_array = new JSONArray(object1.getString("recent"));
+                                for (int j=0;j<recent_array.length();j++){
+                                    JSONObject recent_object = recent_array.getJSONObject(j);
+                                    if(recent_object.getString("position").equals(object.getString("position"))){
+                                        flag = true;
+                                        recent_array.remove(j);
+                                        temp_array.put(object);
+                                        for (int k=0;k<recent_array.length();k++){
+                                            temp_array.put(recent_array.getJSONObject(k));
+                                        }
+                                        break;
+                                    }
                                 }
                                 break;
                             }
+
                         }
-                        break;
+
+                        if (flag){
+                            if(temp_index!=-1){
+                                array.getJSONObject(temp_index).put("recent",temp_array.toString());
+                            }
+                            editor.putString("recently",array.toString());
+                            editor.commit();
+                        }
+                        else if(present==true && flag==false) {
+                            temp_array.put(0,object);
+                            JSONArray array2 = new JSONArray(array.getJSONObject(temp_index).getString("recent"));
+                            for (int j=0;j<array2.length();j++){
+                                temp_array.put(array2.getJSONObject(j));
+                            }
+                            array.getJSONObject(temp_index).put("recent",temp_array.toString());
+                            editor.putString("recently",array.toString());
+                            editor.commit();
+                        }
+                        else if(present==false){
+                            JSONArray temp = new JSONArray();
+                            temp.put(object);
+                            JSONObject temp_obj = new JSONObject();
+                            temp_obj.put("patientid",getPatientId());
+                            temp_obj.put("recent",temp.toString());
+                            array.put(temp_obj);
+                            editor.putString("recently",array.toString());
+                            editor.commit();
+                        }
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-
                 }
 
-                if (flag){
-                    if(temp_index!=-1){
-                        array.getJSONObject(temp_index).put("recent",temp_array.toString());
-                    }
-                    editor.putString("recently",array.toString());
-                    editor.commit();
-                }
-                else if(present==true && flag==false) {
-                    temp_array.put(0,object);
-                    JSONArray array2 = new JSONArray(array.getJSONObject(temp_index).getString("recent"));
-                    for (int j=0;j<array2.length();j++){
-                        temp_array.put(array2.getJSONObject(j));
-                    }
-                    array.getJSONObject(temp_index).put("recent",temp_array.toString());
-                    editor.putString("recently",array.toString());
-                    editor.commit();
-                }
-                else if(present==false){
-                    JSONArray temp = new JSONArray();
-                    temp.put(object);
-                    JSONObject temp_obj = new JSONObject();
-                    temp_obj.put("patientid",getPatientId());
-                    temp_obj.put("recent",temp.toString());
-                    array.put(temp_obj);
-                    editor.putString("recently",array.toString());
-                    editor.commit();
-                }
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
+                Intent intent = new Intent(BodyPartSelection.this, MonitorActivity.class);
+                //To be started here i need to putextras in the intents and send them to the moitor activity
+                intent.putExtra("deviceMacAddress",getIntent().getStringExtra("deviceMacAddress"));
+                intent.putExtra("patientId",getIntent().getStringExtra("patientId"));
+                intent.putExtra("patientName",getIntent().getStringExtra("patientName"));
+                intent.putExtra("exerciseType",tv_body_part_name.getText().toString());
+                Log.i("intent",intent.toString());
+                startActivity(intent);
             }
-        }
+        });
 
-        Intent intent = new Intent(this, MonitorActivity.class);
-        //To be started here i need to putextras in the intents and send them to the moitor activity
-        intent.putExtra("deviceMacAddress",getIntent().getStringExtra("deviceMacAddress"));
-        intent.putExtra("patientId",getIntent().getStringExtra("patientId"));
-        intent.putExtra("patientName",getIntent().getStringExtra("patientName"));
-        intent.putExtra("exerciseType",tv_body_part_name.getText().toString());
-        Log.i("intent",intent.toString());
-        startActivity(intent);
+
+//
     }
 
     public void setFabVisible(){
@@ -388,4 +453,10 @@ public class BodyPartSelection extends AppCompatActivity {
         return pixels;
     }
 
+
+    @Override
+    protected void onDestroy() {
+        bodyPartWithMmtRecyclerView.removeResources();
+        super.onDestroy();
+    }
 }

@@ -69,7 +69,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_marginTop="15dp"
+    android:layout_marginTop="10dp"
     android:paddingEnd="20dp"
     android:paddingStart="20dp"
     tools:context=".dashboard.MonitorFragment">
@@ -81,7 +81,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintHorizontal_bias="0.0">
+        app:layout_constraintHorizontal_bias="0.0"
+        tools:ignore="MissingConstraints">
 
         <LinearLayout
             android:id="@+id/patientIdContainter"
@@ -146,7 +147,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.15">
+        app:layout_constraintVertical_bias="0.07">
 
         <TextView
             android:id="@+id/angleText"
@@ -218,7 +219,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:gravity="left"
+            android:gravity="center"
             android:orientation="vertical"
             android:paddingEnd="10dp"
             android:paddingStart="10dp">
@@ -240,13 +241,40 @@
                 android:text="00"
                 android:textSize="16sp" />
         </LinearLayout>
+        <LinearLayout
+            android:id="@+id/sessionNoContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp">
+
+            <TextView
+                android:id="@+id/sessionNoText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/ebrima"
+                android:text="Session No"
+                android:textColor="@color/pitch_black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_session_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/ebrima"
+                android:text="0"
+                android:textSize="16sp" />
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/holdtimeContainter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:gravity="right"
+            android:gravity="center"
             android:orientation="vertical"
             android:paddingEnd="10dp"
             android:paddingStart="10dp">
@@ -340,7 +368,7 @@
         android:layout_gravity="center_horizontal"
         android:fontFamily="@font/ebrima"
         android:textColor="@color/pitch_black"
-        android:text="Session time:   00 : 00 : 00"
+        android:text="Session time:   00 : 00 "
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

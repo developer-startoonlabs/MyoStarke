@@ -60,6 +60,7 @@ public class ScanDevicesActivity extends AppCompatActivity {
     private static final int REQUEST_ENABLE_BT = 1;
     BluetoothAdapter madapter_scandevices;
     public static String selectedDeviceMacAddress;
+    public static boolean connectPressed =false;
     ImageView iv_back_scan_devices;
 
     @SuppressLint("ResourceAsColor")

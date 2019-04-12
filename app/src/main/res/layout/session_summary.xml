@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="15dp"
-            android:src="@drawable/back_arrow" />
+            android:src="@drawable/green_back_arrow" />
     </LinearLayout>
 
     <LinearLayout
@@ -70,7 +70,7 @@
             android:layout_marginEnd="8dp"
             android:fontFamily="@font/ebrima"
             android:text="Session Summary"
-            android:textColor="#4B7080"
+            android:textColor="@color/good_green"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.318"
@@ -236,6 +236,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:layout_gravity="center">
 
                 <TextView
@@ -328,7 +329,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="160dp"
+                android:layout_height="175dp"
                 android:layout_marginVertical="5dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
@@ -545,7 +546,64 @@
                                     android:textSize="12sp" />
                             </LinearLayout>
                         </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:orientation="horizontal">
 
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left"
+                                android:layout_weight="0.5">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/ebrima"
+                                    android:gravity="left"
+                                    android:padding="8dp"
+                                    android:text="Session No:"
+                                    android:textColor="@color/pitch_black"
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.5"
+                                android:gravity="right">
+
+                                <TextView
+                                    android:id="@+id/tv_session_no"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="right"
+                                    android:background="@drawable/round_corners_textboxes_time"
+                                    android:fontFamily="@font/ebrima"
+                                    android:padding="5dp"
+                                    android:gravity="center"
+                                    android:text="0"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/pitch_black"
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+                        </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/summary_tv_comment"
+                            android:fontFamily="@font/ebrima"
+                            android:paddingLeft="8dp"
+                            android:paddingTop="5dp"
+                            android:padding="5dp"
+                            android:paddingRight="10dp"
+                            android:layout_gravity="end"
+                            android:paddingBottom="10dp"
+                            android:text="Comment"
+                            android:textColor="@color/pitch_black"
+                            android:textSize="16sp" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>

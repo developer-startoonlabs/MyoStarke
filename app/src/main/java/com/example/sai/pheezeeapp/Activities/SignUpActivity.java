@@ -16,9 +16,12 @@ import com.example.sai.pheezeeapp.R;
 import com.example.sai.pheezeeapp.services.MqttHelper;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
+import org.eclipse.paho.client.mqttv3.IMqttActionListener;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
+import org.eclipse.paho.client.mqttv3.IMqttToken;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
+import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -97,29 +100,47 @@ public class SignUpActivity extends AppCompatActivity {
                 str_signup_password = et_signup_password.getText().toString();
                 str_signup_email = et_signup_email.getText().toString();
                 str_signup_phone = et_signup_phone.getText().toString();
-                MqttMessage mqttMessage = new MqttMessage();
-                JSONObject jsonObject = new JSONObject();
-                JSONArray jsonArray = new JSONArray();
+
+
                 if(str_signup_name.equals("")||str_signup_password.equals("")||str_signup_email.equals("")||str_signup_phone.equals("")){
                     Toast.makeText(SignUpActivity.this, "Please fill all the details", Toast.LENGTH_SHORT).show();
                 }
                 else {
-
-
-
                     try {
-                        jsonObject.put("phizioname",str_signup_name);
-                        jsonObject.put("phiziopassword",str_signup_password);
-                        jsonObject.put("phizioemail",str_signup_email);
-                        jsonObject.put("phiziophone",str_signup_phone);
-                        jsonObject.put("phizioprofilepicurl","url defauld now");
-                        jsonObject.put("phiziopatients",jsonArray);
-                    } catch (JSONException e) {
+                        mqttHelper.mqttAndroidClient.subscribe(mqtt_subs_signup_response+str_signup_email+str_signup_password, 1, null, new IMqttActionListener() {
+                            @Override
+                            public void onSuccess(IMqttToken asyncActionToken) {
+
+                                Log.w("Mqtt", "Subscribed!");
+                                JSONObject jsonObject = new JSONObject();
+                                JSONArray jsonArray = new JSONArray();
+                                MqttMessage mqttMessage = new MqttMessage();
+                                try {
+                                    jsonObject.put("phizioname",str_signup_name);
+                                    jsonObject.put("phiziopassword",str_signup_password);
+                                    jsonObject.put("phizioemail",str_signup_email);
+                                    jsonObject.put("phiziophone",str_signup_phone);
+                                    jsonObject.put("phizioprofilepicurl","url defauld now");
+                                    jsonObject.put("phiziopatients",jsonArray);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                mqttMessage.setPayload(jsonObject.toString().getBytes());
+
+                                mqttHelper.publishMqttTopic(mqtt_publish_signup_doctor, mqttMessage);
+                            }
+
+                            @Override
+                            public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
+                                Log.w("Mqtt", "Subscribed fail!");
+                            }
+                        });
+                    } catch (MqttException e) {
                         e.printStackTrace();
                     }
-                    mqttMessage.setPayload(jsonObject.toString().getBytes());
 
-                    mqttHelper.publishMqttTopic(mqtt_publish_signup_doctor, mqttMessage);
+
+
 
                 }
             }
@@ -149,7 +170,8 @@ public class SignUpActivity extends AppCompatActivity {
 
             @Override
             public void messageArrived(String topic, MqttMessage message) throws Exception {
-                if(topic.equals(mqtt_subs_signup_response)){
+                if(topic.equals(mqtt_subs_signup_response+str_signup_email+str_signup_password)){
+                    Log.i("message",message.toString());
                     if(message.toString().equals("inserted")){
                         Log.i("MQTT MESSAGE", ""+message);
                         editor = sharedPref.edit();

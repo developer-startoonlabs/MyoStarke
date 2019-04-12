@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PheezeeApp</string>
+    <string name="app_name">Pheezee</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="facebook_app_id">2061772390522951</string>
@@ -75,10 +75,10 @@
     <string name="total_time">Total Time - </string>
 
 
-    <string name="new_user">new user?</string>
-    <string name="have_account">have an account?</string>
-    <string name="login">Log in</string>
-    <string name="signup">Sign up</string>
+    <string name="new_user">New user?</string>
+    <string name="have_account">Have an account?</string>
+    <string name="login"><u>Log in</u></string>
+    <string name="signup"><u>Sign up</u></string>
 
     <string name="continue_with">Continue with</string>
 
@@ -106,7 +106,7 @@
     <!--sign-up related tags-->
 
     <string name="create_account_header">Create account</string>
-    <string name="signup_name">name</string>
+    <string name="signup_name">Name</string>
     <string name="signup_password">Password</string>
     <string name="signup_email">Email</string>
     <string name="signup_phone">Phone</string>
@@ -136,11 +136,22 @@
     <string name="your_profile">Your Profile</string>
     <string name="change_profile_pic">change profile pic</string>
     <string name="edit">Edit</string>
-    <string name="name">Name: </string>
+    <string name="name">Name:&#032;</string>
     <string name="email">Email: </string>
-    <string name="phone">Phone: </string>
+    <string name="phone">Phone:</string>
     <string name="update">Update</string>
     <string name="cancel">Cancel</string>
+    <string name="clinic_name">Clinic name:</string>
+    <string name="dob">DOB:</string>
+    <string name="specialization">Specialization:</string>
+    <string name="degree">Degree:</string>
+    <string name="gender">Gender:</string>
+    <string name="address">Address:</string>
+    <string name="experience">Experience:</string>
+    <string-array name="gender_array">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
 
 
 
@@ -194,6 +205,9 @@
     <string name="archive_patient">Archive Patients</string>
     <string name="what_is_pheezee">What is Pheezee with out Patients!</string>
     <string name="cd_floating">Add Patient icon</string>
+    <string name="battery_percent_lower_than_15">The pheezee device battery is lower than 15% are you sure you want to continue?</string>
+    <string name="battery_percent_lower_than_10">The pheezee device battery is lower than 10% are you sure you want to continue?</string>
+    <string name="battery_percent_lower_than_5">The pheezee device battery is lower than 5% there is a chance of data loss if you continue to do the session. Are you sure you want to continue?</string>
 
 
 
@@ -268,6 +282,7 @@
     <string name="exercise_name">Exercise Name?</string>
     <string name="comment">Comment?</string>
     <string name="continue_session">Continue</string>
+    <string name="symptomps">Symptoms?</string>
 
 
 </resources>

@@ -20,9 +20,13 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.ParseException;
@@ -66,9 +70,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.sai.pheezeeapp.Classes.BluetoothGattSingleton;
@@ -80,18 +86,17 @@ import com.example.sai.pheezeeapp.patientsRecyclerView.PatientsRecyclerViewAdapt
 import com.example.sai.pheezeeapp.services.MqttHelper;
 import com.example.sai.pheezeeapp.services.PicassoCircleTransformation;
 import com.example.sai.pheezeeapp.services.Scanner;
+import com.example.sai.pheezeeapp.utils.BatteryOperation;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.squareup.picasso.Picasso;
-
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -107,6 +112,12 @@ import java.util.UUID;
 public class PatientsView extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener {
 
+    public static boolean deviceState = true;
+    public static boolean connectPressed = false;
+    public static boolean deviceBatteryUsbState = false;
+    public static int deviceBatteryPercent=0;
+    public static boolean sessionStarted = false;
+    RelativeLayout rl_cap_view;
     //Caracteristic uuids
     //All the constant uuids are written here
     public static final UUID service1_uuid = UUID.fromString("909a1400-9693-4920-96e6-893c0157fedd");
@@ -120,9 +131,9 @@ public class PatientsView extends AppCompatActivity
     //Boolean for weather the bodypart window is present or not on the activity
     boolean f_bodypart_popup = false;
 
-    BluetoothGattCharacteristic mCharacteristic;
+    static BluetoothGattCharacteristic mCharacteristic;
     BluetoothGattCharacteristic mCustomCharacteristic;
-    BluetoothGattDescriptor mBluetoothGattDescriptor;
+    static BluetoothGattDescriptor mBluetoothGattDescriptor;
 
     //bluetooth and device connection state
     ImageView iv_bluetooth_connected, iv_bluetooth_disconnected, iv_device_connected, iv_device_disconnected;
@@ -154,6 +165,7 @@ public class PatientsView extends AppCompatActivity
     String mqtt_publish_phizio_update_patientdetails = "phizio/updatepatientdetails";
 
     String mqtt_publish_phizio_patient_profilepic = "phizio/update/patientProfilePic";
+    String mqtt_sub_phizio_patient_profilepic = "phizio/update/patientProfilePic/response";
 
     String mqtt_get_profile_pic_response = "phizio/getprofilepic/response";
 
@@ -182,11 +194,11 @@ public class PatientsView extends AppCompatActivity
     PopupWindow pw;
     int backpressCount = 0;
     DrawerLayout drawer;
-    SharedPreferences sharedPref;
-    SharedPreferences.Editor editor;
+    static SharedPreferences sharedPref;
+    static SharedPreferences.Editor editor;
     JSONArray jsonData;
     AlertDialog.Builder builder;
-    BluetoothGatt bluetoothGatt;
+    static BluetoothGatt bluetoothGatt;
     BluetoothDevice remoteDevice;
     BluetoothAdapter bluetoothAdapter;
     BluetoothManager mBluetoothManager;
@@ -207,6 +219,7 @@ public class PatientsView extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patients_view);
         context = this;
@@ -215,7 +228,7 @@ public class PatientsView extends AppCompatActivity
         MacAddress = sharedPref.getString("deviceMacaddress", "");
         addPatientsBtn = findViewById(R.id.addPatients);
         iv_addPatient = findViewById(R.id.home_iv_addPatient);
-
+        rl_cap_view = findViewById(R.id.rl_cap_view);
         mRecyclerView = findViewById(R.id.patients_recycler_view);
         mRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
@@ -333,9 +346,9 @@ public class PatientsView extends AppCompatActivity
                 }
             }
             if (!(getIntent().getStringExtra("macAddress") == null || getIntent().getStringExtra("macAddress").equals(""))) {
-                macAddress = getIntent().getStringExtra("macAddress");
-                editor.putString("deviceMacaddress", macAddress);
-                editor.apply();
+                    macAddress = getIntent().getStringExtra("macAddress");
+                    editor.putString("deviceMacaddress", macAddress);
+                    editor.apply();
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -345,7 +358,12 @@ public class PatientsView extends AppCompatActivity
             macAddress = ScanDevicesActivity.selectedDeviceMacAddress;
             editor.putString("deviceMacaddress",macAddress);
             editor.apply();
+            ScanDevicesActivity.selectedDeviceMacAddress = null;
         }
+
+//        if(ScanDevicesActivity.connectPressed){
+//            disconnectDevice();
+//        }
         mBluetoothManager = (BluetoothManager)getSystemService(BLUETOOTH_SERVICE);
         bluetoothAdapter = mBluetoothManager.getAdapter();
         BluetoothSingelton.getmInstance().setAdapter(bluetoothAdapter);
@@ -368,8 +386,9 @@ public class PatientsView extends AppCompatActivity
         } else {
             bluetoothConnected();
             if (bluetoothGatt != null) {
-                bluetoothGatt.disconnect();
-                bluetoothGatt.close();
+//                bluetoothGatt.disconnect();
+                Log.i("pressed",""+connectPressed);
+
                 BluetoothGattSingleton.getmInstance().setAdapter(bluetoothGatt);
                 gattconnection_established = false;
                 Message message = Message.obtain();
@@ -380,18 +399,18 @@ public class PatientsView extends AppCompatActivity
                 Log.i("Enabled","true");
                 remoteDevice = bluetoothAdapter.getRemoteDevice(sharedPref.getString("deviceMacaddress", "EC:24:B8:31:BD:67"));
 
-
-                new Handler(Looper.getMainLooper()).post(new Runnable() {
-                    @Override
-                    public void run() {
-                        bluetoothGatt = remoteDevice.connectGatt(PatientsView.this, true, callback);
-                        if(bluetoothGatt!=null) {
-                            gattconnection_established = true;
-                            BluetoothGattSingleton.getmInstance().setAdapter(bluetoothGatt);
+                if(!sharedPref.getString("pressed","").equalsIgnoreCase("c") || bluetoothGatt==null) {
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            bluetoothGatt = remoteDevice.connectGatt(PatientsView.this, true, callback);
+                            if (bluetoothGatt != null) {
+                                gattconnection_established = true;
+                                BluetoothGattSingleton.getmInstance().setAdapter(bluetoothGatt);
+                            }
                         }
-                    }
-                });
-
+                    });
+                }
             }
         }
 
@@ -418,31 +437,32 @@ public class PatientsView extends AppCompatActivity
         //mqttcallback
         mqttHelper.setCallback(new MqttCallbackExtended() {
             @Override
-            public void connectComplete(boolean reconnect, String serverURI) {
-
-            }
-
+            public void connectComplete(boolean reconnect, String serverURI) { }
             @Override
-            public void connectionLost(Throwable cause) {
-
-            }
+            public void connectionLost(Throwable cause) { }
 
             @Override
             public void messageArrived(String topic, MqttMessage message){
                 Log.i(topic,message.toString());
-                 if(topic.equals(mqtt_get_profile_pic_response)){
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(message.getPayload(), 0, message.getPayload().length);
-                    ivBasicImage.setImageBitmap(bitmap);
+                try {
+                    if(topic.equals(mqtt_get_profile_pic_response+json_phizio.getString("phizioemail"))){
+                       Bitmap bitmap = BitmapFactory.decodeByteArray(message.getPayload(), 0, message.getPayload().length);
+                       ivBasicImage.setImageBitmap(bitmap);
+                   }
+                   else if(topic.equals(mqtt_subs_phizio_addpatient_response+json_phizio.getString("phizioemail"))){
+                        if(message.toString().equals("inserted")){
+                             Log.i("message emg",message.toString());
+                             editor = sharedPref.edit();
+                             editor.putString("sync_emg_session","");
+                             editor.apply();
+                        }
+                   }
+                   else if(topic.equals(mqtt_sub_phizio_patient_profilepic+json_phizio.getString("phizioemail"))){
+                        Log.i("patient profilepic",message.toString());
+                   }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-                else if(topic.equals(mqtt_subs_phizio_addpatient_response)){
-                     if(message.toString().equals("inserted")){
-                          Log.i("message emg",message.toString());
-                          editor = sharedPref.edit();
-                          editor.putString("sync_emg_session","");
-                          editor.apply();
-                     }
-                }
-
             }
 
             @Override
@@ -460,7 +480,6 @@ public class PatientsView extends AppCompatActivity
                 mAdapter.getFilter().filter(s);
                 return false;
             }
-
             @Override
             public boolean onQueryTextChange(String s) {
                 mAdapter.getFilter().filter(s);
@@ -488,25 +507,29 @@ public class PatientsView extends AppCompatActivity
         iv_bluetooth_connected.setVisibility(View.VISIBLE);
         ll_add_bluetooth.setVisibility(View.GONE);
         findViewById(R.id.ll_device_and_bluetooth).setBackgroundResource(R.drawable.drawable_background_turn_on_device);
-
-
     }
 
     @Override
     protected void onDestroy() {
+
         unregisterReceiver(bluetoothReceiver);
             mqttHelper.mqttAndroidClient.unregisterResources();
             mqttHelper.mqttAndroidClient.close();
+        if(bluetoothGatt!=null){
+            disconnectDevice();
+        }
         super.onDestroy();
     }
 
     public void pushJsonData(JSONArray data) {
         mdataset.clear();
+        Log.i("data",data.toString());
         if (data.length() > 0) {
             PatientsListData patientsList;
             for (int i = data.length() - 1; i >= 0; i--) {
                 try {
                     if(!data.getJSONObject(i).has("status")  || data.getJSONObject(i).getString("status").equals("active")) {
+                        Log.i(data.getJSONObject(i).getString("patientid"),data.getJSONObject(i).getString("patientprofilepicurl"));
                         patientsList = new PatientsListData(data.getJSONObject(i).getString("patientname"), data.getJSONObject(i).getString("patientid"), data.getJSONObject(i).getString("patientprofilepicurl"));
                         mdataset.add(patientsList);
                     }
@@ -514,23 +537,16 @@ public class PatientsView extends AppCompatActivity
                     e.printStackTrace();
                 }
             }
-
-
-
         }
-
         if(mdataset.size()>0) {
             findViewById(R.id.noPatient).setVisibility(View.GONE);
             findViewById(R.id.cl_recycler_view).setVisibility(View.VISIBLE);
-//            findViewById(R.id.cl_add_bluetooth).setVisibility(View.GONE);
-//            findViewById(R.id.cl_add_device).setVisibility(View.GONE);
         }
         else {
             findViewById(R.id.cl_recycler_view).setVisibility(View.GONE);
             findViewById(R.id.noPatient).setVisibility(View.VISIBLE);
         }
         mAdapter.notifyDataSetChanged();
-
     }
 
 
@@ -546,7 +562,6 @@ public class PatientsView extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -590,10 +605,6 @@ public class PatientsView extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
         return super.onOptionsItemSelected(item);
     }
 
@@ -631,7 +642,7 @@ public class PatientsView extends AppCompatActivity
     //                AccessToken.setCurrentAccessToken(null);
                  editor.clear();
                  editor.commit();
-
+                 disconnectDevice();
                  startActivity(new Intent(this, LoginActivity.class));
                  finish();
              }
@@ -685,7 +696,7 @@ public class PatientsView extends AppCompatActivity
             LayoutInflater inflater = (LayoutInflater) PatientsView.this
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             assert inflater != null;
-            @SuppressLint("InflateParams") View layout = inflater.inflate(R.layout.popup, null);
+            @SuppressLint("InflateParams") final View layout = inflater.inflate(R.layout.popup, null);
 
             pw = new PopupWindow(layout);
             pw.setHeight(height - 400);
@@ -703,6 +714,9 @@ public class PatientsView extends AppCompatActivity
 
             final TextView patientName = layout.findViewById(R.id.patientName);
             final TextView patientId = layout.findViewById(R.id.patientId);
+            final TextView patientAge = layout.findViewById(R.id.patientAge);
+            final TextView caseDescription = layout.findViewById(R.id.contentDescription);
+            final RadioGroup radioGroup = layout.findViewById(R.id.patientGender);
 
             final String todaysDate = dateInMmDdYyyy();
 
@@ -712,24 +726,12 @@ public class PatientsView extends AppCompatActivity
             Button addBtn = layout.findViewById(R.id.addBtn);
             Button cancelBtn = layout.findViewById(R.id.cancelBtn);
 
-            if (!Objects.requireNonNull(sharedPref.getString("phiziodetails", "")).equals("")) {
-                Log.i("Patient View","Inside");
-                jsonData = new JSONArray(json_phizio.getString("phiziopatients"));
-                if(jsonData.length()>0) {
-                    for (int i = 0; i < jsonData.length(); i++) {
-                        if (jsonData.getJSONObject(i).get("patientid").equals(patientId.getText().toString())) {
-                            Toast.makeText(PatientsView.this,
-                                    "Patient with same patient id is already exsists at patient name " + jsonData.getJSONObject(i).get("patientName"),
-                                    Toast.LENGTH_LONG).show();
-                            break;
-                        }
-                    }
-                }
-            }
+            jsonData = new JSONArray(json_phizio.getString("phiziopatients"));
             addBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if ((!patientName.getText().toString().equals("")) && (!patientId.getText().toString().equals(""))) {
+                    RadioButton btn = layout.findViewById(radioGroup.getCheckedRadioButtonId());
+                    if ((!patientName.getText().toString().equals("")) && (!patientId.getText().toString().equals("")) && (!patientAge.getText().toString().equals(""))&& (!caseDescription.getText().toString().equals("")) && btn!=null) {
                         if (!Objects.requireNonNull(sharedPref.getString("phiziodetails", "")).equals("")) {
                             if(jsonData.length()>0) {
                                 try {
@@ -753,6 +755,9 @@ public class PatientsView extends AppCompatActivity
                             jsonObject.put("patientname", patientName.getText().toString());
                             jsonObject.put("patientid", patientId.getText().toString());
                             jsonObject.put("numofsessions", "0");
+                            jsonObject.put("patientage",patientAge.getText().toString());
+                            jsonObject.put("patientgender",btn.getText().toString());
+                            jsonObject.put("patientcasedes",caseDescription.getText().toString());
                             jsonObject.put("status","active");
                             jsonObject.put("patientphone", patientId.getText().toString());
                             jsonObject.put("patientprofilepicurl", "empty");
@@ -787,11 +792,14 @@ public class PatientsView extends AppCompatActivity
                                 editor.putString("sync_session",temp.toString());
                                 editor.commit();
                             }
-                            pushJsonData(new JSONArray(json_phizio.getString("phiziopatients")));
+                            pushJsonData(jsonData);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                    }
+                    else {
+                        Toast.makeText(PatientsView.this, "Invalid Input!!", Toast.LENGTH_SHORT).show();
                     }
                     pw.dismiss();
                 }
@@ -820,15 +828,18 @@ public class PatientsView extends AppCompatActivity
                     isBleConnected = true;
                     Message msg = Message.obtain();
                     msg.obj = "C..";
+                    Log.i("connected","true");
+                    deviceState = true;
                     bleStatusHandler.sendMessage(msg);
                 } else if (newState == BluetoothProfile.STATE_CONNECTED) {
                     refreshDeviceCache(gatt);
                     Message msg = Message.obtain();
                     isBleConnected = true;
                     msg.obj = "C";
+                    deviceState=true;
+                    Log.i("connected", "connected");
                     bleStatusHandler.sendMessage(msg);
                     gatt.discoverServices();
-
                 } else if (newState == BluetoothProfile.STATE_DISCONNECTING) {
                     Message msg = Message.obtain();
                     isBleConnected = false;
@@ -858,9 +869,8 @@ public class PatientsView extends AppCompatActivity
                 mCustomCharacteristic = characteristic;
             gatt.setCharacteristicNotification(mCustomCharacteristic,true);
             mBluetoothGattDescriptor = mCustomCharacteristic.getDescriptor(descriptor_characteristic1_service1_uuid);
-
+            mCharacteristic = gatt.getService(battery_service1_uuid).getCharacteristic(battery_level_battery_service_characteristic_uuid);
             new MyAsync().execute();
-
         }
 
         @Override
@@ -871,9 +881,24 @@ public class PatientsView extends AppCompatActivity
 
         @Override
         public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
+            Message msg = new Message();
             if(characteristic.getUuid().equals(battery_level_battery_service_characteristic_uuid)){
                 byte b[] = characteristic.getValue();
-                final int battery  = b[0];
+                int battery  = b[0];
+                int usb_state = b[1];
+                if(usb_state==1) {
+                    if(findViewById(R.id.rl_battery_usb_state).getVisibility()==View.GONE) {
+                        msg.obj = "c";
+                        batteryUsbState.sendMessage(msg);
+                    }
+                    Log.i("battery notif read","connected");
+                }
+                else if(usb_state==0) {
+                    msg.obj = "nc";
+                    batteryUsbState.sendMessage(msg);
+                    Log.i("battery notif read","disconnected");
+                }
+
                 Log.i("battery",battery+"");
                 Message message = new Message();
                 message.obj = battery+"";
@@ -884,23 +909,51 @@ public class PatientsView extends AppCompatActivity
         @Override
         public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
             super.onCharacteristicRead(gatt, characteristic, status);
+            Message msg = new Message();
             Log.i("chatacteristic","read");
-
-                byte info_packet[] = characteristic.getValue();
-                Log.i("inside","inside");
-                int battery = info_packet[2]&0xFF;
-                int device_status = info_packet[3]&0xFF;
-                int device_usb_state = info_packet[4]&0xFF;
-                Log.i("device",battery+" "+device_status+" "+device_usb_state);
+                if(characteristic.getUuid()==mCustomCharacteristic.getUuid()) {
+                    byte info_packet[] = characteristic.getValue();
+                    Log.i("inside", "inside");
+                    int battery = info_packet[2] & 0xFF;
+                    int device_status = info_packet[3] & 0xFF;
+                    int device_usb_state = info_packet[4] & 0xFF;
+                    if(device_usb_state==1) {
+                        msg.obj = "c";
+                        batteryUsbState.sendMessage(msg);
+                    }
+                    else if(device_status==0) {
+                        msg.obj = "nc";
+                        batteryUsbState.sendMessage(msg);
+                    }
+                    Log.i("device", battery + " " + device_status + " " + device_usb_state);
+                    bluetoothGatt.readCharacteristic(mCharacteristic);
+                }
 
                 //remove comments later now.
+                else if(characteristic.getUuid()==mCharacteristic.getUuid()) {
+                    byte b[] = characteristic.getValue();
+                    int battery  = b[0];
+                    int usb_state = b[1];
+                    if(usb_state==1) {
+                        msg.obj = "c";
+                        batteryUsbState.sendMessage(msg);
+                        Log.i("battery service read","connected");
+                    }
+                    else if(usb_state==0) {
+                        msg.obj = "nc";
+                        batteryUsbState.sendMessage(msg);
+                        Log.i("battery service read","disconnected");
+                    }
+                    Log.i("battery",battery+" read");
+                    Message message = new Message();
+                    message.obj = battery+"";
+                    batteryStatus.sendMessage(message);
 
-                mCharacteristic = gatt.getService(battery_service1_uuid).getCharacteristic(battery_level_battery_service_characteristic_uuid);
-                gatt.setCharacteristicNotification(mCharacteristic,true);
-                mBluetoothGattDescriptor = mCharacteristic.getDescriptor(descriptor_characteristic1_service1_uuid);
-                mBluetoothGattDescriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
-                bluetoothGatt.writeDescriptor(mBluetoothGattDescriptor);
-
+                    gatt.setCharacteristicNotification(mCharacteristic, true);
+                    mBluetoothGattDescriptor = mCharacteristic.getDescriptor(descriptor_characteristic1_service1_uuid);
+                    mBluetoothGattDescriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+                    bluetoothGatt.writeDescriptor(mBluetoothGattDescriptor);
+                }
         }
 
         @Override
@@ -925,7 +978,6 @@ public class PatientsView extends AppCompatActivity
             message.obj = "N/C";
             bleStatusHandler.sendMessage(message);
         }
-
         try {
             json_phizio = new JSONObject(sharedPref.getString("phiziodetails", ""));
             email.setText(json_phizio.getString("phizioemail"));
@@ -952,7 +1004,6 @@ public class PatientsView extends AppCompatActivity
 
     @Override
     protected void onRestart() {
-
         IntentFilter filter = new IntentFilter();
         filter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);
         filter.addAction(BluetoothProfile.EXTRA_STATE);
@@ -962,6 +1013,10 @@ public class PatientsView extends AppCompatActivity
             Message message = Message.obtain();
             message.obj = "N/C";
             bleStatusHandler.sendMessage(message);
+        }
+        if(!deviceState){
+            disconnectDevice();
+            pheezeeDisconnected();
         }
         super.onRestart();
     }
@@ -1049,6 +1104,11 @@ public class PatientsView extends AppCompatActivity
         iv_device_connected.setVisibility(View.VISIBLE);
         ll_add_device.setVisibility(View.GONE);
         findViewById(R.id.ll_device_and_bluetooth).setVisibility(View.GONE);
+        Drawable drawable = getResources().getDrawable(R.drawable.drawable_progress_battery);
+        battery_bar.setProgressDrawable(drawable);
+//        Drawable drawable_cap = getResources().getDrawable(R.drawable.battery_color_cap_connected);
+        @SuppressLint("ResourceAsColor") Drawable drawable_cap = new ColorDrawable(R.color.battery_gray);
+        rl_cap_view.setBackground(drawable_cap);
     }
 
     private void pheezeeDisconnected() {
@@ -1060,6 +1120,12 @@ public class PatientsView extends AppCompatActivity
         else
             findViewById(R.id.ll_device_and_bluetooth).setBackgroundResource(R.drawable.drawable_background_connect_to_pheezee);
         findViewById(R.id.ll_device_and_bluetooth).setVisibility(View.VISIBLE);
+        Drawable drawable = getResources().getDrawable(R.drawable.drawable_progress_battery_disconnected);
+        battery_bar.setProgressDrawable(drawable);
+//        Drawable drawable_cap = getResources().getDrawable(R.drawable.drawable_color_cap_disconnected);
+        @SuppressLint("ResourceAsColor") Drawable drawable_cap = new ColorDrawable(getResources().getColor(R.color.red));
+        rl_cap_view.setBackground(drawable_cap);
+        Log.i("red color","red");
     }
 
     private final BroadcastReceiver bluetoothReceiver = new BroadcastReceiver() {
@@ -1068,15 +1134,54 @@ public class PatientsView extends AppCompatActivity
             String action = intent.getAction();
             if(BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)){
                 Log.i("Device Status: ", "Device Disconnected");
-                Toast.makeText(PatientsView.this, "The device has got disconnected...", Toast.LENGTH_LONG).show();
-                isBleConnected = false;
-                Message message = Message.obtain();
-                message.obj = "N/C";
-                bleStatusHandler.sendMessage(message);
-                Intent i = getIntent();
-                finish();
-                startActivity(i);
+//                Toast.makeText(PatientsView.this, "The device has got disconnected...", Toast.LENGTH_LONG).show();
+                if(sessionStarted){
+                    sessionStarted=false;
+                    deviceState=false;
+                    Toast.makeText(PatientsView.this, "disconnected inside", Toast.LENGTH_SHORT).show();
+                }
+                if(sharedPref.getBoolean("isLoggedIn",false)==false)
+                    finish();
+                if(sharedPref.getString("pressed", "").equals("c")){
+                    if(bluetoothGatt==null){
+                    if (bluetoothAdapter==null || !bluetoothAdapter.isEnabled()) {
+                        bluetoothDisconnected();
+                        startBluetoothRequest();
+                    }
+                    else {
+                        if(!Objects.requireNonNull(sharedPref.getString("deviceMacaddress", "")).equals("")) {
+                            Log.i("Enabled","true");
+                            remoteDevice = bluetoothAdapter.getRemoteDevice(sharedPref.getString("deviceMacaddress", "EC:24:B8:31:BD:67"));
 
+
+                            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    bluetoothGatt = remoteDevice.connectGatt(PatientsView.this, true, callback);
+                                    if(bluetoothGatt!=null) {
+                                        gattconnection_established = true;
+                                        BluetoothGattSingleton.getmInstance().setAdapter(bluetoothGatt);
+                                    }
+                                }
+                            });
+                        }
+                    }
+                }
+                    editor = sharedPref.edit();
+                    editor.putString("pressed","");
+                    editor.commit();
+                }
+                else {
+                    isBleConnected = false;
+                    Message message = Message.obtain();
+                    message.obj = "N/C";
+                    bleStatusHandler.sendMessage(message);
+                    if (deviceState) {       //The device state is related to the device info screen if the user forcefully disconnects and forget the device
+                        Intent i = getIntent();
+                        finish();
+                        startActivity(i);
+                    }
+                }
             }
             if (BluetoothAdapter.ACTION_STATE_CHANGED.equals(action)) {
                 if (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1) == BluetoothAdapter.STATE_ON) {
@@ -1097,6 +1202,10 @@ public class PatientsView extends AppCompatActivity
                 if (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1) == BluetoothAdapter.STATE_OFF) {
                     bluetoothDisconnected();
                     Toast.makeText(PatientsView.this, "Bluetooth turned off", Toast.LENGTH_LONG).show();
+                    if(bluetoothGatt!=null){
+                        bluetoothGatt.disconnect();
+                        bluetoothGatt.close();
+                    }
                     Message message = Message.obtain();
                     message.obj = "N/C";
                     bleStatusHandler.sendMessage(message);
@@ -1115,7 +1224,7 @@ public class PatientsView extends AppCompatActivity
         TextView patientName = (TextView) patientTabLayout.getChildAt(0);
         TextView patientId = (TextView) patientTabLayout.getChildAt(1);
 
-        Intent intent = new Intent(PatientsView.this, BodyPartSelection.class);
+        final Intent intent = new Intent(PatientsView.this, BodyPartSelection.class);
         intent.putExtra("deviceMacAddress", sharedPref.getString("deviceMacaddress", ""));
         intent.putExtra("patientId", patientId.getText().toString().substring(5));
         intent.putExtra("patientName", patientName.getText().toString());
@@ -1128,7 +1237,27 @@ public class PatientsView extends AppCompatActivity
             Toast.makeText(this, "Make sure that the pheezee is on", Toast.LENGTH_LONG).show();
         }
         else {
-            startActivity(intent);
+
+            String message = BatteryOperation.getDialogMessageForLowBattery(deviceBatteryPercent,this);
+            if(!message.equalsIgnoreCase("c")){
+                final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Battery Low");
+                builder.setMessage(message);
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(intent);
+                    }
+                });
+                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which){
+                    }
+                });
+                builder.show();
+            }
+            else
+                startActivity(intent);
         }
 
     }
@@ -1142,6 +1271,25 @@ public class PatientsView extends AppCompatActivity
         filter.addAction(BluetoothProfile.EXTRA_STATE);
         filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
         registerReceiver(bluetoothReceiver, filter);
+    }
+
+    public static void disconnectDevice() {
+        if(bluetoothGatt==null){
+            editor = sharedPref.edit();
+            editor.putString("pressed","");
+            editor.commit();
+            return;
+        }
+        if(mCharacteristic!=null && mBluetoothGattDescriptor!=null) {
+            bluetoothGatt.setCharacteristicNotification(mCharacteristic, false);
+            mBluetoothGattDescriptor = mCharacteristic.getDescriptor(descriptor_characteristic1_service1_uuid);
+            mBluetoothGattDescriptor.setValue(BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
+            bluetoothGatt.writeDescriptor(mBluetoothGattDescriptor);
+        }
+        bluetoothGatt.close();
+        Log.i("bluetooth gatt closed","closed");
+        bluetoothGatt = null;
+        deviceState=false;
     }
 
     private boolean refreshDeviceCache(BluetoothGatt gatt){
@@ -1278,7 +1426,8 @@ public class PatientsView extends AppCompatActivity
                 putPatientProfilePicUrl(tv_patientId.getText().toString().substring(4).replaceAll("\\s+",""),"");
                 message.setPayload(object.toString().getBytes());
 
-                mqttHelper.publishMqttTopic(mqtt_publish_phizio_patient_profilepic,message);
+                if(isNetworkAvailable())
+                    mqttHelper.publishMqttTopic(mqtt_publish_phizio_patient_profilepic,message);
             }
         }
 
@@ -1314,8 +1463,10 @@ public class PatientsView extends AppCompatActivity
                     e.printStackTrace();
                 }
                 message.setPayload(object.toString().getBytes());
-
-                mqttHelper.publishMqttTopic(mqtt_publish_phizio_patient_profilepic, message);
+                if(isNetworkAvailable()) {
+                    mqttHelper.publishMqttTopic(mqtt_publish_phizio_patient_profilepic, message);
+                    putPatientProfilePicUrl(tv_patientId.getText().toString().substring(4).replaceAll("\\s+",""),"");
+                }
             }
         }
         if (resultCode != 0) {
@@ -1547,7 +1698,7 @@ public class PatientsView extends AppCompatActivity
                                 editor.commit();
 
                                 Log.i("jsonData", json_phizio.getString("phiziopatients"));
-                                pushJsonData(new JSONArray(json_phizio.getString("phiziopatients")));
+                                pushJsonData(jsonData);
                                 mqttMessage.setPayload(object.toString().getBytes());
                                 mqttHelper.publishMqttTopic(mqtt_publish_phizio_deletepatient,mqttMessage);
                             }
@@ -1725,8 +1876,30 @@ public class PatientsView extends AppCompatActivity
         @SuppressLint("SetTextI18n")
         @Override
         public void handleMessage(Message msg) {
-            tv_battery_percentage.setText(msg.obj.toString()+"%");
-            battery_bar.setProgress(Integer.parseInt(msg.obj.toString()));
+            tv_battery_percentage.setText(msg.obj.toString().concat("%"));
+            Log.i("Battery Percentage",msg.obj.toString());
+            deviceBatteryPercent = Integer.parseInt(msg.obj.toString());
+            int percent = BatteryOperation.convertBatteryToCell(deviceBatteryPercent);
+            if(deviceBatteryPercent<15) {
+                Drawable drawable = getResources().getDrawable(R.drawable.drawable_progress_battery_low);
+                battery_bar.setProgressDrawable(drawable);
+            }
+            else {
+                Drawable drawable = getResources().getDrawable(R.drawable.drawable_progress_battery);
+                battery_bar.setProgressDrawable(drawable);
+            }
+            battery_bar.setProgress(percent);
+        }
+    };
+
+    @SuppressLint("HandlerLeak")
+    public final Handler batteryUsbState = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            if(msg.obj.toString().equalsIgnoreCase("c"))
+                findViewById(R.id.rl_battery_usb_state).setVisibility(View.VISIBLE);
+            else
+                findViewById(R.id.rl_battery_usb_state).setVisibility(View.GONE);
         }
     };
 

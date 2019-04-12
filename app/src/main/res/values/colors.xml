@@ -12,7 +12,7 @@
     <color name="bodypart_heading">#8e8d8d</color>
     <color name="darkGray">#716f6f  </color>
     <color name="yellow">#fdaf3b</color>
-    
+    <color name="battery_gray">#AAA</color>
     <color name="red">#CC2016</color>
     <color name="good_green">#00B386</color>
     <color name="pale_good_green">#3FF0C4</color>

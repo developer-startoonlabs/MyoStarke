@@ -61,6 +61,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scrollbars="vertical"
+                android:paddingBottom="50dp"
+                android:clipToPadding="false"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView

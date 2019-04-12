@@ -18,6 +18,7 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.media.MediaScannerConnection;
 import android.net.ConnectivityManager;
@@ -38,9 +39,12 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -52,6 +56,8 @@ import com.example.sai.pheezeeapp.Classes.BluetoothSingelton;
 import com.example.sai.pheezeeapp.R;
 import com.example.sai.pheezeeapp.services.MqttHelper;
 import com.example.sai.pheezeeapp.utils.AngleOperations;
+import com.example.sai.pheezeeapp.utils.BatteryOperation;
+import com.example.sai.pheezeeapp.utils.PatientOperations;
 import com.example.sai.pheezeeapp.views.ArcView;
 import com.example.sai.pheezeeapp.views.ArcViewInside;
 import com.github.mikephil.charting.charts.LineChart;
@@ -85,6 +91,7 @@ public class MonitorActivity extends AppCompatActivity {
     public final int sub_byte_size = 26;
     int maxAnglePart, minAnglePart;
     String bodypart;
+    boolean devicePopped = false;
     boolean servicesDiscovered = false;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
@@ -110,6 +117,7 @@ public class MonitorActivity extends AppCompatActivity {
     String mqtt_publish_add_patient_session_emg_data = "patient/entireEmgData";
     String mqtt_publish_add_patient_session_response = "phizio/addpatientsession/response";
     String mqtt_publish_add_patient_session_emg_data_response = "patient/entireEmgData/response";
+    String mqtt_publish_update_patient_session_comment = "phizio/patient/updateCommentSection";
 
     PopupWindow report;
     int visiblity=View.VISIBLE;
@@ -125,7 +133,7 @@ public class MonitorActivity extends AppCompatActivity {
     BluetoothGatt mBluetoothGatt;
     TextView Angle,tv_snap;
     TextView Repetitions;
-    TextView holdTime;
+    TextView holdTime,tv_session_no;
     TextView EMG;
     ProtractorView rangeOfMotion;
     ArcViewInside arcViewInside;
@@ -169,14 +177,31 @@ public class MonitorActivity extends AppCompatActivity {
     public static final UUID service2_uuid = UUID.fromString("909a0309-9693-4920-96e6-893c0157fedd");
     public static final UUID characteristic1_service2_uuid = UUID.fromString("909a7777-9693-4920-96e6-893c0157fedd");
 
+    public void deviceDisconnectedPopup() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(MonitorActivity.this);
+        builder.setTitle("Device Disconnected");
+        builder.setMessage("please come in range to the device to continue the session");
+        builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
 
+        builder.setNegativeButton("End Session", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                stopBtn.performClick();
+            }
+        });
+        builder.show();
+    }
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_monitor);
-
+        arrayList = new ArrayList<>();
         //declarations
 //        sessionDataTrackedFile      = generateFile("sessionDataTracked.txt");
 //        sessionDataUnTrackedFile    = generateFile( "sessionDataUnTracked.txt");
@@ -194,6 +219,7 @@ public class MonitorActivity extends AppCompatActivity {
         patientName                 = findViewById(R.id.patientName);
         time                        = findViewById(R.id.displayTime);
         emgSignal                   = findViewById(R.id.emg);
+        tv_session_no               = findViewById(R.id.tv_session_no);
         handler                     = new Handler();
         emgJsonArray                = new JSONArray();
 
@@ -224,12 +250,18 @@ public class MonitorActivity extends AppCompatActivity {
         connectivityManager         = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
         patientId.setText(getIntent().getStringExtra("patientId"));
         patientName.setText(getIntent().getStringExtra("patientName"));
+        //setting session number
+        try {
+            tv_session_no.setText(String.valueOf(PatientOperations.getPatientNewSessionNumber(json_phizio.getString("phizioemail"),patientId.getText().toString(),this)));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         bodypart = getIntent().getStringExtra("exerciseType");
         //Getting the max and min angle of the particular body part
         maxAnglePart = angleOperations.getMaxAngle(bodypart);
         minAnglePart = angleOperations.getMinAngle(bodypart);
-        arcViewInside.setMinAngle(minAnglePart);
-        arcViewInside.setMaxAngle(minAnglePart);
+        arcViewInside.setMinAngle(0);
+        arcViewInside.setMaxAngle(0);
 
         Log.i("max and min",maxAnglePart+" "+minAnglePart);
         creatGraphView();
@@ -243,71 +275,33 @@ public class MonitorActivity extends AppCompatActivity {
         timer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                enteredInsideTwenty = true;
-                isSessionRunning = true;
-                emgJsonArray = new JSONArray();
-                maxAngle = 0;
-                minAngle = 360;
-                maxEmgValue = 0;
-//                dataPoints.clear();
-//                lineChart.notifyDataSetChanged();
-                creatGraphView();
-//                if(dataPoints!=null)
-//                    dataPoints.clear();
-//                lineChart.setScaleEnabled(true);
-                k = 0;
-                timer.setVisibility(View.GONE);
-                SessionTimeForGraph = 0;
-                stopBtn.setVisibility(View.VISIBLE);
 
-                if (!servicesDiscovered) {
-                    stopBtn.setVisibility(View.GONE);
-                    timer.setVisibility(View.VISIBLE);
-                    Toast.makeText(MonitorActivity.this, "Make Sure Pheeze is On", Toast.LENGTH_SHORT).show();
-                } else {
-                    new Handler().postDelayed(new Runnable() {
+                String message = BatteryOperation.getDialogMessageForLowBattery(PatientsView.deviceBatteryPercent,MonitorActivity.this);
+                if(!message.equalsIgnoreCase("c")){
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(MonitorActivity.this);
+                    builder.setTitle("Battery Low");
+                    builder.setMessage(message);
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
-                        public void run() {
-                            sendParticularDataToPheeze(exerciseType);
+                        public void onClick(DialogInterface dialog, int which) {
+                            startSession();
                         }
-                    }, 100);
-
-
-                    rawdata_timestamp = Calendar.getInstance().getTime();
-                    String s = rawdata_timestamp.toString().substring(0, 19);
-
-                    file_dir_emgdata = new File(Environment.getExternalStorageDirectory()+"/Pheezee/files","EmgData");
-                    if (!file_dir_emgdata.exists()) {
-                        file_dir_emgdata.mkdirs();
-                    }
-                    file_emgdata = new File(file_dir_emgdata, ""+s+".txt");
-                    try {
-                        file_emgdata.createNewFile();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    try {
-                        outputStream_emgdata = new FileOutputStream(file_emgdata, true);
-                        outputStream_emgdata.write("EMG".getBytes());
-                        outputStream_emgdata.write("\n".getBytes());
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    StartTime = SystemClock.uptimeMillis();
-                    visiblity = View.GONE;
-                    recieverState = true;
-                    pheezeeState = true;
-                    handler.postDelayed(runnable, 0);
+                    });
+                    builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which){
+                        }
+                    });
+                    builder.show();
                 }
+                else
+                    startSession();
             }
         });
         stopBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                PatientsView.sessionStarted = false;
                 isSessionRunning=false;
                 timer.setBackgroundResource(R.drawable.rounded_start_button);
                 visiblity = View.VISIBLE;
@@ -391,15 +385,17 @@ public class MonitorActivity extends AppCompatActivity {
             @Override
             public void messageArrived(String topic, MqttMessage message){
                 Log.i(topic,message.toString());
-                if(topic.equals(mqtt_publish_add_patient_session_response)){
-                    if(message.toString().equals("inserted")){
-                        Log.i("message",message.toString());
-                        editor = sharedPreferences.edit();
-                        editor.putString("sync_session","");
-                        editor.apply();
+                try {
+                    if(topic.equals(mqtt_publish_add_patient_session_response+json_phizio.getString("phizioemail"))){
+                        if(message.toString().equals("inserted")){
+                            Log.i("message",message.toString());
+                            editor = sharedPreferences.edit();
+                            editor.putString("sync_session","");
+                            editor.apply();
+                        }
                     }
-                }
-                if(topic.equals(mqtt_publish_add_patient_session_emg_data_response)){
+
+                if(topic.equals(mqtt_publish_add_patient_session_emg_data_response+json_phizio.getString("phizioemail"))){
                     if(message.toString().equals("inserted")){
                         Log.i("message emg",message.toString());
                         editor = sharedPreferences.edit();
@@ -407,7 +403,11 @@ public class MonitorActivity extends AppCompatActivity {
                         editor.apply();
                     }
                 }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
+
 
             @Override
             public void deliveryComplete(IMqttDeliveryToken token) {
@@ -466,6 +466,71 @@ public class MonitorActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+
+    public void startSession(){
+        PatientsView.sessionStarted = true;
+        enteredInsideTwenty = true;
+        isSessionRunning = true;
+        emgJsonArray = new JSONArray();
+        maxAngle = 0;
+        minAngle = 360;
+        maxEmgValue = 0;
+//                dataPoints.clear();
+//                lineChart.notifyDataSetChanged();
+        creatGraphView();
+//                if(dataPoints!=null)
+//                    dataPoints.clear();
+//                lineChart.setScaleEnabled(true);
+        k = 0;
+        timer.setVisibility(View.GONE);
+        SessionTimeForGraph = 0;
+        stopBtn.setVisibility(View.VISIBLE);
+
+        if (!servicesDiscovered) {
+            stopBtn.setVisibility(View.GONE);
+            timer.setVisibility(View.VISIBLE);
+            Toast.makeText(MonitorActivity.this, "Make Sure Pheeze is On", Toast.LENGTH_SHORT).show();
+        } else {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    sendParticularDataToPheeze(exerciseType);
+                }
+            }, 100);
+
+
+            rawdata_timestamp = Calendar.getInstance().getTime();
+            String s = rawdata_timestamp.toString().substring(0, 19);
+
+            file_dir_emgdata = new File(Environment.getExternalStorageDirectory()+"/Pheezee/files","EmgData");
+            if (!file_dir_emgdata.exists()) {
+                file_dir_emgdata.mkdirs();
+            }
+            file_emgdata = new File(file_dir_emgdata, ""+s+".txt");
+            try {
+                file_emgdata.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                outputStream_emgdata = new FileOutputStream(file_emgdata, true);
+                outputStream_emgdata.write("EMG".getBytes());
+                outputStream_emgdata.write("\n".getBytes());
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            StartTime = SystemClock.uptimeMillis();
+            visiblity = View.GONE;
+            recieverState = true;
+            pheezeeState = true;
+            handler.postDelayed(runnable, 0);
+        }
     }
 
     @Override
@@ -567,7 +632,7 @@ public class MonitorActivity extends AppCompatActivity {
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
 
             if(newState == BluetoothProfile.STATE_CONNECTED){
-                Log.i("GATT CONNECTED", "Attempting to start the service discovery"+ gatt.discoverServices());
+                Log.i("GATT CONNECTED", "Attempting to start the service discovery in monitoring"+ gatt.discoverServices());
             }
             else if (newState == BluetoothProfile.STATE_CONNECTING){
                 Log.i("GATT DISCONNECTED", "GATT server is being connected");
@@ -634,6 +699,12 @@ public class MonitorActivity extends AppCompatActivity {
 
                 arrayList.add(mCharacteristic);
                 arrayList.add(mCharacteristic2);
+
+                if(timer.getVisibility()==View.GONE){
+                    PatientsView.sessionStarted = true;
+                    devicePopped = false;
+                    sendParticularDataToPheeze(exerciseType);
+                }
             }
         }
 
@@ -641,7 +712,7 @@ public class MonitorActivity extends AppCompatActivity {
         public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.O)
+//        @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         public void onCharacteristicChanged(final BluetoothGatt gatt, final BluetoothGattCharacteristic characteristic) {
             if(characteristic1_service1_uuid.equals(characteristic.getUuid())) {
@@ -807,6 +878,7 @@ public class MonitorActivity extends AppCompatActivity {
                             mBluetoothGattDescriptor_raw.setValue(BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
                             mBluetoothGatt.writeDescriptor(mBluetoothGattDescriptor_raw);
                             mBluetoothGatt.writeCharacteristic(mCharacteristic2);
+                            Log.i("Session","started");
                         }
                     });
                 }
@@ -891,11 +963,16 @@ public class MonitorActivity extends AppCompatActivity {
 
             MilliSeconds = (int) (UpdateTime % 1000);
 
-            timeText ="Session time:   " + String.format("%02d", Minutes) + " : " + String.format("%02d", Seconds) + " : " + String.format("%02d", MilliSeconds);
+//            timeText ="Session time:   " + String.format("%02d", Minutes) + " : " + String.format("%02d", Seconds) + " : " + String.format("%02d", MilliSeconds);
+            timeText ="Session time:   " + String.format("%02d", Minutes) + " : " + String.format("%02d", Seconds);
 
             time.setText(timeText);
 
             handler.postDelayed(this, 0);
+            if(PatientsView.sessionStarted==false && devicePopped==false){
+                devicePopped = true;
+                deviceDisconnectedPopup();
+            }
         }
 
     };
@@ -924,10 +1001,12 @@ public class MonitorActivity extends AppCompatActivity {
                 secondsValue = "0"+hold_time_seconds;
             holdTimeValue = minutesValue+" : "+secondsValue;
 
-            if(angleDetected>=minAnglePart && angleDetected<=maxAnglePart) {
+            //Custom thresholds
+//            if(angleDetected>=minAnglePart && angleDetected<=maxAnglePart) {
 //                rangeOfMotion.setAngle(angleDetected);
                 arcViewInside.setMaxAngle(angleDetected);
-            }
+                Log.i("Angle",String.valueOf(angleDetected));
+//            }
 //            Angle.setText(angleValue);
             for (int i=0;i<emg_data.length;i++) {
                 lineData.addEntry(new Entry((float) UpdateTime / 1000, emg_data[i]), 0);
@@ -960,16 +1039,17 @@ public class MonitorActivity extends AppCompatActivity {
                     maxEmgValue = 1;
                 params.height = ((View) emgSignal.getParent()).getMeasuredHeight() * emg_data[i] / maxEmgValue;
             }
-            if(angleDetected>=minAnglePart && angleDetected<=maxAnglePart) {
+            //threshholds
+//            if(angleDetected>=minAnglePart && angleDetected<=maxAnglePart) {
                 maxAngle = maxAngle < angleDetected ? angleDetected : maxAngle;
                 minAngle = minAngle > angleDetected ? angleDetected : minAngle;
-            }
+//            }
             emgSignal.setLayoutParams(params);
             holdTime.setText(holdTimeValue);
         }
     };
 
-    private  void initiatePopupWindowModified(View v){
+    private  void initiatePopupWindowModified(final View v){
         View layout = getLayoutInflater().inflate(R.layout.session_summary, null);
 
         report = new PopupWindow(layout, ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT,true);
@@ -982,6 +1062,7 @@ public class MonitorActivity extends AppCompatActivity {
         LinearLayout ll_min_max_arc = layout.findViewById(R.id.ll_min_max_arc);
         final TextView tv_patient_name =layout.findViewById(R.id.tv_summary_patient_name);
         final TextView tv_patient_id = layout.findViewById(R.id.tv_summary_patient_id);
+        TextView tv_comment = layout.findViewById(R.id.summary_tv_comment);
         TextView tv_held_on = layout.findViewById(R.id.session_held_on);
         TextView tv_overall_summary = layout.findViewById(R.id.tv_overall_summary);
         TextView tv_min_angle = layout.findViewById(R.id.tv_min_angle);
@@ -991,8 +1072,12 @@ public class MonitorActivity extends AppCompatActivity {
         TextView tv_hold_time = layout.findViewById(R.id.tv_hold_time);
         TextView tv_num_of_reps = layout.findViewById(R.id.tv_num_of_reps);
         TextView tv_max_emg = layout.findViewById(R.id.tv_max_emg);
+        TextView tv_session_num = layout.findViewById(R.id.tv_session_no);
         LinearLayout ll_click_to_view_report = layout.findViewById(R.id.ll_click_to_view_report);
 
+
+        //setting session no
+        tv_session_num.setText(tv_session_no.getText().toString());
         ll_click_to_view_report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1051,7 +1136,7 @@ public class MonitorActivity extends AppCompatActivity {
         //for held on date
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         SimpleDateFormat formatter_date = new SimpleDateFormat("yyyy-MM-dd");
-        String dateString = formatter.format(new Date(tsLong));
+        final String dateString = formatter.format(new Date(tsLong));
         String dateString_date = formatter_date.format(new Date(tsLong));
         tv_held_on.setText(dateString_date);
 
@@ -1092,66 +1177,97 @@ public class MonitorActivity extends AppCompatActivity {
 
         storeLocalSessionDetails(dateString,tempSessionTime);
 
+        tv_comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                commentSectionPopUp(v,dateString);
+            }
+        });
 
+        try {
+            tv_session_no.setText(String.valueOf(PatientOperations.getPatientNewSessionNumber(json_phizio.getString("phizioemail"),patientId.getText().toString(),this)));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void initiatePopupWindow(View v) {
+    private void commentSectionPopUp(View view, final String dateString) {
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        int height = size.y;
+        LayoutInflater inflater = (LayoutInflater) MonitorActivity.this
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        assert inflater != null;
+        @SuppressLint("InflateParams") View layout = inflater.inflate(R.layout.popup_comment_session, null);
 
-        View layout = getLayoutInflater().inflate(R.layout.session_analysis, null);
-
-        report = new PopupWindow(layout, ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT);
-        report.setOutsideTouchable(true);
-        report.setContentView(layout);
-        report.setFocusable(true);
-        report.showAtLocation(rootView, Gravity.CENTER, 0, 0);
-
-        //imp stuff 921-968
-        LinearLayout cancelbtn = layout.findViewById(R.id.cancel_action);
-        LinearLayout shareIcon = layout.findViewById(R.id.shareIcon);
-        final ConstraintLayout summaryView = layout.findViewById(R.id.summaryView);
-        TextView popUpPatientId = layout.findViewById(R.id.patientId);
-        TextView popUpPatientName = layout.findViewById(R.id.patientName);
-        TextView maxAngleView = layout.findViewById(R.id.maxAngle);
-        TextView repetitions = layout.findViewById(R.id.totalReps);
-        TextView minAngleView  = layout.findViewById(R.id.minAngle);
-        TextView maxEmgView  = layout.findViewById(R.id.maxEmg);
-        TextView holdTimeView  = layout.findViewById(R.id.holdtime);
-        TextView heldTime = layout.findViewById(R.id.heldtime);
-        TextView sessionTime = layout.findViewById(R.id.sessionTime);
-        repetitions.setText(Repetitions.getText().toString());
-        popUpPatientId.setText(patientId.getText().toString());
-        popUpPatientName.setText(patientName.getText().toString());
-        maxAngleView.setText(Integer.toString(maxAngle)+"°");
-        minAngleView.setText(Integer.toString(minAngle)+"°");
-        maxEmgView.setText(Integer.toString(maxEmgValue)+"μV");
-        holdTimeView.setText(holdTimeValue.substring(0,2)+"m"+holdTimeValue.substring(2)+"s");
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String dateString = formatter.format(new Date(tsLong));
-        heldTime.setText(dateString);
-        String tempSessionTime = time.getText().toString().substring(16);
-        tempSessionTime = tempSessionTime.substring(0,2)+"m"+tempSessionTime.substring(3,7)+"s";
-        sessionTime.setText(tempSessionTime);
+        final PopupWindow pw = new PopupWindow(layout, ConstraintLayout.LayoutParams.WRAP_CONTENT,ConstraintLayout.LayoutParams.WRAP_CONTENT);
+//        pw.setHeight(height - 400);
+        pw.setWidth(width - 100);
 
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            pw.setElevation(10);
+        }
+        pw.setTouchable(true);
+        pw.setOutsideTouchable(true);
+        pw.setContentView(layout);
+        pw.setFocusable(true);
+        pw.showAtLocation(view, Gravity.CENTER, 0, 0);
+        final EditText et_pain_scale = layout.findViewById(R.id.comment_et_pain_scale);
+        final EditText et_muscle_tone = layout.findViewById(R.id.comment_et_muscle_tone);
+        final EditText et_exercise_name = layout.findViewById(R.id.comment_exercise_name);
+        final EditText et_comment_section = layout.findViewById(R.id.comment_et_comment);
+        final EditText et_symptoms = layout.findViewById(R.id.comment_et_symptoms);
 
+        et_pain_scale.setText(BodyPartSelection.painscale);
+        et_muscle_tone.setText(BodyPartSelection.muscletone);
+        et_exercise_name.setText(BodyPartSelection.exercisename);
+        et_comment_section.setText(BodyPartSelection.commentsession);
+        et_symptoms.setText(BodyPartSelection.symptoms);
 
-
-        cancelbtn.setOnClickListener(new View.OnClickListener() {
+        Button btn_continue = layout.findViewById(R.id.comment_btn_continue);
+        Button btn_cancel = layout.findViewById(R.id.comment_btn_cancel);
+        btn_cancel.setVisibility(View.VISIBLE);
+        btn_continue.setText("save");
+        btn_continue.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                report.dismiss();
+            public void onClick(View v) {
+                BodyPartSelection.painscale = et_pain_scale.getText().toString();
+                BodyPartSelection.muscletone = et_muscle_tone.getText().toString();
+                BodyPartSelection.exercisename = et_exercise_name.getText().toString();
+                BodyPartSelection.commentsession = et_comment_section.getText().toString();
+                BodyPartSelection.symptoms = et_symptoms.getText().toString();
+                JSONObject object = new JSONObject();
+                MqttMessage message = new MqttMessage();
+
+                try {
+                    object.put("phizioemail",json_phizio.get("phizioemail"));
+                    object.put("patientid",patientId.getText().toString());
+                    object.put("heldon",dateString);
+                    object.put("painscale",et_pain_scale.getText().toString());
+                    object.put("muscletone",et_muscle_tone.getText().toString());
+                    object.put("exercisename",et_exercise_name.getText().toString());
+                    object.put("commentsession",et_comment_section.getText().toString());
+                    object.put("symptoms",et_symptoms.getText().toString());
+
+                    message.setPayload(object.toString().getBytes());
+                    if(isNetworkAvailable())
+                        mqttHelper.publishMqttTopic(mqtt_publish_update_patient_session_comment,message);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                pw.dismiss();
             }
         });
-        shareIcon.setOnClickListener(new View.OnClickListener() {
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Toast.makeText(MonitorActivity.this,"shot",Toast.LENGTH_SHORT).show();
-                OnClickShare(summaryView);
+            public void onClick(View v) {
+                pw.dismiss();
             }
         });
-
-
-        storeLocalSessionDetails(dateString,tempSessionTime);
     }
 
     private void storeLocalSessionDetails(String dateString,String tempsession) {
@@ -1199,6 +1315,7 @@ public class MonitorActivity extends AppCompatActivity {
                             mqttMessage.setPayload(object.toString().getBytes());
 
                             object.put("emgdata",emgJsonArray);
+//                            object.put("painscale",)
                             editor = sharedPreferences.edit();
                             if(isNetworkAvailable()) {
                                 mqttHelper.publishMqttTopic(mqtt_publish_add_patient_session, mqttMessage);
@@ -1222,8 +1339,12 @@ public class MonitorActivity extends AppCompatActivity {
                                 }
                                 //clearing the previuos mqtt message
                                 mqttMessage.clearPayload();
+                                object.put("painscale",BodyPartSelection.painscale);
+                                object.put("muscletone",BodyPartSelection.muscletone);
+                                object.put("exercisename",BodyPartSelection.exercisename);
+                                object.put("commentsession",BodyPartSelection.commentsession);
+                                object.put("symptoms",BodyPartSelection.symptoms);
                                 mqttMessage.setPayload(object.toString().getBytes());
-
 
                                 temp = new JSONObject();
                                 temp.put("topic",mqtt_publish_add_patient_session_emg_data);
@@ -1530,7 +1651,6 @@ public class MonitorActivity extends AppCompatActivity {
             // Several error may come out with file handling or DOM
             e.printStackTrace();
         }
-
         return snap;
     }
 }

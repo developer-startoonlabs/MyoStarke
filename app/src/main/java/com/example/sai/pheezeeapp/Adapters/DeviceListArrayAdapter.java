@@ -1,7 +1,10 @@
 package com.example.sai.pheezeeapp.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +21,8 @@ import com.example.sai.pheezeeapp.R;
 import java.util.ArrayList;
 
 public class DeviceListArrayAdapter extends ArrayAdapter<DeviceListClass> {
-
+    SharedPreferences preferences;
+    SharedPreferences.Editor editor;
     ScanDevicesActivity scanDevicesActivity;
 
     TextView tv_deviceName,tv_deviceMacAddress, tv_deviceBondState, tv_deviceRssi;
@@ -32,6 +36,8 @@ public class DeviceListArrayAdapter extends ArrayAdapter<DeviceListClass> {
         this.mdeviceArrayList=mdeviceArrayList;
         this.context = context;
         scanDevicesActivity = new ScanDevicesActivity();
+        preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        editor = preferences.edit();
     }
 
 
@@ -65,13 +71,20 @@ public class DeviceListArrayAdapter extends ArrayAdapter<DeviceListClass> {
             @Override
             public void onClick(View view) {
                 //Toast.makeText(context, macAddressOfTheSelectedDevice, Toast.LENGTH_SHORT).show();
+                editor = preferences.edit();
                 ScanDevicesActivity.selectedDeviceMacAddress = mdeviceArrayList.get(position).getDeviceMacAddress();
+                editor.putString("deviceMacaddress", mdeviceArrayList.get(position).getDeviceMacAddress());
+                editor.commit();
                 Toast.makeText(context, "connecting....", Toast.LENGTH_SHORT).show();
+                editor.putString("pressed","c");
+                editor.commit();
+                PatientsView.disconnectDevice();
                 Intent i = new Intent(context, PatientsView.class);
                 context.startActivity(i);
+                PatientsView.deviceState=false;
+                ((Activity)context).finish();
             }
         });
-
         return row;
     }
 }

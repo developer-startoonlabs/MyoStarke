@@ -77,8 +77,6 @@ public class ArcViewInside extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         radius = Math.min(getHeight()/2,getWidth()/2);
-        Log.i("raius",String.valueOf(radius));
-
 
         mX = getWidth()/2;
         mY = getHeight()/2;

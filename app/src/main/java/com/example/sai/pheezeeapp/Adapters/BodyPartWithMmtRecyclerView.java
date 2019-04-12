@@ -546,6 +546,13 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
         return  grade;
     }
 
+    public void removeResources(){
+        if(mqttHelper!=null){
+            mqttHelper.mqttAndroidClient.unregisterResources();
+            mqttHelper.mqttAndroidClient.close();
+        }
+    }
+
     @Override
     public int getItemCount() {
         return bodyPartsList==null?0:bodyPartsList.size();

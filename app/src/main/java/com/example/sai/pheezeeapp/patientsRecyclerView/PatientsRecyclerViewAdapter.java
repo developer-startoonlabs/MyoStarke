@@ -71,10 +71,14 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
             e.printStackTrace();
         }
         try {
-            str_phizioemail = object.getString("phizioemail") ;
-            Log.d("phizioemail",str_phizioemail);
-            str_phizioemail.replace("@","%40");
-            Log.i("phizioemail",str_phizioemail);
+            if(object!=null) {
+                if (object.has("phizioemail")) {
+                    str_phizioemail = object.getString("phizioemail");
+                    Log.d("phizioemail", str_phizioemail);
+                    str_phizioemail.replace("@", "%40");
+                    Log.i("phizioemail", str_phizioemail);
+                }
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -96,6 +100,8 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
         PatientsListData patientsList = updatedPatientList.get(position);
         holder.patientName.setText(patientsList.getPatientName());
         holder.patientId.setText("Id : "+patientsList.getPatientId());
+        holder.patientNameContainer.setVisibility(View.GONE);
+        holder.patientProfilepic.setImageResource(android.R.color.transparent);
 
         holder.ll_option_patient_list.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,6 +113,7 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
         });
 
         String patientUrl = patientsList.getPatientUrl();
+        Log.i(patientsList.getPatientId(),patientsList.getPatientUrl());
 
         if(!patientUrl.trim().toLowerCase().equals("empty")) {
                 Glide.with(context)
@@ -115,7 +122,6 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
                                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                                 .skipMemoryCache(true))
                         .into(holder.patientProfilepic);
-
         }
         else {
             holder.patientNameContainer.setVisibility(View.VISIBLE);

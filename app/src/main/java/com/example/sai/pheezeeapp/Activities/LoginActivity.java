@@ -6,8 +6,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -21,8 +24,11 @@ import com.example.sai.pheezeeapp.R;
 import com.example.sai.pheezeeapp.services.MqttHelper;
 import com.trncic.library.DottedProgressBar;
 
+import org.eclipse.paho.client.mqttv3.IMqttActionListener;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
+import org.eclipse.paho.client.mqttv3.IMqttToken;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
+import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,7 +36,7 @@ import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity {
     MqttHelper mqttHelper;
-
+    int backpressCount = 0;
     SharedPreferences.Editor editor;
     SharedPreferences sharedPref;
     DottedProgressBar dottedProgressBar;
@@ -69,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void messageArrived(String topic, MqttMessage message) throws Exception {
-                if(topic.equals(mqtt_subs_login_response)){
+                if(topic.equals(mqtt_subs_login_response+str_login_email+str_login_password)){
                     String str = message.toString();
                     Log.i("message",message.toString());
                     if(str.equals("\"invalid\"")){
@@ -149,6 +155,23 @@ public class LoginActivity extends AppCompatActivity {
         tv_login_welcome_user = findViewById(R.id.login_tv_welcome_user);
         tv_signup_screen = findViewById(R.id.login_tv_signup);
 
+        et_mail.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if(keyCode==66)
+                    et_password.requestFocus();
+                return false;
+            }
+        });
+//        et_password.setOnKeyListener(new View.OnKeyListener() {
+//            @Override
+//            public boolean onKey(View v, int keyCode, KeyEvent event) {
+//                if(keyCode==66)
+//
+//                return false;
+//            }
+//        });
+
         tv_signup_screen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -172,22 +195,34 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 str_login_email = et_mail.getText().toString();
                 str_login_password = et_password.getText().toString();
-                MqttMessage mqttMessage = new MqttMessage();
-                JSONObject jsonObject = new JSONObject();
+                final MqttMessage mqttMessage = new MqttMessage();
+
                 if(str_login_email.equals("")||str_login_password.equals("")){
                         showToast("Invalid Credentials");
                 }
                 else {
-                    Log.i("credentials",str_login_email+" "+str_login_password);
-
                     try {
-                        jsonObject.put("phiziopassword",str_login_password);
-                        jsonObject.put("phizioemail",str_login_email);
-                    } catch (JSONException e) {
+                        mqttHelper.mqttAndroidClient.subscribe(mqtt_subs_login_response+str_login_email+str_login_password, 1, null, new IMqttActionListener() {
+                            @Override
+                            public void onSuccess(IMqttToken asyncActionToken) { Log.w("Mqtt","Subscribed!");
+                                Log.i("credentials",str_login_email+" "+str_login_password);
+                                JSONObject jsonObject = new JSONObject();
+                                try {
+                                    jsonObject.put("phiziopassword",str_login_password);
+                                    jsonObject.put("phizioemail",str_login_email);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                mqttMessage.setPayload(jsonObject.toString().getBytes());
+                                mqttHelper.publishMqttTopic(mqtt_pubs_login_phizio,mqttMessage);}
+
+                            @Override
+                            public void onFailure(IMqttToken asyncActionToken, Throwable exception) { Log.w("Mqtt", "Subscribed fail!"); }
+                        });
+                    } catch (MqttException e) {
                         e.printStackTrace();
                     }
-                    mqttMessage.setPayload(jsonObject.toString().getBytes());
-                    mqttHelper.publishMqttTopic(mqtt_pubs_login_phizio,mqttMessage);
+
 
                     disablePreviousView();
                     enableWelcomeView();
@@ -239,6 +274,15 @@ public class LoginActivity extends AppCompatActivity {
         mqttHelper.mqttAndroidClient.unregisterResources();
         mqttHelper.mqttAndroidClient.close();
 
+    }
+
+
+    @Override
+    public void onBackPressed() {
+                    Intent intent = new Intent(Intent.ACTION_MAIN);
+                    intent.addCategory(Intent.CATEGORY_HOME);
+                    startActivity(intent);
+                    finish();
     }
 
     @Override

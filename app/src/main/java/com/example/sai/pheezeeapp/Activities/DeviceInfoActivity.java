@@ -9,10 +9,12 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothProfile;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -38,9 +40,10 @@ public class DeviceInfoActivity extends AppCompatActivity {
     BluetoothGatt bluetoothGatt;
 
 
-
+    SharedPreferences preferences;
+    SharedPreferences.Editor editor;
     //Declaring all the view items
-    TextView tv_device_name,tv_device_mamc, tv_firmware_version, tv_serial_id, tv_battery_level,tv_connection_status;
+    TextView tv_device_name,tv_device_mamc, tv_firmware_version, tv_serial_id, tv_battery_level,tv_connection_status, tv_disconnect_forget;
     ImageView iv_back_device_info;
 
     ArrayList<BluetoothGattCharacteristic> arrayList;
@@ -62,8 +65,8 @@ public class DeviceInfoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device_info);
-
-
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        tv_disconnect_forget = findViewById(R.id.tv_disconnect_forget);
         tv_device_name = findViewById(R.id.tv_deviceinfo_device_name);
         tv_device_mamc = findViewById(R.id.tv_deviceinfo_device_mac);
         tv_battery_level = findViewById(R.id.tv_deviceinfo_device_battery);
@@ -113,6 +116,29 @@ public class DeviceInfoActivity extends AppCompatActivity {
             public void run() {
                 if(remoteDevice!=null) {
                     bluetoothGatt = remoteDevice.connectGatt(DeviceInfoActivity.this, true, callback);
+                }
+            }
+        });
+
+
+        tv_disconnect_forget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(tv_disconnect_forget.getText().toString().equalsIgnoreCase("disconnect")){
+                    bluetoothGatt.disconnect();
+                    bluetoothGatt.close();
+                    editor = preferences.edit();
+                    editor.putString("deviceMacaddress","");
+                    editor.commit();
+                    PatientsView.disconnectDevice();
+                    refreshView();
+                }
+                else if(tv_disconnect_forget.getText().toString().equalsIgnoreCase("forget previous device")){
+                    editor = preferences.edit();
+                    editor.putString("deviceMacaddress","");
+                    editor.commit();
+                    PatientsView.deviceState = false;
+                    refreshView();
                 }
             }
         });
@@ -231,9 +257,9 @@ public class DeviceInfoActivity extends AppCompatActivity {
                     public void run() {
 
                         tv_battery_level.setText(String.valueOf(battery).concat("%"));
-                        mBluetoothGattDescriptor = mCharacteristic.getDescriptor(descriptor_characteristic1_service1_uuid);
-                        mBluetoothGattDescriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
-                        bluetoothGatt.writeDescriptor(mBluetoothGattDescriptor);
+//                        mBluetoothGattDescriptor = mCharacteristic.getDescriptor(descriptor_characteristic1_service1_uuid);
+//                        mBluetoothGattDescriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+//                        bluetoothGatt.writeDescriptor(mBluetoothGattDescriptor);
                     }
                 });
             }
@@ -247,14 +273,14 @@ public class DeviceInfoActivity extends AppCompatActivity {
         }
         @Override
         public void onCharacteristicChanged(final BluetoothGatt gatt, final BluetoothGattCharacteristic characteristic) {
-            if(characteristic.getUuid().equals(battery_level_battery_service_characteristic_uuid)){
-                byte b[] = characteristic.getValue();
-                final int battery  = b[0];
-                Log.i("battery",battery+"");
-                Message message = new Message();
-                message.obj = battery+"";
-                batteryStatus.sendMessage(message);
-            }
+//            if(characteristic.getUuid().equals(battery_level_battery_service_characteristic_uuid)){
+//                byte b[] = characteristic.getValue();
+//                final int battery  = b[0];
+//                Log.i("battery",battery+"");
+//                Message message = new Message();
+//                message.obj = battery+"";
+//                batteryStatus.sendMessage(message);
+//            }
         }
 
         @Override
@@ -289,6 +315,13 @@ public class DeviceInfoActivity extends AppCompatActivity {
             }
             else {
                 tv_connection_status.setText((String) msg.obj);
+                String conn_status = (String)msg.obj;
+                if(conn_status.equalsIgnoreCase("Connected")){
+                    tv_disconnect_forget.setText("Disconnect");
+                }
+                else {
+                    tv_disconnect_forget.setText("Forget previous device");
+                }
             }
         }
     };
@@ -307,10 +340,24 @@ public class DeviceInfoActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         String conn_status = tv_connection_status.getText().toString();
-        if(bluetoothGatt!=null && conn_status.equals("Connected")) {
-            bluetoothGatt.setCharacteristicNotification(mCharacteristic, false);
-            mBluetoothGattDescriptor.setValue(BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
-            bluetoothGatt.writeDescriptor(mBluetoothGattDescriptor);
-        }
+//        if(bluetoothGatt!=null && conn_status.equals("Connected")) {
+//            if(bluetoothGatt!=null && mCharacteristic!=null) {
+//                bluetoothGatt.setCharacteristicNotification(mCharacteristic, false);
+//                if(mBluetoothGattDescriptor!=null) {
+//                    mBluetoothGattDescriptor.setValue(BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
+//                    bluetoothGatt.writeDescriptor(mBluetoothGattDescriptor);
+//                }
+//            }
+//        }
+    }
+
+    public void refreshView(){
+        tv_device_name.setText("Null");
+        tv_device_mamc.setText("Null");
+        tv_firmware_version.setText("Null");
+        tv_serial_id.setText("Null");
+        tv_battery_level.setText("Null");
+        tv_connection_status.setText("N/C");
+        tv_disconnect_forget.setText("");
     }
 }

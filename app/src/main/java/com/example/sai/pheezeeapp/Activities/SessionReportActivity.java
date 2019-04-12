@@ -1,7 +1,9 @@
 package com.example.sai.pheezeeapp.activities;
 
 import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -89,7 +91,7 @@ public class SessionReportActivity extends AppCompatActivity {
 
             @Override
             public void messageArrived(String topic, MqttMessage message) throws Exception {
-                if(topic.equals(mqtt_publish_getpatientReport_response)) {
+                if(topic.equals(mqtt_publish_getpatientReport_response+phizioemail)) {
                     initia = false;
                     progress.dismiss();
                     openWeekFragment();

@@ -31,6 +31,7 @@ array bodyPartName
 array color_array
 array dfu_file_type
 array emonji_array
+array gender_array
 array setSessionGoalSpinner
 attr actionBarDivider
 attr actionBarItemBackground
@@ -729,6 +730,7 @@ color background_floating_material_light
 color background_green
 color background_material_dark
 color background_material_light
+color battery_gray
 color body_part_left
 color body_part_left_overlay
 color body_part_right
@@ -1250,6 +1252,8 @@ drawable back_arrow
 drawable back_arrow_choice
 drawable background_session_report_dwm
 drawable battery
+drawable battery_usb_state_connected
+drawable battery_usb_state_connected_updated
 drawable bluetooth
 drawable bluetooth_connected_icon
 drawable bluetooth_disconnected_icon
@@ -1324,6 +1328,8 @@ drawable drawable_nav_header_right
 drawable drawable_password_icon
 drawable drawable_pheezee_shape
 drawable drawable_progress_battery
+drawable drawable_progress_battery_disconnected
+drawable drawable_progress_battery_low
 drawable drawable_welcome_background
 drawable edit_logo
 drawable elbow_part
@@ -1344,6 +1350,7 @@ drawable googleg_standard_color_18
 drawable green_back_arrow
 drawable hip_part
 drawable home_add_patient
+drawable home_battery_progress
 drawable i0
 drawable i1
 drawable i5
@@ -1463,6 +1470,7 @@ id back_scan_devices
 id barChartScroller
 id barcode_scanners
 id barrier
+id battery_cell_color
 id beginning
 id blocking
 id bodyPartRecyclerView
@@ -1527,9 +1535,17 @@ id com_facebook_smart_instructions_or
 id com_facebook_tooltip_bubble_view_bottom_pointer
 id com_facebook_tooltip_bubble_view_text_body
 id com_facebook_tooltip_bubble_view_top_pointer
+id comment_btn_cancel
+id comment_btn_continue
+id comment_et_comment
+id comment_et_muscle_tone
+id comment_et_pain_scale
+id comment_et_symptoms
+id comment_exercise_name
 id confirmation_code
 id container
 id content
+id contentDescription
 id contentPanel
 id coordinator
 id coordinator_patient_option
@@ -1566,6 +1582,16 @@ id end_padder
 id enterAlways
 id enterAlwaysCollapsed
 id enter_mac_address
+id et_phizio_address
+id et_phizio_clinic_name
+id et_phizio_degree
+id et_phizio_dob
+id et_phizio_email
+id et_phizio_experience
+id et_phizio_gender
+id et_phizio_name
+id et_phizio_phone
+id et_phizio_specialization
 id et_signup_email
 id et_signup_name
 id et_signup_password
@@ -1748,7 +1774,9 @@ id parallax
 id parent
 id parentPanel
 id parent_matrix
+id patientAge
 id patientDetails
+id patientGender
 id patientId
 id patientIdContainter
 id patientIdText
@@ -1794,6 +1822,8 @@ id repsText
 id right
 id right_icon
 id right_side
+id rl_battery_usb_state
+id rl_cap_view
 id rl_dismiss_dialog
 id rl_left
 id rl_left_right
@@ -1836,6 +1866,8 @@ id select_dialog_listview
 id selected
 id serif
 id sessTimeView
+id sessionNoContainer
+id sessionNoText
 id sessionTime
 id session_held_on
 id session_summary_arcview
@@ -1853,6 +1885,7 @@ id snapMargins
 id snap_monitor
 id sp_set_goal
 id spacer
+id spinner_gender
 id split_action_bar
 id spread
 id spread_inside
@@ -1870,6 +1903,7 @@ id submit_area
 id summaryView
 id summary_go_back
 id summary_share
+id summary_tv_comment
 id swiperefresh
 id tabMode
 id tabs
@@ -1881,12 +1915,25 @@ id text2
 id textSpacerNoButtons
 id textSpacerNoTitle
 id textStart
+id textView
 id textView10
+id textView11
+id textView12
+id textView13
 id textView14
 id textView15
+id textView16
+id textView17
+id textView18
+id textView19
+id textView2
+id textView3
 id textView4
+id textView5
+id textView6
 id textView7
 id textView8
+id textView9
 id text_input_password_toggle
 id textinput_counter
 id textinput_error
@@ -1946,6 +1993,7 @@ id tv_dfu_filescope
 id tv_dfu_filestate
 id tv_dfu_filestatus
 id tv_dfu_filetype
+id tv_disconnect_forget
 id tv_email
 id tv_grade_given
 id tv_grade_option_1
@@ -1976,9 +2024,6 @@ id tv_patient_id_section
 id tv_patient_joindate_section
 id tv_patient_name_section
 id tv_patient_view_add_patient
-id tv_phizio_email
-id tv_phizio_name
-id tv_phizio_phone
 id tv_phone
 id tv_plus_goal
 id tv_rawdata_timer
@@ -1987,6 +2032,7 @@ id tv_relax_or_tight
 id tv_report_date
 id tv_selected_goal_text
 id tv_session_about_to_start
+id tv_session_no
 id tv_session_report_day
 id tv_session_report_month
 id tv_session_report_overall_report
@@ -2094,6 +2140,7 @@ layout com_facebook_smart_device_dialog_fragment
 layout com_facebook_tooltip_bubble
 layout content_patients_view
 layout content_scan_devices
+layout custom_green_spinner
 layout design_bottom_navigation_item
 layout design_bottom_sheet_dialog
 layout design_layout_snackbar
@@ -2142,6 +2189,7 @@ layout patient_grade_dialog_layout
 layout patient_layout
 layout popup
 layout popup_click_to_preview
+layout popup_comment_session
 layout scanned_devices_listview_model
 layout select_dialog_item_material
 layout select_dialog_multichoice_material
@@ -2211,6 +2259,7 @@ string abc_toolbar_collapse_description
 string action_time
 string add
 string add_patients_text
+string address
 string app_name
 string appbar_scrolling_view_behavior
 string archive_patient
@@ -2220,6 +2269,9 @@ string barcode_error
 string barcode_failure
 string barcode_header
 string barcode_success
+string battery_percent_lower_than_10
+string battery_percent_lower_than_15
+string battery_percent_lower_than_5
 string battery_zero
 string bluetooth_cd
 string body_part
@@ -2244,6 +2296,7 @@ string cd_share
 string change_profile_pic
 string character_counter_content_description
 string character_counter_pattern
+string clinic_name
 string com_facebook_device_auth_instructions
 string com_facebook_image_download_unknown_error
 string com_facebook_internet_permission_error_message
@@ -2267,6 +2320,7 @@ string com_facebook_smart_login_confirmation_cancel
 string com_facebook_smart_login_confirmation_continue_as
 string com_facebook_smart_login_confirmation_title
 string com_facebook_tooltip_default
+string comment
 string common_google_play_services_enable_button
 string common_google_play_services_enable_text
 string common_google_play_services_enable_title
@@ -2288,8 +2342,10 @@ string common_signin_button_text_long
 string confirm
 string connect
 string connect_to_device
+string continue_session
 string continue_with
 string create_account_header
+string degree
 string delete
 string device_battery
 string device_connection_state
@@ -2362,9 +2418,12 @@ string dfu_upload_dialog_cancel_message
 string dfu_uploading_percentage
 string dfu_uploading_percentage_label
 string dfu_zip_info_text
+string dob
 string edit
 string email
 string emg
+string exercise_name
+string experience
 string fab_transformation_scrim_behavior
 string fab_transformation_sheet_behavior
 string facebook_app_id
@@ -2373,6 +2432,7 @@ string firmware_version
 string five
 string forgot_password
 string four
+string gender
 string grant
 string grant_permission
 string have_account
@@ -2395,6 +2455,7 @@ string mmt_grade
 string mmt_grade_dynamic
 string monitor
 string mtrl_chip_close_icon_content_description
+string muscle_tone
 string name
 string nav_add_device
 string nav_add_patient
@@ -2412,6 +2473,7 @@ string ok
 string one
 string onstart_image_cd
 string overall_feedback
+string pain_scale
 string password_toggle_content_description
 string path_password_eye
 string path_password_eye_mask_strike_through
@@ -2459,6 +2521,7 @@ string signup_name
 string signup_password
 string signup_phone
 string snap
+string specialization
 string ss_action_time
 string ss_average
 string ss_bad
@@ -2481,6 +2544,7 @@ string ss_total_time
 string start_bodypart_to_monitor
 string start_session
 string status_bar_notification_info_overflow
+string symptomps
 string temp_body_part
 string three
 string timer_session_time

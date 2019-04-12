@@ -149,6 +149,33 @@
                 android:text="00"
                 android:textSize="16sp" />
         </LinearLayout>
+        <LinearLayout
+            android:id="@+id/sessionNoContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp">
+
+            <TextView
+                android:id="@+id/sessionNoText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/ebrima"
+                android:text="Session No"
+                android:textColor="@color/pitch_black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_session_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/ebrima"
+                android:text="0"
+                android:textSize="16sp" />
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/holdtimeContainter"
@@ -319,7 +346,7 @@
         android:layout_gravity="center_horizontal"
         android:fontFamily="@font/ebrima"
         android:textColor="@color/pitch_black"
-        android:text="Session time:   00 : 00 : 00"
+        android:text="Session time:   00 : 00"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
