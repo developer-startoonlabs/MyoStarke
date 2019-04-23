@@ -169,6 +169,7 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
             @Override
             public void onClick(View v) {
                 ((BodyPartSelection)context).setFabVisible();
+                editor = preferences.edit();
                 if(!preferences.getString("bodyPartClicked","").equals("")){
                     ((BodyPartSelection)context).visibilityChanged();
                 }

@@ -20,6 +20,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
+import android.icu.lang.UCharacter;
 import android.media.MediaScannerConnection;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -37,6 +38,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Display;
@@ -57,6 +59,8 @@ import com.example.sai.pheezeeapp.R;
 import com.example.sai.pheezeeapp.services.MqttHelper;
 import com.example.sai.pheezeeapp.utils.AngleOperations;
 import com.example.sai.pheezeeapp.utils.BatteryOperation;
+import com.example.sai.pheezeeapp.utils.ByteToArrayOperations;
+import com.example.sai.pheezeeapp.utils.NetworkOperations;
 import com.example.sai.pheezeeapp.utils.PatientOperations;
 import com.example.sai.pheezeeapp.views.ArcView;
 import com.example.sai.pheezeeapp.views.ArcViewInside;
@@ -89,23 +93,14 @@ import java.util.UUID;
 public class MonitorActivity extends AppCompatActivity {
 
     public final int sub_byte_size = 26;
-    int maxAnglePart, minAnglePart;
+    int maxAnglePart, minAnglePart, angleCorrection = 0;
+    boolean angleCorrected = false,devicePopped = false, servicesDiscovered = false, isSessionRunning=false, enteredInsideTwenty = true, pheezeeState = false, recieverState=false;
     String bodypart;
-    boolean devicePopped = false;
-    boolean servicesDiscovered = false;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     JSONObject json_phizio = new JSONObject();
-
-    boolean isSessionRunning=false, enteredInsideTwenty = true;
-    JSONArray jsonData;
-    JSONArray emgJsonArray;
-    public final int emg_data_size_raw = 20;
-    public final int emg_num_packets_raw = 40;
-
-
-    public final int emg_data_size_session = 10;
-    public final int emg_num_packets_session = 20;
+    JSONArray jsonData, emgJsonArray;
+    public final int emg_data_size_raw = 20, emg_num_packets_raw = 40, emg_data_size_session = 10,  emg_num_packets_session = 20;
     ImageView iv_back_monitor;
 
     File  file_emgdata,file_dir_emgdata;
@@ -121,32 +116,28 @@ public class MonitorActivity extends AppCompatActivity {
 
     PopupWindow report;
     int visiblity=View.VISIBLE;
-    long k;
     String timeText ="";
     List<Entry> dataPoints;
     LineChart lineChart;
     LineDataSet lineDataSet;
-    int SessionTimeForGraph;
-    View rootView;
     private static final String TAG = null;
     BluetoothGattCharacteristic mCharacteristic,mCharacteristic2;
     BluetoothGatt mBluetoothGatt;
     TextView Angle,tv_snap;
     TextView Repetitions;
-    TextView holdTime,tv_session_no;
+    TextView holdTime,tv_session_no, tv_body_part;
     TextView EMG;
     ProtractorView rangeOfMotion;
     ArcViewInside arcViewInside;
     TextView time;
     TextView patientId;
-    TextView patientName;
+    TextView patientName, tv_angleCorrection;
     LineData lineData;
     JSONArray sessionResult  = new JSONArray();
     JSONObject sessionObj = new JSONObject();
-    boolean recieverState=false;
-    boolean pheezeeState = false;
+
     Button timer;
-    Button stopBtn;
+    Button stopBtn, cancelBtn;
     long MillisecondTime, StartTime, TimeBuff, UpdateTime = 0L;
     Handler handler;
     int Seconds, Minutes, MilliSeconds ;
@@ -202,9 +193,7 @@ public class MonitorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_monitor);
         arrayList = new ArrayList<>();
-        //declarations
-//        sessionDataTrackedFile      = generateFile("sessionDataTracked.txt");
-//        sessionDataUnTrackedFile    = generateFile( "sessionDataUnTracked.txt");
+        PatientsView.insideMonitor = true;
         angleOperations = new AngleOperations();
         lineChart                   = findViewById(R.id.chart);
 //        Angle                       = findViewById(R.id.Angle);
@@ -220,8 +209,12 @@ public class MonitorActivity extends AppCompatActivity {
         time                        = findViewById(R.id.displayTime);
         emgSignal                   = findViewById(R.id.emg);
         tv_session_no               = findViewById(R.id.tv_session_no);
+        tv_body_part                = findViewById(R.id.bodyPart);
+        cancelBtn                   = findViewById(R.id.cancel);
+        tv_angleCorrection           = findViewById(R.id.tv_angleCorrection);
         handler                     = new Handler();
         emgJsonArray                = new JSONArray();
+
 
         iv_back_monitor = findViewById(R.id.iv_back_monitor);
         tv_snap = findViewById(R.id.snap_monitor);
@@ -257,6 +250,7 @@ public class MonitorActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         bodypart = getIntent().getStringExtra("exerciseType");
+        tv_body_part.setText(tv_body_part.getText().toString().concat(bodypart));
         //Getting the max and min angle of the particular body part
         maxAnglePart = angleOperations.getMaxAngle(bodypart);
         minAnglePart = angleOperations.getMinAngle(bodypart);
@@ -298,11 +292,55 @@ public class MonitorActivity extends AppCompatActivity {
                     startSession();
             }
         });
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(timer.getVisibility()==View.GONE){
+                    PatientsView.sessionStarted = false;
+
+                    timer.setBackgroundResource(R.drawable.rounded_start_button);
+                    visiblity = View.VISIBLE;
+                    stopBtn.setVisibility(View.GONE);
+                    timer.setVisibility(View.VISIBLE);
+                    //Discable notifications
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(mBluetoothGatt!=null && mBluetoothGattDescriptor!=null && mCharacteristic!=null) {
+                                mBluetoothGatt.setCharacteristicNotification(mCharacteristic, false);
+                                mBluetoothGattDescriptor.setValue(BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
+                                mBluetoothGatt.writeDescriptor(mBluetoothGattDescriptor);
+                                mBluetoothGatt.writeCharacteristic(mCharacteristic);
+                            }
+                        }
+                    });
+
+
+                    TimeBuff += MillisecondTime;
+                    handler.removeCallbacks(runnable);
+                    MillisecondTime = 0L ;
+                    StartTime = 0L ;
+                    TimeBuff = 0L ;
+                    UpdateTime = 0L ;
+                    Seconds = 0 ;
+                    Minutes = 0 ;
+                    MilliSeconds = 0 ;
+                    pheezeeState =false;
+                    timer.setText(R.string.timer_start);
+                    recieverState = false;
+                    isSessionRunning=false;
+                    Log.i("minAngle",""+minAngle);
+//                if(maxAngle!=0&&!(maxAngle>180)&&minAngle!=180&&!(minAngle<0)) {
+                    tsLong = System.currentTimeMillis();
+                    String ts = tsLong.toString();
+                }
+            }
+        });
         stopBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 PatientsView.sessionStarted = false;
-                isSessionRunning=false;
+
                 timer.setBackgroundResource(R.drawable.rounded_start_button);
                 visiblity = View.VISIBLE;
                 stopBtn.setVisibility(View.GONE);
@@ -331,6 +369,7 @@ public class MonitorActivity extends AppCompatActivity {
                 pheezeeState =false;
                 timer.setText(R.string.timer_start);
                 recieverState = false;
+                isSessionRunning=false;
                 Log.i("minAngle",""+minAngle);
 //                if(maxAngle!=0&&!(maxAngle>180)&&minAngle!=180&&!(minAngle<0)) {
                     tsLong = System.currentTimeMillis();
@@ -366,6 +405,51 @@ public class MonitorActivity extends AppCompatActivity {
 //                }else {
 //                    Toast.makeText(MonitorActivity.this,"your alignment is wrong!! try again,",Toast.LENGTH_LONG).show();
 //                }
+            }
+        });
+
+
+        tv_angleCorrection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final AlertDialog.Builder builder = new AlertDialog.Builder(MonitorActivity.this);
+                builder.setTitle("Correct Angle");
+                builder.setMessage("please enter the expected angle");
+                final EditText editText = new EditText(MonitorActivity.this);
+                editText.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT);
+                editText.setLayoutParams(lp);
+                builder.setView(editText);
+                builder.setPositiveButton("Set", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(!editText.getText().toString().equals("")){
+                            try {
+                                if(PatientsView.sessionStarted) {
+                                    angleCorrection = Integer.parseInt(editText.getText().toString());
+                                    angleCorrected = true;
+                                    angleCorrection -= maxAngle;
+                                    maxAngle+=angleCorrection;
+                                }
+
+                            }catch (NumberFormatException e){
+
+                            }
+
+
+                        }
+                    }
+                });
+
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        stopBtn.performClick();
+                    }
+                });
+                builder.show();
             }
         });
 
@@ -474,20 +558,10 @@ public class MonitorActivity extends AppCompatActivity {
         enteredInsideTwenty = true;
         isSessionRunning = true;
         emgJsonArray = new JSONArray();
-        maxAngle = 0;
-        minAngle = 360;
-        maxEmgValue = 0;
-//                dataPoints.clear();
-//                lineChart.notifyDataSetChanged();
+        maxAngle = 0;minAngle = 360;maxEmgValue = 0;
         creatGraphView();
-//                if(dataPoints!=null)
-//                    dataPoints.clear();
-//                lineChart.setScaleEnabled(true);
-        k = 0;
         timer.setVisibility(View.GONE);
-        SessionTimeForGraph = 0;
         stopBtn.setVisibility(View.VISIBLE);
-
         if (!servicesDiscovered) {
             stopBtn.setVisibility(View.GONE);
             timer.setVisibility(View.VISIBLE);
@@ -499,15 +573,11 @@ public class MonitorActivity extends AppCompatActivity {
                     sendParticularDataToPheeze(exerciseType);
                 }
             }, 100);
-
-
             rawdata_timestamp = Calendar.getInstance().getTime();
             String s = rawdata_timestamp.toString().substring(0, 19);
-
             file_dir_emgdata = new File(Environment.getExternalStorageDirectory()+"/Pheezee/files","EmgData");
-            if (!file_dir_emgdata.exists()) {
+            if (!file_dir_emgdata.exists())
                 file_dir_emgdata.mkdirs();
-            }
             file_emgdata = new File(file_dir_emgdata, ""+s+".txt");
             try {
                 file_emgdata.createNewFile();
@@ -524,7 +594,6 @@ public class MonitorActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
             StartTime = SystemClock.uptimeMillis();
             visiblity = View.GONE;
             recieverState = true;
@@ -580,7 +649,7 @@ public class MonitorActivity extends AppCompatActivity {
         lineDataSet.setDrawCircles(false);
         lineDataSet.setValueTextSize(0);
         lineDataSet.setDrawValues(false);
-        lineDataSet.setColor(Color.parseColor("#4b7080"));
+        lineDataSet.setColor(getResources().getColor(R.color.good_green));
         lineData = new LineData(lineDataSet);
         lineChart.getXAxis();
         lineChart.setVisibleXRangeMaximum(1000);
@@ -598,22 +667,28 @@ public class MonitorActivity extends AppCompatActivity {
         lineChart.setData(lineData);
     }
 
-
-
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        if(mBluetoothGatt!=null && mCharacteristic!=null){
+//            mBluetoothGatt.setCharacteristicNotification(mCharacteristic,false);
+//            mBluetoothGattDescriptor.setValue(BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
+//            mBluetoothGatt.writeDescriptor(mBluetoothGattDescriptor);
+//            mBluetoothGatt.writeCharacteristic(mCharacteristic);
+//        }
+//    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // check if the request code is same as what is passed  here it is 1
         if(resultCode!=0){
             remoteDevice = bluetoothAdapter.getRemoteDevice(getIntent().getStringExtra("deviceMacAddress"));
-
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
                     mBluetoothGatt = remoteDevice.connectGatt(MonitorActivity.this,true,callback);
                 }
             });
-
         }
     }
 
@@ -630,7 +705,6 @@ public class MonitorActivity extends AppCompatActivity {
 
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
-
             if(newState == BluetoothProfile.STATE_CONNECTED){
                 Log.i("GATT CONNECTED", "Attempting to start the service discovery in monitoring"+ gatt.discoverServices());
             }
@@ -651,7 +725,6 @@ public class MonitorActivity extends AppCompatActivity {
         @Override
         public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
             super.onCharacteristicWrite(gatt, characteristic, status);
-
             if(characteristic.getUuid().equals(characteristic1_service1_uuid)) {
                 Log.i("characteristic", characteristic.getUuid().toString() + " Written");
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
@@ -664,7 +737,6 @@ public class MonitorActivity extends AppCompatActivity {
                     }
                 });
             }
-
             else if(characteristic.getUuid().equals(characteristic1_service2_uuid)){
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
@@ -729,10 +801,8 @@ public class MonitorActivity extends AppCompatActivity {
                 for (int i = 0; i < sub_byte_size; i++, j++) {
                     sub_byte[i] = temp_byte[j];
                 }
-
-
-                if (byteToStringHexadecimal(header_main).equals("AA")) {
-                    if (byteToStringHexadecimal(header_sub).equals("01")) {
+                if (ByteToArrayOperations.byteToStringHexadecimal(header_main).equals("AA")) {
+                    if (ByteToArrayOperations.byteToStringHexadecimal(header_sub).equals("01")) {
                         Message message = Message.obtain();
                         message.obj = sub_byte;
 
@@ -767,7 +837,7 @@ public class MonitorActivity extends AppCompatActivity {
                     for (int i = 0; i < emg_data_size_raw; i++) {
                         temp_array[i] = sub_byte[i];
                     }
-                    emg_data = constructEmgDataRawWithoutCombine(temp_array);
+                    emg_data = ByteToArrayOperations.constructEmgDataRawWithoutCombine(temp_array);
 
                     String str[] = new String[emg_data_size_raw];
                     for (int i = 0; i < emg_data.length; i++) {
@@ -814,8 +884,8 @@ public class MonitorActivity extends AppCompatActivity {
                     byte header_main = b[0];
                     byte header_sub = b[1];
 
-                    if(byteToStringHexadecimal(header_main).equals("BB")) {
-                        if (byteToStringHexadecimal(header_sub).equals("01")) {
+                    if(ByteToArrayOperations.byteToStringHexadecimal(header_main).equals("BB")) {
+                        if (ByteToArrayOperations.byteToStringHexadecimal(header_sub).equals("01")) {
                             try {
                                 outputStream_emgdata = new FileOutputStream(file_emgdata, true);
                             } catch (FileNotFoundException e) {
@@ -825,7 +895,7 @@ public class MonitorActivity extends AppCompatActivity {
                             for (int i = 0; i < emg_num_packets_raw; i++) {
                                 temp_array[i] = sub_byte[i];
                             }
-                            emg_data = constructEmgDataRaw(temp_array);
+                            emg_data = ByteToArrayOperations.constructEmgDataRaw(temp_array);
 
                             String str[] = new String[emg_data_size_raw];
                             for (int i = 0; i < emg_data.length; i++) {
@@ -919,7 +989,7 @@ public class MonitorActivity extends AppCompatActivity {
 
     public boolean sendRaw(){
         Log.i("send raw","send raw");
-        byte data[] = hexStringToByteArray("BB01");
+        byte data[] = ByteToArrayOperations.hexStringToByteArray("BB01");
         if (mBluetoothGatt == null ) {
             Log.w(TAG, "BluetoothGatt not initialized");
             return false;
@@ -971,7 +1041,13 @@ public class MonitorActivity extends AppCompatActivity {
             handler.postDelayed(this, 0);
             if(PatientsView.sessionStarted==false && devicePopped==false){
                 devicePopped = true;
-                deviceDisconnectedPopup();
+                new Handler().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        deviceDisconnectedPopup();
+                    }
+                });
+
             }
         }
 
@@ -986,9 +1062,9 @@ public class MonitorActivity extends AppCompatActivity {
             int[] emg_data;
             byte[] sub_byte;
             sub_byte = (byte[]) message.obj;
-            emg_data = constructEmgData(sub_byte);
-            angleDetected = getAngleFromData(sub_byte[20],sub_byte[21]);
-            num_of_reps = getNumberOfReps(sub_byte[22], sub_byte[23]);
+            emg_data = ByteToArrayOperations.constructEmgData(sub_byte);
+            angleDetected = ByteToArrayOperations.getAngleFromData(sub_byte[20],sub_byte[21]);
+            num_of_reps = ByteToArrayOperations.getNumberOfReps(sub_byte[22], sub_byte[23]);
             hold_time_minutes = sub_byte[24];
             hold_time_seconds = sub_byte[25];
             String angleValue = ""+angleDetected;
@@ -1004,8 +1080,15 @@ public class MonitorActivity extends AppCompatActivity {
             //Custom thresholds
 //            if(angleDetected>=minAnglePart && angleDetected<=maxAnglePart) {
 //                rangeOfMotion.setAngle(angleDetected);
+            if(angleCorrected) {
+                angleDetected+=angleCorrection;
                 arcViewInside.setMaxAngle(angleDetected);
-                Log.i("Angle",String.valueOf(angleDetected));
+
+                Log.i("Angle", String.valueOf(angleDetected));
+            }
+            else {
+                arcViewInside.setMaxAngle(angleDetected);
+            }
 //            }
 //            Angle.setText(angleValue);
             for (int i=0;i<emg_data.length;i++) {
@@ -1074,14 +1157,23 @@ public class MonitorActivity extends AppCompatActivity {
         TextView tv_max_emg = layout.findViewById(R.id.tv_max_emg);
         TextView tv_session_num = layout.findViewById(R.id.tv_session_no);
         LinearLayout ll_click_to_view_report = layout.findViewById(R.id.ll_click_to_view_report);
+        LinearLayout ll_click_to_choose_body_part = layout.findViewById(R.id.ll_click_to_choose_bodypart);
+
 
 
         //setting session no
         tv_session_num.setText(tv_session_no.getText().toString());
+        ll_click_to_choose_body_part.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                report.dismiss();
+                finish();
+            }
+        });
         ll_click_to_view_report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isNetworkAvailable()){
+                if(NetworkOperations.isNetworkAvailable(MonitorActivity.this)){
                     Intent mmt_intent = new Intent(MonitorActivity.this, SessionReportActivity.class);
                     mmt_intent.putExtra("patientid", tv_patient_id.getText().toString());
                     mmt_intent.putExtra("patientname", tv_patient_name.getText().toString());
@@ -1093,7 +1185,7 @@ public class MonitorActivity extends AppCompatActivity {
                     startActivity(mmt_intent);
                 }
                 else {
-                    networkError();
+                    NetworkOperations.networkError(MonitorActivity.this);
                 }
             }
         });
@@ -1152,7 +1244,8 @@ public class MonitorActivity extends AppCompatActivity {
 
 
         tv_action_time.setText(tempSessionTime);
-        tv_hold_time.setText(holdTimeValue.substring(0,2)+"m"+holdTimeValue.substring(2)+"s");
+        if(holdTimeValue!=null && holdTimeValue.length()>2)
+            tv_hold_time.setText(holdTimeValue.substring(0,2)+"m"+holdTimeValue.substring(2)+"s");
 
 
         tv_num_of_reps.setText(Repetitions.getText().toString());
@@ -1190,6 +1283,8 @@ public class MonitorActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+
 
     private void commentSectionPopUp(View view, final String dateString) {
         Display display = getWindowManager().getDefaultDisplay();
@@ -1253,7 +1348,7 @@ public class MonitorActivity extends AppCompatActivity {
                     object.put("symptoms",et_symptoms.getText().toString());
 
                     message.setPayload(object.toString().getBytes());
-                    if(isNetworkAvailable())
+                    if(NetworkOperations.isNetworkAvailable(MonitorActivity.this))
                         mqttHelper.publishMqttTopic(mqtt_publish_update_patient_session_comment,message);
 
                 } catch (JSONException e) {
@@ -1284,18 +1379,19 @@ public class MonitorActivity extends AppCompatActivity {
                     try {
                         int numofsessions;
                         if (jsonData.getJSONObject(i).get("patientid").equals(patientId.getText().toString())) {
-                            if(jsonData.getJSONObject(i).has("numofsession")) {
-                                numofsessions = Integer.parseInt(jsonData.getJSONObject(i).get("numofsession").toString());
+                            if(jsonData.getJSONObject(i).has("numofsessions")) {
+                                numofsessions = Integer.parseInt(jsonData.getJSONObject(i).get("numofsessions").toString());
                                 numofsessions += 1;
                             }
                             else {
                                 numofsessions = 1;
                             }
-                            jsonData.getJSONObject(i).put("numofsession",""+numofsessions);
+                            jsonData.getJSONObject(i).put("numofsessions",""+numofsessions);
                             JSONObject object = new JSONObject();
                             object.put("heldon",dateString);
                             object.put("maxangle",maxAngle);
                             object.put("minangle",minAngle);
+                            object.put("anglecorrected",angleCorrection);
                             object.put("maxemg",maxEmgValue);
                             object.put("holdtime","00 : 50");
                             object.put("bodypart",bodypart);
@@ -1317,7 +1413,7 @@ public class MonitorActivity extends AppCompatActivity {
                             object.put("emgdata",emgJsonArray);
 //                            object.put("painscale",)
                             editor = sharedPreferences.edit();
-                            if(isNetworkAvailable()) {
+                            if(NetworkOperations.isNetworkAvailable(MonitorActivity.this)) {
                                 mqttHelper.publishMqttTopic(mqtt_publish_add_patient_session, mqttMessage);
                             }
                                 JSONObject temp = new JSONObject();
@@ -1349,7 +1445,7 @@ public class MonitorActivity extends AppCompatActivity {
                                 temp = new JSONObject();
                                 temp.put("topic",mqtt_publish_add_patient_session_emg_data);
                                 temp.put("message",mqttMessage.toString());
-                                if(isNetworkAvailable())
+                                if(NetworkOperations.isNetworkAvailable(MonitorActivity.this))
                                     mqttHelper.publishMqttTopic(mqtt_publish_add_patient_session_emg_data, mqttMessage);
                                 if(!sharedPreferences.getString("sync_session","").equals("")){
                                     array = new JSONArray(sharedPreferences.getString("sync_session",""));
@@ -1364,7 +1460,6 @@ public class MonitorActivity extends AppCompatActivity {
                                     editor.commit();
                                 }
                             }
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -1378,6 +1473,7 @@ public class MonitorActivity extends AppCompatActivity {
         super.onDestroy();
         mqttHelper.mqttAndroidClient.unregisterResources();
         mqttHelper.mqttAndroidClient.close();
+        Log.i("destroy","inside");
 
         if(mBluetoothGatt!=null && mCharacteristic!=null){
             mBluetoothGatt.setCharacteristicNotification(mCharacteristic,false);
@@ -1385,41 +1481,12 @@ public class MonitorActivity extends AppCompatActivity {
             mBluetoothGatt.writeDescriptor(mBluetoothGattDescriptor);
             mBluetoothGatt.writeCharacteristic(mCharacteristic);
         }
-    }
-
-    public void OnClickShare(View view){
-
-        Bitmap bitmap =getBitmapFromView(view);
-        try {
-            File file = new File(getExternalCacheDir(),"sessionSummary.png");
-            FileOutputStream fOut = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut);
-            fOut.flush();
-            fOut.close();
-            file.setReadable(true, false);
-            final Intent intent = new Intent(android.content.Intent.ACTION_SEND);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
-            intent.setType("image/png");
-            startActivity(Intent.createChooser(intent, "Share image via"));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private Bitmap getBitmapFromView(View view) {
-        Bitmap returnedBitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(),Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(returnedBitmap);
-        Drawable bgDrawable =view.getBackground();
-        if (bgDrawable!=null) {
-            //has background drawable, then draw it on the canvas
-            bgDrawable.draw(canvas);
-        }   else{
-            //does not have background drawable, then draw white background on the canvas
-            canvas.drawColor(Color.WHITE);
-        }
-        view.draw(canvas);
-        return returnedBitmap;
+        handler.removeCallbacks(runnable);
+        isSessionRunning = false;
+        PatientsView.sessionStarted = false;
+        timer.setVisibility(View.VISIBLE);
+        stopBtn.setVisibility(View.INVISIBLE);
+        PatientsView.insideMonitor=false;
     }
 
 
@@ -1428,7 +1495,7 @@ public class MonitorActivity extends AppCompatActivity {
         switch (string.toLowerCase()){
 
             case "elbow":{
-                byte b[] = hexStringToByteArray("AA03");
+                byte b[] = ByteToArrayOperations.hexStringToByteArray("AA03");
                 if(send(b)){
                     Log.i("SENDING","MESSAGE SENT AA03");
                 }
@@ -1439,7 +1506,7 @@ public class MonitorActivity extends AppCompatActivity {
             }
 
             case "knee":{
-                byte b[] = hexStringToByteArray("AA04");
+                byte b[] = ByteToArrayOperations.hexStringToByteArray("AA04");
                 if(send(b)){
                     Log.i("SENDING","MESSAGE SENT AA04");
                 }
@@ -1451,146 +1518,67 @@ public class MonitorActivity extends AppCompatActivity {
             }
 
             case "ankle":{
-                byte b[] = hexStringToByteArray("AA05");
+                byte b[] = ByteToArrayOperations.hexStringToByteArray("AA05");
                 if(send(b)){
                     Log.i("SENDING","MESSAGE SENT AA05");
                 }
                 else {
-                    Log.i("Knee", "true");
+                    Log.i("ankle", "true");
                     Log.i("SENDING","UNSUCCESSFULL");
                 }
                 break;
             }
             case "hip":{
-                byte b[] = hexStringToByteArray("AA06");
+                byte b[] = ByteToArrayOperations.hexStringToByteArray("AA06");
                 if(send(b)){
                     Log.i("SENDING","MESSAGE SENT AA06");
                 }
                 else {
-                    Log.i("Knee", "true");
+                    Log.i("hip", "true");
                     Log.i("SENDING","UNSUCCESSFULL");
                 }
                 break;
             }
 
             case "wrist":{
-                byte b[] = hexStringToByteArray("AA07");
+                byte b[] = ByteToArrayOperations.hexStringToByteArray("AA07");
                 if(send(b)){
                     Log.i("SENDING","MESSAGE SENT AA07");
                 }
                 else {
-                    Log.i("Knee", "true");
+                    Log.i("wrist", "true");
                     Log.i("SENDING","UNSUCCESSFULL");
                 }
                 break;
             }
 
             case "sholder":{
-                byte b[] = hexStringToByteArray("AA08");
+                byte b[] = ByteToArrayOperations.hexStringToByteArray("AA08");
                 if(send(b)){
                     Log.i("SENDING","MESSAGE SENT AA08");
                 }
                 else {
-                    Log.i("Knee", "true");
+                    Log.i("sholder", "true");
                     Log.i("SENDING","UNSUCCESSFULL");
                 }
                 break;
             }
-        }
-    }
 
-
-    public static byte[] hexStringToByteArray(String s) {
-        int len = s.length();
-        byte[] data = new byte[len / 2];
-        for (int i = 0; i < len; i += 2) {
-            data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
-                    + Character.digit(s.charAt(i+1), 16));
-        }
-        return data;
-    }
-
-
-
-
-
-
-    public int[] constructEmgData(byte[] sub_byte){
-        int k=0;
-        int[] emg_data = new int[emg_data_size_session];
-        for (int i=0;i<emg_num_packets_session;i++){
-            int a = sub_byte[i]&0xFF;
-            int b = sub_byte[i+1]&0xFF;
-
-            emg_data[k] = b<<8 | a;
-            i++;
-            k++;
-        }
-        return emg_data;
-    }
-
-
-    public int[] constructEmgDataRaw(byte[] sub_byte){
-        int k=0;
-        int[] emg_data = new int[emg_data_size_raw];
-        for (int i=0;i<sub_byte.length;i++){
-            int a = sub_byte[i]&0xFF;
-            int b = sub_byte[i+1]&0xFF;
-
-            emg_data[k] = b<<8 | a;
-            i++;
-            k++;
-        }
-        return emg_data;
-    }
-
-    public int[] constructEmgDataRawWithoutCombine(byte[] sub_byte){
-        int k=0;
-        int[] emg_data = new int[emg_data_size_raw];
-        for (int i=0;i<sub_byte.length;i++){
-            emg_data[k] = sub_byte[i]&0xFF;
-            i++;
-            k++;
-        }
-        return emg_data;
-    }
-
-
-    public int getAngleFromData(byte a, byte b){
-        return b<<8 | a&0xFF;
-    }
-
-    public int getNumberOfReps(byte a, byte b){
-        return (a & 0xff) |
-                ((b & 0xff) << 8);
-    }
-
-
-    public String byteToStringHexadecimal(byte b){
-        return String.format("%02X",b);
-    }
-
-
-    //Internet is there or not
-    private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
-
-    public void networkError(){
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Network Error");
-        builder.setMessage("Please connect to internet and try again");
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+            case "others":{
+                byte b[] = ByteToArrayOperations.hexStringToByteArray("AA04");
+                if(send(b)){
+                    Log.i("SENDING","MESSAGE SENT AA09");
+                }
+                else {
+                    Log.i("others", "true");
+                    Log.i("SENDING","UNSUCCESSFULL");
+                }
+                break;
             }
-        });
-        builder.show();
-    }
 
+
+        }
+    }
 
     private File takeScreenshot(PopupWindow popupWindow) {
 

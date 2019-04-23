@@ -215,7 +215,7 @@ MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\sivam\.gra
 	android:largeHeap
 		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:30:9-33
 	android:icon
-		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:28:9-42
+		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:28:9-52
 	android:allowBackup
 		ADDED from C:\Users\sivam\AndroidStudioProjects\PheezeeApp\PheezeeApp\app\src\main\AndroidManifest.xml:26:9-35
 	android:theme

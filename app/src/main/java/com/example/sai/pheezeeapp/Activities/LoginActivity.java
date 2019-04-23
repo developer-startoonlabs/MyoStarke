@@ -30,6 +30,7 @@ import org.eclipse.paho.client.mqttv3.IMqttToken;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -92,14 +93,17 @@ public class LoginActivity extends AppCompatActivity {
 
                     }
                     else {
-                        JSONObject object = new JSONObject(message.toString());
+                        Log.i("inside","inside");
+                        JSONArray array = new JSONArray(message.toString());
+                        JSONObject object = array.getJSONObject(0);
+                        object.remove("phiziopassword");
                         String name = object.getString("phizioname");
                         Log.i("hello","hello");
                         editor = sharedPref.edit();
                         editor.putBoolean("isLoggedIn",true);
-                        editor.putString("phiziodetails",message.toString());
+                        editor.putString("phiziodetails",object.toString());
                         editor.commit();
-                        Log.i("MQTT MESSAGE RESPONSE", message.toString());
+                        Log.i("MQTT MESSAGE RESPONSE", object.toString());
 
                         setWelcomeText("Welcome");
                         tv_login_welcome_user.setText(name);
@@ -113,7 +117,6 @@ public class LoginActivity extends AppCompatActivity {
                                 dottedProgressBar.stopProgress();
                             }
                         },1000);
-
                     }
                 }
             }

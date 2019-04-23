@@ -10,6 +10,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -35,6 +36,7 @@ import android.widget.Toast;
 
 import com.example.sai.pheezeeapp.Classes.BodyPartWithMmtSelectionModel;
 import com.example.sai.pheezeeapp.Classes.BodyPartSelectionModel;
+import com.example.sai.pheezeeapp.Classes.DividerItemDecorator;
 import com.example.sai.pheezeeapp.R;
 import com.example.sai.pheezeeapp.adapters.BodyPartWithMmtRecyclerView;
 import com.robertlevonyan.views.customfloatingactionbutton.FloatingLayout;
@@ -49,8 +51,7 @@ public class BodyPartSelection extends AppCompatActivity {
 
     //Drawable arry for the body part selection
 
-    int[] myPartList = new int[]{R.drawable.elbow_part, R.drawable.knee_part,R.drawable.ankle_part,R.drawable.hip_part,R.drawable.wrist_part,R.drawable.shoulder_part};
-    int[] myPreviewList = new int[]{R.drawable.elbow_part, R.drawable.knee_part,R.drawable.ankle_part,R.drawable.hip_part,R.drawable.wrist_part,R.drawable.shoulder_part};
+    int[] myPartList = new int[]{R.drawable.elbow_part, R.drawable.knee_part,R.drawable.ankle_part,R.drawable.hip_part,R.drawable.wrist_part,R.drawable.shoulder_part,R.drawable.other_body_part};
 
 
     SharedPreferences preferences;
@@ -79,17 +80,11 @@ public class BodyPartSelection extends AppCompatActivity {
 
     GridLayoutManager manager;
 
-    android.support.v7.widget.Toolbar toolbar;
-
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_body_part_selection);
-//        toolbar = findViewById(R.id.my_toolbar_bodypart);
-//         toolbar.setElevation(5);
-//        toolbar.setTitle("");
-//        setSupportActionBar(toolbar);
         tv_body_part_recent = findViewById(R.id.tv_recently_items);
         fab_done =  findViewById(R.id.fab_done);
         fl_fab_background = findViewById(R.id.fl_fab_background);
@@ -124,6 +119,7 @@ public class BodyPartSelection extends AppCompatActivity {
                             JSONObject object = array1.getJSONObject(j);
                             int res_id = object.getInt("res_id");
                             iv_recent_body[j].setImageResource(res_id);
+                            iv_recent_body[j].setId(res_id);
                             int left_padding = dpToPixel(20);
                             iv_recent_body[j].setPadding(left_padding, 0, 0, 0);
                             Log.i("res_id", res_id + "");
@@ -142,7 +138,9 @@ public class BodyPartSelection extends AppCompatActivity {
             }
         }
         bodyPartRecyclerView = findViewById(R.id.bodyPartRecyclerView);
-        bodyPartRecyclerView.addItemDecoration(new DividerItemDecoration(this,0));
+        RecyclerView.ItemDecoration dividerItemDecoration = new DividerItemDecorator(ContextCompat.getDrawable(this, R.drawable.devider_gridview_bodypart));
+        bodyPartRecyclerView.addItemDecoration(dividerItemDecoration);
+//        bodyPartRecyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.HORIZONTAL));
         bodyPartRecyclerView.setHasFixedSize(true);
         manager = new GridLayoutManager(this,2);
         bodyPartRecyclerView.setLayoutManager(manager);
@@ -150,10 +148,6 @@ public class BodyPartSelection extends AppCompatActivity {
         bodyPartWithMmtSelectionModels = new ArrayList<>();
 
         string = getResources().getStringArray(R.array.bodyPartName);
-//        for (int i=0;i<string.length;i++){
-//            BodyPartSelectionModel bodyPartSelectionModel = new BodyPartSelectionModel(myPartList[i],myPreviewList[i],string[i]);
-//            bodyPartSelectionList.add(bodyPartSelectionModel);
-//        }
 
         for (int i=0;i<string.length;i++){
             BodyPartWithMmtSelectionModel bp = new BodyPartWithMmtSelectionModel(myPartList[i],string[i]);
@@ -230,46 +224,47 @@ public class BodyPartSelection extends AppCompatActivity {
 
     public void visibilityChanged(){
             View view = manager.findViewByPosition(Integer.parseInt(preferences.getString("bodyPartClicked","")));
-            ImageView imageView = view.findViewById(R.id.bodypartImage);
-            RelativeLayout rl_left_right = view.findViewById(R.id.rl_left_right);
-            RelativeLayout rl_left = view.findViewById(R.id.rl_left);
-            RelativeLayout rl_right = view.findViewById(R.id.rl_right);
-            RelativeLayout rl_mmt_and_session = view.findViewById(R.id.rl_mmt_and_session);
-            RelativeLayout rl_left_section = view.findViewById(R.id.rl_left_section);
-            RelativeLayout rl_right_section = view.findViewById(R.id.rl_right_section);
-            RelativeLayout rl_mmt_session = view.findViewById(R.id.rl_mmt_section);
-            LinearLayout ll_tv_section = view.findViewById(R.id.ll_tv_section);
-            Spinner spinner = view.findViewById(R.id.sp_set_goal);
+            if(view!=null) {
+                ImageView imageView = view.findViewById(R.id.bodypartImage);
+                RelativeLayout rl_left_right = view.findViewById(R.id.rl_left_right);
+                RelativeLayout rl_left = view.findViewById(R.id.rl_left);
+                RelativeLayout rl_right = view.findViewById(R.id.rl_right);
+                RelativeLayout rl_mmt_and_session = view.findViewById(R.id.rl_mmt_and_session);
+                RelativeLayout rl_left_section = view.findViewById(R.id.rl_left_section);
+                RelativeLayout rl_right_section = view.findViewById(R.id.rl_right_section);
+                RelativeLayout rl_mmt_session = view.findViewById(R.id.rl_mmt_section);
+                LinearLayout ll_tv_section = view.findViewById(R.id.ll_tv_section);
+                Spinner spinner = view.findViewById(R.id.sp_set_goal);
 
 
+                if (rl_left_section.getVisibility() == View.VISIBLE)
+                    rl_left_section.setVisibility(View.INVISIBLE);
 
-            if(rl_left_section.getVisibility()==View.VISIBLE)
-                rl_left_section.setVisibility(View.INVISIBLE);
+                if (rl_right_section.getVisibility() == View.VISIBLE)
+                    rl_right_section.setVisibility(View.INVISIBLE);
 
-            if(rl_right_section.getVisibility()==View.VISIBLE)
-                rl_right_section.setVisibility(View.INVISIBLE);
+                if (rl_left_right.getVisibility() == View.VISIBLE)
+                    rl_left_right.setVisibility(View.INVISIBLE);
+                if (rl_left.getVisibility() == View.VISIBLE)
+                    rl_left.setVisibility(View.INVISIBLE);
+                if (rl_right.getVisibility() == View.VISIBLE)
+                    rl_right.setVisibility(View.INVISIBLE);
+                if (rl_mmt_and_session.getVisibility() == View.VISIBLE)
+                    rl_mmt_and_session.setVisibility(View.INVISIBLE);
+                if (rl_mmt_session.getVisibility() == View.VISIBLE)
+                    rl_mmt_session.setVisibility(View.INVISIBLE);
+                if (ll_tv_section.getVisibility() == View.VISIBLE)
+                    ll_tv_section.setVisibility(View.GONE);
+                if (spinner.getVisibility() == View.VISIBLE) {
+                    spinner.setSelection(0);
+                    spinner.setVisibility(View.GONE);
+                }
+                if (imageView.getVisibility() == View.INVISIBLE)
+                    imageView.setVisibility(View.VISIBLE);
 
-            if(rl_left_right.getVisibility()==View.VISIBLE)
-                rl_left_right.setVisibility(View.INVISIBLE);
-            if(rl_left.getVisibility()==View.VISIBLE)
-                rl_left.setVisibility(View.INVISIBLE);
-            if(rl_right.getVisibility()==View.VISIBLE)
-                rl_right.setVisibility(View.INVISIBLE);
-            if(rl_mmt_and_session.getVisibility()==View.VISIBLE)
-                rl_mmt_and_session.setVisibility(View.INVISIBLE);
-            if(rl_mmt_session.getVisibility()==View.VISIBLE)
-                rl_mmt_session.setVisibility(View.INVISIBLE);
-            if(ll_tv_section.getVisibility()==View.VISIBLE)
-                ll_tv_section.setVisibility(View.GONE);
-            if (spinner.getVisibility()==View.VISIBLE){
-                spinner.setSelection(0);
-                spinner.setVisibility(View.GONE);
+
+                imageView.setEnabled(true);
             }
-            if(imageView.getVisibility()==View.INVISIBLE)
-                imageView.setVisibility(View.VISIBLE);
-
-
-            imageView.setEnabled(true);
     }
 
 
@@ -436,9 +431,6 @@ public class BodyPartSelection extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
-//
     }
 
     public void setFabVisible(){

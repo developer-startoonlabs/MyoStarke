@@ -226,15 +226,29 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.06">
 
-        <TextView
-            android:id="@+id/angleText"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
-            android:fontFamily="@font/ebrima"
-            android:text="Range of motion"
-            android:textColor="@color/pitch_black"
-            android:textSize="16sp" />
+            android:orientation="horizontal">
+            <!--<TextView-->
+                <!--android:id="@+id/bodyPart"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:fontFamily="@font/ebrima"-->
+                <!--android:text="Body Part: "-->
+                <!--android:layout_marginEnd="10dp"-->
+                <!--android:textColor="@color/pitch_black"-->
+                <!--android:textSize="16sp" />-->
+            <TextView
+                android:id="@+id/angleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/ebrima"
+                android:layout_marginStart="10dp"
+                android:text="Range of motion"
+                android:textColor="@color/pitch_black"
+                android:textSize="16sp" />
+        </LinearLayout>
 
         <com.goodiebag.protractorview.ProtractorView
             android:id="@+id/rangeOfMotion"

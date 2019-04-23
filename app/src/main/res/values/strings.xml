@@ -25,6 +25,7 @@
         <item>Hip</item>
         <item>Wrist</item>
         <item>Shoulder</item>
+        <item>Others</item>
     </string-array>
 
 

@@ -1313,6 +1313,7 @@ drawable design_password_eye
 drawable design_snackbar_background
 drawable device_connected_icon
 drawable device_disconnected_icon
+drawable devider_gridview_bodypart
 drawable drawable_background_connect_to_pheezee
 drawable drawable_background_turn_on_device
 drawable drawable_background_yellow
@@ -1390,10 +1391,12 @@ drawable notification_template_icon_bg
 drawable notification_template_icon_low_bg
 drawable notification_tile_bg
 drawable notify_panel_notification_icon_bg
+drawable other_body_part
 drawable password_icon
 drawable patient_icon
 drawable patient_item_layout
 drawable pheezee_logo
+drawable pheezee_logo_final
 drawable pheezee_logo_topbar
 drawable phizio_icon
 drawable phizio_patient_relation
@@ -1473,6 +1476,7 @@ id barrier
 id battery_cell_color
 id beginning
 id blocking
+id bodyPart
 id bodyPartRecyclerView
 id bodypartImage
 id bottom
@@ -1507,6 +1511,7 @@ id btn_startrawdatacollection
 id btn_update_details
 id button
 id buttonPanel
+id cancel
 id cancelBtn
 id cancel_action
 id cancel_button
@@ -1690,6 +1695,7 @@ id ll_add_bluetooth
 id ll_add_device
 id ll_archive_patient
 id ll_calibration
+id ll_click_to_choose_bodypart
 id ll_click_to_view_report
 id ll_day_w_m
 id ll_delete_patient
@@ -1809,6 +1815,8 @@ id progress_max_emg
 id progressbar_file
 id qrcode_scan
 id radio
+id radioBtn_female
+id radioBtn_male
 id rangeOfMotion
 id rangeOfMotionData
 id rectangle
@@ -1964,6 +1972,7 @@ id tv_Image_container
 id tv_about_to_start
 id tv_action_time
 id tv_action_time_report
+id tv_angleCorrection
 id tv_archive_patients
 id tv_back_report
 id tv_battery_percent

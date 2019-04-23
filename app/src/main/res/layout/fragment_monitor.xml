@@ -148,15 +148,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.07">
-
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+        <TextView
+            android:id="@+id/bodyPart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/ebrima"
+            android:text="Body Part: "
+            android:layout_marginEnd="10dp"
+            android:textColor="@color/pitch_black"
+            android:textSize="16sp" />
         <TextView
             android:id="@+id/angleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/ebrima"
+            android:layout_marginStart="10dp"
             android:text="Range of motion"
             android:textColor="@color/pitch_black"
             android:textSize="16sp" />
+        </LinearLayout>
+
 
         <!--<com.goodiebag.protractorview.ProtractorView-->
             <!--android:id="@+id/rangeOfMotion"-->
@@ -195,11 +210,24 @@
             <!--android:text="00"-->
             <!--android:textColor="#4B7080"-->
             <!--android:textSize="30sp" />-->
-
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
         <com.example.sai.pheezeeapp.views.ArcViewInside
             android:layout_width="wrap_content"
             android:layout_height="180dp"
             android:id="@+id/arcViewInside"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Angle Correction"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="5dp"
+            android:layout_marginVertical="20dp"
+            android:textColor="@color/pitch_black"
+            android:layout_marginTop="5dp"
+            android:id="@+id/tv_angleCorrection"/>
+</RelativeLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -401,7 +429,7 @@
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.25"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.95" />
@@ -418,7 +446,23 @@
         android:theme="@style/AppTheme.customDesign.noActionBar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.25"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.95" />
+    <Button
+        android:id="@+id/cancel"
+        style="?android:attr/buttonBarButtonStyle"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="@drawable/rounded_stop_button"
+        android:text="CANCEL"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:theme="@style/AppTheme.customDesign.noActionBar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.75"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.95" />

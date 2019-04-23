@@ -60,27 +60,27 @@ public final class R {
     public static final class drawable {
         private drawable() {}
 
-        public static final int isb_indicator_rounded_corners = 0x7f0800d9;
-        public static final int isb_indicator_square_corners = 0x7f0800da;
+        public static final int isb_indicator_rounded_corners = 0x7f0800da;
+        public static final int isb_indicator_square_corners = 0x7f0800db;
     }
     public static final class id {
         private id() {}
 
-        public static final int circular_bubble = 0x7f0a0061;
-        public static final int custom = 0x7f0a007f;
-        public static final int divider = 0x7f0a008f;
-        public static final int indicator_arrow = 0x7f0a00d9;
-        public static final int indicator_container = 0x7f0a00da;
-        public static final int isb_progress = 0x7f0a00de;
-        public static final int monospace = 0x7f0a013b;
-        public static final int none = 0x7f0a014f;
-        public static final int normal = 0x7f0a0150;
-        public static final int oval = 0x7f0a0158;
-        public static final int rectangle = 0x7f0a0185;
-        public static final int rounded_rectangle = 0x7f0a01a0;
-        public static final int sans = 0x7f0a01a1;
-        public static final int serif = 0x7f0a01ba;
-        public static final int square = 0x7f0a01d3;
+        public static final int circular_bubble = 0x7f0a0063;
+        public static final int custom = 0x7f0a0081;
+        public static final int divider = 0x7f0a0091;
+        public static final int indicator_arrow = 0x7f0a00db;
+        public static final int indicator_container = 0x7f0a00dc;
+        public static final int isb_progress = 0x7f0a00e0;
+        public static final int monospace = 0x7f0a013e;
+        public static final int none = 0x7f0a0152;
+        public static final int normal = 0x7f0a0153;
+        public static final int oval = 0x7f0a015b;
+        public static final int rectangle = 0x7f0a018a;
+        public static final int rounded_rectangle = 0x7f0a01a5;
+        public static final int sans = 0x7f0a01a6;
+        public static final int serif = 0x7f0a01bf;
+        public static final int square = 0x7f0a01d8;
     }
     public static final class layout {
         private layout() {}
