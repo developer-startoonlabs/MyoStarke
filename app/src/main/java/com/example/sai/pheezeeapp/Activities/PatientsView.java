@@ -582,7 +582,7 @@ public class PatientsView extends AppCompatActivity
                     Intent intent = new Intent(Intent.ACTION_MAIN);
                     intent.addCategory(Intent.CATEGORY_HOME);
                     startActivity(intent);
-                    finish();
+                    finishAffinity();
                 }
             }
 

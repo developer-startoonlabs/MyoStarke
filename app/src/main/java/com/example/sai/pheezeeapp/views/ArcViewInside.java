@@ -29,6 +29,7 @@ public class ArcViewInside extends View {
     int mX=50, mY=50;
     int radius = 100;
     Paint mPaint ;
+    boolean showPoints = false;
     RectF oval, circle;
     Bitmap bitmap;
     public ArcViewInside(Context context) {

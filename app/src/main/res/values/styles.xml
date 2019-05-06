@@ -49,6 +49,10 @@
         <item name="fontFamily">@font/ebrima</item>
     </style>
 
+    <style name="greenprogress" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/good_green</item>
+    </style>
+
     <!--<style name="ErrorText" parent="TextAppearance.AppCompat">-->
         <!--<item name="android:textColor">@android:color/red</item>-->
         <!--<item name="android:textSize">16sp</item>-->
@@ -74,5 +78,6 @@
 
 
     <!--enter mac edress connect related style-->
+
 
 </resources>

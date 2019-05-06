@@ -127,13 +127,15 @@
         android:layout_width="92dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:text="@string/continue_session"
         android:textColor="@color/good_green"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/comment_et_symptoms" />
+        app:layout_constraintTop_toBottomOf="@+id/comment_btn_setreference" />
+
+
 
     <Button
         android:id="@+id/comment_btn_cancel"
@@ -159,6 +161,20 @@
         android:text="@string/symptomps"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/comment_et_comment" />
+
+    <Button
+        android:id="@+id/comment_btn_setreference"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:textColor="@color/good_green"
+        android:visibility="visible"
+        android:text="Set Reference"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/comment_et_symptoms" />
 
 
 </android.support.constraint.ConstraintLayout>

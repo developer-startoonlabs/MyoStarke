@@ -1,6 +1,8 @@
 package com.example.sai.pheezeeapp.activities;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -8,20 +10,27 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alimuzaffar.lib.pin.PinEntryEditText;
 import com.example.sai.pheezeeapp.R;
 import com.example.sai.pheezeeapp.services.MqttHelper;
+import com.example.sai.pheezeeapp.utils.OtpGeneration;
+import com.example.sai.pheezeeapp.utils.RegexOperations;
+import com.facebook.login.Login;
 import com.trncic.library.DottedProgressBar;
 
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
@@ -41,13 +50,20 @@ public class LoginActivity extends AppCompatActivity {
     SharedPreferences.Editor editor;
     SharedPreferences sharedPref;
     DottedProgressBar dottedProgressBar;
-
+    boolean dialogStatus = false;
+    AlertDialog mdialog = null;
+    String otp;
     //Srings for edittexts
     String str_login_email, str_login_password;
+    ProgressDialog progressDialog;
 
     //Mqtt Topics
     String mqtt_subs_login_response = "login/phizio/response";    //phizio login response from server
-    String mqtt_pubs_login_phizio = "login/phizio";    //phizio login response from server
+    String mqtt_pubs_login_phizio = "login/phizio";               //phizio login response from server
+    String mqtt_pubs_forgot_password = "forgot/password";
+    String mqtt_pubs_update_password = "phizioprofile/update/password";
+    String mqtt_pubs_update_password_response = "phizioprofile/update/password/response";
+
 
     TextView tv_signup,tv_login,tv_welcome_message,tv_login_welcome_user,tv_signup_screen;
     LinearLayout ll_login,ll_signin_section,btn_login,tv_forgot_password,ll_signup_section,ll_welcome;
@@ -118,6 +134,152 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         },1000);
                     }
+
+
+                }
+                else if (topic.equals(mqtt_pubs_forgot_password+str_login_email+otp)){
+                    progressDialog.dismiss();
+                    Log.i("message",message.toString());
+                    if (message.toString().equals("sent")){
+                        if (!dialogStatus) {
+                            dialogStatus = true;
+                            final AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                            LayoutInflater inflater = getLayoutInflater();
+                            builder.setTitle("Please enter otp");
+                            builder.setMessage("Otp has been sent to the specified email, Please enter the otp.");
+                            final View dialogLayout = inflater.inflate(R.layout.pop_otp, null);
+                            final PinEntryEditText editText = dialogLayout.findViewById(R.id.txt_pin_entry);
+                            builder.setPositiveButton("Resend",null);
+                            builder.setNegativeButton("Cancel",null);
+                            builder.setView(dialogLayout);
+                            mdialog = builder.create();
+                            mdialog.setOnShowListener(new DialogInterface.OnShowListener() {
+
+                                @Override
+                                public void onShow(final DialogInterface dialog) {
+
+                                    Button p = mdialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                                    p.setOnClickListener(new View.OnClickListener() {
+
+                                        @Override
+                                        public void onClick(View view) {
+                                            tv_forgot_password.performClick();
+                                            dialogStatus = true;
+                                        }
+                                    });
+                                    Button n = mdialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+                                    n.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            mdialog.dismiss();
+                                            dialogStatus=false;
+                                        }
+                                    });
+                                }
+                            });
+                            editText.setOnPinEnteredListener(new PinEntryEditText.OnPinEnteredListener() {
+                                @Override
+                                public void onPinEntered(CharSequence str) {
+                                    if (str.toString().equals(otp)) {
+                                        Toast.makeText(LoginActivity.this, "SUCCESS", Toast.LENGTH_SHORT).show();
+                                        mdialog.dismiss();
+                                        dialogStatus = false;
+                                        if (!dialogStatus) {
+                                            dialogStatus = true;
+                                            final AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                                            LayoutInflater inflater = getLayoutInflater();
+                                            builder.setTitle("Please enter new password");
+                                            final View dialogLayout = inflater.inflate(R.layout.popup_new_password, null);
+                                            final EditText et_new_password = dialogLayout.findViewById(R.id.et_new_password);
+                                            final EditText et_new_password_confirm = dialogLayout.findViewById(R.id.et_confirm_new_password);
+                                            et_new_password.setHint("Please enter new password");
+                                            et_new_password_confirm.setHint("Please re-enter new password");
+
+
+
+
+
+                                            builder.setPositiveButton("Update", null);
+                                            builder.setNegativeButton("Cancel", null);
+                                            builder.setView(dialogLayout);
+                                            mdialog = builder.create();
+                                            mdialog.setOnShowListener(new DialogInterface.OnShowListener() {
+
+                                                @Override
+                                                public void onShow(DialogInterface dialog) {
+
+                                                    Button p = mdialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                                                    p.setOnClickListener(new View.OnClickListener() {
+
+                                                        @Override
+                                                        public void onClick(View view) {
+                                                            Toast.makeText(LoginActivity.this, ""+(!et_new_password.getText().toString().equalsIgnoreCase("") && et_new_password.getText().equals(et_new_password_confirm.getText())), Toast.LENGTH_SHORT).show();
+                                                            if(!et_new_password.getText().toString().equalsIgnoreCase("") && et_new_password.getText().toString().equals(et_new_password_confirm.getText().toString())){
+                                                                progressDialog.show();
+                                                                mdialog.dismiss();
+
+                                                                str_login_password = et_new_password.getText().toString();
+                                                                try {
+                                                                    mqttHelper.mqttAndroidClient.subscribe(mqtt_pubs_update_password_response+str_login_email+str_login_password, 1, null, new IMqttActionListener() {
+                                                                        @Override
+                                                                        public void onSuccess(IMqttToken asyncActionToken) { Log.w("Mqtt","Subscribed!");
+                                                                            Log.i("credentials",str_login_email+" "+str_login_password);
+                                                                            MqttMessage msg_update_password = new MqttMessage();
+                                                                            JSONObject jsonObject = new JSONObject();
+                                                                            try {
+                                                                                jsonObject.put("phiziopassword",et_new_password.getText().toString());
+                                                                                jsonObject.put("phizioemail",str_login_email);
+                                                                            } catch (JSONException e) {
+                                                                                e.printStackTrace();
+                                                                            }
+                                                                            msg_update_password.setPayload(jsonObject.toString().getBytes());
+                                                                            mqttHelper.publishMqttTopic(mqtt_pubs_update_password,msg_update_password);}
+
+                                                                        @Override
+                                                                        public void onFailure(IMqttToken asyncActionToken, Throwable exception) { Log.w("Mqtt", "Subscribed fail!"); }
+                                                                    });
+                                                                } catch (MqttException e) {
+                                                                    e.printStackTrace();
+                                                                }
+                                                            }
+                                                        }
+                                                    });
+                                                    Button n = mdialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+                                                    n.setOnClickListener(new View.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(View v) {
+                                                            mdialog.dismiss();
+                                                            dialogStatus = false;
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                            mdialog.setCanceledOnTouchOutside(false);
+                                            mdialog.show();
+                                        }
+
+                                    } else {
+                                        Toast.makeText(LoginActivity.this, "Invalid Otp Entered!", Toast.LENGTH_SHORT).show();
+                                        editText.setText(null);
+                                    }
+                                }
+                            });
+
+                            mdialog.setCanceledOnTouchOutside(false);
+                            mdialog.show();
+                        }
+                    }
+                    else if(message.toString().equalsIgnoreCase("invalid")){
+                        Toast.makeText(LoginActivity.this, "Please enter valid email!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                else if(topic.equals(mqtt_pubs_update_password_response+str_login_email+str_login_password)){
+                    progressDialog.dismiss();
+                    if(message.toString().equalsIgnoreCase("updated"))
+                        Toast.makeText(LoginActivity.this, "Password Updated, please login!", Toast.LENGTH_SHORT).show();
+                    else
+                        Toast.makeText(LoginActivity.this, "Error please try again!", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -157,6 +319,12 @@ public class LoginActivity extends AppCompatActivity {
         tv_welcome_message = findViewById(R.id.tv_welcome_message);
         tv_login_welcome_user = findViewById(R.id.login_tv_welcome_user);
         tv_signup_screen = findViewById(R.id.login_tv_signup);
+        progressDialog = new ProgressDialog(this,R.style.greenprogress);
+        progressDialog.setMessage("Please wait");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCanceledOnTouchOutside(false);
+
 
         et_mail.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -185,6 +353,7 @@ public class LoginActivity extends AppCompatActivity {
         tv_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setTheme(R.style.AppTheme_NoActionBarLogin);
                 rl_login_section.startAnimation(animation_up);
                 ll_signin_section.setVisibility(View.VISIBLE);
                 ll_signin_section.startAnimation(animation_up);
@@ -192,16 +361,19 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 str_login_email = et_mail.getText().toString();
                 str_login_password = et_password.getText().toString();
                 final MqttMessage mqttMessage = new MqttMessage();
 
                 if(str_login_email.equals("")||str_login_password.equals("")){
                         showToast("Invalid Credentials");
+                }
+                else if(!RegexOperations.isValidEmail(str_login_email)){
+                    showToast("Invalid Email Address");
                 }
                 else {
                     try {
@@ -231,6 +403,50 @@ public class LoginActivity extends AppCompatActivity {
                     enableWelcomeView();
                     setWelcomeText("Loging in..");
                     dottedProgressBar.startProgress();
+                }
+            }
+        });
+
+
+        tv_forgot_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(!et_mail.getText().toString().equalsIgnoreCase("")) {
+                    setTheme(R.style.AppTheme_NoActionBar);
+                    dialogStatus = false;
+                    progressDialog.show();
+                    str_login_email = et_mail.getText().toString();
+                    final MqttMessage mqttMessage = new MqttMessage();
+                    otp = OtpGeneration.OTP(4);
+                    try {
+                        mqttHelper.mqttAndroidClient.subscribe(mqtt_pubs_forgot_password +str_login_email+ otp, 1, null, new IMqttActionListener() {
+                            @Override
+                            public void onSuccess(IMqttToken asyncActionToken) {
+                                Log.w("Mqtt", "Subscribed!");
+                                Log.i("credentials", str_login_email + " " + str_login_password);
+                                JSONObject jsonObject = new JSONObject();
+                                try {
+                                    jsonObject.put("phizioemail", str_login_email);
+                                    jsonObject.put("otp",otp);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                mqttMessage.setPayload(jsonObject.toString().getBytes());
+                                mqttHelper.publishMqttTopic(mqtt_pubs_forgot_password, mqttMessage);
+                            }
+
+                            @Override
+                            public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
+                                Log.w("Mqtt", "Subscribed fail!");
+                            }
+                        });
+                    } catch (MqttException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else {
+                    Toast.makeText(LoginActivity.this, "Please enter the email address!", Toast.LENGTH_SHORT).show();
                 }
             }
         });

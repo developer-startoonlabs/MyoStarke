@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -44,7 +45,7 @@ public class SessionReportActivity extends AppCompatActivity {
     ImageView iv_go_back;
 
 
-    String patientId , phizioemail;
+    public static String patientId , phizioemail;
     String mqtt_publish_getpatientReport_response = "patient/generate/report/response";
     String mqtt_publish_getpatientReport = "patient/generate/report";
 
@@ -96,6 +97,8 @@ public class SessionReportActivity extends AppCompatActivity {
                     progress.dismiss();
                     openWeekFragment();
                     session_arry = new JSONArray(message.toString());
+                    Log.i("array sessions",session_arry.toString());
+                    Log.i("array sessions len",String.valueOf(session_arry.length()));
                 }
             }
 

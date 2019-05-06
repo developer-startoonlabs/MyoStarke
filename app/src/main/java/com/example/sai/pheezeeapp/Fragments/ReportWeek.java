@@ -1,10 +1,12 @@
 package com.example.sai.pheezeeapp.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,9 +22,11 @@ import com.anychart.charts.Cartesian;
 import com.anychart.core.cartesian.series.RangeColumn;
 import com.anychart.data.Mapping;
 import com.anychart.data.Set;
+import com.example.sai.pheezeeapp.activities.LoginActivity;
 import com.example.sai.pheezeeapp.activities.PatientsView;
 import com.example.sai.pheezeeapp.activities.SessionReportActivity;
 import com.example.sai.pheezeeapp.R;
+import com.example.sai.pheezeeapp.utils.PatientOperations;
 import com.example.sai.pheezeeapp.utils.TimeOperations;
 import com.example.sai.pheezeeapp.views.custom_graph.ApiData;
 import com.example.sai.pheezeeapp.views.custom_graph.EmonjiBarGraph;
@@ -64,7 +68,7 @@ public class ReportWeek extends Fragment {
     //custom chart
     private String[] days = {"sun","Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
     EmonjiBarGraph rom,emg;
-
+    JSONObject object = new JSONObject();
 
     //Bar chart
     BarChart barChart;
@@ -99,10 +103,15 @@ public class ReportWeek extends Fragment {
 
         //custom bar gaph android
         rom = view.findViewById(R.id.graphView);
+
         rom.setBarNames(days);
+        rom.setUpperLineColor(ContextCompat.getColor(getActivity(),R.color.home_orange));
+        rom.setLowerLineColor(ContextCompat.getColor(getActivity(),R.color.home_orange));
 
         emg = view.findViewById(R.id.graphView_emg);
         emg.setBarNames(days);
+        emg.setUpperLineColor(ContextCompat.getColor(getActivity(),R.color.home_orange));
+        emg.setLowerLineColor(ContextCompat.getColor(getActivity(),R.color.home_orange));
 
         anyChartView_rom = view.findViewById(R.id.rom_chartView);
         barChart = view.findViewById(R.id.emg_barchart_report);
@@ -193,6 +202,7 @@ public class ReportWeek extends Fragment {
             @Override
             public void onClick(View v) {
                 currentWeek--;
+                current_bodypart=0;
                 getWeek(currentWeek);
                 HashSet<String> set_part = fetchAllParts();
                 str_part = new ArrayList<>();
@@ -208,8 +218,11 @@ public class ReportWeek extends Fragment {
                 else {
                     makeIndividualInvisible();
                     Toast.makeText(getActivity(), "No Exercises done", Toast.LENGTH_SHORT).show();
+
                 }
+
                 updateScreen(mTypeSelected);
+                updateLines();
             }
         });
 
@@ -217,6 +230,7 @@ public class ReportWeek extends Fragment {
             @Override
             public void onClick(View v) {
                 currentWeek++;
+                current_bodypart=0;
                 getWeek(currentWeek);
                 updateScreen(mTypeSelected);
                 HashSet<String> set_part = fetchAllParts();
@@ -232,9 +246,11 @@ public class ReportWeek extends Fragment {
                 }
                 else {
                     makeIndividualInvisible();
+
                     Toast.makeText(getActivity(), "No Exercises done", Toast.LENGTH_SHORT).show();
                 }
                 updateScreen(mTypeSelected);
+                updateLines();
             }
         });
 
@@ -255,8 +271,8 @@ public class ReportWeek extends Fragment {
         iv_left_joint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 current_bodypart--;
+
                 Log.i("current body part",current_bodypart+"");
                 if(current_bodypart>=0 && current_bodypart<str_part.size())
                     tv_body_part.setText(str_part.get(current_bodypart));
@@ -265,6 +281,7 @@ public class ReportWeek extends Fragment {
                     tv_body_part.setText(str_part.get(current_bodypart));
                 }
                 updateScreen(mTypeSelected);
+                updateLines();
             }
         });
 
@@ -272,6 +289,7 @@ public class ReportWeek extends Fragment {
             @Override
             public void onClick(View v) {
                 current_bodypart++;
+
                 Log.i("current body part",current_bodypart+"");
                 if(current_bodypart>=0 && current_bodypart<str_part.size())
                     tv_body_part.setText(str_part.get(current_bodypart));
@@ -280,6 +298,7 @@ public class ReportWeek extends Fragment {
                     tv_body_part.setText(str_part.get(current_bodypart));
                 }
                 updateScreen(mTypeSelected);
+                updateLines();
             }
         });
 
@@ -344,13 +363,47 @@ public class ReportWeek extends Fragment {
                 else {
                     makeIndividualInvisible();
                     Toast.makeText(getActivity(), "No Exercises done", Toast.LENGTH_SHORT).show();
+
                 }
                 updateScreen(mTypeSelected);
+                updateLines();
 //        updateTotalTime();
 //        updateHoldTime(array);
 //        updateTotalReps(array);
         updateGraphs();
 
+    }
+
+
+    public void updateLines(){
+        if(str_part.size()>0) {
+            object = PatientOperations.checkReferenceWithoutOrientationDone(getActivity(), SessionReportActivity.patientId, str_part.get(current_bodypart));
+
+            if (object != null) Log.i("object123", object.toString());
+            if (object != null) {
+                try {
+                    int maxangle = Integer.parseInt(object.getString("maxangle"));
+                    int minangle = Integer.parseInt(object.getString("minangle"));
+                    int maxemg = Integer.parseInt(object.getString("maxemg"));
+                    rom.setUpperLine((short) maxangle);
+                    rom.setLowerLine((short) minangle);
+                    emg.setUpperLine((short) maxemg);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Log.i("inside123", "null");
+                rom.setUpperLine((short) 179);
+                rom.setLowerLine((short) 1);
+                emg.setUpperLine((short) 179);
+            }
+        }
+        else {
+            Log.i("inside123", "null");
+            rom.setUpperLine((short) 179);
+            rom.setLowerLine((short) 1);
+            emg.setUpperLine((short) 179);
+        }
     }
 
     public void getWeek(int weekFromToday) {

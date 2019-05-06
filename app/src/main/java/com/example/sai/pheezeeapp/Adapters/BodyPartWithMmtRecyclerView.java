@@ -41,7 +41,7 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
     private String patientID;
 
 
-    public String gradeSelected="",bodypartSelected="", orientationSelected="";
+    public static String gradeSelected="",bodypartSelected="", orientationSelected="";
 
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
@@ -134,7 +134,6 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
         }
 

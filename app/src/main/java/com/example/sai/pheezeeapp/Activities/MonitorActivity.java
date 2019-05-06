@@ -103,8 +103,8 @@ public class MonitorActivity extends AppCompatActivity {
     public final int emg_data_size_raw = 20, emg_num_packets_raw = 40, emg_data_size_session = 10,  emg_num_packets_session = 20;
     ImageView iv_back_monitor;
 
-    File  file_emgdata,file_dir_emgdata;
-    FileOutputStream  outputStream_emgdata;
+    File  file_emgdata,file_dir_emgdata, file_session_emgdata, file_dir_session_emgdata;
+    FileOutputStream  outputStream_emgdata,outputStream_session_emgdata;
 
     //MQTT
     MqttHelper mqttHelper;
@@ -131,7 +131,8 @@ public class MonitorActivity extends AppCompatActivity {
     ArcViewInside arcViewInside;
     TextView time;
     TextView patientId;
-    TextView patientName, tv_angleCorrection;
+    TextView patientName, tv_action_time;
+    ImageView iv_angle_correction;
     LineData lineData;
     JSONArray sessionResult  = new JSONArray();
     JSONObject sessionObj = new JSONObject();
@@ -211,7 +212,8 @@ public class MonitorActivity extends AppCompatActivity {
         tv_session_no               = findViewById(R.id.tv_session_no);
         tv_body_part                = findViewById(R.id.bodyPart);
         cancelBtn                   = findViewById(R.id.cancel);
-        tv_angleCorrection           = findViewById(R.id.tv_angleCorrection);
+        iv_angle_correction           = findViewById(R.id.tv_angleCorrection);
+        tv_action_time              = findViewById(R.id.tv_action_time);
         handler                     = new Handler();
         emgJsonArray                = new JSONArray();
 
@@ -251,6 +253,7 @@ public class MonitorActivity extends AppCompatActivity {
         }
         bodypart = getIntent().getStringExtra("exerciseType");
         tv_body_part.setText(tv_body_part.getText().toString().concat(bodypart));
+        tv_body_part.setText(bodypart+"-"+BodyPartSelection.exercisename);
         //Getting the max and min angle of the particular body part
         maxAnglePart = angleOperations.getMaxAngle(bodypart);
         minAnglePart = angleOperations.getMinAngle(bodypart);
@@ -340,7 +343,7 @@ public class MonitorActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 PatientsView.sessionStarted = false;
-
+                cancelBtn.setVisibility(View.GONE);
                 timer.setBackgroundResource(R.drawable.rounded_start_button);
                 visiblity = View.VISIBLE;
                 stopBtn.setVisibility(View.GONE);
@@ -402,6 +405,18 @@ public class MonitorActivity extends AppCompatActivity {
                                             "file " + path + " was scanned seccessfully: " + uri);
                                 }
                             });
+
+                    MediaScannerConnection.scanFile(
+                            getApplicationContext(),
+                            new String[]{file_session_emgdata.getAbsolutePath()},
+                            null,
+                            new MediaScannerConnection.OnScanCompletedListener() {
+                                @Override
+                                public void onScanCompleted(String path, Uri uri) {
+                                    Log.v("grokkingandroid",
+                                            "file " + path + " was scanned seccessfully: " + uri);
+                                }
+                            });
 //                }else {
 //                    Toast.makeText(MonitorActivity.this,"your alignment is wrong!! try again,",Toast.LENGTH_LONG).show();
 //                }
@@ -409,7 +424,7 @@ public class MonitorActivity extends AppCompatActivity {
         });
 
 
-        tv_angleCorrection.setOnClickListener(new View.OnClickListener() {
+        iv_angle_correction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final AlertDialog.Builder builder = new AlertDialog.Builder(MonitorActivity.this);
@@ -433,12 +448,9 @@ public class MonitorActivity extends AppCompatActivity {
                                     angleCorrection -= maxAngle;
                                     maxAngle+=angleCorrection;
                                 }
-
                             }catch (NumberFormatException e){
 
                             }
-
-
                         }
                     }
                 });
@@ -505,7 +517,7 @@ public class MonitorActivity extends AppCompatActivity {
         Seconds = 0 ;
         Minutes = 0 ;
         MilliSeconds = 0 ;
-        time.setText("Session time:   00 : 00 : 00");
+        time.setText("Session time:   00 : 00");
 
         bluetoothAdapter = BluetoothSingelton.getmInstance().getAdapter();
         if (!bluetoothAdapter.isEnabled()) {
@@ -561,6 +573,7 @@ public class MonitorActivity extends AppCompatActivity {
         maxAngle = 0;minAngle = 360;maxEmgValue = 0;
         creatGraphView();
         timer.setVisibility(View.GONE);
+        cancelBtn.setVisibility(View.VISIBLE);
         stopBtn.setVisibility(View.VISIBLE);
         if (!servicesDiscovered) {
             stopBtn.setVisibility(View.GONE);
@@ -575,20 +588,31 @@ public class MonitorActivity extends AppCompatActivity {
             }, 100);
             rawdata_timestamp = Calendar.getInstance().getTime();
             String s = rawdata_timestamp.toString().substring(0, 19);
-            file_dir_emgdata = new File(Environment.getExternalStorageDirectory()+"/Pheezee/files","EmgData");
-            if (!file_dir_emgdata.exists())
+            String child = patientName.getText().toString()+patientId.getText().toString();
+            file_dir_emgdata = new File(Environment.getExternalStorageDirectory()+"/Pheezee/files/EmgData/"+child+"/raw");
+            file_dir_session_emgdata = new File(Environment.getExternalStorageDirectory()+"/Pheezee/files/EmgData/"+child+"/sessiondata");
+            if (!file_dir_emgdata.exists()) {
                 file_dir_emgdata.mkdirs();
+            }
+            if (!file_dir_session_emgdata.exists()) {
+                file_dir_session_emgdata.mkdir();
+            }
             file_emgdata = new File(file_dir_emgdata, ""+s+".txt");
+            file_session_emgdata = new File(file_dir_session_emgdata, ""+s+".txt");
             try {
                 file_emgdata.createNewFile();
+                file_session_emgdata.createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
             try {
                 outputStream_emgdata = new FileOutputStream(file_emgdata, true);
+                outputStream_session_emgdata = new FileOutputStream(file_session_emgdata, true);
                 outputStream_emgdata.write("EMG".getBytes());
                 outputStream_emgdata.write("\n".getBytes());
+                outputStream_session_emgdata.write("EMG".getBytes());
+                outputStream_session_emgdata.write("\n".getBytes());
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -820,7 +844,6 @@ public class MonitorActivity extends AppCompatActivity {
 
             else if(characteristic.getUuid().equals(characteristic1_service2_uuid)){
                 byte[] b = characteristic.getValue();
-
                 if(b.length<47){
                     int[] emg_data;
 
@@ -1035,8 +1058,9 @@ public class MonitorActivity extends AppCompatActivity {
 
 //            timeText ="Session time:   " + String.format("%02d", Minutes) + " : " + String.format("%02d", Seconds) + " : " + String.format("%02d", MilliSeconds);
             timeText ="Session time:   " + String.format("%02d", Minutes) + " : " + String.format("%02d", Seconds);
-
+            String time_action = String.format("%02d", Minutes) + " : " + String.format("%02d", Seconds);
             time.setText(timeText);
+            tv_action_time.setText(time_action);
 
             handler.postDelayed(this, 0);
             if(PatientsView.sessionStarted==false && devicePopped==false){
@@ -1110,8 +1134,26 @@ public class MonitorActivity extends AppCompatActivity {
 //            lineDataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
 
             for (int i=0;i<emg_data.length;i++) {
+                try {
+                    outputStream_session_emgdata = new FileOutputStream(file_session_emgdata, true);
+                    outputStream_session_emgdata.write(String.valueOf(emg_data[i]).getBytes());
+                    outputStream_session_emgdata.write("\n".getBytes());
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 emgJsonArray.put(emg_data[i]);
+
                 EMG.setText(Integer.toString(emg_data[i]));
+
+
+                try {
+                    outputStream_session_emgdata.flush();
+                    outputStream_session_emgdata.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
             Repetitions.setText(repetitionValue);
             LinearLayout.LayoutParams params;
@@ -1131,6 +1173,9 @@ public class MonitorActivity extends AppCompatActivity {
             holdTime.setText(holdTimeValue);
         }
     };
+
+
+
 
     private  void initiatePopupWindowModified(final View v){
         View layout = getLayoutInflater().inflate(R.layout.session_summary, null);
@@ -1388,6 +1433,7 @@ public class MonitorActivity extends AppCompatActivity {
                             }
                             jsonData.getJSONObject(i).put("numofsessions",""+numofsessions);
                             JSONObject object = new JSONObject();
+                            Log.i("datestring","2019-04-22 13:08:34");
                             object.put("heldon",dateString);
                             object.put("maxangle",maxAngle);
                             object.put("minangle",minAngle);

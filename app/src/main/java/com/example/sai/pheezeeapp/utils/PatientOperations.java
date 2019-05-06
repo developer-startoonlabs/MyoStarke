@@ -178,4 +178,160 @@ public class PatientOperations {
         return object;
     }
 
+    public static JSONObject checkReferenceDone(String orientation, Context context, String patientID, String bodypartSelected){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        JSONObject json_phizio = null;
+        JSONArray json_patients = null;
+        JSONArray json_patient_reference = new JSONArray();
+        JSONObject result = null;
+        try {
+            json_phizio = new JSONObject(preferences.getString("phiziodetails",""));
+            json_patients = new JSONArray(json_phizio.getString("phiziopatients"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        for (int i=0;i<json_patients.length();i++){
+            try {
+                JSONObject object = json_patients.getJSONObject(i);
+                if(object.getString("patientid").equals(patientID)){
+                    if(object.has("calibrationSession"))
+                        json_patient_reference = new JSONArray(object.getString("calibrationSession"));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        for (int i = 0; i < json_patient_reference.length(); i++) {
+            try {
+                JSONObject object = json_patient_reference.getJSONObject(i);
+
+                String exerciseType = object.getString("bodypart");
+                String obj_orientation = object.getString("orientation");
+                    if (exerciseType.equals(bodypartSelected) && obj_orientation.equals(orientation)) {
+                        return object;
+                    }
+                    else if (exerciseType.equals(bodypartSelected) && obj_orientation.equals(orientation))
+                        return object;
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return  result;
+    }
+
+    public static JSONObject checkReferenceWithoutOrientationDone( Context context, String patientID, String bodypartSelected){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        JSONObject json_phizio = null;
+        JSONArray json_patients = null;
+        JSONArray json_patient_reference = new JSONArray();
+        JSONObject result = null;
+        try {
+            json_phizio = new JSONObject(preferences.getString("phiziodetails",""));
+            json_patients = new JSONArray(json_phizio.getString("phiziopatients"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        for (int i=0;i<json_patients.length();i++){
+            try {
+                JSONObject object = json_patients.getJSONObject(i);
+                if(object.getString("patientid").equals(patientID)){
+                    if(object.has("calibrationSession"))
+                        json_patient_reference = new JSONArray(object.getString("calibrationSession"));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        for (int i = 0; i < json_patient_reference.length(); i++) {
+            try {
+                JSONObject object = json_patient_reference.getJSONObject(i);
+
+                String exerciseType = object.getString("bodypart");
+                String obj_orientation = object.getString("orientation");
+                if (exerciseType.equals(bodypartSelected) )
+                    return object;
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return  result;
+    }
+
+
+    public static void saveReferenceSessionLocally(JSONObject param, Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = preferences.edit();
+        JSONObject json_phizio = null;
+        JSONArray json_patients = null;
+        JSONArray json_patient_reference = new JSONArray();
+        try {
+            json_phizio = new JSONObject(preferences.getString("phiziodetails",""));
+            json_patients = new JSONArray(json_phizio.getString("phiziopatients"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        JSONObject selected = new JSONObject();
+        try {
+            selected.put("bodypart",param.getString("bodypartselected"));
+            selected.put("orientation",param.getString("orientationselected"));
+            selected.put("maxangle",param.getString("maxangle"));
+            selected.put("maxemg",param.getString("maxemg"));
+            selected.put("minangle",param.getString("minangle"));
+            selected.put("minemg",param.getString("minemg"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Log.i("savelocally",selected.toString());
+        boolean flag_has = false;
+        for (int i=0;i<json_patients.length();i++){
+
+            try {
+                JSONObject object = json_patients.getJSONObject(i);
+                if(object.getString("patientid").equals(param.getString("patientid"))){
+                    if(object.has("calibrationSession")){
+                        json_patient_reference = new JSONArray(object.getString("calibrationSession"));
+                        for (int j=0;j<json_patient_reference.length();j++){
+                            JSONObject object1 = json_patient_reference.getJSONObject(j);
+                            if(object1.getString("bodypart").equalsIgnoreCase(param.getString("bodypartselected")) && object1.getString("orientation").equalsIgnoreCase(param.getString("orientationselected"))){
+                                flag_has = true;
+                                json_patient_reference.getJSONObject(j).put("maxangle",param.getString("maxangle"));
+                                json_patient_reference.getJSONObject(j).put("maxemg",param.getString("maxemg"));
+                                json_patient_reference.getJSONObject(j).put("minangle",param.getString("minangle"));
+                                json_patient_reference.getJSONObject(j).put("minemg",param.getString("minemg"));
+                                Log.i("json mmt",json_patient_reference.getJSONObject(j).toString());
+                                break;
+                            }
+                        }
+                    }
+                    break;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if(!flag_has){
+            json_patient_reference.put(selected);
+        }
+        for (int i=0;i<json_patients.length();i++){
+            try {
+                JSONObject object = json_patients.getJSONObject(i);
+                if(object.getString("patientid").equals(param.getString("patientid"))){
+                    json_patients.getJSONObject(i).put("calibrationSession",json_patient_reference.toString());
+                    json_phizio.put("phiziopatients",json_patients);
+                    editor.putString("phiziodetails",json_phizio.toString());
+                    editor.commit();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 }

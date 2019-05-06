@@ -513,6 +513,16 @@ attr passwordToggleDrawable
 attr passwordToggleEnabled
 attr passwordToggleTint
 attr passwordToggleTintMode
+attr pinAnimationType
+attr pinBackgroundDrawable
+attr pinBackgroundIsSquare
+attr pinCharacterMask
+attr pinCharacterSpacing
+attr pinLineColors
+attr pinLineStroke
+attr pinLineStrokeSelected
+attr pinRepeatedHint
+attr pinTextBottomPadding
 attr popupMenuStyle
 attr popupTheme
 attr popupWindowStyle
@@ -863,6 +873,7 @@ color notification_icon_bg_color
 color notification_material_background_media_default_color
 color pale_good_green
 color pale_white
+color pin_normal
 color pitch_black
 color primary_dark_material_dark
 color primary_dark_material_light
@@ -1244,6 +1255,7 @@ drawable abc_textfield_search_material
 drawable abc_vector_test
 drawable active_dot
 drawable add_device_icon
+drawable angle_correction
 drawable ankle_part
 drawable app_icon
 drawable avd_hide_password
@@ -1400,6 +1412,7 @@ drawable pheezee_logo_final
 drawable pheezee_logo_topbar
 drawable phizio_icon
 drawable phizio_patient_relation
+drawable pin_enter_edittext
 drawable popup_window
 drawable report_arrow
 drawable report_logo
@@ -1435,6 +1448,8 @@ id SHIFT
 id SYM
 id ScannerOverlay
 id action0
+id actionTimeContainer
+id actionTimeText
 id action_bar
 id action_bar_activity_content
 id action_bar_container
@@ -1477,6 +1492,7 @@ id battery_cell_color
 id beginning
 id blocking
 id bodyPart
+id bodyPartContainer
 id bodyPartRecyclerView
 id bodypartImage
 id bottom
@@ -1542,6 +1558,7 @@ id com_facebook_tooltip_bubble_view_text_body
 id com_facebook_tooltip_bubble_view_top_pointer
 id comment_btn_cancel
 id comment_btn_continue
+id comment_btn_setreference
 id comment_et_comment
 id comment_et_muscle_tone
 id comment_et_pain_scale
@@ -1587,6 +1604,8 @@ id end_padder
 id enterAlways
 id enterAlwaysCollapsed
 id enter_mac_address
+id et_confirm_new_password
+id et_new_password
 id et_phizio_address
 id et_phizio_clinic_name
 id et_phizio_degree
@@ -1615,6 +1634,7 @@ id fixed
 id fl_fab_background
 id forever
 id fragment_report_container
+id fromBottom
 id fullName
 id ghost_view
 id glide_custom_view_target_tag
@@ -1802,6 +1822,7 @@ id phizio_phone
 id pieChart
 id pin
 id popDown
+id popIn
 id popLeft
 id popRight
 id popUp
@@ -1879,6 +1900,9 @@ id sessionNoText
 id sessionTime
 id session_held_on
 id session_summary_arcview
+id setreference_et_maxangle
+id setreference_et_maxemg
+id setreference_et_minangle
 id shareIcon
 id shortcut
 id showCustom
@@ -1935,6 +1959,10 @@ id textView17
 id textView18
 id textView19
 id textView2
+id textView20
+id textView21
+id textView22
+id textView23
 id textView3
 id textView4
 id textView5
@@ -2057,6 +2085,7 @@ id tv_total_hours_session
 id tv_total_time
 id tv_welcome_message
 id two
+id txt_pin_entry
 id uniform
 id unknown
 id unlabeled
@@ -2196,9 +2225,12 @@ layout notification_template_part_chronometer
 layout notification_template_part_time
 layout patient_grade_dialog_layout
 layout patient_layout
+layout pop_otp
 layout popup
 layout popup_click_to_preview
 layout popup_comment_session
+layout popup_new_password
+layout popup_set_reference
 layout scanned_devices_listview_model
 layout select_dialog_item_material
 layout select_dialog_multichoice_material
@@ -3087,6 +3119,7 @@ style com_facebook_button
 style com_facebook_button_like
 style com_facebook_loginview_default_style
 style com_facebook_loginview_silver_style
+style greenprogress
 style tooltip_bubble_text
 styleable ActionBar background backgroundSplit backgroundStacked contentInsetEnd contentInsetEndWithActions contentInsetLeft contentInsetRight contentInsetStart contentInsetStartWithNavigation customNavigationLayout displayOptions divider elevation height hideOnContentScroll homeAsUpIndicator homeLayout icon indeterminateProgressStyle itemPadding logo navigationMode popupTheme progressBarPadding progressBarStyle subtitle subtitleTextStyle title titleTextStyle
 styleable ActionBarLayout android_layout_gravity
@@ -3151,6 +3184,7 @@ styleable MenuGroup android_enabled android_id android_visible android_menuCateg
 styleable MenuItem android_icon android_enabled android_id android_checked android_visible android_menuCategory android_orderInCategory android_title android_titleCondensed android_alphabeticShortcut android_numericShortcut android_checkable android_onClick actionLayout actionProviderClass actionViewClass alphabeticModifiers contentDescription iconTint iconTintMode numericModifiers showAsAction tooltipText
 styleable MenuView android_windowAnimationStyle android_itemTextAppearance android_horizontalDivider android_verticalDivider android_headerBackground android_itemBackground android_itemIconDisabledAlpha preserveIconSpacing subMenuArrow
 styleable NavigationView android_background android_fitsSystemWindows android_maxWidth elevation headerLayout itemBackground itemHorizontalPadding itemIconPadding itemIconTint itemTextAppearance itemTextColor menu
+styleable PinEntryEditText pinAnimationType pinBackgroundDrawable pinBackgroundIsSquare pinCharacterMask pinCharacterSpacing pinLineColors pinLineStroke pinLineStrokeSelected pinRepeatedHint pinTextBottomPadding
 styleable PopupWindow android_popupBackground android_popupAnimationStyle overlapAnchor
 styleable PopupWindowBackgroundState state_above_anchor
 styleable ProtractorView angle angleTextSize arcColor arcProgressColor arcWidth enabled progressWidth roundEdges textColor textProgressColor thumb tickColor tickIntervals tickLength tickOffset tickProgressColor ticksBetweenLabel touchInside

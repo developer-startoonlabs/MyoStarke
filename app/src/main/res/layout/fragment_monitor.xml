@@ -83,6 +83,30 @@
         android:orientation="horizontal"
         app:layout_constraintHorizontal_bias="0.0"
         tools:ignore="MissingConstraints">
+        <LinearLayout
+            android:id="@+id/patientNameContainter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:gravity="left">
+
+            <TextView
+                android:id="@+id/patientNameText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/ebrima"
+                android:textColor="@color/pitch_black"
+                android:text="Name: "
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/patientName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/ebrima"
+                android:text="Mythreyi Kondapi"
+                android:textSize="16sp" />
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/patientIdContainter"
@@ -97,7 +121,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/ebrima"
                 android:textColor="@color/pitch_black"
-                android:text="Patient Id: "
+                android:text="Id: "
                 android:textSize="16sp" />
 
             <TextView
@@ -105,34 +129,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/ebrima"
-                android:text="sai"
+                android:text="1234"
                 android:textSize="16sp" />
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/patientNameContainter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:gravity="center">
 
-            <TextView
-                android:id="@+id/patientNameText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/ebrima"
-                android:textColor="@color/pitch_black"
-                android:text="Patient Name: "
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/patientName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/ebrima"
-                android:text="sak"
-                android:textSize="16sp" />
-        </LinearLayout>
     </LinearLayout>
 
 
@@ -147,30 +148,75 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.07">
+        app:layout_constraintVertical_bias="0.09">
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-        <TextView
-            android:id="@+id/bodyPart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/ebrima"
-            android:text="Body Part: "
-            android:layout_marginEnd="10dp"
-            android:textColor="@color/pitch_black"
-            android:textSize="16sp" />
-        <TextView
-            android:id="@+id/angleText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/ebrima"
-            android:layout_marginStart="10dp"
-            android:text="Range of motion"
-            android:textColor="@color/pitch_black"
-            android:textSize="16sp" />
+            <LinearLayout
+                android:id="@+id/sessionNoContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:gravity="left"
+                android:orientation="horizontal"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp">
+
+                <TextView
+                    android:id="@+id/sessionNoText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/ebrima"
+                    android:text="Session No: "
+                    android:textColor="@color/pitch_black"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_session_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/ebrima"
+                    android:text="0"
+                    android:textSize="16sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/bodyPartContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:gravity="left"
+                android:orientation="horizontal"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp">
+                <TextView
+                    android:id="@+id/bodyPart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/ebrima"
+                    android:text="Body Part: "
+                    android:gravity="right"
+                    android:layout_marginEnd="10dp"
+                    android:textColor="@color/pitch_black"
+                    android:textSize="16sp" />
+            </LinearLayout>
         </LinearLayout>
+        <TextView
+            android:id="@+id/displayTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="5dp"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/ebrima"
+            android:textColor="@color/pitch_black"
+            android:text="Session time:   00 : 00 "
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.49" />
 
 
         <!--<com.goodiebag.protractorview.ProtractorView-->
@@ -217,12 +263,12 @@
             android:layout_width="wrap_content"
             android:layout_height="180dp"
             android:id="@+id/arcViewInside"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Angle Correction"
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/angle_correction"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="5dp"
+            android:layout_marginEnd="15dp"
             android:layout_marginVertical="20dp"
             android:textColor="@color/pitch_black"
             android:layout_marginTop="5dp"
@@ -240,7 +286,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.4">
+        app:layout_constraintVertical_bias="0.48">
 
         <LinearLayout
             android:id="@+id/repsContainter"
@@ -270,7 +316,7 @@
                 android:textSize="16sp" />
         </LinearLayout>
         <LinearLayout
-            android:id="@+id/sessionNoContainer"
+            android:id="@+id/actionTimeContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
@@ -280,20 +326,20 @@
             android:paddingStart="10dp">
 
             <TextView
-                android:id="@+id/sessionNoText"
+                android:id="@+id/actionTimeText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/ebrima"
-                android:text="Session No"
+                android:text="Active Time"
                 android:textColor="@color/pitch_black"
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/tv_session_no"
+                android:id="@+id/tv_action_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/ebrima"
-                android:text="0"
+                android:text="00 : 00"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -340,7 +386,7 @@
         app:layout_constraintHorizontal_weight="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.47" />
+        app:layout_constraintVertical_bias="0.54" />
 
     <LinearLayout
         android:id="@+id/emgBarContainer"
@@ -354,7 +400,7 @@
         app:layout_constraintHorizontal_weight="0.2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.65">
+        app:layout_constraintVertical_bias="0.72">
 
         <LinearLayout
             android:id="@+id/emg"
@@ -378,7 +424,7 @@
         app:layout_constraintHorizontal_weight="0.8"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.70" />
+        app:layout_constraintVertical_bias="0.77" />
 
     <!--<ProgressBar-->
     <!--android:id="@+id/roundedProgressBar"-->
@@ -389,21 +435,21 @@
     <!--app:layout_constraintTop_toTopOf="parent" />-->
 
 
-    <TextView
-        android:id="@+id/displayTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:fontFamily="@font/ebrima"
-        android:textColor="@color/pitch_black"
-        android:text="Session time:   00 : 00 "
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.49" />
+    <!--<TextView-->
+        <!--android:id="@+id/displayTime"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:fontFamily="@font/ebrima"-->
+        <!--android:textColor="@color/pitch_black"-->
+        <!--android:text="Session time:   00 : 00 "-->
+        <!--android:textSize="16sp"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--app:layout_constraintHorizontal_bias="0.5"-->
+        <!--app:layout_constraintLeft_toLeftOf="parent"-->
+        <!--app:layout_constraintRight_toRightOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="parent"-->
+        <!--app:layout_constraintVertical_bias="0.49" />-->
 
 
     <!--<ProgressBar-->
@@ -421,6 +467,8 @@
         style="?android:attr/buttonBarButtonStyle"
         android:layout_width="80dp"
         android:layout_height="80dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:background="@drawable/rounded_stop_button"
         android:text="Stop"
         android:textColor="#FFFFFF"
@@ -429,16 +477,17 @@
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.25"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/cancel"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.95" />
+        app:layout_constraintVertical_bias="0.97" />
 
     <Button
         android:id="@+id/timer"
         style="?android:attr/buttonBarButtonStyle"
         android:layout_width="80dp"
         android:layout_height="80dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:background="@drawable/rounded_start_button"
         android:text="Start"
         android:textColor="#FFFFFF"
@@ -446,26 +495,26 @@
         android:theme="@style/AppTheme.customDesign.noActionBar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.25"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/cancel"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.95" />
+        app:layout_constraintVertical_bias="0.97" />
+
     <Button
         android:id="@+id/cancel"
         style="?android:attr/buttonBarButtonStyle"
         android:layout_width="80dp"
         android:layout_height="80dp"
+        android:layout_marginStart="68dp"
         android:background="@drawable/rounded_stop_button"
         android:text="CANCEL"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         android:theme="@style/AppTheme.customDesign.noActionBar"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.75"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.95" />
+        app:layout_constraintVertical_bias="0.97" />
 
 
     <TextView

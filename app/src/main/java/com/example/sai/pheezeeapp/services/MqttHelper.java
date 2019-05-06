@@ -50,7 +50,7 @@ public class MqttHelper {
     private String mqtt_publish_signup_doctor = "signup/phizio";
     String mqtt_publish_getpatientReport = "patient/generate/report";
 
-    private final String serverUri = "tcp://52.66.113.37:1883";
+    private final String serverUri = "tcp://13.127.78.38:1883";
 
     private final String clientId = MqttClient.generateClientId();
 
@@ -59,6 +59,8 @@ public class MqttHelper {
     private JSONObject object;
 
     private String whichOne="",patientid, phizioemail;
+    String phizio_email = null;
+    MqttConnectOptions mqttConnectOptions = new MqttConnectOptions();
 
     private Context ctx;
     public MqttHelper(Context context){
@@ -157,7 +159,7 @@ public class MqttHelper {
     }
 
     private void connect(){
-        MqttConnectOptions mqttConnectOptions = new MqttConnectOptions();
+        mqttConnectOptions = new MqttConnectOptions();
 //        mqttConnectOptions.setAutomaticReconnect(true);
         mqttConnectOptions.setCleanSession(false);
         mqttConnectOptions.setUserName(username);
@@ -174,7 +176,7 @@ public class MqttHelper {
                     disconnectedBufferOptions.setPersistBuffer(false);
                     disconnectedBufferOptions.setDeleteOldestMessages(false);
                     mqttAndroidClient.setBufferOpts(disconnectedBufferOptions);
-                    String phizio_email = null;
+
                     if(!preferences.getString("phiziodetails","").equals("")) {
                         try {
                             object = new JSONObject(preferences.getString("phiziodetails", ""));
@@ -364,10 +366,45 @@ public class MqttHelper {
 
     }
 
-    public void publishMqttTopic(String topic, MqttMessage message){
+    public void publishMqttTopic(final String topic, final MqttMessage message){
         try {
             if(mqttAndroidClient.isConnected())
                 mqttAndroidClient.publish(topic,message);
+            else {
+                mqttAndroidClient.connect(mqttConnectOptions, null, new IMqttActionListener() {
+                    @Override
+                    public void onSuccess(IMqttToken asyncActionToken) {
+                        DisconnectedBufferOptions disconnectedBufferOptions = new DisconnectedBufferOptions();
+                        disconnectedBufferOptions.setBufferEnabled(true);
+                        disconnectedBufferOptions.setBufferSize(100);
+                        disconnectedBufferOptions.setPersistBuffer(false);
+                        disconnectedBufferOptions.setDeleteOldestMessages(false);
+                        mqttAndroidClient.setBufferOpts(disconnectedBufferOptions);
+                        if(object!=null){
+                            if(object.has("phizioemail")){
+                                try {
+                                    phizio_email = object.getString("phizioemail");
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                        subscribeToTopic(phizio_email);
+                        try {
+                            mqttAndroidClient.publish(topic,message);
+                        } catch (MqttException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
+                        Log.w("Mqtt", "Failed to connect to: " + serverUri + exception.toString());
+                    }
+                });
+
+
+            }
         } catch (MqttException e) {
             e.printStackTrace();
         }
