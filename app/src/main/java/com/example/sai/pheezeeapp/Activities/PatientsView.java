@@ -217,6 +217,7 @@ public class PatientsView extends AppCompatActivity
         setContentView(R.layout.activity_patients_view);
         context = this;
         sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+//        Log.i("Ble",Build.HARDWARE);
         editor = sharedPref.edit();
         MacAddress = sharedPref.getString("deviceMacaddress", "");
         addPatientsBtn = findViewById(R.id.addPatients);

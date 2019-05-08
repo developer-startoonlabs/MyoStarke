@@ -140,7 +140,8 @@
             android:name=".activities.MonitorActivity"
             android:screenOrientation="portrait"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:hardwareAccelerated="true"/>
         <activity android:name=".activities.SessionReportActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"/>
