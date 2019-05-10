@@ -1471,7 +1471,6 @@ id actions
 id activity_chooser_view_content
 id add
 id addBtn
-id addPatients
 id adjust_height
 id adjust_width
 id alertTitle

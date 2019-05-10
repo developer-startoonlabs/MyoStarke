@@ -93,7 +93,7 @@ import java.util.UUID;
 
 public class MonitorActivity extends AppCompatActivity {
     int ui_rate = 0;
-    public final int sub_byte_size = 26;
+    public final int sub_byte_size = 28;
     int maxAnglePart, minAnglePart, angleCorrection = 0;
     boolean angleCorrected = false,devicePopped = false, servicesDiscovered = false, isSessionRunning=false, enteredInsideTwenty = true, pheezeeState = false, recieverState=false;
     String bodypart;
@@ -134,7 +134,7 @@ public class MonitorActivity extends AppCompatActivity {
     TextView patientId;
     TextView patientName, tv_action_time;
     ImageView iv_angle_correction;
-    LineData lineData;
+    LineData lineData, lineDataNew;
     JSONArray sessionResult  = new JSONArray();
     JSONObject sessionObj = new JSONObject();
 
@@ -668,6 +668,7 @@ public class MonitorActivity extends AppCompatActivity {
     }
 
     private void creatGraphView() {
+        lineChart.setHardwareAccelerationEnabled(true);
         dataPoints = new ArrayList<>();
         dataPoints.add(new Entry(0,0));
         lineDataSet=new LineDataSet(dataPoints, "Emg Graph");
@@ -676,6 +677,9 @@ public class MonitorActivity extends AppCompatActivity {
         lineDataSet.setDrawValues(false);
         lineDataSet.setColor(getResources().getColor(R.color.good_green));
         lineData = new LineData(lineDataSet);
+
+        lineDataNew = new LineData(lineDataSet);    //for 30000
+
         lineChart.getXAxis();
         lineChart.setVisibleXRangeMaximum(1000);
         lineChart.getXAxis().setAxisMinimum(0f);
@@ -766,7 +770,7 @@ public class MonitorActivity extends AppCompatActivity {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
-
+//commented for test 30000
                         mBluetoothGatt.setCharacteristicNotification(mCharacteristic2, true);
                         mBluetoothGattDescriptor_raw.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
                         mBluetoothGatt.writeDescriptor(mBluetoothGattDescriptor_raw);
@@ -813,6 +817,7 @@ public class MonitorActivity extends AppCompatActivity {
         @Override
         public void onCharacteristicChanged(final BluetoothGatt gatt, final BluetoothGattCharacteristic characteristic) {
             if(characteristic1_service1_uuid.equals(characteristic.getUuid())) {
+                Log.i("Received",String.valueOf(characteristic1_service1_uuid));
                 byte temp_byte[];
 
                 temp_byte = characteristic.getValue();
@@ -1062,7 +1067,7 @@ public class MonitorActivity extends AppCompatActivity {
             timeText ="Session time:   " + String.format("%02d", Minutes) + " : " + String.format("%02d", Seconds);
             String time_action = String.format("%02d", Minutes) + " : " + String.format("%02d", Seconds);
             time.setText(timeText);
-            tv_action_time.setText(time_action);
+//            tv_action_time.setText(time_action);
 
             handler.postDelayed(this, 0);
             if(PatientsView.sessionStarted==false && devicePopped==false){
@@ -1084,7 +1089,7 @@ public class MonitorActivity extends AppCompatActivity {
     @SuppressLint("HandlerLeak")
     public final Handler myHandler = new Handler() {
         public void handleMessage(Message message ) {
-            int angleDetected,num_of_reps, hold_time_minutes, hold_time_seconds;
+            int angleDetected,num_of_reps, hold_time_minutes, hold_time_seconds, active_time_minutes,active_time_seconds;
             int[] emg_data;
             byte[] sub_byte;
             sub_byte = (byte[]) message.obj;
@@ -1093,6 +1098,9 @@ public class MonitorActivity extends AppCompatActivity {
             num_of_reps = ByteToArrayOperations.getNumberOfReps(sub_byte[22], sub_byte[23]);
             hold_time_minutes = sub_byte[24];
             hold_time_seconds = sub_byte[25];
+            active_time_minutes = sub_byte[26];
+            active_time_seconds = sub_byte[27];
+
             String angleValue = ""+angleDetected;
             String repetitionValue = ""+num_of_reps;
 
@@ -1102,6 +1110,8 @@ public class MonitorActivity extends AppCompatActivity {
             if(hold_time_seconds<10)
                 secondsValue = "0"+hold_time_seconds;
             holdTimeValue = minutesValue+" : "+secondsValue;
+
+
 
             //Custom thresholds
 //            if(angleDetected>=minAnglePart && angleDetected<=maxAnglePart) {
@@ -1173,6 +1183,12 @@ public class MonitorActivity extends AppCompatActivity {
 //            }
             emgSignal.setLayoutParams(params);
             holdTime.setText(holdTimeValue);
+            minutesValue=""+active_time_minutes;secondsValue=""+active_time_seconds;
+            if(active_time_minutes<10)
+                minutesValue = "0"+active_time_minutes;
+            if(active_time_seconds<10)
+                secondsValue = "0"+active_time_seconds;
+            tv_action_time.setText(minutesValue+" : "+secondsValue);
         }
     };
 
@@ -1697,6 +1713,8 @@ public class MonitorActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(byte[]... bytes) {
+
+            Log.i("Line Data Length",String.valueOf(lineData.getEntryCount())+" "+ui_rate);
             ui_rate+=20;
             int entire_packet[] = new int[14];
             final int emg_data[] = ByteToArrayOperations.constructEmgData(bytes[0]);
@@ -1742,6 +1760,7 @@ public class MonitorActivity extends AppCompatActivity {
                         LinearLayout.LayoutParams params;
                         params = (LinearLayout.LayoutParams) emgSignal.getLayoutParams();
                         for (int i = 0; i < emg_data.length; i++) {
+
                             lineData.addEntry(new Entry((float) UpdateTime / 1000, emg_data[i]), 0);
                             lineChart.invalidate();
                             lineChart.getXAxis();

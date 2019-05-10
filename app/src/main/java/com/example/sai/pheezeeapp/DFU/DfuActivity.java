@@ -282,7 +282,6 @@ public class DfuActivity extends AppCompatActivity implements LoaderManager.Load
             mStatusOk = mStatusOk || savedInstanceState.getBoolean(DATA_STATUS);
             btn_dfu_upload_file.setEnabled(mDfuBluetoothDevice != null && mStatusOk);
         }
-
     }
     @Override
     protected void onSaveInstanceState(final Bundle outState) {

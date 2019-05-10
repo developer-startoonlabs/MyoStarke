@@ -186,7 +186,6 @@ public class PhizioProfile extends AppCompatActivity {
                     json_phizio.put("address",et_address.getText().toString());
                     editor.putString("phiziodetails",json_phizio.toString());
                     editor.commit();
-
                 }
 
                 else if(topic.equals(mqtt_get_profile_pic_response+json_phizio.getString("phizioemail"))){

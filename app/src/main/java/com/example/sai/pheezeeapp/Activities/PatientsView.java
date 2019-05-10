@@ -182,7 +182,7 @@ public class PatientsView extends AppCompatActivity
     private List<PatientsListData> mdataset = new ArrayList<>();
     private PatientsRecyclerViewAdapter mAdapter;
     EditText patientNameField;
-    TextView tv_battery_percentage;
+    TextView tv_battery_percentage, tv_patient_view_add_patient;
     ProgressBar battery_bar;
     PopupWindow pw;
     int backpressCount = 0;
@@ -199,7 +199,6 @@ public class PatientsView extends AppCompatActivity
     GoogleSignInClient mGoogleSignInClient;
     GoogleSignInOptions gso;
     Context context;
-    FloatingActionButton addPatientsBtn;
     LinearLayout patientTabLayout;
     LinearLayout patientLayout;
     ImageView iv_addPatient;
@@ -220,7 +219,6 @@ public class PatientsView extends AppCompatActivity
 //        Log.i("Ble",Build.HARDWARE);
         editor = sharedPref.edit();
         MacAddress = sharedPref.getString("deviceMacaddress", "");
-        addPatientsBtn = findViewById(R.id.addPatients);
         iv_addPatient = findViewById(R.id.home_iv_addPatient);
         rl_cap_view = findViewById(R.id.rl_cap_view);
         mRecyclerView = findViewById(R.id.patients_recycler_view);
@@ -249,6 +247,7 @@ public class PatientsView extends AppCompatActivity
         ll_add_device = findViewById(R.id.ll_add_device);
         tv_battery_percentage = findViewById(R.id.tv_battery_percent);
         battery_bar = findViewById(R.id.progress_battery_bar);
+        tv_patient_view_add_patient = findViewById(R.id.tv_patient_view_add_patient);
 
 
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -408,13 +407,13 @@ public class PatientsView extends AppCompatActivity
             }
         }
 
-        addPatientsBtn.setOnClickListener(new View.OnClickListener() {
+        iv_addPatient.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                initiatePopupWindow(view);
+            public void onClick(View v) {
+                initiatePopupWindow(v);
             }
         });
-        iv_addPatient.setOnClickListener(new View.OnClickListener() {
+        tv_patient_view_add_patient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 initiatePopupWindow(v);
