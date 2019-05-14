@@ -497,6 +497,7 @@ public class MonitorActivity extends AppCompatActivity {
                         editor = sharedPreferences.edit();
                         editor.putString("sync_emg_session","");
                         editor.apply();
+                        Toast.makeText(MonitorActivity.this, "INSERTED!!", Toast.LENGTH_SHORT).show();
                     }
                 }
                 } catch (JSONException e) {
