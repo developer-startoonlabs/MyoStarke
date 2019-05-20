@@ -156,6 +156,12 @@ public class ScanDevicesActivity extends AppCompatActivity {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopScan();
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void startScan() {
