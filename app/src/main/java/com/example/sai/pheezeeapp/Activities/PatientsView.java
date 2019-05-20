@@ -36,7 +36,6 @@ import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -69,6 +68,7 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.sai.pheezeeapp.Classes.BluetoothGattSingleton;
@@ -89,12 +89,14 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.squareup.picasso.Picasso;
+
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -1240,6 +1242,7 @@ public class PatientsView extends AppCompatActivity
                 }
                 if(sharedPref.getBoolean("isLoggedIn",false)==false)
                     finish();
+
                 if(sharedPref.getString("pressed", "").equals("c")){
                     if(bluetoothGatt==null){
                     if (bluetoothAdapter==null || !bluetoothAdapter.isEnabled()) {
@@ -1373,12 +1376,15 @@ public class PatientsView extends AppCompatActivity
 
     public static void disconnectDevice() {
         if(bluetoothGatt==null){
+            Log.i("inside","null");
             editor = sharedPref.edit();
             editor.putString("pressed","");
             editor.commit();
             return;
         }
+
         if(mCharacteristic!=null && mBluetoothGattDescriptor!=null) {
+            Log.i("inside","Characteristics");
             bluetoothGatt.setCharacteristicNotification(mCharacteristic, false);
             mBluetoothGattDescriptor = mCharacteristic.getDescriptor(descriptor_characteristic1_service1_uuid);
             mBluetoothGattDescriptor.setValue(BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);

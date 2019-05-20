@@ -152,7 +152,7 @@ public class MonitorActivity extends AppCompatActivity {
     int REQUEST_ENABLE_BT = 1;
     ConnectivityManager connectivityManager;
     LinearLayout emgSignal;
-    String holdTimeValue;
+    String holdTimeValue="0:0";
     int maxAngle,minAngle,maxEmgValue;
     Date rawdata_timestamp;
     Long tsLong=0L;
@@ -1707,7 +1707,6 @@ public class MonitorActivity extends AppCompatActivity {
         mqttHelper.mqttAndroidClient.unregisterResources();
         mqttHelper.mqttAndroidClient.close();
         Log.i("destroy","inside");
-
         if(mBluetoothGatt!=null && mCharacteristic!=null){
             mBluetoothGatt.setCharacteristicNotification(mCharacteristic,false);
             mBluetoothGattDescriptor.setValue(BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
@@ -1717,9 +1716,9 @@ public class MonitorActivity extends AppCompatActivity {
         handler.removeCallbacks(runnable);
         isSessionRunning = false;
         PatientsView.sessionStarted = false;
+        PatientsView.insideMonitor  = false;
         timer.setVisibility(View.VISIBLE);
         stopBtn.setVisibility(View.INVISIBLE);
-        PatientsView.insideMonitor=false;
     }
 
 
@@ -1785,7 +1784,7 @@ public class MonitorActivity extends AppCompatActivity {
                 break;
             }
 
-            case "sholder":{
+            case "shoulder":{
                 byte b[] = ByteToArrayOperations.hexStringToByteArray("AA08");
                 if(send(b)){
                     Log.i("SENDING","MESSAGE SENT AA08");
