@@ -42,6 +42,7 @@ import com.example.sai.pheezeeapp.R;
 import com.example.sai.pheezeeapp.adapters.BodyPartWithMmtRecyclerView;
 import com.example.sai.pheezeeapp.services.MqttHelper;
 import com.example.sai.pheezeeapp.utils.PatientOperations;
+import com.example.sai.pheezeeapp.utils.RegexOperations;
 import com.robertlevonyan.views.customfloatingactionbutton.FloatingLayout;
 
 import org.eclipse.paho.client.mqttv3.MqttMessage;
@@ -61,15 +62,15 @@ public class BodyPartSelection extends AppCompatActivity {
     int[] myPartList = new int[]{R.drawable.elbow_part, R.drawable.knee_part,R.drawable.ankle_part,R.drawable.hip_part,R.drawable.wrist_part,R.drawable.shoulder_part,R.drawable.other_body_part};
 
 
-    SharedPreferences preferences;
-    SharedPreferences.Editor editor;
+    static SharedPreferences preferences;
+    static SharedPreferences.Editor editor;
     AlertDialog mdialog = null;
     RecyclerView bodyPartRecyclerView;
     MqttHelper mqttHelper;
     JSONObject json_phizio = null;
 
     //Adapter for body part recycler view
-    BodyPartWithMmtRecyclerView bodyPartWithMmtRecyclerView;
+    static BodyPartWithMmtRecyclerView bodyPartWithMmtRecyclerView;
     ArrayList<BodyPartSelectionModel> bodyPartSelectionList;
 
     ArrayList<BodyPartWithMmtSelectionModel> bodyPartWithMmtSelectionModels;
@@ -362,14 +363,22 @@ public class BodyPartSelection extends AppCompatActivity {
 
                         Button p = mdialog.getButton(AlertDialog.BUTTON_POSITIVE);
                         p.setOnClickListener(new View.OnClickListener() {
-
                             @Override
                             public void onClick(View view) {
+                                boolean flag = true;
+
                                 String maxEmg = et_max_emg.getText().toString();
                                 String maxAngle = et_max_angle.getText().toString();
                                 String minEmg = String.valueOf(0);
                                 String minAngle = et_min_angle.getText().toString();
-                                sendData(maxAngle,minAngle,maxEmg,minEmg);
+                                flag = RegexOperations.checkIfNumeric(maxEmg);
+                                flag = RegexOperations.checkIfNumeric(minAngle);
+                                flag = RegexOperations.checkIfNumeric(maxAngle);
+                                if(flag)
+                                    sendData(maxAngle,minAngle,maxEmg,minEmg);
+                                else
+                                    Toast.makeText(BodyPartSelection.this, "Invalid Entry", Toast.LENGTH_SHORT).show();
+
                                 mdialog.dismiss();
                             }
                         });
@@ -398,7 +407,6 @@ public class BodyPartSelection extends AppCompatActivity {
         btn_continue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(BodyPartSelection.this, "" + orientationSelected, Toast.LENGTH_SHORT).show();
                 painscale = et_pain_scale.getText().toString();
                 muscletone = et_muscle_tone.getText().toString();
                 exercisename = et_exercise_name.getText().toString();
@@ -509,6 +517,7 @@ public class BodyPartSelection extends AppCompatActivity {
                     intent.putExtra("patientId", getIntent().getStringExtra("patientId"));
                     intent.putExtra("patientName", getIntent().getStringExtra("patientName"));
                     intent.putExtra("exerciseType", tv_body_part_name.getText().toString());
+                    intent.putExtra("orientation",orientationSelected);
                     Log.i("intent", intent.toString());
                     startActivity(intent);
                 }
@@ -518,6 +527,13 @@ public class BodyPartSelection extends AppCompatActivity {
             }
 
         });
+    }
+
+    public static void refreshView(){
+        bodyPartWithMmtRecyclerView.notifyDataSetChanged();
+        editor = preferences.edit();
+        editor.putString("bodyPartClicked","");
+        editor.commit();
     }
 
     private void sendData(String maxAngle, String minAngle, String maxEmg, String minEmg) {

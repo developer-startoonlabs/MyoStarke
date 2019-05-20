@@ -34,4 +34,17 @@ public class RegexOperations {
            return pattern.matcher(mobileNumber).matches();
        }
     }
+
+    public static boolean checkIfNumeric(String value){
+        boolean flag = true;
+        int number = 0;
+        try {
+            number = Integer.parseInt(value);
+        }catch (NumberFormatException e){
+            flag = false;
+        }
+//        if(number>1000)
+//            flag = false;
+        return flag;
+    }
 }

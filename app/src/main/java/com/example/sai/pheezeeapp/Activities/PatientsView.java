@@ -627,7 +627,7 @@ public class PatientsView extends AppCompatActivity
                 iv_addPatient.performClick();
             }
             else if(id==R.id.nav_app_version){
-
+                startActivity(new Intent(PatientsView.this,AppInfo.class));
             }
             else if (id == R.id.nav_logout) {
     //            if (GoogleSignIn.getLastSignedInAccount(this) != null)
@@ -639,7 +639,7 @@ public class PatientsView extends AppCompatActivity
                  disconnectDevice();
                  startActivity(new Intent(this, LoginActivity.class));
                  finish();
-             }
+            }
 
 //        else if(id == R.id.ota_device) {
 //            Intent intent;

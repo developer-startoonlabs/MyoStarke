@@ -382,9 +382,13 @@ public class ReportWeek extends Fragment {
             if (object != null) Log.i("object123", object.toString());
             if (object != null) {
                 try {
-                    int maxangle = Integer.parseInt(object.getString("maxangle"));
-                    int minangle = Integer.parseInt(object.getString("minangle"));
-                    int maxemg = Integer.parseInt(object.getString("maxemg"));
+                    int maxangle=180,minangle=1,maxemg=180;
+                    if(object.has("maxangle") && !object.getString("maxangle").equalsIgnoreCase(""))
+                        maxangle = Integer.parseInt(object.getString("maxangle"));
+                    if(object.has("minangle") && !object.getString("minangle").equalsIgnoreCase(""))
+                        minangle = Integer.parseInt(object.getString("minangle"));
+                    if(object.has("maxemg") && !object.getString("maxemg").equalsIgnoreCase(""))
+                        maxemg = Integer.parseInt(object.getString("maxemg"));
                     rom.setUpperLine((short) maxangle);
                     rom.setLowerLine((short) minangle);
                     emg.setUpperLine((short) maxemg);

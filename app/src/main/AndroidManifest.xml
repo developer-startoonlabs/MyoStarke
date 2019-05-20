@@ -30,6 +30,8 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+
         <provider
             android:name=".Classes.GenericFileProvider"
             android:authorities="${applicationId}.my.package.name.provider"
@@ -68,15 +70,16 @@
             android:name=".dashboard.DashboardActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".services.Scanner"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".services.Scanner"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.LoginActivity"
-            android:theme="@style/AppTheme.NoActionBarLogin"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBarLogin" />
         <activity
             android:name=".activities.PatientsView"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <receiver android:name=".services.BluetoothReceiver">
             <intent-filter>
@@ -116,8 +119,8 @@
         </activity>
         <activity
             android:name=".activities.ScanDevicesActivity"
-            android:screenOrientation="portrait"
             android:label="@string/title_activity_scan_devices"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.RawDataCollection" />
         <activity android:name=".dfu.DfuActivity" />
@@ -128,9 +131,10 @@
             android:name=".activities.PhizioProfile"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activities.DeviceInfoActivity"
+        <activity
+            android:name=".activities.DeviceInfoActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.CalibrationSession" />
         <activity
             android:name=".activities.BodyPartSelection"
@@ -138,12 +142,15 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.MonitorActivity"
-            android:screenOrientation="portrait"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".activities.SessionReportActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.SessionReportActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activities.AppInfo"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

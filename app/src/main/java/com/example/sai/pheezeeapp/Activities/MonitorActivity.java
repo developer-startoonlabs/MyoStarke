@@ -92,20 +92,23 @@ import java.util.List;
 import java.util.UUID;
 
 public class MonitorActivity extends AppCompatActivity {
+
+    //max min angle emg showing views
+    TextView tv_max_angle, tv_min_angle, tv_max_emg;
     int ui_rate = 0;
     public final int sub_byte_size = 28;
     int maxAnglePart, minAnglePart, angleCorrection = 0;
     boolean angleCorrected = false,devicePopped = false, servicesDiscovered = false, isSessionRunning=false, enteredInsideTwenty = true, pheezeeState = false, recieverState=false;
-    String bodypart;
+    String bodypart,orientation="NO";
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     JSONObject json_phizio = new JSONObject();
-    JSONArray jsonData, emgJsonArray;
+    JSONArray jsonData, emgJsonArray, romJsonArray;
     public final int emg_data_size_raw = 20, emg_num_packets_raw = 40, emg_data_size_session = 10,  emg_num_packets_session = 20;
     ImageView iv_back_monitor;
 
-    File  file_emgdata,file_dir_emgdata, file_session_emgdata, file_dir_session_emgdata;
-    FileOutputStream  outputStream_emgdata,outputStream_session_emgdata;
+    File  file_emgdata,file_dir_emgdata, file_session_emgdata, file_dir_session_emgdata,file_session_romdata,file_session_sessiondetails;
+    FileOutputStream  outputStream_emgdata,outputStream_session_emgdata,outputStream_session_romdata,outputStream_session_sessiondetails;
 
     //MQTT
     MqttHelper mqttHelper;
@@ -215,8 +218,12 @@ public class MonitorActivity extends AppCompatActivity {
         cancelBtn                   = findViewById(R.id.cancel);
         iv_angle_correction           = findViewById(R.id.tv_angleCorrection);
         tv_action_time              = findViewById(R.id.tv_action_time);
+        tv_max_angle                = findViewById(R.id.tv_max_angle);
+        tv_min_angle                = findViewById(R.id.tv_min_angle);
+        tv_max_emg                  = findViewById(R.id.tv_max_emg_show);
         handler                     = new Handler();
         emgJsonArray                = new JSONArray();
+        romJsonArray                = new JSONArray();
 
 
         iv_back_monitor = findViewById(R.id.iv_back_monitor);
@@ -253,8 +260,9 @@ public class MonitorActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         bodypart = getIntent().getStringExtra("exerciseType");
+        orientation = getIntent().getStringExtra("orientation");
         tv_body_part.setText(tv_body_part.getText().toString().concat(bodypart));
-        tv_body_part.setText(bodypart+"-"+BodyPartSelection.exercisename);
+        tv_body_part.setText(orientation+"-"+bodypart+"-"+BodyPartSelection.exercisename);
         //Getting the max and min angle of the particular body part
         maxAnglePart = angleOperations.getMaxAngle(bodypart);
         minAnglePart = angleOperations.getMinAngle(bodypart);
@@ -337,6 +345,75 @@ public class MonitorActivity extends AppCompatActivity {
 //                if(maxAngle!=0&&!(maxAngle>180)&&minAngle!=180&&!(minAngle<0)) {
                     tsLong = System.currentTimeMillis();
                     String ts = tsLong.toString();
+
+                    try {
+                        outputStream_session_sessiondetails.write("Session Details".getBytes());
+                        outputStream_session_sessiondetails.write("\n".getBytes());
+                        outputStream_session_sessiondetails.write("Session Cancel Pressed".getBytes());
+                        outputStream_session_sessiondetails.write("\n".getBytes());
+                        outputStream_session_sessiondetails.write("Max Angle:".concat(String.valueOf(maxAngle)).getBytes());
+                        outputStream_session_sessiondetails.write("\n".getBytes());
+                        outputStream_session_sessiondetails.write("Min Angle:".concat(String.valueOf(minAngle)).getBytes());
+                        outputStream_session_sessiondetails.write("\n".getBytes());
+                        outputStream_session_sessiondetails.write("Max Emg:".concat(String.valueOf(maxEmgValue)).getBytes());
+                        outputStream_session_sessiondetails.write("\n".getBytes());
+                        outputStream_session_sessiondetails.write("Hold Time:".concat(holdTimeValue).getBytes());
+                        outputStream_session_sessiondetails.write("\n".getBytes());
+                        outputStream_session_sessiondetails.write("Num of Reps:".concat(Repetitions.getText().toString()).getBytes());
+                        outputStream_session_sessiondetails.write("\n".getBytes());
+                        outputStream_session_sessiondetails.write("Session Time:".concat(timer.getText().toString()).getBytes());
+                        outputStream_session_sessiondetails.write("\n".getBytes());
+                        outputStream_session_sessiondetails.write("Painscale-Muscletone : ".concat(BodyPartSelection.painscale+"-"+BodyPartSelection.muscletone).getBytes());
+                        outputStream_session_sessiondetails.write("\n\n\n".getBytes());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    MediaScannerConnection.scanFile(
+                            getApplicationContext(),
+                            new String[]{file_emgdata.getAbsolutePath()},
+                            null,
+                            new MediaScannerConnection.OnScanCompletedListener() {
+                                @Override
+                                public void onScanCompleted(String path, Uri uri) {
+                                    Log.v("grokkingandroid",
+                                            "file " + path + " was scanned seccessfully: " + uri);
+                                }
+                            });
+
+                    MediaScannerConnection.scanFile(
+                            getApplicationContext(),
+                            new String[]{file_session_emgdata.getAbsolutePath()},
+                            null,
+                            new MediaScannerConnection.OnScanCompletedListener() {
+                                @Override
+                                public void onScanCompleted(String path, Uri uri) {
+                                    Log.v("grokkingandroid",
+                                            "file " + path + " was scanned seccessfully: " + uri);
+                                }
+                            });
+                    MediaScannerConnection.scanFile(
+                            getApplicationContext(),
+                            new String[]{file_session_romdata.getAbsolutePath()},
+                            null,
+                            new MediaScannerConnection.OnScanCompletedListener() {
+                                @Override
+                                public void onScanCompleted(String path, Uri uri) {
+                                    Log.v("grokkingandroid",
+                                            "file " + path + " was scanned seccessfully: " + uri);
+                                }
+                            });
+                    MediaScannerConnection.scanFile(
+                            getApplicationContext(),
+                            new String[]{file_session_sessiondetails.getAbsolutePath()},
+                            null,
+                            new MediaScannerConnection.OnScanCompletedListener() {
+                                @Override
+                                public void onScanCompleted(String path, Uri uri) {
+                                    Log.v("grokkingandroid",
+                                            "file " + path + " was scanned seccessfully: " + uri);
+                                }
+                            });
                 }
             }
         });
@@ -395,6 +472,30 @@ public class MonitorActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     initiatePopupWindowModified(v);
+                //sessiondetails file output stream
+                try {
+                    outputStream_session_sessiondetails.write("Session Details".getBytes());
+                    outputStream_session_sessiondetails.write("\n".getBytes());
+                    outputStream_session_sessiondetails.write("Session Stop Pressed".getBytes());
+                    outputStream_session_sessiondetails.write("\n".getBytes());
+                    outputStream_session_sessiondetails.write("Max Angle:".concat(String.valueOf(maxAngle)).getBytes());
+                    outputStream_session_sessiondetails.write("\n".getBytes());
+                    outputStream_session_sessiondetails.write("Min Angle:".concat(String.valueOf(minAngle)).getBytes());
+                    outputStream_session_sessiondetails.write("\n".getBytes());
+                    outputStream_session_sessiondetails.write("Max Emg:".concat(String.valueOf(maxEmgValue)).getBytes());
+                    outputStream_session_sessiondetails.write("\n".getBytes());
+                    outputStream_session_sessiondetails.write("Hold Time:".concat(holdTimeValue).getBytes());
+                    outputStream_session_sessiondetails.write("\n".getBytes());
+                    outputStream_session_sessiondetails.write("Num of Reps:".concat(Repetitions.getText().toString()).getBytes());
+                    outputStream_session_sessiondetails.write("\n".getBytes());
+                    outputStream_session_sessiondetails.write("Session Time:".concat(timer.getText().toString()).getBytes());
+                    outputStream_session_sessiondetails.write("\n".getBytes());
+                    outputStream_session_sessiondetails.write("Painscale-Muscletone : ".concat(BodyPartSelection.painscale+"-"+BodyPartSelection.muscletone).getBytes());
+                    outputStream_session_sessiondetails.write("\n\n\n".getBytes());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
                     MediaScannerConnection.scanFile(
                             getApplicationContext(),
                             new String[]{file_emgdata.getAbsolutePath()},
@@ -418,6 +519,28 @@ public class MonitorActivity extends AppCompatActivity {
                                             "file " + path + " was scanned seccessfully: " + uri);
                                 }
                             });
+                MediaScannerConnection.scanFile(
+                        getApplicationContext(),
+                        new String[]{file_session_romdata.getAbsolutePath()},
+                        null,
+                        new MediaScannerConnection.OnScanCompletedListener() {
+                            @Override
+                            public void onScanCompleted(String path, Uri uri) {
+                                Log.v("grokkingandroid",
+                                        "file " + path + " was scanned seccessfully: " + uri);
+                            }
+                        });
+                MediaScannerConnection.scanFile(
+                        getApplicationContext(),
+                        new String[]{file_session_sessiondetails.getAbsolutePath()},
+                        null,
+                        new MediaScannerConnection.OnScanCompletedListener() {
+                            @Override
+                            public void onScanCompleted(String path, Uri uri) {
+                                Log.v("grokkingandroid",
+                                        "file " + path + " was scanned seccessfully: " + uri);
+                            }
+                        });
 //                }else {
 //                    Toast.makeText(MonitorActivity.this,"your alignment is wrong!! try again,",Toast.LENGTH_LONG).show();
 //                }
@@ -572,6 +695,7 @@ public class MonitorActivity extends AppCompatActivity {
         enteredInsideTwenty = true;
         isSessionRunning = true;
         emgJsonArray = new JSONArray();
+        romJsonArray = new JSONArray();
         maxAngle = 0;minAngle = 360;maxEmgValue = 0;
         creatGraphView();
         timer.setVisibility(View.GONE);
@@ -592,7 +716,7 @@ public class MonitorActivity extends AppCompatActivity {
             String s = rawdata_timestamp.toString().substring(0, 19);
             String child = patientName.getText().toString()+patientId.getText().toString();
             file_dir_emgdata = new File(Environment.getExternalStorageDirectory()+"/Pheezee/files/EmgData/"+child+"/raw");
-            file_dir_session_emgdata = new File(Environment.getExternalStorageDirectory()+"/Pheezee/files/EmgData/"+child+"/sessiondata");
+            file_dir_session_emgdata = new File(Environment.getExternalStorageDirectory()+"/Pheezee/files/EmgData/"+child+"/sessiondata",s);
             if (!file_dir_emgdata.exists()) {
                 file_dir_emgdata.mkdirs();
             }
@@ -600,7 +724,9 @@ public class MonitorActivity extends AppCompatActivity {
                 file_dir_session_emgdata.mkdir();
             }
             file_emgdata = new File(file_dir_emgdata, ""+s+".txt");
-            file_session_emgdata = new File(file_dir_session_emgdata, ""+s+".txt");
+            file_session_emgdata = new File(file_dir_session_emgdata, "emg.txt");
+            file_session_romdata = new File(file_dir_session_emgdata, "rom.txt");
+            file_session_sessiondetails = new File(file_dir_session_emgdata, "sessiondetails.txt");
             try {
                 file_emgdata.createNewFile();
                 file_session_emgdata.createNewFile();
@@ -611,10 +737,29 @@ public class MonitorActivity extends AppCompatActivity {
             try {
                 outputStream_emgdata = new FileOutputStream(file_emgdata, true);
                 outputStream_session_emgdata = new FileOutputStream(file_session_emgdata, true);
+                outputStream_session_romdata = new FileOutputStream(file_session_romdata, true);
+                outputStream_session_sessiondetails = new FileOutputStream(file_session_sessiondetails, true);
                 outputStream_emgdata.write("EMG".getBytes());
                 outputStream_emgdata.write("\n".getBytes());
+                //emg file output stream
                 outputStream_session_emgdata.write("EMG".getBytes());
                 outputStream_session_emgdata.write("\n".getBytes());
+
+                //rom file output stream
+                outputStream_session_romdata.write("EMG".getBytes());
+                outputStream_session_romdata.write("\n".getBytes());
+
+
+                //sessiondetails file output stream
+                outputStream_session_sessiondetails.write("Patient Name : ".getBytes());
+                outputStream_session_sessiondetails.write(patientName.getText().toString().getBytes());
+                outputStream_session_sessiondetails.write("\n".getBytes());
+                outputStream_session_sessiondetails.write("Patient Id: ".concat(patientId.getText().toString()).getBytes());
+                outputStream_session_sessiondetails.write("\n".getBytes());
+                outputStream_session_sessiondetails.write("Orientation-Bodypart-ExerciseName : ".concat(orientation+"-"+bodypart+"-"+BodyPartSelection.exercisename).getBytes());
+                outputStream_session_sessiondetails.write("\n".getBytes());
+                outputStream_session_sessiondetails.write("Painscale-Muscletone : ".concat(BodyPartSelection.painscale+"-"+BodyPartSelection.muscletone).getBytes());
+                outputStream_session_sessiondetails.write("\n\n\n".getBytes());
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -1126,6 +1271,22 @@ public class MonitorActivity extends AppCompatActivity {
             else {
                 arcViewInside.setMaxAngle(angleDetected);
             }
+            romJsonArray.put(angleDetected);
+            try {
+                outputStream_session_romdata = new FileOutputStream(file_session_romdata, true);
+                outputStream_session_romdata.write(String.valueOf(angleDetected).getBytes());
+                outputStream_session_romdata.write("\n".getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+
+                outputStream_session_romdata.flush();
+                outputStream_session_romdata.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
 //            }
 //            Angle.setText(angleValue);
             for (int i=0;i<emg_data.length;i++) {
@@ -1175,12 +1336,15 @@ public class MonitorActivity extends AppCompatActivity {
                 maxEmgValue = maxEmgValue < emg_data[i] ? emg_data[i] : maxEmgValue;
                 if (maxEmgValue == 0)
                     maxEmgValue = 1;
+                tv_max_emg.setText(String.valueOf(maxEmgValue));
                 params.height = ((View) emgSignal.getParent()).getMeasuredHeight() * emg_data[i] / maxEmgValue;
             }
             //threshholds
 //            if(angleDetected>=minAnglePart && angleDetected<=maxAnglePart) {
                 maxAngle = maxAngle < angleDetected ? angleDetected : maxAngle;
+                tv_max_angle.setText(String.valueOf(maxAngle));
                 minAngle = minAngle > angleDetected ? angleDetected : minAngle;
+                tv_min_angle.setText(String.valueOf(minAngle));
 //            }
             emgSignal.setLayoutParams(params);
             holdTime.setText(holdTimeValue);
@@ -1234,6 +1398,7 @@ public class MonitorActivity extends AppCompatActivity {
             public void onClick(View v) {
                 report.dismiss();
                 finish();
+                BodyPartSelection.refreshView();
             }
         });
         ll_click_to_view_report.setOnClickListener(new View.OnClickListener() {
@@ -1478,6 +1643,7 @@ public class MonitorActivity extends AppCompatActivity {
                             mqttMessage.setPayload(object.toString().getBytes());
 
                             object.put("emgdata",emgJsonArray);
+                            object.put("romdata",romJsonArray);
 //                            object.put("painscale",)
                             editor = sharedPreferences.edit();
                             if(NetworkOperations.isNetworkAvailable(MonitorActivity.this)) {

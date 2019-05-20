@@ -120,6 +120,7 @@
                     android:drawableLeft="@drawable/drawable_mailid_icon"
                     android:drawablePadding="20dp"
                     android:hint="abc@startoonlabs.com"
+                    android:inputType="textEmailAddress"
                     android:textColor="@color/pale_white"
                     android:textSize="14sp" />
             </android.support.design.widget.TextInputLayout>

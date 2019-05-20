@@ -103,7 +103,6 @@
     <string name="timer_start">Start</string>
 
 
-
     <!--sign-up related tags-->
 
     <string name="create_account_header">Create account</string>
@@ -117,10 +116,6 @@
     <string name="cd_phiziotherapist">Phiziotherapist Icon</string>
 
 
-
-
-
-
     <!--device info related tags-->
     <string name="device_info">Device Info</string>
     <string name="device_name">Device Name:</string>
@@ -132,6 +127,10 @@
     <string name="device_null">Null</string>
 
 
+    <!--App info related tags-->
+    <string name="app_info">Application Info</string>
+    <string name="app_version">Application Version</string>
+    <string name="application_version">2.0.6</string>
 
     <!--phizio profile related tags-->
     <string name="your_profile">Your Profile</string>
@@ -155,7 +154,6 @@
     </string-array>
 
 
-
     <!--body part related tags-->
     <string name="left">Left</string>
     <string name="right">Right</string>
@@ -172,10 +170,8 @@
     <string name="minus">-</string>
     <string name="plus">+</string>
     <string name="temp_body_part">Ankle</string>
-    
-    
-    
-    
+
+
     <!--Monitor screen related tags-->
     <string name="timer_session_time">Session time:   00 : 00 : 00</string>
     <string name="snap">SNAP</string>
@@ -211,14 +207,11 @@
     <string name="battery_percent_lower_than_5">The pheezee device battery is lower than 5% there is a chance of data loss if you continue to do the session. Are you sure you want to continue?</string>
 
 
-
     <!--on start Activity related tags-->
     <string name="onstart_image_cd">Pheezee Logo</string>
 
 
     <string name="not_connected">N/C</string>
-
-
 
 
     <!--Fragment report month related tags-->

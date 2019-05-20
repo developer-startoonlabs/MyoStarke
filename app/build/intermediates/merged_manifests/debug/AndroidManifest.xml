@@ -159,6 +159,9 @@
             android:name="com.example.sai.pheezeeapp.activities.SessionReportActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.example.sai.pheezeeapp.activities.AppInfo"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <provider
             android:name="com.squareup.picasso.PicassoProvider"

@@ -93,19 +93,19 @@ public final class R {
         public static final int icon_group = 0x7f0a00d6;
         public static final int info = 0x7f0a00e3;
         public static final int italic = 0x7f0a00e7;
-        public static final int line1 = 0x7f0a00fe;
-        public static final int line3 = 0x7f0a00ff;
-        public static final int normal = 0x7f0a0159;
-        public static final int notification_background = 0x7f0a015a;
-        public static final int notification_main_column = 0x7f0a015b;
-        public static final int notification_main_column_container = 0x7f0a015c;
-        public static final int right_icon = 0x7f0a019a;
-        public static final int right_side = 0x7f0a019b;
-        public static final int tag_transition_group = 0x7f0a01f4;
-        public static final int text = 0x7f0a01f7;
-        public static final int text2 = 0x7f0a01f8;
-        public static final int time = 0x7f0a021a;
-        public static final int title = 0x7f0a021c;
+        public static final int line1 = 0x7f0a00ff;
+        public static final int line3 = 0x7f0a0100;
+        public static final int normal = 0x7f0a015a;
+        public static final int notification_background = 0x7f0a015b;
+        public static final int notification_main_column = 0x7f0a015c;
+        public static final int notification_main_column_container = 0x7f0a015d;
+        public static final int right_icon = 0x7f0a019b;
+        public static final int right_side = 0x7f0a019c;
+        public static final int tag_transition_group = 0x7f0a01f5;
+        public static final int text = 0x7f0a01fa;
+        public static final int text2 = 0x7f0a01fb;
+        public static final int time = 0x7f0a021e;
+        public static final int title = 0x7f0a0220;
     }
     public static final class integer {
         private integer() {}
@@ -115,44 +115,44 @@ public final class R {
     public static final class layout {
         private layout() {}
 
-        public static final int notification_action = 0x7f0d0052;
-        public static final int notification_action_tombstone = 0x7f0d0053;
-        public static final int notification_template_custom_big = 0x7f0d005a;
-        public static final int notification_template_icon_group = 0x7f0d005b;
-        public static final int notification_template_part_chronometer = 0x7f0d005f;
-        public static final int notification_template_part_time = 0x7f0d0060;
+        public static final int notification_action = 0x7f0d0053;
+        public static final int notification_action_tombstone = 0x7f0d0054;
+        public static final int notification_template_custom_big = 0x7f0d005b;
+        public static final int notification_template_icon_group = 0x7f0d005c;
+        public static final int notification_template_part_chronometer = 0x7f0d0060;
+        public static final int notification_template_part_time = 0x7f0d0061;
     }
     public static final class string {
         private string() {}
 
-        public static final int dfu_action_abort = 0x7f11008a;
-        public static final int dfu_channel_description = 0x7f11008d;
-        public static final int dfu_channel_name = 0x7f11008e;
-        public static final int dfu_status_aborted = 0x7f1100ac;
-        public static final int dfu_status_aborted_msg = 0x7f1100ad;
-        public static final int dfu_status_aborting = 0x7f1100ae;
-        public static final int dfu_status_completed = 0x7f1100af;
-        public static final int dfu_status_completed_msg = 0x7f1100b0;
-        public static final int dfu_status_connecting = 0x7f1100b1;
-        public static final int dfu_status_connecting_msg = 0x7f1100b2;
-        public static final int dfu_status_disconnecting = 0x7f1100b3;
-        public static final int dfu_status_disconnecting_msg = 0x7f1100b4;
-        public static final int dfu_status_error = 0x7f1100b5;
-        public static final int dfu_status_error_msg = 0x7f1100b6;
-        public static final int dfu_status_foreground_content = 0x7f1100b7;
-        public static final int dfu_status_foreground_title = 0x7f1100b8;
-        public static final int dfu_status_initializing = 0x7f1100b9;
-        public static final int dfu_status_starting = 0x7f1100ba;
-        public static final int dfu_status_starting_msg = 0x7f1100bb;
-        public static final int dfu_status_switching_to_dfu = 0x7f1100bc;
-        public static final int dfu_status_switching_to_dfu_msg = 0x7f1100bd;
-        public static final int dfu_status_uploading = 0x7f1100be;
-        public static final int dfu_status_uploading_msg = 0x7f1100bf;
-        public static final int dfu_status_uploading_part = 0x7f1100c0;
-        public static final int dfu_status_validating = 0x7f1100c1;
-        public static final int dfu_status_validating_msg = 0x7f1100c2;
-        public static final int dfu_unknown_name = 0x7f1100c4;
-        public static final int status_bar_notification_info_overflow = 0x7f110146;
+        public static final int dfu_action_abort = 0x7f11008d;
+        public static final int dfu_channel_description = 0x7f110090;
+        public static final int dfu_channel_name = 0x7f110091;
+        public static final int dfu_status_aborted = 0x7f1100af;
+        public static final int dfu_status_aborted_msg = 0x7f1100b0;
+        public static final int dfu_status_aborting = 0x7f1100b1;
+        public static final int dfu_status_completed = 0x7f1100b2;
+        public static final int dfu_status_completed_msg = 0x7f1100b3;
+        public static final int dfu_status_connecting = 0x7f1100b4;
+        public static final int dfu_status_connecting_msg = 0x7f1100b5;
+        public static final int dfu_status_disconnecting = 0x7f1100b6;
+        public static final int dfu_status_disconnecting_msg = 0x7f1100b7;
+        public static final int dfu_status_error = 0x7f1100b8;
+        public static final int dfu_status_error_msg = 0x7f1100b9;
+        public static final int dfu_status_foreground_content = 0x7f1100ba;
+        public static final int dfu_status_foreground_title = 0x7f1100bb;
+        public static final int dfu_status_initializing = 0x7f1100bc;
+        public static final int dfu_status_starting = 0x7f1100bd;
+        public static final int dfu_status_starting_msg = 0x7f1100be;
+        public static final int dfu_status_switching_to_dfu = 0x7f1100bf;
+        public static final int dfu_status_switching_to_dfu_msg = 0x7f1100c0;
+        public static final int dfu_status_uploading = 0x7f1100c1;
+        public static final int dfu_status_uploading_msg = 0x7f1100c2;
+        public static final int dfu_status_uploading_part = 0x7f1100c3;
+        public static final int dfu_status_validating = 0x7f1100c4;
+        public static final int dfu_status_validating_msg = 0x7f1100c5;
+        public static final int dfu_unknown_name = 0x7f1100c7;
+        public static final int status_bar_notification_info_overflow = 0x7f110149;
     }
     public static final class style {
         private style() {}
