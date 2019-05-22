@@ -25,15 +25,8 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc6b1f00-4419-4fc8-a13f-473665dd50f5" name="Default" comment=" Included application version activity. Made the input type of the login mail as textMailId. Also stoping the ble device scan when the activity is not in focus.  Version 2.0.6.">
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeDebugResources/compile-file-map.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/packageDebug/tmp/debug/zip-cache/D6pXkrZVVpers8E3yxBgfh7bdyI=" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/packageDebug/tmp/debug/zip-cache/D6pXkrZVVpers8E3yxBgfh7bdyI=" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/intermediates/merged_manifests/debug/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/merged_manifests/debug/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/mergeJavaRes/debug/0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/mergeJavaRes/debug/0.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/Activities/MonitorActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/Activities/MonitorActivity.java" afterDir="false" />
+    <list default="true" id="fc6b1f00-4419-4fc8-a13f-473665dd50f5" name="Default" comment=" Inclued the rom file storage system, also made the directories compatible with the compatible while copying in the computer. The directory name of every session will be as yyyy-mm-dd hh-mm-ssa format.&#10; Included application version activity. Made the input type of the login mail as textMailId. Also stoping the ble device scan when the activity is not in focus.&#10; Most stable but has a bit of disconnection issue.&#10; Version 2.0.6.">
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/MonitorActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/MonitorActivity.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -121,7 +114,7 @@
           <entry key="dummy" value="6" />
           <entry key="gradle" value="104" />
           <entry key="java" value="49178" />
-          <entry key="txt" value="3725" />
+          <entry key="txt" value="4024" />
           <entry key="xml" value="16763" />
         </counts>
       </usages-collector>
@@ -129,7 +122,7 @@
         <counts>
           <entry key="Groovy" value="104" />
           <entry key="JAVA" value="49178" />
-          <entry key="PLAIN_TEXT" value="3731" />
+          <entry key="PLAIN_TEXT" value="4030" />
           <entry key="XML" value="16763" />
         </counts>
       </usages-collector>
@@ -171,8 +164,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/MonitorActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="925">
-              <caret line="671" column="9" lean-forward="true" selection-start-line="671" selection-start-column="9" selection-end-line="671" selection-end-column="9" />
+            <state relative-caret-position="91">
+              <caret line="259" column="42" lean-forward="true" selection-start-line="259" selection-start-column="42" selection-end-line="259" selection-end-column="42" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -2003,7 +1996,14 @@
       <option name="project" value="LOCAL" />
       <updated>1558343289318</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary=" Inclued the rom file storage system, also made the directories compatible with the compatible while copying in the computer. The directory name of every session will be as yyyy-mm-dd hh-mm-ssa format.&#10; Included application version activity. Made the input type of the login mail as textMailId. Also stoping the ble device scan when the activity is not in focus.&#10; Most stable but has a bit of disconnection issue.&#10; Version 2.0.6.">
+      <created>1558513117559</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1558513117559</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TodoView">
@@ -2018,10 +2018,10 @@
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.7380952" visible="true" weight="0.2753404" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.74157304" visible="true" weight="0.2753404" />
       <window_info id="Structure" order="1" sideWeight="0.2647059" side_tool="true" weight="0.22314675" />
       <window_info id="Designer" order="2" />
-      <window_info id="Build Variants" order="3" sideWeight="0.26190478" side_tool="true" visible="true" weight="0.2753404" />
+      <window_info id="Build Variants" order="3" sideWeight="0.25842696" side_tool="true" visible="true" weight="0.2753404" />
       <window_info id="Image Layers" order="4" />
       <window_info id="Favorites" order="5" sideWeight="0.17274939" side_tool="true" weight="0.2344932" />
       <window_info id="Captures" order="6" side_tool="true" weight="0.25" />
@@ -2037,7 +2037,7 @@
       <window_info anchor="bottom" id="Android Profiler" order="8" weight="0.03442623" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50378215" side_tool="true" weight="0.045901638" />
       <window_info anchor="bottom" id="Logcat" order="10" weight="0.70163935" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="11" sideWeight="0.49621785" visible="true" weight="0.7245902" />
+      <window_info active="true" anchor="bottom" id="Version Control" order="11" sideWeight="0.49621785" visible="true" weight="0.41639343" />
       <window_info anchor="bottom" id="Terminal" order="12" sideWeight="0.49924356" weight="0.78688526" />
       <window_info anchor="bottom" id="Messages" order="13" weight="0.42786884" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -2134,7 +2134,8 @@
     <MESSAGE value="default ota commit v-2.0.6" />
     <MESSAGE value="Included application version activity. Made the input type of the login mail as textMailId. Version 2.0.6." />
     <MESSAGE value=" Included application version activity. Made the input type of the login mail as textMailId. Also stoping the ble device scan when the activity is not in focus.  Version 2.0.6." />
-    <option name="LAST_COMMIT_MESSAGE" value=" Included application version activity. Made the input type of the login mail as textMailId. Also stoping the ble device scan when the activity is not in focus.  Version 2.0.6." />
+    <MESSAGE value=" Inclued the rom file storage system, also made the directories compatible with the compatible while copying in the computer. The directory name of every session will be as yyyy-mm-dd hh-mm-ssa format.&#10; Included application version activity. Made the input type of the login mail as textMailId. Also stoping the ble device scan when the activity is not in focus.&#10; Most stable but has a bit of disconnection issue.&#10; Version 2.0.6." />
+    <option name="LAST_COMMIT_MESSAGE" value=" Inclued the rom file storage system, also made the directories compatible with the compatible while copying in the computer. The directory name of every session will be as yyyy-mm-dd hh-mm-ssa format.&#10; Included application version activity. Made the input type of the login mail as textMailId. Also stoping the ble device scan when the activity is not in focus.&#10; Most stable but has a bit of disconnection issue.&#10; Version 2.0.6." />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/dfu/fragment/UploadCancelFragment.java">
@@ -2470,8 +2471,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/MonitorActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="925">
-          <caret line="671" column="9" lean-forward="true" selection-start-line="671" selection-start-column="9" selection-end-line="671" selection-end-column="9" />
+        <state relative-caret-position="91">
+          <caret line="259" column="42" lean-forward="true" selection-start-line="259" selection-start-column="42" selection-end-line="259" selection-end-column="42" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
