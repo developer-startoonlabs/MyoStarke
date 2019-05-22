@@ -346,74 +346,7 @@ public class MonitorActivity extends AppCompatActivity {
                     tsLong = System.currentTimeMillis();
                     String ts = tsLong.toString();
 
-                    try {
-                        outputStream_session_sessiondetails.write("Session Details".getBytes());
-                        outputStream_session_sessiondetails.write("\n".getBytes());
-                        outputStream_session_sessiondetails.write("Session Cancel Pressed".getBytes());
-                        outputStream_session_sessiondetails.write("\n".getBytes());
-                        outputStream_session_sessiondetails.write("Max Angle:".concat(String.valueOf(maxAngle)).getBytes());
-                        outputStream_session_sessiondetails.write("\n".getBytes());
-                        outputStream_session_sessiondetails.write("Min Angle:".concat(String.valueOf(minAngle)).getBytes());
-                        outputStream_session_sessiondetails.write("\n".getBytes());
-                        outputStream_session_sessiondetails.write("Max Emg:".concat(String.valueOf(maxEmgValue)).getBytes());
-                        outputStream_session_sessiondetails.write("\n".getBytes());
-                        outputStream_session_sessiondetails.write("Hold Time:".concat(holdTimeValue).getBytes());
-                        outputStream_session_sessiondetails.write("\n".getBytes());
-                        outputStream_session_sessiondetails.write("Num of Reps:".concat(Repetitions.getText().toString()).getBytes());
-                        outputStream_session_sessiondetails.write("\n".getBytes());
-                        outputStream_session_sessiondetails.write("Session Time:".concat(timer.getText().toString()).getBytes());
-                        outputStream_session_sessiondetails.write("\n".getBytes());
-                        outputStream_session_sessiondetails.write("Painscale-Muscletone : ".concat(BodyPartSelection.painscale+"-"+BodyPartSelection.muscletone).getBytes());
-                        outputStream_session_sessiondetails.write("\n\n\n".getBytes());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    MediaScannerConnection.scanFile(
-                            getApplicationContext(),
-                            new String[]{file_emgdata.getAbsolutePath()},
-                            null,
-                            new MediaScannerConnection.OnScanCompletedListener() {
-                                @Override
-                                public void onScanCompleted(String path, Uri uri) {
-                                    Log.v("grokkingandroid",
-                                            "file " + path + " was scanned seccessfully: " + uri);
-                                }
-                            });
-
-                    MediaScannerConnection.scanFile(
-                            getApplicationContext(),
-                            new String[]{file_session_emgdata.getAbsolutePath()},
-                            null,
-                            new MediaScannerConnection.OnScanCompletedListener() {
-                                @Override
-                                public void onScanCompleted(String path, Uri uri) {
-                                    Log.v("grokkingandroid",
-                                            "file " + path + " was scanned seccessfully: " + uri);
-                                }
-                            });
-                    MediaScannerConnection.scanFile(
-                            getApplicationContext(),
-                            new String[]{file_session_romdata.getAbsolutePath()},
-                            null,
-                            new MediaScannerConnection.OnScanCompletedListener() {
-                                @Override
-                                public void onScanCompleted(String path, Uri uri) {
-                                    Log.v("grokkingandroid",
-                                            "file " + path + " was scanned seccessfully: " + uri);
-                                }
-                            });
-                    MediaScannerConnection.scanFile(
-                            getApplicationContext(),
-                            new String[]{file_session_sessiondetails.getAbsolutePath()},
-                            null,
-                            new MediaScannerConnection.OnScanCompletedListener() {
-                                @Override
-                                public void onScanCompleted(String path, Uri uri) {
-                                    Log.v("grokkingandroid",
-                                            "file " + path + " was scanned seccessfully: " + uri);
-                                }
-                            });
+                    insertValuesAndNotifyMediaStore();
                 }
             }
         });
@@ -472,75 +405,8 @@ public class MonitorActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     initiatePopupWindowModified(v);
-                //sessiondetails file output stream
-                try {
-                    outputStream_session_sessiondetails.write("Session Details".getBytes());
-                    outputStream_session_sessiondetails.write("\n".getBytes());
-                    outputStream_session_sessiondetails.write("Session Stop Pressed".getBytes());
-                    outputStream_session_sessiondetails.write("\n".getBytes());
-                    outputStream_session_sessiondetails.write("Max Angle:".concat(String.valueOf(maxAngle)).getBytes());
-                    outputStream_session_sessiondetails.write("\n".getBytes());
-                    outputStream_session_sessiondetails.write("Min Angle:".concat(String.valueOf(minAngle)).getBytes());
-                    outputStream_session_sessiondetails.write("\n".getBytes());
-                    outputStream_session_sessiondetails.write("Max Emg:".concat(String.valueOf(maxEmgValue)).getBytes());
-                    outputStream_session_sessiondetails.write("\n".getBytes());
-                    outputStream_session_sessiondetails.write("Hold Time:".concat(holdTimeValue).getBytes());
-                    outputStream_session_sessiondetails.write("\n".getBytes());
-                    outputStream_session_sessiondetails.write("Num of Reps:".concat(Repetitions.getText().toString()).getBytes());
-                    outputStream_session_sessiondetails.write("\n".getBytes());
-                    outputStream_session_sessiondetails.write("Session Time:".concat(timer.getText().toString()).getBytes());
-                    outputStream_session_sessiondetails.write("\n".getBytes());
-                    outputStream_session_sessiondetails.write("Painscale-Muscletone : ".concat(BodyPartSelection.painscale+"-"+BodyPartSelection.muscletone).getBytes());
-                    outputStream_session_sessiondetails.write("\n\n\n".getBytes());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                    MediaScannerConnection.scanFile(
-                            getApplicationContext(),
-                            new String[]{file_emgdata.getAbsolutePath()},
-                            null,
-                            new MediaScannerConnection.OnScanCompletedListener() {
-                                @Override
-                                public void onScanCompleted(String path, Uri uri) {
-                                    Log.v("grokkingandroid",
-                                            "file " + path + " was scanned seccessfully: " + uri);
-                                }
-                            });
-
-                    MediaScannerConnection.scanFile(
-                            getApplicationContext(),
-                            new String[]{file_session_emgdata.getAbsolutePath()},
-                            null,
-                            new MediaScannerConnection.OnScanCompletedListener() {
-                                @Override
-                                public void onScanCompleted(String path, Uri uri) {
-                                    Log.v("grokkingandroid",
-                                            "file " + path + " was scanned seccessfully: " + uri);
-                                }
-                            });
-                MediaScannerConnection.scanFile(
-                        getApplicationContext(),
-                        new String[]{file_session_romdata.getAbsolutePath()},
-                        null,
-                        new MediaScannerConnection.OnScanCompletedListener() {
-                            @Override
-                            public void onScanCompleted(String path, Uri uri) {
-                                Log.v("grokkingandroid",
-                                        "file " + path + " was scanned seccessfully: " + uri);
-                            }
-                        });
-                MediaScannerConnection.scanFile(
-                        getApplicationContext(),
-                        new String[]{file_session_sessiondetails.getAbsolutePath()},
-                        null,
-                        new MediaScannerConnection.OnScanCompletedListener() {
-                            @Override
-                            public void onScanCompleted(String path, Uri uri) {
-                                Log.v("grokkingandroid",
-                                        "file " + path + " was scanned seccessfully: " + uri);
-                            }
-                        });
+                //sessiondetails file output stream and notifying the media store about the files
+                insertValuesAndNotifyMediaStore();
 //                }else {
 //                    Toast.makeText(MonitorActivity.this,"your alignment is wrong!! try again,",Toast.LENGTH_LONG).show();
 //                }
@@ -713,15 +579,17 @@ public class MonitorActivity extends AppCompatActivity {
                 }
             }, 100);
             rawdata_timestamp = Calendar.getInstance().getTime();
-            String s = rawdata_timestamp.toString().substring(0, 19);
+            android.text.format.DateFormat df = new android.text.format.DateFormat();
+//            String s = rawdata_timestamp.toString().substring(0, 19);
+            String s = String.valueOf(df.format("yyyy-MM-dd hh-mm-ssa", rawdata_timestamp));
             String child = patientName.getText().toString()+patientId.getText().toString();
             file_dir_emgdata = new File(Environment.getExternalStorageDirectory()+"/Pheezee/files/EmgData/"+child+"/raw");
-            file_dir_session_emgdata = new File(Environment.getExternalStorageDirectory()+"/Pheezee/files/EmgData/"+child+"/sessiondata",s);
+            file_dir_session_emgdata = new File(Environment.getExternalStorageDirectory()+"/Pheezee/files/EmgData/"+child+"/sessiondata/",s);
             if (!file_dir_emgdata.exists()) {
                 file_dir_emgdata.mkdirs();
             }
             if (!file_dir_session_emgdata.exists()) {
-                file_dir_session_emgdata.mkdir();
+                file_dir_session_emgdata.mkdirs();
             }
             file_emgdata = new File(file_dir_emgdata, ""+s+".txt");
             file_session_emgdata = new File(file_dir_session_emgdata, "emg.txt");
@@ -730,9 +598,13 @@ public class MonitorActivity extends AppCompatActivity {
             try {
                 file_emgdata.createNewFile();
                 file_session_emgdata.createNewFile();
+                file_session_romdata.createNewFile();
+                file_session_sessiondetails.createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+
 
             try {
                 outputStream_emgdata = new FileOutputStream(file_emgdata, true);
@@ -771,6 +643,79 @@ public class MonitorActivity extends AppCompatActivity {
             pheezeeState = true;
             handler.postDelayed(runnable, 0);
         }
+    }
+
+    private void insertValuesAndNotifyMediaStore() {
+        try {
+            outputStream_session_sessiondetails.write("Session Details".getBytes());
+            outputStream_session_sessiondetails.write("\n".getBytes());
+            outputStream_session_sessiondetails.write("Session Stop Pressed".getBytes());
+            outputStream_session_sessiondetails.write("\n".getBytes());
+            outputStream_session_sessiondetails.write("Max Angle:".concat(String.valueOf(maxAngle)).getBytes());
+            outputStream_session_sessiondetails.write("\n".getBytes());
+            outputStream_session_sessiondetails.write("Min Angle:".concat(String.valueOf(minAngle)).getBytes());
+            outputStream_session_sessiondetails.write("\n".getBytes());
+            outputStream_session_sessiondetails.write("Max Emg:".concat(String.valueOf(maxEmgValue)).getBytes());
+            outputStream_session_sessiondetails.write("\n".getBytes());
+            outputStream_session_sessiondetails.write("Hold Time:".concat(holdTimeValue).getBytes());
+            outputStream_session_sessiondetails.write("\n".getBytes());
+            outputStream_session_sessiondetails.write("Num of Reps:".concat(Repetitions.getText().toString()).getBytes());
+            outputStream_session_sessiondetails.write("\n".getBytes());
+            outputStream_session_sessiondetails.write("Session Time:".concat(timer.getText().toString()).getBytes());
+            outputStream_session_sessiondetails.write("\n".getBytes());
+            outputStream_session_sessiondetails.write("Painscale-Muscletone : ".concat(BodyPartSelection.painscale+"-"+BodyPartSelection.muscletone).getBytes());
+            outputStream_session_sessiondetails.write("\n".getBytes());
+            outputStream_session_sessiondetails.write("Comment : ".concat(BodyPartSelection.commentsession).getBytes());
+            outputStream_session_sessiondetails.write("\n\n\n".getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        MediaScannerConnection.scanFile(
+                getApplicationContext(),
+                new String[]{file_emgdata.getAbsolutePath()},
+                null,
+                new MediaScannerConnection.OnScanCompletedListener() {
+                    @Override
+                    public void onScanCompleted(String path, Uri uri) {
+                        Log.v("grokkingandroid",
+                                "file " + path + " was scanned seccessfully: " + uri);
+                    }
+                });
+
+        MediaScannerConnection.scanFile(
+                getApplicationContext(),
+                new String[]{file_session_emgdata.getAbsolutePath()},
+                null,
+                new MediaScannerConnection.OnScanCompletedListener() {
+                    @Override
+                    public void onScanCompleted(String path, Uri uri) {
+                        Log.v("grokkingandroid",
+                                "file " + path + " was scanned seccessfully: " + uri);
+                    }
+                });
+        MediaScannerConnection.scanFile(
+                getApplicationContext(),
+                new String[]{file_session_romdata.getAbsolutePath()},
+                null,
+                new MediaScannerConnection.OnScanCompletedListener() {
+                    @Override
+                    public void onScanCompleted(String path, Uri uri) {
+                        Log.v("grokkingandroid",
+                                "file " + path + " was scanned seccessfully: " + uri);
+                    }
+                });
+        MediaScannerConnection.scanFile(
+                getApplicationContext(),
+                new String[]{file_session_sessiondetails.getAbsolutePath()},
+                null,
+                new MediaScannerConnection.OnScanCompletedListener() {
+                    @Override
+                    public void onScanCompleted(String path, Uri uri) {
+                        Log.v("grokkingandroid",
+                                "file " + path + " was scanned seccessfully: " + uri);
+                    }
+                });
     }
 
     @Override
@@ -963,7 +908,6 @@ public class MonitorActivity extends AppCompatActivity {
         @Override
         public void onCharacteristicChanged(final BluetoothGatt gatt, final BluetoothGattCharacteristic characteristic) {
             if(characteristic1_service1_uuid.equals(characteristic.getUuid())) {
-                Log.i("Received",String.valueOf(characteristic1_service1_uuid));
                 byte temp_byte[];
 
                 temp_byte = characteristic.getValue();
