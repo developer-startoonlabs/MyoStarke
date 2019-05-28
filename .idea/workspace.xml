@@ -27,6 +27,7 @@
   <component name="ChangeListManager">
     <list default="true" id="fc6b1f00-4419-4fc8-a13f-473665dd50f5" name="Default" comment="default commit body part update.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.iml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -67,7 +68,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/MonitorActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2482">
+            <state relative-caret-position="3893">
               <caret line="233" selection-start-line="233" selection-end-line="233" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -118,8 +119,8 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
           <provider editor-type-id="android-manifest" />
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1981">
-              <caret line="11" column="67" lean-forward="true" selection-start-line="11" selection-start-column="67" selection-end-line="11" selection-end-column="67" />
+            <state relative-caret-position="187">
+              <caret line="11" column="67" selection-start-line="11" selection-start-column="67" selection-end-line="11" selection-end-column="67" />
             </state>
           </provider>
         </entry>
@@ -279,9 +280,9 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-9" />
-    <option name="y" value="-9" />
-    <option name="width" value="1383" />
+    <option name="x" value="-10" />
+    <option name="y" value="-10" />
+    <option name="width" value="1384" />
     <option name="height" value="745" />
   </component>
   <component name="ProjectLevelVcsManager">
@@ -292,19 +293,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
-      <pane id="AndroidView">
-        <subPane>
-          <expand>
-            <path>
-              <item name="pheezeeandroid" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -352,6 +340,30 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="res" type="462c0819:PsiDirectoryNode" />
               <item name="drawable" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
+      <pane id="AndroidView">
+        <subPane>
+          <expand>
+            <path>
+              <item name="pheezeeandroid" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+            </path>
+            <path>
+              <item name="pheezeeandroid" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="res" type="d4f16f75:AndroidResFolderNode" />
+            </path>
+            <path>
+              <item name="pheezeeandroid" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="res" type="d4f16f75:AndroidResFolderNode" />
+              <item name="layout" type="ddeffd01:AndroidResFolderTypeNode" />
             </path>
           </expand>
           <select />
@@ -683,10 +695,10 @@
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.7287671" visible="true" weight="0.1932886" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.72602737" visible="true" weight="0.1932886" />
       <window_info id="Structure" order="1" sideWeight="0.2647059" side_tool="true" weight="0.22314675" />
       <window_info id="Designer" order="2" />
-      <window_info id="Build Variants" order="3" sideWeight="0.27123287" side_tool="true" visible="true" weight="0.1932886" />
+      <window_info id="Build Variants" order="3" sideWeight="0.2739726" side_tool="true" visible="true" weight="0.1932886" />
       <window_info id="Image Layers" order="4" />
       <window_info id="Favorites" order="5" sideWeight="0.17274939" side_tool="true" weight="0.2344932" />
       <window_info id="Captures" order="6" side_tool="true" weight="0.25" />
@@ -1081,7 +1093,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/MonitorActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2482">
+        <state relative-caret-position="3893">
           <caret line="233" selection-start-line="233" selection-end-line="233" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -1147,12 +1159,12 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider editor-type-id="android-manifest" />
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1981">
-          <caret line="11" column="67" lean-forward="true" selection-start-line="11" selection-start-column="67" selection-end-line="11" selection-end-column="67" />
+        <state relative-caret-position="187">
+          <caret line="11" column="67" selection-start-line="11" selection-start-column="67" selection-end-line="11" selection-end-column="67" />
         </state>
       </provider>
-      <provider editor-type-id="android-manifest" />
     </entry>
   </component>
 </project>
