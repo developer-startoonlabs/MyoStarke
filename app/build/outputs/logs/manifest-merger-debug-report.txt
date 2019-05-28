@@ -1,5 +1,5 @@
 -- Merging decision tree log ---
-provider#com.example.sai.pheezeeapp.Classes.GenericFileProvider
+provider#com.example.sai.pheezeeapp.classes.GenericFileProvider
 INJECTED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:35:9-43:20
 	android:grantUriPermissions
 		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:39:13-47

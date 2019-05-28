@@ -41,7 +41,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
         <provider
-            android:name="com.example.sai.pheezeeapp.Classes.GenericFileProvider"
+            android:name="com.example.sai.pheezeeapp.classes.GenericFileProvider"
             android:authorities="com.example.sai.pheezeeappnew.my.package.name.provider"
             android:exported="false"
             android:grantUriPermissions="true" >
