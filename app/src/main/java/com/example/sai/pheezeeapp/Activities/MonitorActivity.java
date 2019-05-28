@@ -223,8 +223,6 @@ public class MonitorActivity extends AppCompatActivity {
 
         iv_back_monitor = findViewById(R.id.iv_back_monitor);
         tv_snap = findViewById(R.id.snap_monitor);
-
-
         tv_snap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1308,6 +1306,7 @@ public class MonitorActivity extends AppCompatActivity {
         report.setWindowLayoutMode(ConstraintLayout.LayoutParams.MATCH_PARENT,ConstraintLayout.LayoutParams.MATCH_PARENT);
         report.setOutsideTouchable(true);
         report.showAtLocation(v, Gravity.CENTER, 0, 0);
+
 
         //Gettig all the view items from the layout
 
