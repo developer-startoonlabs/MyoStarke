@@ -1,6 +1,5 @@
-package com.example.sai.pheezeeapp.Classes;
+package com.example.sai.pheezeeapp.classes;
 
-import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothGatt;
 
 public class BluetoothGattSingleton {

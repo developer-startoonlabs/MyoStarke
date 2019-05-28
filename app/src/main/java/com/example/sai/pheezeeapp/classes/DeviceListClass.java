@@ -1,4 +1,4 @@
-package com.example.sai.pheezeeapp.Classes;
+package com.example.sai.pheezeeapp.classes;
 
 public class DeviceListClass {
     String deviceName, deviceMacAddress, deviceBondState, deviceRssi;

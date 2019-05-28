@@ -1,4 +1,4 @@
-package com.example.sai.pheezeeapp.Classes;
+package com.example.sai.pheezeeapp.classes;
 
 import android.support.v4.content.FileProvider;
 

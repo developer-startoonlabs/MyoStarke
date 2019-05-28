@@ -1,4 +1,4 @@
-package com.example.sai.pheezeeapp.Classes;
+package com.example.sai.pheezeeapp.classes;
 
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;

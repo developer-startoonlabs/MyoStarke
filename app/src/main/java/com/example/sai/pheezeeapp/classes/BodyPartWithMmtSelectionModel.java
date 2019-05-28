@@ -1,4 +1,4 @@
-package com.example.sai.pheezeeapp.Classes;
+package com.example.sai.pheezeeapp.classes;
 
 public class BodyPartWithMmtSelectionModel {
     int iv_body_part;
