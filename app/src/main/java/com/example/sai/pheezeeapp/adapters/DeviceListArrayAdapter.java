@@ -14,7 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sai.pheezeeapp.activities.ScanDevicesActivity;
-import com.example.sai.pheezeeapp.Classes.DeviceListClass;
+import com.example.sai.pheezeeapp.classes.DeviceListClass;
 import com.example.sai.pheezeeapp.activities.PatientsView;
 import com.example.sai.pheezeeapp.R;
 

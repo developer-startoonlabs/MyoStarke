@@ -17,7 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import com.example.sai.pheezeeapp.Classes.BodyPartWithMmtSelectionModel;
+import com.example.sai.pheezeeapp.classes.BodyPartWithMmtSelectionModel;
 import com.example.sai.pheezeeapp.R;
 import com.example.sai.pheezeeapp.activities.BodyPartSelection;
 import com.example.sai.pheezeeapp.services.MqttHelper;

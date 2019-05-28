@@ -33,8 +33,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.sai.pheezeeapp.Classes.BluetoothSingelton;
-import com.example.sai.pheezeeapp.Classes.FileHelper;
+import com.example.sai.pheezeeapp.classes.BluetoothSingelton;
+import com.example.sai.pheezeeapp.classes.FileHelper;
 import com.example.sai.pheezeeapp.dfu.fragment.UploadCancelFragment;
 import com.example.sai.pheezeeapp.dfu.fragment.ZipInfoFragment;
 import com.example.sai.pheezeeapp.dfu.settings.SettingsFragment;

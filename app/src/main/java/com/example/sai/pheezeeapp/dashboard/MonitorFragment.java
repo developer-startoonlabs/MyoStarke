@@ -38,15 +38,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.sai.pheezeeapp.Classes.BluetoothSingelton;
+import com.example.sai.pheezeeapp.classes.BluetoothSingelton;
 import com.example.sai.pheezeeapp.R;
 import com.example.sai.pheezeeapp.services.MqttHelper;
 import com.example.sai.pheezeeapp.views.ArcView;
