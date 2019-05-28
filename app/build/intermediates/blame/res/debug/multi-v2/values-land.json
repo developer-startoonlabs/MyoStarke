@@ -4,17 +4,7 @@
             "outputFile": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-land\\values-land.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0.aar\\8c34ab288258c11de6cfd1922403e47d\\res\\values-land\\values-land.xml",
-                    "from": {
-                        "startLines": "2,3,4",
-                        "startColumns": "4,4,4",
-                        "startOffsets": "55,125,196",
-                        "endColumns": "69,70,67",
-                        "endOffsets": "120,191,259"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\design-28.0.0-rc01.aar\\2a2e077ee80a9068830c2784270a3626\\res\\values-land\\values-land.xml",
+                    "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\design-28.0.0-rc01.aar\\1fbda82f86173410f675bbf66e599128\\res\\values-land\\values-land.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -30,6 +20,16 @@
                         "endLines": "8",
                         "endColumns": "10",
                         "endOffsets": "431"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0.aar\\e062b2ec6d6780ba589178c6402661a1\\res\\values-land\\values-land.xml",
+                    "from": {
+                        "startLines": "2,3,4",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "55,125,196",
+                        "endColumns": "69,70,67",
+                        "endOffsets": "120,191,259"
                     }
                 }
             ]

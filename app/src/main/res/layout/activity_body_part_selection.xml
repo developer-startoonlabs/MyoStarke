@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -33,7 +32,7 @@
                     android:textSize="16sp"
                     android:textColor="@color/good_green"
                     android:layout_gravity="center"
-                    android:paddingStart="30dp"/>
+                    android:paddingStart="25dp"/>
             </LinearLayout>
         </android.support.v7.widget.Toolbar>
 <android.support.design.widget.CoordinatorLayout
@@ -124,7 +123,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fillViewport="true"
-        android:paddingBottom="40dp"
+        android:paddingBottom="45dp"
         android:clipToPadding="false"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 

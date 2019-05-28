@@ -1,107 +1,111 @@
 -- Merging decision tree log ---
-provider#com.example.sai.pheezeeapp.Classes.GenericFileProvider
-INJECTED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:34:9-42:20
+provider#com.example.sai.pheezeeapp.classes.GenericFileProvider
+INJECTED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:35:9-43:20
 	android:grantUriPermissions
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:38:13-47
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:39:13-47
 	android:authorities
 		INJECTED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:36:13-76
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:37:13-76
 	android:exported
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:37:13-37
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:38:13-37
 	android:name
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:35:13-56
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:36:13-56
 manifest
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:2:1-153:12
-INJECTED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:2:1-153:12
-INJECTED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:2:1-153:12
-INJECTED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:2:1-153:12
-MERGED from [info.androidhive:barcode-reader:1.1.5] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\barcode-reader-1.1.5.aar\7e4593215e3d1ddd08c8edba457fce29\AndroidManifest.xml:2:1-15:12
-MERGED from [com.robertlevonyan.view:CustomFloatingActionButton:2.1.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\CustomFloatingActionButton-2.1.1.aar\cafe3d88d7c073506f617aad01fde6bf\AndroidManifest.xml:2:1-17:12
-MERGED from [com.android.support:design:28.0.0-rc01] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\design-28.0.0-rc01.aar\d07895accdf111403f025cfad3fc4293\AndroidManifest.xml:17:1-24:12
-MERGED from [com.squareup.picasso:picasso:2.71828] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\picasso-2.71828.aar\0cdb209b5ea8392e585535a792dbf489\AndroidManifest.xml:2:1-14:12
-MERGED from [com.android.support:exifinterface:28.0.0-rc01] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\exifinterface-28.0.0-rc01.aar\0a350dc264dc7d98743493dc2de556c8\AndroidManifest.xml:17:1-22:12
-MERGED from [com.facebook.android:facebook-login:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\facebook-login-4.35.0.aar\63e3e8bee717e1efcddcb1e0072f2d4e\AndroidManifest.xml:21:1-31:12
-MERGED from [com.facebook.android:facebook-common:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\facebook-common-4.35.0.aar\bec9da986553560f801735b10bb9938e\AndroidManifest.xml:21:1-37:12
-MERGED from [com.android.support:customtabs:28.0.0-rc01] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\customtabs-28.0.0-rc01.aar\f36a8948d8545906f4301e3cf1414bd5\AndroidManifest.xml:17:1-22:12
-MERGED from [com.github.GoodieBag:ProtractorView:v1.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\ProtractorView-v1.2.aar\e40dd8b77bac69e17a3a6ff80be911bd\AndroidManifest.xml:2:1-17:12
-MERGED from [com.github.AnyChart:AnyChart-Android:1.1.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\AnyChart-Android-1.1.2.aar\5ecf471eeb4f3085bb3af7ba121b61da\AndroidManifest.xml:2:1-17:12
-MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\appcompat-v7-28.0.0.aar\7310d0ba49cce2c11b152a41edaede94\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-28.0.0.aar\a7ffa9af6d72c8aeb874114c561e6178\AndroidManifest.xml:17:1-22:12
-MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\graphview-4.2.2.aar\c7db7abd33ed59202e5d4cd3bd3b916e\AndroidManifest.xml:2:1-14:12
-MERGED from [com.google.android.gms:play-services-vision:15.0.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-vision-15.0.2.aar\e5438dbf1e64ce62ffe246a1edf44be5\AndroidManifest.xml:2:1-9:12
-MERGED from [com.google.android.gms:play-services-auth:16.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.0.aar\27190759c75df95f92523195bdc4d0a3\AndroidManifest.xml:17:1-39:12
-MERGED from [com.google.android.gms:play-services-vision-common:15.0.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-vision-common-15.0.2.aar\c996d5aa14027f1e0d2b54a6fbc6916d\AndroidManifest.xml:2:1-9:12
-MERGED from [com.google.android.gms:play-services-auth-api-phone:15.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-auth-api-phone-15.0.1.aar\a3b39d3e40473989557a820d35b1bf22\AndroidManifest.xml:2:1-7:12
-MERGED from [com.google.android.gms:play-services-auth-base:15.1.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-auth-base-15.1.0.aar\f73518baff4777e6705005ca3354fe16\AndroidManifest.xml:2:1-7:12
-MERGED from [com.google.android.gms:play-services-clearcut:15.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-clearcut-15.0.1.aar\e9c38c546cc85b266a0b817c518a06d8\AndroidManifest.xml:17:1-24:12
-MERGED from [com.google.android.gms:play-services-flags:15.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-flags-15.0.1.aar\05e5ec0cff0e7910afd6ed531591177b\AndroidManifest.xml:17:1-22:12
-MERGED from [com.google.android.gms:play-services-phenotype:15.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-phenotype-15.0.1.aar\e2dd6d6c60eb2f2e2d9c507a193783a0\AndroidManifest.xml:17:1-24:12
-MERGED from [com.google.android.gms:play-services-base:15.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-base-15.0.1.aar\d0b97ce8d0d4a6928077f6d7b200329d\AndroidManifest.xml:17:1-29:12
-MERGED from [com.google.android.gms:play-services-tasks:15.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-tasks-15.0.1.aar\485173251840d0e0ad55f2aecb627690\AndroidManifest.xml:2:1-9:12
-MERGED from [com.google.android.gms:play-services-basement:15.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-basement-15.0.1.aar\145424ab8a77261541a8681eab368758\AndroidManifest.xml:17:1-28:12
-MERGED from [com.android.support:support-v4:28.0.0-rc01] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\support-v4-28.0.0-rc01.aar\43a774c5726038635d16ed40e2733622\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support.constraint:constraint-layout:1.1.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.2.aar\dbbd51da09176f0f8963dcdffb301fa2\AndroidManifest.xml:2:1-11:12
-MERGED from [com.github.bumptech.glide:glide:4.8.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\glide-4.8.0.aar\9270371211f53fe86760b7a83a119d7d\AndroidManifest.xml:2:1-12:12
-MERGED from [com.github.warkiz.widget:indicatorseekbar:2.1.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\indicatorseekbar-2.1.0.aar\7a009b11e21c3cbd81ef007ad089a90f\AndroidManifest.xml:2:1-11:12
-MERGED from [no.nordicsemi.android:dfu:1.7.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\dfu-1.7.0.aar\e9451ce44bfe114e7df347453bbbeea6\AndroidManifest.xml:2:1-14:12
-MERGED from [de.hdodenhof:circleimageview:2.2.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\circleimageview-2.2.0.aar\ae77f0b8f97a2ac7a81643e00fcc49c7\AndroidManifest.xml:2:1-11:12
-MERGED from [com.android.support:transition:28.0.0-rc01] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\transition-28.0.0-rc01.aar\7419ef2019a6a4a6716f26f804a250ec\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:cardview-v7:28.0.0-rc01] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\cardview-v7-28.0.0-rc01.aar\4499dd4d6914a776302fe8c51f92af50\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:recyclerview-v7:28.0.0-rc01] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\recyclerview-v7-28.0.0-rc01.aar\6ff25b168df98ed1c071cac2185c97cb\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-media-compat:28.0.0-rc01] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\support-media-compat-28.0.0-rc01.aar\8f3c83a32f1d2fc239ea73c3637c440f\AndroidManifest.xml:17:1-22:12
-MERGED from [com.github.bumptech.glide:gifdecoder:4.8.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\gifdecoder-4.8.0.aar\5e4231d81ee9c6229a6f43cb711e36fe\AndroidManifest.xml:2:1-11:12
-MERGED from [com.facebook.android:facebook-core:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\facebook-core-4.35.0.aar\470a6c09c2d4f6c31fe950105096dea0\AndroidManifest.xml:21:1-53:12
-MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\support-fragment-28.0.0.aar\b7b5a4b95759348d0553cc25533c886c\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\support-core-ui-28.0.0.aar\69336452c19e76a0fe4a5cfcfdb9ece3\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\support-core-utils-28.0.0.aar\8cc91d7fafb217a035ffffcf1a615cb5\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-28.0.0.aar\af2de1ec30f24d06d3246bad3063b980\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:loader:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\loader-28.0.0.aar\e86e60e9ceb624c86dd5640a3e0324ad\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:viewpager:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\viewpager-28.0.0.aar\4807adc6d0684e380dbe97be70c69223\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\coordinatorlayout-28.0.0.aar\f0a97f3928d42e50c39d52563567f9a2\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\drawerlayout-28.0.0.aar\c8ab40a636ccb6a8274d6e52ca472fa0\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\slidingpanelayout-28.0.0.aar\1b0c8529859dc75369621df11b84435c\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:customview:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\customview-28.0.0.aar\cc081923415f5c76123dc23387683c7c\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\swiperefreshlayout-28.0.0.aar\c596b4bf8861ecced804508dde5c6dbc\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\asynclayoutinflater-28.0.0.aar\7116eef680c871643b916fd766ad5538\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-compat:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\support-compat-28.0.0.aar\a361bf5e03f3e09f1366341eaa282a74\AndroidManifest.xml:17:1-24:12
-MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\versionedparcelable-28.0.0.aar\002b428d720ef22f12e0a9f973525ca2\AndroidManifest.xml:17:1-25:12
-MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\cursoradapter-28.0.0.aar\4b7243b3cc0b0ab0943c28832e1e982e\AndroidManifest.xml:17:1-22:12
-MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\runtime-1.1.1.aar\ba91b326997e1bd6e9d3a2f942315237\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:documentfile:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\documentfile-28.0.0.aar\773ef41d7cd560147c8421061fc38b2e\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\localbroadcastmanager-28.0.0.aar\05cc755ea153750d26fa0c47d577516d\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:print:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\print-28.0.0.aar\42987cf8a99b42e1cec407d8a4f2b160\AndroidManifest.xml:17:1-22:12
-MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\viewmodel-1.1.1.aar\a099800f3bb6c32ac1ee4ef5fce9fe4d\AndroidManifest.xml:17:1-22:12
-MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\livedata-1.1.1.aar\b2b334cce9ca539e8770396a41b3f780\AndroidManifest.xml:17:1-22:12
-MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\livedata-core-1.1.1.aar\cf5d6a335cbc4211df712653383fa80f\AndroidManifest.xml:17:1-22:12
-MERGED from [android.arch.core:runtime:1.1.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\runtime-1.1.1.aar\57b023f2a20e6d7acd0c4aae50149194\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:interpolator:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\interpolator-28.0.0.aar\14b6344075a0e2d724a449489c939171\AndroidManifest.xml:17:1-22:12
-INJECTED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:2:1-153:12
-INJECTED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:2:1-153:12
-INJECTED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:2:1-153:12
+ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:2:1-157:12
+INJECTED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:2:1-157:12
+INJECTED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:2:1-157:12
+INJECTED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:2:1-157:12
+MERGED from [com.android.support:multidex:1.0.3] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\e76f5631d51e9eb43ef55393eb0910ef\AndroidManifest.xml:17:1-22:12
+MERGED from [info.androidhive:barcode-reader:1.1.5] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\d0fbf9421c2bf64cbffc84c798c56769\AndroidManifest.xml:2:1-15:12
+MERGED from [com.robertlevonyan.view:CustomFloatingActionButton:2.1.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\0dc7d83caf2c321b046d4935a5aed47b\AndroidManifest.xml:2:1-17:12
+MERGED from [com.android.support:design:28.0.0-rc01] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\65589ccdec4d11ebcdb596c2b2566525\AndroidManifest.xml:17:1-24:12
+MERGED from [com.squareup.picasso:picasso:2.71828] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\5131f1959f815c01cbc1f7e62b115dc2\AndroidManifest.xml:2:1-14:12
+MERGED from [com.android.support:exifinterface:28.0.0-rc01] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\857baec52ea273d724d94022aa5f3c2a\AndroidManifest.xml:17:1-22:12
+MERGED from [com.facebook.android:facebook-login:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\dbb00a675d9fb8c150a604aa81a67bd2\AndroidManifest.xml:21:1-31:12
+MERGED from [com.facebook.android:facebook-common:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\af54a01db012ffc87fe5c77bf218c8e0\AndroidManifest.xml:21:1-37:12
+MERGED from [com.android.support:customtabs:28.0.0-rc01] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\b4461b44ee68b6bc048862c2807aa707\AndroidManifest.xml:17:1-22:12
+MERGED from [com.github.GoodieBag:ProtractorView:v1.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\1ae8ac8319d0bbcdbef05ba9b2d534be\AndroidManifest.xml:2:1-17:12
+MERGED from [com.github.AnyChart:AnyChart-Android:1.1.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\79436b88f55298125bb189490c28b661\AndroidManifest.xml:2:1-17:12
+MERGED from [com.github.igortrncic.dotted-progress-bar:library:1.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\a4a7418ce0d72224fa08aea2078ba980\AndroidManifest.xml:2:1-16:12
+MERGED from [com.alimuzaffar.lib:pinentryedittext:1.3.10] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\b7c60b7b2ffd4941834f387dc4312792\AndroidManifest.xml:2:1-11:12
+MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\af1b4349a7ce1ccabf4be61eb9d44f12\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\820d2dfc8c741f9e1e1731c66fb0025c\AndroidManifest.xml:17:1-22:12
+MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\9173b6085857d22c7d5821e1e3297ece\AndroidManifest.xml:2:1-14:12
+MERGED from [com.google.android.gms:play-services-vision:17.0.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\39aa925f49122c84dde4f49440277185\AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\b1cacb2b7e5a93b4f23f9a1071a19453\AndroidManifest.xml:17:1-39:12
+MERGED from [com.google.android.gms:play-services-vision-common:17.0.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\45fa6b8c1f25e7512583607ae743c502\AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.gms:play-services-auth-api-phone:16.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\d62d5a9f930f8ed1da83403b23cf5cf8\AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.android.gms:play-services-auth-base:16.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\673e3790734c037886e33ee4912c6087\AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.android.gms:play-services-clearcut:16.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\9406e0ce1da09b57d577251311526790\AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.gms:play-services-flags:16.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\dc97f3a461cf2589ee351763ff25660e\AndroidManifest.xml:17:1-22:12
+MERGED from [com.google.android.gms:play-services-phenotype:16.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\601942a912eeaa7a4dc5fa7760129cb6\AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\66591ff22af9b95861845d1ad0cdd2c7\AndroidManifest.xml:17:1-29:12
+MERGED from [com.google.android.gms:play-services-tasks:16.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\d43e3c0add07c2513909eaa3049cc02f\AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.gms:play-services-basement:16.1.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\664f90edbcdcca6b04f0aacea13da189\AndroidManifest.xml:17:1-28:12
+MERGED from [com.android.support:support-v13:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\85fc24808fe4ab38447933b9ee2675f0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-v4:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\283c22e0690eeb73866c86cedc7eea01\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support.constraint:constraint-layout:1.1.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\4440346ae0b147e62109e331129dec35\AndroidManifest.xml:2:1-11:12
+MERGED from [com.github.bumptech.glide:glide:4.8.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\aecb36040121d51fdd2d62fd2963005c\AndroidManifest.xml:2:1-12:12
+MERGED from [com.github.warkiz.widget:indicatorseekbar:2.1.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\ec31ca4224257e767d4148821543da7e\AndroidManifest.xml:2:1-11:12
+MERGED from [no.nordicsemi.android:dfu:1.7.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\98935a03e42b69910c27857327fb774b\AndroidManifest.xml:2:1-14:12
+MERGED from [de.hdodenhof:circleimageview:2.2.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\b81c474afd837663f74fb7787567a206\AndroidManifest.xml:2:1-11:12
+MERGED from [com.android.support:transition:28.0.0-rc01] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\203b2522500f43fc0f8a074211d81c2a\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:cardview-v7:28.0.0-rc01] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\c6eebeb5a0b2886ebd3eaa956dfb8ed2\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:recyclerview-v7:28.0.0-rc01] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\e00d0ae6e74f4072c0b8f53828b6c08d\AndroidManifest.xml:17:1-22:12
+MERGED from [com.github.bumptech.glide:gifdecoder:4.8.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\1935bc00bc0090423a2246ae0fd35120\AndroidManifest.xml:2:1-11:12
+MERGED from [com.facebook.android:facebook-core:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\6bc9f034faee498f65d945d3a058cd48\AndroidManifest.xml:21:1-53:12
+MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\5aeb93a1c5a9ef20a995f9581c185f84\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\26d1fd672abc727253037718d21d943e\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\6fd6840522d92f7516a1426e9b61c10a\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\0b9c3a486071f0e4a47ab9cbd372ab12\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-media-compat:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\2e8a70027f285973a9ad2375621e6e25\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:loader:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\66eeeeda1ffa8b214d8edfce04538e2e\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:viewpager:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\05f00598f89058bc89f690279150943c\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\8d7758deb43bb1a9e2706c6f633a9f85\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\435962dc0355bf6d1919158e83bf415a\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\a56b3f1e850c4901ff22d0724a21260a\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:customview:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\05d70516dae32f551214a2898f3b778a\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\5b44909d2b01f604db3239556ce05f88\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\186cea646daa336e1776f052d22a283c\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\ffd1a978fa213d6022717290656a9eed\AndroidManifest.xml:17:1-24:12
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\577056b81f8685cc1eb981f99bd8eb38\AndroidManifest.xml:17:1-25:12
+MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\3eb9ae428dbe0f272c7eabf4c0aa60b8\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\82704841473fb1e4d327294fb93608a0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:documentfile:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\8397912b09f97f95dbc400d1910692be\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\77c570c0f9036e8229dc15982fd7fb21\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:print:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\bd7535d7ef915056e469818464c9bb0b\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\1a5e3982ca00ffff01c6733a908a7ea6\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:interpolator:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\07a4a126ff3785a26ddf5d5bda864b96\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\28fe88b79b334531bdaaee852b18e041\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\f373f0d8a45850595b1e64f078ae675d\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.core:runtime:1.1.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\e4de4b5db21e7fc1ba5de3aecbc95ca3\AndroidManifest.xml:17:1-22:12
+INJECTED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:2:1-157:12
+INJECTED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:2:1-157:12
+INJECTED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:2:1-157:12
 	package
 		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:3:5-41
 		INJECTED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml
 		INJECTED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml
 	android:versionName
 		INJECTED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:2:1-153:12
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:2:1-157:12
 		INJECTED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml
 	android:versionCode
 		INJECTED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:2:1-153:12
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:2:1-157:12
 		INJECTED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml
 	xmlns:android
 		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:2:11-69
 uses-permission#android.permission.BLUETOOTH
 ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:5:5-68
-MERGED from [no.nordicsemi.android:dfu:1.7.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\dfu-1.7.0.aar\e9451ce44bfe114e7df347453bbbeea6\AndroidManifest.xml:11:5-68
-MERGED from [no.nordicsemi.android:dfu:1.7.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\dfu-1.7.0.aar\e9451ce44bfe114e7df347453bbbeea6\AndroidManifest.xml:11:5-68
+MERGED from [no.nordicsemi.android:dfu:1.7.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\98935a03e42b69910c27857327fb774b\AndroidManifest.xml:11:5-68
+MERGED from [no.nordicsemi.android:dfu:1.7.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\98935a03e42b69910c27857327fb774b\AndroidManifest.xml:11:5-68
 	android:name
 		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:5:22-65
 uses-permission#android.permission.BLUETOOTH_ADMIN
 ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:6:5-74
-MERGED from [no.nordicsemi.android:dfu:1.7.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\dfu-1.7.0.aar\e9451ce44bfe114e7df347453bbbeea6\AndroidManifest.xml:12:5-74
-MERGED from [no.nordicsemi.android:dfu:1.7.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\dfu-1.7.0.aar\e9451ce44bfe114e7df347453bbbeea6\AndroidManifest.xml:12:5-74
+MERGED from [no.nordicsemi.android:dfu:1.7.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\98935a03e42b69910c27857327fb774b\AndroidManifest.xml:12:5-74
+MERGED from [no.nordicsemi.android:dfu:1.7.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\98935a03e42b69910c27857327fb774b\AndroidManifest.xml:12:5-74
 	android:name
 		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:6:22-71
 uses-permission#android.permission.ACCESS_COARSE_LOCATION
@@ -142,8 +146,8 @@ ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\ma
 		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:15:22-72
 uses-permission#android.permission.CAMERA
 ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:16:5-65
-MERGED from [info.androidhive:barcode-reader:1.1.5] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\barcode-reader-1.1.5.aar\7e4593215e3d1ddd08c8edba457fce29\AndroidManifest.xml:11:5-65
-MERGED from [info.androidhive:barcode-reader:1.1.5] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\barcode-reader-1.1.5.aar\7e4593215e3d1ddd08c8edba457fce29\AndroidManifest.xml:11:5-65
+MERGED from [info.androidhive:barcode-reader:1.1.5] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\d0fbf9421c2bf64cbffc84c798c56769\AndroidManifest.xml:11:5-65
+MERGED from [info.androidhive:barcode-reader:1.1.5] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\d0fbf9421c2bf64cbffc84c798c56769\AndroidManifest.xml:11:5-65
 	android:name
 		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:16:22-62
 uses-feature#android.hardware.bluetooth_le
@@ -153,423 +157,431 @@ ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\ma
 	android:name
 		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:19:9-53
 application
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:24:5-151:19
-MERGED from [com.robertlevonyan.view:CustomFloatingActionButton:2.1.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\CustomFloatingActionButton-2.1.1.aar\cafe3d88d7c073506f617aad01fde6bf\AndroidManifest.xml:11:5-15:19
-MERGED from [com.robertlevonyan.view:CustomFloatingActionButton:2.1.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\CustomFloatingActionButton-2.1.1.aar\cafe3d88d7c073506f617aad01fde6bf\AndroidManifest.xml:11:5-15:19
-MERGED from [com.android.support:design:28.0.0-rc01] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\design-28.0.0-rc01.aar\d07895accdf111403f025cfad3fc4293\AndroidManifest.xml:22:5-20
-MERGED from [com.android.support:design:28.0.0-rc01] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\design-28.0.0-rc01.aar\d07895accdf111403f025cfad3fc4293\AndroidManifest.xml:22:5-20
-MERGED from [com.squareup.picasso:picasso:2.71828] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\picasso-2.71828.aar\0cdb209b5ea8392e585535a792dbf489\AndroidManifest.xml:7:5-12:19
-MERGED from [com.squareup.picasso:picasso:2.71828] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\picasso-2.71828.aar\0cdb209b5ea8392e585535a792dbf489\AndroidManifest.xml:7:5-12:19
-MERGED from [com.facebook.android:facebook-login:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\facebook-login-4.35.0.aar\63e3e8bee717e1efcddcb1e0072f2d4e\AndroidManifest.xml:28:5-29:19
-MERGED from [com.facebook.android:facebook-login:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\facebook-login-4.35.0.aar\63e3e8bee717e1efcddcb1e0072f2d4e\AndroidManifest.xml:28:5-29:19
-MERGED from [com.facebook.android:facebook-common:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\facebook-common-4.35.0.aar\bec9da986553560f801735b10bb9938e\AndroidManifest.xml:28:5-35:19
-MERGED from [com.facebook.android:facebook-common:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\facebook-common-4.35.0.aar\bec9da986553560f801735b10bb9938e\AndroidManifest.xml:28:5-35:19
-MERGED from [com.github.GoodieBag:ProtractorView:v1.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\ProtractorView-v1.2.aar\e40dd8b77bac69e17a3a6ff80be911bd\AndroidManifest.xml:11:5-15:19
-MERGED from [com.github.GoodieBag:ProtractorView:v1.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\ProtractorView-v1.2.aar\e40dd8b77bac69e17a3a6ff80be911bd\AndroidManifest.xml:11:5-15:19
-MERGED from [com.github.AnyChart:AnyChart-Android:1.1.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\AnyChart-Android-1.1.2.aar\5ecf471eeb4f3085bb3af7ba121b61da\AndroidManifest.xml:11:5-15:19
-MERGED from [com.github.AnyChart:AnyChart-Android:1.1.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\AnyChart-Android-1.1.2.aar\5ecf471eeb4f3085bb3af7ba121b61da\AndroidManifest.xml:11:5-15:19
-MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\graphview-4.2.2.aar\c7db7abd33ed59202e5d4cd3bd3b916e\AndroidManifest.xml:11:5-12:19
-MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\graphview-4.2.2.aar\c7db7abd33ed59202e5d4cd3bd3b916e\AndroidManifest.xml:11:5-12:19
-MERGED from [com.google.android.gms:play-services-vision:15.0.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-vision-15.0.2.aar\e5438dbf1e64ce62ffe246a1edf44be5\AndroidManifest.xml:7:5-20
-MERGED from [com.google.android.gms:play-services-vision:15.0.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-vision-15.0.2.aar\e5438dbf1e64ce62ffe246a1edf44be5\AndroidManifest.xml:7:5-20
-MERGED from [com.google.android.gms:play-services-auth:16.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.0.aar\27190759c75df95f92523195bdc4d0a3\AndroidManifest.xml:22:5-37:19
-MERGED from [com.google.android.gms:play-services-auth:16.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.0.aar\27190759c75df95f92523195bdc4d0a3\AndroidManifest.xml:22:5-37:19
-MERGED from [com.google.android.gms:play-services-vision-common:15.0.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-vision-common-15.0.2.aar\c996d5aa14027f1e0d2b54a6fbc6916d\AndroidManifest.xml:7:5-20
-MERGED from [com.google.android.gms:play-services-vision-common:15.0.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-vision-common-15.0.2.aar\c996d5aa14027f1e0d2b54a6fbc6916d\AndroidManifest.xml:7:5-20
-MERGED from [com.google.android.gms:play-services-clearcut:15.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-clearcut-15.0.1.aar\e9c38c546cc85b266a0b817c518a06d8\AndroidManifest.xml:22:5-20
-MERGED from [com.google.android.gms:play-services-clearcut:15.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-clearcut-15.0.1.aar\e9c38c546cc85b266a0b817c518a06d8\AndroidManifest.xml:22:5-20
-MERGED from [com.google.android.gms:play-services-phenotype:15.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-phenotype-15.0.1.aar\e2dd6d6c60eb2f2e2d9c507a193783a0\AndroidManifest.xml:22:5-20
-MERGED from [com.google.android.gms:play-services-phenotype:15.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-phenotype-15.0.1.aar\e2dd6d6c60eb2f2e2d9c507a193783a0\AndroidManifest.xml:22:5-20
-MERGED from [com.google.android.gms:play-services-base:15.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-base-15.0.1.aar\d0b97ce8d0d4a6928077f6d7b200329d\AndroidManifest.xml:22:5-27:19
-MERGED from [com.google.android.gms:play-services-base:15.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-base-15.0.1.aar\d0b97ce8d0d4a6928077f6d7b200329d\AndroidManifest.xml:22:5-27:19
-MERGED from [com.google.android.gms:play-services-tasks:15.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-tasks-15.0.1.aar\485173251840d0e0ad55f2aecb627690\AndroidManifest.xml:7:5-20
-MERGED from [com.google.android.gms:play-services-tasks:15.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-tasks-15.0.1.aar\485173251840d0e0ad55f2aecb627690\AndroidManifest.xml:7:5-20
-MERGED from [com.google.android.gms:play-services-basement:15.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-basement-15.0.1.aar\145424ab8a77261541a8681eab368758\AndroidManifest.xml:22:5-26:19
-MERGED from [com.google.android.gms:play-services-basement:15.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-basement-15.0.1.aar\145424ab8a77261541a8681eab368758\AndroidManifest.xml:22:5-26:19
-MERGED from [com.android.support.constraint:constraint-layout:1.1.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.2.aar\dbbd51da09176f0f8963dcdffb301fa2\AndroidManifest.xml:9:5-20
-MERGED from [com.android.support.constraint:constraint-layout:1.1.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.2.aar\dbbd51da09176f0f8963dcdffb301fa2\AndroidManifest.xml:9:5-20
-MERGED from [com.github.bumptech.glide:glide:4.8.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\glide-4.8.0.aar\9270371211f53fe86760b7a83a119d7d\AndroidManifest.xml:10:5-20
-MERGED from [com.github.bumptech.glide:glide:4.8.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\glide-4.8.0.aar\9270371211f53fe86760b7a83a119d7d\AndroidManifest.xml:10:5-20
-MERGED from [de.hdodenhof:circleimageview:2.2.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\circleimageview-2.2.0.aar\ae77f0b8f97a2ac7a81643e00fcc49c7\AndroidManifest.xml:9:5-20
-MERGED from [de.hdodenhof:circleimageview:2.2.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\circleimageview-2.2.0.aar\ae77f0b8f97a2ac7a81643e00fcc49c7\AndroidManifest.xml:9:5-20
-MERGED from [com.github.bumptech.glide:gifdecoder:4.8.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\gifdecoder-4.8.0.aar\5e4231d81ee9c6229a6f43cb711e36fe\AndroidManifest.xml:9:5-20
-MERGED from [com.github.bumptech.glide:gifdecoder:4.8.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\gifdecoder-4.8.0.aar\5e4231d81ee9c6229a6f43cb711e36fe\AndroidManifest.xml:9:5-20
-MERGED from [com.facebook.android:facebook-core:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\facebook-core-4.35.0.aar\470a6c09c2d4f6c31fe950105096dea0\AndroidManifest.xml:28:5-51:19
-MERGED from [com.facebook.android:facebook-core:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\facebook-core-4.35.0.aar\470a6c09c2d4f6c31fe950105096dea0\AndroidManifest.xml:28:5-51:19
-MERGED from [com.android.support:support-compat:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\support-compat-28.0.0.aar\a361bf5e03f3e09f1366341eaa282a74\AndroidManifest.xml:22:5-94
-MERGED from [com.android.support:support-compat:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\support-compat-28.0.0.aar\a361bf5e03f3e09f1366341eaa282a74\AndroidManifest.xml:22:5-94
-MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\versionedparcelable-28.0.0.aar\002b428d720ef22f12e0a9f973525ca2\AndroidManifest.xml:22:5-23:19
-MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\versionedparcelable-28.0.0.aar\002b428d720ef22f12e0a9f973525ca2\AndroidManifest.xml:22:5-23:19
+ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:24:5-155:19
+MERGED from [com.robertlevonyan.view:CustomFloatingActionButton:2.1.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\0dc7d83caf2c321b046d4935a5aed47b\AndroidManifest.xml:11:5-15:19
+MERGED from [com.robertlevonyan.view:CustomFloatingActionButton:2.1.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\0dc7d83caf2c321b046d4935a5aed47b\AndroidManifest.xml:11:5-15:19
+MERGED from [com.android.support:design:28.0.0-rc01] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\65589ccdec4d11ebcdb596c2b2566525\AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:design:28.0.0-rc01] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\65589ccdec4d11ebcdb596c2b2566525\AndroidManifest.xml:22:5-20
+MERGED from [com.squareup.picasso:picasso:2.71828] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\5131f1959f815c01cbc1f7e62b115dc2\AndroidManifest.xml:7:5-12:19
+MERGED from [com.squareup.picasso:picasso:2.71828] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\5131f1959f815c01cbc1f7e62b115dc2\AndroidManifest.xml:7:5-12:19
+MERGED from [com.facebook.android:facebook-login:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\dbb00a675d9fb8c150a604aa81a67bd2\AndroidManifest.xml:28:5-29:19
+MERGED from [com.facebook.android:facebook-login:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\dbb00a675d9fb8c150a604aa81a67bd2\AndroidManifest.xml:28:5-29:19
+MERGED from [com.facebook.android:facebook-common:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\af54a01db012ffc87fe5c77bf218c8e0\AndroidManifest.xml:28:5-35:19
+MERGED from [com.facebook.android:facebook-common:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\af54a01db012ffc87fe5c77bf218c8e0\AndroidManifest.xml:28:5-35:19
+MERGED from [com.github.GoodieBag:ProtractorView:v1.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\1ae8ac8319d0bbcdbef05ba9b2d534be\AndroidManifest.xml:11:5-15:19
+MERGED from [com.github.GoodieBag:ProtractorView:v1.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\1ae8ac8319d0bbcdbef05ba9b2d534be\AndroidManifest.xml:11:5-15:19
+MERGED from [com.github.AnyChart:AnyChart-Android:1.1.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\79436b88f55298125bb189490c28b661\AndroidManifest.xml:11:5-15:19
+MERGED from [com.github.AnyChart:AnyChart-Android:1.1.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\79436b88f55298125bb189490c28b661\AndroidManifest.xml:11:5-15:19
+MERGED from [com.github.igortrncic.dotted-progress-bar:library:1.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\a4a7418ce0d72224fa08aea2078ba980\AndroidManifest.xml:11:5-14:19
+MERGED from [com.github.igortrncic.dotted-progress-bar:library:1.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\a4a7418ce0d72224fa08aea2078ba980\AndroidManifest.xml:11:5-14:19
+MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\9173b6085857d22c7d5821e1e3297ece\AndroidManifest.xml:11:5-12:19
+MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\9173b6085857d22c7d5821e1e3297ece\AndroidManifest.xml:11:5-12:19
+MERGED from [com.google.android.gms:play-services-vision:17.0.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\39aa925f49122c84dde4f49440277185\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-vision:17.0.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\39aa925f49122c84dde4f49440277185\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\b1cacb2b7e5a93b4f23f9a1071a19453\AndroidManifest.xml:22:5-37:19
+MERGED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\b1cacb2b7e5a93b4f23f9a1071a19453\AndroidManifest.xml:22:5-37:19
+MERGED from [com.google.android.gms:play-services-vision-common:17.0.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\45fa6b8c1f25e7512583607ae743c502\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-vision-common:17.0.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\45fa6b8c1f25e7512583607ae743c502\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-clearcut:16.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\9406e0ce1da09b57d577251311526790\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-clearcut:16.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\9406e0ce1da09b57d577251311526790\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-phenotype:16.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\601942a912eeaa7a4dc5fa7760129cb6\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-phenotype:16.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\601942a912eeaa7a4dc5fa7760129cb6\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\66591ff22af9b95861845d1ad0cdd2c7\AndroidManifest.xml:22:5-27:19
+MERGED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\66591ff22af9b95861845d1ad0cdd2c7\AndroidManifest.xml:22:5-27:19
+MERGED from [com.google.android.gms:play-services-tasks:16.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\d43e3c0add07c2513909eaa3049cc02f\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-tasks:16.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\d43e3c0add07c2513909eaa3049cc02f\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-basement:16.1.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\664f90edbcdcca6b04f0aacea13da189\AndroidManifest.xml:22:5-26:19
+MERGED from [com.google.android.gms:play-services-basement:16.1.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\664f90edbcdcca6b04f0aacea13da189\AndroidManifest.xml:22:5-26:19
+MERGED from [com.android.support.constraint:constraint-layout:1.1.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\4440346ae0b147e62109e331129dec35\AndroidManifest.xml:9:5-20
+MERGED from [com.android.support.constraint:constraint-layout:1.1.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\4440346ae0b147e62109e331129dec35\AndroidManifest.xml:9:5-20
+MERGED from [com.github.bumptech.glide:glide:4.8.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\aecb36040121d51fdd2d62fd2963005c\AndroidManifest.xml:10:5-20
+MERGED from [com.github.bumptech.glide:glide:4.8.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\aecb36040121d51fdd2d62fd2963005c\AndroidManifest.xml:10:5-20
+MERGED from [de.hdodenhof:circleimageview:2.2.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\b81c474afd837663f74fb7787567a206\AndroidManifest.xml:9:5-20
+MERGED from [de.hdodenhof:circleimageview:2.2.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\b81c474afd837663f74fb7787567a206\AndroidManifest.xml:9:5-20
+MERGED from [com.github.bumptech.glide:gifdecoder:4.8.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\1935bc00bc0090423a2246ae0fd35120\AndroidManifest.xml:9:5-20
+MERGED from [com.github.bumptech.glide:gifdecoder:4.8.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\1935bc00bc0090423a2246ae0fd35120\AndroidManifest.xml:9:5-20
+MERGED from [com.facebook.android:facebook-core:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\6bc9f034faee498f65d945d3a058cd48\AndroidManifest.xml:28:5-51:19
+MERGED from [com.facebook.android:facebook-core:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\6bc9f034faee498f65d945d3a058cd48\AndroidManifest.xml:28:5-51:19
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\ffd1a978fa213d6022717290656a9eed\AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\ffd1a978fa213d6022717290656a9eed\AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\577056b81f8685cc1eb981f99bd8eb38\AndroidManifest.xml:22:5-23:19
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\577056b81f8685cc1eb981f99bd8eb38\AndroidManifest.xml:22:5-23:19
 	android:appComponentFactory
-		ADDED from [com.android.support:support-compat:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\support-compat-28.0.0.aar\a361bf5e03f3e09f1366341eaa282a74\AndroidManifest.xml:22:18-91
+		ADDED from [com.android.support:support-compat:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\ffd1a978fa213d6022717290656a9eed\AndroidManifest.xml:22:18-91
 	android:supportsRtl
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:32:9-35
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:31:9-35
 	android:label
 		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:29:9-41
 	android:fullBackupContent
 		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:27:9-41
-	android:roundIcon
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:31:9-54
 	android:largeHeap
 		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:30:9-33
 	android:icon
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:28:9-42
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:28:9-52
 	android:allowBackup
 		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:26:9-35
 	android:theme
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:33:9-40
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:32:9-40
 	android:name
 		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:25:9-28
 meta-data#com.facebook.sdk.ApplicationId
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:44:9-46:55
+ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:45:9-47:55
 	android:value
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:46:13-52
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:47:13-52
 	android:name
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:45:13-58
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:46:13-58
 activity#com.facebook.FacebookActivity
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:48:9-51:48
-MERGED from [com.facebook.android:facebook-common:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\facebook-common-4.35.0.aar\bec9da986553560f801735b10bb9938e\AndroidManifest.xml:29:9-32:66
-MERGED from [com.facebook.android:facebook-common:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\facebook-common-4.35.0.aar\bec9da986553560f801735b10bb9938e\AndroidManifest.xml:29:9-32:66
+ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:49:9-52:48
+MERGED from [com.facebook.android:facebook-common:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\af54a01db012ffc87fe5c77bf218c8e0\AndroidManifest.xml:29:9-32:66
+MERGED from [com.facebook.android:facebook-common:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\af54a01db012ffc87fe5c77bf218c8e0\AndroidManifest.xml:29:9-32:66
 	android:label
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:51:13-45
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:52:13-45
 	android:configChanges
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:50:13-96
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:51:13-96
 	android:theme
-		ADDED from [com.facebook.android:facebook-common:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\facebook-common-4.35.0.aar\bec9da986553560f801735b10bb9938e\AndroidManifest.xml:32:13-63
+		ADDED from [com.facebook.android:facebook-common:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\af54a01db012ffc87fe5c77bf218c8e0\AndroidManifest.xml:32:13-63
 	android:name
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:49:13-57
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:50:13-57
 activity#com.facebook.CustomTabActivity
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:52:9-63:20
-MERGED from [com.facebook.android:facebook-common:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\facebook-common-4.35.0.aar\bec9da986553560f801735b10bb9938e\AndroidManifest.xml:34:9-67
-MERGED from [com.facebook.android:facebook-common:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\facebook-common-4.35.0.aar\bec9da986553560f801735b10bb9938e\AndroidManifest.xml:34:9-67
+ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:53:9-64:20
+MERGED from [com.facebook.android:facebook-common:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\af54a01db012ffc87fe5c77bf218c8e0\AndroidManifest.xml:34:9-67
+MERGED from [com.facebook.android:facebook-common:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\af54a01db012ffc87fe5c77bf218c8e0\AndroidManifest.xml:34:9-67
 	android:exported
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:54:13-36
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:55:13-36
 	android:name
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:53:13-58
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:54:13-58
 intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.BROWSABLE+category:name:android.intent.category.DEFAULT+data:scheme:@string/fb_login_protocol_scheme
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:55:13-62:29
+ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:56:13-63:29
 action#android.intent.action.VIEW
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:56:17-69
+ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:57:17-69
 	android:name
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:56:25-66
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:57:25-66
 category#android.intent.category.DEFAULT
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:58:17-76
+ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:59:17-76
 	android:name
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:58:27-73
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:59:27-73
 category#android.intent.category.BROWSABLE
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:59:17-78
+ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:60:17-78
 	android:name
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:59:27-75
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:60:27-75
 data
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:61:17-75
+ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:62:17-75
 	android:scheme
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:61:23-72
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:62:23-72
 service#org.eclipse.paho.android.service.MqttService
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:65:9-80
+ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:66:9-80
 	android:name
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:65:18-77
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:66:18-77
 service#com.example.sai.pheezeeapp.MqttService
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:66:9-48
+ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:67:9-48
 	android:name
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:66:18-45
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:67:18-45
 activity#com.example.sai.pheezeeapp.dashboard.DashboardActivity
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:68:9-71:59
+ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:69:9-72:59
 	android:configChanges
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:70:13-96
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:71:13-96
 	android:theme
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:71:13-56
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:72:13-56
 	android:name
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:69:13-56
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:70:13-56
 activity#com.example.sai.pheezeeapp.services.Scanner
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:72:9-54
-	android:name
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:72:19-51
-activity#com.example.sai.pheezeeapp.Activities.UserType
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:73:9-75:66
+ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:73:9-75:59
 	android:theme
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:75:13-63
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:75:13-56
 	android:name
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:74:13-48
-activity#com.example.sai.pheezeeapp.Activities.LoginActivity
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:76:9-78:72
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:74:13-45
+activity#com.example.sai.pheezeeapp.activities.LoginActivity
+ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:76:9-79:64
+	android:screenOrientation
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:78:13-49
 	android:theme
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:78:13-69
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:79:13-61
 	android:name
 		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:77:13-53
-activity#com.example.sai.pheezeeapp.Activities.PatientsView
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:79:9-81:59
+activity#com.example.sai.pheezeeapp.activities.PatientsView
+ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:80:9-82:59
 	android:theme
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:81:13-56
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:82:13-56
 	android:name
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:80:13-52
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:81:13-52
 receiver#com.example.sai.pheezeeapp.services.BluetoothReceiver
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:83:9-91:20
+ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:84:9-92:20
 	android:name
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:83:19-61
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:84:19-61
 intent-filter#action:name:android.bluetooth.a2dp.profile.action.CONNECTION_STATE_CHANGED+action:name:android.bluetooth.adapter.action.ACL_CONNECTED+action:name:android.bluetooth.adapter.action.ACL_DISCONNECTED+action:name:android.bluetooth.adapter.action.STATE_CHANGED+action:name:android.bluetooth.device.action.BOND_STATE_CHANGED
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:84:13-90:29
+ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:85:13-91:29
 action#android.bluetooth.adapter.action.ACL_CONNECTED
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:85:17-89
+ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:86:17-89
 	android:name
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:85:25-86
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:86:25-86
 action#android.bluetooth.adapter.action.ACL_DISCONNECTED
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:86:17-92
+ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:87:17-92
 	android:name
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:86:25-89
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:87:25-89
 action#android.bluetooth.adapter.action.STATE_CHANGED
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:87:17-89
+ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:88:17-89
 	android:name
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:87:25-86
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:88:25-86
 action#android.bluetooth.device.action.BOND_STATE_CHANGED
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:88:17-93
+ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:89:17-93
 	android:name
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:88:25-90
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:89:25-90
 action#android.bluetooth.a2dp.profile.action.CONNECTION_STATE_CHANGED
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:89:17-105
+ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:90:17-105
 	android:name
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:89:25-102
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:90:25-102
 receiver#com.example.sai.pheezeeapp.ConnectivityChangeReceiver
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:92:9-96:20
+ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:93:9-97:20
 	android:name
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:92:19-61
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:93:19-61
 intent-filter#action:name:android.net.conn.CONNECTIVITY_CHANGE
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:93:13-95:29
+ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:94:13-96:29
 action#android.net.conn.CONNECTIVITY_CHANGE
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:94:17-79
+ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:95:17-79
 	android:name
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:94:25-76
-service#com.example.sai.pheezeeapp.DFU.DfuService
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:98:9-107:19
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:95:25-76
+service#com.example.sai.pheezeeapp.dfu.DfuService
+ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:99:9-108:19
 	android:label
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:101:13-54
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:102:13-54
 	android:exported
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:100:13-36
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:101:13-36
 	android:name
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:99:13-43
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:100:13-43
 intent-filter#action:name:no.nordicsemi.android.action.DFU_UPLOAD+category:name:android.intent.category.DEFAULT
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:102:13-106:29
+ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:103:13-107:29
 action#no.nordicsemi.android.action.DFU_UPLOAD
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:103:17-82
+ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:104:17-82
 	android:name
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:103:25-79
-activity#com.example.sai.pheezeeapp.Activities.OnStartActivity
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:109:9-118:20
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:104:25-79
+activity#com.example.sai.pheezeeapp.activities.OnStartActivity
+ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:110:9-119:20
 	android:exported
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:111:13-36
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:112:13-36
 	android:theme
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:112:13-56
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:113:13-56
 	android:name
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:110:13-55
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:111:13-55
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:113:13-117:29
+ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:114:13-118:29
 action#android.intent.action.MAIN
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:114:17-69
+ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:115:17-69
 	android:name
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:114:25-66
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:115:25-66
 category#android.intent.category.LAUNCHER
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:116:17-77
+ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:117:17-77
 	android:name
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:116:27-74
-activity#com.example.sai.pheezeeapp.DemoActivity
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:119:9-122:66
-	android:configChanges
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:121:13-96
-	android:theme
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:122:13-63
-	android:name
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:120:13-41
-activity#com.example.sai.pheezeeapp.Activities.ScanDevicesActivity
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:123:9-126:59
-	android:label
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:125:13-64
-	android:theme
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:126:13-56
-	android:name
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:124:13-59
-activity#com.example.sai.pheezeeapp.Activities.RawDataCollection
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:127:9-66
-	android:name
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:127:19-63
-activity#com.example.sai.pheezeeapp.DFU.DfuActivity
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:128:9-53
-	android:name
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:128:19-50
-activity#com.example.sai.pheezeeapp.Activities.SignUpActivity
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:129:9-131:72
-	android:theme
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:131:13-69
-	android:name
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:130:13-54
-activity#com.example.sai.pheezeeapp.Activities.SessionList
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:132:9-135:59
-	android:label
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:134:13-64
-	android:theme
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:135:13-56
-	android:name
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:133:13-51
-activity#com.example.sai.pheezeeapp.Activities.PhizioProfile
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:136:9-138:72
-	android:theme
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:138:13-69
-	android:name
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:137:13-53
-activity#com.example.sai.pheezeeapp.Activities.DeviceInfoActivity
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:139:9-67
-	android:name
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:139:19-64
-activity#com.example.sai.pheezeeapp.Activities.MmtSession
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:140:9-59
-	android:name
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:140:19-56
-activity#com.example.sai.pheezeeapp.Activities.CalibrationSession
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:141:9-67
-	android:name
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:141:19-64
-activity#com.example.sai.pheezeeapp.Activities.BodyPartSelection
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:142:9-145:59
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:117:27-74
+activity#com.example.sai.pheezeeapp.activities.ScanDevicesActivity
+ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:120:9-124:59
 	android:screenOrientation
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:144:13-49
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:123:13-49
+	android:label
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:122:13-64
 	android:theme
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:145:13-56
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:124:13-56
 	android:name
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:143:13-57
-activity#com.example.sai.pheezeeapp.Activities.MonitorActivity
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:146:9-148:59
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:121:13-59
+activity#com.example.sai.pheezeeapp.activities.RawDataCollection
+ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:125:9-66
+	android:name
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:125:19-63
+activity#com.example.sai.pheezeeapp.dfu.DfuActivity
+ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:126:9-53
+	android:name
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:126:19-50
+activity#com.example.sai.pheezeeapp.activities.SignUpActivity
+ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:127:9-129:72
+	android:theme
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:129:13-69
+	android:name
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:128:13-54
+activity#com.example.sai.pheezeeapp.activities.PhizioProfile
+ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:130:9-133:59
+	android:screenOrientation
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:132:13-49
+	android:theme
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:133:13-56
+	android:name
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:131:13-53
+activity#com.example.sai.pheezeeapp.activities.DeviceInfoActivity
+ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:134:9-137:59
+	android:screenOrientation
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:136:13-49
+	android:theme
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:137:13-56
+	android:name
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:135:13-58
+activity#com.example.sai.pheezeeapp.activities.CalibrationSession
+ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:138:9-67
+	android:name
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:138:19-64
+activity#com.example.sai.pheezeeapp.activities.BodyPartSelection
+ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:139:9-142:59
+	android:screenOrientation
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:141:13-49
+	android:theme
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:142:13-56
+	android:name
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:140:13-57
+activity#com.example.sai.pheezeeapp.activities.MonitorActivity
+ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:143:9-148:59
+	android:screenOrientation
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:146:13-49
+	android:hardwareAccelerated
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:147:13-47
+	android:configChanges
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:145:13-96
 	android:theme
 		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:148:13-56
 	android:name
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:147:13-55
-activity#com.example.sai.pheezeeapp.Activities.SessionReportActivity
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:149:9-150:68
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:144:13-55
+activity#com.example.sai.pheezeeapp.activities.SessionReportActivity
+ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:149:9-152:59
+	android:screenOrientation
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:151:13-49
 	android:theme
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:150:13-56
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:152:13-56
 	android:name
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:149:19-67
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:150:13-61
+activity#com.example.sai.pheezeeapp.activities.AppInfo
+ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:153:9-154:68
+	android:theme
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:154:13-56
+	android:name
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:153:19-53
 uses-sdk
 INJECTED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml
 INJECTED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml
-MERGED from [info.androidhive:barcode-reader:1.1.5] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\barcode-reader-1.1.5.aar\7e4593215e3d1ddd08c8edba457fce29\AndroidManifest.xml:7:5-9:41
-MERGED from [info.androidhive:barcode-reader:1.1.5] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\barcode-reader-1.1.5.aar\7e4593215e3d1ddd08c8edba457fce29\AndroidManifest.xml:7:5-9:41
-MERGED from [com.robertlevonyan.view:CustomFloatingActionButton:2.1.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\CustomFloatingActionButton-2.1.1.aar\cafe3d88d7c073506f617aad01fde6bf\AndroidManifest.xml:7:5-9:41
-MERGED from [com.robertlevonyan.view:CustomFloatingActionButton:2.1.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\CustomFloatingActionButton-2.1.1.aar\cafe3d88d7c073506f617aad01fde6bf\AndroidManifest.xml:7:5-9:41
-MERGED from [com.android.support:design:28.0.0-rc01] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\design-28.0.0-rc01.aar\d07895accdf111403f025cfad3fc4293\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:design:28.0.0-rc01] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\design-28.0.0-rc01.aar\d07895accdf111403f025cfad3fc4293\AndroidManifest.xml:20:5-44
-MERGED from [com.squareup.picasso:picasso:2.71828] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\picasso-2.71828.aar\0cdb209b5ea8392e585535a792dbf489\AndroidManifest.xml:5:5-44
-MERGED from [com.squareup.picasso:picasso:2.71828] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\picasso-2.71828.aar\0cdb209b5ea8392e585535a792dbf489\AndroidManifest.xml:5:5-44
-MERGED from [com.android.support:exifinterface:28.0.0-rc01] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\exifinterface-28.0.0-rc01.aar\0a350dc264dc7d98743493dc2de556c8\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:exifinterface:28.0.0-rc01] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\exifinterface-28.0.0-rc01.aar\0a350dc264dc7d98743493dc2de556c8\AndroidManifest.xml:20:5-44
-MERGED from [com.facebook.android:facebook-login:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\facebook-login-4.35.0.aar\63e3e8bee717e1efcddcb1e0072f2d4e\AndroidManifest.xml:24:5-26:41
-MERGED from [com.facebook.android:facebook-login:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\facebook-login-4.35.0.aar\63e3e8bee717e1efcddcb1e0072f2d4e\AndroidManifest.xml:24:5-26:41
-MERGED from [com.facebook.android:facebook-common:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\facebook-common-4.35.0.aar\bec9da986553560f801735b10bb9938e\AndroidManifest.xml:24:5-26:41
-MERGED from [com.facebook.android:facebook-common:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\facebook-common-4.35.0.aar\bec9da986553560f801735b10bb9938e\AndroidManifest.xml:24:5-26:41
-MERGED from [com.android.support:customtabs:28.0.0-rc01] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\customtabs-28.0.0-rc01.aar\f36a8948d8545906f4301e3cf1414bd5\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:customtabs:28.0.0-rc01] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\customtabs-28.0.0-rc01.aar\f36a8948d8545906f4301e3cf1414bd5\AndroidManifest.xml:20:5-44
-MERGED from [com.github.GoodieBag:ProtractorView:v1.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\ProtractorView-v1.2.aar\e40dd8b77bac69e17a3a6ff80be911bd\AndroidManifest.xml:7:5-9:41
-MERGED from [com.github.GoodieBag:ProtractorView:v1.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\ProtractorView-v1.2.aar\e40dd8b77bac69e17a3a6ff80be911bd\AndroidManifest.xml:7:5-9:41
-MERGED from [com.github.AnyChart:AnyChart-Android:1.1.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\AnyChart-Android-1.1.2.aar\5ecf471eeb4f3085bb3af7ba121b61da\AndroidManifest.xml:7:5-9:41
-MERGED from [com.github.AnyChart:AnyChart-Android:1.1.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\AnyChart-Android-1.1.2.aar\5ecf471eeb4f3085bb3af7ba121b61da\AndroidManifest.xml:7:5-9:41
-MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\appcompat-v7-28.0.0.aar\7310d0ba49cce2c11b152a41edaede94\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\appcompat-v7-28.0.0.aar\7310d0ba49cce2c11b152a41edaede94\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-28.0.0.aar\a7ffa9af6d72c8aeb874114c561e6178\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-28.0.0.aar\a7ffa9af6d72c8aeb874114c561e6178\AndroidManifest.xml:20:5-44
-MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\graphview-4.2.2.aar\c7db7abd33ed59202e5d4cd3bd3b916e\AndroidManifest.xml:7:5-9:41
-MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\graphview-4.2.2.aar\c7db7abd33ed59202e5d4cd3bd3b916e\AndroidManifest.xml:7:5-9:41
-MERGED from [com.google.android.gms:play-services-vision:15.0.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-vision-15.0.2.aar\e5438dbf1e64ce62ffe246a1edf44be5\AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.gms:play-services-vision:15.0.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-vision-15.0.2.aar\e5438dbf1e64ce62ffe246a1edf44be5\AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.gms:play-services-auth:16.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.0.aar\27190759c75df95f92523195bdc4d0a3\AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-auth:16.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.0.aar\27190759c75df95f92523195bdc4d0a3\AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-vision-common:15.0.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-vision-common-15.0.2.aar\c996d5aa14027f1e0d2b54a6fbc6916d\AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.gms:play-services-vision-common:15.0.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-vision-common-15.0.2.aar\c996d5aa14027f1e0d2b54a6fbc6916d\AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.gms:play-services-auth-api-phone:15.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-auth-api-phone-15.0.1.aar\a3b39d3e40473989557a820d35b1bf22\AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.gms:play-services-auth-api-phone:15.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-auth-api-phone-15.0.1.aar\a3b39d3e40473989557a820d35b1bf22\AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.gms:play-services-auth-base:15.1.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-auth-base-15.1.0.aar\f73518baff4777e6705005ca3354fe16\AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.gms:play-services-auth-base:15.1.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-auth-base-15.1.0.aar\f73518baff4777e6705005ca3354fe16\AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.gms:play-services-clearcut:15.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-clearcut-15.0.1.aar\e9c38c546cc85b266a0b817c518a06d8\AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-clearcut:15.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-clearcut-15.0.1.aar\e9c38c546cc85b266a0b817c518a06d8\AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-flags:15.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-flags-15.0.1.aar\05e5ec0cff0e7910afd6ed531591177b\AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-flags:15.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-flags-15.0.1.aar\05e5ec0cff0e7910afd6ed531591177b\AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-phenotype:15.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-phenotype-15.0.1.aar\e2dd6d6c60eb2f2e2d9c507a193783a0\AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-phenotype:15.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-phenotype-15.0.1.aar\e2dd6d6c60eb2f2e2d9c507a193783a0\AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-base:15.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-base-15.0.1.aar\d0b97ce8d0d4a6928077f6d7b200329d\AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-base:15.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-base-15.0.1.aar\d0b97ce8d0d4a6928077f6d7b200329d\AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-tasks:15.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-tasks-15.0.1.aar\485173251840d0e0ad55f2aecb627690\AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.gms:play-services-tasks:15.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-tasks-15.0.1.aar\485173251840d0e0ad55f2aecb627690\AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.gms:play-services-basement:15.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-basement-15.0.1.aar\145424ab8a77261541a8681eab368758\AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-basement:15.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-basement-15.0.1.aar\145424ab8a77261541a8681eab368758\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-v4:28.0.0-rc01] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\support-v4-28.0.0-rc01.aar\43a774c5726038635d16ed40e2733622\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-v4:28.0.0-rc01] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\support-v4-28.0.0-rc01.aar\43a774c5726038635d16ed40e2733622\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support.constraint:constraint-layout:1.1.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.2.aar\dbbd51da09176f0f8963dcdffb301fa2\AndroidManifest.xml:5:5-7:41
-MERGED from [com.android.support.constraint:constraint-layout:1.1.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.2.aar\dbbd51da09176f0f8963dcdffb301fa2\AndroidManifest.xml:5:5-7:41
-MERGED from [com.github.bumptech.glide:glide:4.8.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\glide-4.8.0.aar\9270371211f53fe86760b7a83a119d7d\AndroidManifest.xml:6:5-8:41
-MERGED from [com.github.bumptech.glide:glide:4.8.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\glide-4.8.0.aar\9270371211f53fe86760b7a83a119d7d\AndroidManifest.xml:6:5-8:41
-MERGED from [com.github.warkiz.widget:indicatorseekbar:2.1.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\indicatorseekbar-2.1.0.aar\7a009b11e21c3cbd81ef007ad089a90f\AndroidManifest.xml:7:5-9:41
-MERGED from [com.github.warkiz.widget:indicatorseekbar:2.1.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\indicatorseekbar-2.1.0.aar\7a009b11e21c3cbd81ef007ad089a90f\AndroidManifest.xml:7:5-9:41
-MERGED from [no.nordicsemi.android:dfu:1.7.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\dfu-1.7.0.aar\e9451ce44bfe114e7df347453bbbeea6\AndroidManifest.xml:7:5-9:41
-MERGED from [no.nordicsemi.android:dfu:1.7.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\dfu-1.7.0.aar\e9451ce44bfe114e7df347453bbbeea6\AndroidManifest.xml:7:5-9:41
-MERGED from [de.hdodenhof:circleimageview:2.2.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\circleimageview-2.2.0.aar\ae77f0b8f97a2ac7a81643e00fcc49c7\AndroidManifest.xml:5:5-7:41
-MERGED from [de.hdodenhof:circleimageview:2.2.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\circleimageview-2.2.0.aar\ae77f0b8f97a2ac7a81643e00fcc49c7\AndroidManifest.xml:5:5-7:41
-MERGED from [com.android.support:transition:28.0.0-rc01] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\transition-28.0.0-rc01.aar\7419ef2019a6a4a6716f26f804a250ec\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:transition:28.0.0-rc01] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\transition-28.0.0-rc01.aar\7419ef2019a6a4a6716f26f804a250ec\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:cardview-v7:28.0.0-rc01] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\cardview-v7-28.0.0-rc01.aar\4499dd4d6914a776302fe8c51f92af50\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:cardview-v7:28.0.0-rc01] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\cardview-v7-28.0.0-rc01.aar\4499dd4d6914a776302fe8c51f92af50\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:recyclerview-v7:28.0.0-rc01] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\recyclerview-v7-28.0.0-rc01.aar\6ff25b168df98ed1c071cac2185c97cb\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:recyclerview-v7:28.0.0-rc01] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\recyclerview-v7-28.0.0-rc01.aar\6ff25b168df98ed1c071cac2185c97cb\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-media-compat:28.0.0-rc01] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\support-media-compat-28.0.0-rc01.aar\8f3c83a32f1d2fc239ea73c3637c440f\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-media-compat:28.0.0-rc01] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\support-media-compat-28.0.0-rc01.aar\8f3c83a32f1d2fc239ea73c3637c440f\AndroidManifest.xml:20:5-44
-MERGED from [com.github.bumptech.glide:gifdecoder:4.8.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\gifdecoder-4.8.0.aar\5e4231d81ee9c6229a6f43cb711e36fe\AndroidManifest.xml:5:5-7:41
-MERGED from [com.github.bumptech.glide:gifdecoder:4.8.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\gifdecoder-4.8.0.aar\5e4231d81ee9c6229a6f43cb711e36fe\AndroidManifest.xml:5:5-7:41
-MERGED from [com.facebook.android:facebook-core:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\facebook-core-4.35.0.aar\470a6c09c2d4f6c31fe950105096dea0\AndroidManifest.xml:24:5-26:41
-MERGED from [com.facebook.android:facebook-core:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\facebook-core-4.35.0.aar\470a6c09c2d4f6c31fe950105096dea0\AndroidManifest.xml:24:5-26:41
-MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\support-fragment-28.0.0.aar\b7b5a4b95759348d0553cc25533c886c\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\support-fragment-28.0.0.aar\b7b5a4b95759348d0553cc25533c886c\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\support-core-ui-28.0.0.aar\69336452c19e76a0fe4a5cfcfdb9ece3\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\support-core-ui-28.0.0.aar\69336452c19e76a0fe4a5cfcfdb9ece3\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\support-core-utils-28.0.0.aar\8cc91d7fafb217a035ffffcf1a615cb5\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\support-core-utils-28.0.0.aar\8cc91d7fafb217a035ffffcf1a615cb5\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-28.0.0.aar\af2de1ec30f24d06d3246bad3063b980\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-28.0.0.aar\af2de1ec30f24d06d3246bad3063b980\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:loader:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\loader-28.0.0.aar\e86e60e9ceb624c86dd5640a3e0324ad\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:loader:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\loader-28.0.0.aar\e86e60e9ceb624c86dd5640a3e0324ad\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:viewpager:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\viewpager-28.0.0.aar\4807adc6d0684e380dbe97be70c69223\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:viewpager:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\viewpager-28.0.0.aar\4807adc6d0684e380dbe97be70c69223\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\coordinatorlayout-28.0.0.aar\f0a97f3928d42e50c39d52563567f9a2\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\coordinatorlayout-28.0.0.aar\f0a97f3928d42e50c39d52563567f9a2\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\drawerlayout-28.0.0.aar\c8ab40a636ccb6a8274d6e52ca472fa0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\drawerlayout-28.0.0.aar\c8ab40a636ccb6a8274d6e52ca472fa0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\slidingpanelayout-28.0.0.aar\1b0c8529859dc75369621df11b84435c\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\slidingpanelayout-28.0.0.aar\1b0c8529859dc75369621df11b84435c\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:customview:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\customview-28.0.0.aar\cc081923415f5c76123dc23387683c7c\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:customview:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\customview-28.0.0.aar\cc081923415f5c76123dc23387683c7c\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\swiperefreshlayout-28.0.0.aar\c596b4bf8861ecced804508dde5c6dbc\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\swiperefreshlayout-28.0.0.aar\c596b4bf8861ecced804508dde5c6dbc\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\asynclayoutinflater-28.0.0.aar\7116eef680c871643b916fd766ad5538\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\asynclayoutinflater-28.0.0.aar\7116eef680c871643b916fd766ad5538\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-compat:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\support-compat-28.0.0.aar\a361bf5e03f3e09f1366341eaa282a74\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-compat:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\support-compat-28.0.0.aar\a361bf5e03f3e09f1366341eaa282a74\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\versionedparcelable-28.0.0.aar\002b428d720ef22f12e0a9f973525ca2\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\versionedparcelable-28.0.0.aar\002b428d720ef22f12e0a9f973525ca2\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\cursoradapter-28.0.0.aar\4b7243b3cc0b0ab0943c28832e1e982e\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\cursoradapter-28.0.0.aar\4b7243b3cc0b0ab0943c28832e1e982e\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\runtime-1.1.1.aar\ba91b326997e1bd6e9d3a2f942315237\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\runtime-1.1.1.aar\ba91b326997e1bd6e9d3a2f942315237\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:documentfile:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\documentfile-28.0.0.aar\773ef41d7cd560147c8421061fc38b2e\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:documentfile:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\documentfile-28.0.0.aar\773ef41d7cd560147c8421061fc38b2e\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\localbroadcastmanager-28.0.0.aar\05cc755ea153750d26fa0c47d577516d\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\localbroadcastmanager-28.0.0.aar\05cc755ea153750d26fa0c47d577516d\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:print:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\print-28.0.0.aar\42987cf8a99b42e1cec407d8a4f2b160\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:print:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\print-28.0.0.aar\42987cf8a99b42e1cec407d8a4f2b160\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\viewmodel-1.1.1.aar\a099800f3bb6c32ac1ee4ef5fce9fe4d\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\viewmodel-1.1.1.aar\a099800f3bb6c32ac1ee4ef5fce9fe4d\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\livedata-1.1.1.aar\b2b334cce9ca539e8770396a41b3f780\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\livedata-1.1.1.aar\b2b334cce9ca539e8770396a41b3f780\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\livedata-core-1.1.1.aar\cf5d6a335cbc4211df712653383fa80f\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\livedata-core-1.1.1.aar\cf5d6a335cbc4211df712653383fa80f\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.core:runtime:1.1.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\runtime-1.1.1.aar\57b023f2a20e6d7acd0c4aae50149194\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.core:runtime:1.1.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\runtime-1.1.1.aar\57b023f2a20e6d7acd0c4aae50149194\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:interpolator:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\interpolator-28.0.0.aar\14b6344075a0e2d724a449489c939171\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:interpolator:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\interpolator-28.0.0.aar\14b6344075a0e2d724a449489c939171\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:multidex:1.0.3] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\e76f5631d51e9eb43ef55393eb0910ef\AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:multidex:1.0.3] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\e76f5631d51e9eb43ef55393eb0910ef\AndroidManifest.xml:20:5-43
+MERGED from [info.androidhive:barcode-reader:1.1.5] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\d0fbf9421c2bf64cbffc84c798c56769\AndroidManifest.xml:7:5-9:41
+MERGED from [info.androidhive:barcode-reader:1.1.5] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\d0fbf9421c2bf64cbffc84c798c56769\AndroidManifest.xml:7:5-9:41
+MERGED from [com.robertlevonyan.view:CustomFloatingActionButton:2.1.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\0dc7d83caf2c321b046d4935a5aed47b\AndroidManifest.xml:7:5-9:41
+MERGED from [com.robertlevonyan.view:CustomFloatingActionButton:2.1.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\0dc7d83caf2c321b046d4935a5aed47b\AndroidManifest.xml:7:5-9:41
+MERGED from [com.android.support:design:28.0.0-rc01] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\65589ccdec4d11ebcdb596c2b2566525\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:design:28.0.0-rc01] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\65589ccdec4d11ebcdb596c2b2566525\AndroidManifest.xml:20:5-44
+MERGED from [com.squareup.picasso:picasso:2.71828] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\5131f1959f815c01cbc1f7e62b115dc2\AndroidManifest.xml:5:5-44
+MERGED from [com.squareup.picasso:picasso:2.71828] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\5131f1959f815c01cbc1f7e62b115dc2\AndroidManifest.xml:5:5-44
+MERGED from [com.android.support:exifinterface:28.0.0-rc01] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\857baec52ea273d724d94022aa5f3c2a\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:exifinterface:28.0.0-rc01] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\857baec52ea273d724d94022aa5f3c2a\AndroidManifest.xml:20:5-44
+MERGED from [com.facebook.android:facebook-login:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\dbb00a675d9fb8c150a604aa81a67bd2\AndroidManifest.xml:24:5-26:41
+MERGED from [com.facebook.android:facebook-login:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\dbb00a675d9fb8c150a604aa81a67bd2\AndroidManifest.xml:24:5-26:41
+MERGED from [com.facebook.android:facebook-common:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\af54a01db012ffc87fe5c77bf218c8e0\AndroidManifest.xml:24:5-26:41
+MERGED from [com.facebook.android:facebook-common:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\af54a01db012ffc87fe5c77bf218c8e0\AndroidManifest.xml:24:5-26:41
+MERGED from [com.android.support:customtabs:28.0.0-rc01] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\b4461b44ee68b6bc048862c2807aa707\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customtabs:28.0.0-rc01] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\b4461b44ee68b6bc048862c2807aa707\AndroidManifest.xml:20:5-44
+MERGED from [com.github.GoodieBag:ProtractorView:v1.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\1ae8ac8319d0bbcdbef05ba9b2d534be\AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.GoodieBag:ProtractorView:v1.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\1ae8ac8319d0bbcdbef05ba9b2d534be\AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.AnyChart:AnyChart-Android:1.1.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\79436b88f55298125bb189490c28b661\AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.AnyChart:AnyChart-Android:1.1.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\79436b88f55298125bb189490c28b661\AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.igortrncic.dotted-progress-bar:library:1.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\a4a7418ce0d72224fa08aea2078ba980\AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.igortrncic.dotted-progress-bar:library:1.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\a4a7418ce0d72224fa08aea2078ba980\AndroidManifest.xml:7:5-9:41
+MERGED from [com.alimuzaffar.lib:pinentryedittext:1.3.10] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\b7c60b7b2ffd4941834f387dc4312792\AndroidManifest.xml:7:5-9:41
+MERGED from [com.alimuzaffar.lib:pinentryedittext:1.3.10] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\b7c60b7b2ffd4941834f387dc4312792\AndroidManifest.xml:7:5-9:41
+MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\af1b4349a7ce1ccabf4be61eb9d44f12\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\af1b4349a7ce1ccabf4be61eb9d44f12\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\820d2dfc8c741f9e1e1731c66fb0025c\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\820d2dfc8c741f9e1e1731c66fb0025c\AndroidManifest.xml:20:5-44
+MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\9173b6085857d22c7d5821e1e3297ece\AndroidManifest.xml:7:5-9:41
+MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\9173b6085857d22c7d5821e1e3297ece\AndroidManifest.xml:7:5-9:41
+MERGED from [com.google.android.gms:play-services-vision:17.0.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\39aa925f49122c84dde4f49440277185\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-vision:17.0.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\39aa925f49122c84dde4f49440277185\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\b1cacb2b7e5a93b4f23f9a1071a19453\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\b1cacb2b7e5a93b4f23f9a1071a19453\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-vision-common:17.0.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\45fa6b8c1f25e7512583607ae743c502\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-vision-common:17.0.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\45fa6b8c1f25e7512583607ae743c502\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-auth-api-phone:16.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\d62d5a9f930f8ed1da83403b23cf5cf8\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-auth-api-phone:16.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\d62d5a9f930f8ed1da83403b23cf5cf8\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-auth-base:16.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\673e3790734c037886e33ee4912c6087\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-auth-base:16.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\673e3790734c037886e33ee4912c6087\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-clearcut:16.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\9406e0ce1da09b57d577251311526790\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-clearcut:16.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\9406e0ce1da09b57d577251311526790\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-flags:16.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\dc97f3a461cf2589ee351763ff25660e\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-flags:16.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\dc97f3a461cf2589ee351763ff25660e\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-phenotype:16.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\601942a912eeaa7a4dc5fa7760129cb6\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-phenotype:16.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\601942a912eeaa7a4dc5fa7760129cb6\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\66591ff22af9b95861845d1ad0cdd2c7\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\66591ff22af9b95861845d1ad0cdd2c7\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-tasks:16.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\d43e3c0add07c2513909eaa3049cc02f\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-tasks:16.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\d43e3c0add07c2513909eaa3049cc02f\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-basement:16.1.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\664f90edbcdcca6b04f0aacea13da189\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-basement:16.1.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\664f90edbcdcca6b04f0aacea13da189\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-v13:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\85fc24808fe4ab38447933b9ee2675f0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-v13:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\85fc24808fe4ab38447933b9ee2675f0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-v4:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\283c22e0690eeb73866c86cedc7eea01\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-v4:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\283c22e0690eeb73866c86cedc7eea01\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support.constraint:constraint-layout:1.1.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\4440346ae0b147e62109e331129dec35\AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support.constraint:constraint-layout:1.1.2] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\4440346ae0b147e62109e331129dec35\AndroidManifest.xml:5:5-7:41
+MERGED from [com.github.bumptech.glide:glide:4.8.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\aecb36040121d51fdd2d62fd2963005c\AndroidManifest.xml:6:5-8:41
+MERGED from [com.github.bumptech.glide:glide:4.8.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\aecb36040121d51fdd2d62fd2963005c\AndroidManifest.xml:6:5-8:41
+MERGED from [com.github.warkiz.widget:indicatorseekbar:2.1.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\ec31ca4224257e767d4148821543da7e\AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.warkiz.widget:indicatorseekbar:2.1.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\ec31ca4224257e767d4148821543da7e\AndroidManifest.xml:7:5-9:41
+MERGED from [no.nordicsemi.android:dfu:1.7.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\98935a03e42b69910c27857327fb774b\AndroidManifest.xml:7:5-9:41
+MERGED from [no.nordicsemi.android:dfu:1.7.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\98935a03e42b69910c27857327fb774b\AndroidManifest.xml:7:5-9:41
+MERGED from [de.hdodenhof:circleimageview:2.2.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\b81c474afd837663f74fb7787567a206\AndroidManifest.xml:5:5-7:41
+MERGED from [de.hdodenhof:circleimageview:2.2.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\b81c474afd837663f74fb7787567a206\AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support:transition:28.0.0-rc01] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\203b2522500f43fc0f8a074211d81c2a\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:transition:28.0.0-rc01] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\203b2522500f43fc0f8a074211d81c2a\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cardview-v7:28.0.0-rc01] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\c6eebeb5a0b2886ebd3eaa956dfb8ed2\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cardview-v7:28.0.0-rc01] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\c6eebeb5a0b2886ebd3eaa956dfb8ed2\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:recyclerview-v7:28.0.0-rc01] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\e00d0ae6e74f4072c0b8f53828b6c08d\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:recyclerview-v7:28.0.0-rc01] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\e00d0ae6e74f4072c0b8f53828b6c08d\AndroidManifest.xml:20:5-44
+MERGED from [com.github.bumptech.glide:gifdecoder:4.8.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\1935bc00bc0090423a2246ae0fd35120\AndroidManifest.xml:5:5-7:41
+MERGED from [com.github.bumptech.glide:gifdecoder:4.8.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\1935bc00bc0090423a2246ae0fd35120\AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.android:facebook-core:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\6bc9f034faee498f65d945d3a058cd48\AndroidManifest.xml:24:5-26:41
+MERGED from [com.facebook.android:facebook-core:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\6bc9f034faee498f65d945d3a058cd48\AndroidManifest.xml:24:5-26:41
+MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\5aeb93a1c5a9ef20a995f9581c185f84\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\5aeb93a1c5a9ef20a995f9581c185f84\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\26d1fd672abc727253037718d21d943e\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\26d1fd672abc727253037718d21d943e\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\6fd6840522d92f7516a1426e9b61c10a\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\6fd6840522d92f7516a1426e9b61c10a\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\0b9c3a486071f0e4a47ab9cbd372ab12\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\0b9c3a486071f0e4a47ab9cbd372ab12\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-media-compat:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\2e8a70027f285973a9ad2375621e6e25\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-media-compat:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\2e8a70027f285973a9ad2375621e6e25\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\66eeeeda1ffa8b214d8edfce04538e2e\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\66eeeeda1ffa8b214d8edfce04538e2e\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\05f00598f89058bc89f690279150943c\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\05f00598f89058bc89f690279150943c\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\8d7758deb43bb1a9e2706c6f633a9f85\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\8d7758deb43bb1a9e2706c6f633a9f85\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\435962dc0355bf6d1919158e83bf415a\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\435962dc0355bf6d1919158e83bf415a\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\a56b3f1e850c4901ff22d0724a21260a\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\a56b3f1e850c4901ff22d0724a21260a\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\05d70516dae32f551214a2898f3b778a\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\05d70516dae32f551214a2898f3b778a\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\5b44909d2b01f604db3239556ce05f88\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\5b44909d2b01f604db3239556ce05f88\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\186cea646daa336e1776f052d22a283c\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\186cea646daa336e1776f052d22a283c\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\ffd1a978fa213d6022717290656a9eed\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\ffd1a978fa213d6022717290656a9eed\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\577056b81f8685cc1eb981f99bd8eb38\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\577056b81f8685cc1eb981f99bd8eb38\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\3eb9ae428dbe0f272c7eabf4c0aa60b8\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\3eb9ae428dbe0f272c7eabf4c0aa60b8\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\82704841473fb1e4d327294fb93608a0\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\82704841473fb1e4d327294fb93608a0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\8397912b09f97f95dbc400d1910692be\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\8397912b09f97f95dbc400d1910692be\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\77c570c0f9036e8229dc15982fd7fb21\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\77c570c0f9036e8229dc15982fd7fb21\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\bd7535d7ef915056e469818464c9bb0b\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\bd7535d7ef915056e469818464c9bb0b\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\1a5e3982ca00ffff01c6733a908a7ea6\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\1a5e3982ca00ffff01c6733a908a7ea6\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\07a4a126ff3785a26ddf5d5bda864b96\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\07a4a126ff3785a26ddf5d5bda864b96\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\28fe88b79b334531bdaaee852b18e041\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\28fe88b79b334531bdaaee852b18e041\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\f373f0d8a45850595b1e64f078ae675d\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\f373f0d8a45850595b1e64f078ae675d\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\e4de4b5db21e7fc1ba5de3aecbc95ca3\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\e4de4b5db21e7fc1ba5de3aecbc95ca3\AndroidManifest.xml:20:5-44
 INJECTED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml
 INJECTED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml
 	android:targetSdkVersion
@@ -581,76 +593,76 @@ INJECTED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src
 		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml
 		INJECTED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml
 meta-data#android.support.FILE_PROVIDER_PATHS
-ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:39:13-41:58
+ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:40:13-42:58
 	android:resource
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:41:17-55
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:42:17-55
 	android:name
-		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:40:17-67
+		ADDED from C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\AndroidManifest.xml:41:17-67
 uses-feature#android.hardware.camera
-ADDED from [info.androidhive:barcode-reader:1.1.5] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\barcode-reader-1.1.5.aar\7e4593215e3d1ddd08c8edba457fce29\AndroidManifest.xml:13:5-60
+ADDED from [info.androidhive:barcode-reader:1.1.5] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\d0fbf9421c2bf64cbffc84c798c56769\AndroidManifest.xml:13:5-60
 	android:name
-		ADDED from [info.androidhive:barcode-reader:1.1.5] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\barcode-reader-1.1.5.aar\7e4593215e3d1ddd08c8edba457fce29\AndroidManifest.xml:13:19-57
+		ADDED from [info.androidhive:barcode-reader:1.1.5] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\d0fbf9421c2bf64cbffc84c798c56769\AndroidManifest.xml:13:19-57
 provider#com.squareup.picasso.PicassoProvider
-ADDED from [com.squareup.picasso:picasso:2.71828] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\picasso-2.71828.aar\0cdb209b5ea8392e585535a792dbf489\AndroidManifest.xml:8:9-11:40
+ADDED from [com.squareup.picasso:picasso:2.71828] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\5131f1959f815c01cbc1f7e62b115dc2\AndroidManifest.xml:8:9-11:40
 	android:authorities
-		ADDED from [com.squareup.picasso:picasso:2.71828] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\picasso-2.71828.aar\0cdb209b5ea8392e585535a792dbf489\AndroidManifest.xml:10:13-72
+		ADDED from [com.squareup.picasso:picasso:2.71828] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\5131f1959f815c01cbc1f7e62b115dc2\AndroidManifest.xml:10:13-72
 	android:exported
-		ADDED from [com.squareup.picasso:picasso:2.71828] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\picasso-2.71828.aar\0cdb209b5ea8392e585535a792dbf489\AndroidManifest.xml:11:13-37
+		ADDED from [com.squareup.picasso:picasso:2.71828] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\5131f1959f815c01cbc1f7e62b115dc2\AndroidManifest.xml:11:13-37
 	android:name
-		ADDED from [com.squareup.picasso:picasso:2.71828] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\picasso-2.71828.aar\0cdb209b5ea8392e585535a792dbf489\AndroidManifest.xml:9:13-64
+		ADDED from [com.squareup.picasso:picasso:2.71828] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\5131f1959f815c01cbc1f7e62b115dc2\AndroidManifest.xml:9:13-64
 activity#com.facebook.CustomTabMainActivity
-ADDED from [com.facebook.android:facebook-common:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\facebook-common-4.35.0.aar\bec9da986553560f801735b10bb9938e\AndroidManifest.xml:33:9-71
+ADDED from [com.facebook.android:facebook-common:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\af54a01db012ffc87fe5c77bf218c8e0\AndroidManifest.xml:33:9-71
 	android:name
-		ADDED from [com.facebook.android:facebook-common:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\facebook-common-4.35.0.aar\bec9da986553560f801735b10bb9938e\AndroidManifest.xml:33:19-68
+		ADDED from [com.facebook.android:facebook-common:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\af54a01db012ffc87fe5c77bf218c8e0\AndroidManifest.xml:33:19-68
 activity#com.google.android.gms.auth.api.signin.internal.SignInHubActivity
-ADDED from [com.google.android.gms:play-services-auth:16.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.0.aar\27190759c75df95f92523195bdc4d0a3\AndroidManifest.xml:23:9-27:75
+ADDED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\b1cacb2b7e5a93b4f23f9a1071a19453\AndroidManifest.xml:23:9-27:75
 	android:excludeFromRecents
-		ADDED from [com.google.android.gms:play-services-auth:16.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.0.aar\27190759c75df95f92523195bdc4d0a3\AndroidManifest.xml:25:13-46
+		ADDED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\b1cacb2b7e5a93b4f23f9a1071a19453\AndroidManifest.xml:25:13-46
 	android:exported
-		ADDED from [com.google.android.gms:play-services-auth:16.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.0.aar\27190759c75df95f92523195bdc4d0a3\AndroidManifest.xml:26:13-37
+		ADDED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\b1cacb2b7e5a93b4f23f9a1071a19453\AndroidManifest.xml:26:13-37
 	android:theme
-		ADDED from [com.google.android.gms:play-services-auth:16.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.0.aar\27190759c75df95f92523195bdc4d0a3\AndroidManifest.xml:27:13-72
+		ADDED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\b1cacb2b7e5a93b4f23f9a1071a19453\AndroidManifest.xml:27:13-72
 	android:name
-		ADDED from [com.google.android.gms:play-services-auth:16.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.0.aar\27190759c75df95f92523195bdc4d0a3\AndroidManifest.xml:24:13-93
+		ADDED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\b1cacb2b7e5a93b4f23f9a1071a19453\AndroidManifest.xml:24:13-93
 service#com.google.android.gms.auth.api.signin.RevocationBoundService
-ADDED from [com.google.android.gms:play-services-auth:16.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.0.aar\27190759c75df95f92523195bdc4d0a3\AndroidManifest.xml:33:9-36:110
+ADDED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\b1cacb2b7e5a93b4f23f9a1071a19453\AndroidManifest.xml:33:9-36:110
 	android:exported
-		ADDED from [com.google.android.gms:play-services-auth:16.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.0.aar\27190759c75df95f92523195bdc4d0a3\AndroidManifest.xml:35:13-36
+		ADDED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\b1cacb2b7e5a93b4f23f9a1071a19453\AndroidManifest.xml:35:13-36
 	android:permission
-		ADDED from [com.google.android.gms:play-services-auth:16.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.0.aar\27190759c75df95f92523195bdc4d0a3\AndroidManifest.xml:36:13-107
+		ADDED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\b1cacb2b7e5a93b4f23f9a1071a19453\AndroidManifest.xml:36:13-107
 	android:name
-		ADDED from [com.google.android.gms:play-services-auth:16.0.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-auth-16.0.0.aar\27190759c75df95f92523195bdc4d0a3\AndroidManifest.xml:34:13-89
+		ADDED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\b1cacb2b7e5a93b4f23f9a1071a19453\AndroidManifest.xml:34:13-89
 activity#com.google.android.gms.common.api.GoogleApiActivity
-ADDED from [com.google.android.gms:play-services-base:15.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-base-15.0.1.aar\d0b97ce8d0d4a6928077f6d7b200329d\AndroidManifest.xml:23:9-26:75
+ADDED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\66591ff22af9b95861845d1ad0cdd2c7\AndroidManifest.xml:23:9-26:75
 	android:exported
-		ADDED from [com.google.android.gms:play-services-base:15.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-base-15.0.1.aar\d0b97ce8d0d4a6928077f6d7b200329d\AndroidManifest.xml:25:13-37
+		ADDED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\66591ff22af9b95861845d1ad0cdd2c7\AndroidManifest.xml:25:13-37
 	android:theme
-		ADDED from [com.google.android.gms:play-services-base:15.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-base-15.0.1.aar\d0b97ce8d0d4a6928077f6d7b200329d\AndroidManifest.xml:26:13-72
+		ADDED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\66591ff22af9b95861845d1ad0cdd2c7\AndroidManifest.xml:26:13-72
 	android:name
-		ADDED from [com.google.android.gms:play-services-base:15.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-base-15.0.1.aar\d0b97ce8d0d4a6928077f6d7b200329d\AndroidManifest.xml:24:13-79
+		ADDED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\66591ff22af9b95861845d1ad0cdd2c7\AndroidManifest.xml:24:13-79
 meta-data#com.google.android.gms.version
-ADDED from [com.google.android.gms:play-services-basement:15.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-basement-15.0.1.aar\145424ab8a77261541a8681eab368758\AndroidManifest.xml:23:9-25:69
+ADDED from [com.google.android.gms:play-services-basement:16.1.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\664f90edbcdcca6b04f0aacea13da189\AndroidManifest.xml:23:9-25:69
 	android:value
-		ADDED from [com.google.android.gms:play-services-basement:15.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-basement-15.0.1.aar\145424ab8a77261541a8681eab368758\AndroidManifest.xml:25:13-66
+		ADDED from [com.google.android.gms:play-services-basement:16.1.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\664f90edbcdcca6b04f0aacea13da189\AndroidManifest.xml:25:13-66
 	android:name
-		ADDED from [com.google.android.gms:play-services-basement:15.0.1] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\play-services-basement-15.0.1.aar\145424ab8a77261541a8681eab368758\AndroidManifest.xml:24:13-58
+		ADDED from [com.google.android.gms:play-services-basement:16.1.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\664f90edbcdcca6b04f0aacea13da189\AndroidManifest.xml:24:13-58
 provider#com.facebook.internal.FacebookInitProvider
-ADDED from [com.facebook.android:facebook-core:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\facebook-core-4.35.0.aar\470a6c09c2d4f6c31fe950105096dea0\AndroidManifest.xml:39:9-42:40
+ADDED from [com.facebook.android:facebook-core:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\6bc9f034faee498f65d945d3a058cd48\AndroidManifest.xml:39:9-42:40
 	android:authorities
-		ADDED from [com.facebook.android:facebook-core:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\facebook-core-4.35.0.aar\470a6c09c2d4f6c31fe950105096dea0\AndroidManifest.xml:41:13-72
+		ADDED from [com.facebook.android:facebook-core:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\6bc9f034faee498f65d945d3a058cd48\AndroidManifest.xml:41:13-72
 	android:exported
-		ADDED from [com.facebook.android:facebook-core:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\facebook-core-4.35.0.aar\470a6c09c2d4f6c31fe950105096dea0\AndroidManifest.xml:42:13-37
+		ADDED from [com.facebook.android:facebook-core:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\6bc9f034faee498f65d945d3a058cd48\AndroidManifest.xml:42:13-37
 	android:name
-		ADDED from [com.facebook.android:facebook-core:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\facebook-core-4.35.0.aar\470a6c09c2d4f6c31fe950105096dea0\AndroidManifest.xml:40:13-70
+		ADDED from [com.facebook.android:facebook-core:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\6bc9f034faee498f65d945d3a058cd48\AndroidManifest.xml:40:13-70
 receiver#com.facebook.CurrentAccessTokenExpirationBroadcastReceiver
-ADDED from [com.facebook.android:facebook-core:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\facebook-core-4.35.0.aar\470a6c09c2d4f6c31fe950105096dea0\AndroidManifest.xml:44:9-50:20
+ADDED from [com.facebook.android:facebook-core:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\6bc9f034faee498f65d945d3a058cd48\AndroidManifest.xml:44:9-50:20
 	android:exported
-		ADDED from [com.facebook.android:facebook-core:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\facebook-core-4.35.0.aar\470a6c09c2d4f6c31fe950105096dea0\AndroidManifest.xml:46:13-37
+		ADDED from [com.facebook.android:facebook-core:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\6bc9f034faee498f65d945d3a058cd48\AndroidManifest.xml:46:13-37
 	android:name
-		ADDED from [com.facebook.android:facebook-core:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\facebook-core-4.35.0.aar\470a6c09c2d4f6c31fe950105096dea0\AndroidManifest.xml:45:13-86
+		ADDED from [com.facebook.android:facebook-core:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\6bc9f034faee498f65d945d3a058cd48\AndroidManifest.xml:45:13-86
 intent-filter#action:name:com.facebook.sdk.ACTION_CURRENT_ACCESS_TOKEN_CHANGED
-ADDED from [com.facebook.android:facebook-core:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\facebook-core-4.35.0.aar\470a6c09c2d4f6c31fe950105096dea0\AndroidManifest.xml:47:13-49:29
+ADDED from [com.facebook.android:facebook-core:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\6bc9f034faee498f65d945d3a058cd48\AndroidManifest.xml:47:13-49:29
 action#com.facebook.sdk.ACTION_CURRENT_ACCESS_TOKEN_CHANGED
-ADDED from [com.facebook.android:facebook-core:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\facebook-core-4.35.0.aar\470a6c09c2d4f6c31fe950105096dea0\AndroidManifest.xml:48:17-95
+ADDED from [com.facebook.android:facebook-core:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\6bc9f034faee498f65d945d3a058cd48\AndroidManifest.xml:48:17-95
 	android:name
-		ADDED from [com.facebook.android:facebook-core:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-1\files-1.1\facebook-core-4.35.0.aar\470a6c09c2d4f6c31fe950105096dea0\AndroidManifest.xml:48:25-92
+		ADDED from [com.facebook.android:facebook-core:4.35.0] C:\Users\STARTOONLABS\.gradle\caches\transforms-2\files-2.1\6bc9f034faee498f65d945d3a058cd48\AndroidManifest.xml:48:25-92

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="EmonjiBarGraph">
+
+        <attr name="barWidth" format="dimension"/>
+        <attr name="barHeight" format="dimension"/>
+        <attr name="barGap" format="dimension"/>
+
+        <attr name="colorArray" format="reference"/>
+
+        <attr name="emonjiDimension" format="dimension"/>
+        <attr name="emonjiArray" format="reference"/>
+
+        <attr name="upperLineColor" format="color"/>
+        <attr name="lowerLineColor" format="color"/>
+
+        <attr name="barNum" format="integer"/>
+        <attr name="hideBarWhenDataNotAvail" format="boolean"/>
+    </declare-styleable>
+</resources>

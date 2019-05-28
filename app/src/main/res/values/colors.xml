@@ -6,24 +6,32 @@
     <color name="button_color">#CCA586</color>
     <color name="white_opaque">#FFFFFFFF</color>
     <color name="pitch_black">#FF000000</color>
-    <color name="title_color">#4B7080</color>
     <color name="translucent_black">#809b9393</color>
     <color name="background_green">#00B386</color>
     <color name="white">#FFFFFF</color>
     <color name="bodypart_heading">#8e8d8d</color>
     <color name="darkGray">#716f6f  </color>
     <color name="yellow">#fdaf3b</color>
-    
+    <color name="battery_gray">#AAA</color>
     <color name="red">#CC2016</color>
     <color name="good_green">#00B386</color>
+    <color name="pale_good_green">#3FF0C4</color>
     <color name="average_blue">#00A3DE</color>
     <color name="not_good_orange">#EF7400</color>
 
-    <color name="progress_background">#b4b2b2</color>
+    <color name="home_orange">#fdaf3b</color>
+
     <color name="progress_bar_color">#00B386</color>
 
     <color name="dirtyWhite">#cfcdcd</color>
 
 
-    <color name="color_session_report_background">#e0e6e4</color>
+    <color name="pale_white">#F1EEEE</color>
+
+
+    <color name="body_part_left">#58A8C0</color>
+    <color name="body_part_right">#F2DFB4</color>
+
+    <color name="body_part_left_overlay">#9658A8C0</color>
+    <color name="body_part_right_overlay">#96F2DFB4</color>
 </resources>

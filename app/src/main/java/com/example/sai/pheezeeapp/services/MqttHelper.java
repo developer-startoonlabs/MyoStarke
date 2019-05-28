@@ -6,6 +6,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 import android.util.Log;
+
+import com.example.sai.pheezeeapp.activities.LoginActivity;
+
 import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.DisconnectedBufferOptions;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
@@ -47,7 +50,7 @@ public class MqttHelper {
     private String mqtt_publish_signup_doctor = "signup/phizio";
     String mqtt_publish_getpatientReport = "patient/generate/report";
 
-    private final String serverUri = "tcp://52.66.113.37:1883";
+    private final String serverUri = "tcp://13.127.78.38:1883";
 
     private final String clientId = MqttClient.generateClientId();
 
@@ -56,6 +59,8 @@ public class MqttHelper {
     private JSONObject object;
 
     private String whichOne="",patientid, phizioemail;
+    String phizio_email = null;
+    MqttConnectOptions mqttConnectOptions = new MqttConnectOptions();
 
     private Context ctx;
     public MqttHelper(Context context){
@@ -154,8 +159,8 @@ public class MqttHelper {
     }
 
     private void connect(){
-        MqttConnectOptions mqttConnectOptions = new MqttConnectOptions();
-        mqttConnectOptions.setAutomaticReconnect(true);
+        mqttConnectOptions = new MqttConnectOptions();
+//        mqttConnectOptions.setAutomaticReconnect(true);
         mqttConnectOptions.setCleanSession(false);
         mqttConnectOptions.setUserName(username);
         mqttConnectOptions.setPassword(password.toCharArray());
@@ -172,19 +177,24 @@ public class MqttHelper {
                     disconnectedBufferOptions.setDeleteOldestMessages(false);
                     mqttAndroidClient.setBufferOpts(disconnectedBufferOptions);
 
-                    if(whichOne.equals("phizioprofile")){
-                        Log.i("hello","inside profilepic");
+                    if(!preferences.getString("phiziodetails","").equals("")) {
                         try {
-                            object = new JSONObject(preferences.getString("phiziodetails",""));
+                            object = new JSONObject(preferences.getString("phiziodetails", ""));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                    }
+                    if(whichOne.equals("phizioprofile")){
+                        Log.i("hello","inside profilepic");
+
                         MqttMessage message = new MqttMessage();
                         JSONObject obj = new JSONObject();
                         try {
-                            obj.put("phizioemail",object.getString("phizioemail"));
-                            message.setPayload(obj.toString().getBytes());
-                            publishMqttTopic(mqtt_get_profile_pic,message);
+                            if(obj!=null && object!=null) {
+                                obj.put("phizioemail", object.getString("phizioemail"));
+                                message.setPayload(obj.toString().getBytes());
+                                publishMqttTopic(mqtt_get_profile_pic, message);
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -192,16 +202,19 @@ public class MqttHelper {
                     else if(whichOne.equals("patientsview")){
                         Log.i("hello","inside profilepic");
                         try {
-                            object = new JSONObject(preferences.getString("phiziodetails",""));
+                            if(!preferences.getString("phiziodetails","").equals(""))
+                                object = new JSONObject(preferences.getString("phiziodetails",""));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                         MqttMessage message = new MqttMessage();
                         JSONObject obj = new JSONObject();
                         try {
-                            obj.put("phizioemail",object.getString("phizioemail"));
-                            message.setPayload(obj.toString().getBytes());
-                            publishMqttTopic(mqtt_get_profile_pic,message);
+                            if(obj!=null && object!=null) {
+                                obj.put("phizioemail", object.getString("phizioemail"));
+                                message.setPayload(obj.toString().getBytes());
+                                publishMqttTopic(mqtt_get_profile_pic, message);
+                            }
 //                            if (isNetworkAvailable())
 //                                syncData();
                         } catch (JSONException e) {
@@ -222,7 +235,17 @@ public class MqttHelper {
                         message.setPayload(object.toString().getBytes());
                         publishMqttTopic(mqtt_publish_getpatientReport,message);
                     }
-                    subscribeToTopic();
+
+                    if(object!=null){
+                        if(object.has("phizioemail")){
+                            try {
+                                phizio_email = object.getString("phizioemail");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                    subscribeToTopic(phizio_email);
                 }
 
                 @Override
@@ -238,99 +261,150 @@ public class MqttHelper {
     }
 
 
-    private void subscribeToTopic() {
-        try {
-            mqttAndroidClient.subscribe(mqtt_subs_signup_response, 1, null, new IMqttActionListener() {
-                @Override
-                public void onSuccess(IMqttToken asyncActionToken) {
-                    Log.w("Mqtt","Subscribed!");
-                }
+    private void subscribeToTopic(final String phizio_email) {
+        if(phizio_email!=null) {
+            try {
 
-                @Override
-                public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                    Log.w("Mqtt", "Subscribed fail!");
-                }
-            });
+                mqttAndroidClient.subscribe(mqtt_subs_phizio_addpatient_response+phizio_email, 1, null, new IMqttActionListener() {
+                    @Override
+                    public void onSuccess(IMqttToken asyncActionToken) {
+                        Log.w("Mqtt", "Subscribed!"+mqtt_subs_phizio_addpatient_response+phizio_email);
+                    }
 
-            mqttAndroidClient.subscribe(mqtt_subs_login_response, 1, null, new IMqttActionListener() {
-                @Override
-                public void onSuccess(IMqttToken asyncActionToken) { Log.w("Mqtt","Subscribed!");  }
+                    @Override
+                    public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
+                        Log.w("Mqtt", "Subscribed fail!");
+                    }
+                });
+                mqttAndroidClient.subscribe(mqtt_subs_phizio_deletepatient_response+phizio_email, 1, null, new IMqttActionListener() {
+                    @Override
+                    public void onSuccess(IMqttToken asyncActionToken) {
+                        Log.w("Mqtt", "Subscribed!"+mqtt_subs_phizio_deletepatient_response+phizio_email);
+                    }
 
-                @Override
-                public void onFailure(IMqttToken asyncActionToken, Throwable exception) { Log.w("Mqtt", "Subscribed fail!"); }
-            });
+                    @Override
+                    public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
+                        Log.w("Mqtt", "Subscribed fail!");
+                    }
+                });
 
-            mqttAndroidClient.subscribe(mqtt_subs_phizio_addpatient_response, 1, null, new IMqttActionListener() {
-                @Override
-                public void onSuccess(IMqttToken asyncActionToken) { Log.w("Mqtt","Subscribed!");  }
+                mqttAndroidClient.subscribe(mqtt_publish_generate_report_response+phizio_email, 1, null, new IMqttActionListener() {
+                    @Override
+                    public void onSuccess(IMqttToken asyncActionToken) {
+                        Log.w("Mqtt", "Subscribed!"+mqtt_publish_generate_report_response+phizio_email);
+                    }
 
-                @Override
-                public void onFailure(IMqttToken asyncActionToken, Throwable exception) { Log.w("Mqtt", "Subscribed fail!"); }
-            });
-            mqttAndroidClient.subscribe(mqtt_subs_phizio_deletepatient_response, 1, null, new IMqttActionListener() {
-                @Override
-                public void onSuccess(IMqttToken asyncActionToken) { Log.w("Mqtt","Subscribed!");  }
+                    @Override
+                    public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
+                        Log.w("Mqtt", "Subscribed fail!");
+                    }
+                });
 
-                @Override
-                public void onFailure(IMqttToken asyncActionToken, Throwable exception) { Log.w("Mqtt", "Subscribed fail!"); }
-            });
+                mqttAndroidClient.subscribe(mqtt_phizio_profile_update_response+phizio_email, 1, null, new IMqttActionListener() {
+                    @Override
+                    public void onSuccess(IMqttToken asyncActionToken) {
+                        Log.w("Mqtt", "Subscribed!");
+                    }
 
-            mqttAndroidClient.subscribe(mqtt_publish_generate_report_response, 1, null, new IMqttActionListener() {
-                @Override
-                public void onSuccess(IMqttToken asyncActionToken) { Log.w("Mqtt","Subscribed!");  }
+                    @Override
+                    public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
+                        Log.w("Mqtt", "Subscribed fail!");
+                    }
+                });
+                mqttAndroidClient.subscribe(mqtt_get_profile_pic_response+phizio_email, 1, null, new IMqttActionListener() {
+                    @Override
+                    public void onSuccess(IMqttToken asyncActionToken) {
+                        Log.w("Mqtt", "Subscribed!");
+                    }
 
-                @Override
-                public void onFailure(IMqttToken asyncActionToken, Throwable exception) { Log.w("Mqtt", "Subscribed fail!"); }
-            });
+                    @Override
+                    public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
+                        Log.w("Mqtt", "Subscribed fail!");
+                    }
+                });
+                mqttAndroidClient.subscribe(mqtt_publish_add_patient_session_response+phizio_email, 1, null, new IMqttActionListener() {
+                    @Override
+                    public void onSuccess(IMqttToken asyncActionToken) {
+                        Log.w("Mqtt", "Subscribed!");
+                    }
 
-            mqttAndroidClient.subscribe(mqtt_phizio_profile_update_response, 1, null, new IMqttActionListener() {
-                @Override
-                public void onSuccess(IMqttToken asyncActionToken) { Log.w("Mqtt","Subscribed!");  }
+                    @Override
+                    public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
+                        Log.w("Mqtt", "Subscribed fail!");
+                    }
+                });
+                mqttAndroidClient.subscribe(mqtt_publish_add_patient_session_emg_data_response+phizio_email, 1, null, new IMqttActionListener() {
+                    @Override
+                    public void onSuccess(IMqttToken asyncActionToken) {
+                        Log.w("Mqtt", "Subscribed!");
+                    }
 
-                @Override
-                public void onFailure(IMqttToken asyncActionToken, Throwable exception) { Log.w("Mqtt", "Subscribed fail!"); }
-            });
-            mqttAndroidClient.subscribe(mqtt_get_profile_pic_response, 1, null, new IMqttActionListener() {
-                @Override
-                public void onSuccess(IMqttToken asyncActionToken) { Log.w("Mqtt","Subscribed!");  }
+                    @Override
+                    public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
+                        Log.w("Mqtt", "Subscribed fail!");
+                    }
+                });
 
-                @Override
-                public void onFailure(IMqttToken asyncActionToken, Throwable exception) { Log.w("Mqtt", "Subscribed fail!"); }
-            });
-            mqttAndroidClient.subscribe(mqtt_publish_add_patient_session_response, 1, null, new IMqttActionListener() {
-                @Override
-                public void onSuccess(IMqttToken asyncActionToken) { Log.w("Mqtt","Subscribed!");  }
+                mqttAndroidClient.subscribe(mqtt_phizio_profilepic_change_response+phizio_email, 1, null, new IMqttActionListener() {
+                    @Override
+                    public void onSuccess(IMqttToken asyncActionToken) {
+                        Log.w("Mqtt", "Subscribed!");
+                    }
 
-                @Override
-                public void onFailure(IMqttToken asyncActionToken, Throwable exception) { Log.w("Mqtt", "Subscribed fail!"); }
-            });
-            mqttAndroidClient.subscribe(mqtt_publish_add_patient_session_emg_data_response, 1, null, new IMqttActionListener() {
-                @Override
-                public void onSuccess(IMqttToken asyncActionToken) { Log.w("Mqtt","Subscribed!");  }
+                    @Override
+                    public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
+                        Log.w("Mqtt", "Subscribed fail!");
+                    }
+                });
 
-                @Override
-                public void onFailure(IMqttToken asyncActionToken, Throwable exception) { Log.w("Mqtt", "Subscribed fail!"); }
-            });
 
-            mqttAndroidClient.subscribe(mqtt_phizio_profilepic_change_response, 1, null, new IMqttActionListener() {
-                @Override
-                public void onSuccess(IMqttToken asyncActionToken) { Log.w("Mqtt","Subscribed!");  }
-
-                @Override
-                public void onFailure(IMqttToken asyncActionToken, Throwable exception) { Log.w("Mqtt", "Subscribed fail!"); }
-            });
-
-        } catch (MqttException ex) {
-            System.err.println("Exceptionst subscribing");
-            ex.printStackTrace();
+            } catch (MqttException ex) {
+                System.err.println("Exceptionst subscribing");
+                ex.printStackTrace();
+            }
         }
 
     }
 
-    public void publishMqttTopic(String topic, MqttMessage message){
+    public void publishMqttTopic(final String topic, final MqttMessage message){
         try {
             if(mqttAndroidClient.isConnected())
                 mqttAndroidClient.publish(topic,message);
+            else {
+                mqttAndroidClient.connect(mqttConnectOptions, null, new IMqttActionListener() {
+                    @Override
+                    public void onSuccess(IMqttToken asyncActionToken) {
+                        DisconnectedBufferOptions disconnectedBufferOptions = new DisconnectedBufferOptions();
+                        disconnectedBufferOptions.setBufferEnabled(true);
+                        disconnectedBufferOptions.setBufferSize(100);
+                        disconnectedBufferOptions.setPersistBuffer(false);
+                        disconnectedBufferOptions.setDeleteOldestMessages(false);
+                        mqttAndroidClient.setBufferOpts(disconnectedBufferOptions);
+                        if(object!=null){
+                            if(object.has("phizioemail")){
+                                try {
+                                    phizio_email = object.getString("phizioemail");
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                        subscribeToTopic(phizio_email);
+                        try {
+                            mqttAndroidClient.publish(topic,message);
+                        } catch (MqttException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
+                        Log.w("Mqtt", "Failed to connect to: " + serverUri + exception.toString());
+                    }
+                });
+
+
+            }
         } catch (MqttException e) {
             e.printStackTrace();
         }

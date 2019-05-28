@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseArray;
 
-import com.example.sai.pheezeeapp.Activities.PatientsView;
+import com.example.sai.pheezeeapp.activities.PatientsView;
 import com.example.sai.pheezeeapp.R;
 import com.google.android.gms.vision.barcode.Barcode;
 import java.util.List;

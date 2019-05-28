@@ -22,7 +22,10 @@ public class ArcView extends View {
 
     int min_angle=0, max_angle=180;
     int range_color = Color.BLUE;
-
+    int mX=50, mY=50;
+    int radius = 190;
+    Paint mPaint ;
+    RectF oval = new RectF(mX - radius, mY - radius, mX + radius, mY + radius);
     public ArcView(Context context) {
         super(context);
         init(null);
@@ -44,32 +47,30 @@ public class ArcView extends View {
         init(attrs);
     }
 
-    private void init(AttributeSet set){
+    private void init(@Nullable AttributeSet set){
+        mPaint = new Paint();
+
         if(set==null){
             return;
         }
-        Log.i("present","present");
+        TypedArray ta  = getContext().obtainStyledAttributes(R.styleable.ArcView);
+        range_color = ta.getColor(R.styleable.ArcView_arc_color,Color.parseColor("#00B386"));
+        radius = ta.getDimensionPixelSize(R.styleable.ArcView_arc_radius,radius);
+        setRangeColor(range_color);
+        setRadius(radius);
+
+
+        ta.recycle();
     }
 
 
     @Override
     protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-
-        Paint mPaint = new Paint();
-        int mX = 235,mY=300, radius;
+        mX = canvas.getWidth()/2;
+        mY = canvas.getHeight()/2;
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setStrokeWidth(50);
         // Setting the color of the circle
-        mPaint.setColor(Color.BLUE);
-
-        // Draw the circle at (x,y) with radius 200
-        radius = 190;
-        if(getResources().getConfiguration().orientation==Configuration.ORIENTATION_LANDSCAPE){
-            mX=400;
-        }
-
-
         mPaint.setColor(Color.GRAY);
         mPaint.setDither(true);                    // set the dither to true
         mPaint.setStyle(Paint.Style.STROKE);       // set to STOKE
@@ -77,30 +78,40 @@ public class ArcView extends View {
         mPaint.setStrokeCap(Paint.Cap.ROUND);      // set the paint cap to round too
         mPaint.setPathEffect(new CornerPathEffect(50) );   // set the path effect when they join.
         mPaint.setAntiAlias(true);
-
-        RectF oval = new RectF(mX - radius, mY - radius, mX + radius, mY + radius);
+        float padding = 30;
+        float size = getWidth();
+        float width = size - (2 * padding);
+        float height = size - (2 * padding);
+        oval.left =padding;
+        oval.top = padding;
+        oval.right = width;
+        oval.bottom = width;
         canvas.drawArc(oval, 180, 180, false, mPaint);
         mPaint.setColor(range_color);
-
         canvas.drawArc(oval, -min_angle,-(max_angle-min_angle) , false, mPaint);
-
-
-        // Redraw the canvas
-        invalidate();
     }
 
     public void setMinAngle(int min_angle){
         this.min_angle = min_angle;
         invalidate();
+        postInvalidate();
     }
 
     public void setMaxAngle(int max_angle){
         this.max_angle = max_angle;
         invalidate();
+        postInvalidate();
     }
 
     public void setRangeColor(int color){
         range_color = color;
         invalidate();
+        postInvalidate();
+    }
+
+    public void setRadius(int radius){
+        this.radius = radius;
+        invalidate();
+        postInvalidate();
     }
 }

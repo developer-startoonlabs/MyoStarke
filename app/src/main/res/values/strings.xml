@@ -1,26 +1,19 @@
 <resources>
-    <string name="app_name">PheezeeApp</string>
-    <string name="title_activity_main2">Main2Activity</string>
-    <string name="action_settings">Settings</string>
-    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="app_name">Pheezee</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="facebook_app_id">2061772390522951</string>
     <string name="fb_login_protocol_scheme">fb2061772390522951</string>
-    <string name="title_activity_patients_view">PatientsView</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
     <string name="add_patients_text">+ <u>Add patients</u></string>
     <string name="title_activity_scan_devices">ScanDevicesActivity</string>
     <string name="repetition"><b>Repetition</b></string>
 
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="title_activity_session_list">SessionList</string>
 
     <string name="you_are_doing_good">You are improving day by day which is a good sign, so continue you will be recovering soon</string>
     <string name="start_bodypart_to_monitor">Done</string>
@@ -32,18 +25,17 @@
         <item>Hip</item>
         <item>Wrist</item>
         <item>Shoulder</item>
+        <item>Others</item>
     </string-array>
 
 
-    <string-array name="setGoalSpinner">
+    <string-array name="setSessionGoalSpinner">
         <item>Set Goal</item>
-        <item>05 min</item>
-        <item>10 min</item>
-        <item>15 min</item>
-        <item>20 min</item>
-        <item>25 min</item>
-        <item>30 min</item>
-        <item>01 hr</item>
+        <item>5 Reps</item>
+        <item>10 Reps</item>
+        <item>15 Reps</item>
+        <item>20 Reps</item>
+        <item>25 Reps</item>
     </string-array>
 
 
@@ -55,10 +47,10 @@
 
 
     <string name="left_day">Go to previous day</string>
-    <string name="right_day">Go to to next day</string>
+    <string name="right_day">Go to next day</string>
 
     <string name="left_week">Go to previous week</string>
-    <string name="right_week">Go to to next week</string>
+    <string name="right_week">Go to next week</string>
 
     <string name="left_month">Go to previous month</string>
     <string name="right_month">Go to to next month</string>
@@ -82,6 +74,209 @@
     <string name="back">Back</string>
 
     <string name="total_time">Total Time - </string>
+
+
+    <string name="new_user">New user?</string>
+    <string name="have_account">Have an account?</string>
+    <string name="login"><u>Log in</u></string>
+    <string name="signup"><u>Sign up</u></string>
+
+    <string name="continue_with">Continue with</string>
+
+    <string name="by_signing_in">By Signing up you agree with our terms and private policy</string>
+    <string name="cd_facebook_icon">Facebook Log in</string>
+    <string name="cd_google_icon">Google Log in</string>
+    <string name="bluetooth_cd">Bluetooth icon</string>
+
+    <string name="raw_packet_hint">0:-EMG, 1:-LSM</string>
+
+    <string name="forgot_password">Forgot password?</string>
+    <string name="welcome">Welcome</string>
+
+    <string name="nav_home">Home</string>
+    <string name="nav_add_device">Add device</string>
+    <string name="nav_add_patient">Add patient</string>
+    <string name="nav_app_version">App version</string>
+
+    <string name="home_home">HOME</string>
+
+    <string name="timer_start">Start</string>
+
+
+    <!--sign-up related tags-->
+
+    <string name="create_account_header">Create account</string>
+    <string name="signup_name">Name</string>
+    <string name="signup_password">Password</string>
+    <string name="signup_email">Email</string>
+    <string name="signup_phone">Phone</string>
+    <string name="signup_cancel">Cancel</string>
+    <string name="signup_create">Create</string>
+    <string name="cd_patient">Patient icon</string>
+    <string name="cd_phiziotherapist">Phiziotherapist Icon</string>
+
+
+    <!--device info related tags-->
+    <string name="device_info">Device Info</string>
+    <string name="device_name">Device Name:</string>
+    <string name="device_mac">Device Mac:</string>
+    <string name="firmware_version">Firmware Version:</string>
+    <string name="device_serial_id">Device Serial ID:</string>
+    <string name="device_battery">Battery:</string>
+    <string name="device_connection_state">Connection Status:</string>
+    <string name="device_null">Null</string>
+
+
+    <!--App info related tags-->
+    <string name="app_info">Application Info</string>
+    <string name="app_version">Application Version</string>
+    <string name="application_version">2.0.6</string>
+
+    <!--phizio profile related tags-->
+    <string name="your_profile">Your Profile</string>
+    <string name="change_profile_pic">change profile pic</string>
+    <string name="edit">Edit</string>
+    <string name="name">Name:&#032;</string>
+    <string name="email">Email: </string>
+    <string name="phone">Phone:</string>
+    <string name="update">Update</string>
+    <string name="cancel">Cancel</string>
+    <string name="clinic_name">Clinic name:</string>
+    <string name="dob">DOB:</string>
+    <string name="specialization">Specialization:</string>
+    <string name="degree">Degree:</string>
+    <string name="gender">Gender:</string>
+    <string name="address">Address:</string>
+    <string name="experience">Experience:</string>
+    <string-array name="gender_array">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+
+
+    <!--body part related tags-->
+    <string name="left">Left</string>
+    <string name="right">Right</string>
+    <string name="mmt_grade">Mmt Grade - 2</string>
+    <string name="mmt_grade_dynamic">Mmt Grade -</string>
+    <string name="select_mmt_grading">Select Mmt Grading</string>
+    <string name="zero">0</string>
+    <string name="one">1</string>
+    <string name="two">2</string>
+    <string name="three">3</string>
+    <string name="four">4</string>
+    <string name="five">5</string>
+    <string name="confirm">Confirm</string>
+    <string name="minus">-</string>
+    <string name="plus">+</string>
+    <string name="temp_body_part">Ankle</string>
+
+
+    <!--Monitor screen related tags-->
+    <string name="timer_session_time">Session time:   00 : 00 : 00</string>
+    <string name="snap">SNAP</string>
+    <string name="pv_patient_id">Patient Id:&#032;</string>
+    <string name="pv_patient_name">Patient Name:&#032;</string>
+    <string name="pv_range_of_motion">Range of motion</string>
+    <string name="pv_angle">00</string>
+    <string name="pv_repetation">Repetition</string>
+    <string name="pv_hold_time">Hold time</string>
+    <string name="pv_hold_time_static">00 : 00</string>
+
+
+    <!--Scan Devices related tags-->
+    <string name="scandevices_stop">Stop</string>
+    <string name="scandevices_scan">Scan</string>
+
+
+    <!--patient view  related tags-->
+    <string name="cd_navigation_menu">Burger menu Icon</string>
+    <string name="cd_bluetooth_connected">Bluetooth Connected Icon</string>
+    <string name="cd_bluetooth_disconnected">Bluetooth Disconnected Icon</string>
+    <string name="cd_battery_info">Battery Percentage icon</string>
+    <string name="cd_device_connected">Device Connected</string>
+    <string name="cd_device_disconnected">Device Disconnected</string>
+    <string name="battery_zero">0%</string>
+    <string name="turn_on_bluetooth">Please ON Bluetooth</string>
+    <string name="connect_to_device">Please connect Pheezee Device</string>
+    <string name="archive_patient">Archive Patients</string>
+    <string name="what_is_pheezee">What is Pheezee with out Patients!</string>
+    <string name="cd_floating">Add Patient icon</string>
+    <string name="battery_percent_lower_than_15">The pheezee device battery is lower than 15% are you sure you want to continue?</string>
+    <string name="battery_percent_lower_than_10">The pheezee device battery is lower than 10% are you sure you want to continue?</string>
+    <string name="battery_percent_lower_than_5">The pheezee device battery is lower than 5% there is a chance of data loss if you continue to do the session. Are you sure you want to continue?</string>
+
+
+    <!--on start Activity related tags-->
+    <string name="onstart_image_cd">Pheezee Logo</string>
+
+
+    <string name="not_connected">N/C</string>
+
+
+    <!--Fragment report month related tags-->
+
+
+    <!--Login Related tags-->
+    <string name="login_illuslator">patient session happening image</string>
+    <string name="hint_email">abc@startoonlabs.com</string>
+    <string name="hint_password">password</string>
+
+
+    <!--Patient Layout Options-->
+    <string name="pl_id">id :</string>
+    <string name="cd_report">Report icon</string>
+    <string name="cd_selfreferance">Self Referance icon</string>
+    <string name="report">Report</string>
+    <string name="set_reference">Set Reference</string>
+    <string name="delete">Delete</string>
+
+    <!--Patient Layout-->
+    <string name="start_session">Start Session</string>
+    <string name="cd_pateint_layout">Patient layout tripple dot icon</string>
+
+
+    <!--Add Pateint pop up-->
+    <string name="patient_name">Patient Name</string>
+    <string name="patient_id">Patient Id</string>
+    <string name="add">Add</string>
+
+
+    <!--Scan Devices related tags-->
+    <string name="connect">CONNECT</string>
+
+
+    <!--Session Summary related tags-->
+    <string name="cd_share">Share icon</string>
+    <string name="session_summary">Session Summary</string>
+    <string name="ss_name">Name:&#032;</string>
+    <string name="ss_id">Id:&#032;</string>
+    <string name="ss_date">Date:&#032;</string>
+    <string name="ss_overall_summary">Overall Summary</string>
+    <string name="ss_range_of_motion">RANGE OF MOTION</string>
+    <string name="ss_min">Min&#032;</string>
+    <string name="ss_max">Max&#032;</string>
+    <string name="ss_max_angle">180°</string>
+    <string name="ss_min_angle">0°</string>
+    <string name="ss_total_time">Total Time</string>
+    <string name="ss_action_time">Action Time</string>
+    <string name="ss_hold_time">Hold Time</string>
+    <string name="ss_time_dummy">00 : 00 : 00</string>
+    <string name="ss_good">Good</string>
+    <string name="ss_average">Average</string>
+    <string name="ss_not_good">Not Good</string>
+    <string name="ss_bad">Bad</string>
+    <string name="ss_emg">ELECTROMAYOGRAM (EMG)</string>
+    <string name="ss_click_to_view_report">click to view report&#032; </string>
+
+
+    <!--Pop up comment section tags-->
+    <string name="pain_scale">Pain Scale?</string>
+    <string name="muscle_tone">Muscle Tone?</string>
+    <string name="exercise_name">Exercise Name?</string>
+    <string name="comment">Comment?</string>
+    <string name="continue_session">Continue</string>
+    <string name="symptomps">Symptoms?</string>
 
 
 </resources>

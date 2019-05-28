@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -9,24 +9,26 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-    <style name="AppTheme.custom.bodypart" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="android:background">@color/white_opaque</item>
-        <item name="android:windowBackground">@color/white_opaque</item>
-        <item name="android:colorBackground">@color/white_opaque</item>
-        <item name="android:windowNoTitle">true</item>
-    </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/good_green</item>
+        <item name="colorPrimaryDark">@color/good_green</item>
+        <item name="colorAccent">@color/good_green</item>
+    </style>
+
+    <style name="AppTheme.NoActionBarLogin">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/white</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="android:windowContentOverlay">@null</item>
     </style>
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="AppTheme.customDesign.noActionBar" parent="Theme.Design.Light.NoActionBar">
         <item name="android:background">@color/white_opaque</item>
@@ -43,27 +45,39 @@
     </style>
 
 
-    <style name="DialogAnimation">
-        <item name="android:windowEnterAnimation">@anim/slide_up_dialog</item>
-        <item name="android:windowExitAnimation">@anim/slide_out_down</item>
-        <item name="android:windowBackground">@null</item>
-        <item name="android:windowFrame">@null</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:fadeEnabled">true</item>
-        <item name="android:background">@color/translucent_black</item>
+    <style name="NavigationView" >
+        <item name="fontFamily">@font/ebrima</item>
     </style>
 
-    <style name="DialogSlideAnim" parent="@android:style/Theme.Dialog">
-        <item name="android:windowAnimationStyle">@style/DialogAnimation</item>
-
-        <item name="android:windowBackground">@null</item>
-        <item name="android:windowFrame">@null</item>
-        <item name="android:windowNoTitle">true</item>
+    <style name="greenprogress" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/good_green</item>
     </style>
 
-    <style name="HeaderBar">
-        <item name="android:background">#303F9F</item>
-    </style>
+    <!--<style name="ErrorText" parent="TextAppearance.AppCompat">-->
+        <!--<item name="android:textColor">@android:color/red</item>-->
+        <!--<item name="android:textSize">16sp</item>-->
+    <!--</style>-->
+
+    <!--<style name="HintText" parent="TextAppearance.AppCompat">-->
+        <!--<item name="android:textColor">@android:color/white</item>-->
+        <!--<item name="android:textSize">14sp</item>-->
+    <!--</style>-->
+
+
+
+    <!--<style name="TextInputLayoutAppearance" parent="Widget.Design.TextInputLayout">-->
+        <!--&lt;!&ndash; reference our hint & error styles &ndash;&gt;-->
+        <!--<item name="hintTextAppearance">@style/HintText</item>-->
+        <!--<item name="errorTextAppearance">@style/ErrorText</item>-->
+        <!--<item name="android:textColor">@color/white</item>-->
+        <!--<item name="android:textColorHint">@color/white</item>-->
+        <!--<item name="colorControlNormal">@color/white</item>-->
+        <!--<item name="colorControlActivated">@color/white</item>-->
+        <!--<item name="colorControlHighlight">@color/white</item>-->
+    <!--</style>-->
+
+
+    <!--enter mac edress connect related style-->
 
 
 </resources>
