@@ -91,7 +91,7 @@ public class MonitorActivity extends AppCompatActivity {
     TextView tv_max_angle, tv_min_angle, tv_max_emg;
     int ui_rate = 0;
     public final int sub_byte_size = 28;
-    int maxAnglePart, minAnglePart, angleCorrection = 0;
+    int maxAnglePart, minAnglePart, angleCorrection = 0, currentAngle=0;
     boolean angleCorrected = false,devicePopped = false, servicesDiscovered = false, isSessionRunning=false, enteredInsideTwenty = true, pheezeeState = false, recieverState=false;
     String bodypart,orientation="NO";
     SharedPreferences sharedPreferences;
@@ -428,8 +428,11 @@ public class MonitorActivity extends AppCompatActivity {
                                 if(PatientsView.sessionStarted) {
                                     angleCorrection = Integer.parseInt(editText.getText().toString());
                                     angleCorrected = true;
-                                    angleCorrection -= maxAngle;
+                                    angleCorrection-=currentAngle;
+                                    currentAngle+=angleCorrection;
                                     maxAngle+=angleCorrection;
+                                    minAngle+=angleCorrection;
+
                                 }
                             }catch (NumberFormatException e){
 
@@ -1178,6 +1181,7 @@ public class MonitorActivity extends AppCompatActivity {
             sub_byte = (byte[]) message.obj;
             emg_data = ByteToArrayOperations.constructEmgData(sub_byte);
             angleDetected = ByteToArrayOperations.getAngleFromData(sub_byte[20],sub_byte[21]);
+            currentAngle=angleDetected;
             num_of_reps = ByteToArrayOperations.getNumberOfReps(sub_byte[22], sub_byte[23]);
             hold_time_minutes = sub_byte[24];
             hold_time_seconds = sub_byte[25];
@@ -1199,15 +1203,19 @@ public class MonitorActivity extends AppCompatActivity {
             //Custom thresholds
 //            if(angleDetected>=minAnglePart && angleDetected<=maxAnglePart) {
 //                rangeOfMotion.setAngle(angleDetected);
+
+            Log.i("angle before corrected",String.valueOf(angleDetected));
+
             if(angleCorrected) {
                 angleDetected+=angleCorrection;
                 arcViewInside.setMaxAngle(angleDetected);
 
-                Log.i("Angle", String.valueOf(angleDetected));
+                Log.i("Angle after corrected", String.valueOf(angleDetected));
             }
             else {
                 arcViewInside.setMaxAngle(angleDetected);
             }
+
             romJsonArray.put(angleDetected);
             try {
                 outputStream_session_romdata = new FileOutputStream(file_session_romdata, true);

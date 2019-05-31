@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\sivam\\AndroidStudioProjects\\PheezeeApp\\PheezeeApp\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v24\\values-v24.xml",
+            "outputFile": "C:\\Users\\STARTOONLABS\\AndroidStudioProjects\\pheezeeandroid\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v24\\values-v24.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0.aar\\e062b2ec6d6780ba589178c6402661a1\\res\\values-v24\\values-v24.xml",
+                    "source": "C:\\Users\\STARTOONLABS\\.gradle\\caches\\transforms-2\\files-2.1\\af1b4349a7ce1ccabf4be61eb9d44f12\\res\\values-v24\\values-v24.xml",
                     "from": {
                         "startLines": "2,3",
                         "startColumns": "4,4",
@@ -14,7 +14,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\sivam\\.gradle\\caches\\transforms-1\\files-1.1\\support-media-compat-28.0.0.aar\\b7d4d3717d6436032a04df828e970094\\res\\values-v24\\values-v24.xml",
+                    "source": "C:\\Users\\STARTOONLABS\\.gradle\\caches\\transforms-2\\files-2.1\\2e8a70027f285973a9ad2375621e6e25\\res\\values-v24\\values-v24.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",
