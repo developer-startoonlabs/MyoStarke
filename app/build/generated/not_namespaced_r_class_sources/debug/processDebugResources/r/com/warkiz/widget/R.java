@@ -76,11 +76,11 @@ public final class R {
         public static final int none = 0x7f0a0159;
         public static final int normal = 0x7f0a015a;
         public static final int oval = 0x7f0a0162;
-        public static final int rectangle = 0x7f0a0192;
-        public static final int rounded_rectangle = 0x7f0a01ad;
-        public static final int sans = 0x7f0a01ae;
-        public static final int serif = 0x7f0a01c7;
-        public static final int square = 0x7f0a01e3;
+        public static final int rectangle = 0x7f0a0191;
+        public static final int rounded_rectangle = 0x7f0a01ab;
+        public static final int sans = 0x7f0a01ac;
+        public static final int serif = 0x7f0a01c5;
+        public static final int square = 0x7f0a01e1;
     }
     public static final class layout {
         private layout() {}

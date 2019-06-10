@@ -1827,7 +1827,6 @@ id popLeft
 id popRight
 id popUp
 id preview
-id previewImage
 id progress_bar
 id progress_battery_bar
 id progress_circular
@@ -1862,7 +1861,6 @@ id rl_login_section
 id rl_main
 id rl_mmt_and_session
 id rl_mmt_section
-id rl_preview
 id rl_right
 id rl_right_section
 id rom_chartView
