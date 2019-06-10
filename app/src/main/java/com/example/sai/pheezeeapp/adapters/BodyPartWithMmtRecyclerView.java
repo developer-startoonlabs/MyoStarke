@@ -21,6 +21,7 @@ import com.example.sai.pheezeeapp.classes.BodyPartWithMmtSelectionModel;
 import com.example.sai.pheezeeapp.R;
 import com.example.sai.pheezeeapp.activities.BodyPartSelection;
 import com.example.sai.pheezeeapp.services.MqttHelper;
+import com.example.sai.pheezeeapp.utils.MuscleOperation;
 
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.json.JSONArray;
@@ -161,9 +162,15 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
         holder.iv_bodypart.setImageResource(bodyPartWithMmtSelectionModel.getIv_body_part());
         holder.tv_body_part_name.setText(bodyPartWithMmtSelectionModel.getExercise_name());
 
+
+        //Reps array
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context,R.array.setSessionGoalSpinner, R.layout.support_simple_spinner_dropdown_item);
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         holder.sp_set_goal.setAdapter(adapter);
+
+        ArrayAdapter<CharSequence> array_muscle_names = new ArrayAdapter<CharSequence>(context, R.layout.support_simple_spinner_dropdown_item, MuscleOperation.getMusleNames(position));
+        array_muscle_names.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        holder.sp_muscle_name.setAdapter(array_muscle_names);;
 
         holder.iv_bodypart.setOnClickListener(new View.OnClickListener() {
             @Override
