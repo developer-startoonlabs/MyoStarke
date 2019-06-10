@@ -273,6 +273,7 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
                 //invisible the spinner and text section
                 holder.ll_tv_section.setVisibility(View.GONE);
                 holder.sp_set_goal.setVisibility(View.GONE);
+                holder.sp_muscle_name.setVisibility(View.GONE);
                 holder.rl_mmt_session.setVisibility(View.VISIBLE);
 
             }
@@ -283,6 +284,7 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
             public void onClick(View v) {
                 holder.ll_tv_section.setVisibility(View.GONE);
                 holder.sp_set_goal.setVisibility(View.GONE);
+                holder.sp_muscle_name.setVisibility(View.GONE);
                 holder.rl_mmt_session.setVisibility(View.VISIBLE);
 
             }
