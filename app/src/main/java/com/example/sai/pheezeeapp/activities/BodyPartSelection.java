@@ -162,7 +162,7 @@ public class BodyPartSelection extends AppCompatActivity {
         bodyPartRecyclerView.addItemDecoration(dividerItemDecoration);
 //        bodyPartRecyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.HORIZONTAL));
         bodyPartRecyclerView.setHasFixedSize(true);
-        manager = new GridLayoutManager(this,2);
+        manager = new GridLayoutManager(this,1);    //development
         bodyPartRecyclerView.setLayoutManager(manager);
         bodyPartSelectionList = new ArrayList<>();
         bodyPartWithMmtSelectionModels = new ArrayList<>();
@@ -255,6 +255,7 @@ public class BodyPartSelection extends AppCompatActivity {
                 RelativeLayout rl_mmt_session = view.findViewById(R.id.rl_mmt_section);
                 LinearLayout ll_tv_section = view.findViewById(R.id.ll_tv_section);
                 Spinner spinner = view.findViewById(R.id.sp_set_goal);
+                Spinner sp_muscle_name = view.findViewById(R.id.sp_set_muscle);     //development
 
 
                 if (rl_left_section.getVisibility() == View.VISIBLE)
@@ -279,6 +280,13 @@ public class BodyPartSelection extends AppCompatActivity {
                     spinner.setSelection(0);
                     spinner.setVisibility(View.GONE);
                 }
+
+                //development
+                if (sp_muscle_name.getVisibility() == View.VISIBLE) {
+//                    spinner.setSelection(0);
+                    sp_muscle_name.setVisibility(View.GONE);
+                }
+
                 if (imageView.getVisibility() == View.INVISIBLE)
                     imageView.setVisibility(View.VISIBLE);
 

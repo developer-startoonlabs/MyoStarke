@@ -464,6 +464,10 @@
         "source": "C:\\Users\\STARTOONLABS\\.gradle\\caches\\transforms-2\\files-2.1\\65589ccdec4d11ebcdb596c2b2566525\\res\\animator\\mtrl_chip_state_list_anim.xml"
     },
     {
+        "merged": "C:\\Users\\STARTOONLABS\\AndroidStudioProjects\\pheezeeandroid\\app\\build\\intermediates\\res\\merged\\debug\\layout_layout_body_part_selection_with_muscle_name.xml.flat",
+        "source": "C:\\Users\\STARTOONLABS\\AndroidStudioProjects\\pheezeeandroid\\app\\src\\main\\res\\layout\\layout_body_part_selection_with_muscle_name.xml"
+    },
+    {
         "merged": "C:\\Users\\STARTOONLABS\\AndroidStudioProjects\\pheezeeandroid\\app\\build\\intermediates\\res\\merged\\debug\\layout_session_summary.xml.flat",
         "source": "C:\\Users\\STARTOONLABS\\AndroidStudioProjects\\pheezeeandroid\\app\\src\\main\\res\\layout\\session_summary.xml"
     },

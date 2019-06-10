@@ -55,7 +55,7 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
 
         private LinearLayout  ll_model_mmt_confirm, ll_model_mmt_cancel, ll_model_left, ll_model_right,ll_tv_confirm, ll_tv_cancel;
         private LinearLayout ll_tv_section, ll_tv_minus, ll_tv_plus;
-        private Spinner sp_set_goal;
+        private Spinner sp_set_goal, sp_muscle_name;
 
 
         ViewHolder(View view) {
@@ -101,6 +101,7 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
 
             //spinner
             sp_set_goal = view.findViewById(R.id.sp_set_goal);
+            sp_muscle_name = view.findViewById(R.id.sp_set_muscle);
 
         }
     }
@@ -147,7 +148,7 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
     public BodyPartWithMmtRecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // create a new view
         final View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.layout_body_part_selection_new_model, parent, false);
+                .inflate(R.layout.layout_body_part_selection_with_muscle_name, parent, false);
         return new BodyPartWithMmtRecyclerView.ViewHolder(itemView);
     }
 
@@ -208,16 +209,19 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
                 Log.i("grade","gg"+grade);
                 if(!grade.equals("")) {
                     holder.tv_model_mmt_grade_left.setText("Mmt Grade -"+grade);
-                    holder.sp_set_goal.setVisibility(View.VISIBLE);
-                    holder.sp_set_goal.setSelection(0);
-                    holder.iv_bodypart.setEnabled(false);
                 }
-                else {
-                    holder.ll_tv_section.setVisibility(View.GONE);
-                    holder.sp_set_goal.setVisibility(View.GONE);
-                    holder.rl_mmt_session.setVisibility(View.VISIBLE);
-                    holder.iv_bodypart.setEnabled(false);
-                }
+                //development
+//                else {
+//                    holder.ll_tv_section.setVisibility(View.GONE);
+//                    holder.sp_set_goal.setVisibility(View.GONE);
+//                    holder.rl_mmt_session.setVisibility(View.VISIBLE);
+//                    holder.iv_bodypart.setEnabled(false);
+//                }
+                holder.ll_tv_section.setVisibility(View.VISIBLE);
+                holder.sp_set_goal.setVisibility(View.VISIBLE);
+                holder.sp_muscle_name.setVisibility(View.VISIBLE);
+                holder.sp_set_goal.setSelection(0);
+                holder.iv_bodypart.setEnabled(false);
             }
         });
 
@@ -237,16 +241,21 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
                 String grade = checkMmtDone(false, holder);
                 if(!grade.equals("")) {
                     holder.tv_model_mmt_grade_right.setText("Mmt Grade -"+grade);
-                    holder.sp_set_goal.setVisibility(View.VISIBLE);
-                    holder.sp_set_goal.setSelection(0);
-                    holder.iv_bodypart.setEnabled(false);
+
                 }
-                else {
-                    holder.ll_tv_section.setVisibility(View.GONE);
-                    holder.sp_set_goal.setVisibility(View.GONE);
-                    holder.rl_mmt_session.setVisibility(View.VISIBLE);
-                    holder.iv_bodypart.setEnabled(false);
-                }
+
+                //development
+//                else {
+//                    holder.ll_tv_section.setVisibility(View.GONE);
+//                    holder.sp_set_goal.setVisibility(View.GONE);
+//                    holder.rl_mmt_session.setVisibility(View.VISIBLE);
+//                    holder.iv_bodypart.setEnabled(false);
+//                }
+                holder.ll_tv_section.setVisibility(View.VISIBLE);
+                holder.sp_set_goal.setVisibility(View.VISIBLE);
+                holder.sp_muscle_name.setVisibility(View.VISIBLE);
+                holder.sp_set_goal.setSelection(0);
+                holder.iv_bodypart.setEnabled(false);
             }
         });
 

@@ -1770,6 +1770,7 @@ id month_rom_graph
 id mtrl_child_content_container
 id mtrl_internal_children_alpha_tag
 id multiply
+id musleAndTvSection
 id my_toolbar
 id my_toolbar_bodypart
 id my_toolbar_session_report
@@ -1914,6 +1915,7 @@ id snap
 id snapMargins
 id snap_monitor
 id sp_set_goal
+id sp_set_muscle
 id spacer
 id spinner_gender
 id split_action_bar
@@ -2206,6 +2208,7 @@ layout fragment_zip_info
 layout isb_indicator
 layout layout_body_part_selection_model
 layout layout_body_part_selection_new_model
+layout layout_body_part_selection_with_muscle_name
 layout layout_login_continue
 layout layout_patient_options
 layout mtrl_layout_snackbar

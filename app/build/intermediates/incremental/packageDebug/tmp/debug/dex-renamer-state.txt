@@ -1,13 +1,13 @@
-#Fri Jun 07 18:28:10 IST 2019
-path.3=classes4.dex
-path.2=classes3.dex
-path.1=classes2.dex
+#Mon Jun 10 13:15:21 IST 2019
+path.3=classes3.dex
+path.2=classes2.dex
+path.1=classes.dex
 path.0=classes.dex
 renamed.3=classes4.dex
 renamed.2=classes3.dex
 renamed.1=classes2.dex
 renamed.0=classes.dex
-base.3=C\:\\Users\\STARTOONLABS\\AndroidStudioProjects\\pheezeeandroid\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\out
-base.2=C\:\\Users\\STARTOONLABS\\AndroidStudioProjects\\pheezeeandroid\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\out
-base.1=C\:\\Users\\STARTOONLABS\\AndroidStudioProjects\\pheezeeandroid\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\out
-base.0=C\:\\Users\\STARTOONLABS\\AndroidStudioProjects\\pheezeeandroid\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\out
+base.3=C\:\\Users\\STARTOONLABS\\AndroidStudioProjects\\pheezeeandroid\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\out
+base.2=C\:\\Users\\STARTOONLABS\\AndroidStudioProjects\\pheezeeandroid\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\out
+base.1=C\:\\Users\\STARTOONLABS\\AndroidStudioProjects\\pheezeeandroid\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\out
+base.0=C\:\\Users\\STARTOONLABS\\AndroidStudioProjects\\pheezeeandroid\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\out
