@@ -288,11 +288,11 @@ public class BodyPartSelection extends AppCompatActivity {
                     spinner.setVisibility(View.GONE);
                 }
 
-                //development
-//                if (sp_muscle_name.getVisibility() == View.VISIBLE) {
-//                    sp_muscle_name.setSelection(0);
-//                    sp_muscle_name.setVisibility(View.GONE);
-//                }
+//                development
+                if (sp_muscle_name.getVisibility() == View.VISIBLE) {
+                    sp_muscle_name.setSelection(0);
+                    sp_muscle_name.setVisibility(View.GONE);
+                }
 
                 if (imageView.getVisibility() == View.INVISIBLE)
                     imageView.setVisibility(View.VISIBLE);

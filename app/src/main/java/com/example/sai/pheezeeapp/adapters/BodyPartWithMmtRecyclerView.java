@@ -158,7 +158,6 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
     public void onBindViewHolder(@NonNull final BodyPartWithMmtRecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        Log.i("position",String.valueOf(position));
         BodyPartWithMmtSelectionModel bodyPartWithMmtSelectionModel = bodyPartsList.get(position);
         holder.iv_bodypart.setImageResource(bodyPartWithMmtSelectionModel.getIv_body_part());
         holder.tv_body_part_name.setText(bodyPartWithMmtSelectionModel.getExercise_name());
@@ -181,11 +180,13 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
                 if(!preferences.getString("bodyPartClicked","").equals("")){
                     ((BodyPartSelection)context).visibilityChanged();
                 }
+
+                Log.i("clicked","clicked"+position);
                 bodypartSelected = holder.tv_body_part_name.getText().toString();
                 holder.iv_bodypart.setVisibility(View.INVISIBLE);
                 holder.rl_left_right.setVisibility(View.VISIBLE);
                 editor.putString("bodyPartClicked",position+"");
-                editor.commit();
+                editor.apply();
             }
         });
 
@@ -575,5 +576,10 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
     @Override
     public int getItemCount() {
         return bodyPartsList==null?0:bodyPartsList.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
     }
 }
