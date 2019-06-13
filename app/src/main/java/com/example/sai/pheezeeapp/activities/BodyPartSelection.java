@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.os.Build;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
@@ -185,7 +186,6 @@ public class BodyPartSelection extends AppCompatActivity {
         bodyPartRecyclerView.setAdapter(bodyPartWithMmtRecyclerView);
 
 
-
         bodyPartRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -248,10 +248,17 @@ public class BodyPartSelection extends AppCompatActivity {
         }
     };
 
-    public void visibilityChanged(){
-        Log.i("clicked",preferences.getString("bodyPartClicked",""));
-            View view = manager.findViewByPosition(Integer.parseInt(preferences.getString("bodyPartClicked","")));
+    public void visibilityChanged(int position, int clicked){
+        Log.i("visibility change",String.valueOf(position));
+
+//        if(position==6 || clicked==6) {
+            bodyPartWithMmtRecyclerView.notifyItemChanged(position, null);
+//        }
+//        bodyPartRecyclerView.scrollToPosition(position);
+        View view = manager.findViewByPosition(position);
+//        View view = bodyPartRecyclerView.findViewHolderForPosition(position);
             if(view!=null) {
+                Log.i("inside","visibility change");
                 ImageView imageView = view.findViewById(R.id.bodypartImage);
                 RelativeLayout rl_left_right = view.findViewById(R.id.rl_left_right);
                 RelativeLayout rl_left = view.findViewById(R.id.rl_left);

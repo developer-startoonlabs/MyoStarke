@@ -178,9 +178,8 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
                 ((BodyPartSelection)context).setFabVisible();
                 editor = preferences.edit();
                 if(!preferences.getString("bodyPartClicked","").equals("")){
-                    ((BodyPartSelection)context).visibilityChanged();
+                    ((BodyPartSelection)context).visibilityChanged(Integer.parseInt(preferences.getString("bodyPartClicked","")),position);
                 }
-
                 Log.i("clicked","clicked"+position);
                 bodypartSelected = holder.tv_body_part_name.getText().toString();
                 holder.iv_bodypart.setVisibility(View.INVISIBLE);
