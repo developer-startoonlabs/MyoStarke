@@ -15,7 +15,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Display;
@@ -89,7 +91,8 @@ public class BodyPartSelection extends AppCompatActivity {
 
     int height_fl;
 
-    GridLayoutManager manager;
+//    GridLayoutManager manager;
+    RecyclerView.LayoutManager manager;
     private String mqtt_publish_message_reference = "phizio/calibration/addpatientsession";
     private String mqtt_publish_message_reference_response = "phizio/calibration/addpatientsession/response";
 
@@ -158,9 +161,12 @@ public class BodyPartSelection extends AppCompatActivity {
             }
         }
         bodyPartRecyclerView = findViewById(R.id.bodyPartRecyclerView);
+        bodyPartRecyclerView.setHasFixedSize(true);
+//        manager = new LinearLayoutManager(this);
+//        bodyPartRecyclerView.setLayoutManager(manager);
         RecyclerView.ItemDecoration dividerItemDecoration = new DividerItemDecorator(ContextCompat.getDrawable(this, R.drawable.devider_gridview_bodypart));
         bodyPartRecyclerView.addItemDecoration(dividerItemDecoration);
-//        bodyPartRecyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.HORIZONTAL));
+        bodyPartRecyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.HORIZONTAL));
         bodyPartRecyclerView.setHasFixedSize(true);
         manager = new GridLayoutManager(this,1);    //development
         bodyPartRecyclerView.setLayoutManager(manager);
@@ -243,6 +249,7 @@ public class BodyPartSelection extends AppCompatActivity {
     };
 
     public void visibilityChanged(){
+        Log.i("clicked",preferences.getString("bodyPartClicked",""));
             View view = manager.findViewByPosition(Integer.parseInt(preferences.getString("bodyPartClicked","")));
             if(view!=null) {
                 ImageView imageView = view.findViewById(R.id.bodypartImage);
@@ -282,10 +289,10 @@ public class BodyPartSelection extends AppCompatActivity {
                 }
 
                 //development
-                if (sp_muscle_name.getVisibility() == View.VISIBLE) {
-//                    spinner.setSelection(0);
-                    sp_muscle_name.setVisibility(View.GONE);
-                }
+//                if (sp_muscle_name.getVisibility() == View.VISIBLE) {
+//                    sp_muscle_name.setSelection(0);
+//                    sp_muscle_name.setVisibility(View.GONE);
+//                }
 
                 if (imageView.getVisibility() == View.INVISIBLE)
                     imageView.setVisibility(View.VISIBLE);

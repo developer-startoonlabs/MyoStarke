@@ -149,15 +149,16 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
     public BodyPartWithMmtRecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // create a new view
         final View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.layout_body_part_selection_with_muscle_name, parent, false);
+                .inflate(R.layout.popup_muscle_selection, parent, false);
         return new BodyPartWithMmtRecyclerView.ViewHolder(itemView);
     }
 
 
     @Override
-    public void onBindViewHolder(@NonNull final BodyPartWithMmtRecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final BodyPartWithMmtRecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
+        Log.i("position",String.valueOf(position));
         BodyPartWithMmtSelectionModel bodyPartWithMmtSelectionModel = bodyPartsList.get(position);
         holder.iv_bodypart.setImageResource(bodyPartWithMmtSelectionModel.getIv_body_part());
         holder.tv_body_part_name.setText(bodyPartWithMmtSelectionModel.getExercise_name());
@@ -168,9 +169,9 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         holder.sp_set_goal.setAdapter(adapter);
 
-        ArrayAdapter<CharSequence> array_muscle_names = new ArrayAdapter<CharSequence>(context, R.layout.support_simple_spinner_dropdown_item, MuscleOperation.getMusleNames(position));
-        array_muscle_names.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        holder.sp_muscle_name.setAdapter(array_muscle_names);;
+//        ArrayAdapter<CharSequence> array_muscle_names = new ArrayAdapter<CharSequence>(context, R.layout.support_simple_spinner_dropdown_item, MuscleOperation.getMusleNames(position));
+//        array_muscle_names.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+//        holder.sp_muscle_name.setAdapter(array_muscle_names);
 
         holder.iv_bodypart.setOnClickListener(new View.OnClickListener() {
             @Override

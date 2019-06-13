@@ -1491,6 +1491,7 @@ id battery_cell_color
 id beginning
 id blocking
 id bodyPart
+id bodyPartConstraint
 id bodyPartContainer
 id bodyPartRecyclerView
 id bodypartImage
@@ -1540,6 +1541,7 @@ id checkbox
 id chronometer
 id circle
 id circular_bubble
+id cl_image
 id cl_recycler_view
 id clip_horizontal
 id clip_vertical
@@ -2235,6 +2237,7 @@ layout pop_otp
 layout popup
 layout popup_click_to_preview
 layout popup_comment_session
+layout popup_muscle_selection
 layout popup_new_password
 layout popup_set_reference
 layout scanned_devices_listview_model
