@@ -1,8 +1,8 @@
 package com.example.sai.pheezeeapp.utils;
 
 public class ByteToArrayOperations {
-    private static int emg_data_size_session = 10;
-    private static int emg_num_packets_session = 20;
+    private static int emg_data_size_session = 20;
+    private static int emg_num_packets_session = 40;
     private static int emg_data_size_raw=20;
 
     public static byte[] hexStringToByteArray(String s) {
@@ -15,18 +15,31 @@ public class ByteToArrayOperations {
         return data;
     }
 
-    public static int[] constructEmgData(byte[] sub_byte){
+    public static float[] constructEmgData(byte[] sub_byte){
         int k=0;
-        int[] emg_data = new int[emg_data_size_session];
+        float[] emg_data = new float[emg_data_size_session];
         for (int i = 0; i<emg_num_packets_session; i++){
             int a = sub_byte[i]&0xFF;
             int b = sub_byte[i+1]&0xFF;
 
             emg_data[k] = b<<8 | a;
+            //emg formula
+
+            emg_data[k] = (float) (emg_data[k]/284.44);
+//            Log.i("Emg before 1000",String.valueOf(emg_data[k]));
+            emg_data[k]*=1000;
+//            Log.i("Emg after 1000",String.valueOf(emg_data[k]));
+            emg_data[k]= Float.parseFloat(roundOffTo2DecPlaces(emg_data[k]));
+//            Log.i("EMG VALUE", String.valueOf(emg_data[k]));
             i++;
             k++;
         }
         return emg_data;
+    }
+
+    public static String roundOffTo2DecPlaces(float val)
+    {
+        return String.format("%.2f", val);
     }
 
     public static int[] constructEmgDataRaw(byte[] sub_byte){
