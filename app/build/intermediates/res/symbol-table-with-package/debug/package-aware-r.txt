@@ -1491,6 +1491,7 @@ id battery_cell_color
 id beginning
 id blocking
 id bodyPart
+id bodyPartConstraint
 id bodyPartContainer
 id bodyPartRecyclerView
 id bodypartImage
@@ -1540,6 +1541,7 @@ id checkbox
 id chronometer
 id circle
 id circular_bubble
+id cl_image
 id cl_recycler_view
 id clip_horizontal
 id clip_vertical
@@ -1770,6 +1772,7 @@ id month_rom_graph
 id mtrl_child_content_container
 id mtrl_internal_children_alpha_tag
 id multiply
+id musleAndTvSection
 id my_toolbar
 id my_toolbar_bodypart
 id my_toolbar_session_report
@@ -1846,6 +1849,7 @@ id reportRepsGraph
 id report_day_reps
 id repsAndHoldTime
 id repsContainter
+id repsSelected
 id repsText
 id right
 id right_icon
@@ -1914,6 +1918,7 @@ id snap
 id snapMargins
 id snap_monitor
 id sp_set_goal
+id sp_set_muscle
 id spacer
 id spinner_gender
 id split_action_bar
@@ -2206,6 +2211,7 @@ layout fragment_zip_info
 layout isb_indicator
 layout layout_body_part_selection_model
 layout layout_body_part_selection_new_model
+layout layout_body_part_selection_with_muscle_name
 layout layout_login_continue
 layout layout_patient_options
 layout mtrl_layout_snackbar
@@ -2232,6 +2238,7 @@ layout pop_otp
 layout popup
 layout popup_click_to_preview
 layout popup_comment_session
+layout popup_muscle_selection
 layout popup_new_password
 layout popup_set_reference
 layout scanned_devices_listview_model

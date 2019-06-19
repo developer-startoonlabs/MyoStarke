@@ -40,7 +40,6 @@ public class OnStartActivity extends AppCompatActivity {
                         startActivity(new Intent(OnStartActivity.this,PatientsView.class));
                     else
                         startActivity(new Intent(OnStartActivity.this,LoginActivity.class));
-
                     finish();
                 } catch (InterruptedException e) {
                     e.printStackTrace();

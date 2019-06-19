@@ -21,6 +21,7 @@ import com.example.sai.pheezeeapp.classes.BodyPartWithMmtSelectionModel;
 import com.example.sai.pheezeeapp.R;
 import com.example.sai.pheezeeapp.activities.BodyPartSelection;
 import com.example.sai.pheezeeapp.services.MqttHelper;
+import com.example.sai.pheezeeapp.utils.MuscleOperation;
 
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.json.JSONArray;
@@ -39,6 +40,7 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
     private JSONArray json_patients;
     private JSONArray json_patient_mmt;
     private String patientID;
+    private int selectedPosition = -1;
 
 
     public static String gradeSelected="",bodypartSelected="", orientationSelected="";
@@ -55,7 +57,7 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
 
         private LinearLayout  ll_model_mmt_confirm, ll_model_mmt_cancel, ll_model_left, ll_model_right,ll_tv_confirm, ll_tv_cancel;
         private LinearLayout ll_tv_section, ll_tv_minus, ll_tv_plus;
-        private Spinner sp_set_goal;
+        private Spinner sp_set_goal, sp_muscle_name;
 
 
         ViewHolder(View view) {
@@ -101,6 +103,7 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
 
             //spinner
             sp_set_goal = view.findViewById(R.id.sp_set_goal);
+            sp_muscle_name = view.findViewById(R.id.sp_set_muscle);
 
         }
     }
@@ -147,36 +150,85 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
     public BodyPartWithMmtRecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // create a new view
         final View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.layout_body_part_selection_new_model, parent, false);
+                .inflate(R.layout.popup_muscle_selection, parent, false);
         return new BodyPartWithMmtRecyclerView.ViewHolder(itemView);
     }
 
 
     @Override
-    public void onBindViewHolder(@NonNull final BodyPartWithMmtRecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final BodyPartWithMmtRecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         BodyPartWithMmtSelectionModel bodyPartWithMmtSelectionModel = bodyPartsList.get(position);
         holder.iv_bodypart.setImageResource(bodyPartWithMmtSelectionModel.getIv_body_part());
         holder.tv_body_part_name.setText(bodyPartWithMmtSelectionModel.getExercise_name());
 
+        Log.i("position",position+"");
+        if(selectedPosition!=position && selectedPosition!=-1){
+//            ((BodyPartSelection)context).visibilityChanged(position,position);
+            if (holder.rl_left_section.getVisibility() == View.VISIBLE)
+                holder.rl_left_section.setVisibility(View.INVISIBLE);
+
+            if (holder.rl_right_section.getVisibility() == View.VISIBLE)
+                holder.rl_right_section.setVisibility(View.INVISIBLE);
+
+            if (holder.rl_left_right.getVisibility() == View.VISIBLE)
+                holder.rl_left_right.setVisibility(View.INVISIBLE);
+            if (holder.rl_left.getVisibility() == View.VISIBLE)
+                holder.rl_left.setVisibility(View.INVISIBLE);
+            if (holder.rl_right.getVisibility() == View.VISIBLE)
+                holder.rl_right.setVisibility(View.INVISIBLE);
+            if (holder.rl_mmt_and_session.getVisibility() == View.VISIBLE)
+                holder.rl_mmt_and_session.setVisibility(View.INVISIBLE);
+            if (holder.rl_mmt_session.getVisibility() == View.VISIBLE)
+                holder.rl_mmt_session.setVisibility(View.INVISIBLE);
+            if (holder.ll_tv_section.getVisibility() == View.VISIBLE)
+                holder.ll_tv_section.setVisibility(View.GONE);
+            if (holder.sp_set_goal.getVisibility() == View.VISIBLE) {
+                holder.sp_set_goal.setSelection(0);
+                holder.sp_set_goal.setVisibility(View.GONE);
+            }
+
+//                development
+            if (holder.sp_muscle_name.getVisibility() == View.VISIBLE) {
+                holder.sp_muscle_name.setSelection(0);
+                holder.sp_muscle_name.setVisibility(View.GONE);
+            }
+
+            if (holder.iv_bodypart.getVisibility() == View.INVISIBLE)
+                holder.iv_bodypart.setVisibility(View.VISIBLE);
+
+
+            holder.iv_bodypart.setEnabled(true);
+        }
+
+
+
+        //Reps array
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context,R.array.setSessionGoalSpinner, R.layout.support_simple_spinner_dropdown_item);
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         holder.sp_set_goal.setAdapter(adapter);
 
+        ArrayAdapter<CharSequence> array_muscle_names = new ArrayAdapter<CharSequence>(context, R.layout.support_simple_spinner_dropdown_item, MuscleOperation.getMusleNames(position));
+        array_muscle_names.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        holder.sp_muscle_name.setAdapter(array_muscle_names);
+
         holder.iv_bodypart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ((BodyPartSelection)context).reinitializeStatics();
                 ((BodyPartSelection)context).setFabVisible();
                 editor = preferences.edit();
-                if(!preferences.getString("bodyPartClicked","").equals("")){
-                    ((BodyPartSelection)context).visibilityChanged();
+                if(selectedPosition!=-1){
+                    ((BodyPartSelection)context).visibilityChanged(selectedPosition,position);
                 }
+                selectedPosition = position;
+                Log.i("clicked","clicked"+position);
                 bodypartSelected = holder.tv_body_part_name.getText().toString();
                 holder.iv_bodypart.setVisibility(View.INVISIBLE);
                 holder.rl_left_right.setVisibility(View.VISIBLE);
                 editor.putString("bodyPartClicked",position+"");
-                editor.commit();
+                editor.apply();
             }
         });
 
@@ -208,16 +260,19 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
                 Log.i("grade","gg"+grade);
                 if(!grade.equals("")) {
                     holder.tv_model_mmt_grade_left.setText("Mmt Grade -"+grade);
-                    holder.sp_set_goal.setVisibility(View.VISIBLE);
-                    holder.sp_set_goal.setSelection(0);
-                    holder.iv_bodypart.setEnabled(false);
                 }
-                else {
-                    holder.ll_tv_section.setVisibility(View.GONE);
-                    holder.sp_set_goal.setVisibility(View.GONE);
-                    holder.rl_mmt_session.setVisibility(View.VISIBLE);
-                    holder.iv_bodypart.setEnabled(false);
-                }
+                //development
+//                else {
+//                    holder.ll_tv_section.setVisibility(View.GONE);
+//                    holder.sp_set_goal.setVisibility(View.GONE);
+//                    holder.rl_mmt_session.setVisibility(View.VISIBLE);
+//                    holder.iv_bodypart.setEnabled(false);
+//                }
+                holder.ll_tv_section.setVisibility(View.VISIBLE);
+                holder.sp_set_goal.setVisibility(View.VISIBLE);
+                holder.sp_muscle_name.setVisibility(View.VISIBLE);
+                holder.sp_set_goal.setSelection(0);
+                holder.iv_bodypart.setEnabled(false);
             }
         });
 
@@ -237,16 +292,21 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
                 String grade = checkMmtDone(false, holder);
                 if(!grade.equals("")) {
                     holder.tv_model_mmt_grade_right.setText("Mmt Grade -"+grade);
-                    holder.sp_set_goal.setVisibility(View.VISIBLE);
-                    holder.sp_set_goal.setSelection(0);
-                    holder.iv_bodypart.setEnabled(false);
+
                 }
-                else {
-                    holder.ll_tv_section.setVisibility(View.GONE);
-                    holder.sp_set_goal.setVisibility(View.GONE);
-                    holder.rl_mmt_session.setVisibility(View.VISIBLE);
-                    holder.iv_bodypart.setEnabled(false);
-                }
+
+                //development
+//                else {
+//                    holder.ll_tv_section.setVisibility(View.GONE);
+//                    holder.sp_set_goal.setVisibility(View.GONE);
+//                    holder.rl_mmt_session.setVisibility(View.VISIBLE);
+//                    holder.iv_bodypart.setEnabled(false);
+//                }
+                holder.ll_tv_section.setVisibility(View.VISIBLE);
+                holder.sp_set_goal.setVisibility(View.VISIBLE);
+                holder.sp_muscle_name.setVisibility(View.VISIBLE);
+                holder.sp_set_goal.setSelection(0);
+                holder.iv_bodypart.setEnabled(false);
             }
         });
 
@@ -257,6 +317,7 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
                 //invisible the spinner and text section
                 holder.ll_tv_section.setVisibility(View.GONE);
                 holder.sp_set_goal.setVisibility(View.GONE);
+                holder.sp_muscle_name.setVisibility(View.GONE);
                 holder.rl_mmt_session.setVisibility(View.VISIBLE);
 
             }
@@ -267,7 +328,20 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
             public void onClick(View v) {
                 holder.ll_tv_section.setVisibility(View.GONE);
                 holder.sp_set_goal.setVisibility(View.GONE);
+                holder.sp_muscle_name.setVisibility(View.GONE);
                 holder.rl_mmt_session.setVisibility(View.VISIBLE);
+
+            }
+        });
+
+        holder.sp_muscle_name.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                BodyPartSelection.musclename = holder.sp_muscle_name.getSelectedItem().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
@@ -282,6 +356,7 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
                     holder.ll_tv_section.setVisibility(View.VISIBLE);
                     holder.sp_set_goal.setVisibility(View.GONE);
                     holder.tv_selected_goal_text.setText(holder.sp_set_goal.getSelectedItem().toString());
+                    BodyPartSelection.repsselected  = Integer.parseInt(holder.sp_set_goal.getSelectedItem().toString().substring(0,2));
 //                    if(selected==5){
 //                        holder.ll_tv_section.setBackgroundColor(R.color.red);
 //                    }
@@ -339,6 +414,10 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
                 holder.sp_set_goal.setVisibility(View.VISIBLE);
                 holder.sp_set_goal.setSelection(0);
 
+                //muscle names spinner
+                holder.sp_muscle_name.setVisibility(View.VISIBLE);
+                holder.sp_muscle_name.setSelection(0);
+
             }
         });
 
@@ -348,6 +427,10 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
                 holder.rl_mmt_session.setVisibility(View.INVISIBLE);
                 holder.sp_set_goal.setVisibility(View.VISIBLE);
                 holder.sp_set_goal.setSelection(0);
+
+                //muscle names spinner
+                holder.sp_muscle_name.setVisibility(View.VISIBLE);
+                holder.sp_muscle_name.setSelection(0);
             }
         });
 
@@ -556,5 +639,10 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
     @Override
     public int getItemCount() {
         return bodyPartsList==null?0:bodyPartsList.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
     }
 }

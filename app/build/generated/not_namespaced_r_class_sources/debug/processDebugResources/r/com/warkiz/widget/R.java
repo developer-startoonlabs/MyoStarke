@@ -66,21 +66,21 @@ public final class R {
     public static final class id {
         private id() {}
 
-        public static final int circular_bubble = 0x7f0a0065;
-        public static final int custom = 0x7f0a0084;
-        public static final int divider = 0x7f0a0094;
-        public static final int indicator_arrow = 0x7f0a00e1;
-        public static final int indicator_container = 0x7f0a00e2;
-        public static final int isb_progress = 0x7f0a00e6;
-        public static final int monospace = 0x7f0a0145;
-        public static final int none = 0x7f0a0159;
-        public static final int normal = 0x7f0a015a;
-        public static final int oval = 0x7f0a0162;
-        public static final int rectangle = 0x7f0a0191;
-        public static final int rounded_rectangle = 0x7f0a01ab;
-        public static final int sans = 0x7f0a01ac;
-        public static final int serif = 0x7f0a01c5;
-        public static final int square = 0x7f0a01e1;
+        public static final int circular_bubble = 0x7f0a0066;
+        public static final int custom = 0x7f0a0086;
+        public static final int divider = 0x7f0a0096;
+        public static final int indicator_arrow = 0x7f0a00e3;
+        public static final int indicator_container = 0x7f0a00e4;
+        public static final int isb_progress = 0x7f0a00e8;
+        public static final int monospace = 0x7f0a0147;
+        public static final int none = 0x7f0a015c;
+        public static final int normal = 0x7f0a015d;
+        public static final int oval = 0x7f0a0165;
+        public static final int rectangle = 0x7f0a0194;
+        public static final int rounded_rectangle = 0x7f0a01af;
+        public static final int sans = 0x7f0a01b0;
+        public static final int serif = 0x7f0a01c9;
+        public static final int square = 0x7f0a01e6;
     }
     public static final class layout {
         private layout() {}

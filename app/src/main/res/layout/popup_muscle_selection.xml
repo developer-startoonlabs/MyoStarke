@@ -1,0 +1,537 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+   <android.support.constraint.ConstraintLayout
+       android:id="@+id/cl_image"
+       android:layout_width="match_parent"
+       android:layout_height="280dp">
+
+       <android.support.constraint.ConstraintLayout
+           android:layout_width="match_parent"
+           android:layout_height="250dp"
+           android:id="@+id/bodyPartConstraint"
+           app:layout_constraintBottom_toBottomOf="parent"
+           app:layout_constraintEnd_toEndOf="parent"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintTop_toTopOf="parent">
+
+           <android.support.v7.widget.AppCompatImageView
+               android:id="@+id/bodypartImage"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:layout_alignParentStart="true"
+               android:layout_alignParentTop="true"
+               android:layout_marginStart="8dp"
+               android:layout_marginTop="8dp"
+               android:layout_marginEnd="8dp"
+               android:layout_marginBottom="8dp"
+               android:outlineProvider="background"
+               android:scaleType="fitXY"
+               android:src="@drawable/ankle_part"
+               android:visibility="visible"
+               app:layout_constraintBottom_toBottomOf="parent"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toTopOf="parent" />
+
+           <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+               android:id="@+id/rl_left_right"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:layout_marginStart="8dp"
+               android:layout_marginTop="8dp"
+               android:layout_marginEnd="8dp"
+               android:layout_marginBottom="8dp"
+               android:visibility="gone"
+               app:layout_constraintBottom_toBottomOf="parent"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toTopOf="parent">
+
+
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   android:layout_alignParentStart="true"
+                   android:layout_marginStart="0dp"
+                   android:baselineAligned="false"
+                   android:orientation="horizontal">
+
+                   <LinearLayout
+                       android:id="@+id/bp_model_left"
+                       android:layout_width="0dp"
+                       android:layout_height="match_parent"
+                       android:layout_weight="0.5"
+                       android:background="@drawable/drawable_body_part_left_section"
+                       android:gravity="center">
+
+                       <TextView
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:text="@string/left" />
+                   </LinearLayout>
+
+
+                   <LinearLayout
+                       android:id="@+id/bp_model_right"
+                       android:layout_width="0dp"
+                       android:layout_height="match_parent"
+                       android:layout_weight="0.5"
+                       android:background="@drawable/drawable_body_part_right_section"
+                       android:gravity="center"
+                       android:orientation="horizontal">
+
+                       <TextView
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+
+                           android:text="@string/right" />
+                   </LinearLayout>
+               </LinearLayout>
+           </RelativeLayout>
+
+           <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+               android:id="@+id/rl_left"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:layout_alignParentTop="true"
+               android:layout_marginStart="10dp"
+               android:layout_marginTop="10dp"
+               android:layout_marginEnd="14dp"
+               android:layout_marginBottom="13dp"
+               android:visibility="gone"
+               app:layout_constraintBottom_toBottomOf="parent"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toTopOf="parent">
+
+               <RelativeLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   android:layout_margin="4dp"
+                   android:background="@drawable/drawable_iv_left_overlay"></RelativeLayout>
+
+           </RelativeLayout>
+
+           <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+               android:id="@+id/rl_right"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:layout_alignParentTop="true"
+               android:layout_marginStart="10dp"
+               android:layout_marginTop="10dp"
+               android:layout_marginEnd="14dp"
+               android:layout_marginBottom="13dp"
+               android:visibility="gone"
+               app:layout_constraintBottom_toBottomOf="parent"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toTopOf="parent">
+
+               <RelativeLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   android:layout_margin="4dp"
+                   android:background="@drawable/drawable_iv_right_overlay"></RelativeLayout>
+
+           </RelativeLayout>
+
+           <RelativeLayout
+               android:id="@+id/rl_mmt_and_session"
+               android:layout_width="match_parent"
+               android:layout_height="250dp"
+               android:layout_alignParentTop="true"
+               android:layout_marginStart="16dp"
+               android:layout_marginTop="10dp"
+               android:layout_marginEnd="16dp"
+               android:layout_marginBottom="10dp"
+               android:visibility="visible"
+               app:layout_constraintBottom_toBottomOf="parent"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toTopOf="parent">
+
+               <RelativeLayout
+                   android:id="@+id/rl_left_section"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:visibility="gone">
+
+                   <TextView
+                       android:id="@+id/bp_model_mmt_grade_left"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_alignParentEnd="true"
+                       android:layout_marginTop="22dp"
+                       android:layout_marginEnd="8dp"
+                       android:text="@string/mmt_grade"
+                       android:textSize="12sp" />
+
+                   <TextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginStart="4dp"
+                       android:layout_marginTop="20dp"
+                       android:background="@color/white"
+                       android:paddingStart="10dp"
+                       android:paddingTop="2dp"
+                       android:paddingEnd="10dp"
+                       android:paddingBottom="2dp"
+                       android:text="@string/left" />
+
+
+               </RelativeLayout>
+
+
+               <RelativeLayout
+                   android:id="@+id/rl_right_section"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:visibility="gone">
+
+                   <TextView
+                       android:id="@+id/bp_model_mmt_grade_right"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_alignParentStart="true"
+                       android:layout_marginStart="4dp"
+                       android:layout_marginTop="22dp"
+                       android:text="@string/mmt_grade"
+                       android:textSize="12sp" />
+
+                   <TextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_alignParentEnd="true"
+                       android:layout_marginTop="20dp"
+                       android:layout_marginEnd="4dp"
+                       android:background="@color/white"
+                       android:paddingStart="8dp"
+                       android:paddingTop="2dp"
+                       android:paddingEnd="8dp"
+                       android:paddingBottom="2dp"
+                       android:text="@string/right" />
+               </RelativeLayout>
+           </RelativeLayout>
+
+           <RelativeLayout
+               android:id="@+id/rl_mmt_section"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:layout_alignParentTop="true"
+               android:visibility="gone">
+
+
+               <RelativeLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_marginTop="55dp"
+                   android:gravity="center">
+
+                   <TextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginStart="4dp"
+                       android:text="@string/select_mmt_grading"
+                       android:textColor="@color/pitch_black"
+                       android:textSize="18sp" />
+               </RelativeLayout>
+
+
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="40dp"
+                   android:layout_alignParentStart="true"
+                   android:layout_alignParentEnd="true"
+                   android:layout_alignParentBottom="true"
+                   android:layout_marginStart="8dp"
+                   android:layout_marginEnd="8dp"
+                   android:layout_marginBottom="80dp"
+                   android:baselineAligned="false"
+                   android:gravity="center">
+
+                   <LinearLayout
+                       android:id="@+id/bp_model_tv_0"
+                       android:layout_width="0dp"
+                       android:layout_height="wrap_content"
+                       android:layout_weight="0.2"
+                       android:gravity="center">
+
+                       <TextView
+                           android:id="@+id/mmt_tv_0"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:background="@drawable/drawable_mmt_circular_tv"
+                           android:gravity="center"
+                           android:text="@string/zero"
+                           android:textSize="16sp" />
+                   </LinearLayout>
+
+                   <LinearLayout
+                       android:id="@+id/bp_model_tv_1"
+                       android:layout_width="0dp"
+                       android:layout_height="wrap_content"
+                       android:layout_weight="0.2">
+
+                       <TextView
+                           android:id="@+id/mmt_tv_1"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:background="@drawable/drawable_mmt_circular_tv"
+                           android:gravity="center"
+                           android:text="@string/one"
+                           android:textSize="16sp" />
+                   </LinearLayout>
+
+                   <LinearLayout
+                       android:id="@+id/bp_model_tv_2"
+                       android:layout_width="0dp"
+                       android:layout_height="wrap_content"
+                       android:layout_weight="0.2">
+
+                       <TextView
+                           android:id="@+id/mmt_tv_2"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:background="@drawable/drawable_mmt_circular_tv"
+                           android:gravity="center"
+                           android:text="@string/two"
+                           android:textSize="16sp" />
+                   </LinearLayout>
+
+                   <LinearLayout
+                       android:id="@+id/bp_model_tv_3"
+                       android:layout_width="0dp"
+                       android:layout_height="wrap_content"
+                       android:layout_weight="0.2">
+
+                       <TextView
+                           android:id="@+id/mmt_tv_3"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:background="@drawable/drawable_mmt_circular_tv"
+                           android:gravity="center"
+                           android:text="@string/three"
+                           android:textSize="16sp" />
+                   </LinearLayout>
+
+                   <LinearLayout
+                       android:id="@+id/bp_model_tv_4"
+                       android:layout_width="0dp"
+                       android:layout_height="wrap_content"
+                       android:layout_weight="0.2">
+
+                       <TextView
+                           android:id="@+id/mmt_tv_4"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:background="@drawable/drawable_mmt_circular_tv"
+                           android:gravity="center"
+                           android:text="@string/four"
+                           android:textSize="16sp" />
+                   </LinearLayout>
+
+                   <LinearLayout
+                       android:id="@+id/bp_model_tv_5"
+                       android:layout_width="0dp"
+                       android:layout_height="wrap_content"
+                       android:layout_weight="0.2">
+
+                       <TextView
+                           android:id="@+id/mmt_tv_5"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:background="@drawable/drawable_mmt_circular_tv"
+                           android:gravity="center"
+                           android:text="@string/five"
+                           android:textSize="16sp" />
+                   </LinearLayout>
+               </LinearLayout>
+
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_alignParentBottom="true"
+                   android:layout_marginStart="4dp"
+                   android:layout_marginEnd="4dp"
+                   android:layout_marginBottom="35dp"
+                   android:baselineAligned="false">
+
+                   <LinearLayout
+                       android:id="@+id/bp_model_mmt_confirm"
+                       android:layout_width="0dp"
+                       android:layout_height="wrap_content"
+                       android:layout_weight="0.5"
+                       android:gravity="center">
+
+                       <TextView
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:alpha="0.8"
+                           android:text="@string/confirm"
+                           android:textColor="@color/pitch_black"
+                           android:textSize="18sp" />
+                   </LinearLayout>
+
+                   <LinearLayout
+                       android:id="@+id/bp_model_mmt_cancel"
+                       android:layout_width="0dp"
+                       android:layout_height="wrap_content"
+                       android:layout_weight="0.5"
+                       android:gravity="center">
+
+                       <TextView
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:alpha="0.8"
+                           android:text="@string/cancel"
+                           android:textColor="@color/pitch_black"
+                           android:textSize="18sp" />
+                   </LinearLayout>
+
+               </LinearLayout>
+
+           </RelativeLayout>
+
+           <LinearLayout
+               android:id="@+id/ll_tv_section"
+               android:layout_width="match_parent"
+               android:layout_height="30dp"
+               android:layout_marginStart="16dp"
+               android:layout_marginEnd="20dp"
+               android:layout_marginBottom="8dp"
+               android:background="@drawable/drawable_background_yellow"
+               android:baselineAligned="false"
+               android:orientation="horizontal"
+               android:visibility="gone"
+               app:layout_constraintBottom_toBottomOf="@+id/bodypartImage"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintStart_toStartOf="parent">
+
+               <LinearLayout
+                   android:layout_width="0dp"
+                   android:layout_height="wrap_content"
+                   android:layout_gravity="center"
+                   android:layout_weight="1"
+                   android:baselineAligned="false"
+                   android:orientation="horizontal">
+
+                   <LinearLayout
+                       android:id="@+id/ll_tv_minus"
+                       android:layout_width="30dp"
+                       android:layout_height="match_parent"
+                       android:layout_marginStart="5dp"
+                       android:background="@drawable/drawable_mmt_circular_tv"
+                       android:gravity="center"
+                       android:orientation="vertical">
+
+                       <TextView
+                           android:id="@+id/tv_minus_goal"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:text="@string/minus"
+                           android:textColor="@color/pitch_black"
+
+                           android:textSize="15sp" />
+                   </LinearLayout>
+
+                   <LinearLayout
+                       android:layout_width="0dp"
+                       android:layout_height="match_parent"
+                       android:layout_weight="1"
+                       android:gravity="center">
+
+                       <TextView
+                           android:id="@+id/tv_selected_goal_text"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:text=""
+                           android:textColor="@color/pitch_black" />
+                   </LinearLayout>
+
+                   <LinearLayout
+                       android:id="@+id/ll_tv_plus"
+                       android:layout_width="30dp"
+                       android:layout_height="20dp"
+                       android:layout_marginEnd="5dp"
+                       android:background="@drawable/drawable_mmt_circular_tv"
+                       android:gravity="center">
+
+                       <TextView
+                           android:id="@+id/tv_plus_goal"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:text="@string/plus"
+
+                           android:textColor="@color/pitch_black"
+                           android:textSize="15sp" />
+                   </LinearLayout>
+               </LinearLayout>
+           </LinearLayout>
+
+           <Spinner
+               android:id="@+id/sp_set_goal"
+               android:layout_width="match_parent"
+               android:layout_height="30dp"
+               android:layout_marginStart="15dp"
+               android:layout_marginEnd="20dp"
+               android:layout_marginBottom="8dp"
+               android:background="@drawable/spinner_background"
+               android:elevation="3dp"
+               android:gravity="center"
+               android:outlineProvider="background"
+               android:scaleType="fitXY"
+               android:visibility="gone"
+               app:layout_constraintBottom_toBottomOf="@+id/bodypartImage"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintStart_toStartOf="parent" />
+
+           <Spinner
+               android:id="@+id/sp_set_muscle"
+               android:layout_width="match_parent"
+               android:layout_height="30dp"
+               android:layout_marginStart="15dp"
+               android:layout_marginEnd="20dp"
+               android:layout_marginBottom="64dp"
+               android:background="@drawable/spinner_background"
+               android:elevation="3dp"
+               android:gravity="center"
+               android:outlineProvider="background"
+               android:scaleType="fitXY"
+               android:visibility="gone"
+               app:layout_constraintBottom_toBottomOf="@+id/bodypartImage"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintStart_toStartOf="parent" />
+
+       </android.support.constraint.ConstraintLayout>
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_marginStart="16dp"
+           android:layout_marginTop="24dp"
+           android:layout_marginEnd="16dp"
+           android:layout_marginBottom="8dp"
+           android:gravity="center"
+           android:orientation="horizontal"
+           android:visibility="visible"
+           app:layout_constraintBottom_toBottomOf="@+id/bodyPartConstraint"
+           app:layout_constraintEnd_toEndOf="parent"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintTop_toBottomOf="@+id/bodyPartConstraint">
+
+           <TextView
+               android:id="@+id/tv_body_part_name"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="@string/temp_body_part"
+               android:textSize="17sp" />
+       </LinearLayout>
+
+   </android.support.constraint.ConstraintLayout>
+
+</android.support.v7.widget.CardView>

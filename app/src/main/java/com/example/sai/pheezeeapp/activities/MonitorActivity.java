@@ -124,7 +124,7 @@ public class MonitorActivity extends AppCompatActivity {
     BluetoothGatt mBluetoothGatt;
     TextView Angle,tv_snap;
     TextView Repetitions;
-    TextView holdTime,tv_session_no, tv_body_part;
+    TextView holdTime,tv_session_no, tv_body_part, tv_repsselected;
     TextView EMG;
     ProtractorView rangeOfMotion;
     ArcViewInside arcViewInside;
@@ -216,6 +216,7 @@ public class MonitorActivity extends AppCompatActivity {
         tv_max_angle                = findViewById(R.id.tv_max_angle);
         tv_min_angle                = findViewById(R.id.tv_min_angle);
         tv_max_emg                  = findViewById(R.id.tv_max_emg_show);
+        tv_repsselected             = findViewById(R.id.repsSelected);
         handler                     = new Handler();
         emgJsonArray                = new JSONArray();
         romJsonArray                = new JSONArray();
@@ -256,6 +257,12 @@ public class MonitorActivity extends AppCompatActivity {
         orientation = getIntent().getStringExtra("orientation");
         tv_body_part.setText(tv_body_part.getText().toString().concat(bodypart));
         tv_body_part.setText(orientation+"-"+bodypart+"-"+BodyPartSelection.exercisename);
+        if(BodyPartSelection.repsselected!=0){
+            tv_repsselected.setText("/".concat(String.valueOf(BodyPartSelection.repsselected)));
+        }
+        else {
+            tv_repsselected.setVisibility(View.GONE);
+        }
         //Getting the max and min angle of the particular body part
         maxAnglePart = angleOperations.getMaxAngle(bodypart);
         minAnglePart = angleOperations.getMinAngle(bodypart);
@@ -1554,9 +1561,10 @@ public class MonitorActivity extends AppCompatActivity {
                             object.put("minangle",minAngle);
                             object.put("anglecorrected",angleCorrection);
                             object.put("maxemg",maxEmgValue);
-                            object.put("holdtime","00 : 50");
+                            object.put("holdtime",holdTime.getText().toString());
                             object.put("bodypart",bodypart);
                             object.put("sessiontime",tempsession);
+
                             object.put("numofreps",Repetitions.getText().toString());
                             json_phizio.put("phiziopatients",jsonData);
                             editor = sharedPreferences.edit();
@@ -1602,6 +1610,9 @@ public class MonitorActivity extends AppCompatActivity {
                                 object.put("exercisename",BodyPartSelection.exercisename);
                                 object.put("commentsession",BodyPartSelection.commentsession);
                                 object.put("symptoms",BodyPartSelection.symptoms);
+                                object.put("orientation", orientation);
+                                object.put("repsselected",BodyPartSelection.repsselected);
+                                object.put("musclename", BodyPartSelection.musclename);
                                 mqttMessage.setPayload(object.toString().getBytes());
 
                                 temp = new JSONObject();

@@ -25,14 +25,11 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc6b1f00-4419-4fc8-a13f-473665dd50f5" name="Default" comment="default commit body part update.">
+    <list default="true" id="fc6b1f00-4419-4fc8-a13f-473665dd50f5" name="Default" comment="default commit emg formulae development.">
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/caches/gradle_models.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/gradle_models.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/generated/not_namespaced_r_class_sources/debug/processDebugResources/r/android/support/asynclayoutinflater/R.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/generated/not_namespaced_r_class_sources/debug/processDebugResources/r/android/support/asynclayoutinflater/R.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/generated/not_namespaced_r_class_sources/debug/processDebugResources/r/android/support/compat/R.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/generated/not_namespaced_r_class_sources/debug/processDebugResources/r/android/support/compat/R.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/generated/not_namespaced_r_class_sources/debug/processDebugResources/r/android/support/constraint/R.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/generated/not_namespaced_r_class_sources/debug/processDebugResources/r/android/support/constraint/R.java" afterDir="false" />
@@ -176,22 +173,24 @@
       <change beforePath="$PROJECT_DIR$/app/build/intermediates/blame/res/debug/multi-v2/values-zu.json" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/blame/res/debug/multi-v2/values-zu.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/intermediates/blame/res/debug/multi-v2/values.json" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/blame/res/debug/multi-v2/values.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/intermediates/blame/res/debug/single/debug.json" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/blame/res/debug/single/debug.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/debug-mergeJavaRes/merge-state" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/debug-mergeJavaRes/merge-state" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/debug-mergeJniLibs/merge-state" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/debug-mergeJniLibs/merge-state" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeDebugAssets/merger.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeDebugAssets/merger.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeDebugResources/compile-file-map.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeDebugResources/merger.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeDebugResources/merger.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/intermediates/merged_manifests/debug/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/merged_manifests/debug/AndroidManifest.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/intermediates/processed_res/debug/processDebugResources/out/resources-debug.ap_" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/processed_res/debug/processDebugResources/out/resources-debug.ap_" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/intermediates/res/merged/debug/values_values.arsc.flat" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/res/merged/debug/values_values.arsc.flat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/intermediates/res/merged/debug/layout_fragment_monitor.xml.flat" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/res/merged/debug/layout_fragment_monitor.xml.flat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/intermediates/res/symbol-table-with-package/debug/package-aware-r.txt" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/res/symbol-table-with-package/debug/package-aware-r.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/intermediates/symbols/debug/R.txt" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/symbols/debug/R.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/mergeJavaRes/debug/0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/mergeJavaRes/debug/0.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/outputs/apk/debug/app-debug.apk" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/outputs/apk/debug/app-debug.apk" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/outputs/logs/manifest-merger-debug-report.txt" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/outputs/logs/manifest-merger-debug-report.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/BodyPartSelection.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/BodyPartSelection.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/MonitorActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/MonitorActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/SessionReportActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/SessionReportActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/layout_body_part_selection_model.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/layout_body_part_selection_model.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/OnStartActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/OnStartActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/adapters/BodyPartWithMmtRecyclerView.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/adapters/BodyPartWithMmtRecyclerView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/utils/MuscleOperation.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/utils/MuscleOperation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/drawable_mmt_grade_selected.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/drawable_mmt_grade_selected.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_monitor.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_monitor.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/popup_muscle_selection.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/popup_muscle_selection.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -229,39 +228,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/MonitorActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="167">
-              <caret line="1808" column="56" selection-start-line="1808" selection-start-column="56" selection-end-line="1808" selection-end-column="56" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#30882#31214#0" expanded="true" />
-                <element signature="e#31213#31214#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/PatientsView.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="151" column="41" selection-start-line="151" selection-start-column="41" selection-end-line="151" selection-end-column="41" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#13191#13390#0" expanded="true" />
-                <element signature="e#13389#13390#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/PhizioProfile.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-40">
-              <caret line="488" column="55" selection-start-line="488" selection-start-column="55" selection-end-line="488" selection-end-column="55" />
+            <state relative-caret-position="7412">
+              <caret line="485" column="42" selection-start-line="485" selection-start-column="33" selection-end-line="485" selection-end-column="42" />
             </state>
           </provider>
         </entry>
@@ -269,75 +240,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/BodyPartSelection.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="57" column="13" selection-start-line="57" selection-start-column="13" selection-end-line="57" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/layout_body_part_selection_new_model.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="22" column="47" selection-end-line="460" selection-end-column="37" />
-            </state>
-          </provider>
-          <provider editor-type-id="android-designer2" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/adapters/BodyPartWithMmtRecyclerView.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-34">
-              <caret line="151" column="5" selection-start-line="151" selection-start-column="5" selection-end-line="151" selection-end-column="5" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/layout_body_part_selection_model.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="79" selection-start-line="79" selection-end-line="79" />
-              <folding>
-                <element signature="e#2455#2469#0" expanded="true" />
-                <element signature="e#3167#3182#0" expanded="true" />
-                <element signature="e#5712#5731#0" expanded="true" />
-                <element signature="e#6190#6204#0" expanded="true" />
-                <element signature="e#6974#6993#0" expanded="true" />
-                <element signature="e#7265#7280#0" expanded="true" />
-                <element signature="e#8578#8606#0" expanded="true" />
-                <element signature="e#9847#9861#0" expanded="true" />
-                <element signature="e#10499#10512#0" expanded="true" />
-                <element signature="e#11150#11163#0" expanded="true" />
-                <element signature="e#11801#11816#0" expanded="true" />
-                <element signature="e#12454#12468#0" expanded="true" />
-                <element signature="e#13106#13120#0" expanded="true" />
-                <element signature="e#14149#14166#0" expanded="true" />
-                <element signature="e#14782#14798#0" expanded="true" />
-                <element signature="e#16393#16408#0" expanded="true" />
-                <element signature="e#17780#17794#0" expanded="true" />
-                <element signature="e#19524#19548#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-          <provider editor-type-id="android-designer2" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/retrofit/GetDataService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="7" column="33" selection-start-line="7" selection-start-column="33" selection-end-line="7" selection-end-column="33" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/retrofit/RetrofitClientInstance.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="23" column="1" selection-start-line="23" selection-start-column="1" selection-end-line="23" selection-end-column="1" />
+            <state relative-caret-position="2618">
+              <caret line="210" column="17" selection-start-line="210" selection-start-column="17" selection-end-line="210" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -345,14 +249,78 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/SessionReportActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2618">
-              <caret line="211" column="104" selection-start-line="211" selection-start-column="104" selection-end-line="211" selection-end-column="104" />
+            <state relative-caret-position="2720">
+              <caret line="211" column="59" selection-start-line="211" selection-start-column="36" selection-end-line="211" selection-end-column="59" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/MonitorActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="16847">
+              <caret line="1084" column="38" selection-start-line="1084" selection-start-column="38" selection-end-line="1084" selection-end-column="38" />
               <folding>
-                <element signature="e#5170#5755#0" expanded="true" />
-                <element signature="e#5754#5755#0" expanded="true" />
-                <element signature="e#6593#8688#0" expanded="true" />
-                <element signature="e#8687#8688#0" expanded="true" />
+                <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/LoginActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="7106">
+              <caret line="461" column="54" selection-start-line="461" selection-start-column="54" selection-end-line="461" selection-end-column="54" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/SignUpActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="3417">
+              <caret line="233" column="62" selection-start-line="233" selection-start-column="62" selection-end-line="233" selection-end-column="62" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/DeviceInfoActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="581">
+              <caret line="138" column="36" selection-start-line="138" selection-start-column="36" selection-end-line="138" selection-end-column="36" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/fragments/ReportWeek.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="5304">
+              <caret line="367" column="44" selection-start-line="367" selection-start-column="44" selection-end-line="367" selection-end-column="44" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/adapters/BodyPartWithMmtRecyclerView.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="6426">
+              <caret line="406" column="28" selection-start-line="406" selection-start-column="24" selection-end-line="406" selection-end-column="28" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_body_part_selection.xml">
+          <provider editor-type-id="android-designer2" />
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2244">
+              <caret line="132" column="39" selection-start-line="132" selection-start-column="39" selection-end-line="132" selection-end-column="39" />
             </state>
           </provider>
         </entry>
@@ -370,23 +338,7 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>set</find>
-      <find>startsess</find>
-      <find>moni</find>
-      <find>home</find>
-      <find>Mo</find>
-      <find>connectGatt</find>
-      <find>ota</find>
-      <find>bleS</find>
-      <find>maxA</find>
-      <find>appin</find>
-      <find>messageA</find>
-      <find>bluetoothRece</find>
-      <find>disco</find>
-      <find>closed</find>
-      <find>onDestr</find>
       <find>onDescr</find>
-      <find>onDes</find>
       <find>date</find>
       <find>date123</find>
       <find>mCharacteristic2</find>
@@ -399,7 +351,23 @@
       <find>angleCorrection</find>
       <find>angleCorrec</find>
       <find>Angle</find>
+      <find>layout_body_part_selection_new_model</find>
+      <find>gri</find>
+      <find>grade</find>
       <find>Log</find>
+      <find>orienta</find>
+      <find>orientat</find>
+      <find>orientationSelected</find>
+      <find>Main</find>
+      <find>BluetoothRe</find>
+      <find>onCharacteris</find>
+      <find>searchView</find>
+      <find>startse</find>
+      <find>onNaviga</find>
+      <find>onDes</find>
+      <find>save</find>
+      <find>write</find>
+      <find>Message</find>
     </findStrings>
     <replaceStrings>
       <replace>iv_angle_correction</replace>
@@ -409,7 +377,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="body_part_update" />
+        <entry key="$PROJECT_DIR$" value="emg_formulae_development" />
       </map>
     </option>
     <option name="PUSH_TAGS">
@@ -422,13 +390,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/custom_green_spinner.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_phizio_profile.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/drawable/devider_gridview_bodypart.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/Classes/DividerItemDecorator.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/values/res_arr.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout-land/fragment_monitor.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/utils/ByteToArrayOperations.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/Dialogs/SessionSummaryDialog.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/utils/NetworkOperations.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/utils/DateOperations.java" />
@@ -440,29 +401,22 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/pop_otp.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/RawDataCollection.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/styles.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/adapters/BodyPartWithMmtRecyclerView.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/popup_comment_session.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/popup_set_reference.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/views/ArcViewInside.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/utils/PatientOperations.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/LoginActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/SignUpActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/services/MqttHelper.java" />
         <option value="$PROJECT_DIR$/app/src/androidTest/java/com/example/sai/pheezeeapp/ExampleInstrumentedTest.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/content_patients_view.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout-land/content_patients_view.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/dfu/DfuActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/PhizioProfile.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_monitor.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_app_info.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/AppInfo.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/layout_body_part_selection_new_model.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/utils/RegexOperations.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/BodyPartSelection.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/fragments/ReportWeek.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/layout_login_continue.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/ScanDevicesActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/PatientsView.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/session_summary.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_sign_up.xml" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
@@ -470,9 +424,23 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/retrofit/RetrofitClientInstance.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/SessionReportActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/layout_body_part_selection_model.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/retrofit/GetDataService.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/layout_body_part_selection_model.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/layout_body_part_selection_with_muscle_name.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/drawable/drawable_mmt_circular_tv.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/layout_body_part_selection_new_model.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/utils/MuscleOperation.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/drawable/drawable_mmt_grade_selected.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/PhizioProfile.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_monitor.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/services/MqttHelper.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/adapters/BodyPartWithMmtRecyclerView.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/BodyPartSelection.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/MonitorActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/popup_muscle_selection.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/OnStartActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/PatientsView.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/DeviceInfoActivity.java" />
       </list>
     </option>
   </component>
@@ -490,58 +458,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="AndroidView">
-        <subPane>
-          <expand>
-            <path>
-              <item name="pheezeeandroid" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-            </path>
-            <path>
-              <item name="pheezeeandroid" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-            </path>
-            <path>
-              <item name="pheezeeandroid" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="pheezeeapp" type="cbb59c9e:AndroidPsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="pheezeeandroid" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="pheezeeapp" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="activities" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="pheezeeandroid" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="pheezeeapp" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="adapters" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="pheezeeandroid" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="pheezeeapp" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="retrofit" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="pheezeeandroid" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="res" type="d4f16f75:AndroidResFolderNode" />
-            </path>
-            <path>
-              <item name="pheezeeandroid" type="1abcf292:AndroidViewProjectNode" />
-              <item name="Gradle Scripts" type="ae0cef3a:AndroidBuildScriptsGroupNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -594,8 +512,91 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
+      <pane id="AndroidView">
+        <subPane>
+          <expand>
+            <path>
+              <item name="pheezeeandroid" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+            </path>
+            <path>
+              <item name="pheezeeandroid" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="manifests" type="f94875db:AndroidManifestsGroupNode" />
+            </path>
+            <path>
+              <item name="pheezeeandroid" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+            </path>
+            <path>
+              <item name="pheezeeandroid" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="pheezeeapp" type="cbb59c9e:AndroidPsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pheezeeandroid" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="pheezeeapp" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="activities" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pheezeeandroid" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="pheezeeapp" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="activities" type="462c0819:PsiDirectoryNode" />
+              <item name="ScanDevicesActivity.java" type="529ef68f:ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
+            </path>
+            <path>
+              <item name="pheezeeandroid" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="pheezeeapp" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="adapters" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pheezeeandroid" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="pheezeeapp" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="classes" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pheezeeandroid" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="pheezeeapp" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="fragments" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pheezeeandroid" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="pheezeeapp" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="services" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pheezeeandroid" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="res" type="d4f16f75:AndroidResFolderNode" />
+            </path>
+            <path>
+              <item name="pheezeeandroid" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="res" type="d4f16f75:AndroidResFolderNode" />
+              <item name="layout" type="ddeffd01:AndroidResFolderTypeNode" />
+            </path>
+            <path>
+              <item name="pheezeeandroid" type="1abcf292:AndroidViewProjectNode" />
+              <item name="Gradle Scripts" type="ae0cef3a:AndroidBuildScriptsGroupNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -603,7 +604,7 @@
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
     <property name="device.picker.selection" value="65MVV4KRIVEACY8T" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/app/src/main/res/drawable-mdpi" />
-    <property name="last_opened_file_path" value="$USER_HOME$/android-mvvm-architecture-master" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../SessionApplication" />
     <property name="settings.editor.selected.configurable" value="settings.github" />
     <property name="sync.plugin.last.upgrade.timestamp" value="1554714232378" />
   </component>
@@ -924,7 +925,14 @@
       <option name="project" value="LOCAL" />
       <updated>1559887494966</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="default commit body part selection update.">
+      <created>1560153486564</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1560153486564</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TodoView">
@@ -939,10 +947,10 @@
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.7174556" visible="true" weight="0.1932886" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.9234234" visible="true" weight="0.19261745" />
       <window_info id="Structure" order="1" sideWeight="0.2647059" side_tool="true" weight="0.22314675" />
       <window_info id="Designer" order="2" />
-      <window_info id="Build Variants" order="3" sideWeight="0.28254437" side_tool="true" visible="true" weight="0.1932886" />
+      <window_info id="Build Variants" order="3" sideWeight="0.076576576" side_tool="true" visible="true" weight="0.19261745" />
       <window_info id="Image Layers" order="4" />
       <window_info id="Favorites" order="5" sideWeight="0.17274939" side_tool="true" weight="0.2344932" />
       <window_info id="Captures" order="6" side_tool="true" weight="0.25" />
@@ -950,16 +958,16 @@
       <window_info id="Resources Explorer" order="8" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.04249292" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49924356" weight="0.101983" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49924356" weight="0.32577905" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.71954674" />
-      <window_info anchor="bottom" id="Build" order="7" sideWeight="0.49924356" weight="0.04249292" />
-      <window_info anchor="bottom" id="Android Profiler" order="8" weight="0.03442623" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50378215" side_tool="true" weight="0.045901638" />
+      <window_info anchor="bottom" id="Build" order="7" sideWeight="0.49924356" visible="true" weight="0.056657225" />
+      <window_info anchor="bottom" id="Android Profiler" order="8" show_stripe_button="false" weight="0.03442623" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.504698" side_tool="true" weight="0.5028329" />
       <window_info anchor="bottom" id="Logcat" order="10" weight="0.70163935" />
-      <window_info anchor="bottom" id="Version Control" order="11" sideWeight="0.49621785" weight="0.04249292" />
+      <window_info anchor="bottom" id="Version Control" order="11" sideWeight="0.49530202" weight="0.5028329" />
       <window_info anchor="bottom" id="Terminal" order="12" sideWeight="0.49924356" weight="0.78688526" />
       <window_info anchor="bottom" id="Messages" order="13" weight="0.42786884" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -967,7 +975,7 @@
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Palette&#9;" order="3" />
       <window_info anchor="right" id="Capture Analysis" order="4" />
-      <window_info anchor="right" id="Preview" order="5" weight="0.3295302" />
+      <window_info anchor="right" id="Preview" order="5" weight="0.29932886" />
       <window_info anchor="right" id="Device File Explorer" order="6" sideWeight="0.5010846" side_tool="true" weight="0.18532526" />
       <window_info anchor="right" id="Theme Preview" order="7" />
       <window_info anchor="right" x="740" y="288" width="150" height="52" id="Attributes" order="8" sideWeight="0.4989154" weight="0.18532526" />
@@ -1071,149 +1079,10 @@
     <MESSAGE value="default commit body part update&#10;." />
     <MESSAGE value="default commit emg formulae development." />
     <MESSAGE value="default commit body part update." />
-    <option name="LAST_COMMIT_MESSAGE" value="default commit body part update." />
+    <MESSAGE value="Pdf report generation on click on the day in the daily report, also updated the session details with the angle corrected feild.&#10;Version:- 2.0.7(under development not fully tested)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Pdf report generation on click on the day in the daily report, also updated the session details with the angle corrected feild.&#10;Version:- 2.0.7(under development not fully tested)" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_device_info.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="14" lean-forward="true" selection-end-line="332" selection-end-column="14" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_scanner.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-      <provider editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_on_start.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-      <provider editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_session_report.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-      <provider editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_scan_devices.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-      <provider editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_patients_view.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-      <provider editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_home.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-      <provider editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_phizio_profile.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="29" selection-start-line="7" selection-start-column="29" selection-end-line="7" selection-end-column="29" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/patient_icon.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/ConnectivityChangeReceiver.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="23" column="5" selection-start-line="23" selection-start-column="5" selection-end-line="23" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/androidTest/java/com/example/sai/pheezeeapp/ExampleInstrumentedTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="14" column="51" selection-start-line="14" selection-start-column="17" selection-end-line="14" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_dfu.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="25" column="19" selection-start-line="25" selection-start-column="19" selection-end-line="25" selection-end-column="19" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/MqttService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="29" column="13" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/OnSwipeTouchListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="17" column="8" selection-start-line="17" selection-start-column="8" selection-end-line="17" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/testView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="23" column="41" selection-start-line="23" selection-start-column="41" selection-end-line="23" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/ScanDevicesActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="646">
-          <caret line="72" column="37" selection-start-line="72" selection-start-column="37" selection-end-line="72" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_raw_data_collection.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-      <provider editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/views/custom_graph/ApiData.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/views/custom_graph/ChangeInterface.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="39" selection-start-line="4" selection-start-column="36" selection-end-line="4" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/views/custom_graph/EmonjiBarGraph.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3298">
-          <caret line="234" column="81" selection-start-line="234" selection-start-column="81" selection-end-line="234" selection-end-column="81" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_report_week.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="18" selection-start-line="6" selection-start-column="18" selection-end-line="6" selection-end-column="18" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/emonji_bar_attr.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="20" selection-start-line="11" selection-start-column="20" selection-end-line="11" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/utils/TimeOperations.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/utils/RegexOperations.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="765">
@@ -1237,25 +1106,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/utils/ByteToArrayOperations.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="25" column="16" selection-start-line="25" selection-start-column="16" selection-end-line="25" selection-end-column="16" />
+        <state relative-caret-position="952">
+          <caret line="56" column="22" selection-start-line="56" selection-start-column="22" selection-end-line="56" selection-end-column="22" />
+          <folding>
+            <element signature="e#1687#1688#0" expanded="true" />
+            <element signature="e#1723#1724#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/utils/BatteryOperation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="28" column="22" selection-start-line="28" selection-start-column="22" selection-end-line="28" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/utils/Stopwatch.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="28" column="5" selection-start-line="28" selection-start-column="5" selection-end-line="28" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/utils/Stopwatch.java" />
     <entry file="file://$PROJECT_DIR$/app/src/main/res/xml/provider_paths.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
@@ -1270,68 +1130,38 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/SignUpActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4709">
-          <caret line="328" column="45" selection-start-line="328" selection-start-column="45" selection-end-line="328" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/session_summary.xml">
+      <provider editor-type-id="android-designer2" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
           <caret line="13" column="44" selection-start-line="13" selection-start-column="44" selection-end-line="13" selection-end-column="44" />
         </state>
       </provider>
-      <provider editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_monitor.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4420">
-          <caret line="260" column="41" selection-start-line="260" selection-start-column="41" selection-end-line="260" selection-end-column="41" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider editor-type-id="android-manifest" />
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="67" selection-start-line="11" selection-start-column="67" selection-end-line="11" selection-end-column="67" />
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout-land/fragment_monitor.xml">
-      <provider selected="true" editor-type-id="text-editor" />
       <provider editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/utils/AngleOperations.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-        </state>
-      </provider>
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_sign_up.xml">
+      <provider editor-type-id="android-designer2" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3043">
           <caret line="179" selection-start-line="179" selection-end-line="179" />
         </state>
       </provider>
-      <provider editor-type-id="android-designer2" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/layout_login_continue.xml">
+      <provider editor-type-id="android-designer2" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2006">
           <caret line="118" column="45" selection-start-line="118" selection-start-column="45" selection-end-line="118" selection-end-column="45" />
         </state>
       </provider>
-      <provider editor-type-id="android-designer2" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="454">
-          <caret line="84" column="64" selection-start-line="84" selection-start-column="64" selection-end-line="84" selection-end-column="64" />
+        <state relative-caret-position="867">
+          <caret line="51" column="5" selection-start-line="51" selection-start-column="5" selection-end-line="51" selection-end-column="5" />
         </state>
       </provider>
     </entry>
@@ -1342,79 +1172,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/PatientsView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="151" column="41" selection-start-line="151" selection-start-column="41" selection-end-line="151" selection-end-column="41" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#13191#13390#0" expanded="true" />
-            <element signature="e#13389#13390#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/PhizioProfile.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-40">
-          <caret line="488" column="55" selection-start-line="488" selection-start-column="55" selection-end-line="488" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/BodyPartSelection.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="57" column="13" selection-start-line="57" selection-start-column="13" selection-end-line="57" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/adapters/BodyPartWithMmtRecyclerView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-34">
-          <caret line="151" column="5" selection-start-line="151" selection-start-column="5" selection-end-line="151" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/layout_body_part_selection_new_model.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="22" column="47" selection-end-line="460" selection-end-column="37" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/layout_body_part_selection_model.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="79" selection-start-line="79" selection-end-line="79" />
-          <folding>
-            <element signature="e#2455#2469#0" expanded="true" />
-            <element signature="e#3167#3182#0" expanded="true" />
-            <element signature="e#5712#5731#0" expanded="true" />
-            <element signature="e#6190#6204#0" expanded="true" />
-            <element signature="e#6974#6993#0" expanded="true" />
-            <element signature="e#7265#7280#0" expanded="true" />
-            <element signature="e#8578#8606#0" expanded="true" />
-            <element signature="e#9847#9861#0" expanded="true" />
-            <element signature="e#10499#10512#0" expanded="true" />
-            <element signature="e#11150#11163#0" expanded="true" />
-            <element signature="e#11801#11816#0" expanded="true" />
-            <element signature="e#12454#12468#0" expanded="true" />
-            <element signature="e#13106#13120#0" expanded="true" />
-            <element signature="e#14149#14166#0" expanded="true" />
-            <element signature="e#14782#14798#0" expanded="true" />
-            <element signature="e#16393#16408#0" expanded="true" />
-            <element signature="e#17780#17794#0" expanded="true" />
-            <element signature="e#19524#19548#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/retrofit/GetDataService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="7" column="33" selection-start-line="7" selection-start-column="33" selection-end-line="7" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/RawDataCollection.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6851">
+          <caret line="474" column="25" selection-start-line="444" selection-start-column="24" selection-end-line="474" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/utils/AngleOperations.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/utils/BatteryOperation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="28" column="22" selection-start-line="28" selection-start-column="22" selection-end-line="28" selection-end-column="22" />
         </state>
       </provider>
     </entry>
@@ -1425,28 +1207,255 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/SessionReportActivity.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/spinner_background.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/layout_body_part_selection_new_model.xml">
+      <provider editor-type-id="android-designer2" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7463">
+          <caret line="439" column="8" selection-start-line="439" selection-start-column="8" selection-end-line="457" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/layout_body_part_selection_model.xml">
+      <provider editor-type-id="android-designer2" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6868">
+          <caret line="404" column="36" selection-start-line="404" selection-start-column="36" selection-end-line="404" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/drawable_mmt_grade_selected.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" selection-start-line="10" selection-end-line="10" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/drawable_mmt_circular_tv.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="24" selection-start-line="7" selection-start-column="24" selection-end-line="7" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/drawable_background_yellow.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/services/MqttHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="544">
+          <caret line="53" selection-start-line="53" selection-end-line="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_monitor.xml">
+      <provider editor-type-id="android-designer2" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6732">
+          <caret line="396" column="58" selection-start-line="396" selection-start-column="58" selection-end-line="396" selection-end-column="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/popup_muscle_selection.xml">
+      <provider editor-type-id="android-designer2" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="8670">
+          <caret line="510" selection-start-line="510" selection-end-line="510" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/OnStartActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="561">
+          <caret line="43" column="50" selection-start-line="43" selection-start-column="50" selection-end-line="43" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/services/Scanner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/patient_layout.xml">
+      <provider editor-type-id="android-designer2" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="527">
+          <caret line="31" column="60" selection-start-line="31" selection-start-column="37" selection-end-line="31" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/content_patients_view.xml">
+      <provider editor-type-id="android-designer2" />
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/app_bar_patients_view.xml">
+      <provider editor-type-id="android-designer2" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2040">
+          <caret line="120" column="40" selection-start-line="120" selection-start-column="40" selection-end-line="120" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider editor-type-id="android-manifest" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1938">
+          <caret line="114" column="64" selection-start-line="114" selection-start-column="60" selection-end-line="114" selection-end-column="64" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/layout_body_part_selection_with_muscle_name.xml">
+      <provider editor-type-id="android-designer2" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5882">
+          <caret line="346" column="8" selection-start-line="346" selection-start-column="8" selection-end-line="346" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/utils/MuscleOperation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="20" column="101" selection-start-line="20" selection-start-column="101" selection-end-line="20" selection-end-column="101" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/classes/MyBottomSheetDialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="341">
+          <caret line="115" column="53" selection-start-line="115" selection-start-column="53" selection-end-line="115" selection-end-column="53" />
+          <folding>
+            <element signature="e#4111#4299#0" expanded="true" />
+            <element signature="e#4298#4299#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Android/Sdk/sources/android-28/android/bluetooth/le/BluetoothLeScanner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="212">
+          <caret line="264" column="16" selection-start-line="264" selection-start-column="16" selection-end-line="264" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/adapters/DeviceListArrayAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="564">
+          <caret line="84" column="45" selection-start-line="84" selection-start-column="16" selection-end-line="84" selection-end-column="45" />
+          <folding>
+            <element signature="e#2822#3766#0" expanded="true" />
+            <element signature="e#3765#3766#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/ScanDevicesActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1207">
+          <caret line="168" column="23" lean-forward="true" selection-start-line="168" selection-start-column="23" selection-end-line="168" selection-end-column="23" />
+          <folding>
+            <element signature="e#4084#4686#0" expanded="true" />
+            <element signature="e#4685#4686#0" expanded="true" />
+            <element signature="e#4834#5232#0" expanded="true" />
+            <element signature="e#5231#5232#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/PatientsView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3918">
+          <caret line="513" column="31" selection-start-line="513" selection-start-column="12" selection-end-line="513" selection-end-column="31" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Android/Sdk/sources/android-28/android/graphics/Bitmap.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="212">
+          <caret line="1298" column="16" selection-start-line="1298" selection-start-column="16" selection-end-line="1298" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/PhizioProfile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7412">
+          <caret line="485" column="42" selection-start-line="485" selection-start-column="33" selection-end-line="485" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/BodyPartSelection.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2618">
-          <caret line="211" column="104" selection-start-line="211" selection-start-column="104" selection-end-line="211" selection-end-column="104" />
-          <folding>
-            <element signature="e#5170#5755#0" expanded="true" />
-            <element signature="e#5754#5755#0" expanded="true" />
-            <element signature="e#6593#8688#0" expanded="true" />
-            <element signature="e#8687#8688#0" expanded="true" />
-          </folding>
+          <caret line="210" column="17" selection-start-line="210" selection-start-column="17" selection-end-line="210" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/SessionReportActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2720">
+          <caret line="211" column="59" selection-start-line="211" selection-start-column="36" selection-end-line="211" selection-end-column="59" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/MonitorActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="167">
-          <caret line="1808" column="56" selection-start-line="1808" selection-start-column="56" selection-end-line="1808" selection-end-column="56" />
+        <state relative-caret-position="16847">
+          <caret line="1084" column="38" selection-start-line="1084" selection-start-column="38" selection-end-line="1084" selection-end-column="38" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#30882#31214#0" expanded="true" />
-            <element signature="e#31213#31214#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/LoginActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7106">
+          <caret line="461" column="54" selection-start-line="461" selection-start-column="54" selection-end-line="461" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/SignUpActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3417">
+          <caret line="233" column="62" selection-start-line="233" selection-start-column="62" selection-end-line="233" selection-end-column="62" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/fragments/ReportWeek.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5304">
+          <caret line="367" column="44" selection-start-line="367" selection-start-column="44" selection-end-line="367" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/adapters/BodyPartWithMmtRecyclerView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6426">
+          <caret line="406" column="28" selection-start-line="406" selection-start-column="24" selection-end-line="406" selection-end-column="28" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_body_part_selection.xml">
+      <provider editor-type-id="android-designer2" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2244">
+          <caret line="132" column="39" selection-start-line="132" selection-start-column="39" selection-end-line="132" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/activities/DeviceInfoActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="581">
+          <caret line="138" column="36" selection-start-line="138" selection-start-column="36" selection-end-line="138" selection-end-column="36" />
         </state>
       </provider>
     </entry>
