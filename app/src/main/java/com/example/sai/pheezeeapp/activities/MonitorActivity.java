@@ -90,7 +90,7 @@ public class MonitorActivity extends AppCompatActivity {
     //max min angle emg showing views
     TextView tv_max_angle, tv_min_angle, tv_max_emg;
     int ui_rate = 0;
-    public final int sub_byte_size = 28;
+    public final int sub_byte_size = 48;
     int maxAnglePart, minAnglePart, angleCorrection = 0, currentAngle=0;
     boolean angleCorrected = false,devicePopped = false, servicesDiscovered = false, isSessionRunning=false, enteredInsideTwenty = true, pheezeeState = false, recieverState=false;
     String bodypart,orientation="NO";
@@ -102,8 +102,8 @@ public class MonitorActivity extends AppCompatActivity {
     public final int emg_num_packets_raw = 40;
     ImageView iv_back_monitor;
 
-    File  file_emgdata,file_dir_emgdata, file_session_emgdata, file_dir_session_emgdata,file_session_romdata,file_session_sessiondetails;
-    FileOutputStream  outputStream_emgdata,outputStream_session_emgdata,outputStream_session_romdata,outputStream_session_sessiondetails;
+    File  file_session_emgdata, file_dir_session_emgdata,file_session_romdata,file_session_sessiondetails;
+    FileOutputStream  outputStream_session_emgdata,outputStream_session_romdata,outputStream_session_sessiondetails;
 
     //MQTT
     MqttHelper mqttHelper;
@@ -120,7 +120,7 @@ public class MonitorActivity extends AppCompatActivity {
     LineChart lineChart;
     LineDataSet lineDataSet;
     private static final String TAG = null;
-    BluetoothGattCharacteristic mCharacteristic,mCharacteristic2;
+    BluetoothGattCharacteristic mCharacteristic;
     BluetoothGatt mBluetoothGatt;
     TextView Angle,tv_snap;
     TextView Repetitions;
@@ -152,7 +152,7 @@ public class MonitorActivity extends AppCompatActivity {
     Date rawdata_timestamp;
     Long tsLong=0L;
     String exerciseType;
-    BluetoothGattDescriptor mBluetoothGattDescriptor,mBluetoothGattDescriptor_raw;
+    BluetoothGattDescriptor mBluetoothGattDescriptor;
 
     ArrayList<BluetoothGattCharacteristic> arrayList;
 
@@ -163,10 +163,6 @@ public class MonitorActivity extends AppCompatActivity {
     public static final UUID service1_uuid = UUID.fromString("909a1400-9693-4920-96e6-893c0157fedd");
     public static final UUID characteristic1_service1_uuid = UUID.fromString("909a1401-9693-4920-96e6-893c0157fedd");
     public static final UUID descriptor_characteristic1_service1_uuid = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
-
-
-    public static final UUID service2_uuid = UUID.fromString("909a0309-9693-4920-96e6-893c0157fedd");
-    public static final UUID characteristic1_service2_uuid = UUID.fromString("909a7777-9693-4920-96e6-893c0157fedd");
 
     public void deviceDisconnectedPopup() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(MonitorActivity.this);
@@ -584,20 +580,14 @@ public class MonitorActivity extends AppCompatActivity {
 //            String s = rawdata_timestamp.toString().substring(0, 19);
             String s = String.valueOf(df.format("yyyy-MM-dd hh-mm-ssa", rawdata_timestamp));
             String child = patientName.getText().toString()+patientId.getText().toString();
-            file_dir_emgdata = new File(Environment.getExternalStorageDirectory()+"/Pheezee/files/EmgData/"+child+"/raw");
             file_dir_session_emgdata = new File(Environment.getExternalStorageDirectory()+"/Pheezee/files/EmgData/"+child+"/sessiondata/",s);
-            if (!file_dir_emgdata.exists()) {
-                file_dir_emgdata.mkdirs();
-            }
             if (!file_dir_session_emgdata.exists()) {
                 file_dir_session_emgdata.mkdirs();
             }
-            file_emgdata = new File(file_dir_emgdata, ""+s+".txt");
             file_session_emgdata = new File(file_dir_session_emgdata, "emg.txt");
             file_session_romdata = new File(file_dir_session_emgdata, "rom.txt");
             file_session_sessiondetails = new File(file_dir_session_emgdata, "sessiondetails.txt");
             try {
-                file_emgdata.createNewFile();
                 file_session_emgdata.createNewFile();
                 file_session_romdata.createNewFile();
                 file_session_sessiondetails.createNewFile();
@@ -608,12 +598,10 @@ public class MonitorActivity extends AppCompatActivity {
 
 
             try {
-                outputStream_emgdata = new FileOutputStream(file_emgdata, true);
                 outputStream_session_emgdata = new FileOutputStream(file_session_emgdata, true);
                 outputStream_session_romdata = new FileOutputStream(file_session_romdata, true);
                 outputStream_session_sessiondetails = new FileOutputStream(file_session_sessiondetails, true);
-                outputStream_emgdata.write("EMG".getBytes());
-                outputStream_emgdata.write("\n".getBytes());
+
                 //emg file output stream
                 outputStream_session_emgdata.write("EMG".getBytes());
                 outputStream_session_emgdata.write("\n".getBytes());
@@ -676,18 +664,6 @@ public class MonitorActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        MediaScannerConnection.scanFile(
-                getApplicationContext(),
-                new String[]{file_emgdata.getAbsolutePath()},
-                null,
-                new MediaScannerConnection.OnScanCompletedListener() {
-                    @Override
-                    public void onScanCompleted(String path, Uri uri) {
-                        Log.v("grokkingandroid",
-                                "file " + path + " was scanned seccessfully: " + uri);
-                    }
-                });
 
         MediaScannerConnection.scanFile(
                 getApplicationContext(),
@@ -782,6 +758,7 @@ public class MonitorActivity extends AppCompatActivity {
         lineChart.getXAxis().setAxisMinimum(0f);
         lineChart.getAxisLeft().setSpaceTop(60f);
         lineChart.getAxisRight().setSpaceTop(60f);
+        lineChart.getAxisRight().setDrawLabels(false);
         lineChart.getAxisLeft().setStartAtZero(false);
         lineChart.getAxisLeft().setDrawGridLines(false);
         lineChart.getXAxis().setDrawGridLines(false);
@@ -861,17 +838,6 @@ public class MonitorActivity extends AppCompatActivity {
                     }
                 });
             }
-            else if(characteristic.getUuid().equals(characteristic1_service2_uuid)){
-                new Handler(Looper.getMainLooper()).post(new Runnable() {
-                    @Override
-                    public void run() {
-//commented for test 30000
-                        mBluetoothGatt.setCharacteristicNotification(mCharacteristic2, true);
-                        mBluetoothGattDescriptor_raw.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
-                        mBluetoothGatt.writeDescriptor(mBluetoothGattDescriptor_raw);
-                    }
-                });
-            }
         }
 
         @Override
@@ -885,15 +851,11 @@ public class MonitorActivity extends AppCompatActivity {
                 if(characteristic1_service1_uuid.equals(characteristic.getUuid()))
                     mCharacteristic = characteristic;
 
-                mCharacteristic2 = gatt.getService(service2_uuid).getCharacteristic(characteristic1_service2_uuid);
                 mBluetoothGatt = gatt;
                 gatt.setCharacteristicNotification(characteristic,true);
-                gatt.setCharacteristicNotification(mCharacteristic2,true);
                 mBluetoothGattDescriptor = characteristic.getDescriptor(descriptor_characteristic1_service1_uuid);
-                mBluetoothGattDescriptor_raw = mCharacteristic2.getDescriptor(descriptor_characteristic1_service1_uuid);
 
                 arrayList.add(mCharacteristic);
-                arrayList.add(mCharacteristic2);
 
                 if(timer.getVisibility()==View.GONE){
                     PatientsView.sessionStarted = true;
@@ -941,111 +903,6 @@ public class MonitorActivity extends AppCompatActivity {
                     }
                 }
             }
-
-            else if(characteristic.getUuid().equals(characteristic1_service2_uuid)){
-                byte[] b = characteristic.getValue();
-                if(b.length<47){
-                    int[] emg_data;
-
-                    byte sub_byte[] = new byte[b.length ];
-                    for (int i = 0; i < sub_byte.length; i++) {
-                        sub_byte[i] = b[i];
-                    }
-                    try {
-                        outputStream_emgdata = new FileOutputStream(file_emgdata, true);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    byte temp_array[] = new byte[emg_data_size_raw];
-                    for (int i = 0; i < emg_data_size_raw; i++) {
-                        temp_array[i] = sub_byte[i];
-                    }
-                    emg_data = ByteToArrayOperations.constructEmgDataRawWithoutCombine(temp_array);
-
-                    String str[] = new String[emg_data_size_raw];
-                    for (int i = 0; i < emg_data.length; i++) {
-                        str[i] = "" + emg_data[i];
-                    }
-
-                    if(enteredInsideTwenty){
-                        String temp = "From here 20 byte packets are coming.";
-                        try {
-                            outputStream_emgdata.write(temp.getBytes());
-                            outputStream_emgdata.write("\n".getBytes());
-                            outputStream_emgdata.write("\n".getBytes());
-                            outputStream_emgdata.write("\n".getBytes());
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        enteredInsideTwenty= false;
-                    }
-
-                    try {
-                        for (int i = 0; i < str.length; i++) {
-                            if(str[i]!=null) {
-                                outputStream_emgdata.write(str[i].getBytes());
-                                outputStream_emgdata.write("\n".getBytes());
-                            }
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        outputStream_emgdata.flush();
-                        outputStream_emgdata.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                else {
-                    int[] emg_data;
-                    byte sub_byte[] = new byte[b.length - 2];
-                    int j = 2;
-                    for (int i = 0; i < sub_byte.length; i++, j++) {
-                        sub_byte[i] = b[j];
-                    }
-                    byte header_main = b[0];
-                    byte header_sub = b[1];
-
-                    if(ByteToArrayOperations.byteToStringHexadecimal(header_main).equals("BB")) {
-                        if (ByteToArrayOperations.byteToStringHexadecimal(header_sub).equals("01")) {
-                            try {
-                                outputStream_emgdata = new FileOutputStream(file_emgdata, true);
-                            } catch (FileNotFoundException e) {
-                                e.printStackTrace();
-                            }
-                            byte temp_array[] = new byte[emg_num_packets_raw];
-                            for (int i = 0; i < emg_num_packets_raw; i++) {
-                                temp_array[i] = sub_byte[i];
-                            }
-                            emg_data = ByteToArrayOperations.constructEmgDataRaw(temp_array);
-
-                            String str[] = new String[emg_data_size_raw];
-                            for (int i = 0; i < emg_data.length; i++) {
-                                str[i] = "" + emg_data[i];
-                            }
-
-                            try {
-                                for (int i = 0; i < str.length; i++) {
-                                    if(str[i]!=null) {
-                                        outputStream_emgdata.write(str[i].getBytes());
-                                        outputStream_emgdata.write("\n".getBytes());
-                                    }
-                                }
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            try {
-                                outputStream_emgdata.flush();
-                                outputStream_emgdata.close();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                }
-
-            }
         }
 
         @Override
@@ -1059,19 +916,6 @@ public class MonitorActivity extends AppCompatActivity {
         @Override
         public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
             if(descriptor.getCharacteristic().getUuid().equals(mCharacteristic.getUuid())){
-                if(isSessionRunning)
-                    sendRaw();
-                else {
-                    new Handler(Looper.getMainLooper()).post(new Runnable() {
-                        @Override
-                        public void run() {
-                            mBluetoothGatt.setCharacteristicNotification(mCharacteristic2,false);
-                            mBluetoothGattDescriptor_raw.setValue(BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
-                            mBluetoothGatt.writeDescriptor(mBluetoothGattDescriptor_raw);
-                            mBluetoothGatt.writeCharacteristic(mCharacteristic2);
-                        }
-                    });
-                }
             }
         }
     };
@@ -1100,32 +944,6 @@ public class MonitorActivity extends AppCompatActivity {
         mCharacteristic.setValue(data);
 
         return mBluetoothGatt.writeCharacteristic(mCharacteristic);
-    }
-
-
-    public boolean sendRaw(){
-        byte data[] = ByteToArrayOperations.hexStringToByteArray("BB01");
-        if (mBluetoothGatt == null ) {
-            return false;
-        }
-        if (mCharacteristic2 == null) {
-            return false;
-        }
-
-        BluetoothGattService service = mBluetoothGatt.getService(service2_uuid);
-
-        if(service==null){
-            if (mCharacteristic2 == null) {
-                return false;
-            }
-        }
-        if(characteristic1_service2_uuid.equals(mCharacteristic2.getUuid())){
-        }
-
-
-        mCharacteristic2.setValue(data);
-
-        return mBluetoothGatt.writeCharacteristic(mCharacteristic2);
     }
 
     public Runnable runnable = new Runnable() {
