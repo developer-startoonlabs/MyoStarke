@@ -91,7 +91,7 @@ public class MonitorActivity extends AppCompatActivity {
     TextView tv_max_angle, tv_min_angle, tv_max_emg;
     int ui_rate = 0;
     public final int sub_byte_size = 28;
-    int maxAnglePart, minAnglePart, angleCorrection = 0;
+    int maxAnglePart, minAnglePart, angleCorrection = 0, currentAngle=0;
     boolean angleCorrected = false,devicePopped = false, servicesDiscovered = false, isSessionRunning=false, enteredInsideTwenty = true, pheezeeState = false, recieverState=false;
     String bodypart,orientation="NO";
     SharedPreferences sharedPreferences;
@@ -124,7 +124,7 @@ public class MonitorActivity extends AppCompatActivity {
     BluetoothGatt mBluetoothGatt;
     TextView Angle,tv_snap;
     TextView Repetitions;
-    TextView holdTime,tv_session_no, tv_body_part;
+    TextView holdTime,tv_session_no, tv_body_part, tv_repsselected;
     TextView EMG;
     ProtractorView rangeOfMotion;
     ArcViewInside arcViewInside;
@@ -216,6 +216,7 @@ public class MonitorActivity extends AppCompatActivity {
         tv_max_angle                = findViewById(R.id.tv_max_angle);
         tv_min_angle                = findViewById(R.id.tv_min_angle);
         tv_max_emg                  = findViewById(R.id.tv_max_emg_show);
+        tv_repsselected             = findViewById(R.id.repsSelected);
         handler                     = new Handler();
         emgJsonArray                = new JSONArray();
         romJsonArray                = new JSONArray();
@@ -256,6 +257,12 @@ public class MonitorActivity extends AppCompatActivity {
         orientation = getIntent().getStringExtra("orientation");
         tv_body_part.setText(tv_body_part.getText().toString().concat(bodypart));
         tv_body_part.setText(orientation+"-"+bodypart+"-"+BodyPartSelection.exercisename);
+        if(BodyPartSelection.repsselected!=0){
+            tv_repsselected.setText("/".concat(String.valueOf(BodyPartSelection.repsselected)));
+        }
+        else {
+            tv_repsselected.setVisibility(View.GONE);
+        }
         //Getting the max and min angle of the particular body part
         maxAnglePart = angleOperations.getMaxAngle(bodypart);
         minAnglePart = angleOperations.getMinAngle(bodypart);
@@ -377,7 +384,7 @@ public class MonitorActivity extends AppCompatActivity {
                 timer.setText(R.string.timer_start);
                 recieverState = false;
                 isSessionRunning=false;
-                Log.i("minAngle",""+minAngle);
+
 //                if(maxAngle!=0&&!(maxAngle>180)&&minAngle!=180&&!(minAngle<0)) {
                     tsLong = System.currentTimeMillis();
                     String ts = tsLong.toString();
@@ -428,8 +435,11 @@ public class MonitorActivity extends AppCompatActivity {
                                 if(PatientsView.sessionStarted) {
                                     angleCorrection = Integer.parseInt(editText.getText().toString());
                                     angleCorrected = true;
-                                    angleCorrection -= maxAngle;
+                                    angleCorrection-=currentAngle;
+                                    currentAngle+=angleCorrection;
                                     maxAngle+=angleCorrection;
+                                    minAngle+=angleCorrection;
+
                                 }
                             }catch (NumberFormatException e){
 
@@ -462,11 +472,9 @@ public class MonitorActivity extends AppCompatActivity {
 
             @Override
             public void messageArrived(String topic, MqttMessage message){
-                Log.i(topic,message.toString());
                 try {
                     if(topic.equals(mqtt_publish_add_patient_session_response+json_phizio.getString("phizioemail"))){
                         if(message.toString().equals("inserted")){
-                            Log.i("message",message.toString());
                             editor = sharedPreferences.edit();
                             editor.putString("sync_session","");
                             editor.apply();
@@ -475,7 +483,6 @@ public class MonitorActivity extends AppCompatActivity {
 
                 if(topic.equals(mqtt_publish_add_patient_session_emg_data_response+json_phizio.getString("phizioemail"))){
                     if(message.toString().equals("inserted")){
-                        Log.i("message emg",message.toString());
                         editor = sharedPreferences.edit();
                         editor.putString("sync_emg_session","");
                         editor.apply();
@@ -513,7 +520,6 @@ public class MonitorActivity extends AppCompatActivity {
             mBluetoothGatt.close();
             Toast.makeText(this, "GATT CLOSED", Toast.LENGTH_SHORT).show();
         }
-        Log.i("MAC ADDRESS",""+getIntent().getStringExtra("deviceMacAddress"));
         if(!getIntent().getStringExtra("deviceMacAddress").equals(""))
 
             remoteDevice = bluetoothAdapter.getRemoteDevice(getIntent().getStringExtra("deviceMacAddress"));
@@ -553,6 +559,8 @@ public class MonitorActivity extends AppCompatActivity {
         PatientsView.sessionStarted = true;
         enteredInsideTwenty = true;
         isSessionRunning = true;
+        angleCorrected = false;
+        angleCorrection=0;
         emgJsonArray = new JSONArray();
         romJsonArray = new JSONArray();
         maxAngle = 0;minAngle = 360;maxEmgValue = 0;
@@ -624,7 +632,7 @@ public class MonitorActivity extends AppCompatActivity {
                 outputStream_session_sessiondetails.write("Orientation-Bodypart-ExerciseName : ".concat(orientation+"-"+bodypart+"-"+BodyPartSelection.exercisename).getBytes());
                 outputStream_session_sessiondetails.write("\n".getBytes());
                 outputStream_session_sessiondetails.write("Painscale-Muscletone : ".concat(BodyPartSelection.painscale+"-"+BodyPartSelection.muscletone).getBytes());
-                outputStream_session_sessiondetails.write("\n\n\n".getBytes());
+                outputStream_session_sessiondetails.write("\n".getBytes());
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -640,6 +648,11 @@ public class MonitorActivity extends AppCompatActivity {
 
     private void insertValuesAndNotifyMediaStore() {
         try {
+
+
+            outputStream_session_sessiondetails.write("Angle-Corrected : ".concat(String.valueOf(angleCorrection)).getBytes());
+
+            outputStream_session_sessiondetails.write("\n\n\n".getBytes());
             outputStream_session_sessiondetails.write("Session Details".getBytes());
             outputStream_session_sessiondetails.write("\n".getBytes());
             outputStream_session_sessiondetails.write("Session Stop Pressed".getBytes());
@@ -839,14 +852,12 @@ public class MonitorActivity extends AppCompatActivity {
         public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
             super.onCharacteristicWrite(gatt, characteristic, status);
             if(characteristic.getUuid().equals(characteristic1_service1_uuid)) {
-                Log.i("characteristic", characteristic.getUuid().toString() + " Written");
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
                         mBluetoothGatt.setCharacteristicNotification(mCharacteristic, true);
                         mBluetoothGattDescriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
                         mBluetoothGatt.writeDescriptor(mBluetoothGattDescriptor);
-                        Log.i("HEllo", "HELLO");
                     }
                 });
             }
@@ -858,7 +869,6 @@ public class MonitorActivity extends AppCompatActivity {
                         mBluetoothGatt.setCharacteristicNotification(mCharacteristic2, true);
                         mBluetoothGattDescriptor_raw.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
                         mBluetoothGatt.writeDescriptor(mBluetoothGattDescriptor_raw);
-                        Log.i("HEllo", "HELLO_raw");
                     }
                 });
             }
@@ -1041,7 +1051,6 @@ public class MonitorActivity extends AppCompatActivity {
         @Override
         public void onDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
             if(descriptor_characteristic1_service1_uuid.equals(descriptor.getUuid())){
-                Log.i("READ DESCRIPTOR", ""+status);
             }
         }
 
@@ -1049,7 +1058,6 @@ public class MonitorActivity extends AppCompatActivity {
 
         @Override
         public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
-            Log.i("DES", "ENTERED DESCRIPTOR");
             if(descriptor.getCharacteristic().getUuid().equals(mCharacteristic.getUuid())){
                 if(isSessionRunning)
                     sendRaw();
@@ -1061,7 +1069,6 @@ public class MonitorActivity extends AppCompatActivity {
                             mBluetoothGattDescriptor_raw.setValue(BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
                             mBluetoothGatt.writeDescriptor(mBluetoothGattDescriptor_raw);
                             mBluetoothGatt.writeCharacteristic(mCharacteristic2);
-                            Log.i("Session","started");
                         }
                     });
                 }
@@ -1073,11 +1080,9 @@ public class MonitorActivity extends AppCompatActivity {
     public boolean send(byte[] data) {
 
         if (mBluetoothGatt == null ) {
-            Log.w(TAG, "BluetoothGatt not initialized");
             return false;
         }
         if (mCharacteristic == null) {
-            Log.w(TAG, "Send characteristic not found");
             return false;
         }
 
@@ -1085,12 +1090,10 @@ public class MonitorActivity extends AppCompatActivity {
 
         if(service==null){
             if (mCharacteristic == null) {
-                Log.w(TAG, "Send service not found");
                 return false;
             }
         }
         if(characteristic1_service1_uuid.equals(mCharacteristic.getUuid())){
-            Log.i("TRUE", "TRUE");
         }
 
 
@@ -1101,14 +1104,11 @@ public class MonitorActivity extends AppCompatActivity {
 
 
     public boolean sendRaw(){
-        Log.i("send raw","send raw");
         byte data[] = ByteToArrayOperations.hexStringToByteArray("BB01");
         if (mBluetoothGatt == null ) {
-            Log.w(TAG, "BluetoothGatt not initialized");
             return false;
         }
         if (mCharacteristic2 == null) {
-            Log.w(TAG, "Send characteristic not found");
             return false;
         }
 
@@ -1116,12 +1116,10 @@ public class MonitorActivity extends AppCompatActivity {
 
         if(service==null){
             if (mCharacteristic2 == null) {
-                Log.w(TAG, "Send service not found");
                 return false;
             }
         }
         if(characteristic1_service2_uuid.equals(mCharacteristic2.getUuid())){
-            Log.i("TRUE", "TRUE");
         }
 
 
@@ -1178,6 +1176,7 @@ public class MonitorActivity extends AppCompatActivity {
             sub_byte = (byte[]) message.obj;
             emg_data = ByteToArrayOperations.constructEmgData(sub_byte);
             angleDetected = ByteToArrayOperations.getAngleFromData(sub_byte[20],sub_byte[21]);
+            currentAngle=angleDetected;
             num_of_reps = ByteToArrayOperations.getNumberOfReps(sub_byte[22], sub_byte[23]);
             hold_time_minutes = sub_byte[24];
             hold_time_seconds = sub_byte[25];
@@ -1199,15 +1198,15 @@ public class MonitorActivity extends AppCompatActivity {
             //Custom thresholds
 //            if(angleDetected>=minAnglePart && angleDetected<=maxAnglePart) {
 //                rangeOfMotion.setAngle(angleDetected);
+
             if(angleCorrected) {
                 angleDetected+=angleCorrection;
                 arcViewInside.setMaxAngle(angleDetected);
-
-                Log.i("Angle", String.valueOf(angleDetected));
             }
             else {
                 arcViewInside.setMaxAngle(angleDetected);
             }
+
             romJsonArray.put(angleDetected);
             try {
                 outputStream_session_romdata = new FileOutputStream(file_session_romdata, true);
@@ -1537,7 +1536,6 @@ public class MonitorActivity extends AppCompatActivity {
     private void storeLocalSessionDetails(String dateString,String tempsession) {
         JSONArray array ;
         if (!sharedPreferences.getString("phiziodetails", "").equals("")) {
-            Log.i("Patient View","Inside");
             try {
                 jsonData = new JSONArray(json_phizio.getString("phiziopatients"));
             } catch (JSONException e) {
@@ -1563,9 +1561,10 @@ public class MonitorActivity extends AppCompatActivity {
                             object.put("minangle",minAngle);
                             object.put("anglecorrected",angleCorrection);
                             object.put("maxemg",maxEmgValue);
-                            object.put("holdtime","00 : 50");
+                            object.put("holdtime",holdTime.getText().toString());
                             object.put("bodypart",bodypart);
                             object.put("sessiontime",tempsession);
+
                             object.put("numofreps",Repetitions.getText().toString());
                             json_phizio.put("phiziopatients",jsonData);
                             editor = sharedPreferences.edit();
@@ -1611,6 +1610,9 @@ public class MonitorActivity extends AppCompatActivity {
                                 object.put("exercisename",BodyPartSelection.exercisename);
                                 object.put("commentsession",BodyPartSelection.commentsession);
                                 object.put("symptoms",BodyPartSelection.symptoms);
+                                object.put("orientation", orientation);
+                                object.put("repsselected",BodyPartSelection.repsselected);
+                                object.put("musclename", BodyPartSelection.musclename);
                                 mqttMessage.setPayload(object.toString().getBytes());
 
                                 temp = new JSONObject();
@@ -1644,7 +1646,6 @@ public class MonitorActivity extends AppCompatActivity {
         super.onDestroy();
         mqttHelper.mqttAndroidClient.unregisterResources();
         mqttHelper.mqttAndroidClient.close();
-        Log.i("destroy","inside");
         if(mBluetoothGatt!=null && mCharacteristic!=null){
             mBluetoothGatt.setCharacteristicNotification(mCharacteristic,false);
             mBluetoothGattDescriptor.setValue(BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
@@ -1817,8 +1818,6 @@ public class MonitorActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(byte[]... bytes) {
-
-            Log.i("Line Data Length",String.valueOf(lineData.getEntryCount())+" "+ui_rate);
             ui_rate+=20;
             int entire_packet[] = new int[14];
             final int emg_data[] = ByteToArrayOperations.constructEmgData(bytes[0]);
