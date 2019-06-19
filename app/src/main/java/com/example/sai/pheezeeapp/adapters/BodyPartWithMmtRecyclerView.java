@@ -40,6 +40,7 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
     private JSONArray json_patients;
     private JSONArray json_patient_mmt;
     private String patientID;
+    private int selectedPosition = -1;
 
 
     public static String gradeSelected="",bodypartSelected="", orientationSelected="";
@@ -162,24 +163,66 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
         holder.iv_bodypart.setImageResource(bodyPartWithMmtSelectionModel.getIv_body_part());
         holder.tv_body_part_name.setText(bodyPartWithMmtSelectionModel.getExercise_name());
 
+        Log.i("position",position+"");
+        if(selectedPosition!=position && selectedPosition!=-1){
+//            ((BodyPartSelection)context).visibilityChanged(position,position);
+            if (holder.rl_left_section.getVisibility() == View.VISIBLE)
+                holder.rl_left_section.setVisibility(View.INVISIBLE);
+
+            if (holder.rl_right_section.getVisibility() == View.VISIBLE)
+                holder.rl_right_section.setVisibility(View.INVISIBLE);
+
+            if (holder.rl_left_right.getVisibility() == View.VISIBLE)
+                holder.rl_left_right.setVisibility(View.INVISIBLE);
+            if (holder.rl_left.getVisibility() == View.VISIBLE)
+                holder.rl_left.setVisibility(View.INVISIBLE);
+            if (holder.rl_right.getVisibility() == View.VISIBLE)
+                holder.rl_right.setVisibility(View.INVISIBLE);
+            if (holder.rl_mmt_and_session.getVisibility() == View.VISIBLE)
+                holder.rl_mmt_and_session.setVisibility(View.INVISIBLE);
+            if (holder.rl_mmt_session.getVisibility() == View.VISIBLE)
+                holder.rl_mmt_session.setVisibility(View.INVISIBLE);
+            if (holder.ll_tv_section.getVisibility() == View.VISIBLE)
+                holder.ll_tv_section.setVisibility(View.GONE);
+            if (holder.sp_set_goal.getVisibility() == View.VISIBLE) {
+                holder.sp_set_goal.setSelection(0);
+                holder.sp_set_goal.setVisibility(View.GONE);
+            }
+
+//                development
+            if (holder.sp_muscle_name.getVisibility() == View.VISIBLE) {
+                holder.sp_muscle_name.setSelection(0);
+                holder.sp_muscle_name.setVisibility(View.GONE);
+            }
+
+            if (holder.iv_bodypart.getVisibility() == View.INVISIBLE)
+                holder.iv_bodypart.setVisibility(View.VISIBLE);
+
+
+            holder.iv_bodypart.setEnabled(true);
+        }
+
+
 
         //Reps array
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context,R.array.setSessionGoalSpinner, R.layout.support_simple_spinner_dropdown_item);
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         holder.sp_set_goal.setAdapter(adapter);
 
-//        ArrayAdapter<CharSequence> array_muscle_names = new ArrayAdapter<CharSequence>(context, R.layout.support_simple_spinner_dropdown_item, MuscleOperation.getMusleNames(position));
-//        array_muscle_names.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-//        holder.sp_muscle_name.setAdapter(array_muscle_names);
+        ArrayAdapter<CharSequence> array_muscle_names = new ArrayAdapter<CharSequence>(context, R.layout.support_simple_spinner_dropdown_item, MuscleOperation.getMusleNames(position));
+        array_muscle_names.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        holder.sp_muscle_name.setAdapter(array_muscle_names);
 
         holder.iv_bodypart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ((BodyPartSelection)context).reinitializeStatics();
                 ((BodyPartSelection)context).setFabVisible();
                 editor = preferences.edit();
-                if(!preferences.getString("bodyPartClicked","").equals("")){
-                    ((BodyPartSelection)context).visibilityChanged(Integer.parseInt(preferences.getString("bodyPartClicked","")),position);
+                if(selectedPosition!=-1){
+                    ((BodyPartSelection)context).visibilityChanged(selectedPosition,position);
                 }
+                selectedPosition = position;
                 Log.i("clicked","clicked"+position);
                 bodypartSelected = holder.tv_body_part_name.getText().toString();
                 holder.iv_bodypart.setVisibility(View.INVISIBLE);
@@ -291,6 +334,18 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
             }
         });
 
+        holder.sp_muscle_name.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                BodyPartSelection.musclename = holder.sp_muscle_name.getSelectedItem().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
 
         holder.sp_set_goal.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @SuppressLint("ResourceAsColor")
@@ -301,6 +356,7 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
                     holder.ll_tv_section.setVisibility(View.VISIBLE);
                     holder.sp_set_goal.setVisibility(View.GONE);
                     holder.tv_selected_goal_text.setText(holder.sp_set_goal.getSelectedItem().toString());
+                    BodyPartSelection.repsselected  = Integer.parseInt(holder.sp_set_goal.getSelectedItem().toString().substring(0,2));
 //                    if(selected==5){
 //                        holder.ll_tv_section.setBackgroundColor(R.color.red);
 //                    }
@@ -358,6 +414,10 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
                 holder.sp_set_goal.setVisibility(View.VISIBLE);
                 holder.sp_set_goal.setSelection(0);
 
+                //muscle names spinner
+                holder.sp_muscle_name.setVisibility(View.VISIBLE);
+                holder.sp_muscle_name.setSelection(0);
+
             }
         });
 
@@ -367,6 +427,10 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
                 holder.rl_mmt_session.setVisibility(View.INVISIBLE);
                 holder.sp_set_goal.setVisibility(View.VISIBLE);
                 holder.sp_set_goal.setSelection(0);
+
+                //muscle names spinner
+                holder.sp_muscle_name.setVisibility(View.VISIBLE);
+                holder.sp_muscle_name.setSelection(0);
             }
         });
 

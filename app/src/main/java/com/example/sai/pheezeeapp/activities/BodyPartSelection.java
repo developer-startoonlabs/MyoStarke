@@ -85,7 +85,8 @@ public class BodyPartSelection extends AppCompatActivity {
     TextView tv_body_part_recent;
     ImageView iv_back_body_part_selection;
     String[] string;
-    String str_recent;static String painscale, muscletone, exercisename, commentsession, symptoms;
+    String str_recent;public static String painscale="", muscletone="", exercisename="", commentsession="", symptoms="", musclename="";
+    public static int repsselected=0;
 
     FrameLayout fl_fab_background;
     boolean flag_recent = false;
@@ -252,7 +253,7 @@ public class BodyPartSelection extends AppCompatActivity {
         Log.i("visibility change",String.valueOf(position));
 
 //        if(position==6 || clicked==6) {
-            bodyPartWithMmtRecyclerView.notifyItemChanged(position, null);
+//            bodyPartWithMmtRecyclerView.notifyItemChanged(position, null);
 //        }
 //        bodyPartRecyclerView.scrollToPosition(position);
         View view = manager.findViewByPosition(position);
@@ -602,5 +603,12 @@ public class BodyPartSelection extends AppCompatActivity {
         mqttHelper.mqttAndroidClient.unregisterResources();
         mqttHelper.mqttAndroidClient.close();
         super.onDestroy();
+        painscale=""; muscletone=""; exercisename=""; commentsession=""; symptoms=""; musclename="";orientationSelected="";
+        repsselected=0;
+    }
+
+    public void reinitializeStatics() {
+        painscale=""; muscletone=""; exercisename=""; commentsession=""; symptoms=""; musclename="";orientationSelected="";
+        repsselected=0;
     }
 }

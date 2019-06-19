@@ -99,10 +99,10 @@
                android:layout_width="match_parent"
                android:layout_height="match_parent"
                android:layout_alignParentTop="true"
-               android:layout_marginStart="16dp"
+               android:layout_marginStart="10dp"
                android:layout_marginTop="10dp"
-               android:layout_marginEnd="16dp"
-               android:layout_marginBottom="10dp"
+               android:layout_marginEnd="14dp"
+               android:layout_marginBottom="13dp"
                android:visibility="gone"
                app:layout_constraintBottom_toBottomOf="parent"
                app:layout_constraintEnd_toEndOf="parent"
@@ -122,10 +122,10 @@
                android:layout_width="match_parent"
                android:layout_height="match_parent"
                android:layout_alignParentTop="true"
-               android:layout_marginStart="16dp"
+               android:layout_marginStart="10dp"
                android:layout_marginTop="10dp"
-               android:layout_marginEnd="16dp"
-               android:layout_marginBottom="10dp"
+               android:layout_marginEnd="14dp"
+               android:layout_marginBottom="13dp"
                android:visibility="gone"
                app:layout_constraintBottom_toBottomOf="parent"
                app:layout_constraintEnd_toEndOf="parent"
@@ -402,7 +402,7 @@
                android:layout_width="match_parent"
                android:layout_height="30dp"
                android:layout_marginStart="16dp"
-               android:layout_marginEnd="16dp"
+               android:layout_marginEnd="20dp"
                android:layout_marginBottom="8dp"
                android:background="@drawable/drawable_background_yellow"
                android:baselineAligned="false"
@@ -422,10 +422,9 @@
 
                    <LinearLayout
                        android:id="@+id/ll_tv_minus"
-                       android:layout_width="0dp"
+                       android:layout_width="30dp"
                        android:layout_height="match_parent"
                        android:layout_marginStart="5dp"
-                       android:layout_weight="0.1"
                        android:background="@drawable/drawable_mmt_circular_tv"
                        android:gravity="center"
                        android:orientation="vertical">
@@ -443,7 +442,7 @@
                    <LinearLayout
                        android:layout_width="0dp"
                        android:layout_height="match_parent"
-                       android:layout_weight="0.6"
+                       android:layout_weight="1"
                        android:gravity="center">
 
                        <TextView
@@ -456,10 +455,9 @@
 
                    <LinearLayout
                        android:id="@+id/ll_tv_plus"
-                       android:layout_width="0dp"
+                       android:layout_width="30dp"
                        android:layout_height="20dp"
                        android:layout_marginEnd="5dp"
-                       android:layout_weight="0.1"
                        android:background="@drawable/drawable_mmt_circular_tv"
                        android:gravity="center">
 
@@ -479,8 +477,8 @@
                android:id="@+id/sp_set_goal"
                android:layout_width="match_parent"
                android:layout_height="30dp"
-               android:layout_marginStart="16dp"
-               android:layout_marginEnd="16dp"
+               android:layout_marginStart="15dp"
+               android:layout_marginEnd="20dp"
                android:layout_marginBottom="8dp"
                android:background="@drawable/spinner_background"
                android:elevation="3dp"
@@ -496,8 +494,8 @@
                android:id="@+id/sp_set_muscle"
                android:layout_width="match_parent"
                android:layout_height="30dp"
-               android:layout_marginStart="16dp"
-               android:layout_marginEnd="16dp"
+               android:layout_marginStart="15dp"
+               android:layout_marginEnd="20dp"
                android:layout_marginBottom="64dp"
                android:background="@drawable/spinner_background"
                android:elevation="3dp"
