@@ -39,6 +39,7 @@ import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -229,6 +230,18 @@ public class MonitorActivity extends AppCompatActivity {
             }
         });
 
+
+//        tv_snap.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                if (event.getAction() == android.view.MotionEvent.ACTION_DOWN) {
+//                    tv_snap.setAlpha(0.4f);
+//                } else if (event.getAction() == android.view.MotionEvent.ACTION_UP) {
+//                    Log.d("TouchTest", "Touch up");
+//                }
+//                return false;
+//            }
+//        });
 
 
 
