@@ -1266,6 +1266,7 @@ drawable background_session_report_dwm
 drawable battery
 drawable battery_usb_state_connected
 drawable battery_usb_state_connected_updated
+drawable black_dot
 drawable bluetooth
 drawable bluetooth_connected_icon
 drawable bluetooth_disconnected_icon
@@ -1561,9 +1562,6 @@ id comment_btn_cancel
 id comment_btn_continue
 id comment_btn_setreference
 id comment_et_comment
-id comment_et_muscle_tone
-id comment_et_pain_scale
-id comment_et_symptoms
 id comment_exercise_name
 id confirmation_code
 id container
@@ -1658,8 +1656,6 @@ id icon_group
 id icon_only
 id ifRoom
 id image
-id imageView
-id imageView2
 id imageView4
 id imageView5
 id imageViewdp
@@ -1782,6 +1778,7 @@ id nav_app_version
 id nav_home
 id nav_logout
 id nav_view
+id navigateReportOrBodypart
 id navigation_header_container
 id never
 id never_display
@@ -1953,7 +1950,6 @@ id textMaxemg
 id textSpacerNoButtons
 id textSpacerNoTitle
 id textStart
-id textView
 id textView10
 id textView11
 id textView12
@@ -1964,7 +1960,6 @@ id textView16
 id textView17
 id textView18
 id textView19
-id textView2
 id textView20
 id textView21
 id textView22
@@ -1972,7 +1967,6 @@ id textView23
 id textView3
 id textView4
 id textView5
-id textView6
 id textView7
 id textView8
 id textView9
@@ -2038,6 +2032,7 @@ id tv_dfu_filestatus
 id tv_dfu_filetype
 id tv_disconnect_forget
 id tv_email
+id tv_exercise_name
 id tv_grade_given
 id tv_grade_option_1
 id tv_grade_option_2
@@ -2059,7 +2054,9 @@ id tv_min_angle
 id tv_min_emg
 id tv_minangle_mmt
 id tv_minus_goal
+id tv_muscle_name
 id tv_num_of_reps
+id tv_orientation_and_bodypart
 id tv_overall
 id tv_overall_summary
 id tv_overall_summary_report

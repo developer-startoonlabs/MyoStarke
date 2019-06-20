@@ -15,6 +15,7 @@ import android.graphics.RectF;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -64,7 +65,7 @@ public class ArcViewInside extends View {
             return;
         }
         TypedArray ta  = getContext().obtainStyledAttributes(R.styleable.ArcView);
-        range_color = ta.getColor(R.styleable.ArcView_arc_color,Color.parseColor("#00B386"));
+        range_color = ta.getColor(R.styleable.ArcView_arc_color, ContextCompat.getColor(context,R.color.pitch_black));
         radius = ta.getDimensionPixelSize(R.styleable.ArcView_arc_radius,radius);
         setRangeColor(range_color);
         setRadius(radius);
@@ -73,7 +74,10 @@ public class ArcViewInside extends View {
         ta.recycle();
     }
 
-
+    /**
+     *
+     * @param canvas
+     */
     @SuppressLint("DrawAllocation")
     @Override
     protected void onDraw(Canvas canvas) {
@@ -108,7 +112,7 @@ public class ArcViewInside extends View {
         canvas.drawArc(oval, -min_angle,-(max_angle-min_angle) , false, mPaint);
         Paint paint = new Paint();
         paint.setTextSize(radius/6);
-        paint.setColor(getResources().getColor(R.color.good_green));
+        paint.setColor(range_color);
         canvas.drawCircle(oval.centerX(),oval.centerY(),radius/2,paint);
         mPaint.setColor(Color.WHITE);
         mPaint.setTextSize(radius/2);
@@ -206,7 +210,7 @@ public class ArcViewInside extends View {
     }
 
     public void setRangeColor(int color){
-        range_color = color;
+        this.range_color = color;
         invalidate();
         postInvalidate();
     }

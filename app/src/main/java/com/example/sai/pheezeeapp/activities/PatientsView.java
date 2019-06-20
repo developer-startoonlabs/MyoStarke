@@ -1192,8 +1192,10 @@ public class PatientsView extends AppCompatActivity
             String status = (String) msg.obj;
             if(status.equalsIgnoreCase("N/C"))
                 pheezeeDisconnected();
-            else if(status.equalsIgnoreCase("C"))
+            else if(status.equalsIgnoreCase("C")) {
                 pheezeeConnected();
+                showToast("Device Connected");
+            }
 
 
         }
@@ -1887,5 +1889,9 @@ public class PatientsView extends AppCompatActivity
         }
     };
 
+
+    public void showToast(String message){
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+    }
 
 }

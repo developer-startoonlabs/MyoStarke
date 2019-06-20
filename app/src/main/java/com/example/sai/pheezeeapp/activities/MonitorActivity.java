@@ -16,7 +16,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.media.MediaScannerConnection;
 import android.net.ConnectivityManager;
 import android.net.Uri;
@@ -30,9 +35,12 @@ import android.os.Message;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.content.res.AppCompatResources;
 import android.text.InputType;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -58,6 +66,7 @@ import com.example.sai.pheezeeapp.utils.BatteryOperation;
 import com.example.sai.pheezeeapp.utils.ByteToArrayOperations;
 import com.example.sai.pheezeeapp.utils.NetworkOperations;
 import com.example.sai.pheezeeapp.utils.PatientOperations;
+import com.example.sai.pheezeeapp.utils.ValueBasedColorOperations;
 import com.example.sai.pheezeeapp.views.ArcViewInside;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -764,7 +773,7 @@ public class MonitorActivity extends AppCompatActivity {
         lineDataSet.setDrawCircles(false);
         lineDataSet.setValueTextSize(0);
         lineDataSet.setDrawValues(false);
-        lineDataSet.setColor(getResources().getColor(R.color.good_green));
+        lineDataSet.setColor(getResources().getColor(R.color.pitch_black));
         lineData = new LineData(lineDataSet);
 
         lineDataNew = new LineData(lineDataSet);    //for 30000
@@ -1157,7 +1166,7 @@ public class MonitorActivity extends AppCompatActivity {
 
     private  void initiatePopupWindowModified(final View v){
         View layout = getLayoutInflater().inflate(R.layout.session_summary, null);
-
+        int color = ValueBasedColorOperations.getCOlorBasedOnTheBodyPart(bodypart,maxAngle,minAngle,this);
         report = new PopupWindow(layout, ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT,true);
         report.setWindowLayoutMode(ConstraintLayout.LayoutParams.MATCH_PARENT,ConstraintLayout.LayoutParams.MATCH_PARENT);
         report.setOutsideTouchable(true);
@@ -1180,6 +1189,9 @@ public class MonitorActivity extends AppCompatActivity {
         TextView tv_num_of_reps = layout.findViewById(R.id.tv_num_of_reps);
         TextView tv_max_emg = layout.findViewById(R.id.tv_max_emg);
         TextView tv_session_num = layout.findViewById(R.id.tv_session_no);
+        TextView tv_orientation_and_bodypart = layout.findViewById(R.id.tv_orientation_and_bodypart);
+        TextView tv_musclename = layout.findViewById(R.id.tv_muscle_name);
+        TextView tv_exercise_name = layout.findViewById(R.id.tv_exercise_name);
         LinearLayout ll_click_to_view_report = layout.findViewById(R.id.ll_click_to_view_report);
         LinearLayout ll_click_to_choose_body_part = layout.findViewById(R.id.ll_click_to_choose_bodypart);
 
@@ -1187,6 +1199,11 @@ public class MonitorActivity extends AppCompatActivity {
 
         //setting session no
         tv_session_num.setText(tv_session_no.getText().toString());
+        tv_exercise_name.setText(BodyPartSelection.exercisename);
+
+        tv_orientation_and_bodypart.setText(orientation+"-"+bodypart);
+        tv_musclename.setText(BodyPartSelection.musclename);
+
         ll_click_to_choose_body_part.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1216,8 +1233,8 @@ public class MonitorActivity extends AppCompatActivity {
         });
 
         //Share and cancel image view
-        LinearLayout summary_go_back = layout.findViewById(R.id.summary_go_back);
-        LinearLayout summary_share =  layout.findViewById(R.id.summary_share);
+        ImageView summary_go_back = layout.findViewById(R.id.summary_go_back);
+        ImageView summary_share =  layout.findViewById(R.id.summary_share);
 
         summary_share.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1259,7 +1276,9 @@ public class MonitorActivity extends AppCompatActivity {
 
 
         tv_min_angle.setText(Integer.toString(minAngle)+"°");
+        tv_min_angle.setBackgroundColor(color);
         tv_max_angle.setText(Integer.toString(maxAngle)+"°");
+        tv_max_angle.setBackgroundColor(color);
 
 
         //total session time
@@ -1275,23 +1294,28 @@ public class MonitorActivity extends AppCompatActivity {
 
         tv_num_of_reps.setText(Repetitions.getText().toString());
         tv_max_emg.setText(Float.toString(maxEmgValue).concat("mV"));
+        tv_max_emg.setBackgroundColor(color);
 
         //Creating the arc
         ArcViewInside arcView =layout.findViewById(R.id.session_summary_arcview);
         arcView.setMaxAngle(maxAngle);
         arcView.setMinAngle(minAngle);
+        arcView.setRangeColor(color);
         TextView tv_180 = layout.findViewById(R.id.tv_180);
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
             tv_180.setPadding(5,1,170,1);
         }
 
-        arcView.setRangeColor(getResources().getColor(R.color.good_green));
+//        arcView.setRangeColor(getResources().getColor(R.color.good_green));
 
         //Max Emg Progress
         pb_max_emg.setMax(400);
         pb_max_emg.setProgress((int) (maxEmgValue*100));
         pb_max_emg.setEnabled(false);
-
+        LayerDrawable bgShape = (LayerDrawable) pb_max_emg.getProgressDrawable();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            bgShape.findDrawableByLayerId(bgShape.getId(1)).setTint(color);
+        }
 
         storeLocalSessionDetails(dateString,tempSessionTime);
 
@@ -1335,30 +1359,22 @@ public class MonitorActivity extends AppCompatActivity {
         pw.setContentView(layout);
         pw.setFocusable(true);
         pw.showAtLocation(view, Gravity.CENTER, 0, 0);
-        final EditText et_pain_scale = layout.findViewById(R.id.comment_et_pain_scale);
-        final EditText et_muscle_tone = layout.findViewById(R.id.comment_et_muscle_tone);
         final EditText et_exercise_name = layout.findViewById(R.id.comment_exercise_name);
         final EditText et_comment_section = layout.findViewById(R.id.comment_et_comment);
-        final EditText et_symptoms = layout.findViewById(R.id.comment_et_symptoms);
-
-        et_pain_scale.setText(BodyPartSelection.painscale);
-        et_muscle_tone.setText(BodyPartSelection.muscletone);
         et_exercise_name.setText(BodyPartSelection.exercisename);
         et_comment_section.setText(BodyPartSelection.commentsession);
-        et_symptoms.setText(BodyPartSelection.symptoms);
 
         Button btn_continue = layout.findViewById(R.id.comment_btn_continue);
         Button btn_cancel = layout.findViewById(R.id.comment_btn_cancel);
+        Button set_reference = layout.findViewById(R.id.comment_btn_setreference);
+        set_reference.setVisibility(View.GONE);
         btn_cancel.setVisibility(View.VISIBLE);
         btn_continue.setText("save");
         btn_continue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BodyPartSelection.painscale = et_pain_scale.getText().toString();
-                BodyPartSelection.muscletone = et_muscle_tone.getText().toString();
                 BodyPartSelection.exercisename = et_exercise_name.getText().toString();
                 BodyPartSelection.commentsession = et_comment_section.getText().toString();
-                BodyPartSelection.symptoms = et_symptoms.getText().toString();
                 JSONObject object = new JSONObject();
                 MqttMessage message = new MqttMessage();
 
@@ -1366,11 +1382,11 @@ public class MonitorActivity extends AppCompatActivity {
                     object.put("phizioemail",json_phizio.get("phizioemail"));
                     object.put("patientid",patientId.getText().toString());
                     object.put("heldon",dateString);
-                    object.put("painscale",et_pain_scale.getText().toString());
-                    object.put("muscletone",et_muscle_tone.getText().toString());
+                    object.put("painscale",BodyPartSelection.painscale);
+                    object.put("muscletone",BodyPartSelection.muscletone);
                     object.put("exercisename",et_exercise_name.getText().toString());
                     object.put("commentsession",et_comment_section.getText().toString());
-                    object.put("symptoms",et_symptoms.getText().toString());
+                    object.put("symptoms",BodyPartSelection.symptoms);
 
                     message.setPayload(object.toString().getBytes());
                     if(NetworkOperations.isNetworkAvailable(MonitorActivity.this))
@@ -1603,8 +1619,6 @@ public class MonitorActivity extends AppCompatActivity {
                 }
                 break;
             }
-
-
         }
     }
 

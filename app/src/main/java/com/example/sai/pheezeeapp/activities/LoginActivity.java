@@ -259,7 +259,7 @@ public class LoginActivity extends AppCompatActivity {
                                         }
 
                                     } else {
-                                        Toast.makeText(LoginActivity.this, "Invalid Otp Entered!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), "Invalid Otp Entered!", Toast.LENGTH_SHORT).show();
                                         editText.setText(null);
                                     }
                                 }

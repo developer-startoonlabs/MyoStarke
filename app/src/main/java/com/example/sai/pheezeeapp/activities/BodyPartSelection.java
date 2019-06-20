@@ -348,12 +348,8 @@ public class BodyPartSelection extends AppCompatActivity {
         pw.setContentView(layout);
         pw.setFocusable(true);
         pw.showAtLocation(view, Gravity.CENTER, 0, 0);
-
-        final EditText et_pain_scale = layout.findViewById(R.id.comment_et_pain_scale);
-        final EditText et_muscle_tone = layout.findViewById(R.id.comment_et_muscle_tone);
         final EditText et_exercise_name = layout.findViewById(R.id.comment_exercise_name);
         final EditText et_comment_section = layout.findViewById(R.id.comment_et_comment);
-        final EditText et_symptoms = layout.findViewById(R.id.comment_et_symptoms);
         final Button btn_set_reference = layout.findViewById(R.id.comment_btn_setreference);
         final Button btn_continue = layout.findViewById(R.id.comment_btn_continue);
         btn_set_reference.setOnClickListener(new View.OnClickListener() {
@@ -430,11 +426,8 @@ public class BodyPartSelection extends AppCompatActivity {
         btn_continue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                painscale = et_pain_scale.getText().toString();
-                muscletone = et_muscle_tone.getText().toString();
                 exercisename = et_exercise_name.getText().toString();
                 commentsession = et_comment_section.getText().toString();
-                symptoms = et_symptoms.getText().toString();
 
 
 
