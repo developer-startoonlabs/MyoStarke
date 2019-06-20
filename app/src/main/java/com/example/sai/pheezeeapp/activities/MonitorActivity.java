@@ -187,6 +187,7 @@ public class MonitorActivity extends AppCompatActivity {
     }
 
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -231,17 +232,17 @@ public class MonitorActivity extends AppCompatActivity {
         });
 
 
-//        tv_snap.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                if (event.getAction() == android.view.MotionEvent.ACTION_DOWN) {
-//                    tv_snap.setAlpha(0.4f);
-//                } else if (event.getAction() == android.view.MotionEvent.ACTION_UP) {
-//                    Log.d("TouchTest", "Touch up");
-//                }
-//                return false;
-//            }
-//        });
+        tv_snap.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == android.view.MotionEvent.ACTION_DOWN) {
+                    tv_snap.setAlpha(0.4f);
+                } else if (event.getAction() == android.view.MotionEvent.ACTION_UP) {
+                    tv_snap.setAlpha(1f);
+                }
+                return false;
+            }
+        });
 
 
 
