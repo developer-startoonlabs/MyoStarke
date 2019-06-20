@@ -37,6 +37,28 @@ public class ByteToArrayOperations {
         return emg_data;
     }
 
+    public static float[] constructEmgDataWithGain(byte[] sub_byte, int gain){
+        int k=0;
+        float[] emg_data = new float[emg_data_size_session];
+        for (int i = 0; i<emg_num_packets_session; i++){
+            int a = sub_byte[i]&0xFF;
+            int b = sub_byte[i+1]&0xFF;
+
+            emg_data[k] = b<<8 | a;
+            //emg formula
+
+            emg_data[k] = (float) (emg_data[k]/284.44);
+//            Log.i("Emg before 1000",String.valueOf(emg_data[k]));
+            emg_data[k]/=1000;
+//            Log.i("Emg after 1000",String.valueOf(emg_data[k]));
+            emg_data[k]= Float.parseFloat(roundOffTo2DecPlaces(emg_data[k]));
+//            Log.i("EMG VALUE", String.valueOf(emg_data[k]));
+            i++;
+            k++;
+        }
+        return emg_data;
+    }
+
     public static String roundOffTo2DecPlaces(float val)
     {
         return String.format("%.2f", val);

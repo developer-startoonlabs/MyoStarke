@@ -88,7 +88,7 @@ import java.util.UUID;
 public class MonitorActivity extends AppCompatActivity {
 
     //max min angle emg showing views
-    TextView tv_max_angle, tv_min_angle, tv_max_emg;
+    TextView tv_max_angle, tv_min_angle, tv_max_emg; int software_gain = 0;
     int ui_rate = 0;
     public final int sub_byte_size = 48;
     int maxAnglePart, minAnglePart, angleCorrection = 0, currentAngle=0;
@@ -884,12 +884,13 @@ public class MonitorActivity extends AppCompatActivity {
 
 
                 byte sub_byte[] = new byte[sub_byte_size];
-                int j = 2;
-                for (int i = 0; i < sub_byte_size; i++, j++) {
-                    sub_byte[i] = temp_byte[j];
-                }
+
                 if (ByteToArrayOperations.byteToStringHexadecimal(header_main).equals("AA")) {
                     if (ByteToArrayOperations.byteToStringHexadecimal(header_sub).equals("01")) {
+                        int j = 2;
+                        for (int i = 0; i < sub_byte_size; i++, j++) {
+                            sub_byte[i] = temp_byte[j];
+                        }
                         Message message = Message.obtain();
                         message.obj = sub_byte;
 
@@ -902,6 +903,22 @@ public class MonitorActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                    }
+                }
+                if(ByteToArrayOperations.byteToStringHexadecimal(header_main).equals("AF")){
+                    software_gain = header_sub;
+                    Log.i("Software gain",String.valueOf(software_gain));
+                    Message message = Message.obtain();
+                    message.obj = sub_byte;
+
+                    myHandler.sendMessage(message);
+//                        new MyAsync().doInBackground(sub_byte);
+
+                    try {
+                        sessionResult.put(message);
+                        sessionObj.put("data", sessionResult);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
                 }
             }
@@ -995,7 +1012,7 @@ public class MonitorActivity extends AppCompatActivity {
             float[] emg_data;
             byte[] sub_byte;
             sub_byte = (byte[]) message.obj;
-            emg_data = ByteToArrayOperations.constructEmgData(sub_byte);
+            emg_data = ByteToArrayOperations.constructEmgDataWithGain(sub_byte,software_gain);
             angleDetected = ByteToArrayOperations.getAngleFromData(sub_byte[40],sub_byte[41]);
             num_of_reps = ByteToArrayOperations.getNumberOfReps(sub_byte[42], sub_byte[43]);
             hold_time_minutes = sub_byte[44];
@@ -1056,7 +1073,7 @@ public class MonitorActivity extends AppCompatActivity {
                 lineChart.getAxisLeft().setValueFormatter(new IAxisValueFormatter() {
                     @Override
                     public String getFormattedValue(float value, AxisBase axis) {
-                        return (int) value + "μV";
+                        return (int) value + "mV";
                     }
                 });
                 if (UpdateTime / 1000 > 3)
