@@ -1,5 +1,7 @@
 package com.example.sai.pheezeeapp.utils;
 
+import android.util.Log;
+
 public class ByteToArrayOperations {
     private static int emg_data_size_session = 20;
     private static int emg_num_packets_session = 40;
@@ -46,12 +48,14 @@ public class ByteToArrayOperations {
 
             emg_data[k] = b<<8 | a;
             //emg formula
-
-            emg_data[k] = (float) (emg_data[k]/284.44);
+            Log.i("emg_data1",String.valueOf(emg_data[k]));
+//            emg_data[k] = (float) (emg_data[k]/284.44);
 //            Log.i("Emg before 1000",String.valueOf(emg_data[k]));
-            emg_data[k]/=1000;
-//            Log.i("Emg after 1000",String.valueOf(emg_data[k]));
-            emg_data[k]= Float.parseFloat(roundOffTo2DecPlaces(emg_data[k]));
+
+//            emg_data[k]/=1000;
+//            Log.i("emg_data2",String.valueOf(emg_data[k]));
+////            Log.i("Emg after 1000",String.valueOf(emg_data[k]));
+//            emg_data[k]= Float.parseFloat(roundOffTo2DecPlaces(emg_data[k]));
 //            Log.i("EMG VALUE", String.valueOf(emg_data[k]));
             i++;
             k++;

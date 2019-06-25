@@ -82,4 +82,82 @@ public class ValueBasedColorOperations {
        }
        return range;
     }
+    public static int getBodyPartMaxValue(String bodypart){
+        int max = 0;
+        switch (bodypart.toLowerCase()){
+            case "elbow":{
+                max = 90;
+                break;
+            }
+
+            case "knee":{
+                max = 135;
+                break;
+            }
+
+            case "ankle":{
+                max = 50;
+                break;
+            }
+            case "hip":{
+                max = 50;
+                break;
+            }
+
+            case "wrist":{
+                max = 50;
+                break;
+            }
+
+            case "shoulder":{
+                max = 180;
+                break;
+            }
+
+            case "others":{
+                max = 0;
+                break;
+            }
+        }
+        return max;
+    }
+    public static int getBodyPartMinValue(String bodypart){
+        int range = 0;
+        switch (bodypart.toLowerCase()){
+            case "elbow":{
+                range = -70;
+                break;
+            }
+
+            case "knee":{
+                range = 0;
+                break;
+            }
+
+            case "ankle":{
+                range = -50;
+                break;
+            }
+            case "hip":{
+                range = 0;
+                break;
+            }
+
+            case "wrist":{
+                range = -50;
+                break;
+            }
+
+            case "shoulder":{
+                range = -70;
+                break;
+            }
+
+            case "others":{
+                range = 0;
+                break;
+            }
+        }
+        return range;
+    }
 }

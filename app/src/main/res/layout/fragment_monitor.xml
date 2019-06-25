@@ -214,44 +214,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.49" />
 
-
-        <!--<com.goodiebag.protractorview.ProtractorView-->
-            <!--android:id="@+id/rangeOfMotion"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--app:angle="15"-->
-            <!--app:angleTextSize="10sp"-->
-            <!--app:arcColor="#4a4a4a"-->
-            <!--app:arcProgressColor="#CCA586"-->
-            <!--app:arcWidth="4dp"-->
-            <!--app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--app:layout_constraintEnd_toEndOf="parent"-->
-            <!--app:layout_constraintHorizontal_bias="0.0"-->
-            <!--app:layout_constraintStart_toStartOf="parent"-->
-            <!--app:layout_constraintTop_toTopOf="parent"-->
-            <!--app:layout_constraintVertical_bias="1.0"-->
-            <!--app:progressWidth="4dp"-->
-            <!--app:roundEdges="true"-->
-            <!--app:textColor="#000"-->
-            <!--app:textProgressColor="#FF0000"-->
-            <!--app:tickColor="#4a4a4a"-->
-            <!--app:tickIntervals="10"-->
-            <!--app:tickLength="10dp"-->
-            <!--app:tickOffset="18dp"-->
-            <!--app:tickProgressColor="#abe6"-->
-            <!--app:ticksBetweenLabel="three"-->
-            <!--app:touchInside="true" />-->
-
-        <!--<TextView-->
-            <!--android:id="@+id/Angle"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="-60dp"-->
-            <!--android:fontFamily="@font/ebrima"-->
-            <!--android:includeFontPadding="false"-->
-            <!--android:text="00"-->
-            <!--android:textColor="#4B7080"-->
-            <!--android:textSize="30sp" />-->
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content">

@@ -24,13 +24,14 @@ import com.example.sai.pheezeeapp.R;
 
 public class ArcViewInside extends View {
     Context context;
+    boolean enableMinMaxLines = false;
+    int min = 0, max = 0;
     int min_angle=-10, max_angle=-95;
     Path path;
     int range_color = Color.BLUE;
     int mX=50, mY=50;
     int radius = 100;
     Paint mPaint ;
-    boolean showPoints = false;
     RectF oval, circle;
     Bitmap bitmap;
     public ArcViewInside(Context context) {
@@ -122,6 +123,14 @@ public class ArcViewInside extends View {
         canvas.drawText(String.valueOf(max_angle).concat("°"),oval.centerX()-(radius/7),oval.centerY()+(radius/10),paint_angle);
         Point p = calculatePointOnArc(oval.centerX(),oval.centerY(),radius,-min_angle-(max_angle-min_angle));
         drawCircleOnArc(p,canvas,paint);
+        Paint range_paint = new Paint();
+        range_paint.setTextSize(radius/6);
+        range_paint.setColor(Color.RED);
+//        Point p1 = calculatePointOnArc(oval.centerX(),oval.centerY(),radius,-(-30));
+//        Point p2 = calculatePointOnArc(oval.centerX(),oval.centerY(),radius,-120);
+//        drawMaxMinCircleOnArc(p1,p2,canvas,paint,range_paint);
+        if(enableMinMaxLines)
+            drawMinMaxLines(canvas,oval.centerX(),oval.centerY(),radius,-min,-max);
 
 //        canvas.drawText("90",getWidth()/2,100,paint);
         canvas.save();
@@ -173,6 +182,58 @@ public class ArcViewInside extends View {
         invalidate();
     }
 
+    private void drawMaxMinCircleOnArc(Point p1, Point p2, Canvas canvas, Paint paint1, Paint paint) {
+        canvas.drawCircle(p1.x , p1.y, radius / 10, paint1);
+        canvas.drawCircle(p2.x , p2.y, radius / 10, paint);
+
+
+    }
+    private void drawMinMaxLines(Canvas canvas,float circleCeX, float circleCeY, float circleRadius, float startAngle, float endAngle){
+        float scaleMarkSize = getResources().getDisplayMetrics().density * 16;
+        float minAngle = (float) Math.toRadians(120); // Need to convert to radians first
+        float maxAngle = (float) Math.toRadians(-30);
+
+//        float startX = (float) (mX + radius * Math.sin(minAngle));
+//        float startY = (float) (mY - radius * Math.cos(minAngle));
+//
+//        float stopX = (float) (mX + (radius - scaleMarkSize) * Math.sin(minAngle));
+//        float stopY = (float) (mY - (radius - scaleMarkSize) * Math.cos(minAngle));
+        double endAngleRadian = Math.toRadians(startAngle);
+        int startX = (int) Math.round((circleCeX + (circleRadius+25) * Math.cos(endAngleRadian)));
+        int startY = (int) Math.round((circleCeY + (circleRadius+25) * Math.sin(endAngleRadian)));
+
+        int stopX = (int) Math.round((circleCeX + (circleRadius-25) * Math.cos(endAngleRadian)));
+        int stopY = (int) Math.round((circleCeY + (circleRadius-25) * Math.sin(endAngleRadian)));
+
+//        startX = (float) (startX-(scaleMarkSize*Math.cos(minAngle)));
+//        startY = (float) (startY-(scaleMarkSize*Math.sin(minAngle)));
+//        stopX = (float) (stopX-(scaleMarkSize*Math.cos(minAngle)));
+//        stopY = (float) (stopY-(scaleMarkSize*Math.sin(minAngle)));
+
+
+//        float startX1 = (float) (mX + radius * Math.sin(maxAngle));
+//        float startY1 = (float) (mY - radius * Math.cos(maxAngle));
+//
+//        float stopX1 = (float) (mX + (radius - scaleMarkSize) * Math.sin(maxAngle));
+//        float stopY1 = (float) (mY - (radius - scaleMarkSize) * Math.cos(maxAngle));
+
+        endAngleRadian = Math.toRadians(endAngle);
+        int startX1 = (int) Math.round((circleCeX + (circleRadius+25) * Math.cos(endAngleRadian)));
+        int startY1 = (int) Math.round((circleCeY + (circleRadius+25) * Math.sin(endAngleRadian)));
+
+        int stopX1 = (int) Math.round((circleCeX + (circleRadius-25) * Math.cos(endAngleRadian)));
+        int stopY1 = (int) Math.round((circleCeY + (circleRadius-25) * Math.sin(endAngleRadian)));
+
+        Paint range_paint = new Paint();
+        range_paint.setTextSize(radius/6);
+        range_paint.setColor(ContextCompat.getColor(context,R.color.home_orange));
+        range_paint.setStrokeWidth(10);
+
+        canvas.drawLine(startX, startY, stopX, stopY, range_paint);
+        range_paint.setColor(ContextCompat.getColor(context,R.color.home_orange));
+        canvas.drawLine(startX1, startY1, stopX1, stopY1, range_paint);
+
+    }
     private void drawCircleOnArc(Point p, Canvas canvas,Paint paint) {
 //        if(max_angle<0)
 //            canvas.drawCircle(p.x,p.y-30,radius/10,paint);
@@ -197,6 +258,26 @@ public class ArcViewInside extends View {
         canvas.drawCircle(p.x , p.y, radius / 10, paint);
     }
 
+    public void setEnableMinMaxLines(boolean enableMinMaxLines){
+        this.enableMinMaxLines = enableMinMaxLines;
+        invalidate();
+        postInvalidate();
+    }
+
+    public void setMinMaxLinesValues(int min, int max){
+        this.min = min;
+        this.max = max;
+        invalidate();
+        postInvalidate();
+    }
+
+    public void setEnableAndMinMax(int min,int max, boolean enableMinMaxLines){
+        this.enableMinMaxLines = enableMinMaxLines;
+        this.min = min;
+        this.max = max;
+        invalidate();
+        postInvalidate();
+    }
     public void setMinAngle(int min_angle){
         this.min_angle = min_angle;
         invalidate();

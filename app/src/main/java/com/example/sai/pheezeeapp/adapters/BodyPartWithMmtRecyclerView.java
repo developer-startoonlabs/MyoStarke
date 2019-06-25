@@ -40,7 +40,7 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
     private JSONArray json_patients;
     private JSONArray json_patient_mmt;
     private String patientID;
-    private int selectedPosition = -1;
+    public static int selectedPosition = -1;
 
 
     public static String gradeSelected="",bodypartSelected="", orientationSelected="";
@@ -165,7 +165,6 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
 
         Log.i("position",position+"");
         if(selectedPosition!=position && selectedPosition!=-1){
-//            ((BodyPartSelection)context).visibilityChanged(position,position);
             if (holder.rl_left_section.getVisibility() == View.VISIBLE)
                 holder.rl_left_section.setVisibility(View.INVISIBLE);
 
@@ -220,9 +219,10 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
                 ((BodyPartSelection)context).setFabVisible();
                 editor = preferences.edit();
                 if(selectedPosition!=-1){
-                    ((BodyPartSelection)context).visibilityChanged(selectedPosition,position);
+                    notifyItemChanged(selectedPosition);
                 }
                 selectedPosition = position;
+                BodyPartSelection.musclename = "";
                 Log.i("clicked","clicked"+position);
                 bodypartSelected = holder.tv_body_part_name.getText().toString();
                 holder.iv_bodypart.setVisibility(View.INVISIBLE);
@@ -337,7 +337,8 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
         holder.sp_muscle_name.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                BodyPartSelection.musclename = holder.sp_muscle_name.getSelectedItem().toString();
+                if(position!=0)
+                    BodyPartSelection.musclename = holder.sp_muscle_name.getSelectedItem().toString();
             }
 
             @Override
@@ -352,11 +353,12 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(!holder.sp_set_goal.getSelectedItem().toString().equals("Set Goal")) {
-                    int selected  = Integer.parseInt(holder.sp_set_goal.getSelectedItem().toString().substring(0,2).trim());
+                    String str_goal = holder.sp_set_goal.getSelectedItem().toString().substring(0,2);
+                    str_goal = str_goal.replaceAll("\\s+","");
+                    BodyPartSelection.repsselected = Integer.parseInt(str_goal);
                     holder.ll_tv_section.setVisibility(View.VISIBLE);
                     holder.sp_set_goal.setVisibility(View.GONE);
                     holder.tv_selected_goal_text.setText(holder.sp_set_goal.getSelectedItem().toString());
-                    BodyPartSelection.repsselected  = Integer.parseInt(holder.sp_set_goal.getSelectedItem().toString().substring(0,2));
 //                    if(selected==5){
 //                        holder.ll_tv_section.setBackgroundColor(R.color.red);
 //                    }

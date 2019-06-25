@@ -250,45 +250,7 @@
                 android:textSize="16sp" />
         </LinearLayout>
 
-        <com.goodiebag.protractorview.ProtractorView
-            android:id="@+id/rangeOfMotion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            app:angle="15"
-            app:angleTextSize="10sp"
-            app:arcColor="#4a4a4a"
-            app:arcProgressColor="#CCA586"
-            app:arcWidth="4dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0"
-            app:progressWidth="4dp"
-            app:roundEdges="true"
-            app:textColor="#000"
-            app:textProgressColor="#FF0000"
-            app:tickColor="#4a4a4a"
-            app:tickIntervals="15"
-            app:tickLength="10dp"
-            app:tickOffset="18dp"
-            app:tickProgressColor="#abe6"
-            app:ticksBetweenLabel="three"
-            app:touchInside="true" />
 
-        <TextView
-            android:id="@+id/Angle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="0dp"
-            android:fontFamily="@font/ebrima"
-            android:includeFontPadding="false"
-            android:padding="0dp"
-            android:text="00"
-            android:textColor="@color/pitch_black"
-            android:textSize="30sp" />
     </LinearLayout>
 
     <TextView

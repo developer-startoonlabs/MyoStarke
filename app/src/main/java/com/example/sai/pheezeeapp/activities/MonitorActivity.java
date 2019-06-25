@@ -16,16 +16,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.Point;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.media.MediaScannerConnection;
 import android.net.ConnectivityManager;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -35,12 +30,9 @@ import android.os.Message;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.constraint.ConstraintLayout;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.content.res.AppCompatResources;
 import android.text.InputType;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -58,8 +50,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.sai.pheezeeapp.classes.BluetoothSingelton;
 import com.example.sai.pheezeeapp.R;
+import com.example.sai.pheezeeapp.classes.BluetoothSingelton;
 import com.example.sai.pheezeeapp.services.MqttHelper;
 import com.example.sai.pheezeeapp.utils.AngleOperations;
 import com.example.sai.pheezeeapp.utils.BatteryOperation;
@@ -75,7 +67,6 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
-import com.goodiebag.protractorview.ProtractorView;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
@@ -108,8 +99,9 @@ public class MonitorActivity extends AppCompatActivity {
     SharedPreferences.Editor editor;
     JSONObject json_phizio = new JSONObject();
     JSONArray jsonData, emgJsonArray, romJsonArray;
-    public final int emg_data_size_raw = 20;
-    public final int emg_num_packets_raw = 40;
+    boolean inside_ondestroy = false;
+//    public final int emg_data_size_raw = 20;
+//    public final int emg_num_packets_raw = 40;
     ImageView iv_back_monitor;
 
     File  file_session_emgdata, file_dir_session_emgdata,file_session_romdata,file_session_sessiondetails;
@@ -129,14 +121,12 @@ public class MonitorActivity extends AppCompatActivity {
     List<Entry> dataPoints;
     LineChart lineChart;
     LineDataSet lineDataSet;
-    private static final String TAG = null;
     BluetoothGattCharacteristic mCharacteristic;
     BluetoothGatt mBluetoothGatt;
-    TextView Angle,tv_snap;
+    TextView tv_snap;
     TextView Repetitions;
     TextView holdTime,tv_session_no, tv_body_part, tv_repsselected;
     TextView EMG;
-    ProtractorView rangeOfMotion;
     ArcViewInside arcViewInside;
     TextView time;
     TextView patientId;
@@ -196,7 +186,7 @@ public class MonitorActivity extends AppCompatActivity {
     }
 
 
-    @SuppressLint("ClickableViewAccessibility")
+    @SuppressLint({"ClickableViewAccessibility", "SetTextI18n"})
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -237,6 +227,7 @@ public class MonitorActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 takeScreenshot(null);
+                Toast.makeText(MonitorActivity.this, "Took Screenshot", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -365,7 +356,6 @@ public class MonitorActivity extends AppCompatActivity {
                     Log.i("minAngle",""+minAngle);
 //                if(maxAngle!=0&&!(maxAngle>180)&&minAngle!=180&&!(minAngle<0)) {
                     tsLong = System.currentTimeMillis();
-                    String ts = tsLong.toString();
 
                     insertValuesAndNotifyMediaStore();
                 }
@@ -603,7 +593,7 @@ public class MonitorActivity extends AppCompatActivity {
             rawdata_timestamp = Calendar.getInstance().getTime();
             android.text.format.DateFormat df = new android.text.format.DateFormat();
 //            String s = rawdata_timestamp.toString().substring(0, 19);
-            String s = String.valueOf(df.format("yyyy-MM-dd hh-mm-ssa", rawdata_timestamp));
+            String s = String.valueOf(DateFormat.format("yyyy-MM-dd hh-mm-ssa", rawdata_timestamp));
             String child = patientName.getText().toString()+patientId.getText().toString();
             file_dir_session_emgdata = new File(Environment.getExternalStorageDirectory()+"/Pheezee/files/EmgData/"+child+"/sessiondata/",s);
             if (!file_dir_session_emgdata.exists()) {
@@ -733,7 +723,6 @@ public class MonitorActivity extends AppCompatActivity {
 //        ConstraintLayout mConstraintLayout = findViewById(R.id.monitorLayout);
 //        LinearLayout linearLayout = mConstraintLayout.findViewById(R.id.pIdAndPName);
 //        ProtractorView rangeOfMotionTemp = mConstraintLayout.findViewById(R.id.rangeOfMotion);
-//        TextView angleTemp = mConstraintLayout.findViewById(R.id.Angle);
 //        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
 //            linearLayout.setOrientation(LinearLayout.VERTICAL);
 //            rangeOfMotionTemp.setVisibility(View.GONE);
@@ -756,13 +745,13 @@ public class MonitorActivity extends AppCompatActivity {
 //        mConstraintSet1.setVisibility(R.id.stopBtn,ConstraintSet.VISIBLE);
 //        mConstraintSet1.applyTo(mConstraintLayout);
 
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-//            rangeOfMotion.setVisibility(View.INVISIBLE);
-        }
-
-        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-//            rangeOfMotion.setVisibility(View.VISIBLE);
-        }
+//        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+////            rangeOfMotion.setVisibility(View.INVISIBLE);
+//        }
+//
+//        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+////            rangeOfMotion.setVisibility(View.VISIBLE);
+//        }
     }
 
     private void creatGraphView() {
@@ -898,7 +887,7 @@ public class MonitorActivity extends AppCompatActivity {
         @Override
         public void onCharacteristicChanged(final BluetoothGatt gatt, final BluetoothGattCharacteristic characteristic) {
             if(characteristic1_service1_uuid.equals(characteristic.getUuid())) {
-                byte temp_byte[];
+                byte[] temp_byte;
 
                 temp_byte = characteristic.getValue();
 
@@ -906,7 +895,7 @@ public class MonitorActivity extends AppCompatActivity {
                 byte header_sub = temp_byte[1];
 
 
-                byte sub_byte[] = new byte[sub_byte_size];
+                byte[] sub_byte = new byte[sub_byte_size];
 
                 if (ByteToArrayOperations.byteToStringHexadecimal(header_main).equals("AA")) {
                     if (ByteToArrayOperations.byteToStringHexadecimal(header_sub).equals("01")) {
@@ -949,15 +938,15 @@ public class MonitorActivity extends AppCompatActivity {
 
         @Override
         public void onDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
-            if(descriptor_characteristic1_service1_uuid.equals(descriptor.getUuid())){
-            }
         }
 
 
 
         @Override
         public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
-            if(descriptor.getCharacteristic().getUuid().equals(mCharacteristic.getUuid())){
+            if(inside_ondestroy){
+                mBluetoothGatt.disconnect();
+                mBluetoothGatt.close();
             }
         }
     };
@@ -979,10 +968,6 @@ public class MonitorActivity extends AppCompatActivity {
                 return false;
             }
         }
-        if(characteristic1_service1_uuid.equals(mCharacteristic.getUuid())){
-        }
-
-
         mCharacteristic.setValue(data);
 
         return mBluetoothGatt.writeCharacteristic(mCharacteristic);
@@ -1037,6 +1022,10 @@ public class MonitorActivity extends AppCompatActivity {
             sub_byte = (byte[]) message.obj;
             emg_data = ByteToArrayOperations.constructEmgDataWithGain(sub_byte,software_gain);
             angleDetected = ByteToArrayOperations.getAngleFromData(sub_byte[40],sub_byte[41]);
+            if(ui_rate==0){
+                minAngle = angleDetected;
+                maxAngle = angleDetected;
+            }
             num_of_reps = ByteToArrayOperations.getNumberOfReps(sub_byte[42], sub_byte[43]);
             hold_time_minutes = sub_byte[44];
             hold_time_seconds = sub_byte[45];
@@ -1046,7 +1035,7 @@ public class MonitorActivity extends AppCompatActivity {
             currentAngle=angleDetected;
             String angleValue = ""+angleDetected;
             String repetitionValue = ""+num_of_reps;
-
+            Repetitions.setText(repetitionValue);
             String minutesValue=""+hold_time_minutes,secondsValue=""+hold_time_seconds;
             if(hold_time_minutes<10)
                 minutesValue = "0"+hold_time_minutes;
@@ -1084,8 +1073,8 @@ public class MonitorActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-//            }
-//            Angle.setText(angleValue);
+            LinearLayout.LayoutParams params;
+            params = (LinearLayout.LayoutParams) emgSignal.getLayoutParams();
             for (int i=0;i<emg_data.length;i++) {
                 ++ui_rate;
                 lineData.addEntry(new Entry((float) ui_rate / 1000, emg_data[i]), 0);
@@ -1102,10 +1091,6 @@ public class MonitorActivity extends AppCompatActivity {
                 if (UpdateTime / 1000 > 3)
                     lineChart.setVisibleXRangeMaximum(5f);
                 lineChart.moveViewToX((float) ui_rate / 1000);
-            }
-//            lineDataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-
-            for (int i=0;i<emg_data.length;i++) {
                 try {
                     outputStream_session_emgdata = new FileOutputStream(file_session_emgdata, true);
                     outputStream_session_emgdata.write(String.valueOf(emg_data[i]).getBytes());
@@ -1130,17 +1115,14 @@ public class MonitorActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
-            Repetitions.setText(repetitionValue);
-            LinearLayout.LayoutParams params;
-            params = (LinearLayout.LayoutParams) emgSignal.getLayoutParams();
-            for (int i=0;i<emg_data.length;i++) {
+
                 maxEmgValue = maxEmgValue < emg_data[i] ? emg_data[i] : maxEmgValue;
                 if (maxEmgValue == 0)
                     maxEmgValue = 1;
                 tv_max_emg.setText(String.valueOf(maxEmgValue));
                 params.height = (int) (((View) emgSignal.getParent()).getMeasuredHeight() * emg_data[i] / maxEmgValue);
             }
+//            lineDataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
             //threshholds
 //            if(angleDetected>=minAnglePart && angleDetected<=maxAnglePart) {
                 maxAngle = maxAngle < angleDetected ? angleDetected : maxAngle;
@@ -1164,8 +1146,29 @@ public class MonitorActivity extends AppCompatActivity {
 
 
 
+    @SuppressLint("ClickableViewAccessibility")
     private  void initiatePopupWindowModified(final View v){
         View layout = getLayoutInflater().inflate(R.layout.session_summary, null);
+        int reference_max_angle=180, reference_min_angle=0;
+        JSONObject object_reference = PatientOperations.checkReferenceWithoutOrientationDone(this,patientId.getText().toString() , bodypart);
+        //getting the reference values if any
+        if(object_reference!=null){
+            try {
+                if(object_reference.has("maxangle") && !object_reference.getString("maxangle").equalsIgnoreCase(""))
+                    reference_max_angle = Integer.parseInt(object_reference.getString("maxangle"));
+                if(object_reference.has("minangle") && !object_reference.getString("minangle").equalsIgnoreCase(""))
+                    reference_min_angle = Integer.parseInt(object_reference.getString("minangle"));
+
+                Log.i("maxminangle",reference_max_angle+"");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }catch (NumberFormatException e){
+                object_reference = null;
+            }
+
+        }
+
+
         int color = ValueBasedColorOperations.getCOlorBasedOnTheBodyPart(bodypart,maxAngle,minAngle,this);
         report = new PopupWindow(layout, ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT,true);
         report.setWindowLayoutMode(ConstraintLayout.LayoutParams.MATCH_PARENT,ConstraintLayout.LayoutParams.MATCH_PARENT);
@@ -1192,8 +1195,8 @@ public class MonitorActivity extends AppCompatActivity {
         TextView tv_orientation_and_bodypart = layout.findViewById(R.id.tv_orientation_and_bodypart);
         TextView tv_musclename = layout.findViewById(R.id.tv_muscle_name);
         TextView tv_exercise_name = layout.findViewById(R.id.tv_exercise_name);
-        LinearLayout ll_click_to_view_report = layout.findViewById(R.id.ll_click_to_view_report);
-        LinearLayout ll_click_to_choose_body_part = layout.findViewById(R.id.ll_click_to_choose_bodypart);
+        final LinearLayout ll_click_to_view_report = layout.findViewById(R.id.ll_click_to_view_report);
+        final LinearLayout ll_click_to_choose_body_part = layout.findViewById(R.id.ll_click_to_choose_bodypart);
 
 
 
@@ -1212,6 +1215,22 @@ public class MonitorActivity extends AppCompatActivity {
                 BodyPartSelection.refreshView();
             }
         });
+
+        ll_click_to_choose_body_part.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == android.view.MotionEvent.ACTION_DOWN) {
+                    ll_click_to_choose_body_part.setAlpha(0.4f);
+                } else if (event.getAction() == android.view.MotionEvent.ACTION_UP) {
+                    ll_click_to_choose_body_part.setAlpha(1f);
+                }
+                return false;
+            }
+        });
+
+
+
+
         ll_click_to_view_report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1229,6 +1248,19 @@ public class MonitorActivity extends AppCompatActivity {
                 else {
                     NetworkOperations.networkError(MonitorActivity.this);
                 }
+            }
+        });
+
+
+        ll_click_to_view_report.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == android.view.MotionEvent.ACTION_DOWN) {
+                    ll_click_to_view_report.setAlpha(0.4f);
+                } else if (event.getAction() == android.view.MotionEvent.ACTION_UP) {
+                    ll_click_to_view_report.setAlpha(1f);
+                }
+                return false;
             }
         });
 
@@ -1275,9 +1307,9 @@ public class MonitorActivity extends AppCompatActivity {
         tv_held_on.setText(dateString_date);
 
 
-        tv_min_angle.setText(Integer.toString(minAngle)+"°");
+        tv_min_angle.setText(minAngle +"°");
         tv_min_angle.setBackgroundColor(color);
-        tv_max_angle.setText(Integer.toString(maxAngle)+"°");
+        tv_max_angle.setText(maxAngle +"°");
         tv_max_angle.setBackgroundColor(color);
 
 
@@ -1301,6 +1333,13 @@ public class MonitorActivity extends AppCompatActivity {
         arcView.setMaxAngle(maxAngle);
         arcView.setMinAngle(minAngle);
         arcView.setRangeColor(color);
+        //setting reference ranges
+        if(object_reference!=null){
+            Log.i("inside","inside object reference");
+            arcView.setEnableAndMinMax(reference_min_angle,reference_max_angle,true);
+        }
+
+
         TextView tv_180 = layout.findViewById(R.id.tv_180);
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
             tv_180.setPadding(5,1,170,1);
@@ -1517,6 +1556,7 @@ public class MonitorActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        inside_ondestroy = true;
         mqttHelper.mqttAndroidClient.unregisterResources();
         mqttHelper.mqttAndroidClient.close();
         if(mBluetoothGatt!=null && mCharacteristic!=null){
@@ -1531,6 +1571,10 @@ public class MonitorActivity extends AppCompatActivity {
         PatientsView.insideMonitor  = false;
         timer.setVisibility(View.VISIBLE);
         stopBtn.setVisibility(View.INVISIBLE);
+        if(isSessionRunning==false){
+            mBluetoothGatt.disconnect();
+            mBluetoothGatt.close();
+        }
     }
 
 
@@ -1539,7 +1583,7 @@ public class MonitorActivity extends AppCompatActivity {
         switch (string.toLowerCase()){
 
             case "elbow":{
-                byte b[] = ByteToArrayOperations.hexStringToByteArray("AA03");
+                byte[] b = ByteToArrayOperations.hexStringToByteArray("AA03");
                 if(send(b)){
                     Log.i("SENDING","MESSAGE SENT AA03");
                 }
@@ -1550,7 +1594,7 @@ public class MonitorActivity extends AppCompatActivity {
             }
 
             case "knee":{
-                byte b[] = ByteToArrayOperations.hexStringToByteArray("AA04");
+                byte[] b = ByteToArrayOperations.hexStringToByteArray("AA04");
                 if(send(b)){
                     Log.i("SENDING","MESSAGE SENT AA04");
                 }
@@ -1562,7 +1606,7 @@ public class MonitorActivity extends AppCompatActivity {
             }
 
             case "ankle":{
-                byte b[] = ByteToArrayOperations.hexStringToByteArray("AA05");
+                byte[] b = ByteToArrayOperations.hexStringToByteArray("AA05");
                 if(send(b)){
                     Log.i("SENDING","MESSAGE SENT AA05");
                 }
@@ -1573,7 +1617,7 @@ public class MonitorActivity extends AppCompatActivity {
                 break;
             }
             case "hip":{
-                byte b[] = ByteToArrayOperations.hexStringToByteArray("AA06");
+                byte[] b = ByteToArrayOperations.hexStringToByteArray("AA06");
                 if(send(b)){
                     Log.i("SENDING","MESSAGE SENT AA06");
                 }
@@ -1585,7 +1629,7 @@ public class MonitorActivity extends AppCompatActivity {
             }
 
             case "wrist":{
-                byte b[] = ByteToArrayOperations.hexStringToByteArray("AA07");
+                byte[] b = ByteToArrayOperations.hexStringToByteArray("AA07");
                 if(send(b)){
                     Log.i("SENDING","MESSAGE SENT AA07");
                 }
@@ -1597,7 +1641,7 @@ public class MonitorActivity extends AppCompatActivity {
             }
 
             case "shoulder":{
-                byte b[] = ByteToArrayOperations.hexStringToByteArray("AA08");
+                byte[] b = ByteToArrayOperations.hexStringToByteArray("AA08");
                 if(send(b)){
                     Log.i("SENDING","MESSAGE SENT AA08");
                 }
@@ -1609,7 +1653,7 @@ public class MonitorActivity extends AppCompatActivity {
             }
 
             case "others":{
-                byte b[] = ByteToArrayOperations.hexStringToByteArray("AA04");
+                byte[] b = ByteToArrayOperations.hexStringToByteArray("AA04");
                 if(send(b)){
                     Log.i("SENDING","MESSAGE SENT AA09");
                 }
@@ -1683,129 +1727,4 @@ public class MonitorActivity extends AppCompatActivity {
         }
         return snap;
     }
-
-
-//    private class MyAsync extends AsyncTask<byte[],Void,Void>{
-//
-//        @Override
-//        protected Void doInBackground(byte[]... bytes) {
-//            int angleDetected=0,num_of_reps=0, hold_time_minutes, hold_time_seconds, active_time_minutes,active_time_seconds;
-//            float[] emg_data;
-//            byte[] sub_byte;
-//            sub_byte = (byte[]) message.obj;
-//            emg_data = ByteToArrayOperations.constructEmgData(sub_byte);
-//            angleDetected = ByteToArrayOperations.getAngleFromData(sub_byte[40],sub_byte[41]);
-//            num_of_reps = ByteToArrayOperations.getNumberOfReps(sub_byte[42], sub_byte[43]);
-//            hold_time_minutes = sub_byte[24];
-//            hold_time_seconds = sub_byte[25];
-//            active_time_minutes = sub_byte[26];
-//            active_time_seconds = sub_byte[27];
-//            currentAngle=angleDetected;
-//            String angleValue = ""+angleDetected;
-//            String repetitionValue = ""+num_of_reps;
-//
-//            String minutesValue=""+hold_time_minutes,secondsValue=""+hold_time_seconds;
-//            if(hold_time_minutes<10)
-//                minutesValue = "0"+hold_time_minutes;
-//            if(hold_time_seconds<10)
-//                secondsValue = "0"+hold_time_seconds;
-//            holdTimeValue = minutesValue+" : "+secondsValue;
-//
-//            //Custom thresholds
-////            if(angleDetected>=minAnglePart && angleDetected<=maxAnglePart) {
-////                rangeOfMotion.setAngle(angleDetected);
-//            if(ui_rate%60==0) {
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        Log.i("updated ui",String.valueOf(ui_rate));
-//                        if (angleCorrected) {
-//                            angleDetected[0] += angleCorrection;
-//                            arcViewInside.setMaxAngle(angleDetected[0]);
-//
-//                            Log.i("Angle", String.valueOf(angleDetected[0]));
-//                        } else {
-//                            arcViewInside.setMaxAngle(angleDetected[0]);
-//                        }
-//                        Repetitions.setText(repetitionValue);
-//                        LinearLayout.LayoutParams params;
-//                        params = (LinearLayout.LayoutParams) emgSignal.getLayoutParams();
-//                        for (int i = 0; i < emg_data.length; i++) {
-//
-//                            lineData.addEntry(new Entry((float) UpdateTime / 1000, emg_data[i]), 0);
-//                            lineChart.invalidate();
-//                            lineChart.getXAxis();
-//                            lineChart.getAxisLeft();
-//                            lineChart.getAxisLeft().setValueFormatter(new IAxisValueFormatter() {
-//                                @Override
-//                                public String getFormattedValue(float value, AxisBase axis) {
-//                                    return (int) value + "μV";
-//                                }
-//                            });
-//                            if (UpdateTime / 1000 > 3)
-//                                lineChart.setVisibleXRangeMaximum(5f);
-//                            lineChart.moveViewToX((float) UpdateTime / 1000);
-//                            try {
-//                                outputStream_session_emgdata = new FileOutputStream(file_session_emgdata, true);
-////                                outputStream_session_emgdata.write(String.valueOf(emg_data[i]).getBytes());
-////                                outputStream_session_emgdata.write("\n".getBytes());
-//                            } catch (FileNotFoundException e) {
-//                                e.printStackTrace();
-//                            }
-//                            emgJsonArray.put(emg_data[i]);
-//                            EMG.setText(Integer.toString(emg_data[i]));
-//                            try {
-//                                outputStream_session_emgdata.flush();
-//                                outputStream_session_emgdata.close();
-//                            } catch (IOException e) {
-//                                e.printStackTrace();
-//                            }
-//                            maxEmgValue = maxEmgValue < emg_data[i] ? emg_data[i] : maxEmgValue;
-//                            if (maxEmgValue == 0)
-//                                maxEmgValue = 1;
-//                            params.height = ((View) emgSignal.getParent()).getMeasuredHeight() * emg_data[i] / maxEmgValue;
-//                        }
-//                        lineChart.notifyDataSetChanged();
-//                        maxAngle = maxAngle < angleDetected[0] ? angleDetected[0] : maxAngle;
-//                        minAngle = minAngle > angleDetected[0] ? angleDetected[0] : minAngle;
-//                        emgSignal.setLayoutParams(params);
-//                        holdTime.setText(holdTimeValue);
-//                    }
-//                });
-//            }
-//            else {
-//                        Log.i("updated values",String.valueOf(ui_rate));
-//                        for (int i = 0; i < emg_data.length; i++) {
-//                            lineData.addEntry(new Entry((float) UpdateTime / 1000, emg_data[i]), 0);
-//                            try {
-//                                outputStream_session_emgdata = new FileOutputStream(file_session_emgdata, true);
-////                                outputStream_session_emgdata.write(String.valueOf(emg_data[i]).getBytes());
-////                                outputStream_session_emgdata.write("\n".getBytes());
-//                            } catch (FileNotFoundException e) {
-//                                e.printStackTrace();
-//                            }
-//                            emgJsonArray.put(emg_data[i]);
-//                            try {
-//                                outputStream_session_emgdata.flush();
-//                                outputStream_session_emgdata.close();
-//                            } catch (IOException e) {
-//                                e.printStackTrace();
-//                            }
-//                        }
-//                        maxAngle = maxAngle < angleDetected[0] ? angleDetected[0] : maxAngle;
-//                        minAngle = minAngle > angleDetected[0] ? angleDetected[0] : minAngle;
-//            }
-//
-//            return null;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Void aVoid) {
-//            new Handler(Looper.getMainLooper()).post(new Runnable() {
-//                @Override
-//                public void run() {
-//                }
-//            });
-//        }
-//    }
 }

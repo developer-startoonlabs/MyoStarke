@@ -251,7 +251,7 @@ public class PatientOperations {
 
                 String exerciseType = object.getString("bodypart");
                 String obj_orientation = object.getString("orientation");
-                if (exerciseType.equals(bodypartSelected) )
+                if (exerciseType.equalsIgnoreCase(bodypartSelected) )
                     return object;
             } catch (JSONException e) {
                 e.printStackTrace();

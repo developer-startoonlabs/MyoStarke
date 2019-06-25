@@ -108,11 +108,11 @@ import java.util.UUID;
 
 public class PatientsView extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener {
-
     public static boolean deviceState = true, connectPressed = false, deviceBatteryUsbState = false,sessionStarted = false;
     public static int deviceBatteryPercent=0;
     public static boolean insideMonitor = false;
     RelativeLayout rl_cap_view;
+    Toast connected_disconnected_toast;
     //Caracteristic uuids
     //All the constant uuids are written here
     public static final UUID service1_uuid = UUID.fromString("909a1400-9693-4920-96e6-893c0157fedd");
@@ -228,6 +228,10 @@ public class PatientsView extends AppCompatActivity
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
+
+        //connected disconnected toast
+        connected_disconnected_toast = Toast.makeText(getApplicationContext(),null,Toast.LENGTH_SHORT);
+        connected_disconnected_toast.setGravity(Gravity.BOTTOM,30,40);
         mAdapter = new PatientsRecyclerViewAdapter(mdataset,PatientsView.this);
         mRecyclerView.setAdapter(mAdapter);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -356,9 +360,6 @@ public class PatientsView extends AppCompatActivity
             ScanDevicesActivity.selectedDeviceMacAddress = null;
         }
 
-//        if(ScanDevicesActivity.connectPressed){
-//            disconnectDevice();
-//        }
         mBluetoothManager = (BluetoothManager)getSystemService(BLUETOOTH_SERVICE);
         bluetoothAdapter = mBluetoothManager.getAdapter();
         BluetoothSingelton.getmInstance().setAdapter(bluetoothAdapter);
@@ -619,10 +620,6 @@ public class PatientsView extends AppCompatActivity
             }
 
             else if(id==R.id.nav_add_device){
-//                PopupMenu popupMenu = new PopupMenu(PatientsView.this, view, Gravity.CENTER);
-//                popupMenu.setOnMenuItemClickListener(PatientsView.this);
-//                popupMenu.inflate(R.menu.popupmenu);
-//                popupMenu.show();
                 addPheezeeDevice(item.getActionView());
             }
             else if(id==R.id.nav_add_patient){
@@ -1194,10 +1191,20 @@ public class PatientsView extends AppCompatActivity
                 pheezeeDisconnected();
             else if(status.equalsIgnoreCase("C")) {
                 pheezeeConnected();
-                showToast("Device Connected");
+//                showToast("Device Connected");
+//                    new Handler().postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            showToast("Device Connected");
+//                        }
+//                    },2000);
+                    showToast("Device Connected");
+//                connected_disconnected_toast.show();
+//                connected_disconnected_toast.show();
+//                connected_disconnected_toast.cancel();
+//                connected_disconnected_toast.setText("Device Connected");
+//                connected_disconnected_toast.show();
             }
-
-
         }
     };
 
@@ -1236,11 +1243,12 @@ public class PatientsView extends AppCompatActivity
             String action = intent.getAction();
             if(BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)){
                 Log.i("Device Status: ", "Device Disconnected");
-                Toast.makeText(PatientsView.this, "The device has got disconnected...", Toast.LENGTH_LONG).show();
+//                Toast.makeText(PatientsView.this, "The device has got disconnected...", Toast.LENGTH_LONG).show();
+                connected_disconnected_toast.setText("The device got disconnected..");
+                connected_disconnected_toast.show();
                 if(sessionStarted && insideMonitor){
                     sessionStarted=false;
                     deviceState=false;
-                    Toast.makeText(PatientsView.this, "disconnected inside", Toast.LENGTH_SHORT).show();
                 }
                 if(sharedPref.getBoolean("isLoggedIn",false)==false)
                     finish();
@@ -1645,34 +1653,6 @@ public class PatientsView extends AppCompatActivity
             NetworkOperations.networkError(PatientsView.this);
         }
     }
-
-
-    //Self reference
-
-//    public void startCalibrationSession(View view){
-//        myBottomSheetDialog.dismiss();
-//        if(bleStatusTextView.getText().toString().equals("C")) {
-//            bodyPartsPopup(view,2);
-//        }
-//        else{
-//            Toast.makeText(PatientsView.this, "Please Connect pheezee..", Toast.LENGTH_SHORT).show();
-//        }
-//    }
-
-
-    //For calibration or self reference activity
-//    private void openCalibrationActivity(String bodypart) {
-//        final TextView patientIdTemp = patientTabLayout.findViewById(R.id.patientId);
-//        TextView patientNameTemp = patientTabLayout.findViewById(R.id.patientName);
-//
-//        Intent mmt_intent = new Intent(PatientsView.this, CalibrationSession.class);
-//        mmt_intent.putExtra("deviceMacAddress", sharedPref.getString("deviceMacaddress", ""));
-//        mmt_intent.putExtra("patientid", patientIdTemp.getText().toString().substring(5));
-//        mmt_intent.putExtra("bodypart", bodypart);
-//        mmt_intent.putExtra("patientname", patientNameTemp.getText().toString());
-//        startActivity(mmt_intent);
-//        bodyPartLayoutWndow.dismiss();
-//    }
 
     public void openReportActivity(View view){
         if(NetworkOperations.isNetworkAvailable(PatientsView.this)){

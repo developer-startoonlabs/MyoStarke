@@ -65,11 +65,6 @@
 
         <service android:name="org.eclipse.paho.android.service.MqttService" />
         <service android:name=".MqttService" />
-
-        <activity
-            android:name=".dashboard.DashboardActivity"
-            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".services.Scanner"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -135,7 +130,6 @@
             android:name=".activities.DeviceInfoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activities.CalibrationSession" />
         <activity
             android:name=".activities.BodyPartSelection"
             android:screenOrientation="portrait"

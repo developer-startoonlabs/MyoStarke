@@ -339,25 +339,19 @@ public class DeviceInfoActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        String conn_status = tv_connection_status.getText().toString();
-//        if(bluetoothGatt!=null && conn_status.equals("Connected")) {
-//            if(bluetoothGatt!=null && mCharacteristic!=null) {
-//                bluetoothGatt.setCharacteristicNotification(mCharacteristic, false);
-//                if(mBluetoothGattDescriptor!=null) {
-//                    mBluetoothGattDescriptor.setValue(BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
-//                    bluetoothGatt.writeDescriptor(mBluetoothGattDescriptor);
-//                }
-//            }
-//        }
+        if(bluetoothGatt!=null) {
+            bluetoothGatt.disconnect();
+            bluetoothGatt.close();
+        }
     }
 
     public void refreshView(){
-        tv_device_name.setText("Null");
-        tv_device_mamc.setText("Null");
-        tv_firmware_version.setText("Null");
-        tv_serial_id.setText("Null");
-        tv_battery_level.setText("Null");
-        tv_connection_status.setText("N/C");
+        tv_device_name.setText(R.string.device_null);
+        tv_device_mamc.setText(R.string.device_null);
+        tv_firmware_version.setText(R.string.device_null);
+        tv_serial_id.setText(R.string.device_null);
+        tv_battery_level.setText(R.string.device_null);
+        tv_connection_status.setText(R.string.device_not_connected);
         tv_disconnect_forget.setText("");
     }
 }

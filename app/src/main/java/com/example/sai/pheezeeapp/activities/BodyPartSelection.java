@@ -46,6 +46,7 @@ import com.example.sai.pheezeeapp.adapters.BodyPartWithMmtRecyclerView;
 import com.example.sai.pheezeeapp.services.MqttHelper;
 import com.example.sai.pheezeeapp.utils.PatientOperations;
 import com.example.sai.pheezeeapp.utils.RegexOperations;
+import com.example.sai.pheezeeapp.utils.ValueBasedColorOperations;
 import com.robertlevonyan.views.customfloatingactionbutton.FloatingLayout;
 
 import org.eclipse.paho.client.mqttv3.MqttMessage;
@@ -57,6 +58,7 @@ import java.util.ArrayList;
 
 import static com.example.sai.pheezeeapp.adapters.BodyPartWithMmtRecyclerView.bodypartSelected;
 import static com.example.sai.pheezeeapp.adapters.BodyPartWithMmtRecyclerView.orientationSelected;
+import static com.example.sai.pheezeeapp.adapters.BodyPartWithMmtRecyclerView.selectedPosition;
 
 public class BodyPartSelection extends AppCompatActivity {
 
@@ -73,7 +75,7 @@ public class BodyPartSelection extends AppCompatActivity {
     JSONObject json_phizio = null;
 
     //Adapter for body part recycler view
-    static BodyPartWithMmtRecyclerView bodyPartWithMmtRecyclerView;
+    BodyPartWithMmtRecyclerView bodyPartWithMmtRecyclerView;
     ArrayList<BodyPartSelectionModel> bodyPartSelectionList;
 
     ArrayList<BodyPartWithMmtSelectionModel> bodyPartWithMmtSelectionModels;
@@ -91,8 +93,6 @@ public class BodyPartSelection extends AppCompatActivity {
     FrameLayout fl_fab_background;
     boolean flag_recent = false;
 
-    int height_fl;
-
 //    GridLayoutManager manager;
     RecyclerView.LayoutManager manager;
     private String mqtt_publish_message_reference = "phizio/calibration/addpatientsession";
@@ -103,23 +103,32 @@ public class BodyPartSelection extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_body_part_selection);
-        tv_body_part_recent = findViewById(R.id.tv_recently_items);
-        fab_done =  findViewById(R.id.fab_done);
+        tv_body_part_recent = findViewById(R.id.tv_recently_items); //this textview is visible when no recent body part is selected.
+        fab_done =  findViewById(R.id.fab_done);    //floating button Done.
         fl_fab_background = findViewById(R.id.fl_fab_background);
+
+        //shared preference variable
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         editor = preferences.edit();
+
+        //Mqtt helper class object.
         mqttHelper = new MqttHelper(this);
+
+
+        //THis string extracts the recently selected body part from the shared preference.
         str_recent = preferences.getString("recently","");
         try {
             json_phizio = new JSONObject(preferences.getString("phiziodetails",""));
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        //Layout of the recently body part
         ll_recent_bodypart = findViewById(R.id.ll_recent_section);
+
+
         iv_back_body_part_selection = findViewById(R.id.iv_back_body_part_selection);
 
-        //int_ll
-        height_fl = fl_fab_background.getHeight();
 
         Log.i("str_recent",str_recent);
         if (str_recent.equals("")){
@@ -164,8 +173,7 @@ public class BodyPartSelection extends AppCompatActivity {
         }
         bodyPartRecyclerView = findViewById(R.id.bodyPartRecyclerView);
         bodyPartRecyclerView.setHasFixedSize(true);
-//        manager = new LinearLayoutManager(this);
-//        bodyPartRecyclerView.setLayoutManager(manager);
+
         RecyclerView.ItemDecoration dividerItemDecoration = new DividerItemDecorator(ContextCompat.getDrawable(this, R.drawable.devider_gridview_bodypart));
         bodyPartRecyclerView.addItemDecoration(dividerItemDecoration);
         bodyPartRecyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.HORIZONTAL));
@@ -187,6 +195,8 @@ public class BodyPartSelection extends AppCompatActivity {
         bodyPartRecyclerView.setAdapter(bodyPartWithMmtRecyclerView);
 
 
+
+        //This listner is used to disable and enable the floating layout while scrolling
         bodyPartRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -218,6 +228,7 @@ public class BodyPartSelection extends AppCompatActivity {
 
 
 
+        //Going back to the previous activity
         iv_back_body_part_selection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -226,6 +237,8 @@ public class BodyPartSelection extends AppCompatActivity {
         });
     }
 
+
+    //On click listner on all the images inside the horizontal view of body part selection screen
     View.OnClickListener onclicklistner = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -311,7 +324,10 @@ public class BodyPartSelection extends AppCompatActivity {
     }
 
 
-
+    /**
+     *
+     * @return String This method returns the patient id from by getting it from the intent.
+     */
     public String getPatientId(){
         String patientID = null;
 
@@ -323,6 +339,20 @@ public class BodyPartSelection extends AppCompatActivity {
         return patientID;
     }
 
+
+    @Override
+    protected void onResume() {
+        if(bodyPartRecyclerView!=null && bodyPartWithMmtRecyclerView!=null) {     //to refresh the view of the body part selection list when coming back from monitor screen.
+            bodyPartRecyclerView.setAdapter(bodyPartWithMmtRecyclerView);
+            selectedPosition=-1;
+        }
+        super.onResume();
+    }
+
+    /**
+     * This method is called when pressed done.
+     * @param view
+     */
     public void startMonitorSession(View view){
 
         Display display = getWindowManager().getDefaultDisplay();
@@ -362,6 +392,23 @@ public class BodyPartSelection extends AppCompatActivity {
                 final EditText et_max_angle = dialogLayout.findViewById(R.id.setreference_et_maxangle);
                 final EditText et_min_angle = dialogLayout.findViewById(R.id.setreference_et_minangle);
                 final EditText et_max_emg = dialogLayout.findViewById(R.id.setreference_et_maxemg);
+                final TextView tv_normal_max = dialogLayout.findViewById(R.id.tv_normal_max);
+                final TextView tv_normal_min = dialogLayout.findViewById(R.id.tv_normal_min);
+                final TextView tv_normal_max_text = dialogLayout.findViewById(R.id.normalMaxTest);
+                final TextView tv_normal_min_text = dialogLayout.findViewById(R.id.normalMinTest);
+                if(bodypartSelected!=null) {
+                    int normal_min = ValueBasedColorOperations.getBodyPartMinValue(bodypartSelected);
+                    int normal_max = ValueBasedColorOperations.getBodyPartMaxValue(bodypartSelected);
+                    tv_normal_max.setText(String.valueOf(normal_max));
+                    tv_normal_min.setText(String.valueOf(normal_min));
+                }
+                if(bodypartSelected.equalsIgnoreCase("others")){
+                    tv_normal_max.setVisibility(View.GONE);
+                    tv_normal_min.setVisibility(View.GONE);
+                    tv_normal_max_text.setVisibility(View.GONE);
+                    tv_normal_min_text.setVisibility(View.GONE);
+                }
+
                 if(json_reference!=null) {
                     try {
                         et_max_emg.setText(json_reference.getString("maxemg"));
@@ -372,7 +419,6 @@ public class BodyPartSelection extends AppCompatActivity {
                     }
                 }
                 builder.setPositiveButton("Submit",null);
-                builder.setNegativeButton("Submit and continue",null);
                 builder.setView(dialogLayout);
                 mdialog = builder.create();
                 mdialog.setOnShowListener(new DialogInterface.OnShowListener() {
@@ -391,27 +437,16 @@ public class BodyPartSelection extends AppCompatActivity {
                                 String minEmg = String.valueOf(0);
                                 String minAngle = et_min_angle.getText().toString();
                                 flag = RegexOperations.checkIfNumeric(maxEmg);
-                                flag = RegexOperations.checkIfNumeric(minAngle);
-                                flag = RegexOperations.checkIfNumeric(maxAngle);
+                                if(flag)
+                                    flag = RegexOperations.checkIfNumeric(minAngle);
+                                if(flag)
+                                    flag = RegexOperations.checkIfNumeric(maxAngle);
                                 if(flag)
                                     sendData(maxAngle,minAngle,maxEmg,minEmg);
                                 else
                                     Toast.makeText(BodyPartSelection.this, "Invalid Entry", Toast.LENGTH_SHORT).show();
 
                                 mdialog.dismiss();
-                            }
-                        });
-                        Button n = mdialog.getButton(AlertDialog.BUTTON_NEGATIVE);
-                        n.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                String maxEmg = et_max_emg.getText().toString();
-                                String maxAngle = et_max_angle.getText().toString();
-                                String minEmg = String.valueOf(0);
-                                String minAngle = et_min_angle.getText().toString();
-                                sendData(maxAngle,minAngle,maxEmg,minEmg);
-                                mdialog.dismiss();
-                                btn_continue.performClick();
                             }
                         });
                     }
@@ -434,13 +469,9 @@ public class BodyPartSelection extends AppCompatActivity {
                 pw.dismiss();
                 int temp_index = -1;
                 boolean flag = false, present = false;
-                if (!preferences.getString("bodyPartClicked", "").equalsIgnoreCase("")) {
-                    int position_list_selected = Integer.parseInt(preferences.getString("bodyPartClicked", ""));
-                    View list_item = manager.findViewByPosition(position_list_selected);
-                    TextView tv_middle = list_item.findViewById(R.id.tv_selected_goal_text);
-                    String str_time = tv_middle.getText().toString();
-                    str_time = str_time.replaceAll("[a-zA-Z]", "").trim();
-                    TextView tv_body_part_name = list_item.findViewById(R.id.tv_body_part_name);
+                if (selectedPosition!=-1) {
+                    int position_list_selected = selectedPosition;
+                    String str_time = repsselected+"";
                     editor = preferences.edit();
 
                     JSONArray array = new JSONArray();
@@ -449,7 +480,7 @@ public class BodyPartSelection extends AppCompatActivity {
                     JSONArray temp_array = new JSONArray();
                     JSONObject patient_object = new JSONObject();
                     try {
-                        object.put("part_name", tv_body_part_name.getText().toString());
+                        object.put("part_name", bodypartSelected);
                         object.put("res_id", myPartList[position_list_selected]);
                         object.put("position", position_list_selected + "");
                         object.put("str_time", str_time);
@@ -532,7 +563,7 @@ public class BodyPartSelection extends AppCompatActivity {
                     intent.putExtra("deviceMacAddress", getIntent().getStringExtra("deviceMacAddress"));
                     intent.putExtra("patientId", getIntent().getStringExtra("patientId"));
                     intent.putExtra("patientName", getIntent().getStringExtra("patientName"));
-                    intent.putExtra("exerciseType", tv_body_part_name.getText().toString());
+                    intent.putExtra("exerciseType", bodypartSelected);
                     intent.putExtra("orientation",orientationSelected);
                     Log.i("intent", intent.toString());
                     startActivity(intent);
@@ -545,13 +576,23 @@ public class BodyPartSelection extends AppCompatActivity {
         });
     }
 
+
     public static void refreshView(){
-        bodyPartWithMmtRecyclerView.notifyDataSetChanged();
+        reinitializeStatics();
+        selectedPosition = -1;
         editor = preferences.edit();
         editor.putString("bodyPartClicked","");
         editor.commit();
     }
 
+
+    /**
+     * Sending data to the server.
+     * @param maxAngle
+     * @param minAngle
+     * @param maxEmg
+     * @param minEmg
+     */
     private void sendData(String maxAngle, String minAngle, String maxEmg, String minEmg) {
         JSONObject object = new JSONObject();
         MqttMessage message = new MqttMessage();
@@ -581,7 +622,11 @@ public class BodyPartSelection extends AppCompatActivity {
         fab_done.setVisibility(View.VISIBLE);
     }
 
-
+    /**
+     *
+     * @param dp
+     * @return int pixels
+     */
     public int dpToPixel(int dp){
         final float scale = getResources().getDisplayMetrics().density;
         int pixels = (int) (dp * scale + 0.5f);
@@ -597,10 +642,10 @@ public class BodyPartSelection extends AppCompatActivity {
         mqttHelper.mqttAndroidClient.close();
         super.onDestroy();
         painscale=""; muscletone=""; exercisename=""; commentsession=""; symptoms=""; musclename="";orientationSelected="";
-        repsselected=0;
+        repsselected=0; selectedPosition=-1;
     }
 
-    public void reinitializeStatics() {
+    public static void reinitializeStatics() {
         painscale=""; muscletone=""; exercisename=""; commentsession=""; symptoms=""; musclename="";orientationSelected="";
         repsselected=0;
     }

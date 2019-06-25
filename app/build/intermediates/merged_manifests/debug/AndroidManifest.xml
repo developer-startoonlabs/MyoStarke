@@ -77,10 +77,6 @@
         <service android:name="com.example.sai.pheezeeapp.MqttService" />
 
         <activity
-            android:name="com.example.sai.pheezeeapp.dashboard.DashboardActivity"
-            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name="com.example.sai.pheezeeapp.services.Scanner"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -145,7 +141,6 @@
             android:name="com.example.sai.pheezeeapp.activities.DeviceInfoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name="com.example.sai.pheezeeapp.activities.CalibrationSession" />
         <activity
             android:name="com.example.sai.pheezeeapp.activities.BodyPartSelection"
             android:screenOrientation="portrait"
