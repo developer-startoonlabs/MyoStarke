@@ -125,6 +125,7 @@
                     android:layout_width="22dp"
                     android:layout_height="22dp"
                     android:id="@+id/iv_device_disconnected"
+                    android:onClick="addPheezeeDevice"
                     android:src="@drawable/device_disconnected_icon"
                     android:layout_gravity="center"
                     android:contentDescription="@string/cd_device_disconnected" />

@@ -38,7 +38,7 @@ public class MyBottomSheetDialog extends BottomSheetDialogFragment {
     String name,id,dateofjoin;
     Bitmap bitmap;
 
-    LinearLayout ll_report,ll_calibration,ll_edit_patient_details,ll_delete_patient,ll_archive_patient;
+    LinearLayout ll_report,ll_edit_patient_details,ll_delete_patient,ll_archive_patient;
 
     @SuppressLint("ValidFragment")
     public MyBottomSheetDialog(String name, Bitmap bitmap, String id, String dateofjoin){
@@ -76,18 +76,10 @@ public class MyBottomSheetDialog extends BottomSheetDialogFragment {
         tv_date_of_join = layout.findViewById(R.id.tv_patient_joindate_section);
         tv_Image_Container = layout.findViewById(R.id.tv_Image_container);
 
-        ll_calibration = layout.findViewById(R.id.ll_calibration);
         ll_report = layout.findViewById(R.id.ll_report);
         ll_edit_patient_details = layout.findViewById(R.id.ll_edit_patient_details);
         ll_delete_patient = layout.findViewById(R.id.ll_delete_patient);
         ll_archive_patient = layout.findViewById(R.id.ll_archive_patient);
-
-        ll_calibration.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
         ll_archive_patient.setOnClickListener(new View.OnClickListener() {
             @Override

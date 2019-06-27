@@ -194,7 +194,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/tv_phone"
         app:layout_constraintVertical_bias="1.0" />
 
     <TextView
@@ -217,27 +217,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="8dp"
-        android:background="@color/good_green"
-        app:layout_constraintEnd_toStartOf="@+id/btn_signup_create"
-        app:layout_constraintTop_toBottomOf="@+id/tv_phone"
-        app:srcCompat="@drawable/patient_icon" />
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:background="@color/good_green"
-        app:layout_constraintStart_toEndOf="@+id/btn_signup_create"
-        app:layout_constraintTop_toBottomOf="@+id/tv_phone"
-        app:srcCompat="@drawable/phizio_icon" />
 
 
 </android.support.constraint.ConstraintLayout>

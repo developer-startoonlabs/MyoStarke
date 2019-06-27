@@ -17,10 +17,10 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Point;
+import android.graphics.drawable.LayerDrawable;
 import android.media.MediaScannerConnection;
 import android.net.ConnectivityManager;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -39,6 +39,7 @@ import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -49,14 +50,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.sai.pheezeeapp.classes.BluetoothSingelton;
 import com.example.sai.pheezeeapp.R;
+import com.example.sai.pheezeeapp.classes.BluetoothSingelton;
 import com.example.sai.pheezeeapp.services.MqttHelper;
 import com.example.sai.pheezeeapp.utils.AngleOperations;
 import com.example.sai.pheezeeapp.utils.BatteryOperation;
 import com.example.sai.pheezeeapp.utils.ByteToArrayOperations;
 import com.example.sai.pheezeeapp.utils.NetworkOperations;
 import com.example.sai.pheezeeapp.utils.PatientOperations;
+import com.example.sai.pheezeeapp.utils.ValueBasedColorOperations;
 import com.example.sai.pheezeeapp.views.ArcViewInside;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -65,7 +67,6 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
-import com.goodiebag.protractorview.ProtractorView;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
@@ -88,9 +89,9 @@ import java.util.UUID;
 public class MonitorActivity extends AppCompatActivity {
 
     //max min angle emg showing views
-    TextView tv_max_angle, tv_min_angle, tv_max_emg;
+    TextView tv_max_angle, tv_min_angle, tv_max_emg; int software_gain = 0;
     int ui_rate = 0;
-    public final int sub_byte_size = 28;
+    public final int sub_byte_size = 48;
     int maxAnglePart, minAnglePart, angleCorrection = 0, currentAngle=0;
     boolean angleCorrected = false,devicePopped = false, servicesDiscovered = false, isSessionRunning=false, enteredInsideTwenty = true, pheezeeState = false, recieverState=false;
     String bodypart,orientation="NO";
@@ -98,12 +99,13 @@ public class MonitorActivity extends AppCompatActivity {
     SharedPreferences.Editor editor;
     JSONObject json_phizio = new JSONObject();
     JSONArray jsonData, emgJsonArray, romJsonArray;
-    public final int emg_data_size_raw = 20;
-    public final int emg_num_packets_raw = 40;
+    boolean inside_ondestroy = false;
+//    public final int emg_data_size_raw = 20;
+//    public final int emg_num_packets_raw = 40;
     ImageView iv_back_monitor;
 
-    File  file_emgdata,file_dir_emgdata, file_session_emgdata, file_dir_session_emgdata,file_session_romdata,file_session_sessiondetails;
-    FileOutputStream  outputStream_emgdata,outputStream_session_emgdata,outputStream_session_romdata,outputStream_session_sessiondetails;
+    File  file_session_emgdata, file_dir_session_emgdata,file_session_romdata,file_session_sessiondetails;
+    FileOutputStream  outputStream_session_emgdata,outputStream_session_romdata,outputStream_session_sessiondetails;
 
     //MQTT
     MqttHelper mqttHelper;
@@ -119,14 +121,12 @@ public class MonitorActivity extends AppCompatActivity {
     List<Entry> dataPoints;
     LineChart lineChart;
     LineDataSet lineDataSet;
-    private static final String TAG = null;
-    BluetoothGattCharacteristic mCharacteristic,mCharacteristic2;
+    BluetoothGattCharacteristic mCharacteristic;
     BluetoothGatt mBluetoothGatt;
-    TextView Angle,tv_snap;
+    TextView tv_snap;
     TextView Repetitions;
     TextView holdTime,tv_session_no, tv_body_part, tv_repsselected;
     TextView EMG;
-    ProtractorView rangeOfMotion;
     ArcViewInside arcViewInside;
     TextView time;
     TextView patientId;
@@ -148,11 +148,13 @@ public class MonitorActivity extends AppCompatActivity {
     ConnectivityManager connectivityManager;
     LinearLayout emgSignal;
     String holdTimeValue="0:0";
-    int maxAngle,minAngle,maxEmgValue;
+    int maxAngle;
+    int minAngle;
+    float maxEmgValue;
     Date rawdata_timestamp;
     Long tsLong=0L;
     String exerciseType;
-    BluetoothGattDescriptor mBluetoothGattDescriptor,mBluetoothGattDescriptor_raw;
+    BluetoothGattDescriptor mBluetoothGattDescriptor;
 
     ArrayList<BluetoothGattCharacteristic> arrayList;
 
@@ -163,10 +165,6 @@ public class MonitorActivity extends AppCompatActivity {
     public static final UUID service1_uuid = UUID.fromString("909a1400-9693-4920-96e6-893c0157fedd");
     public static final UUID characteristic1_service1_uuid = UUID.fromString("909a1401-9693-4920-96e6-893c0157fedd");
     public static final UUID descriptor_characteristic1_service1_uuid = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
-
-
-    public static final UUID service2_uuid = UUID.fromString("909a0309-9693-4920-96e6-893c0157fedd");
-    public static final UUID characteristic1_service2_uuid = UUID.fromString("909a7777-9693-4920-96e6-893c0157fedd");
 
     public void deviceDisconnectedPopup() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(MonitorActivity.this);
@@ -188,6 +186,7 @@ public class MonitorActivity extends AppCompatActivity {
     }
 
 
+    @SuppressLint({"ClickableViewAccessibility", "SetTextI18n"})
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -228,9 +227,22 @@ public class MonitorActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 takeScreenshot(null);
+                Toast.makeText(MonitorActivity.this, "Took Screenshot", Toast.LENGTH_SHORT).show();
             }
         });
 
+
+        tv_snap.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == android.view.MotionEvent.ACTION_DOWN) {
+                    tv_snap.setAlpha(0.4f);
+                } else if (event.getAction() == android.view.MotionEvent.ACTION_UP) {
+                    tv_snap.setAlpha(1f);
+                }
+                return false;
+            }
+        });
 
 
 
@@ -344,7 +356,6 @@ public class MonitorActivity extends AppCompatActivity {
                     Log.i("minAngle",""+minAngle);
 //                if(maxAngle!=0&&!(maxAngle>180)&&minAngle!=180&&!(minAngle<0)) {
                     tsLong = System.currentTimeMillis();
-                    String ts = tsLong.toString();
 
                     insertValuesAndNotifyMediaStore();
                 }
@@ -582,22 +593,16 @@ public class MonitorActivity extends AppCompatActivity {
             rawdata_timestamp = Calendar.getInstance().getTime();
             android.text.format.DateFormat df = new android.text.format.DateFormat();
 //            String s = rawdata_timestamp.toString().substring(0, 19);
-            String s = String.valueOf(df.format("yyyy-MM-dd hh-mm-ssa", rawdata_timestamp));
+            String s = String.valueOf(DateFormat.format("yyyy-MM-dd hh-mm-ssa", rawdata_timestamp));
             String child = patientName.getText().toString()+patientId.getText().toString();
-            file_dir_emgdata = new File(Environment.getExternalStorageDirectory()+"/Pheezee/files/EmgData/"+child+"/raw");
             file_dir_session_emgdata = new File(Environment.getExternalStorageDirectory()+"/Pheezee/files/EmgData/"+child+"/sessiondata/",s);
-            if (!file_dir_emgdata.exists()) {
-                file_dir_emgdata.mkdirs();
-            }
             if (!file_dir_session_emgdata.exists()) {
                 file_dir_session_emgdata.mkdirs();
             }
-            file_emgdata = new File(file_dir_emgdata, ""+s+".txt");
             file_session_emgdata = new File(file_dir_session_emgdata, "emg.txt");
             file_session_romdata = new File(file_dir_session_emgdata, "rom.txt");
             file_session_sessiondetails = new File(file_dir_session_emgdata, "sessiondetails.txt");
             try {
-                file_emgdata.createNewFile();
                 file_session_emgdata.createNewFile();
                 file_session_romdata.createNewFile();
                 file_session_sessiondetails.createNewFile();
@@ -608,12 +613,10 @@ public class MonitorActivity extends AppCompatActivity {
 
 
             try {
-                outputStream_emgdata = new FileOutputStream(file_emgdata, true);
                 outputStream_session_emgdata = new FileOutputStream(file_session_emgdata, true);
                 outputStream_session_romdata = new FileOutputStream(file_session_romdata, true);
                 outputStream_session_sessiondetails = new FileOutputStream(file_session_sessiondetails, true);
-                outputStream_emgdata.write("EMG".getBytes());
-                outputStream_emgdata.write("\n".getBytes());
+
                 //emg file output stream
                 outputStream_session_emgdata.write("EMG".getBytes());
                 outputStream_session_emgdata.write("\n".getBytes());
@@ -679,18 +682,6 @@ public class MonitorActivity extends AppCompatActivity {
 
         MediaScannerConnection.scanFile(
                 getApplicationContext(),
-                new String[]{file_emgdata.getAbsolutePath()},
-                null,
-                new MediaScannerConnection.OnScanCompletedListener() {
-                    @Override
-                    public void onScanCompleted(String path, Uri uri) {
-                        Log.v("grokkingandroid",
-                                "file " + path + " was scanned seccessfully: " + uri);
-                    }
-                });
-
-        MediaScannerConnection.scanFile(
-                getApplicationContext(),
                 new String[]{file_session_emgdata.getAbsolutePath()},
                 null,
                 new MediaScannerConnection.OnScanCompletedListener() {
@@ -732,7 +723,6 @@ public class MonitorActivity extends AppCompatActivity {
 //        ConstraintLayout mConstraintLayout = findViewById(R.id.monitorLayout);
 //        LinearLayout linearLayout = mConstraintLayout.findViewById(R.id.pIdAndPName);
 //        ProtractorView rangeOfMotionTemp = mConstraintLayout.findViewById(R.id.rangeOfMotion);
-//        TextView angleTemp = mConstraintLayout.findViewById(R.id.Angle);
 //        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
 //            linearLayout.setOrientation(LinearLayout.VERTICAL);
 //            rangeOfMotionTemp.setVisibility(View.GONE);
@@ -755,13 +745,13 @@ public class MonitorActivity extends AppCompatActivity {
 //        mConstraintSet1.setVisibility(R.id.stopBtn,ConstraintSet.VISIBLE);
 //        mConstraintSet1.applyTo(mConstraintLayout);
 
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-//            rangeOfMotion.setVisibility(View.INVISIBLE);
-        }
-
-        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-//            rangeOfMotion.setVisibility(View.VISIBLE);
-        }
+//        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+////            rangeOfMotion.setVisibility(View.INVISIBLE);
+//        }
+//
+//        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+////            rangeOfMotion.setVisibility(View.VISIBLE);
+//        }
     }
 
     private void creatGraphView() {
@@ -772,7 +762,7 @@ public class MonitorActivity extends AppCompatActivity {
         lineDataSet.setDrawCircles(false);
         lineDataSet.setValueTextSize(0);
         lineDataSet.setDrawValues(false);
-        lineDataSet.setColor(getResources().getColor(R.color.good_green));
+        lineDataSet.setColor(getResources().getColor(R.color.pitch_black));
         lineData = new LineData(lineDataSet);
 
         lineDataNew = new LineData(lineDataSet);    //for 30000
@@ -782,6 +772,7 @@ public class MonitorActivity extends AppCompatActivity {
         lineChart.getXAxis().setAxisMinimum(0f);
         lineChart.getAxisLeft().setSpaceTop(60f);
         lineChart.getAxisRight().setSpaceTop(60f);
+        lineChart.getAxisRight().setDrawLabels(false);
         lineChart.getAxisLeft().setStartAtZero(false);
         lineChart.getAxisLeft().setDrawGridLines(false);
         lineChart.getXAxis().setDrawGridLines(false);
@@ -861,17 +852,6 @@ public class MonitorActivity extends AppCompatActivity {
                     }
                 });
             }
-            else if(characteristic.getUuid().equals(characteristic1_service2_uuid)){
-                new Handler(Looper.getMainLooper()).post(new Runnable() {
-                    @Override
-                    public void run() {
-//commented for test 30000
-                        mBluetoothGatt.setCharacteristicNotification(mCharacteristic2, true);
-                        mBluetoothGattDescriptor_raw.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
-                        mBluetoothGatt.writeDescriptor(mBluetoothGattDescriptor_raw);
-                    }
-                });
-            }
         }
 
         @Override
@@ -885,15 +865,11 @@ public class MonitorActivity extends AppCompatActivity {
                 if(characteristic1_service1_uuid.equals(characteristic.getUuid()))
                     mCharacteristic = characteristic;
 
-                mCharacteristic2 = gatt.getService(service2_uuid).getCharacteristic(characteristic1_service2_uuid);
                 mBluetoothGatt = gatt;
                 gatt.setCharacteristicNotification(characteristic,true);
-                gatt.setCharacteristicNotification(mCharacteristic2,true);
                 mBluetoothGattDescriptor = characteristic.getDescriptor(descriptor_characteristic1_service1_uuid);
-                mBluetoothGattDescriptor_raw = mCharacteristic2.getDescriptor(descriptor_characteristic1_service1_uuid);
 
                 arrayList.add(mCharacteristic);
-                arrayList.add(mCharacteristic2);
 
                 if(timer.getVisibility()==View.GONE){
                     PatientsView.sessionStarted = true;
@@ -911,7 +887,7 @@ public class MonitorActivity extends AppCompatActivity {
         @Override
         public void onCharacteristicChanged(final BluetoothGatt gatt, final BluetoothGattCharacteristic characteristic) {
             if(characteristic1_service1_uuid.equals(characteristic.getUuid())) {
-                byte temp_byte[];
+                byte[] temp_byte;
 
                 temp_byte = characteristic.getValue();
 
@@ -919,13 +895,14 @@ public class MonitorActivity extends AppCompatActivity {
                 byte header_sub = temp_byte[1];
 
 
-                byte sub_byte[] = new byte[sub_byte_size];
-                int j = 2;
-                for (int i = 0; i < sub_byte_size; i++, j++) {
-                    sub_byte[i] = temp_byte[j];
-                }
+                byte[] sub_byte = new byte[sub_byte_size];
+
                 if (ByteToArrayOperations.byteToStringHexadecimal(header_main).equals("AA")) {
                     if (ByteToArrayOperations.byteToStringHexadecimal(header_sub).equals("01")) {
+                        int j = 2;
+                        for (int i = 0; i < sub_byte_size; i++, j++) {
+                            sub_byte[i] = temp_byte[j];
+                        }
                         Message message = Message.obtain();
                         message.obj = sub_byte;
 
@@ -940,138 +917,36 @@ public class MonitorActivity extends AppCompatActivity {
                         }
                     }
                 }
-            }
+                if(ByteToArrayOperations.byteToStringHexadecimal(header_main).equals("AF")){
+                    software_gain = header_sub;
+                    Log.i("Software gain",String.valueOf(software_gain));
+                    Message message = Message.obtain();
+                    message.obj = sub_byte;
 
-            else if(characteristic.getUuid().equals(characteristic1_service2_uuid)){
-                byte[] b = characteristic.getValue();
-                if(b.length<47){
-                    int[] emg_data;
-
-                    byte sub_byte[] = new byte[b.length ];
-                    for (int i = 0; i < sub_byte.length; i++) {
-                        sub_byte[i] = b[i];
-                    }
-                    try {
-                        outputStream_emgdata = new FileOutputStream(file_emgdata, true);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    byte temp_array[] = new byte[emg_data_size_raw];
-                    for (int i = 0; i < emg_data_size_raw; i++) {
-                        temp_array[i] = sub_byte[i];
-                    }
-                    emg_data = ByteToArrayOperations.constructEmgDataRawWithoutCombine(temp_array);
-
-                    String str[] = new String[emg_data_size_raw];
-                    for (int i = 0; i < emg_data.length; i++) {
-                        str[i] = "" + emg_data[i];
-                    }
-
-                    if(enteredInsideTwenty){
-                        String temp = "From here 20 byte packets are coming.";
-                        try {
-                            outputStream_emgdata.write(temp.getBytes());
-                            outputStream_emgdata.write("\n".getBytes());
-                            outputStream_emgdata.write("\n".getBytes());
-                            outputStream_emgdata.write("\n".getBytes());
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        enteredInsideTwenty= false;
-                    }
+                    myHandler.sendMessage(message);
+//                        new MyAsync().doInBackground(sub_byte);
 
                     try {
-                        for (int i = 0; i < str.length; i++) {
-                            if(str[i]!=null) {
-                                outputStream_emgdata.write(str[i].getBytes());
-                                outputStream_emgdata.write("\n".getBytes());
-                            }
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        outputStream_emgdata.flush();
-                        outputStream_emgdata.close();
-                    } catch (IOException e) {
+                        sessionResult.put(message);
+                        sessionObj.put("data", sessionResult);
+                    } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
-                else {
-                    int[] emg_data;
-                    byte sub_byte[] = new byte[b.length - 2];
-                    int j = 2;
-                    for (int i = 0; i < sub_byte.length; i++, j++) {
-                        sub_byte[i] = b[j];
-                    }
-                    byte header_main = b[0];
-                    byte header_sub = b[1];
-
-                    if(ByteToArrayOperations.byteToStringHexadecimal(header_main).equals("BB")) {
-                        if (ByteToArrayOperations.byteToStringHexadecimal(header_sub).equals("01")) {
-                            try {
-                                outputStream_emgdata = new FileOutputStream(file_emgdata, true);
-                            } catch (FileNotFoundException e) {
-                                e.printStackTrace();
-                            }
-                            byte temp_array[] = new byte[emg_num_packets_raw];
-                            for (int i = 0; i < emg_num_packets_raw; i++) {
-                                temp_array[i] = sub_byte[i];
-                            }
-                            emg_data = ByteToArrayOperations.constructEmgDataRaw(temp_array);
-
-                            String str[] = new String[emg_data_size_raw];
-                            for (int i = 0; i < emg_data.length; i++) {
-                                str[i] = "" + emg_data[i];
-                            }
-
-                            try {
-                                for (int i = 0; i < str.length; i++) {
-                                    if(str[i]!=null) {
-                                        outputStream_emgdata.write(str[i].getBytes());
-                                        outputStream_emgdata.write("\n".getBytes());
-                                    }
-                                }
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            try {
-                                outputStream_emgdata.flush();
-                                outputStream_emgdata.close();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                }
-
             }
         }
 
         @Override
         public void onDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
-            if(descriptor_characteristic1_service1_uuid.equals(descriptor.getUuid())){
-            }
         }
 
 
 
         @Override
         public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
-            if(descriptor.getCharacteristic().getUuid().equals(mCharacteristic.getUuid())){
-                if(isSessionRunning)
-                    sendRaw();
-                else {
-                    new Handler(Looper.getMainLooper()).post(new Runnable() {
-                        @Override
-                        public void run() {
-                            mBluetoothGatt.setCharacteristicNotification(mCharacteristic2,false);
-                            mBluetoothGattDescriptor_raw.setValue(BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
-                            mBluetoothGatt.writeDescriptor(mBluetoothGattDescriptor_raw);
-                            mBluetoothGatt.writeCharacteristic(mCharacteristic2);
-                        }
-                    });
-                }
+            if(inside_ondestroy){
+                mBluetoothGatt.disconnect();
+                mBluetoothGatt.close();
             }
         }
     };
@@ -1093,39 +968,9 @@ public class MonitorActivity extends AppCompatActivity {
                 return false;
             }
         }
-        if(characteristic1_service1_uuid.equals(mCharacteristic.getUuid())){
-        }
-
-
         mCharacteristic.setValue(data);
 
         return mBluetoothGatt.writeCharacteristic(mCharacteristic);
-    }
-
-
-    public boolean sendRaw(){
-        byte data[] = ByteToArrayOperations.hexStringToByteArray("BB01");
-        if (mBluetoothGatt == null ) {
-            return false;
-        }
-        if (mCharacteristic2 == null) {
-            return false;
-        }
-
-        BluetoothGattService service = mBluetoothGatt.getService(service2_uuid);
-
-        if(service==null){
-            if (mCharacteristic2 == null) {
-                return false;
-            }
-        }
-        if(characteristic1_service2_uuid.equals(mCharacteristic2.getUuid())){
-        }
-
-
-        mCharacteristic2.setValue(data);
-
-        return mBluetoothGatt.writeCharacteristic(mCharacteristic2);
     }
 
     public Runnable runnable = new Runnable() {
@@ -1170,22 +1015,27 @@ public class MonitorActivity extends AppCompatActivity {
     @SuppressLint("HandlerLeak")
     public final Handler myHandler = new Handler() {
         public void handleMessage(Message message ) {
-            int angleDetected,num_of_reps, hold_time_minutes, hold_time_seconds, active_time_minutes,active_time_seconds;
-            int[] emg_data;
+
+            int angleDetected=0,num_of_reps=0, hold_time_minutes, hold_time_seconds, active_time_minutes,active_time_seconds;
+            float[] emg_data;
             byte[] sub_byte;
             sub_byte = (byte[]) message.obj;
-            emg_data = ByteToArrayOperations.constructEmgData(sub_byte);
-            angleDetected = ByteToArrayOperations.getAngleFromData(sub_byte[20],sub_byte[21]);
+            emg_data = ByteToArrayOperations.constructEmgDataWithGain(sub_byte,software_gain);
+            angleDetected = ByteToArrayOperations.getAngleFromData(sub_byte[40],sub_byte[41]);
+            if(ui_rate==0){
+                minAngle = angleDetected;
+                maxAngle = angleDetected;
+            }
+            num_of_reps = ByteToArrayOperations.getNumberOfReps(sub_byte[42], sub_byte[43]);
+            hold_time_minutes = sub_byte[44];
+            hold_time_seconds = sub_byte[45];
+            active_time_minutes = sub_byte[46];
+            active_time_seconds = sub_byte[47];
+            Log.i("active time",active_time_minutes+"m "+active_time_seconds+"s");
             currentAngle=angleDetected;
-            num_of_reps = ByteToArrayOperations.getNumberOfReps(sub_byte[22], sub_byte[23]);
-            hold_time_minutes = sub_byte[24];
-            hold_time_seconds = sub_byte[25];
-            active_time_minutes = sub_byte[26];
-            active_time_seconds = sub_byte[27];
-
             String angleValue = ""+angleDetected;
             String repetitionValue = ""+num_of_reps;
-
+            Repetitions.setText(repetitionValue);
             String minutesValue=""+hold_time_minutes,secondsValue=""+hold_time_seconds;
             if(hold_time_minutes<10)
                 minutesValue = "0"+hold_time_minutes;
@@ -1223,10 +1073,11 @@ public class MonitorActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-//            }
-//            Angle.setText(angleValue);
+            LinearLayout.LayoutParams params;
+            params = (LinearLayout.LayoutParams) emgSignal.getLayoutParams();
             for (int i=0;i<emg_data.length;i++) {
-                lineData.addEntry(new Entry((float) UpdateTime / 1000, emg_data[i]), 0);
+                ++ui_rate;
+                lineData.addEntry(new Entry((float) ui_rate / 1000, emg_data[i]), 0);
                 lineChart.notifyDataSetChanged();
                 lineChart.invalidate();
                 lineChart.getXAxis();
@@ -1234,16 +1085,12 @@ public class MonitorActivity extends AppCompatActivity {
                 lineChart.getAxisLeft().setValueFormatter(new IAxisValueFormatter() {
                     @Override
                     public String getFormattedValue(float value, AxisBase axis) {
-                        return (int) value + "μV";
+                        return (int) value + "mV";
                     }
                 });
                 if (UpdateTime / 1000 > 3)
                     lineChart.setVisibleXRangeMaximum(5f);
-                lineChart.moveViewToX((float) UpdateTime / 1000);
-            }
-//            lineDataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-
-            for (int i=0;i<emg_data.length;i++) {
+                lineChart.moveViewToX((float) ui_rate / 1000);
                 try {
                     outputStream_session_emgdata = new FileOutputStream(file_session_emgdata, true);
                     outputStream_session_emgdata.write(String.valueOf(emg_data[i]).getBytes());
@@ -1253,9 +1100,13 @@ public class MonitorActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                emgJsonArray.put(emg_data[i]);
+                try {
+                    emgJsonArray.put(emg_data[i]);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
-                EMG.setText(Integer.toString(emg_data[i]));
+                EMG.setText(Float.toString(emg_data[i]).concat("mV"));
 
 
                 try {
@@ -1264,17 +1115,14 @@ public class MonitorActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
-            Repetitions.setText(repetitionValue);
-            LinearLayout.LayoutParams params;
-            params = (LinearLayout.LayoutParams) emgSignal.getLayoutParams();
-            for (int i=0;i<emg_data.length;i++) {
+
                 maxEmgValue = maxEmgValue < emg_data[i] ? emg_data[i] : maxEmgValue;
                 if (maxEmgValue == 0)
                     maxEmgValue = 1;
                 tv_max_emg.setText(String.valueOf(maxEmgValue));
-                params.height = ((View) emgSignal.getParent()).getMeasuredHeight() * emg_data[i] / maxEmgValue;
+                params.height = (int) (((View) emgSignal.getParent()).getMeasuredHeight() * emg_data[i] / maxEmgValue);
             }
+//            lineDataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
             //threshholds
 //            if(angleDetected>=minAnglePart && angleDetected<=maxAnglePart) {
                 maxAngle = maxAngle < angleDetected ? angleDetected : maxAngle;
@@ -1298,9 +1146,30 @@ public class MonitorActivity extends AppCompatActivity {
 
 
 
+    @SuppressLint("ClickableViewAccessibility")
     private  void initiatePopupWindowModified(final View v){
         View layout = getLayoutInflater().inflate(R.layout.session_summary, null);
+        int reference_max_angle=180, reference_min_angle=0;
+        JSONObject object_reference = PatientOperations.checkReferenceWithoutOrientationDone(this,patientId.getText().toString() , bodypart);
+        //getting the reference values if any
+        if(object_reference!=null){
+            try {
+                if(object_reference.has("maxangle") && !object_reference.getString("maxangle").equalsIgnoreCase(""))
+                    reference_max_angle = Integer.parseInt(object_reference.getString("maxangle"));
+                if(object_reference.has("minangle") && !object_reference.getString("minangle").equalsIgnoreCase(""))
+                    reference_min_angle = Integer.parseInt(object_reference.getString("minangle"));
 
+                Log.i("maxminangle",reference_max_angle+"");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }catch (NumberFormatException e){
+                object_reference = null;
+            }
+
+        }
+
+
+        int color = ValueBasedColorOperations.getCOlorBasedOnTheBodyPart(bodypart,maxAngle,minAngle,this);
         report = new PopupWindow(layout, ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT,true);
         report.setWindowLayoutMode(ConstraintLayout.LayoutParams.MATCH_PARENT,ConstraintLayout.LayoutParams.MATCH_PARENT);
         report.setOutsideTouchable(true);
@@ -1323,13 +1192,21 @@ public class MonitorActivity extends AppCompatActivity {
         TextView tv_num_of_reps = layout.findViewById(R.id.tv_num_of_reps);
         TextView tv_max_emg = layout.findViewById(R.id.tv_max_emg);
         TextView tv_session_num = layout.findViewById(R.id.tv_session_no);
-        LinearLayout ll_click_to_view_report = layout.findViewById(R.id.ll_click_to_view_report);
-        LinearLayout ll_click_to_choose_body_part = layout.findViewById(R.id.ll_click_to_choose_bodypart);
+        TextView tv_orientation_and_bodypart = layout.findViewById(R.id.tv_orientation_and_bodypart);
+        TextView tv_musclename = layout.findViewById(R.id.tv_muscle_name);
+        TextView tv_exercise_name = layout.findViewById(R.id.tv_exercise_name);
+        final LinearLayout ll_click_to_view_report = layout.findViewById(R.id.ll_click_to_view_report);
+        final LinearLayout ll_click_to_choose_body_part = layout.findViewById(R.id.ll_click_to_choose_bodypart);
 
 
 
         //setting session no
         tv_session_num.setText(tv_session_no.getText().toString());
+        tv_exercise_name.setText(BodyPartSelection.exercisename);
+
+        tv_orientation_and_bodypart.setText(orientation+"-"+bodypart);
+        tv_musclename.setText(BodyPartSelection.musclename);
+
         ll_click_to_choose_body_part.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1338,6 +1215,22 @@ public class MonitorActivity extends AppCompatActivity {
                 BodyPartSelection.refreshView();
             }
         });
+
+        ll_click_to_choose_body_part.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == android.view.MotionEvent.ACTION_DOWN) {
+                    ll_click_to_choose_body_part.setAlpha(0.4f);
+                } else if (event.getAction() == android.view.MotionEvent.ACTION_UP) {
+                    ll_click_to_choose_body_part.setAlpha(1f);
+                }
+                return false;
+            }
+        });
+
+
+
+
         ll_click_to_view_report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1358,9 +1251,22 @@ public class MonitorActivity extends AppCompatActivity {
             }
         });
 
+
+        ll_click_to_view_report.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == android.view.MotionEvent.ACTION_DOWN) {
+                    ll_click_to_view_report.setAlpha(0.4f);
+                } else if (event.getAction() == android.view.MotionEvent.ACTION_UP) {
+                    ll_click_to_view_report.setAlpha(1f);
+                }
+                return false;
+            }
+        });
+
         //Share and cancel image view
-        LinearLayout summary_go_back = layout.findViewById(R.id.summary_go_back);
-        LinearLayout summary_share =  layout.findViewById(R.id.summary_share);
+        ImageView summary_go_back = layout.findViewById(R.id.summary_go_back);
+        ImageView summary_share =  layout.findViewById(R.id.summary_share);
 
         summary_share.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1401,8 +1307,10 @@ public class MonitorActivity extends AppCompatActivity {
         tv_held_on.setText(dateString_date);
 
 
-        tv_min_angle.setText(Integer.toString(minAngle)+"°");
-        tv_max_angle.setText(Integer.toString(maxAngle)+"°");
+        tv_min_angle.setText(minAngle +"°");
+        tv_min_angle.setBackgroundColor(color);
+        tv_max_angle.setText(maxAngle +"°");
+        tv_max_angle.setBackgroundColor(color);
 
 
         //total session time
@@ -1417,24 +1325,36 @@ public class MonitorActivity extends AppCompatActivity {
 
 
         tv_num_of_reps.setText(Repetitions.getText().toString());
-        tv_max_emg.setText(Integer.toString(maxEmgValue)+"μV");
+        tv_max_emg.setText(Float.toString(maxEmgValue).concat("mV"));
+        tv_max_emg.setBackgroundColor(color);
 
         //Creating the arc
         ArcViewInside arcView =layout.findViewById(R.id.session_summary_arcview);
         arcView.setMaxAngle(maxAngle);
         arcView.setMinAngle(minAngle);
+        arcView.setRangeColor(color);
+        //setting reference ranges
+        if(object_reference!=null){
+            Log.i("inside","inside object reference");
+            arcView.setEnableAndMinMax(reference_min_angle,reference_max_angle,true);
+        }
+
+
         TextView tv_180 = layout.findViewById(R.id.tv_180);
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
             tv_180.setPadding(5,1,170,1);
         }
 
-        arcView.setRangeColor(getResources().getColor(R.color.good_green));
+//        arcView.setRangeColor(getResources().getColor(R.color.good_green));
 
         //Max Emg Progress
         pb_max_emg.setMax(400);
-        pb_max_emg.setProgress(maxEmgValue);
+        pb_max_emg.setProgress((int) (maxEmgValue*100));
         pb_max_emg.setEnabled(false);
-
+        LayerDrawable bgShape = (LayerDrawable) pb_max_emg.getProgressDrawable();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            bgShape.findDrawableByLayerId(bgShape.getId(1)).setTint(color);
+        }
 
         storeLocalSessionDetails(dateString,tempSessionTime);
 
@@ -1478,30 +1398,22 @@ public class MonitorActivity extends AppCompatActivity {
         pw.setContentView(layout);
         pw.setFocusable(true);
         pw.showAtLocation(view, Gravity.CENTER, 0, 0);
-        final EditText et_pain_scale = layout.findViewById(R.id.comment_et_pain_scale);
-        final EditText et_muscle_tone = layout.findViewById(R.id.comment_et_muscle_tone);
         final EditText et_exercise_name = layout.findViewById(R.id.comment_exercise_name);
         final EditText et_comment_section = layout.findViewById(R.id.comment_et_comment);
-        final EditText et_symptoms = layout.findViewById(R.id.comment_et_symptoms);
-
-        et_pain_scale.setText(BodyPartSelection.painscale);
-        et_muscle_tone.setText(BodyPartSelection.muscletone);
         et_exercise_name.setText(BodyPartSelection.exercisename);
         et_comment_section.setText(BodyPartSelection.commentsession);
-        et_symptoms.setText(BodyPartSelection.symptoms);
 
         Button btn_continue = layout.findViewById(R.id.comment_btn_continue);
         Button btn_cancel = layout.findViewById(R.id.comment_btn_cancel);
+        Button set_reference = layout.findViewById(R.id.comment_btn_setreference);
+        set_reference.setVisibility(View.GONE);
         btn_cancel.setVisibility(View.VISIBLE);
         btn_continue.setText("save");
         btn_continue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BodyPartSelection.painscale = et_pain_scale.getText().toString();
-                BodyPartSelection.muscletone = et_muscle_tone.getText().toString();
                 BodyPartSelection.exercisename = et_exercise_name.getText().toString();
                 BodyPartSelection.commentsession = et_comment_section.getText().toString();
-                BodyPartSelection.symptoms = et_symptoms.getText().toString();
                 JSONObject object = new JSONObject();
                 MqttMessage message = new MqttMessage();
 
@@ -1509,11 +1421,11 @@ public class MonitorActivity extends AppCompatActivity {
                     object.put("phizioemail",json_phizio.get("phizioemail"));
                     object.put("patientid",patientId.getText().toString());
                     object.put("heldon",dateString);
-                    object.put("painscale",et_pain_scale.getText().toString());
-                    object.put("muscletone",et_muscle_tone.getText().toString());
+                    object.put("painscale",BodyPartSelection.painscale);
+                    object.put("muscletone",BodyPartSelection.muscletone);
                     object.put("exercisename",et_exercise_name.getText().toString());
                     object.put("commentsession",et_comment_section.getText().toString());
-                    object.put("symptoms",et_symptoms.getText().toString());
+                    object.put("symptoms",BodyPartSelection.symptoms);
 
                     message.setPayload(object.toString().getBytes());
                     if(NetworkOperations.isNetworkAvailable(MonitorActivity.this))
@@ -1644,6 +1556,7 @@ public class MonitorActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        inside_ondestroy = true;
         mqttHelper.mqttAndroidClient.unregisterResources();
         mqttHelper.mqttAndroidClient.close();
         if(mBluetoothGatt!=null && mCharacteristic!=null){
@@ -1658,6 +1571,10 @@ public class MonitorActivity extends AppCompatActivity {
         PatientsView.insideMonitor  = false;
         timer.setVisibility(View.VISIBLE);
         stopBtn.setVisibility(View.INVISIBLE);
+        if(isSessionRunning==false){
+            mBluetoothGatt.disconnect();
+            mBluetoothGatt.close();
+        }
     }
 
 
@@ -1666,7 +1583,7 @@ public class MonitorActivity extends AppCompatActivity {
         switch (string.toLowerCase()){
 
             case "elbow":{
-                byte b[] = ByteToArrayOperations.hexStringToByteArray("AA03");
+                byte[] b = ByteToArrayOperations.hexStringToByteArray("AA03");
                 if(send(b)){
                     Log.i("SENDING","MESSAGE SENT AA03");
                 }
@@ -1677,7 +1594,7 @@ public class MonitorActivity extends AppCompatActivity {
             }
 
             case "knee":{
-                byte b[] = ByteToArrayOperations.hexStringToByteArray("AA04");
+                byte[] b = ByteToArrayOperations.hexStringToByteArray("AA04");
                 if(send(b)){
                     Log.i("SENDING","MESSAGE SENT AA04");
                 }
@@ -1689,7 +1606,7 @@ public class MonitorActivity extends AppCompatActivity {
             }
 
             case "ankle":{
-                byte b[] = ByteToArrayOperations.hexStringToByteArray("AA05");
+                byte[] b = ByteToArrayOperations.hexStringToByteArray("AA05");
                 if(send(b)){
                     Log.i("SENDING","MESSAGE SENT AA05");
                 }
@@ -1700,7 +1617,7 @@ public class MonitorActivity extends AppCompatActivity {
                 break;
             }
             case "hip":{
-                byte b[] = ByteToArrayOperations.hexStringToByteArray("AA06");
+                byte[] b = ByteToArrayOperations.hexStringToByteArray("AA06");
                 if(send(b)){
                     Log.i("SENDING","MESSAGE SENT AA06");
                 }
@@ -1712,7 +1629,7 @@ public class MonitorActivity extends AppCompatActivity {
             }
 
             case "wrist":{
-                byte b[] = ByteToArrayOperations.hexStringToByteArray("AA07");
+                byte[] b = ByteToArrayOperations.hexStringToByteArray("AA07");
                 if(send(b)){
                     Log.i("SENDING","MESSAGE SENT AA07");
                 }
@@ -1724,7 +1641,7 @@ public class MonitorActivity extends AppCompatActivity {
             }
 
             case "shoulder":{
-                byte b[] = ByteToArrayOperations.hexStringToByteArray("AA08");
+                byte[] b = ByteToArrayOperations.hexStringToByteArray("AA08");
                 if(send(b)){
                     Log.i("SENDING","MESSAGE SENT AA08");
                 }
@@ -1736,7 +1653,7 @@ public class MonitorActivity extends AppCompatActivity {
             }
 
             case "others":{
-                byte b[] = ByteToArrayOperations.hexStringToByteArray("AA04");
+                byte[] b = ByteToArrayOperations.hexStringToByteArray("AA04");
                 if(send(b)){
                     Log.i("SENDING","MESSAGE SENT AA09");
                 }
@@ -1746,8 +1663,6 @@ public class MonitorActivity extends AppCompatActivity {
                 }
                 break;
             }
-
-
         }
     }
 
@@ -1811,133 +1726,5 @@ public class MonitorActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return snap;
-    }
-
-
-    private class MyAsync extends AsyncTask<byte[],Void,Void>{
-
-        @Override
-        protected Void doInBackground(byte[]... bytes) {
-            ui_rate+=20;
-            int entire_packet[] = new int[14];
-            final int emg_data[] = ByteToArrayOperations.constructEmgData(bytes[0]);
-            final int[] angleDetected = {ByteToArrayOperations.getAngleFromData(bytes[0][20], bytes[0][21])};
-            int num_of_reps = ByteToArrayOperations.getNumberOfReps(bytes[0][22], bytes[0][23]);
-            int hold_time_minutes = bytes[0][24];
-            int hold_time_seconds = bytes[0][25];
-
-            for (int i=0;i<emg_data.length;i++) {
-//                Log.i("emgvalues", String.valueOf(emg_data[i]));
-                entire_packet[i] = emg_data[i];
-            }
-            entire_packet[10] = angleDetected[0];entire_packet[11]=num_of_reps;entire_packet[12]=hold_time_minutes;entire_packet[13]=hold_time_seconds;
-
-
-            String angleValue = ""+ angleDetected[0];
-            final String repetitionValue = ""+num_of_reps;
-
-            String minutesValue=""+hold_time_minutes,secondsValue=""+hold_time_seconds;
-            if(hold_time_minutes<10)
-                minutesValue = "0"+hold_time_minutes;
-            if(hold_time_seconds<10)
-                secondsValue = "0"+hold_time_seconds;
-            holdTimeValue = minutesValue+" : "+secondsValue;
-
-            //Custom thresholds
-//            if(angleDetected>=minAnglePart && angleDetected<=maxAnglePart) {
-//                rangeOfMotion.setAngle(angleDetected);
-            if(ui_rate%60==0) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Log.i("updated ui",String.valueOf(ui_rate));
-                        if (angleCorrected) {
-                            angleDetected[0] += angleCorrection;
-                            arcViewInside.setMaxAngle(angleDetected[0]);
-
-                            Log.i("Angle", String.valueOf(angleDetected[0]));
-                        } else {
-                            arcViewInside.setMaxAngle(angleDetected[0]);
-                        }
-                        Repetitions.setText(repetitionValue);
-                        LinearLayout.LayoutParams params;
-                        params = (LinearLayout.LayoutParams) emgSignal.getLayoutParams();
-                        for (int i = 0; i < emg_data.length; i++) {
-
-                            lineData.addEntry(new Entry((float) UpdateTime / 1000, emg_data[i]), 0);
-                            lineChart.invalidate();
-                            lineChart.getXAxis();
-                            lineChart.getAxisLeft();
-                            lineChart.getAxisLeft().setValueFormatter(new IAxisValueFormatter() {
-                                @Override
-                                public String getFormattedValue(float value, AxisBase axis) {
-                                    return (int) value + "μV";
-                                }
-                            });
-                            if (UpdateTime / 1000 > 3)
-                                lineChart.setVisibleXRangeMaximum(5f);
-                            lineChart.moveViewToX((float) UpdateTime / 1000);
-                            try {
-                                outputStream_session_emgdata = new FileOutputStream(file_session_emgdata, true);
-//                                outputStream_session_emgdata.write(String.valueOf(emg_data[i]).getBytes());
-//                                outputStream_session_emgdata.write("\n".getBytes());
-                            } catch (FileNotFoundException e) {
-                                e.printStackTrace();
-                            }
-                            emgJsonArray.put(emg_data[i]);
-                            EMG.setText(Integer.toString(emg_data[i]));
-                            try {
-                                outputStream_session_emgdata.flush();
-                                outputStream_session_emgdata.close();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            maxEmgValue = maxEmgValue < emg_data[i] ? emg_data[i] : maxEmgValue;
-                            if (maxEmgValue == 0)
-                                maxEmgValue = 1;
-                            params.height = ((View) emgSignal.getParent()).getMeasuredHeight() * emg_data[i] / maxEmgValue;
-                        }
-                        lineChart.notifyDataSetChanged();
-                        maxAngle = maxAngle < angleDetected[0] ? angleDetected[0] : maxAngle;
-                        minAngle = minAngle > angleDetected[0] ? angleDetected[0] : minAngle;
-                        emgSignal.setLayoutParams(params);
-                        holdTime.setText(holdTimeValue);
-                    }
-                });
-            }
-            else {
-                        Log.i("updated values",String.valueOf(ui_rate));
-                        for (int i = 0; i < emg_data.length; i++) {
-                            lineData.addEntry(new Entry((float) UpdateTime / 1000, emg_data[i]), 0);
-                            try {
-                                outputStream_session_emgdata = new FileOutputStream(file_session_emgdata, true);
-//                                outputStream_session_emgdata.write(String.valueOf(emg_data[i]).getBytes());
-//                                outputStream_session_emgdata.write("\n".getBytes());
-                            } catch (FileNotFoundException e) {
-                                e.printStackTrace();
-                            }
-                            emgJsonArray.put(emg_data[i]);
-                            try {
-                                outputStream_session_emgdata.flush();
-                                outputStream_session_emgdata.close();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        maxAngle = maxAngle < angleDetected[0] ? angleDetected[0] : maxAngle;
-                        minAngle = minAngle > angleDetected[0] ? angleDetected[0] : minAngle;
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                @Override
-                public void run() {
-                }
-            });
-        }
     }
 }
