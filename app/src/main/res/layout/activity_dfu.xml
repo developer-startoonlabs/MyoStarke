@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.sai.pheezeeapp.dfu.DfuActivity">
+    tools:context="com.startoonlabs.apps.pheezee.dfu.DfuActivity">
 
 
     <LinearLayout

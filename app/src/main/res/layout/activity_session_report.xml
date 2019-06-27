@@ -6,7 +6,7 @@
     android:background="@color/white"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.sai.pheezeeapp.activities.SessionReportActivity">
+    tools:context="com.startoonlabs.apps.pheezee.activities.SessionReportActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar_session_report"

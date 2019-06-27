@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context="com.example.sai.pheezeeapp.fragments.ReportMonth">
+    tools:context="com.startoonlabs.apps.pheezee.fragments.ReportMonth">
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -124,7 +124,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <com.example.sai.pheezeeapp.views.custom_graph.EmonjiBarGraph
+                <com.startoonlabs.apps.pheezee.views.custom_graph.EmonjiBarGraph
                     android:id="@+id/graphView"
                     android:layout_width="410dp"
                     android:layout_height="360dp"
@@ -219,7 +219,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <com.example.sai.pheezeeapp.views.custom_graph.EmonjiBarGraph
+                <com.startoonlabs.apps.pheezee.views.custom_graph.EmonjiBarGraph
                     android:id="@+id/month_emggraph"
                     android:layout_width="410dp"
                     android:layout_height="360dp"

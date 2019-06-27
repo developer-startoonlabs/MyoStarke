@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.sai.pheezeeapp.activities.SignUpActivity">
+    tools:context="com.startoonlabs.apps.pheezee.activities.SignUpActivity">
 
     <TextView
         android:id="@+id/tv_create_account"

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    tools:context="com.example.sai.pheezeeapp.activities.AppInfo">
+    tools:context="com.startoonlabs.apps.pheezee.activities.AppInfo">
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar_bodypart"
         android:layout_width="match_parent"

@@ -338,7 +338,7 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:orientation="horizontal">
-                        <com.example.sai.pheezeeapp.views.ArcViewInside
+                        <com.startoonlabs.apps.pheezee.views.ArcViewInside
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:id="@+id/session_summary_arcview"/>
