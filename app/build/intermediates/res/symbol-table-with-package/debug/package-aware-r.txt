@@ -1781,6 +1781,7 @@ id patient_profilepic_section
 id patients_recycler_view
 id percent
 id pheeze_device_info
+id phizioProfileNavigation
 id phizio_email
 id phizio_name
 id phizio_phone

@@ -36,6 +36,7 @@ import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -113,6 +114,7 @@ public class PatientsView extends AppCompatActivity
     public static boolean insideMonitor = false;
     RelativeLayout rl_cap_view;
     Toast connected_disconnected_toast;
+    ConstraintLayout cl_phizioProfileNavigation;
     //Caracteristic uuids
     //All the constant uuids are written here
     public static final UUID service1_uuid = UUID.fromString("909a1400-9693-4920-96e6-893c0157fedd");
@@ -256,6 +258,7 @@ public class PatientsView extends AppCompatActivity
         tv_patient_view_add_patient = findViewById(R.id.tv_patient_view_add_patient);
 
 
+
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
@@ -310,6 +313,13 @@ public class PatientsView extends AppCompatActivity
             e.printStackTrace();
         }
         fullName = view.findViewById(R.id.fullName);
+        cl_phizioProfileNavigation = view.findViewById(R.id.phizioProfileNavigation);
+        cl_phizioProfileNavigation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(PatientsView.this, PhizioProfile.class));
+            }
+        });
         try {
             email.setText(json_phizio.getString("phizioemail"));
             fullName.setText(json_phizio.getString("phizioname"));
