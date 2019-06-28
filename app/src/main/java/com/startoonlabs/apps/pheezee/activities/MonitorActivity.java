@@ -21,6 +21,7 @@ import android.graphics.drawable.LayerDrawable;
 import android.media.MediaScannerConnection;
 import android.net.ConnectivityManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -50,6 +51,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.classes.BluetoothSingelton;
 import com.startoonlabs.apps.pheezee.services.MqttHelper;
@@ -90,6 +92,7 @@ public class MonitorActivity extends AppCompatActivity {
 
     //max min angle emg showing views
     TextView tv_max_angle, tv_min_angle, tv_max_emg; int software_gain = 0;
+    private int VISIBLE_COUNT = 10000; private long removalCounter = 0;
     int ui_rate = 0;
     public final int sub_byte_size = 48;
     int maxAnglePart, minAnglePart, angleCorrection = 0, currentAngle=0;
@@ -99,6 +102,7 @@ public class MonitorActivity extends AppCompatActivity {
     SharedPreferences.Editor editor;
     JSONObject json_phizio = new JSONObject();
     JSONArray jsonData, emgJsonArray, romJsonArray;
+    MyAsync async;
     boolean inside_ondestroy = false;
 //    public final int emg_data_size_raw = 20;
 //    public final int emg_num_packets_raw = 40;
@@ -165,6 +169,7 @@ public class MonitorActivity extends AppCompatActivity {
     public static final UUID service1_uuid = UUID.fromString("909a1400-9693-4920-96e6-893c0157fedd");
     public static final UUID characteristic1_service1_uuid = UUID.fromString("909a1401-9693-4920-96e6-893c0157fedd");
     public static final UUID descriptor_characteristic1_service1_uuid = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
+    private int rate=0;
 
     public void deviceDisconnectedPopup() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(MonitorActivity.this);
@@ -567,6 +572,7 @@ public class MonitorActivity extends AppCompatActivity {
 
     public void startSession(){
         ui_rate = 0;
+        rate=0;
         PatientsView.sessionStarted = true;
         enteredInsideTwenty = true;
         isSessionRunning = true;
@@ -768,7 +774,7 @@ public class MonitorActivity extends AppCompatActivity {
         lineDataNew = new LineData(lineDataSet);    //for 30000
 
         lineChart.getXAxis();
-        lineChart.setVisibleXRangeMaximum(1000);
+//        lineChart.setVisibleXRangeMaximum(1000);
         lineChart.getXAxis().setAxisMinimum(0f);
         lineChart.getAxisLeft().setSpaceTop(60f);
         lineChart.getAxisRight().setSpaceTop(60f);
@@ -907,7 +913,9 @@ public class MonitorActivity extends AppCompatActivity {
                         message.obj = sub_byte;
 
                         myHandler.sendMessage(message);
-//                        new MyAsync().doInBackground(sub_byte);
+//                        new MyAsync().execute(sub_byte);
+//                        async = new MyAsync();
+//                        async.execute(sub_byte);
 
                         try {
                             sessionResult.put(message);
@@ -924,7 +932,7 @@ public class MonitorActivity extends AppCompatActivity {
                     message.obj = sub_byte;
 
                     myHandler.sendMessage(message);
-//                        new MyAsync().doInBackground(sub_byte);
+//                        new MyAsync().execute(sub_byte);
 
                     try {
                         sessionResult.put(message);
@@ -1077,20 +1085,20 @@ public class MonitorActivity extends AppCompatActivity {
             params = (LinearLayout.LayoutParams) emgSignal.getLayoutParams();
             for (int i=0;i<emg_data.length;i++) {
                 ++ui_rate;
+
                 lineData.addEntry(new Entry((float) ui_rate / 1000, emg_data[i]), 0);
-                lineChart.notifyDataSetChanged();
-                lineChart.invalidate();
-                lineChart.getXAxis();
-                lineChart.getAxisLeft();
-                lineChart.getAxisLeft().setValueFormatter(new IAxisValueFormatter() {
-                    @Override
-                    public String getFormattedValue(float value, AxisBase axis) {
-                        return (int) value + "mV";
-                    }
-                });
-                if (UpdateTime / 1000 > 3)
-                    lineChart.setVisibleXRangeMaximum(5f);
-                lineChart.moveViewToX((float) ui_rate / 1000);
+//                if(lineData!=null){
+//                    int count =lineData.getDataSetByIndex(0).getEntryCount();
+//                    if(count==VISIBLE_COUNT){
+//                        for (int j=0;j<count/2;j++)
+//                        lineData.getDataSetByIndex(0).removeFirst();
+////                        for (int j=0; j<set.getEntryCount(); j++) {
+////                            Entry entryToChange = set.getEntryForIndex(j);
+////                            entryToChange.setX(entryToChange.getX() - 1);
+////                        }
+//                    }
+//                }
+
                 try {
                     outputStream_session_emgdata = new FileOutputStream(file_session_emgdata, true);
                     outputStream_session_emgdata.write(String.valueOf(emg_data[i]).getBytes());
@@ -1122,9 +1130,25 @@ public class MonitorActivity extends AppCompatActivity {
                 tv_max_emg.setText(String.valueOf(maxEmgValue));
                 params.height = (int) (((View) emgSignal.getParent()).getMeasuredHeight() * emg_data[i] / maxEmgValue);
             }
-//            lineDataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-            //threshholds
-//            if(angleDetected>=minAnglePart && angleDetected<=maxAnglePart) {
+
+            lineChart.notifyDataSetChanged();
+            lineChart.invalidate();
+//                if(lineData.getDataSetByIndex(0).getEntryCount()>VISIBLE_COUNT){
+//                    creatGraphView();
+//                    ui_rate=0;
+//                }
+            lineChart.getXAxis();
+            lineChart.getAxisLeft();
+            lineChart.getAxisLeft().setValueFormatter(new IAxisValueFormatter() {
+                @Override
+                public String getFormattedValue(float value, AxisBase axis) {
+                    return (int) value + "mV";
+                }
+            });
+            if (UpdateTime / 1000 > 3)
+                lineChart.setVisibleXRangeMaximum(5f);
+            lineChart.moveViewToX((float) ui_rate / 1000);
+
                 maxAngle = maxAngle < angleDetected ? angleDetected : maxAngle;
                 tv_max_angle.setText(String.valueOf(maxAngle));
                 minAngle = minAngle > angleDetected ? angleDetected : minAngle;
@@ -1726,5 +1750,210 @@ public class MonitorActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return snap;
+    }
+
+
+
+    private class MyAsync extends AsyncTask<byte[],Void,Void> {
+
+        @Override
+        protected Void doInBackground(byte[]... bytes) {
+            rate+=20;
+            final int[] angleDetected = {0};
+            int num_of_reps = 0;
+            final int hold_time_minutes;
+            final int hold_time_seconds;
+            final int active_time_minutes;
+            final int active_time_seconds;
+            final float[] emg_data;
+            byte[] sub_byte;
+            sub_byte = bytes[0];
+            emg_data = ByteToArrayOperations.constructEmgDataWithGain(sub_byte, software_gain);
+            angleDetected[0] = ByteToArrayOperations.getAngleFromData(sub_byte[40], sub_byte[41]);
+            if (ui_rate == 0) {
+                minAngle = angleDetected[0];
+                maxAngle = angleDetected[0];
+            }
+            num_of_reps = ByteToArrayOperations.getNumberOfReps(sub_byte[42], sub_byte[43]);
+            hold_time_minutes = sub_byte[44];
+            hold_time_seconds = sub_byte[45];
+            active_time_minutes = sub_byte[46];
+            active_time_seconds = sub_byte[47];
+            Log.i("active time", active_time_minutes + "m " + active_time_seconds + "s");
+            currentAngle = angleDetected[0];
+            String angleValue = "" + angleDetected[0];
+            final String repetitionValue = "" + num_of_reps;
+
+            final String[] minutesValue = {"" + hold_time_minutes};
+            final String[] secondsValue = {"" + hold_time_seconds};
+            if (hold_time_minutes < 10)
+                minutesValue[0] = "0" + hold_time_minutes;
+            if (hold_time_seconds < 10)
+                secondsValue[0] = "0" + hold_time_seconds;
+            holdTimeValue = minutesValue[0] + " : " + secondsValue[0];
+
+            if (rate%60==0) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Repetitions.setText(repetitionValue);
+                        if (angleCorrected) {
+                            angleDetected[0] += angleCorrection;
+                            arcViewInside.setMaxAngle(angleDetected[0]);
+                        } else {
+                            arcViewInside.setMaxAngle(angleDetected[0]);
+                        }
+
+                        romJsonArray.put(angleDetected[0]);
+                        try {
+                            outputStream_session_romdata = new FileOutputStream(file_session_romdata, true);
+                            outputStream_session_romdata.write(String.valueOf(angleDetected[0]).getBytes());
+                            outputStream_session_romdata.write("\n".getBytes());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        try {
+
+                            outputStream_session_romdata.flush();
+                            outputStream_session_romdata.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        LinearLayout.LayoutParams params;
+                        params = (LinearLayout.LayoutParams) emgSignal.getLayoutParams();
+                        for (int i = 0; i < emg_data.length; i++) {
+                            ++ui_rate;
+                            lineData.addEntry(new Entry((float) ui_rate / 1000, emg_data[i]), 0);
+                            lineChart.notifyDataSetChanged();
+                            lineChart.invalidate();
+                            lineChart.getXAxis();
+                            lineChart.getAxisLeft();
+                            lineChart.getAxisLeft().setValueFormatter(new IAxisValueFormatter() {
+                                @Override
+                                public String getFormattedValue(float value, AxisBase axis) {
+                                    return (int) value + "mV";
+                                }
+                            });
+                            if (UpdateTime / 1000 > 3)
+                                lineChart.setVisibleXRangeMaximum(5f);
+                            lineChart.moveViewToX((float) ui_rate / 1000);
+
+                            try {
+                                outputStream_session_emgdata = new FileOutputStream(file_session_emgdata, true);
+                                outputStream_session_emgdata.write(String.valueOf(emg_data[i]).getBytes());
+                                outputStream_session_emgdata.write("\n".getBytes());
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            try {
+                                emgJsonArray.put(emg_data[i]);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                            EMG.setText(Float.toString(emg_data[i]).concat("mV"));
+
+
+                            try {
+                                outputStream_session_emgdata.flush();
+                                outputStream_session_emgdata.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                            maxEmgValue = maxEmgValue < emg_data[i] ? emg_data[i] : maxEmgValue;
+                            if (maxEmgValue == 0)
+                                maxEmgValue = 1;
+                            tv_max_emg.setText(String.valueOf(maxEmgValue));
+                            params.height = (int) (((View) emgSignal.getParent()).getMeasuredHeight() * emg_data[i] / maxEmgValue);
+                        }
+                        maxAngle = maxAngle < angleDetected[0] ? angleDetected[0] : maxAngle;
+                        tv_max_angle.setText(String.valueOf(maxAngle));
+                        minAngle = minAngle > angleDetected[0] ? angleDetected[0] : minAngle;
+                        tv_min_angle.setText(String.valueOf(minAngle));
+//            }
+                        emgSignal.setLayoutParams(params);
+                        holdTime.setText(holdTimeValue);
+                        minutesValue[0] = "" + active_time_minutes;
+                        secondsValue[0] = "" + active_time_seconds;
+                        if (active_time_minutes < 10)
+                            minutesValue[0] = "0" + active_time_minutes;
+                        if (active_time_seconds < 10)
+                            secondsValue[0] = "0" + active_time_seconds;
+                        tv_action_time.setText(minutesValue[0] + " : " + secondsValue[0]);
+                    }
+                });
+            } else {
+                if (angleCorrected) {
+                    angleDetected[0] += angleCorrection;
+//                    arcViewInside.setMaxAngle(angleDetected[0]);
+                } else {
+//                    arcViewInside.setMaxAngle(angleDetected[0]);
+                }
+
+                romJsonArray.put(angleDetected[0]);
+                try {
+                    outputStream_session_romdata = new FileOutputStream(file_session_romdata, true);
+                    outputStream_session_romdata.write(String.valueOf(angleDetected[0]).getBytes());
+                    outputStream_session_romdata.write("\n".getBytes());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                try {
+
+                    outputStream_session_romdata.flush();
+                    outputStream_session_romdata.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                for (int i = 0; i < emg_data.length; i++) {
+                    ++ui_rate;
+                    lineData.addEntry(new Entry((float) ui_rate / 1000, emg_data[i]), 0);
+
+                    try {
+                        outputStream_session_emgdata = new FileOutputStream(file_session_emgdata, true);
+                        outputStream_session_emgdata.write(String.valueOf(emg_data[i]).getBytes());
+                        outputStream_session_emgdata.write("\n".getBytes());
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        emgJsonArray.put(emg_data[i]);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        outputStream_session_emgdata.flush();
+                        outputStream_session_emgdata.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    maxEmgValue = maxEmgValue < emg_data[i] ? emg_data[i] : maxEmgValue;
+                    if (maxEmgValue == 0)
+                        maxEmgValue = 1;
+                }
+                maxAngle = maxAngle < angleDetected[0] ? angleDetected[0] : maxAngle;
+                minAngle = minAngle > angleDetected[0] ? angleDetected[0] : minAngle;
+//            }
+            }
+
+                return null;
+            }
+
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                }
+            });
+        }
     }
 }
