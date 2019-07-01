@@ -573,6 +573,7 @@ public class MonitorActivity extends AppCompatActivity {
     public void startSession(){
         ui_rate = 0;
         rate=0;
+        devicePopped=false;
         PatientsView.sessionStarted = true;
         enteredInsideTwenty = true;
         isSessionRunning = true;
@@ -1133,10 +1134,6 @@ public class MonitorActivity extends AppCompatActivity {
 
             lineChart.notifyDataSetChanged();
             lineChart.invalidate();
-//                if(lineData.getDataSetByIndex(0).getEntryCount()>VISIBLE_COUNT){
-//                    creatGraphView();
-//                    ui_rate=0;
-//                }
             lineChart.getXAxis();
             lineChart.getAxisLeft();
             lineChart.getAxisLeft().setValueFormatter(new IAxisValueFormatter() {

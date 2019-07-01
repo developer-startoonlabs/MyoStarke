@@ -1209,6 +1209,9 @@ public class PatientsView extends AppCompatActivity
 //                        }
 //                    },2000);
                     showToast("Device Connected");
+                    if(iv_device_connected.getVisibility()==View.GONE){
+                        pheezeeConnected();
+                    }
 //                connected_disconnected_toast.show();
 //                connected_disconnected_toast.show();
 //                connected_disconnected_toast.cancel();
