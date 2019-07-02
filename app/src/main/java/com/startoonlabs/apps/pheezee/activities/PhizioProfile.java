@@ -33,6 +33,8 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.services.MqttHelper;
 import com.startoonlabs.apps.pheezee.services.PicassoCircleTransformation;
@@ -142,6 +144,8 @@ public class PhizioProfile extends AppCompatActivity {
                 Picasso.get().load(temp)
                         .placeholder(R.drawable.user_icon)
                         .error(R.drawable.user_icon)
+                        .networkPolicy(NetworkPolicy.NO_CACHE,NetworkPolicy.NO_STORE)
+                        .memoryPolicy(MemoryPolicy.NO_CACHE,MemoryPolicy.NO_STORE)
                         .transform(new PicassoCircleTransformation())
                         .into(iv_phizio_profilepic);
             }

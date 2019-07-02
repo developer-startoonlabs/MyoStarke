@@ -72,6 +72,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.startoonlabs.apps.pheezee.classes.BluetoothGattSingleton;
 import com.startoonlabs.apps.pheezee.classes.BluetoothSingelton;
 import com.startoonlabs.apps.pheezee.classes.MyBottomSheetDialog;
@@ -304,6 +306,8 @@ public class PatientsView extends AppCompatActivity
                 Picasso.get().load(temp)
                         .placeholder(R.drawable.user_icon)
                         .error(R.drawable.user_icon)
+                        .networkPolicy(NetworkPolicy.NO_CACHE,NetworkPolicy.NO_STORE)
+                        .memoryPolicy(MemoryPolicy.NO_CACHE,MemoryPolicy.NO_STORE)
                         .transform(new PicassoCircleTransformation())
                         .into(ivBasicImage);
 

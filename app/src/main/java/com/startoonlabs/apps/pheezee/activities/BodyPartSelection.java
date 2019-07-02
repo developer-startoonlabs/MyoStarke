@@ -351,227 +351,229 @@ public class BodyPartSelection extends AppCompatActivity {
      * This method is called when pressed done.
      * @param view
      */
-    public void startMonitorSession(View view){
+    public void startMonitorSession(View view) {
+        if (selectedPosition != -1 && !orientationSelected.equalsIgnoreCase("")) {
+            Display display = getWindowManager().getDefaultDisplay();
+            Point size = new Point();
+            display.getSize(size);
+            int width = size.x;
+            int height = size.y;
+            LayoutInflater inflater = (LayoutInflater) BodyPartSelection.this
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            assert inflater != null;
+            @SuppressLint("InflateParams") View layout = inflater.inflate(R.layout.popup_comment_session, null);
 
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int width = size.x;
-        int height = size.y;
-        LayoutInflater inflater = (LayoutInflater) BodyPartSelection.this
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        assert inflater != null;
-        @SuppressLint("InflateParams") View layout = inflater.inflate(R.layout.popup_comment_session, null);
-
-        final PopupWindow pw = new PopupWindow(layout, ConstraintLayout.LayoutParams.WRAP_CONTENT,ConstraintLayout.LayoutParams.WRAP_CONTENT);
+            final PopupWindow pw = new PopupWindow(layout, ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
 //        pw.setHeight(height - 400);
-        pw.setWidth(width - 100);
+            pw.setWidth(width - 100);
 
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            pw.setElevation(10);
-        }
-        pw.setTouchable(true);
-        pw.setOutsideTouchable(true);
-        pw.setContentView(layout);
-        pw.setFocusable(true);
-        pw.showAtLocation(view, Gravity.CENTER, 0, 0);
-        final EditText et_exercise_name = layout.findViewById(R.id.comment_exercise_name);
-        final EditText et_comment_section = layout.findViewById(R.id.comment_et_comment);
-        final Button btn_set_reference = layout.findViewById(R.id.comment_btn_setreference);
-        final Button btn_continue = layout.findViewById(R.id.comment_btn_continue);
-        btn_set_reference.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                JSONObject json_reference = PatientOperations.checkReferenceDone(orientationSelected,BodyPartSelection.this,getPatientId(),bodypartSelected);
-                final AlertDialog.Builder builder = new AlertDialog.Builder(BodyPartSelection.this);
-                LayoutInflater inflater = getLayoutInflater();
-                final View dialogLayout = inflater.inflate(R.layout.popup_set_reference, null);
-                final EditText et_max_angle = dialogLayout.findViewById(R.id.setreference_et_maxangle);
-                final EditText et_min_angle = dialogLayout.findViewById(R.id.setreference_et_minangle);
-                final EditText et_max_emg = dialogLayout.findViewById(R.id.setreference_et_maxemg);
-                final TextView tv_normal_max = dialogLayout.findViewById(R.id.tv_normal_max);
-                final TextView tv_normal_min = dialogLayout.findViewById(R.id.tv_normal_min);
-                final TextView tv_normal_max_text = dialogLayout.findViewById(R.id.normalMaxTest);
-                final TextView tv_normal_min_text = dialogLayout.findViewById(R.id.normalMinTest);
-                if(bodypartSelected!=null) {
-                    int normal_min = ValueBasedColorOperations.getBodyPartMinValue(bodypartSelected);
-                    int normal_max = ValueBasedColorOperations.getBodyPartMaxValue(bodypartSelected);
-                    tv_normal_max.setText(String.valueOf(normal_max));
-                    tv_normal_min.setText(String.valueOf(normal_min));
-                }
-                if(bodypartSelected.equalsIgnoreCase("others")){
-                    tv_normal_max.setVisibility(View.GONE);
-                    tv_normal_min.setVisibility(View.GONE);
-                    tv_normal_max_text.setVisibility(View.GONE);
-                    tv_normal_min_text.setVisibility(View.GONE);
-                }
-
-                if(json_reference!=null) {
-                    try {
-                        et_max_emg.setText(json_reference.getString("maxemg"));
-                        et_max_angle.setText(json_reference.getString("maxangle"));
-                        et_min_angle.setText(json_reference.getString("minangle"));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-                builder.setPositiveButton("Submit",null);
-                builder.setView(dialogLayout);
-                mdialog = builder.create();
-                mdialog.setOnShowListener(new DialogInterface.OnShowListener() {
-
-                    @Override
-                    public void onShow(final DialogInterface dialog) {
-
-                        Button p = mdialog.getButton(AlertDialog.BUTTON_POSITIVE);
-                        p.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                boolean flag = true;
-
-                                String maxEmg = et_max_emg.getText().toString();
-                                String maxAngle = et_max_angle.getText().toString();
-                                String minEmg = String.valueOf(0);
-                                String minAngle = et_min_angle.getText().toString();
-                                flag = RegexOperations.checkIfNumeric(maxEmg);
-                                if(flag)
-                                    flag = RegexOperations.checkIfNumeric(minAngle);
-                                if(flag)
-                                    flag = RegexOperations.checkIfNumeric(maxAngle);
-                                if(flag)
-                                    sendData(maxAngle,minAngle,maxEmg,minEmg);
-                                else
-                                    Toast.makeText(BodyPartSelection.this, "Invalid Entry", Toast.LENGTH_SHORT).show();
-
-                                mdialog.dismiss();
-                            }
-                        });
-                    }
-                });
-
-                mdialog.show();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                pw.setElevation(10);
             }
-        });
-
-
-           //buttom of the coment section pop up to continue to the session
-        btn_continue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                exercisename = et_exercise_name.getText().toString();
-                commentsession = et_comment_section.getText().toString();
-
-
-
-                pw.dismiss();
-                int temp_index = -1;
-                boolean flag = false, present = false;
-                if (selectedPosition!=-1) {
-                    int position_list_selected = selectedPosition;
-                    String str_time = repsselected+"";
-                    editor = preferences.edit();
-
-                    JSONArray array = new JSONArray();
-                    JSONArray array1 = new JSONArray();
-                    JSONObject object = new JSONObject();
-                    JSONArray temp_array = new JSONArray();
-                    JSONObject patient_object = new JSONObject();
-                    try {
-                        object.put("part_name", bodypartSelected);
-                        object.put("res_id", myPartList[position_list_selected]);
-                        object.put("position", position_list_selected + "");
-                        object.put("str_time", str_time);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+            pw.setTouchable(true);
+            pw.setOutsideTouchable(true);
+            pw.setContentView(layout);
+            pw.setFocusable(true);
+            pw.showAtLocation(view, Gravity.CENTER, 0, 0);
+            final EditText et_exercise_name = layout.findViewById(R.id.comment_exercise_name);
+            final EditText et_comment_section = layout.findViewById(R.id.comment_et_comment);
+            final Button btn_set_reference = layout.findViewById(R.id.comment_btn_setreference);
+            final Button btn_continue = layout.findViewById(R.id.comment_btn_continue);
+            btn_set_reference.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    JSONObject json_reference = PatientOperations.checkReferenceDone(orientationSelected, BodyPartSelection.this, getPatientId(), bodypartSelected);
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(BodyPartSelection.this);
+                    LayoutInflater inflater = getLayoutInflater();
+                    final View dialogLayout = inflater.inflate(R.layout.popup_set_reference, null);
+                    final EditText et_max_angle = dialogLayout.findViewById(R.id.setreference_et_maxangle);
+                    final EditText et_min_angle = dialogLayout.findViewById(R.id.setreference_et_minangle);
+                    final EditText et_max_emg = dialogLayout.findViewById(R.id.setreference_et_maxemg);
+                    final TextView tv_normal_max = dialogLayout.findViewById(R.id.tv_normal_max);
+                    final TextView tv_normal_min = dialogLayout.findViewById(R.id.tv_normal_min);
+                    final TextView tv_normal_max_text = dialogLayout.findViewById(R.id.normalMaxTest);
+                    final TextView tv_normal_min_text = dialogLayout.findViewById(R.id.normalMinTest);
+                    if (bodypartSelected != null) {
+                        int normal_min = ValueBasedColorOperations.getBodyPartMinValue(bodypartSelected);
+                        int normal_max = ValueBasedColorOperations.getBodyPartMaxValue(bodypartSelected);
+                        tv_normal_max.setText(String.valueOf(normal_max));
+                        tv_normal_min.setText(String.valueOf(normal_min));
+                    }
+                    if (bodypartSelected.equalsIgnoreCase("others")) {
+                        tv_normal_max.setVisibility(View.GONE);
+                        tv_normal_min.setVisibility(View.GONE);
+                        tv_normal_max_text.setVisibility(View.GONE);
+                        tv_normal_min_text.setVisibility(View.GONE);
                     }
 
-                    if (preferences.getString("recently", "").equals("")) {
-
-                        array1.put(object);
+                    if (json_reference != null) {
                         try {
-                            patient_object.put("patientid", getPatientId());
-                            patient_object.put("recent", array1.toString());
+                            et_max_emg.setText(json_reference.getString("maxemg"));
+                            et_max_angle.setText(json_reference.getString("maxangle"));
+                            et_min_angle.setText(json_reference.getString("minangle"));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        array.put(patient_object);
-                        editor.putString("recently", array.toString());
-                        editor.commit();
-                    } else {
+                    }
+                    builder.setPositiveButton("Submit", null);
+                    builder.setView(dialogLayout);
+                    mdialog = builder.create();
+                    mdialog.setOnShowListener(new DialogInterface.OnShowListener() {
+
+                        @Override
+                        public void onShow(final DialogInterface dialog) {
+
+                            Button p = mdialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                            p.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    boolean flag = true;
+
+                                    String maxEmg = et_max_emg.getText().toString();
+                                    String maxAngle = et_max_angle.getText().toString();
+                                    String minEmg = String.valueOf(0);
+                                    String minAngle = et_min_angle.getText().toString();
+                                    flag = RegexOperations.checkIfNumeric(maxEmg);
+                                    if (flag)
+                                        flag = RegexOperations.checkIfNumeric(minAngle);
+                                    if (flag)
+                                        flag = RegexOperations.checkIfNumeric(maxAngle);
+                                    if (flag)
+                                        sendData(maxAngle, minAngle, maxEmg, minEmg);
+                                    else
+                                        Toast.makeText(BodyPartSelection.this, "Invalid Entry", Toast.LENGTH_SHORT).show();
+
+                                    mdialog.dismiss();
+                                }
+                            });
+                        }
+                    });
+
+                    mdialog.show();
+                }
+            });
+
+
+            //buttom of the coment section pop up to continue to the session
+            btn_continue.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    exercisename = et_exercise_name.getText().toString();
+                    commentsession = et_comment_section.getText().toString();
+
+
+                    pw.dismiss();
+                    int temp_index = -1;
+                    boolean flag = false, present = false;
+                    if (selectedPosition != -1) {
+                        int position_list_selected = selectedPosition;
+                        String str_time = repsselected + "";
+                        editor = preferences.edit();
+
+                        JSONArray array = new JSONArray();
+                        JSONArray array1 = new JSONArray();
+                        JSONObject object = new JSONObject();
+                        JSONArray temp_array = new JSONArray();
+                        JSONObject patient_object = new JSONObject();
                         try {
-                            array = new JSONArray(preferences.getString("recently", ""));
-                            for (int i = 0; i < array.length(); i++) {
-                                JSONObject object1 = array.getJSONObject(i);
-                                if (object1.getString("patientid").equals(getPatientId())) {
-                                    present = true;
-                                    temp_index = i;
-                                    JSONArray recent_array = new JSONArray(object1.getString("recent"));
-                                    for (int j = 0; j < recent_array.length(); j++) {
-                                        JSONObject recent_object = recent_array.getJSONObject(j);
-                                        if (recent_object.getString("position").equals(object.getString("position"))) {
-                                            flag = true;
-                                            recent_array.remove(j);
-                                            temp_array.put(object);
-                                            for (int k = 0; k < recent_array.length(); k++) {
-                                                temp_array.put(recent_array.getJSONObject(k));
+                            object.put("part_name", bodypartSelected);
+                            object.put("res_id", myPartList[position_list_selected]);
+                            object.put("position", position_list_selected + "");
+                            object.put("str_time", str_time);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        if (preferences.getString("recently", "").equals("")) {
+
+                            array1.put(object);
+                            try {
+                                patient_object.put("patientid", getPatientId());
+                                patient_object.put("recent", array1.toString());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            array.put(patient_object);
+                            editor.putString("recently", array.toString());
+                            editor.commit();
+                        } else {
+                            try {
+                                array = new JSONArray(preferences.getString("recently", ""));
+                                for (int i = 0; i < array.length(); i++) {
+                                    JSONObject object1 = array.getJSONObject(i);
+                                    if (object1.getString("patientid").equals(getPatientId())) {
+                                        present = true;
+                                        temp_index = i;
+                                        JSONArray recent_array = new JSONArray(object1.getString("recent"));
+                                        for (int j = 0; j < recent_array.length(); j++) {
+                                            JSONObject recent_object = recent_array.getJSONObject(j);
+                                            if (recent_object.getString("position").equals(object.getString("position"))) {
+                                                flag = true;
+                                                recent_array.remove(j);
+                                                temp_array.put(object);
+                                                for (int k = 0; k < recent_array.length(); k++) {
+                                                    temp_array.put(recent_array.getJSONObject(k));
+                                                }
+                                                break;
                                             }
-                                            break;
                                         }
+                                        break;
                                     }
-                                    break;
+
                                 }
 
-                            }
-
-                            if (flag) {
-                                if (temp_index != -1) {
+                                if (flag) {
+                                    if (temp_index != -1) {
+                                        array.getJSONObject(temp_index).put("recent", temp_array.toString());
+                                    }
+                                    editor.putString("recently", array.toString());
+                                    editor.commit();
+                                } else if (present == true && flag == false) {
+                                    temp_array.put(0, object);
+                                    JSONArray array2 = new JSONArray(array.getJSONObject(temp_index).getString("recent"));
+                                    for (int j = 0; j < array2.length(); j++) {
+                                        temp_array.put(array2.getJSONObject(j));
+                                    }
                                     array.getJSONObject(temp_index).put("recent", temp_array.toString());
+                                    editor.putString("recently", array.toString());
+                                    editor.commit();
+                                } else if (present == false) {
+                                    JSONArray temp = new JSONArray();
+                                    temp.put(object);
+                                    JSONObject temp_obj = new JSONObject();
+                                    temp_obj.put("patientid", getPatientId());
+                                    temp_obj.put("recent", temp.toString());
+                                    array.put(temp_obj);
+                                    editor.putString("recently", array.toString());
+                                    editor.commit();
                                 }
-                                editor.putString("recently", array.toString());
-                                editor.commit();
-                            } else if (present == true && flag == false) {
-                                temp_array.put(0, object);
-                                JSONArray array2 = new JSONArray(array.getJSONObject(temp_index).getString("recent"));
-                                for (int j = 0; j < array2.length(); j++) {
-                                    temp_array.put(array2.getJSONObject(j));
-                                }
-                                array.getJSONObject(temp_index).put("recent", temp_array.toString());
-                                editor.putString("recently", array.toString());
-                                editor.commit();
-                            } else if (present == false) {
-                                JSONArray temp = new JSONArray();
-                                temp.put(object);
-                                JSONObject temp_obj = new JSONObject();
-                                temp_obj.put("patientid", getPatientId());
-                                temp_obj.put("recent", temp.toString());
-                                array.put(temp_obj);
-                                editor.putString("recently", array.toString());
-                                editor.commit();
+
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
+
+                        Intent intent = new Intent(BodyPartSelection.this, MonitorActivity.class);
+                        //To be started here i need to putextras in the intents and send them to the moitor activity
+                        intent.putExtra("deviceMacAddress", getIntent().getStringExtra("deviceMacAddress"));
+                        intent.putExtra("patientId", getIntent().getStringExtra("patientId"));
+                        intent.putExtra("patientName", getIntent().getStringExtra("patientName"));
+                        intent.putExtra("exerciseType", bodypartSelected);
+                        intent.putExtra("orientation", orientationSelected);
+                        Log.i("intent", intent.toString());
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(BodyPartSelection.this, "Please choose a bodypart!", Toast.LENGTH_SHORT).show();
                     }
-
-                    Intent intent = new Intent(BodyPartSelection.this, MonitorActivity.class);
-                    //To be started here i need to putextras in the intents and send them to the moitor activity
-                    intent.putExtra("deviceMacAddress", getIntent().getStringExtra("deviceMacAddress"));
-                    intent.putExtra("patientId", getIntent().getStringExtra("patientId"));
-                    intent.putExtra("patientName", getIntent().getStringExtra("patientName"));
-                    intent.putExtra("exerciseType", bodypartSelected);
-                    intent.putExtra("orientation",orientationSelected);
-                    Log.i("intent", intent.toString());
-                    startActivity(intent);
                 }
-                else {
-                    Toast.makeText(BodyPartSelection.this, "Please choose a bodypart!", Toast.LENGTH_SHORT).show();
-                }
-            }
 
-        });
+            });
+        }
+        else {
+            Toast.makeText(BodyPartSelection.this, "Please choose a bodypart and orientation!", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
