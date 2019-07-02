@@ -43,8 +43,8 @@ public class ByteToArrayOperations {
         int k=0;
         float[] emg_data = new float[emg_data_size_session];
         for (int i = 0; i<emg_num_packets_session; i++){
-            int a = sub_byte[i]&0xFF;
-            int b = sub_byte[i+1]&0xFF;
+            int a = sub_byte[i];
+            int b = sub_byte[i+1];
 
             emg_data[k] = b<<8 | a;
             //emg formula

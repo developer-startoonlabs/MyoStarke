@@ -25,7 +25,19 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc6b1f00-4419-4fc8-a13f-473665dd50f5" name="Default" comment="version 2.0.10 with 20ms graph view update." />
+    <list default="true" id="fc6b1f00-4419-4fc8-a13f-473665dd50f5" name="Default" comment="default commit">
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/intermediates/blame/res/debug/multi-v2/debug.json" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/blame/res/debug/multi-v2/debug.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/intermediates/blame/res/debug/multi-v2/values.json" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/blame/res/debug/multi-v2/values.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeDebugResources/compile-file-map.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/intermediates/res/merged/debug/values_values.arsc.flat" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/res/merged/debug/values_values.arsc.flat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/outputs/apk/debug/app-debug.apk" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/outputs/apk/debug/app-debug.apk" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/activities/MonitorActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/activities/MonitorActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/utils/ByteToArrayOperations.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/utils/ByteToArrayOperations.java" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,24 +74,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-          <provider editor-type-id="android-manifest" />
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/activities/MonitorActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="258">
-              <caret line="31" column="32" lean-forward="true" selection-start-line="31" selection-start-column="32" selection-end-line="31" selection-end-column="32" />
+            <state relative-caret-position="223">
+              <caret line="1123" selection-start-line="1123" selection-end-line="1123" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/activities/MonitorActivity.java">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/utils/ByteToArrayOperations.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="363">
-              <caret line="462" column="29" lean-forward="true" selection-start-line="462" selection-start-column="29" selection-end-line="462" selection-end-column="29" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="677">
+              <caret line="53" selection-start-line="53" selection-end-line="53" />
             </state>
           </provider>
         </entry>
@@ -215,7 +226,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="body_part_selection_update" />
+        <entry key="$PROJECT_DIR$" value="raw_data_with_session_40bytes" />
       </map>
     </option>
     <option name="PUSH_TAGS">
@@ -228,7 +239,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_app_info.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/utils/RegexOperations.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/sai/pheezeeapp/fragments/ReportWeek.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/layout_login_continue.xml" />
@@ -277,8 +287,9 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/retrofit/GetDataService.java" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/activities/PatientsView.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/activities/MonitorActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/utils/ByteToArrayOperations.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/activities/MonitorActivity.java" />
       </list>
     </option>
   </component>
@@ -373,6 +384,13 @@
               <item name="java" type="edd41e36:AndroidSourceTypeNode" />
               <item name="pheezee" type="cbb59c9e:AndroidPsiDirectoryNode" />
               <item name="activities" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pheezeeandroid" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="pheezee" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="utils" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="pheezeeandroid" type="1abcf292:AndroidViewProjectNode" />
@@ -559,6 +577,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Android App.BodyPartSelection" />
         <item itemvalue="Android App.BodyPartSelection" />
         <item itemvalue="Android App.BodyPartSelection" />
       </list>
@@ -925,7 +944,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.86538464" visible="true" weight="0.19261745" />
       <window_info id="Structure" order="1" sideWeight="0.2647059" side_tool="true" weight="0.22314675" />
@@ -947,7 +965,7 @@
       <window_info anchor="bottom" id="Android Profiler" order="8" weight="0.03442623" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5053691" side_tool="true" weight="0.5708215" />
       <window_info anchor="bottom" id="Logcat" order="10" weight="0.70163935" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="11" sideWeight="0.49463087" visible="true" weight="0.31444758" />
+      <window_info active="true" anchor="bottom" id="Version Control" order="11" sideWeight="0.49463087" visible="true" weight="0.43201134" />
       <window_info anchor="bottom" id="Terminal" order="12" sideWeight="0.49924356" weight="0.786119" />
       <window_info anchor="bottom" id="Messages" order="13" weight="0.31303117" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -1218,13 +1236,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/utils/ByteToArrayOperations.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="850">
-          <caret line="50" column="59" selection-start-line="50" selection-start-column="59" selection-end-line="50" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/session_summary.xml">
       <provider editor-type-id="android-designer2" />
       <provider selected="true" editor-type-id="text-editor">
@@ -1313,22 +1324,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider editor-type-id="android-manifest" />
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="258">
-          <caret line="31" column="32" lean-forward="true" selection-start-line="31" selection-start-column="32" selection-end-line="31" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/nav_header_patients_view.xml">
-      <provider editor-type-id="android-designer2" />
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="28" selection-start-line="7" selection-start-column="28" selection-end-line="7" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
@@ -1348,6 +1343,56 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="663">
           <caret line="54" column="13" selection-start-line="54" selection-start-column="13" selection-end-line="54" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/activities/ScanDevicesActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="551">
+          <caret line="162" column="5" selection-start-line="162" selection-start-column="5" selection-end-line="162" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider editor-type-id="android-manifest" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="527">
+          <caret line="31" column="32" selection-start-line="31" selection-start-column="32" selection-end-line="31" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/nav_header_patients_view.xml">
+      <provider editor-type-id="android-designer2" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="28" selection-start-line="7" selection-start-column="28" selection-end-line="7" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/activities/PatientsView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3621">
+          <caret line="317" column="21" selection-start-line="317" selection-start-column="21" selection-end-line="317" selection-end-column="21" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2261">
+          <caret line="133" column="53" selection-start-line="133" selection-start-column="53" selection-end-line="133" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/activities/DeviceInfoActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1379,44 +1424,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/activities/PatientsView.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/utils/ByteToArrayOperations.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3621">
-          <caret line="317" column="21" selection-start-line="317" selection-start-column="21" selection-end-line="317" selection-end-column="21" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/activities/ScanDevicesActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="551">
-          <caret line="162" column="5" selection-start-line="162" selection-start-column="5" selection-end-line="162" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/activities/DeviceInfoActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2261">
-          <caret line="133" column="53" selection-start-line="133" selection-start-column="53" selection-end-line="133" selection-end-column="53" />
+        <state relative-caret-position="677">
+          <caret line="53" selection-start-line="53" selection-end-line="53" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/activities/MonitorActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="363">
-          <caret line="462" column="29" lean-forward="true" selection-start-line="462" selection-start-column="29" selection-end-line="462" selection-end-column="29" />
+        <state relative-caret-position="223">
+          <caret line="1123" selection-start-line="1123" selection-end-line="1123" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

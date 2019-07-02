@@ -1089,17 +1089,6 @@ public class MonitorActivity extends AppCompatActivity {
                 ++ui_rate;
 
                 lineData.addEntry(new Entry((float) ui_rate / 1000, emg_data[i]), 0);
-//                if(lineData!=null){
-//                    int count =lineData.getDataSetByIndex(0).getEntryCount();
-//                    if(count==VISIBLE_COUNT){
-//                        for (int j=0;j<count/2;j++)
-//                        lineData.getDataSetByIndex(0).removeFirst();
-////                        for (int j=0; j<set.getEntryCount(); j++) {
-////                            Entry entryToChange = set.getEntryForIndex(j);
-////                            entryToChange.setX(entryToChange.getX() - 1);
-////                        }
-//                    }
-//                }
 
                 try {
                     outputStream_session_emgdata = new FileOutputStream(file_session_emgdata, true);
