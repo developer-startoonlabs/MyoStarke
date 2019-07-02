@@ -451,10 +451,11 @@ public class MonitorActivity extends AppCompatActivity {
                                 if(PatientsView.sessionStarted) {
                                     angleCorrection = Integer.parseInt(editText.getText().toString());
                                     angleCorrected = true;
+                                    maxAngle=angleCorrection;
+                                    minAngle=angleCorrection;
                                     angleCorrection-=currentAngle;
                                     currentAngle+=angleCorrection;
-                                    maxAngle+=angleCorrection;
-                                    minAngle+=angleCorrection;
+
 
                                 }
                             }catch (NumberFormatException e){
