@@ -1102,23 +1102,23 @@ public final class R {
         public static final int common_open_on_phone = 0x7f10007a;
         public static final int common_signin_button_text = 0x7f10007b;
         public static final int common_signin_button_text_long = 0x7f10007c;
-        public static final int grant = 0x7f1000dc;
-        public static final int grant_permission = 0x7f1000dd;
-        public static final int low_storage_error = 0x7f1000ec;
-        public static final int no_camera_permission = 0x7f1000fe;
-        public static final int ok = 0x7f100100;
-        public static final int password_toggle_content_description = 0x7f100105;
-        public static final int path_password_eye = 0x7f100106;
-        public static final int path_password_eye_mask_strike_through = 0x7f100107;
-        public static final int path_password_eye_mask_visible = 0x7f100108;
-        public static final int path_password_strike_through = 0x7f100109;
-        public static final int permission_camera = 0x7f10010c;
-        public static final int permission_camera_rationale = 0x7f10010d;
-        public static final int read_barcode = 0x7f10011a;
-        public static final int search_menu_title = 0x7f100127;
-        public static final int status_bar_notification_info_overflow = 0x7f10014a;
-        public static final int title_activity_main = 0x7f100150;
-        public static final int use_flash = 0x7f100157;
+        public static final int grant = 0x7f1000dd;
+        public static final int grant_permission = 0x7f1000de;
+        public static final int low_storage_error = 0x7f1000ed;
+        public static final int no_camera_permission = 0x7f1000ff;
+        public static final int ok = 0x7f100101;
+        public static final int password_toggle_content_description = 0x7f100106;
+        public static final int path_password_eye = 0x7f100107;
+        public static final int path_password_eye_mask_strike_through = 0x7f100108;
+        public static final int path_password_eye_mask_visible = 0x7f100109;
+        public static final int path_password_strike_through = 0x7f10010a;
+        public static final int permission_camera = 0x7f10010d;
+        public static final int permission_camera_rationale = 0x7f10010e;
+        public static final int read_barcode = 0x7f10011b;
+        public static final int search_menu_title = 0x7f100128;
+        public static final int status_bar_notification_info_overflow = 0x7f10014b;
+        public static final int title_activity_main = 0x7f100151;
+        public static final int use_flash = 0x7f100158;
     }
     public static final class style {
         private style() {}

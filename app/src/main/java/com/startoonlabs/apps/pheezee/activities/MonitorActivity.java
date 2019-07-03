@@ -92,11 +92,10 @@ public class MonitorActivity extends AppCompatActivity {
 
     //max min angle emg showing views
     TextView tv_max_angle, tv_min_angle, tv_max_emg; int software_gain = 0;
-    private int VISIBLE_COUNT = 10000; private long removalCounter = 0;
     int ui_rate = 0;
     public final int sub_byte_size = 48;
     int maxAnglePart, minAnglePart, angleCorrection = 0, currentAngle=0;
-    boolean angleCorrected = false,devicePopped = false, servicesDiscovered = false, isSessionRunning=false, enteredInsideTwenty = true, pheezeeState = false, recieverState=false;
+    boolean angleCorrected = false,devicePopped = false, servicesDiscovered = false, isSessionRunning=false, pheezeeState = false, recieverState=false;
     String bodypart,orientation="NO";
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
@@ -576,7 +575,6 @@ public class MonitorActivity extends AppCompatActivity {
         rate=0;
         devicePopped=false;
         PatientsView.sessionStarted = true;
-        enteredInsideTwenty = true;
         isSessionRunning = true;
         angleCorrected = false;
         angleCorrection=0;
@@ -1105,7 +1103,7 @@ public class MonitorActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                EMG.setText(Float.toString(emg_data[i]).concat("mV"));
+                EMG.setText(Float.toString(emg_data[i]).concat(getResources().getString(R.string.emg_unit)));
 
 
                 try {
@@ -1129,7 +1127,7 @@ public class MonitorActivity extends AppCompatActivity {
             lineChart.getAxisLeft().setValueFormatter(new IAxisValueFormatter() {
                 @Override
                 public String getFormattedValue(float value, AxisBase axis) {
-                    return (int) value + "mV";
+                    return (int) value + getResources().getString(R.string.emg_unit);
                 }
             });
             if (UpdateTime / 1000 > 3)
@@ -1336,7 +1334,7 @@ public class MonitorActivity extends AppCompatActivity {
 
 
         tv_num_of_reps.setText(Repetitions.getText().toString());
-        tv_max_emg.setText(Float.toString(maxEmgValue).concat("mV"));
+        tv_max_emg.setText(Float.toString(maxEmgValue).concat(getResources().getString(R.string.emg_unit)));
         tv_max_emg.setBackgroundColor(color);
 
         //Creating the arc
@@ -1819,7 +1817,7 @@ public class MonitorActivity extends AppCompatActivity {
                             lineChart.getAxisLeft().setValueFormatter(new IAxisValueFormatter() {
                                 @Override
                                 public String getFormattedValue(float value, AxisBase axis) {
-                                    return (int) value + "mV";
+                                    return (int) value + getResources().getString(R.string.emg_unit);
                                 }
                             });
                             if (UpdateTime / 1000 > 3)
@@ -1841,7 +1839,7 @@ public class MonitorActivity extends AppCompatActivity {
                                 e.printStackTrace();
                             }
 
-                            EMG.setText(Float.toString(emg_data[i]).concat("mV"));
+                            EMG.setText(Float.toString(emg_data[i]).concat(getResources().getString(R.string.emg_unit)));
 
 
                             try {

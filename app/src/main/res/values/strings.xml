@@ -258,6 +258,7 @@
     <string name="ss_min">Min&#032;</string>
     <string name="ss_max">Max&#032;</string>
     <string name="ss_max_angle">180°</string>
+    <string name="emg_unit">μV</string>
     <string name="ss_min_angle">0°</string>
     <string name="ss_total_time">Total Time</string>
     <string name="ss_action_time">Action Time</string>

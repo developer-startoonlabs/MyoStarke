@@ -2395,6 +2395,7 @@ string dob
 string edit
 string email
 string emg
+string emg_unit
 string exercise_name
 string experience
 string fab_transformation_scrim_behavior
