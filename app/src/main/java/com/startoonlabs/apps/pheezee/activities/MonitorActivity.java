@@ -820,7 +820,7 @@ public class MonitorActivity extends AppCompatActivity {
 
 //    @Override
 //    protected void onPause() {
-//        super.onPause();
+//        super.onPause();s
 //        if(mBluetoothGatt!=null && mCharacteristic!=null){
 //            mBluetoothGatt.setCharacteristicNotification(mCharacteristic,false);
 //            mBluetoothGattDescriptor.setValue(BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
