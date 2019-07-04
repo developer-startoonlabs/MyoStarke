@@ -1498,6 +1498,8 @@ id btn_cancel_update
 id btn_connectToDevice
 id btn_dfu_file_upload
 id btn_dfu_select_file
+id btn_emg_decrease_gain
+id btn_emg_increase_gain
 id btn_forgot_password
 id btn_login
 id btn_login_login
@@ -1658,6 +1660,7 @@ id iv_patient_name_container
 id iv_phizio_profilepic
 id iv_right
 id iv_right_joint
+id l_maxAngle_container
 id labeled
 id large
 id largeLabel

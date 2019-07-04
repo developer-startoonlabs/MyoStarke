@@ -139,7 +139,7 @@ public class MonitorActivity extends AppCompatActivity {
     JSONArray sessionResult  = new JSONArray();
     JSONObject sessionObj = new JSONObject();
 
-    Button timer;
+    Button timer, btn_emg_decrease_gain, btn_emg_increase_gain;
     Button stopBtn, cancelBtn;
     long MillisecondTime, StartTime, TimeBuff, UpdateTime = 0L;
     Handler handler;
@@ -220,6 +220,9 @@ public class MonitorActivity extends AppCompatActivity {
         tv_min_angle                = findViewById(R.id.tv_min_angle);
         tv_max_emg                  = findViewById(R.id.tv_max_emg_show);
         tv_repsselected             = findViewById(R.id.repsSelected);
+        btn_emg_decrease_gain       = findViewById(R.id.btn_emg_decrease_gain);
+        btn_emg_increase_gain       = findViewById(R.id.btn_emg_increase_gain);
+
         handler                     = new Handler();
         emgJsonArray                = new JSONArray();
         romJsonArray                = new JSONArray();
@@ -235,6 +238,31 @@ public class MonitorActivity extends AppCompatActivity {
             }
         });
 
+        btn_emg_increase_gain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(PatientsView.sessionStarted==true){
+                    byte[] gain_increase = ByteToArrayOperations.hexStringToByteArray("AD01");
+                    send(gain_increase);
+                }
+                else {
+                    Toast.makeText(MonitorActivity.this, "Please start the session!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        btn_emg_decrease_gain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(PatientsView.sessionStarted==true){
+                    byte[] gain_decrease = ByteToArrayOperations.hexStringToByteArray("AD02");
+                    send(gain_decrease);
+                }
+                else {
+                    Toast.makeText(MonitorActivity.this, "Please start the session!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         tv_snap.setOnTouchListener(new View.OnTouchListener() {
             @Override
