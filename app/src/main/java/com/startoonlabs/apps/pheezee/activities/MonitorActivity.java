@@ -153,7 +153,7 @@ public class MonitorActivity extends AppCompatActivity {
     String holdTimeValue="0:0";
     int maxAngle;
     int minAngle;
-    float maxEmgValue;
+    int maxEmgValue;
     Date rawdata_timestamp;
     Long tsLong=0L;
     String exerciseType;
@@ -1025,7 +1025,7 @@ public class MonitorActivity extends AppCompatActivity {
         public void handleMessage(Message message ) {
 
             int angleDetected=0,num_of_reps=0, hold_time_minutes, hold_time_seconds, active_time_minutes,active_time_seconds;
-            float[] emg_data;
+            int[] emg_data;
             byte[] sub_byte;
             sub_byte = (byte[]) message.obj;
             emg_data = ByteToArrayOperations.constructEmgDataWithGain(sub_byte,software_gain);
@@ -1097,11 +1097,7 @@ public class MonitorActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                try {
-                    emgJsonArray.put(emg_data[i]);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                emgJsonArray.put(emg_data[i]);
 
                 EMG.setText(Float.toString(emg_data[i]).concat(getResources().getString(R.string.emg_unit)));
 
@@ -1750,7 +1746,7 @@ public class MonitorActivity extends AppCompatActivity {
             final int hold_time_seconds;
             final int active_time_minutes;
             final int active_time_seconds;
-            final float[] emg_data;
+            final int[] emg_data;
             byte[] sub_byte;
             sub_byte = bytes[0];
             emg_data = ByteToArrayOperations.constructEmgDataWithGain(sub_byte, software_gain);
@@ -1833,11 +1829,7 @@ public class MonitorActivity extends AppCompatActivity {
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-                            try {
-                                emgJsonArray.put(emg_data[i]);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
+                            emgJsonArray.put(emg_data[i]);
 
                             EMG.setText(Float.toString(emg_data[i]).concat(getResources().getString(R.string.emg_unit)));
 
@@ -1908,11 +1900,7 @@ public class MonitorActivity extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    try {
-                        emgJsonArray.put(emg_data[i]);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    emgJsonArray.put(emg_data[i]);
                     try {
                         outputStream_session_emgdata.flush();
                         outputStream_session_emgdata.close();
