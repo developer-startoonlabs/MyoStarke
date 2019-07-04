@@ -232,40 +232,7 @@
             android:layout_marginTop="5dp"
             android:id="@+id/tv_angleCorrection"/>
 
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/l_maxAngle_container"
-        android:layout_marginBottom="5dp"
-        android:layout_alignParentRight="true">
 
-        <Button
-            android:id="@+id/btn_emg_decrease_gain"
-            android:layout_width="40dp"
-            android:layout_height="50dp"
-            android:maxHeight="0dp"
-            android:minHeight="0dp"
-            android:text="-"
-            android:textColor="@color/pitch_black"
-            android:textAlignment="center"
-            android:textSize="25sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/btn_emg_increase_gain"
-            android:layout_width="40dp"
-            android:layout_height="50dp"
-            android:text="+"
-            android:textColor="@color/pitch_black"
-            android:minHeight="0dp"
-            android:maxHeight="0dp"
-            android:textSize="25sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/btn_emg_decrease_gain"
-            app:layout_constraintTop_toTopOf="parent" />
-    </android.support.constraint.ConstraintLayout>
 
 
 
@@ -520,6 +487,44 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/repsAndHoldTime">
+
+        <Button
+            android:id="@+id/btn_emg_decrease_gain"
+            android:layout_width="40dp"
+            android:layout_height="50dp"
+            android:maxHeight="0dp"
+            android:minHeight="0dp"
+            android:text="-"
+            android:textAlignment="center"
+            android:textColor="@color/pitch_black"
+            android:textSize="25sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btn_emg_increase_gain"
+            android:layout_width="40dp"
+            android:layout_height="50dp"
+            android:maxHeight="0dp"
+            android:minHeight="0dp"
+            android:text="+"
+            android:textColor="@color/pitch_black"
+            android:textSize="25sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btn_emg_decrease_gain"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/chart"

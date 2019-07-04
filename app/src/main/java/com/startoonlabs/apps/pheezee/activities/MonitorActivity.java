@@ -1127,7 +1127,7 @@ public class MonitorActivity extends AppCompatActivity {
                 }
                 emgJsonArray.put(emg_data[i]);
 
-                EMG.setText(Float.toString(emg_data[i]).concat(getResources().getString(R.string.emg_unit)));
+                EMG.setText(Integer.toString(emg_data[i]).concat(getResources().getString(R.string.emg_unit)));
 
 
                 try {
@@ -1358,7 +1358,7 @@ public class MonitorActivity extends AppCompatActivity {
 
 
         tv_num_of_reps.setText(Repetitions.getText().toString());
-        tv_max_emg.setText(Float.toString(maxEmgValue).concat(getResources().getString(R.string.emg_unit)));
+        tv_max_emg.setText(Integer.toString(maxEmgValue).concat(getResources().getString(R.string.emg_unit)));
         tv_max_emg.setBackgroundColor(color);
 
         //Creating the arc
@@ -1381,8 +1381,8 @@ public class MonitorActivity extends AppCompatActivity {
 //        arcView.setRangeColor(getResources().getColor(R.color.good_green));
 
         //Max Emg Progress
-        pb_max_emg.setMax(400);
-        pb_max_emg.setProgress((int) (maxEmgValue*100));
+        pb_max_emg.setMax(3000);
+        pb_max_emg.setProgress(maxEmgValue);
         pb_max_emg.setEnabled(false);
         LayerDrawable bgShape = (LayerDrawable) pb_max_emg.getProgressDrawable();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -1859,7 +1859,7 @@ public class MonitorActivity extends AppCompatActivity {
                             }
                             emgJsonArray.put(emg_data[i]);
 
-                            EMG.setText(Float.toString(emg_data[i]).concat(getResources().getString(R.string.emg_unit)));
+                            EMG.setText(Integer.toString(emg_data[i]).concat(getResources().getString(R.string.emg_unit)));
 
 
                             try {
