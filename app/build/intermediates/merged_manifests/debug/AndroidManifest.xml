@@ -90,6 +90,7 @@
             android:theme="@style/AppTheme.NoActionBarLogin" />
         <activity
             android:name="com.startoonlabs.apps.pheezee.activities.PatientsView"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <receiver android:name="com.startoonlabs.apps.pheezee.services.BluetoothReceiver" >

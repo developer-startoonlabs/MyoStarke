@@ -114,6 +114,7 @@ public class PatientsView extends AppCompatActivity
     public static boolean deviceState = true, connectPressed = false, deviceBatteryUsbState = false,sessionStarted = false;
     public static int deviceBatteryPercent=0;
     public static boolean insideMonitor = false;
+    private boolean insidePatientViewActivity;
     RelativeLayout rl_cap_view;
     Toast connected_disconnected_toast;
     ConstraintLayout cl_phizioProfileNavigation;
@@ -133,6 +134,7 @@ public class PatientsView extends AppCompatActivity
     static BluetoothGattCharacteristic mCharacteristic;
     BluetoothGattCharacteristic mCustomCharacteristic;
     static BluetoothGattDescriptor mBluetoothGattDescriptor;
+    LinearLayout ll_device_and_bluetooth;
 
     //bluetooth and device connection state
     ImageView iv_bluetooth_connected, iv_bluetooth_disconnected, iv_device_connected, iv_device_disconnected;
@@ -209,6 +211,7 @@ public class PatientsView extends AppCompatActivity
     LinearLayout patientLayout;
     ImageView iv_addPatient;
     LinearLayout ll_add_bluetooth, ll_add_device;
+    RelativeLayout rl_battery_usb_state;
 
 
     RecyclerView mRecyclerView;
@@ -258,6 +261,8 @@ public class PatientsView extends AppCompatActivity
         tv_battery_percentage = findViewById(R.id.tv_battery_percent);
         battery_bar = findViewById(R.id.progress_battery_bar);
         tv_patient_view_add_patient = findViewById(R.id.tv_patient_view_add_patient);
+        ll_device_and_bluetooth = findViewById(R.id.ll_device_and_bluetooth);
+        rl_battery_usb_state = findViewById(R.id.rl_battery_usb_state);
 
 
 
@@ -895,7 +900,7 @@ public class PatientsView extends AppCompatActivity
                     Log.i("battery notif read","disconnected");
                 }
 
-                Log.i("battery",battery+"");
+                Log.i("battery changed to",battery+"");
                 Message message = new Message();
                 message.obj = battery+"";
                 batteryStatus.sendMessage(message);
@@ -968,7 +973,7 @@ public class PatientsView extends AppCompatActivity
         filter.addAction(BluetoothProfile.EXTRA_STATE);
         filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
         registerReceiver(bluetoothReceiver, filter);
-
+        insidePatientViewActivity = true;
         if(bluetoothAdapter==null || !bluetoothAdapter.isEnabled()){
             Message message = Message.obtain();
             message.obj = "N/C";
@@ -986,6 +991,8 @@ public class PatientsView extends AppCompatActivity
     @Override
     protected void onPause() {
         super.onPause();
+        insideMonitor=false;
+        insidePatientViewActivity = false;
         if(bluetoothAdapter==null || !bluetoothAdapter.isEnabled()){
             Message message = Message.obtain();
             message.obj = "N/C";
@@ -1212,10 +1219,13 @@ public class PatientsView extends AppCompatActivity
 //                            showToast("Device Connected");
 //                        }
 //                    },2000);
-                    showToast("Device Connected");
-                    if(iv_device_connected.getVisibility()==View.GONE){
-                        pheezeeConnected();
-                    }
+                showToast("Device Connected");
+//                    Intent i = getIntent();
+//                    finish();
+//                    startActivity(i);
+//                    if(iv_device_connected.getVisibility()==View.GONE){
+//                        pheezeeConnected();
+//                    }
 //                connected_disconnected_toast.show();
 //                connected_disconnected_toast.show();
 //                connected_disconnected_toast.cancel();
@@ -1229,7 +1239,7 @@ public class PatientsView extends AppCompatActivity
         iv_device_disconnected.setVisibility(View.GONE);
         iv_device_connected.setVisibility(View.VISIBLE);
         ll_add_device.setVisibility(View.GONE);
-        findViewById(R.id.ll_device_and_bluetooth).setVisibility(View.GONE);
+        ll_device_and_bluetooth.setVisibility(View.GONE);
         Drawable drawable = getResources().getDrawable(R.drawable.drawable_progress_battery);
         battery_bar.setProgressDrawable(drawable);
 //        Drawable drawable_cap = getResources().getDrawable(R.drawable.battery_color_cap_connected);
@@ -1238,19 +1248,21 @@ public class PatientsView extends AppCompatActivity
     }
 
     private void pheezeeDisconnected() {
-        iv_device_disconnected.setVisibility(View.VISIBLE);
+        Log.i("Inside disconnect", "Device Disconnected");
         iv_device_connected.setVisibility(View.GONE);
+        iv_device_disconnected.setVisibility(View.VISIBLE);
         ll_add_device.setVisibility(View.VISIBLE);
         if(iv_bluetooth_connected.getVisibility()==View.VISIBLE)
-            findViewById(R.id.ll_device_and_bluetooth).setBackgroundResource(R.drawable.drawable_background_turn_on_device);
+            ll_device_and_bluetooth.setBackgroundResource(R.drawable.drawable_background_turn_on_device);
         else
-            findViewById(R.id.ll_device_and_bluetooth).setBackgroundResource(R.drawable.drawable_background_connect_to_pheezee);
-        findViewById(R.id.ll_device_and_bluetooth).setVisibility(View.VISIBLE);
+            ll_device_and_bluetooth.setBackgroundResource(R.drawable.drawable_background_connect_to_pheezee);
+        ll_device_and_bluetooth.setVisibility(View.VISIBLE);
         Drawable drawable = getResources().getDrawable(R.drawable.drawable_progress_battery_disconnected);
         battery_bar.setProgressDrawable(drawable);
 //        Drawable drawable_cap = getResources().getDrawable(R.drawable.drawable_color_cap_disconnected);
         @SuppressLint("ResourceAsColor") Drawable drawable_cap = new ColorDrawable(getResources().getColor(R.color.red));
         rl_cap_view.setBackground(drawable_cap);
+        rl_battery_usb_state.setVisibility(View.GONE);
         Log.i("red color","red");
     }
 
@@ -1259,7 +1271,7 @@ public class PatientsView extends AppCompatActivity
 
             String action = intent.getAction();
             if(BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)){
-                Log.i("Device Status: ", "Device Disconnected");
+
 //                Toast.makeText(PatientsView.this, "The device has got disconnected...", Toast.LENGTH_LONG).show();
                 connected_disconnected_toast.setText("The device got disconnected..");
                 connected_disconnected_toast.show();
@@ -1304,7 +1316,7 @@ public class PatientsView extends AppCompatActivity
                     Message message = Message.obtain();
                     message.obj = "N/C";
                     bleStatusHandler.sendMessage(message);
-                    if (deviceState) {       //The device state is related to the device info screen if the user forcefully disconnects and forget the device
+                    if (deviceState && !insidePatientViewActivity) {       //The device state is related to the device info screen if the user forcefully disconnects and forget the device
                         Intent i = getIntent();
                         finish();
                         startActivity(i);
@@ -1859,10 +1871,12 @@ public class PatientsView extends AppCompatActivity
         @SuppressLint("SetTextI18n")
         @Override
         public void handleMessage(Message msg) {
+            Log.i("Battery",msg.obj.toString());
             tv_battery_percentage.setText(msg.obj.toString().concat("%"));
             Log.i("Battery Percentage",msg.obj.toString());
             deviceBatteryPercent = Integer.parseInt(msg.obj.toString());
             int percent = BatteryOperation.convertBatteryToCell(deviceBatteryPercent);
+            Log.i("After percent Formulae",percent+"");
             if(deviceBatteryPercent<15) {
                 Drawable drawable = getResources().getDrawable(R.drawable.drawable_progress_battery_low);
                 battery_bar.setProgressDrawable(drawable);
@@ -1880,9 +1894,9 @@ public class PatientsView extends AppCompatActivity
         @Override
         public void handleMessage(Message msg) {
             if(msg.obj.toString().equalsIgnoreCase("c"))
-                findViewById(R.id.rl_battery_usb_state).setVisibility(View.VISIBLE);
+                rl_battery_usb_state.setVisibility(View.VISIBLE);
             else
-                findViewById(R.id.rl_battery_usb_state).setVisibility(View.GONE);
+                rl_battery_usb_state.setVisibility(View.GONE);
         }
     };
 
