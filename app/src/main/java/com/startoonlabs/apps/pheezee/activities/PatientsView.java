@@ -114,6 +114,7 @@ public class PatientsView extends AppCompatActivity
     public static boolean deviceState = true, connectPressed = false, deviceBatteryUsbState = false,sessionStarted = false;
     public static int deviceBatteryPercent=0;
     public static boolean insideMonitor = false;
+    private boolean insidePatientViewActivity;
     RelativeLayout rl_cap_view;
     Toast connected_disconnected_toast;
     ConstraintLayout cl_phizioProfileNavigation;
@@ -972,7 +973,7 @@ public class PatientsView extends AppCompatActivity
         filter.addAction(BluetoothProfile.EXTRA_STATE);
         filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
         registerReceiver(bluetoothReceiver, filter);
-
+        insidePatientViewActivity = true;
         if(bluetoothAdapter==null || !bluetoothAdapter.isEnabled()){
             Message message = Message.obtain();
             message.obj = "N/C";
@@ -990,6 +991,7 @@ public class PatientsView extends AppCompatActivity
     @Override
     protected void onPause() {
         super.onPause();
+        insideMonitor=false;
         if(bluetoothAdapter==null || !bluetoothAdapter.isEnabled()){
             Message message = Message.obtain();
             message.obj = "N/C";
@@ -1216,10 +1218,13 @@ public class PatientsView extends AppCompatActivity
 //                            showToast("Device Connected");
 //                        }
 //                    },2000);
-                    showToast("Device Connected");
-                    if(iv_device_connected.getVisibility()==View.GONE){
-                        pheezeeConnected();
-                    }
+                showToast("Device Connected");
+//                    Intent i = getIntent();
+//                    finish();
+//                    startActivity(i);
+//                    if(iv_device_connected.getVisibility()==View.GONE){
+//                        pheezeeConnected();
+//                    }
 //                connected_disconnected_toast.show();
 //                connected_disconnected_toast.show();
 //                connected_disconnected_toast.cancel();
@@ -1308,7 +1313,7 @@ public class PatientsView extends AppCompatActivity
                     Message message = Message.obtain();
                     message.obj = "N/C";
                     bleStatusHandler.sendMessage(message);
-                    if (deviceState) {       //The device state is related to the device info screen if the user forcefully disconnects and forget the device
+                    if (deviceState && !insidePatientViewActivity) {       //The device state is related to the device info screen if the user forcefully disconnects and forget the device
                         Intent i = getIntent();
                         finish();
                         startActivity(i);
