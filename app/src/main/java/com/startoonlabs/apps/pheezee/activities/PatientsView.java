@@ -133,6 +133,7 @@ public class PatientsView extends AppCompatActivity
     static BluetoothGattCharacteristic mCharacteristic;
     BluetoothGattCharacteristic mCustomCharacteristic;
     static BluetoothGattDescriptor mBluetoothGattDescriptor;
+    LinearLayout ll_device_and_bluetooth;
 
     //bluetooth and device connection state
     ImageView iv_bluetooth_connected, iv_bluetooth_disconnected, iv_device_connected, iv_device_disconnected;
@@ -209,6 +210,7 @@ public class PatientsView extends AppCompatActivity
     LinearLayout patientLayout;
     ImageView iv_addPatient;
     LinearLayout ll_add_bluetooth, ll_add_device;
+    RelativeLayout rl_battery_usb_state;
 
 
     RecyclerView mRecyclerView;
@@ -258,6 +260,8 @@ public class PatientsView extends AppCompatActivity
         tv_battery_percentage = findViewById(R.id.tv_battery_percent);
         battery_bar = findViewById(R.id.progress_battery_bar);
         tv_patient_view_add_patient = findViewById(R.id.tv_patient_view_add_patient);
+        ll_device_and_bluetooth = findViewById(R.id.ll_device_and_bluetooth);
+        rl_battery_usb_state = findViewById(R.id.rl_battery_usb_state);
 
 
 
@@ -895,7 +899,7 @@ public class PatientsView extends AppCompatActivity
                     Log.i("battery notif read","disconnected");
                 }
 
-                Log.i("battery",battery+"");
+                Log.i("battery changed to",battery+"");
                 Message message = new Message();
                 message.obj = battery+"";
                 batteryStatus.sendMessage(message);
@@ -1229,7 +1233,7 @@ public class PatientsView extends AppCompatActivity
         iv_device_disconnected.setVisibility(View.GONE);
         iv_device_connected.setVisibility(View.VISIBLE);
         ll_add_device.setVisibility(View.GONE);
-        findViewById(R.id.ll_device_and_bluetooth).setVisibility(View.GONE);
+        ll_device_and_bluetooth.setVisibility(View.GONE);
         Drawable drawable = getResources().getDrawable(R.drawable.drawable_progress_battery);
         battery_bar.setProgressDrawable(drawable);
 //        Drawable drawable_cap = getResources().getDrawable(R.drawable.battery_color_cap_connected);
@@ -1242,10 +1246,10 @@ public class PatientsView extends AppCompatActivity
         iv_device_connected.setVisibility(View.GONE);
         ll_add_device.setVisibility(View.VISIBLE);
         if(iv_bluetooth_connected.getVisibility()==View.VISIBLE)
-            findViewById(R.id.ll_device_and_bluetooth).setBackgroundResource(R.drawable.drawable_background_turn_on_device);
+            ll_device_and_bluetooth.setBackgroundResource(R.drawable.drawable_background_turn_on_device);
         else
-            findViewById(R.id.ll_device_and_bluetooth).setBackgroundResource(R.drawable.drawable_background_connect_to_pheezee);
-        findViewById(R.id.ll_device_and_bluetooth).setVisibility(View.VISIBLE);
+            ll_device_and_bluetooth.setBackgroundResource(R.drawable.drawable_background_connect_to_pheezee);
+        ll_device_and_bluetooth.setVisibility(View.VISIBLE);
         Drawable drawable = getResources().getDrawable(R.drawable.drawable_progress_battery_disconnected);
         battery_bar.setProgressDrawable(drawable);
 //        Drawable drawable_cap = getResources().getDrawable(R.drawable.drawable_color_cap_disconnected);
@@ -1859,10 +1863,12 @@ public class PatientsView extends AppCompatActivity
         @SuppressLint("SetTextI18n")
         @Override
         public void handleMessage(Message msg) {
+            Log.i("Battery",msg.obj.toString());
             tv_battery_percentage.setText(msg.obj.toString().concat("%"));
             Log.i("Battery Percentage",msg.obj.toString());
             deviceBatteryPercent = Integer.parseInt(msg.obj.toString());
             int percent = BatteryOperation.convertBatteryToCell(deviceBatteryPercent);
+            Log.i("After percent Formulae",percent+"");
             if(deviceBatteryPercent<15) {
                 Drawable drawable = getResources().getDrawable(R.drawable.drawable_progress_battery_low);
                 battery_bar.setProgressDrawable(drawable);
@@ -1880,9 +1886,9 @@ public class PatientsView extends AppCompatActivity
         @Override
         public void handleMessage(Message msg) {
             if(msg.obj.toString().equalsIgnoreCase("c"))
-                findViewById(R.id.rl_battery_usb_state).setVisibility(View.VISIBLE);
+                rl_battery_usb_state.setVisibility(View.VISIBLE);
             else
-                findViewById(R.id.rl_battery_usb_state).setVisibility(View.GONE);
+                rl_battery_usb_state.setVisibility(View.GONE);
         }
     };
 
