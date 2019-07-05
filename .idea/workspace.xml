@@ -25,8 +25,9 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc6b1f00-4419-4fc8-a13f-473665dd50f5" name="Default" comment="Default commit">
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/activities/MonitorActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/activities/MonitorActivity.java" afterDir="false" />
+    <list default="true" id="fc6b1f00-4419-4fc8-a13f-473665dd50f5" name="Default" comment="version 2.1.1, updated the view of the monitoring screen and also make the emg textview showing integers, also updated the emg preogress maximum as 3000.">
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -68,7 +69,7 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/activities/MonitorActivity.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="109">
-              <caret line="822" column="26" selection-start-line="822" selection-start-column="26" selection-end-line="822" selection-end-column="26" />
+              <caret line="822" column="27" selection-start-line="822" selection-start-column="27" selection-end-line="822" selection-end-column="27" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -528,13 +529,6 @@
       <option name="presentableId" value="Default" />
       <updated>1545216184351</updated>
     </task>
-    <task id="LOCAL-00011" summary="updated login,signup, homescreen, scan device screen, introduced the only pheezee device scanning feature, introduced the archive patient option etc..">
-      <created>1551957584686</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1551957584686</updated>
-    </task>
     <task id="LOCAL-00012" summary="new layout of the card view of the body part selection.">
       <created>1552023452530</created>
       <option name="number" value="00012" />
@@ -871,7 +865,14 @@
       <option name="project" value="LOCAL" />
       <updated>1562246806562</updated>
     </task>
-    <option name="localTasksCounter" value="60" />
+    <task id="LOCAL-00060" summary="version 2.1.1, updated the view of the monitoring screen and also make the emg textview showing integers, also updated the emg preogress maximum as 3000.">
+      <created>1562247101677</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1562247101677</updated>
+    </task>
+    <option name="localTasksCounter" value="61" />
     <servers />
   </component>
   <component name="TodoView">
@@ -906,7 +907,7 @@
       <window_info anchor="bottom" id="Android Profiler" order="8" weight="0.03442623" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5053691" side_tool="true" weight="0.5708215" />
       <window_info anchor="bottom" id="Logcat" order="10" weight="0.70163935" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="11" sideWeight="0.49463087" visible="true" weight="0.48441926" />
+      <window_info active="true" anchor="bottom" id="Version Control" order="11" sideWeight="0.49463087" visible="true" weight="0.4362606" />
       <window_info anchor="bottom" id="Terminal" order="12" sideWeight="0.49924356" weight="0.786119" />
       <window_info anchor="bottom" id="Messages" order="13" weight="0.31303117" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -996,7 +997,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="default commit emg formulae development." />
     <MESSAGE value="default commit body part update." />
     <MESSAGE value="Pdf report generation on click on the day in the daily report, also updated the session details with the angle corrected feild.&#10;Version:- 2.0.7(under development not fully tested)" />
     <MESSAGE value="merged body_part_update branch version-2.0.7" />
@@ -1021,7 +1021,8 @@
     <MESSAGE value="Version 2.1.0 with new feature to increase the gain via application." />
     <MESSAGE value="updated the gitignore file" />
     <MESSAGE value="Default commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="Default commit" />
+    <MESSAGE value="version 2.1.1, updated the view of the monitoring screen and also make the emg textview showing integers, also updated the emg preogress maximum as 3000." />
+    <option name="LAST_COMMIT_MESSAGE" value="version 2.1.1, updated the view of the monitoring screen and also make the emg textview showing integers, also updated the emg preogress maximum as 3000." />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/classes/MyBottomSheetDialog.java">
@@ -1382,7 +1383,7 @@
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/activities/MonitorActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="109">
-          <caret line="822" column="26" selection-start-line="822" selection-start-column="26" selection-end-line="822" selection-end-column="26" />
+          <caret line="822" column="27" selection-start-line="822" selection-start-column="27" selection-end-line="822" selection-end-column="27" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
