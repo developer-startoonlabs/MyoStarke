@@ -992,6 +992,7 @@ public class PatientsView extends AppCompatActivity
     protected void onPause() {
         super.onPause();
         insideMonitor=false;
+        insidePatientViewActivity = false;
         if(bluetoothAdapter==null || !bluetoothAdapter.isEnabled()){
             Message message = Message.obtain();
             message.obj = "N/C";
