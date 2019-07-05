@@ -1247,8 +1247,9 @@ public class PatientsView extends AppCompatActivity
     }
 
     private void pheezeeDisconnected() {
-        iv_device_disconnected.setVisibility(View.VISIBLE);
+        Log.i("Inside disconnect", "Device Disconnected");
         iv_device_connected.setVisibility(View.GONE);
+        iv_device_disconnected.setVisibility(View.VISIBLE);
         ll_add_device.setVisibility(View.VISIBLE);
         if(iv_bluetooth_connected.getVisibility()==View.VISIBLE)
             ll_device_and_bluetooth.setBackgroundResource(R.drawable.drawable_background_turn_on_device);
@@ -1260,6 +1261,7 @@ public class PatientsView extends AppCompatActivity
 //        Drawable drawable_cap = getResources().getDrawable(R.drawable.drawable_color_cap_disconnected);
         @SuppressLint("ResourceAsColor") Drawable drawable_cap = new ColorDrawable(getResources().getColor(R.color.red));
         rl_cap_view.setBackground(drawable_cap);
+        rl_battery_usb_state.setVisibility(View.GONE);
         Log.i("red color","red");
     }
 
@@ -1268,7 +1270,7 @@ public class PatientsView extends AppCompatActivity
 
             String action = intent.getAction();
             if(BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)){
-                Log.i("Device Status: ", "Device Disconnected");
+
 //                Toast.makeText(PatientsView.this, "The device has got disconnected...", Toast.LENGTH_LONG).show();
                 connected_disconnected_toast.setText("The device got disconnected..");
                 connected_disconnected_toast.show();

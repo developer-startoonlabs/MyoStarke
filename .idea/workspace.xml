@@ -28,12 +28,15 @@
     <list default="true" id="fc6b1f00-4419-4fc8-a13f-473665dd50f5" name="Default" comment="Default commit">
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/intermediates/blame/res/debug/multi-v2/debug.json" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/blame/res/debug/multi-v2/debug.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/intermediates/blame/res/debug/multi-v2/values.json" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/blame/res/debug/multi-v2/values.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/intermediates/blame/res/debug/single/debug.json" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/blame/res/debug/single/debug.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeDebugResources/compile-file-map.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/intermediates/merged_manifests/debug/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/merged_manifests/debug/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/intermediates/processed_res/debug/processDebugResources/out/resources-debug.ap_" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/processed_res/debug/processDebugResources/out/resources-debug.ap_" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/intermediates/res/merged/debug/values_values.arsc.flat" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/res/merged/debug/values_values.arsc.flat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/outputs/apk/debug/app-debug.apk" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/outputs/apk/debug/app-debug.apk" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/outputs/logs/manifest-merger-debug-report.txt" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/outputs/logs/manifest-merger-debug-report.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/activities/PatientsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/activities/PatientsView.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -75,12 +78,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/activities/MonitorActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="143">
+            <state relative-caret-position="17918">
               <caret line="1219" column="45" selection-start-line="1219" selection-start-column="45" selection-end-line="1219" selection-end-column="45" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#50452#50701#0" expanded="true" />
-                <element signature="e#50625#50668#0" expanded="true" />
                 <element signature="e#50700#50701#0" expanded="true" />
               </folding>
             </state>
@@ -90,20 +92,12 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/activities/PatientsView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="337">
-              <caret line="1318" column="41" lean-forward="true" selection-start-line="1318" selection-start-column="41" selection-end-line="1318" selection-end-column="41" />
+            <state relative-caret-position="417">
+              <caret line="1263" column="54" lean-forward="true" selection-start-line="1263" selection-start-column="54" selection-end-line="1263" selection-end-column="54" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#52473#53590#0" expanded="true" />
-                <element signature="e#53589#53590#0" expanded="true" />
-                <element signature="e#55429#59816#0" expanded="true" />
-                <element signature="e#59815#59816#0" expanded="true" />
-                <element signature="e#61295#61528#0" expanded="true" />
-                <element signature="e#61527#61528#0" expanded="true" />
-                <element signature="e#81877#82767#0" expanded="true" />
-                <element signature="e#82766#82767#0" expanded="true" />
-                <element signature="e#82846#83184#0" expanded="true" />
-                <element signature="e#83183#83184#0" expanded="true" />
+                <element signature="e#52834#54071#0" expanded="true" />
+                <element signature="e#54070#54071#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -113,7 +107,7 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
           <provider editor-type-id="android-manifest" />
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1077">
+            <state relative-caret-position="1360">
               <caret line="80" column="47" selection-start-line="80" selection-start-column="47" selection-end-line="80" selection-end-column="47" />
             </state>
           </provider>
@@ -122,7 +116,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/utils/BatteryOperation.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="242">
+            <state relative-caret-position="306">
               <caret line="20" column="25" selection-start-line="20" selection-start-column="25" selection-end-line="20" selection-end-column="25" />
             </state>
           </provider>
@@ -131,7 +125,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/activities/BodyPartSelection.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
+            <state relative-caret-position="612">
               <caret line="36" column="28" selection-start-line="36" selection-start-column="28" selection-end-line="36" selection-end-column="28" />
               <folding>
                 <element signature="e#10629#11612#0" expanded="true" />
@@ -146,7 +140,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="199">
+            <state relative-caret-position="2261">
               <caret line="133" column="44" selection-start-line="133" selection-start-column="44" selection-end-line="133" selection-end-column="44" />
             </state>
           </provider>
@@ -202,7 +196,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>startsess</find>
       <find>location</find>
       <find>Access</find>
       <find>usb</find>
@@ -232,6 +225,7 @@
       <find>pheezeeConnected</find>
       <find>StartSession</find>
       <find>bluetoothRe</find>
+      <find>pheezeeDis</find>
     </findStrings>
     <replaceStrings>
       <replace>iv_angle_correction</replace>
@@ -918,6 +912,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.86538464" visible="true" weight="0.19261745" />
       <window_info id="Structure" order="1" sideWeight="0.2647059" side_tool="true" weight="0.22314675" />
@@ -939,7 +934,7 @@
       <window_info anchor="bottom" id="Android Profiler" order="8" weight="0.03442623" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5053691" side_tool="true" weight="0.5708215" />
       <window_info anchor="bottom" id="Logcat" order="10" weight="0.70163935" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="11" sideWeight="0.49463087" visible="true" weight="0.40084985" />
+      <window_info active="true" anchor="bottom" id="Version Control" order="11" sideWeight="0.49463087" visible="true" weight="0.19546743" />
       <window_info anchor="bottom" id="Terminal" order="12" sideWeight="0.49924356" weight="0.786119" />
       <window_info anchor="bottom" id="Messages" order="13" weight="0.31303117" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -1029,7 +1024,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="merged body_part_update branch version-2.0.7" />
     <MESSAGE value="degault commit master." />
     <MESSAGE value="default commit packet_structure_update." />
     <MESSAGE value="Worked and completed tasks A123-T66 - 72, 74, 79, 83, 84, 94, 95." />
@@ -1054,7 +1048,8 @@
     <MESSAGE value="Updated the .gitignore file" />
     <MESSAGE value="Final version 2.1.1" />
     <MESSAGE value="Default commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="Default commit" />
+    <MESSAGE value="updated the Y axis values shoing entries" />
+    <option name="LAST_COMMIT_MESSAGE" value="updated the Y axis values shoing entries" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/utils/PatientOperations.java">
@@ -1312,8 +1307,86 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/activities/SessionReportActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2652">
+        <state relative-caret-position="2465">
           <caret line="204" column="63" selection-start-line="204" selection-start-column="63" selection-end-line="204" selection-end-column="63" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="18" selection-start-line="9" selection-start-column="18" selection-end-line="9" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gradle.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="26" selection-start-line="12" selection-start-column="26" selection-end-line="12" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gradlew">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="26" selection-start-line="10" selection-start-column="26" selection-end-line="10" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/activities/MonitorActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17918">
+          <caret line="1219" column="45" selection-start-line="1219" selection-start-column="45" selection-end-line="1219" selection-end-column="45" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#50452#50701#0" expanded="true" />
+            <element signature="e#50700#50701#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider editor-type-id="android-manifest" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1360">
+          <caret line="80" column="47" selection-start-line="80" selection-start-column="47" selection-end-line="80" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/utils/BatteryOperation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="20" column="25" selection-start-line="20" selection-start-column="25" selection-end-line="20" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/activities/BodyPartSelection.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="612">
+          <caret line="36" column="28" selection-start-line="36" selection-start-column="28" selection-end-line="36" selection-end-column="28" />
+          <folding>
+            <element signature="e#10629#11612#0" expanded="true" />
+            <element signature="e#11611#11612#0" expanded="true" />
+            <element signature="e#17245#21702#0" expanded="true" />
+            <element signature="e#21701#21702#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2261">
+          <caret line="133" column="44" selection-start-line="133" selection-start-column="44" selection-end-line="133" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="11" selection-start-line="14" selection-start-column="11" selection-end-line="14" selection-end-column="11" />
         </state>
       </provider>
     </entry>
@@ -1339,101 +1412,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="18" selection-start-line="9" selection-start-column="18" selection-end-line="9" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gradle.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="26" selection-start-line="12" selection-start-column="26" selection-end-line="12" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gradlew">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/activities/BodyPartSelection.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="36" column="28" selection-start-line="36" selection-start-column="28" selection-end-line="36" selection-end-column="28" />
-          <folding>
-            <element signature="e#10629#11612#0" expanded="true" />
-            <element signature="e#11611#11612#0" expanded="true" />
-            <element signature="e#17245#21702#0" expanded="true" />
-            <element signature="e#21701#21702#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="26" selection-start-line="10" selection-start-column="26" selection-end-line="10" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="199">
-          <caret line="133" column="44" selection-start-line="133" selection-start-column="44" selection-end-line="133" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="11" selection-start-line="14" selection-start-column="11" selection-end-line="14" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/activities/MonitorActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="143">
-          <caret line="1219" column="45" selection-start-line="1219" selection-start-column="45" selection-end-line="1219" selection-end-column="45" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#50452#50701#0" expanded="true" />
-            <element signature="e#50625#50668#0" expanded="true" />
-            <element signature="e#50700#50701#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider editor-type-id="android-manifest" />
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1077">
-          <caret line="80" column="47" selection-start-line="80" selection-start-column="47" selection-end-line="80" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/utils/BatteryOperation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="20" column="25" selection-start-line="20" selection-start-column="25" selection-end-line="20" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/activities/PatientsView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="337">
-          <caret line="1318" column="41" lean-forward="true" selection-start-line="1318" selection-start-column="41" selection-end-line="1318" selection-end-column="41" />
+        <state relative-caret-position="417">
+          <caret line="1263" column="54" lean-forward="true" selection-start-line="1263" selection-start-column="54" selection-end-line="1263" selection-end-column="54" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#52473#53590#0" expanded="true" />
-            <element signature="e#53589#53590#0" expanded="true" />
-            <element signature="e#55429#59816#0" expanded="true" />
-            <element signature="e#59815#59816#0" expanded="true" />
-            <element signature="e#61295#61528#0" expanded="true" />
-            <element signature="e#61527#61528#0" expanded="true" />
-            <element signature="e#81877#82767#0" expanded="true" />
-            <element signature="e#82766#82767#0" expanded="true" />
-            <element signature="e#82846#83184#0" expanded="true" />
-            <element signature="e#83183#83184#0" expanded="true" />
+            <element signature="e#52834#54071#0" expanded="true" />
+            <element signature="e#54070#54071#0" expanded="true" />
           </folding>
         </state>
       </provider>
