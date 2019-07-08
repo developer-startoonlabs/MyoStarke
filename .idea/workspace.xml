@@ -29,8 +29,9 @@
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/intermediates/merged_manifests/debug/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/merged_manifests/debug/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/intermediates/processed_res/debug/processDebugResources/out/resources-debug.ap_" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/processed_res/debug/processDebugResources/out/resources-debug.ap_" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/outputs/apk/debug/app-debug.apk" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/outputs/apk/debug/app-debug.apk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/activities/MonitorActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/activities/MonitorActivity.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -108,13 +109,50 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/activities/MonitorActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="256" column="30" selection-start-line="256" selection-start-column="30" selection-end-line="256" selection-end-column="30" />
+            <state relative-caret-position="77">
+              <caret line="268" column="96" selection-start-line="268" selection-start-column="96" selection-end-line="268" selection-end-column="96" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#10316#11314#0" expanded="true" />
+                <element signature="e#11313#11314#0" expanded="true" />
+                <element signature="e#11367#12360#0" expanded="true" />
+                <element signature="e#12359#12360#0" expanded="true" />
+                <element signature="e#12399#12838#0" expanded="true" />
+                <element signature="e#12837#12838#0" expanded="true" />
+                <element signature="e#15016#16209#0" expanded="true" />
+                <element signature="e#15559#15805#0" expanded="true" />
+                <element signature="e#15804#15805#0" expanded="true" />
+                <element signature="e#15854#15869#0" expanded="true" />
+                <element signature="e#16208#16209#0" expanded="true" />
+                <element signature="e#16249#18322#0" expanded="true" />
+                <element signature="e#16797#17479#0" expanded="true" />
+                <element signature="e#17478#17479#0" expanded="true" />
+                <element signature="e#17924#17944#0" expanded="true" />
+                <element signature="e#18321#18322#0" expanded="true" />
+                <element signature="e#18360#21273#0" expanded="true" />
+                <element signature="e#18877#19366#0" expanded="true" />
+                <element signature="e#19365#19366#0" expanded="true" />
+                <element signature="e#19767#19787#0" expanded="true" />
+                <element signature="e#21272#21273#0" expanded="true" />
+                <element signature="e#21325#23369#0" expanded="true" />
+                <element signature="e#22137#23069#0" expanded="true" />
+                <element signature="e#23068#23069#0" expanded="true" />
+                <element signature="e#23368#23369#0" expanded="true" />
+                <element signature="e#26086#26318#0" expanded="true" />
+                <element signature="e#26317#26318#0" expanded="true" />
+                <element signature="e#26635#26777#0" expanded="true" />
+                <element signature="e#26776#26777#0" expanded="true" />
+                <element signature="e#27598#27770#0" expanded="true" />
+                <element signature="e#27769#27770#0" expanded="true" />
+                <element signature="e#33502#33834#0" expanded="true" />
+                <element signature="e#33833#33834#0" expanded="true" />
+                <element signature="e#34027#34359#0" expanded="true" />
+                <element signature="e#34358#34359#0" expanded="true" />
+                <element signature="e#34559#34891#0" expanded="true" />
+                <element signature="e#34890#34891#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -129,11 +167,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/utils/ByteToArrayOperations.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="118">
-              <caret line="57" column="66" selection-start-line="57" selection-start-column="66" selection-end-line="57" selection-end-column="66" />
+            <state relative-caret-position="1020">
+              <caret line="60" column="16" selection-start-line="60" selection-start-column="16" selection-end-line="60" selection-end-column="16" />
             </state>
           </provider>
         </entry>
@@ -142,7 +180,7 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_monitor.xml">
           <provider editor-type-id="android-designer2" />
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="197">
+            <state relative-caret-position="4080">
               <caret line="240" column="38" selection-start-line="240" selection-start-column="38" selection-end-line="240" selection-end-column="38" />
             </state>
           </provider>
@@ -294,6 +332,29 @@
             <path>
               <item name="pheezeeandroid" type="1abcf292:AndroidViewProjectNode" />
               <item name="app" type="feadf853:AndroidModuleNode" />
+            </path>
+            <path>
+              <item name="pheezeeandroid" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="manifests" type="f94875db:AndroidManifestsGroupNode" />
+            </path>
+            <path>
+              <item name="pheezeeandroid" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+            </path>
+            <path>
+              <item name="pheezeeandroid" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="pheezee" type="cbb59c9e:AndroidPsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pheezeeandroid" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="pheezee" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="activities" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="pheezeeandroid" type="1abcf292:AndroidViewProjectNode" />
@@ -873,10 +934,10 @@
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.86172837" visible="true" weight="0.19261745" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.8130081" visible="true" weight="0.19261745" />
       <window_info id="Structure" order="1" sideWeight="0.2647059" side_tool="true" weight="0.22314675" />
       <window_info id="Designer" order="2" />
-      <window_info id="Build Variants" order="3" sideWeight="0.1382716" side_tool="true" visible="true" weight="0.19261745" />
+      <window_info id="Build Variants" order="3" sideWeight="0.18699187" side_tool="true" visible="true" weight="0.19261745" />
       <window_info id="Image Layers" order="4" />
       <window_info id="Favorites" order="5" sideWeight="0.17274939" side_tool="true" weight="0.2344932" />
       <window_info id="Captures" order="6" side_tool="true" weight="0.25" />
@@ -884,7 +945,7 @@
       <window_info id="Resources Explorer" order="8" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.34844193" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49924356" visible="true" weight="0.42634562" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49924356" weight="0.42634562" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -893,7 +954,7 @@
       <window_info anchor="bottom" id="Android Profiler" order="8" weight="0.03442623" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5053691" side_tool="true" weight="0.5708215" />
       <window_info anchor="bottom" id="Logcat" order="10" weight="0.70163935" />
-      <window_info anchor="bottom" id="Version Control" order="11" sideWeight="0.49463087" weight="0.10906515" />
+      <window_info active="true" anchor="bottom" id="Version Control" order="11" sideWeight="0.49463087" visible="true" weight="0.6515581" />
       <window_info anchor="bottom" id="Terminal" order="12" sideWeight="0.49924356" weight="0.786119" />
       <window_info anchor="bottom" id="Messages" order="13" weight="0.31303117" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -983,7 +1044,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Worked and completed tasks A123-T66 - 72, 74, 79, 83, 84, 94, 95." />
     <MESSAGE value="Resolved ble disconnection and other issues." />
     <MESSAGE value="View and text changes and resolved issues tasks 96-109 and issues from 22-28" />
     <MESSAGE value="Most updated version 2.0.8 with all new features and bug fixes." />
@@ -1008,7 +1068,8 @@
     <MESSAGE value="updated the Y axis values shoing entries" />
     <MESSAGE value="version 2.1.2 with home screen is reloaded only when device disconnects outside it." />
     <MESSAGE value="default commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="default commit" />
+    <MESSAGE value="Updated the Monitor screen with + and - buttons to zoom in and zoom out in the graph. The buttons has max 120 gain and min 10 gain." />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated the Monitor screen with + and - buttons to zoom in and zoom out in the graph. The buttons has max 120 gain and min 10 gain." />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/utils/PatientOperations.java">
@@ -1351,25 +1412,62 @@
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_monitor.xml">
       <provider editor-type-id="android-designer2" />
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="197">
+        <state relative-caret-position="4080">
           <caret line="240" column="38" selection-start-line="240" selection-start-column="38" selection-end-line="240" selection-end-column="38" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/activities/MonitorActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="256" column="30" selection-start-line="256" selection-start-column="30" selection-end-line="256" selection-end-column="30" />
+        <state relative-caret-position="77">
+          <caret line="268" column="96" selection-start-line="268" selection-start-column="96" selection-end-line="268" selection-end-column="96" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#10316#11314#0" expanded="true" />
+            <element signature="e#11313#11314#0" expanded="true" />
+            <element signature="e#11367#12360#0" expanded="true" />
+            <element signature="e#12359#12360#0" expanded="true" />
+            <element signature="e#12399#12838#0" expanded="true" />
+            <element signature="e#12837#12838#0" expanded="true" />
+            <element signature="e#15016#16209#0" expanded="true" />
+            <element signature="e#15559#15805#0" expanded="true" />
+            <element signature="e#15804#15805#0" expanded="true" />
+            <element signature="e#15854#15869#0" expanded="true" />
+            <element signature="e#16208#16209#0" expanded="true" />
+            <element signature="e#16249#18322#0" expanded="true" />
+            <element signature="e#16797#17479#0" expanded="true" />
+            <element signature="e#17478#17479#0" expanded="true" />
+            <element signature="e#17924#17944#0" expanded="true" />
+            <element signature="e#18321#18322#0" expanded="true" />
+            <element signature="e#18360#21273#0" expanded="true" />
+            <element signature="e#18877#19366#0" expanded="true" />
+            <element signature="e#19365#19366#0" expanded="true" />
+            <element signature="e#19767#19787#0" expanded="true" />
+            <element signature="e#21272#21273#0" expanded="true" />
+            <element signature="e#21325#23369#0" expanded="true" />
+            <element signature="e#22137#23069#0" expanded="true" />
+            <element signature="e#23068#23069#0" expanded="true" />
+            <element signature="e#23368#23369#0" expanded="true" />
+            <element signature="e#26086#26318#0" expanded="true" />
+            <element signature="e#26317#26318#0" expanded="true" />
+            <element signature="e#26635#26777#0" expanded="true" />
+            <element signature="e#26776#26777#0" expanded="true" />
+            <element signature="e#27598#27770#0" expanded="true" />
+            <element signature="e#27769#27770#0" expanded="true" />
+            <element signature="e#33502#33834#0" expanded="true" />
+            <element signature="e#33833#33834#0" expanded="true" />
+            <element signature="e#34027#34359#0" expanded="true" />
+            <element signature="e#34358#34359#0" expanded="true" />
+            <element signature="e#34559#34891#0" expanded="true" />
+            <element signature="e#34890#34891#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/startoonlabs/apps/pheezee/utils/ByteToArrayOperations.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="118">
-          <caret line="57" column="66" selection-start-line="57" selection-start-column="66" selection-end-line="57" selection-end-column="66" />
+        <state relative-caret-position="1020">
+          <caret line="60" column="16" selection-start-line="60" selection-start-column="16" selection-end-line="60" selection-end-column="16" />
         </state>
       </provider>
     </entry>
