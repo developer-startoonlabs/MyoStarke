@@ -243,8 +243,12 @@ public class MonitorActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(PatientsView.sessionStarted==true){
+                    btn_emg_decrease_gain.setBackgroundResource(android.R.drawable.btn_default);
                     if(gain_initial<120){
                         gain_initial+=10;
+//                        lineChart.zoomIn();
+                        lineChart.zoom(1.4f,1.4f,ui_rate,ui_rate);
+
                         if(gain_initial==120){
                             btn_emg_increase_gain.setBackgroundColor(ContextCompat.getColor(MonitorActivity.this,R.color.red));
                         }
@@ -268,6 +272,8 @@ public class MonitorActivity extends AppCompatActivity {
                         if (gain_initial==10){
                             btn_emg_decrease_gain.setBackgroundColor(ContextCompat.getColor(MonitorActivity.this,R.color.red));
                         }
+                        lineChart.zoomOut();
+//                        lineChart.zoom(-0.7f,-0.7f,ui_rate,0);
                     }
                     byte[] gain_decrease = ByteToArrayOperations.hexStringToByteArray("AD02");
                     send(gain_decrease);
@@ -829,6 +835,7 @@ public class MonitorActivity extends AppCompatActivity {
         lineChart.getDescription().setEnabled(false);
         lineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         lineChart.setScaleXEnabled(true);
+        lineChart.fitScreen();
         lineChart.setData(lineData);
     }
 
