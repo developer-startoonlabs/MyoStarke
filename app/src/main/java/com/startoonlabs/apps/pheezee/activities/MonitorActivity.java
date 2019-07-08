@@ -31,6 +31,7 @@ import android.os.Message;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -92,7 +93,7 @@ public class MonitorActivity extends AppCompatActivity {
 
     //max min angle emg showing views
     TextView tv_max_angle, tv_min_angle, tv_max_emg; int software_gain = 0;
-    int ui_rate = 0;
+    private int ui_rate = 0, gain_initial=20;
     public final int sub_byte_size = 48;
     int maxAnglePart, minAnglePart, angleCorrection = 0, currentAngle=0;
     boolean angleCorrected = false,devicePopped = false, servicesDiscovered = false, isSessionRunning=false, pheezeeState = false, recieverState=false;
@@ -242,6 +243,12 @@ public class MonitorActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(PatientsView.sessionStarted==true){
+                    if(gain_initial<120){
+                        gain_initial+=10;
+                        if(gain_initial==120){
+                            btn_emg_increase_gain.setBackgroundColor(ContextCompat.getColor(MonitorActivity.this,R.color.red));
+                        }
+                    }
                     byte[] gain_increase = ByteToArrayOperations.hexStringToByteArray("AD01");
                     send(gain_increase);
                 }
@@ -255,6 +262,13 @@ public class MonitorActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(PatientsView.sessionStarted==true){
+                    btn_emg_increase_gain.setBackgroundResource(android.R.drawable.btn_default);
+                    if(gain_initial>10){
+                        gain_initial-=10;
+                        if (gain_initial==10){
+                            btn_emg_decrease_gain.setBackgroundColor(ContextCompat.getColor(MonitorActivity.this,R.color.red));
+                        }
+                    }
                     byte[] gain_decrease = ByteToArrayOperations.hexStringToByteArray("AD02");
                     send(gain_decrease);
                 }
