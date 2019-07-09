@@ -45,6 +45,8 @@
     <string name="report_week">Week</string>
     <string name="report_month">Month</string>
 
+    <string name="generate_report">Click to generate report</string>
+
 
     <string name="left_day">Go to previous day</string>
     <string name="right_day">Go to next day</string>

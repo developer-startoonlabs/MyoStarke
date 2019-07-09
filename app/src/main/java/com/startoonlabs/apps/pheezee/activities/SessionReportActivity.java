@@ -56,12 +56,12 @@ public class SessionReportActivity extends AppCompatActivity {
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     ProgressDialog progress;
-    private static final String TAG = "Report File";String dateSelected = null;
+
     TextView tv_day, tv_week, tv_month, tv_overall_summary;
 
 
 
-    final Calendar myCalendar = Calendar.getInstance();
+
 
     ImageView iv_go_back;
 
@@ -158,9 +158,9 @@ public class SessionReportActivity extends AppCompatActivity {
                 changeViewOfDayMonthWeek();
                 tv_day.setTypeface(null, Typeface.BOLD);
                 tv_day.setAlpha(1);
-                new DatePickerDialog(SessionReportActivity.this, dateChangedListener, myCalendar
-                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                openDayFragment();
+
+
 
             }
         });
@@ -188,112 +188,6 @@ public class SessionReportActivity extends AppCompatActivity {
         });
 
 
-    }
-
-    DatePickerDialog.OnDateSetListener dateChangedListener = new DatePickerDialog.OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-            myCalendar.set(Calendar.YEAR, year);
-            myCalendar.set(Calendar.MONTH, month);
-            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            updateLabel();
-            if(dateSelected!=null) {
-                GetDataService getDataService = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
-                Call<ResponseBody> fileCall = getDataService.getReport("/getreport/"+patientId+"/"+phizioemail+"/" + dateSelected);
-                sendToast("Generating report please wait....");
-                fileCall.enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        Log.i("Response", response.body().toString());
-                        File file = writeResponseBodyToDisk(response.body(), phizioemail+"-"+patientId);
-                        if (file != null) {
-                            Intent target = new Intent(Intent.ACTION_VIEW);
-                            target.setDataAndType(FileProvider.getUriForFile(SessionReportActivity.this, getApplicationContext().getPackageName() + ".my.package.name.provider", file), "application/pdf");
-                            target.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                            target.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-
-                            Intent intent = Intent.createChooser(target, "Open File");
-                            try {
-                                startActivity(target);
-                            } catch (ActivityNotFoundException e) {
-                                // Instruct the user to install a PDF reader here, or something
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-                    }
-                });
-            }
-
-        }
-    };
-
-    private void updateLabel() {
-        String myFormat = "yyyy-MM-dd"; //In which you need put here
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
-        dateSelected = sdf.format(myCalendar.getTime());
-        Log.i("date selected",dateSelected);
-    }
-
-
-    private File writeResponseBodyToDisk(ResponseBody body, String name) {
-        File reportPdf=null, file=null;
-        try {
-            // todo change the file location/name according to your needs
-            reportPdf = new File(Environment.getExternalStorageDirectory()+"/Pheezee/files","reports");
-            if(!reportPdf.exists())
-                reportPdf.mkdirs();
-
-            file = new File(reportPdf,name+".pdf");
-            if(!file.exists())
-                file.createNewFile();
-
-            InputStream inputStream = null;
-            OutputStream outputStream = null;
-
-            try {
-                byte[] fileReader = new byte[4096];
-
-                long fileSize = body.contentLength();
-                long fileSizeDownloaded = 0;
-
-                inputStream = body.byteStream();
-                outputStream = new FileOutputStream(file);
-
-                while (true) {
-                    int read = inputStream.read(fileReader);
-
-                    if (read == -1) {
-                        break;
-                    }
-
-                    outputStream.write(fileReader, 0, read);
-
-                    fileSizeDownloaded += read;
-
-                    Log.d(TAG, "file download: " + fileSizeDownloaded + " of " + fileSize);
-                }
-
-                outputStream.flush();
-
-                return file;
-            }finally {
-                if (inputStream != null) {
-                    inputStream.close();
-                }
-
-                if (outputStream != null) {
-                    outputStream.close();
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return file;
     }
 
 
@@ -354,9 +248,7 @@ public class SessionReportActivity extends AppCompatActivity {
         mqttHelper.mqttAndroidClient.close();
     }
 
-    public void sendToast(String message){
-        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-    }
+
 
 
     public JSONArray getSessions(){
