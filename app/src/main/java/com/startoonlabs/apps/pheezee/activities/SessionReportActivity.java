@@ -116,7 +116,8 @@ public class SessionReportActivity extends AppCompatActivity {
                 if(topic.equals(mqtt_publish_getpatientReport_response+phizioemail)) {
                     initia = false;
                     progress.dismiss();
-                    openWeekFragment();
+                    tv_day.performClick();
+//                    openWeekFragment();
                     session_arry = new JSONArray(message.toString());
                     Log.i("array sessions",session_arry.toString());
                     Log.i("array sessions len",String.valueOf(session_arry.length()));
@@ -154,11 +155,9 @@ public class SessionReportActivity extends AppCompatActivity {
         tv_day.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                changeViewOfDayMonthWeek();
-//                tv_day.setTypeface(null, Typeface.BOLD);
-//                tv_day.setAlpha(1);
-//
-//                openDayFragment();
+                changeViewOfDayMonthWeek();
+                tv_day.setTypeface(null, Typeface.BOLD);
+                tv_day.setAlpha(1);
                 new DatePickerDialog(SessionReportActivity.this, dateChangedListener, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
