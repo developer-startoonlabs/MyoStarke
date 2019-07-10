@@ -84,6 +84,7 @@ import com.startoonlabs.apps.pheezee.services.MqttHelper;
 import com.startoonlabs.apps.pheezee.services.PicassoCircleTransformation;
 import com.startoonlabs.apps.pheezee.services.Scanner;
 import com.startoonlabs.apps.pheezee.utils.BatteryOperation;
+import com.startoonlabs.apps.pheezee.utils.BitmapOperations;
 import com.startoonlabs.apps.pheezee.utils.ByteToArrayOperations;
 import com.startoonlabs.apps.pheezee.utils.DateOperations;
 import com.startoonlabs.apps.pheezee.utils.NetworkOperations;
@@ -1547,6 +1548,7 @@ public class PatientsView extends AppCompatActivity
                 patientTabLayout = (LinearLayout) patientTabLayout.getChildAt(1);
                 //TextView tv_patientId = patientLayoutView.getRootView().findViewById(R.id.patientId);
                 Bitmap photo = (Bitmap) Objects.requireNonNull(data.getExtras()).get("data");
+                photo = BitmapOperations.getResizedBitmap(photo,128);
                 imageView_patientpic.setImageBitmap(photo);
                 TextView tv_patientId = (TextView) patientTabLayout.getChildAt(1);
                 JSONObject object = new JSONObject();
@@ -1585,6 +1587,7 @@ public class PatientsView extends AppCompatActivity
                 Bitmap photo = null;
                 try {
                     photo = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                    photo = BitmapOperations.getResizedBitmap(photo,128);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

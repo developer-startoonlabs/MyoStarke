@@ -39,6 +39,7 @@ import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.services.MqttHelper;
 import com.startoonlabs.apps.pheezee.services.PicassoCircleTransformation;
 import com.squareup.picasso.Picasso;
+import com.startoonlabs.apps.pheezee.utils.BitmapOperations;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
@@ -489,6 +490,7 @@ public class PhizioProfile extends AppCompatActivity {
             case 0:
                 if(resultCode == RESULT_OK){
                     Bitmap photo = (Bitmap) imageReturnedIntent.getExtras().get("data");
+                    photo = BitmapOperations.getResizedBitmap(photo,128);
                     iv_phizio_profilepic.setImageBitmap(photo);
                     ivBasicImage.setImageBitmap(photo);
                     JSONObject object = new JSONObject();
@@ -520,6 +522,7 @@ public class PhizioProfile extends AppCompatActivity {
                     iv_phizio_profilepic.invalidate();
                     BitmapDrawable drawable = (BitmapDrawable) iv_phizio_profilepic.getDrawable();
                     Bitmap photo = drawable.getBitmap();
+                    photo = BitmapOperations.getResizedBitmap(photo,128);
                     MqttMessage message = new MqttMessage();
                     JSONObject object = new JSONObject();
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
