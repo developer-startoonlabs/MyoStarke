@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:orientation="vertical"
+    android:background="@color/progress_gray_trans"
     android:layout_height="match_parent"
     tools:context="com.startoonlabs.apps.pheezee.activities.DeviceInfoActivity">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar_bodypart"
         android:layout_width="match_parent"
@@ -39,7 +43,6 @@
     </android.support.v7.widget.Toolbar>
 <android.support.constraint.ConstraintLayout
     android:layout_width="match_parent"
-    android:background="@color/progress_gray_trans"
     android:layout_height="match_parent">
 
 
@@ -384,3 +387,4 @@
 </android.support.constraint.ConstraintLayout>
 
 </LinearLayout>
+</ScrollView>
