@@ -117,7 +117,6 @@ public class SessionReportActivity extends AppCompatActivity {
                     initia = false;
                     progress.dismiss();
                     tv_day.performClick();
-//                    openWeekFragment();
                     session_arry = new JSONArray(message.toString());
                     Log.i("array sessions",session_arry.toString());
                     Log.i("array sessions len",String.valueOf(session_arry.length()));
@@ -159,9 +158,6 @@ public class SessionReportActivity extends AppCompatActivity {
                 tv_day.setTypeface(null, Typeface.BOLD);
                 tv_day.setAlpha(1);
                 openDayFragment();
-
-
-
             }
         });
 

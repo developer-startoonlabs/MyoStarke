@@ -27,6 +27,24 @@ public class DateOperations {
         return "";
     }
 
+    @SuppressLint("SimpleDateFormat")
+    public static String getDateInMonthAndDateNew(String date) throws ParseException {
+        if(!date.equals("")) {
+            int y= Integer.parseInt(date.substring(0,4));
+            int m  = (Integer.parseInt(date.substring(5,7))-1);
+            int d = Integer.parseInt(date.substring(8,10));
+            Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.DATE,d);
+            cal.set(Calendar.MONTH,m);
+            cal.set(Calendar.YEAR,y);
+            String monthName = new SimpleDateFormat("MMMM").format(cal.getTime());
+            String dayName = new SimpleDateFormat("EEEE").format(cal.getTime());
+            String dat = new SimpleDateFormat("dd").format(cal.getTime());
+            return (monthName.substring(0,3)+" "+dat+", "+y);
+        }
+        return "";
+    }
+
 
     public static String dateInMmDdYyyy(){
         Date today =new Date();
@@ -40,8 +58,6 @@ public class DateOperations {
 
         if(month<10)
             m = "0"+month;
-
-
 
         todaysDate = d+"/"+m+"/"+year+"";
 

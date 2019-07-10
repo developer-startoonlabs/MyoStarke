@@ -12,12 +12,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.startoonlabs.apps.pheezee.activities.SessionReportActivity;
 import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.retrofit.GetDataService;
 import com.startoonlabs.apps.pheezee.retrofit.RetrofitClientInstance;
+import com.startoonlabs.apps.pheezee.utils.DateOperations;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,7 +47,9 @@ import static com.startoonlabs.apps.pheezee.activities.SessionReportActivity.phi
 
 public class FragmentReportDay extends Fragment {
 
-    TextView tv_day_report ;
+    ImageView iv_left, iv_right;
+    private int current_date_position = 0;
+    TextView tv_day_report, tv_report_date ;
     String dateSelected = null;
     final Calendar myCalendar = Calendar.getInstance();
     private static final String TAG = "Report File";
@@ -59,7 +63,9 @@ public class FragmentReportDay extends Fragment {
         View view =  inflater.inflate(R.layout.fragment_fragment_report_day, container, false);
 
         tv_day_report = view.findViewById(R.id.fragment_day_generate_report);
-
+        iv_left = view.findViewById(R.id.fragment_day_iv_left);
+        iv_right = view.findViewById(R.id.fragment_day_iv_right);
+        tv_report_date = view.findViewById(R.id.fragment_day_tv_report_date);
         session_array = ((SessionReportActivity)getActivity()).getSessions();
 
 
@@ -70,15 +76,59 @@ public class FragmentReportDay extends Fragment {
         while (iterator.hasNext()){
             dates_sessions.add(iterator.next()+"");
         }
-//        Log.i("")
-        tv_day_report.setOnClickListener(new View.OnClickListener() {
+        if(dates_sessions.size()>0) {
+            current_date_position = dates_sessions.size() - 1;
+            tv_report_date.setText(DateOperations.getDateInMonthAndDateNew(dates_sessions.get(current_date_position)));
+        }
+
+
+        iv_left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openDatePicker();
+                if(dates_sessions.size()>0) {
+                    if (current_date_position > 0) {
+                        current_date_position--;
+                    } else {
+                        sendToast("Reached End");
+                    }
+
+                    tv_report_date.setText(DateOperations.getDateInMonthAndDateNew(dates_sessions.get(current_date_position)));
+                }
+                else {
+                    sendToast("No sessions done");
+                }
             }
         });
 
-        openDatePicker();
+        iv_right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(dates_sessions.size()>0) {
+                    if (current_date_position < dates_sessions.size() - 1) {
+                        current_date_position++;
+                    } else {
+                        sendToast("Reached End");
+                    }
+                    tv_report_date.setText(DateOperations.getDateInMonthAndDateNew(dates_sessions.get(current_date_position)));
+                }
+                else {
+                    sendToast("No sesssions done");
+                }
+            }
+        });
+
+        tv_day_report.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                openDatePicker();
+                if(dates_sessions.size()>0){
+                    getDayReport(dates_sessions.get(current_date_position));
+                }
+                else {
+                    sendToast("No sessions done");
+                }
+            }
+        });
         return view;
     }
 
@@ -128,6 +178,39 @@ public class FragmentReportDay extends Fragment {
 
         }
     };
+
+
+    private void getDayReport(String date){
+        GetDataService getDataService = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
+        Call<ResponseBody> fileCall = getDataService.getReport("/getreport/"+patientId+"/"+phizioemail+"/" + date);
+        sendToast("Generating report please wait....");
+        fileCall.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.i("Response", response.body().toString());
+                File file = writeResponseBodyToDisk(response.body(), phizioemail+"-"+patientId);
+                if (file != null) {
+                    Intent target = new Intent(Intent.ACTION_VIEW);
+                    target.setDataAndType(FileProvider.getUriForFile(getActivity(), getActivity().getPackageName() + ".my.package.name.provider", file), "application/pdf");
+                    target.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    target.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
+                    Intent intent = Intent.createChooser(target, "Open File");
+                    try {
+                        startActivity(target);
+                    } catch (ActivityNotFoundException e) {
+                        // Instruct the user to install a PDF reader here, or something
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+    }
+
 
 
     private void updateLabel() {
@@ -216,5 +299,4 @@ public class FragmentReportDay extends Fragment {
     public void sendToast(String message){
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
-
 }
