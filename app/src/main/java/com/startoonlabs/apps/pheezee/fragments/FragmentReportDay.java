@@ -3,8 +3,6 @@ package com.startoonlabs.apps.pheezee.fragments;
 import android.app.DatePickerDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
@@ -14,35 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.anychart.AnyChart;
-import com.anychart.AnyChartView;
-import com.anychart.chart.common.dataentry.DataEntry;
-import com.anychart.charts.Cartesian;
-import com.anychart.core.cartesian.series.RangeColumn;
-import com.anychart.data.Mapping;
-import com.anychart.data.Set;
-import com.startoonlabs.apps.pheezee.activities.PatientsView;
 import com.startoonlabs.apps.pheezee.activities.SessionReportActivity;
 import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.retrofit.GetDataService;
 import com.startoonlabs.apps.pheezee.retrofit.RetrofitClientInstance;
-import com.startoonlabs.apps.pheezee.utils.TimeOperations;
-import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.highlight.Highlight;
-import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.jjoe64.graphview.series.BarGraphSeries;
-import com.jjoe64.graphview.series.DataPoint;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -53,14 +28,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Locale;
 
 import okhttp3.ResponseBody;
@@ -77,7 +49,9 @@ public class FragmentReportDay extends Fragment {
     String dateSelected = null;
     final Calendar myCalendar = Calendar.getInstance();
     private static final String TAG = "Report File";
-
+    JSONArray session_array;
+    ArrayList<String> dates_sessions;
+    Iterator iterator;
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
@@ -86,8 +60,17 @@ public class FragmentReportDay extends Fragment {
 
         tv_day_report = view.findViewById(R.id.fragment_day_generate_report);
 
+        session_array = ((SessionReportActivity)getActivity()).getSessions();
 
 
+
+        HashSet<String> hashSet = fetchAllDates();
+        iterator = hashSet.iterator();
+        dates_sessions = new ArrayList<>();
+        while (iterator.hasNext()){
+            dates_sessions.add(iterator.next()+"");
+        }
+//        Log.i("")
         tv_day_report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -211,6 +194,25 @@ public class FragmentReportDay extends Fragment {
 
         return file;
     }
+
+    private HashSet<String> fetchAllDates() {
+        HashSet<String> hashSet = new HashSet<>();
+        if(session_array.length()>0) {
+            for (int i = 0; i < session_array.length(); i++) {
+                try {
+                    JSONObject object = session_array.getJSONObject(i);
+                    hashSet.add(object.getString("heldon").substring(0,10));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+
+
+        return hashSet;
+    }
+
     public void sendToast(String message){
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
