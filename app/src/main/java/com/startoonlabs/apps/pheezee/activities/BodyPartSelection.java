@@ -198,8 +198,11 @@ public class BodyPartSelection extends AppCompatActivity {
         bodyPartRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-//                if (newState == RecyclerView.SCROLL_STATE_IDLE)
-//                    fab_done.setVisibility(View.VISIBLE);
+                Animation animation_up = AnimationUtils.loadAnimation(BodyPartSelection.this, R.anim.slide_up_dialog);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    fl_fab_background.setVisibility(View.VISIBLE);
+                    fl_fab_background.startAnimation(animation_up);
+                }
                 super.onScrollStateChanged(recyclerView, newState);
             }
 
