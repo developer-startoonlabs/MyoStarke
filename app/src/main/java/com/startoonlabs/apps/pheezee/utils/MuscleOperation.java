@@ -1,7 +1,7 @@
 package com.startoonlabs.apps.pheezee.utils;
 
 public class MuscleOperation {
-    public static String[][] musle_names = {
+    private static String[][] musle_names = {
             {"Select Muscle", "Biceps", "Brachialis(Deep)", "Triceps","Brachioradialis", "Anconeus", "Infraspinatus", "Teres Minor", "Teres Major", "Pectoralis Major",
                     "Pectoralis Minor", "Serratus Anterior", "Trapezius"},//elbow
 
@@ -34,7 +34,7 @@ public class MuscleOperation {
     }
 
 
-    public static String[][] exercise_names = {
+    private static String[][] exercise_names = {
             {"Select Exercise", "Flexion", "Extension", "Supination","Pronation", "Lateral Rotation", "Medial rotation", "Forearm pronation"},//elbow
 
             {"Select Exercise", "Flexion", "Extension", "Hip Medial Rotation", "Hip Lateral Rotation"}, //Knee
