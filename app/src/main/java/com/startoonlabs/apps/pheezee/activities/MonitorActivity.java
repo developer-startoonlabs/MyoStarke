@@ -1098,7 +1098,7 @@ public class MonitorActivity extends AppCompatActivity {
                 minutesValue = "0"+hold_time_minutes;
             if(hold_time_seconds<10)
                 secondsValue = "0"+hold_time_seconds;
-            holdTimeValue = minutesValue+" : "+secondsValue;
+            holdTimeValue = minutesValue+"m: "+secondsValue+"s";
 
 
 
@@ -1191,7 +1191,7 @@ public class MonitorActivity extends AppCompatActivity {
                 minutesValue = "0"+active_time_minutes;
             if(active_time_seconds<10)
                 secondsValue = "0"+active_time_seconds;
-            tv_action_time.setText(minutesValue+" : "+secondsValue);
+            tv_action_time.setText(minutesValue+"m: "+secondsValue+"s");
         }
     };
 
@@ -1576,6 +1576,7 @@ public class MonitorActivity extends AppCompatActivity {
                                 object.put("exercisename",BodyPartSelection.exercisename);
                                 object.put("commentsession",BodyPartSelection.commentsession);
                                 object.put("symptoms",BodyPartSelection.symptoms);
+                                object.put("activetime",tv_action_time.getText().toString());
                                 object.put("orientation", orientation);
                                 object.put("repsselected",BodyPartSelection.repsselected);
                                 object.put("musclename", BodyPartSelection.musclename);
