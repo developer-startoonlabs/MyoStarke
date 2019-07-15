@@ -6,7 +6,8 @@ public class MuscleOperation {
                     "Pectoralis Minor", "Serratus Anterior", "Trapezius"},//elbow
 
             {"Select Muscle", "Rectus Femoris-Anterior", "Vastus Lateralis-Anterior", "Vastus Medialis -Anterior", "Vastus Intermedius-Anterior(Deep)",
-                    "Sartorius-Anterior", "Gracilis-Medial", "Biceps Femoris-Posterior", "Semimembranosus -Posterior", "Semitendinosus-Posterior", "Gastrocnemius-Posterior",
+                    "Sartorius-Anterior", "Gracilis-Medial", "Biceps Femoris-Posterior", "Semimembranosus -Posterior", "Semitendinosus-Posterior",
+                    "Gastrocnemius-Posterior", "Gastro-medial", "Gastro-lateral"
             }, //Knee
 
             {"Select Muscle", "Gastrocnemius-Posterior", /*"superficial-Part of Triceps Surae",*/ "Soleus -Posterior", "Plantaris-Posterior",

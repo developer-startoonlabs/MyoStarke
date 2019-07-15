@@ -55,7 +55,7 @@ public class MqttService extends Service {
 
     public void StartMqtt(){
         String clientId = MqttClient.generateClientId();
-        client = new MqttAndroidClient(context, "tcp://52.66.113.37:1883", clientId);
+        client = new MqttAndroidClient(context, "tcp://13.127.78.38:1883", clientId);
         try {
             IMqttToken token = client.connect();
             token.setActionCallback(new IMqttActionListener() {

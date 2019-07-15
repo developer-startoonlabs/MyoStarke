@@ -74,6 +74,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
+import com.startoonlabs.apps.pheezee.MqttService;
 import com.startoonlabs.apps.pheezee.classes.BluetoothGattSingleton;
 import com.startoonlabs.apps.pheezee.classes.BluetoothSingelton;
 import com.startoonlabs.apps.pheezee.classes.MyBottomSheetDialog;

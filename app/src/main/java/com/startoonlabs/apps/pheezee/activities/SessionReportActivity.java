@@ -90,6 +90,9 @@ public class SessionReportActivity extends AppCompatActivity {
         progress.show();
 
 
+
+
+
         mqttHelper.setCallback(new MqttCallbackExtended() {
             @Override
             public void connectComplete(boolean reconnect, String serverURI) {
@@ -114,12 +117,14 @@ public class SessionReportActivity extends AppCompatActivity {
             @Override
             public void messageArrived(String topic, MqttMessage message) throws Exception {
                 if(topic.equals(mqtt_publish_getpatientReport_response+phizioemail)) {
-                    initia = false;
-                    progress.dismiss();
-                    tv_day.performClick();
-                    session_arry = new JSONArray(message.toString());
-                    Log.i("array sessions",session_arry.toString());
-                    Log.i("array sessions len",String.valueOf(session_arry.length()));
+                    if(initia==true) {
+                        initia = false;
+                        progress.dismiss();
+                        session_arry = new JSONArray(message.toString());
+                        tv_day.performClick();
+                        Log.i("array sessions", session_arry.toString());
+                        Log.i("array sessions len", String.valueOf(session_arry.length()));
+                    }
                 }
             }
 

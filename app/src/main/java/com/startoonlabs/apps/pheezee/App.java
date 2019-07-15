@@ -9,6 +9,6 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         Log.i("APP","INSIDE THIS");
-        startService(new Intent(this, MqttService.class));
+//        startService(new Intent(this, MqttService.class));
     }
 }

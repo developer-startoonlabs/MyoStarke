@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.Build;
 import android.preference.PreferenceManager;
@@ -176,7 +177,16 @@ public class BodyPartSelection extends AppCompatActivity {
         bodyPartRecyclerView.addItemDecoration(dividerItemDecoration);
         bodyPartRecyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.HORIZONTAL));
         bodyPartRecyclerView.setHasFixedSize(true);
-        manager = new GridLayoutManager(this,1);    //development
+        Configuration config = getResources().getConfiguration();
+        if (config.smallestScreenWidthDp >= 600)
+        {
+            manager = new GridLayoutManager(this,2);    //development
+        }
+        else
+        {
+            manager = new GridLayoutManager(this,1);    //development
+        }
+//        manager = new GridLayoutManager(this,1);    //development
         bodyPartRecyclerView.setLayoutManager(manager);
         bodyPartSelectionList = new ArrayList<>();
         bodyPartWithMmtSelectionModels = new ArrayList<>();

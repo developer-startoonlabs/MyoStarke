@@ -142,7 +142,7 @@
             android:textColor="@color/pitch_black"
             app:layout_constraintBottom_toTopOf="@+id/displayTime"
             app:layout_constraintEnd_toStartOf="@+id/tv_session_no"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/patientNameText" />
 
