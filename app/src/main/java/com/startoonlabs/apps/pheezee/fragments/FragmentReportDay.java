@@ -1,8 +1,10 @@
 package com.startoonlabs.apps.pheezee.fragments;
 
 import android.app.DatePickerDialog;
+import android.app.Notification;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.net.ParseException;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
@@ -30,9 +32,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Locale;
@@ -75,10 +81,36 @@ public class FragmentReportDay extends Fragment {
         dates_sessions = new ArrayList<>();
         while (iterator.hasNext()){
             dates_sessions.add(iterator.next()+"");
+
         }
+        Collections.sort(dates_sessions,new Comparator<String>() {
+
+            @Override
+            public int compare(String arg0, String arg1) {
+                SimpleDateFormat format = new SimpleDateFormat(
+                        "yyyy-mm-dd");
+                int compareResult = 0;
+                try {
+                    Date arg0Date = format.parse(arg0);
+                    Date arg1Date = format.parse(arg1);
+                    compareResult = arg0Date.compareTo(arg1Date);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    compareResult = arg0.compareTo(arg1);
+                } catch (java.text.ParseException e) {
+                    e.printStackTrace();
+                }
+                return compareResult;
+            }
+        });
+
+//        for (int i=0;i<dates_sessions.size();i++)
+//            Log.i("date",dates_sessions.get(i));
+
         if(dates_sessions.size()>0) {
             current_date_position = dates_sessions.size() - 1;
             tv_report_date.setText(DateOperations.getDateInMonthAndDateNew(dates_sessions.get(current_date_position)));
+//            tv_report_date.setText(dates_sessions.get(current_date_position));
         }
 
 

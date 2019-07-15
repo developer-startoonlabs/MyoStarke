@@ -46,31 +46,31 @@ public class ValueBasedColorOperations {
         int range = 0;
        switch (bodypart.toLowerCase()){
            case "elbow":{
-               range = 160;
+               range = 305;
                break;
            }
 
            case "knee":{
-               range = 135;
+               range = 150;
                break;
            }
 
            case "ankle":{
-               range = 100;
+               range = 80;
                break;
            }
            case "hip":{
-               range = 50;
+               range = 240;
                break;
            }
 
            case "wrist":{
-               range = 100;
+               range = 160;
                break;
            }
 
            case "shoulder":{
-               range = 250;
+               range = 360;
                break;
            }
 
@@ -85,7 +85,7 @@ public class ValueBasedColorOperations {
         int max = 0;
         switch (bodypart.toLowerCase()){
             case "elbow":{
-                max = 90;
+                max = 150;
                 break;
             }
 
@@ -99,12 +99,12 @@ public class ValueBasedColorOperations {
                 break;
             }
             case "hip":{
-                max = 50;
+                max = 125;
                 break;
             }
 
             case "wrist":{
-                max = 50;
+                max = 90;
                 break;
             }
 
@@ -124,7 +124,7 @@ public class ValueBasedColorOperations {
         int range = 0;
         switch (bodypart.toLowerCase()){
             case "elbow":{
-                range = -70;
+                range = -145;
                 break;
             }
 
@@ -134,21 +134,21 @@ public class ValueBasedColorOperations {
             }
 
             case "ankle":{
-                range = -50;
+                range = -30;
                 break;
             }
             case "hip":{
-                range = 0;
+                range = -115;
                 break;
             }
 
             case "wrist":{
-                range = -50;
+                range = -70;
                 break;
             }
 
             case "shoulder":{
-                range = -70;
+                range = -180;
                 break;
             }
 
