@@ -205,37 +205,37 @@ public class BodyPartSelection extends AppCompatActivity {
 
 
         //This listner is used to disable and enable the floating layout while scrolling
-        bodyPartRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                Animation animation_up = AnimationUtils.loadAnimation(BodyPartSelection.this, R.anim.slide_up_dialog);
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    fl_fab_background.setVisibility(View.VISIBLE);
-                    fl_fab_background.startAnimation(animation_up);
-                }
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                Animation animation_down = AnimationUtils.loadAnimation(BodyPartSelection.this, R.anim.slide_out_down);
-                Animation animation_up = AnimationUtils.loadAnimation(BodyPartSelection.this, R.anim.slide_up_dialog);
-                super.onScrolled(recyclerView, dx, dy);
-
-                if(!recyclerView.canScrollVertically(1)){
-                    fl_fab_background.setVisibility(View.VISIBLE);
+//        bodyPartRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+//                Animation animation_up = AnimationUtils.loadAnimation(BodyPartSelection.this, R.anim.slide_up_dialog);
+//                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+//                    fl_fab_background.setVisibility(View.VISIBLE);
 //                    fl_fab_background.startAnimation(animation_up);
-                }
-                else if(dy>0 && fab_done.isShown()){
-                    fl_fab_background.setVisibility(View.INVISIBLE);
-                    fl_fab_background.startAnimation(animation_down);
-                }
-                else if(dy<0){
-                    fl_fab_background.setVisibility(View.VISIBLE);
-                    fl_fab_background.startAnimation(animation_up);
-                }
-            }
-        });
+//                }
+//                super.onScrollStateChanged(recyclerView, newState);
+//            }
+//
+//            @Override
+//            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+//                Animation animation_down = AnimationUtils.loadAnimation(BodyPartSelection.this, R.anim.slide_out_down);
+//                Animation animation_up = AnimationUtils.loadAnimation(BodyPartSelection.this, R.anim.slide_up_dialog);
+//                super.onScrolled(recyclerView, dx, dy);
+//
+//                if(!recyclerView.canScrollVertically(1)){
+//                    fl_fab_background.setVisibility(View.VISIBLE);
+////                    fl_fab_background.startAnimation(animation_up);
+//                }
+//                else if(dy>0 && fab_done.isShown()){
+//                    fl_fab_background.setVisibility(View.INVISIBLE);
+//                    fl_fab_background.startAnimation(animation_down);
+//                }
+//                else if(dy<0){
+//                    fl_fab_background.setVisibility(View.VISIBLE);
+//                    fl_fab_background.startAnimation(animation_up);
+//                }
+//            }
+//        });
 
 
 
@@ -272,69 +272,6 @@ public class BodyPartSelection extends AppCompatActivity {
             }
         }
     };
-
-    public void visibilityChanged(int position, int clicked){
-        Log.i("visibility change",String.valueOf(position));
-
-//        if(position==6 || clicked==6) {
-//            bodyPartWithMmtRecyclerView.notifyItemChanged(position, null);
-//        }
-//        bodyPartRecyclerView.scrollToPosition(position);
-        View view = manager.findViewByPosition(position);
-//        View view = bodyPartRecyclerView.findViewHolderForPosition(position);
-            if(view!=null) {
-                Log.i("inside","visibility change");
-                ImageView imageView = view.findViewById(R.id.bodypartImage);
-                RelativeLayout rl_left_right = view.findViewById(R.id.rl_left_right);
-                RelativeLayout rl_left = view.findViewById(R.id.rl_left);
-                RelativeLayout rl_right = view.findViewById(R.id.rl_right);
-                RelativeLayout rl_mmt_and_session = view.findViewById(R.id.rl_mmt_and_session);
-                RelativeLayout rl_left_section = view.findViewById(R.id.rl_left_section);
-                RelativeLayout rl_right_section = view.findViewById(R.id.rl_right_section);
-                RelativeLayout rl_mmt_session = view.findViewById(R.id.rl_mmt_section);
-                LinearLayout ll_tv_section = view.findViewById(R.id.ll_tv_section);
-                Spinner spinner = view.findViewById(R.id.sp_set_goal);
-                Spinner sp_muscle_name = view.findViewById(R.id.sp_set_muscle);     //development
-
-
-                if (rl_left_section.getVisibility() == View.VISIBLE)
-                    rl_left_section.setVisibility(View.INVISIBLE);
-
-                if (rl_right_section.getVisibility() == View.VISIBLE)
-                    rl_right_section.setVisibility(View.INVISIBLE);
-
-                if (rl_left_right.getVisibility() == View.VISIBLE)
-                    rl_left_right.setVisibility(View.INVISIBLE);
-                if (rl_left.getVisibility() == View.VISIBLE)
-                    rl_left.setVisibility(View.INVISIBLE);
-                if (rl_right.getVisibility() == View.VISIBLE)
-                    rl_right.setVisibility(View.INVISIBLE);
-                if (rl_mmt_and_session.getVisibility() == View.VISIBLE)
-                    rl_mmt_and_session.setVisibility(View.INVISIBLE);
-                if (rl_mmt_session.getVisibility() == View.VISIBLE)
-                    rl_mmt_session.setVisibility(View.INVISIBLE);
-                if (ll_tv_section.getVisibility() == View.VISIBLE)
-                    ll_tv_section.setVisibility(View.GONE);
-                if (spinner.getVisibility() == View.VISIBLE) {
-                    spinner.setSelection(0);
-                    spinner.setVisibility(View.GONE);
-                }
-
-//                development
-                if (sp_muscle_name.getVisibility() == View.VISIBLE) {
-                    sp_muscle_name.setSelection(0);
-                    sp_muscle_name.setVisibility(View.GONE);
-                }
-
-                if (imageView.getVisibility() == View.INVISIBLE)
-                    imageView.setVisibility(View.VISIBLE);
-
-
-                imageView.setEnabled(true);
-            }
-    }
-
-
     /**
      *
      * @return String This method returns the patient id from by getting it from the intent.
