@@ -1,31 +1,31 @@
 package com.startoonlabs.apps.pheezee.utils;
 
 public class MuscleOperation {
-    private static String[][] musle_names = {
-            {"Select Muscle", "Biceps", "Brachialis(Deep)", "Triceps","Brachioradialis", "Anconeus", "Infraspinatus", "Teres Minor", "Teres Major", "Pectoralis Major",
+    private final static String[][] musle_names = {
+            {"Select Muscle*", "Biceps", "Brachialis(Deep)", "Triceps","Brachioradialis", "Anconeus", "Infraspinatus", "Teres Minor", "Teres Major", "Pectoralis Major",
                     "Pectoralis Minor", "Serratus Anterior", "Trapezius"},//elbow
 
-            {"Select Muscle", "Rectus Femoris-Anterior", "Vastus Lateralis-Anterior", "Vastus Medialis -Anterior", "Vastus Intermedius-Anterior(Deep)",
+            {"Select Muscle*", "Rectus Femoris-Anterior", "Vastus Lateralis-Anterior", "Vastus Medialis -Anterior", "Vastus Intermedius-Anterior(Deep)",
                     "Sartorius-Anterior", "Gracilis-Medial", "Biceps Femoris-Posterior", "Semimembranosus -Posterior", "Semitendinosus-Posterior",
-                    "Gastrocnemius-Posterior", "Gastro-medial", "Gastro-lateral"
+                    "Gastrocnemius-Posterior", "Gastrocnemius-medial", "Gastrocnemius-lateral"
             }, //Knee
 
-            {"Select Muscle", "Gastrocnemius-Posterior", /*"superficial-Part of Triceps Surae",*/ "Soleus -Posterior", "Plantaris-Posterior",
+            {"Select Muscle*", "Gastrocnemius-Posterior", /*"superficial-Part of Triceps Surae",*/ "Soleus -Posterior", "Plantaris-Posterior",
                     "Flexor Digitorum Longus(Deep)", "Flexor Hallucis Longus(Deep)", "Tibialis Posterior(Deep)", "Tibialis Anterior",
                     "Extensor Digitorum Longus-Anterior", "Extensor Hallucis Longus-Anterior", "Peroneus Tertius-Anterior",
                     "Peroneus Longus-Lateral", "Peroneus Brevis-Lateral"},    //Ankle
 
-            {"Select Muscle", "Rectus Femoris-Anterior", "Sartorius-Anterior", "Pectineus-Medial(Deep)", "Gracilis -Medial", "Gluteus Maximus-Gluteal",
+            {"Select Muscle*", "Rectus Femoris-Anterior", "Sartorius-Anterior", "Pectineus-Medial(Deep)", "Gracilis -Medial", "Gluteus Maximus-Gluteal",
                     "Gluteus Medius And Gluteus Minimus-Gluteal", "Tensor Fasciae Latae-Gluteal ", "Piriformis(Deep)", "Superior(Deep)", "Gemellus(Deep)",
                     "Obturator(Deep)", "Internus(Deep)", "Inferior Gemellus(Deep)", "Quadratus Femoris Obturator Externus(Deep)", "Biceps Femoris-Posterior",
                     "Semimembranosus-Posterior", "Semitendinosus-Posterior"},  //Hip //from 4 to 8 i have taken as different muscles as specified in the excell sheet
 
-            {"Select Muscle", "Flexor Carpi Radialis", "Palmaris Longus", "Flexor Carpi Ulnaris", "Flexor Pollicis Longus(Deep)",
+            {"Select Muscle*", "Flexor Carpi Radialis", "Palmaris Longus", "Flexor Carpi Ulnaris", "Flexor Pollicis Longus(Deep)",
                     "Flexor Digitorum  Profundus(Deep)", "Pronator Quadratus(Deep)", "Extensor Carpi Radialis Longus and Brevis", "Extensor Digiti Minimi",
                     "Extensor Carpi Ulnaris", "Supinator(Deep)", "Pronator Teres(Deep)"},  //Wrist
 
-            {"Select Muscle", "Pectoralis Major", "Pectoralis Minor", "Serratus Anterior", "Trapezius",  "Latissimus Dorsi", "Deltoid",
-                    "Teres Major",  "Teres Minor", "Long Head of Biceps", "Short head of biceps"},   //Shoulder
+            {"Select Muscle*", "Pectoralis Major", "Pectoralis Minor", "Serratus Anterior", "Trapezius",  "Latissimus Dorsi", "Deltoid",
+                    "Teres Major",  "Teres Minor", "Biceps"},   //Shoulder
             {}
     };
 
@@ -35,20 +35,20 @@ public class MuscleOperation {
     }
 
 
-    private static String[][] exercise_names = {
-            {"Select Exercise", "Flexion", "Extension", "Supination","Pronation", "Lateral Rotation", "Medial rotation", "Forearm pronation"},//elbow
+    private final static String[][] exercise_names = {
+            {"Select Exercise*", "Flexion", "Extension", "Supination","Pronation", "Lateral Rotation", "Medial rotation", "Forearm pronation"},//elbow
 
-            {"Select Exercise", "Flexion", "Extension", "Hip Medial Rotation", "Hip Lateral Rotation"}, //Knee
+            {"Select Exercise*", "Flexion", "Extension", "Medial Rotation", "Lateral Rotation"}, //Knee
 
-            {"Select Exercise", "Plantarflexion", "Inversion", "Eversion", "Dorsiflexion"},    //Ankle
+            {"Select Exercise*", "Plantarflexion", "Inversion", "Eversion", "Dorsiflexion"},    //Ankle
 
-            {"Select Exercise", "Flexion", "Extension", "Adduction", "Abduction"},  //Hip
+            {"Select Exercise*", "Flexion", "Extension", "Adduction", "Abduction", "Medial Rotation", "Lateral Rotation"},  //Hip
 
-            {"Select Exercise", "flexion", "extension", "radial deviation", "ulnar deviation",
+            {"Select Exercise*", "flexion", "extension", "radial deviation", "ulnar deviation",
                     "Forearm pronation", "Forearm supination"},  //Wrist
 
-            {"Select Exercise", "Adduction", "Abduction", "Flexion", "Extension",  "Protract", "Elevation",
-                    "Depression"},   //Shoulder
+            {"Select Exercise*", "Adduction", "Abduction", "Flexion", "Extension",  "Protract", "Elevation",
+                    "Depression", "Lateral Rotation", "Medial rotation"},   //Shoulder
             {}
     };
 

@@ -133,7 +133,7 @@
     <!--App info related tags-->
     <string name="app_info">Application Info</string>
     <string name="app_version">Application Version</string>
-    <string name="application_version">2.1.9</string>
+    <string name="application_version">2.2.0</string>
 
     <!--phizio profile related tags-->
     <string name="your_profile">Your Profile</string>
@@ -165,9 +165,13 @@
     <string name="select_mmt_grading">Select Mmt Grading</string>
     <string name="zero">0</string>
     <string name="one">1</string>
+    <string name="one_p">1+</string>
     <string name="two">2</string>
+    <string name="two_p">2+</string>
     <string name="three">3</string>
+    <string name="three_p">3+</string>
     <string name="four">4</string>
+    <string name="four_p">4+</string>
     <string name="five">5</string>
     <string name="confirm">Confirm</string>
     <string name="minus">-</string>
@@ -277,7 +281,7 @@
     <!--Pop up comment section tags-->
     <string name="pain_scale">Pain Scale?</string>
     <string name="muscle_tone">Muscle Tone?</string>
-    <string name="exercise_name">Exercise Name?</string>
+    <string name="exercise_name">Exercise Name?*</string>
     <string name="comment">Comment?</string>
     <string name="comment_if_any">Comment(if any)</string>
     <string name="continue_session">Continue</string>

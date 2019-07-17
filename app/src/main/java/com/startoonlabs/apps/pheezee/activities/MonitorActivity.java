@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.LayerDrawable;
 import android.media.MediaScannerConnection;
@@ -52,6 +53,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.anychart.core.annotations.Line;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
@@ -90,6 +92,10 @@ import java.util.UUID;
 
 public class MonitorActivity extends AppCompatActivity {
 
+    //session inserted on server
+    private boolean session_inserted_in_server = false;
+    //MMT
+    private String mmt_selected = "";
     //max min angle emg showing views
     TextView tv_max_angle, tv_min_angle, tv_max_emg; int software_gain = 0;
     private int ui_rate = 0, gain_initial=20;
@@ -117,6 +123,7 @@ public class MonitorActivity extends AppCompatActivity {
     String mqtt_publish_add_patient_session_response = "phizio/addpatientsession/response";
     String mqtt_publish_add_patient_session_emg_data_response = "patient/entireEmgData/response";
     String mqtt_publish_update_patient_session_comment = "phizio/patient/updateCommentSection";
+    String mqtt_publish_update_patient_mmt_grade = "phizio/patient/updateMmtGrade";
 
     PopupWindow report;
     int visiblity=View.VISIBLE;
@@ -234,7 +241,7 @@ public class MonitorActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 takeScreenshot(null);
-                Toast.makeText(MonitorActivity.this, "Took Screenshot", Toast.LENGTH_SHORT).show();
+                showToast("Took Screenshot");
             }
         });
 
@@ -256,7 +263,7 @@ public class MonitorActivity extends AppCompatActivity {
                     send(gain_increase);
                 }
                 else {
-                    Toast.makeText(MonitorActivity.this, "Please start the session!", Toast.LENGTH_SHORT).show();
+                    showToast("Please start the session!");
                 }
             }
         });
@@ -278,7 +285,7 @@ public class MonitorActivity extends AppCompatActivity {
                     send(gain_decrease);
                 }
                 else {
-                    Toast.makeText(MonitorActivity.this, "Please start the session!", Toast.LENGTH_SHORT).show();
+                    showToast("Please start the session!");
                 }
             }
         });
@@ -549,7 +556,8 @@ public class MonitorActivity extends AppCompatActivity {
                         editor = sharedPreferences.edit();
                         editor.putString("sync_emg_session","");
                         editor.apply();
-                        Toast.makeText(MonitorActivity.this, "INSERTED!!", Toast.LENGTH_SHORT).show();
+                        session_inserted_in_server = true;
+                        showToast("INSERTED!");
                     }
                 }
                 } catch (JSONException e) {
@@ -574,20 +582,19 @@ public class MonitorActivity extends AppCompatActivity {
 
         bluetoothAdapter = BluetoothSingelton.getmInstance().getAdapter();
         if (!bluetoothAdapter.isEnabled()) {
-            Toast.makeText(this, "Bluetooth Disabled", Toast.LENGTH_SHORT).show();
+            showToast("Bluetooth Disabled");
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
         }
         if(mBluetoothGatt!=null){
             mBluetoothGatt.disconnect();
             mBluetoothGatt.close();
-            Toast.makeText(this, "GATT CLOSED", Toast.LENGTH_SHORT).show();
         }
         if(!getIntent().getStringExtra("deviceMacAddress").equals(""))
 
             remoteDevice = bluetoothAdapter.getRemoteDevice(getIntent().getStringExtra("deviceMacAddress"));
         if(remoteDevice==null){
-            Toast.makeText(this, "Make sure pheeze is On.", Toast.LENGTH_SHORT).show();
+            showToast("Make sure pheeze is On.");
         }
 
         new Handler(Looper.getMainLooper()).post(new Runnable() {
@@ -618,9 +625,8 @@ public class MonitorActivity extends AppCompatActivity {
 
 
     public void startSession(){
-        ui_rate = 0;
-        rate=0;
-        devicePopped=false;
+        session_inserted_in_server = false;
+        mmt_selected="";ui_rate = 0;rate=0;devicePopped=false;
         PatientsView.sessionStarted = true;
         isSessionRunning = true;
         angleCorrected = false;
@@ -635,7 +641,7 @@ public class MonitorActivity extends AppCompatActivity {
         if (!servicesDiscovered) {
             stopBtn.setVisibility(View.GONE);
             timer.setVisibility(View.VISIBLE);
-            Toast.makeText(MonitorActivity.this, "Make Sure Pheeze is On", Toast.LENGTH_SHORT).show();
+            showToast("Make Sure Pheeze is On");
         } else {
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -1236,11 +1242,10 @@ public class MonitorActivity extends AppCompatActivity {
         final TextView tv_patient_id = layout.findViewById(R.id.tv_summary_patient_id);
         TextView tv_comment = layout.findViewById(R.id.summary_tv_comment);
         TextView tv_held_on = layout.findViewById(R.id.session_held_on);
-        TextView tv_overall_summary = layout.findViewById(R.id.tv_overall_summary);
         TextView tv_min_angle = layout.findViewById(R.id.tv_min_angle);
         TextView tv_max_angle = layout.findViewById(R.id.tv_max_angle);
         TextView tv_total_time = layout.findViewById(R.id.tv_total_time);
-        TextView tv_action_time = layout.findViewById(R.id.tv_action_time);
+        TextView tv_action_time_summary = layout.findViewById(R.id.tv_action_time);
         TextView tv_hold_time = layout.findViewById(R.id.tv_hold_time);
         TextView tv_num_of_reps = layout.findViewById(R.id.tv_num_of_reps);
         TextView tv_max_emg = layout.findViewById(R.id.tv_max_emg);
@@ -1248,8 +1253,19 @@ public class MonitorActivity extends AppCompatActivity {
         TextView tv_orientation_and_bodypart = layout.findViewById(R.id.tv_orientation_and_bodypart);
         TextView tv_musclename = layout.findViewById(R.id.tv_muscle_name);
         TextView tv_exercise_name = layout.findViewById(R.id.tv_exercise_name);
+        TextView tv_range = layout.findViewById(R.id.tv_range_min_max);
+        final LinearLayout ll_mmt_confirm = layout.findViewById(R.id.bp_model_mmt_confirm);
+
+        LinearLayout ll_mmt_container = layout.findViewById(R.id.ll_mmt_grading);
         final LinearLayout ll_click_to_view_report = layout.findViewById(R.id.ll_click_to_view_report);
         final LinearLayout ll_click_to_choose_body_part = layout.findViewById(R.id.ll_click_to_choose_bodypart);
+
+        for (int i=0;i<ll_mmt_container.getChildCount();i++){
+            View view_nested = ll_mmt_container.getChildAt(i);
+            view_nested.setOnClickListener(onClickListener);
+        }
+
+
 
 
 
@@ -1372,15 +1388,17 @@ public class MonitorActivity extends AppCompatActivity {
         tv_total_time.setText(tempSessionTime);
 
 
-        tv_action_time.setText(tempSessionTime);
-        if(holdTimeValue!=null && holdTimeValue.length()>2)
-            tv_hold_time.setText(holdTimeValue.substring(0,2)+"m"+holdTimeValue.substring(2)+"s");
+        tv_action_time_summary.setText(tv_action_time.getText().toString());
+        tv_hold_time.setText(holdTime.getText().toString());
 
 
         tv_num_of_reps.setText(Repetitions.getText().toString());
         tv_max_emg.setText(Integer.toString(maxEmgValue).concat(getResources().getString(R.string.emg_unit)));
         tv_max_emg.setBackgroundColor(color);
 
+
+        tv_range.setText(String.valueOf(maxAngle-minAngle).concat("°"));
+        tv_range.setBackgroundColor(color);
         //Creating the arc
         ArcViewInside arcView =layout.findViewById(R.id.session_summary_arcview);
         arcView.setMaxAngle(maxAngle);
@@ -1423,7 +1441,71 @@ public class MonitorActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        ll_mmt_confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!mmt_selected.equalsIgnoreCase("")){
+                    JSONObject object = new JSONObject();
+                    MqttMessage message = new MqttMessage();
+                    try {
+                        object.put("phizioemail",json_phizio.get("phizioemail"));
+                        object.put("patientid",patientId.getText().toString());
+                        object.put("heldon",dateString);
+                        object.put("mmtgrade",mmt_selected);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    message.setPayload(object.toString().getBytes());
+                    if(session_inserted_in_server)
+                        sendMmtToServer(message);
+                    else {
+                        showToast("Please wait for the session to update on server and try again");
+                    }
+                }
+                else {
+                    showToast("Please Choose mmt");
+                }
+            }
+        });
+
+        ll_mmt_confirm.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    ll_mmt_confirm.setAlpha(0.4f);
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    ll_mmt_confirm.setAlpha(1f);
+                }
+                return false;
+            }
+        });
+
+
     }
+
+    private void sendMmtToServer(MqttMessage message) {
+        if(NetworkOperations.isNetworkAvailable(MonitorActivity.this))
+            mqttHelper.publishMqttTopic(mqtt_publish_update_patient_mmt_grade,message);
+    }
+
+
+    View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            LinearLayout ll_container = ((LinearLayout)v);
+            LinearLayout parent = (LinearLayout) ll_container.getParent();
+            for (int i=0;i<parent.getChildCount();i++){
+                LinearLayout ll_child = (LinearLayout) parent.getChildAt(i);
+                TextView tv_childs = (TextView) ll_child.getChildAt(0);
+                tv_childs.setBackgroundResource(R.drawable.drawable_mmt_circular_tv);
+            }
+            TextView tv_selected = (TextView) ll_container.getChildAt(0);
+            tv_selected.setBackgroundColor(Color.YELLOW);
+            mmt_selected=tv_selected.getText().toString();
+            tv_selected.setBackgroundResource(R.drawable.drawable_mmt_grade_selected);
+        }
+    };
 
 
 
@@ -1577,6 +1659,7 @@ public class MonitorActivity extends AppCompatActivity {
                                 object.put("symptoms",BodyPartSelection.symptoms);
                                 object.put("activetime",tv_action_time.getText().toString());
                                 object.put("orientation", orientation);
+                                object.put("mmtgrade",mmt_selected);
                                 object.put("repsselected",BodyPartSelection.repsselected);
                                 object.put("musclename", BodyPartSelection.musclename);
                                 mqttMessage.setPayload(object.toString().getBytes());
@@ -1977,5 +2060,11 @@ public class MonitorActivity extends AppCompatActivity {
                 }
             });
         }
+
+
+
+    }
+    private void showToast(String message){
+        Toast.makeText(MonitorActivity.this, message, Toast.LENGTH_SHORT).show();
     }
 }

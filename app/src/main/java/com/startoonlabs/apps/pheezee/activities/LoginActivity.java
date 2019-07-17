@@ -398,7 +398,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     disablePreviousView();
                     enableWelcomeView();
-                    setWelcomeText("Loging in..");
+                    setWelcomeText("Logging in..");
                     dottedProgressBar.startProgress();
                 }
             }
