@@ -44,12 +44,15 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,11 +65,14 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.startoonlabs.apps.pheezee.R;
+import com.startoonlabs.apps.pheezee.adapters.BodyPartWithMmtRecyclerView;
 import com.startoonlabs.apps.pheezee.classes.BluetoothSingelton;
+import com.startoonlabs.apps.pheezee.classes.BodyPartWithMmtSelectionModel;
 import com.startoonlabs.apps.pheezee.services.MqttHelper;
 import com.startoonlabs.apps.pheezee.utils.AngleOperations;
 import com.startoonlabs.apps.pheezee.utils.BatteryOperation;
 import com.startoonlabs.apps.pheezee.utils.ByteToArrayOperations;
+import com.startoonlabs.apps.pheezee.utils.MuscleOperation;
 import com.startoonlabs.apps.pheezee.utils.NetworkOperations;
 import com.startoonlabs.apps.pheezee.utils.PatientOperations;
 import com.startoonlabs.apps.pheezee.utils.ValueBasedColorOperations;
@@ -90,10 +96,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import static com.startoonlabs.apps.pheezee.adapters.BodyPartWithMmtRecyclerView.selectedPosition;
+
 public class MonitorActivity extends AppCompatActivity {
 
     //session inserted on server
-    private boolean session_inserted_in_server = false;
+    private boolean session_inserted_in_server = false, sessionCompleted = false;
     //MMT
     private String mmt_selected = "";
     //max min angle emg showing views
@@ -378,6 +386,7 @@ public class MonitorActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(timer.getVisibility()==View.GONE){
+                    sessionCompleted=true;
                     PatientsView.sessionStarted = false;
 
                     timer.setBackgroundResource(R.drawable.rounded_start_button);
@@ -422,6 +431,7 @@ public class MonitorActivity extends AppCompatActivity {
         stopBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                sessionCompleted=true;
                 PatientsView.sessionStarted = false;
                 cancelBtn.setVisibility(View.GONE);
                 timer.setBackgroundResource(R.drawable.rounded_start_button);
@@ -625,7 +635,7 @@ public class MonitorActivity extends AppCompatActivity {
 
 
     public void startSession(){
-        session_inserted_in_server = false;
+        session_inserted_in_server = false;sessionCompleted=false;
         mmt_selected="";ui_rate = 0;rate=0;devicePopped=false;
         PatientsView.sessionStarted = true;
         isSessionRunning = true;
@@ -965,8 +975,9 @@ public class MonitorActivity extends AppCompatActivity {
                         }
                         Message message = Message.obtain();
                         message.obj = sub_byte;
-
-                        myHandler.sendMessage(message);
+                        if(!sessionCompleted) {
+                            myHandler.sendMessage(message);
+                        }
 //                        new MyAsync().execute(sub_byte);
 //                        async = new MyAsync();
 //                        async.execute(sub_byte);
@@ -1077,7 +1088,6 @@ public class MonitorActivity extends AppCompatActivity {
     @SuppressLint("HandlerLeak")
     public final Handler myHandler = new Handler() {
         public void handleMessage(Message message ) {
-
             int angleDetected=0,num_of_reps=0, hold_time_minutes, hold_time_seconds, active_time_minutes,active_time_seconds;
             int[] emg_data;
             byte[] sub_byte;
@@ -1197,12 +1207,27 @@ public class MonitorActivity extends AppCompatActivity {
             if(active_time_seconds<10)
                 secondsValue = "0"+active_time_seconds;
             tv_action_time.setText(minutesValue+"m: "+secondsValue+"s");
+            if(num_of_reps>=BodyPartSelection.repsselected && BodyPartSelection.repsselected!=0){
+                sessionCompleted=true;
+                openSuccessfullDialogAndCloseSession();
+            }
         }
     };
 
-
-
-
+    private void openSuccessfullDialogAndCloseSession() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(MonitorActivity.this);
+        builder.setTitle("Session Completed");
+        builder.setMessage("You have reached the goal.");
+        final AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+        stopBtn.performClick();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                alertDialog.cancel();
+            }
+        },2000);
+    }
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -1533,21 +1558,22 @@ public class MonitorActivity extends AppCompatActivity {
         pw.setContentView(layout);
         pw.setFocusable(true);
         pw.showAtLocation(view, Gravity.CENTER, 0, 0);
-        final EditText et_exercise_name = layout.findViewById(R.id.comment_exercise_name);
-        final EditText et_comment_section = layout.findViewById(R.id.comment_et_comment);
-        et_exercise_name.setText(BodyPartSelection.exercisename);
-        et_comment_section.setText(BodyPartSelection.commentsession);
+        final Spinner sp_exercise_name = layout.findViewById(R.id.sp_exercise_name);
+        final TextView tv_exercise_name = layout.findViewById(R.id.popup_comment_tv_exercise_name);
 
+        final EditText et_comment_section = layout.findViewById(R.id.comment_et_comment);
+        et_comment_section.setText(BodyPartSelection.commentsession);
         Button btn_continue = layout.findViewById(R.id.comment_btn_continue);
         Button btn_cancel = layout.findViewById(R.id.comment_btn_cancel);
         Button set_reference = layout.findViewById(R.id.comment_btn_setreference);
         set_reference.setVisibility(View.GONE);
+        tv_exercise_name.setVisibility(View.GONE);
+        sp_exercise_name.setVisibility(View.GONE);
         btn_cancel.setVisibility(View.VISIBLE);
         btn_continue.setText("save");
         btn_continue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BodyPartSelection.exercisename = et_exercise_name.getText().toString();
                 BodyPartSelection.commentsession = et_comment_section.getText().toString();
                 JSONObject object = new JSONObject();
                 MqttMessage message = new MqttMessage();
@@ -1558,7 +1584,7 @@ public class MonitorActivity extends AppCompatActivity {
                     object.put("heldon",dateString);
                     object.put("painscale",BodyPartSelection.painscale);
                     object.put("muscletone",BodyPartSelection.muscletone);
-                    object.put("exercisename",et_exercise_name.getText().toString());
+                    object.put("exercisename",BodyPartSelection.exercisename);
                     object.put("commentsession",et_comment_section.getText().toString());
                     object.put("symptoms",BodyPartSelection.symptoms);
 

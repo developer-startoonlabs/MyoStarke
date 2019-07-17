@@ -66,7 +66,7 @@ public class SessionReportActivity extends AppCompatActivity {
     ImageView iv_go_back;
 
 
-    public static String patientId , phizioemail;
+    public static String patientId="", phizioemail="", patientName="";
     String mqtt_publish_getpatientReport_response = "patient/generate/report/response";
     String mqtt_publish_getpatientReport = "patient/generate/report";
 
@@ -81,7 +81,7 @@ public class SessionReportActivity extends AppCompatActivity {
 
         patientId = getIntent().getStringExtra("patientid");
         phizioemail = getIntent().getStringExtra("phizioemail");
-
+        patientName = getIntent().getStringExtra("patientname");
         mqttHelper = new MqttHelper(this);
         progress = new ProgressDialog(this);
         progress.setMessage("Generating report");

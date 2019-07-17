@@ -41,13 +41,13 @@ public class Scanner extends AppCompatActivity   implements BarcodeReader.Barcod
     public void onScanned(Barcode barcode) {
         Intent intent = new Intent(this, PatientsView.class);
         boolean isMac = validate(barcode.displayValue);
-        Log.i("m.find", String.valueOf(isMac));
         if(isMac) {
             Log.i("mac add","true");
             editor.putString("deviceMacaddress", barcode.displayValue);
             editor.commit();
         }
 //        intent.putExtra("macAddress", barcode.displayValue);
+        PatientsView.disconnectDevice();
         startActivity(intent);
         finish();
     }

@@ -152,7 +152,7 @@ public class PatientsView extends AppCompatActivity
     final CharSequence[] items = { "Take Photo", "Choose from Library",
             "Cancel" };
 
-    final CharSequence[] peezee_items = { "Scan Nearby Devices", "Enter Mac Address",
+    final CharSequence[] peezee_items = { "Scan Nearby Devices",
             "Qrcode Scan", "Cancel" };
 
 
@@ -1491,30 +1491,7 @@ public class PatientsView extends AppCompatActivity
                     }
                     else
                         startActivity(to_scan_devices_activity);
-                } else if (peezee_items[item].equals("Enter Mac Address")) {
-                    builder = new AlertDialog.Builder(PatientsView.this,R.style.AlertDialogStyle_entermac);
-                    builder.setTitle("ENTER THE MAC ADDRESS");
-                    final EditText input_macAddress = new EditText(PatientsView.this);
-
-                    builder.setMessage("Please enter the mac address and press connect");
-                    input_macAddress.setInputType(InputType.TYPE_CLASS_TEXT);
-                    builder.setView(input_macAddress);
-                    builder.setPositiveButton("CONNECT", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            editor.putString("deviceMacaddress", input_macAddress.getText().toString());
-                            editor.commit();
-                        }
-                    });
-                    builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    });
-                    builder.show();
-
-                } else if (peezee_items[item].equals("Qrcode Scan")) {
+                }  else if (peezee_items[item].equals("Qrcode Scan")) {
                     startActivity(new Intent(PatientsView.this, Scanner.class));
                 }
                 else{

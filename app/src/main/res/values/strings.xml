@@ -286,6 +286,7 @@
     <string name="comment_if_any">Comment(if any)</string>
     <string name="continue_session">Continue</string>
     <string name="symptomps">Symptoms?</string>
+    <string name="reference">Set Reference</string>
 
 
 </resources>

@@ -49,6 +49,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.startoonlabs.apps.pheezee.activities.SessionReportActivity.patientId;
+import static com.startoonlabs.apps.pheezee.activities.SessionReportActivity.patientName;
 import static com.startoonlabs.apps.pheezee.activities.SessionReportActivity.phizioemail;
 
 public class FragmentReportDay extends Fragment {
@@ -185,14 +186,13 @@ public class FragmentReportDay extends Fragment {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         Log.i("Response", response.body().toString());
-                        File file = writeResponseBodyToDisk(response.body(), phizioemail+"-"+patientId);
+                        File file = writeResponseBodyToDisk(response.body(), patientName+"-day-"+patientId);
                         if (file != null) {
                             Intent target = new Intent(Intent.ACTION_VIEW);
                             target.setDataAndType(FileProvider.getUriForFile(getActivity(), getActivity().getPackageName() + ".my.package.name.provider", file), "application/pdf");
                             target.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                             target.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
-                            Intent intent = Intent.createChooser(target, "Open File");
                             try {
                                 startActivity(target);
                             } catch (ActivityNotFoundException e) {
@@ -220,7 +220,7 @@ public class FragmentReportDay extends Fragment {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 Log.i("Response", response.body().toString());
-                File file = writeResponseBodyToDisk(response.body(), phizioemail+"-"+patientId);
+                File file = writeResponseBodyToDisk(response.body(), patientName+"-day-"+patientId);
                 if (file != null) {
                     Intent target = new Intent(Intent.ACTION_VIEW);
                     target.setDataAndType(FileProvider.getUriForFile(getActivity(), getActivity().getPackageName() + ".my.package.name.provider", file), "application/pdf");
