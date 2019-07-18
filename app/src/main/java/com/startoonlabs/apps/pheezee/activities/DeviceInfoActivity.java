@@ -106,10 +106,10 @@ public class DeviceInfoActivity extends AppCompatActivity {
         if(!getIntent().getStringExtra("deviceMacAddress").equals(""))
             remoteDevice = bluetoothAdapter.getRemoteDevice(getIntent().getStringExtra("deviceMacAddress"));
         //Log.i("Remote Device",remoteDevice.getName());
-        if(remoteDevice!=null){
-            tv_device_mamc.setText(remoteDevice.getAddress());
-            tv_device_name.setText(remoteDevice.getName());
-        }
+//        if(remoteDevice!=null){
+//            tv_device_mamc.setText(remoteDevice.getAddress());
+//            tv_device_name.setText(remoteDevice.getName());
+//        }
 
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
@@ -318,6 +318,7 @@ public class DeviceInfoActivity extends AppCompatActivity {
                 String conn_status = (String)msg.obj;
                 if(conn_status.equalsIgnoreCase("Connected")){
                     tv_disconnect_forget.setText("Disconnect");
+                    tv_device_mamc.setText(remoteDevice.getAddress());
                 }
                 else {
                     tv_disconnect_forget.setText("Forget previous device");
@@ -328,12 +329,13 @@ public class DeviceInfoActivity extends AppCompatActivity {
 
 
     @SuppressLint("HandlerLeak")
-    public final Handler batteryStatus = new Handler(){
+    public final Handler deviceNameHandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
             tv_battery_level.setText(msg.obj.toString().concat("%"));
         }
     };
+
 
 
     @Override

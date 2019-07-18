@@ -116,7 +116,7 @@ public class PatientsView extends AppCompatActivity
     public static boolean deviceState = true, connectPressed = false, deviceBatteryUsbState = false,sessionStarted = false;
     public static int deviceBatteryPercent=0;
     public static boolean insideMonitor = false;
-    private boolean insidePatientViewActivity;
+    private boolean insidePatientViewActivity = true;
     RelativeLayout rl_cap_view;
     Toast connected_disconnected_toast;
     ConstraintLayout cl_phizioProfileNavigation;

@@ -133,7 +133,7 @@
     <!--App info related tags-->
     <string name="app_info">Application Info</string>
     <string name="app_version">Application Version</string>
-    <string name="application_version">2.2.0</string>
+    <string name="application_version">2.2.2</string>
 
     <!--phizio profile related tags-->
     <string name="your_profile">Your Profile</string>

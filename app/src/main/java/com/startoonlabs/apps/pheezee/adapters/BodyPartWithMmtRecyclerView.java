@@ -227,7 +227,7 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
             @Override
             public void onClick(View v) {
                 //left orientation is selected
-                orientationSelected = "left";
+                orientationSelected = "Left";
                 holder.rl_left_right.setVisibility(View.INVISIBLE);
                 holder.iv_bodypart.setVisibility(View.VISIBLE);
                 //Make the left overlay visivle and the spinner or mmt baset on the previous history
@@ -249,7 +249,7 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
             @Override
             public void onClick(View v) {
                 //Right orientation is selected
-                orientationSelected = "right";
+                orientationSelected = "Right";
 
                 holder.rl_left_right.setVisibility(View.INVISIBLE);
 

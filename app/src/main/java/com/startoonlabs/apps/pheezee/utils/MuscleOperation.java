@@ -36,19 +36,18 @@ public class MuscleOperation {
 
 
     private final static String[][] exercise_names = {
-            {"Select Exercise*", "Flexion", "Extension", "Supination","Pronation", "Lateral Rotation", "Medial rotation", "Forearm pronation"},//elbow
+            {"Select Exercise*", "Flexion", "Extension", "Medial rotation", "Lateral Rotation", "Pronation", "Supination"},//elbow
 
             {"Select Exercise*", "Flexion", "Extension", "Medial Rotation", "Lateral Rotation"}, //Knee
 
-            {"Select Exercise*", "Plantarflexion", "Inversion", "Eversion", "Dorsiflexion"},    //Ankle
+            {"Select Exercise*", "Dorsiflexion", "Plantarflexion", "Inversion", "Eversion"},    //Ankle
 
-            {"Select Exercise*", "Flexion", "Extension", "Adduction", "Abduction", "Medial Rotation", "Lateral Rotation"},  //Hip
+            {"Select Exercise*", "Flexion", "Extension", "Abduction", "Adduction", "Medial Rotation", "Lateral Rotation"},  //Hip
 
-            {"Select Exercise*", "flexion", "extension", "radial deviation", "ulnar deviation",
-                    "Forearm pronation", "Forearm supination"},  //Wrist
+            {"Select Exercise*", "Flexion", "Extension", "Radial deviation", "Ulnar deviation"},  //Wrist
 
-            {"Select Exercise*", "Adduction", "Abduction", "Flexion", "Extension",  "Protract", "Elevation",
-                    "Depression", "Lateral Rotation", "Medial rotation"},   //Shoulder
+            {"Select Exercise*", "Flexion", "Extension", "Abduction", "Adduction", "Protraction", "Retraction", "Elevation",
+                    "Depression", "Medial rotation", "Lateral Rotation"},   //Shoulder
             {}
     };
 
