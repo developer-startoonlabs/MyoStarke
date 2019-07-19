@@ -37,6 +37,28 @@ public class ValueBasedColorOperations {
     }
 
 
+
+
+    public static int getCOlorBasedOnTheBodyPartAndExerciseName(String bodypart, String exercisename, int max, int min, Context context){
+        int bodyPart;
+        int maxStaticRange = getBodyPartMaximumRange(bodypart);
+        int range = max-min;
+        if((range<(maxStaticRange/3))){
+            Log.i("inside", "less than 3");
+            bodyPart = ContextCompat.getColor(context, R.color.red);
+        }
+        else if((range<((2*maxStaticRange)/3))){
+            Log.i("inside", "less than 2/3");
+            bodyPart = ContextCompat.getColor(context, R.color.average_blue);
+        }
+        else {
+            Log.i("inside", "else");
+            bodyPart = ContextCompat.getColor(context, R.color.good_green);
+        }
+
+        return bodyPart;
+    }
+
     /**
      *
      * @param bodypart
@@ -120,43 +142,31 @@ public class ValueBasedColorOperations {
         }
         return max;
     }
-    public static int getBodyPartMinValue(String bodypart){
-        int range = 0;
-        switch (bodypart.toLowerCase()){
-            case "elbow":{
-                range = -145;
-                break;
-            }
+    private final static int[][] min_values = {
+            {0,0,0,0,0,0,0,0},    //elbow
+            {0,0,0,0,0,0},          //knee
+            {0,0,0,0,0,0},             //ankle
+            {0,0,0,0,0,0,0,0},  //Hip
+            {0,0,0,0,0,0},             //wrist
+            {0,0,0,0,0,0,0,0,0,0,0,0}, //shoulder
+            {0,0}
+            //elbow
+    };
+    public static int getBodyPartMinValue(int bodypart, int exercisename){
+        return min_values[bodypart][exercisename];
+    }
 
-            case "knee":{
-                range = 0;
-                break;
-            }
+    private final static int[][] max_values = {
+            {0,160,145,90,90,90,90,160},    //elbow
+            {0,150,150,45,45,150},          //knee
+            {0,30,50,35,25,50},             //ankle
+            {0,125,115,45,45,125,125,125},  //Hip
+            {0,90,75,25,65,90},             //wrist
+            {0,180,60,184,140,30,30,30,30,180,180,180}, //shoulder
+            {0,0}
+    };
 
-            case "ankle":{
-                range = -30;
-                break;
-            }
-            case "hip":{
-                range = -115;
-                break;
-            }
-
-            case "wrist":{
-                range = -70;
-                break;
-            }
-
-            case "shoulder":{
-                range = -180;
-                break;
-            }
-
-            case "others":{
-                range = 0;
-                break;
-            }
-        }
-        return range;
+    public static int getBodyPartMaxValue(int bodypart, int exercisename){
+        return max_values[bodypart][exercisename];
     }
 }

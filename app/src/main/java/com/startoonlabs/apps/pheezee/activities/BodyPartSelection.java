@@ -350,6 +350,10 @@ public class BodyPartSelection extends AppCompatActivity {
                                 exercisename = sp_exercise_name.getSelectedItem().toString();
                                 exercise_selected_position=position;
                             }
+                            else {
+                                exercisename="";
+                                exercise_selected_position=0;
+                            }
                         }
 
                         @Override
@@ -361,74 +365,80 @@ public class BodyPartSelection extends AppCompatActivity {
                     btn_set_reference.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            JSONObject json_reference = PatientOperations.checkReferenceDone(orientationSelected, BodyPartSelection.this, getPatientId(), bodypartSelected);
-                            final AlertDialog.Builder builder = new AlertDialog.Builder(BodyPartSelection.this);
-                            LayoutInflater inflater = getLayoutInflater();
-                            final View dialogLayout = inflater.inflate(R.layout.popup_set_reference, null);
-                            final EditText et_max_angle = dialogLayout.findViewById(R.id.setreference_et_maxangle);
-                            final EditText et_min_angle = dialogLayout.findViewById(R.id.setreference_et_minangle);
-                            final EditText et_max_emg = dialogLayout.findViewById(R.id.setreference_et_maxemg);
-                            final TextView tv_normal_max = dialogLayout.findViewById(R.id.tv_normal_max);
-                            final TextView tv_normal_min = dialogLayout.findViewById(R.id.tv_normal_min);
-                            final TextView tv_normal_max_text = dialogLayout.findViewById(R.id.normalMaxTest);
-                            final TextView tv_normal_min_text = dialogLayout.findViewById(R.id.normalMinTest);
-                            if (bodypartSelected != null) {
-                                int normal_min = ValueBasedColorOperations.getBodyPartMinValue(bodypartSelected);
-                                int normal_max = ValueBasedColorOperations.getBodyPartMaxValue(bodypartSelected);
-                                tv_normal_max.setText(String.valueOf(normal_max));
-                                tv_normal_min.setText(String.valueOf(normal_min));
-                            }
-                            if (bodypartSelected.equalsIgnoreCase("others")) {
-                                tv_normal_max.setVisibility(View.GONE);
-                                tv_normal_min.setVisibility(View.GONE);
-                                tv_normal_max_text.setVisibility(View.GONE);
-                                tv_normal_min_text.setVisibility(View.GONE);
-                            }
 
-                            if (json_reference != null) {
-                                try {
-                                    et_max_emg.setText(json_reference.getString("maxemg"));
-                                    et_max_angle.setText(json_reference.getString("maxangle"));
-                                    et_min_angle.setText(json_reference.getString("minangle"));
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
+                            if (!exercisename.equalsIgnoreCase("")) {
+                                JSONObject json_reference = PatientOperations.checkReferenceDone(orientationSelected, BodyPartSelection.this, getPatientId(), bodypartSelected);
+                                final AlertDialog.Builder builder = new AlertDialog.Builder(BodyPartSelection.this);
+                                LayoutInflater inflater = getLayoutInflater();
+                                final View dialogLayout = inflater.inflate(R.layout.popup_set_reference, null);
+                                final EditText et_max_angle = dialogLayout.findViewById(R.id.setreference_et_maxangle);
+                                final EditText et_min_angle = dialogLayout.findViewById(R.id.setreference_et_minangle);
+                                final EditText et_max_emg = dialogLayout.findViewById(R.id.setreference_et_maxemg);
+                                final TextView tv_normal_max = dialogLayout.findViewById(R.id.tv_normal_max);
+                                final TextView tv_normal_min = dialogLayout.findViewById(R.id.tv_normal_min);
+                                final TextView tv_normal_max_text = dialogLayout.findViewById(R.id.normalMaxTest);
+                                final TextView tv_normal_min_text = dialogLayout.findViewById(R.id.normalMinTest);
+                                if (bodypartSelected != null) {
+                                    int normal_min = ValueBasedColorOperations.getBodyPartMinValue(selectedPosition,exercise_selected_position);
+                                    int normal_max = ValueBasedColorOperations.getBodyPartMaxValue(selectedPosition,exercise_selected_position);
+                                    tv_normal_max.setText(String.valueOf(normal_max));
+                                    tv_normal_min.setText(String.valueOf(normal_min));
                                 }
-                            }
-                            builder.setPositiveButton("Submit", null);
-                            builder.setView(dialogLayout);
-                            mdialog = builder.create();
-                            mdialog.setOnShowListener(new DialogInterface.OnShowListener() {
-
-                                @Override
-                                public void onShow(final DialogInterface dialog) {
-
-                                    Button p = mdialog.getButton(AlertDialog.BUTTON_POSITIVE);
-                                    p.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View view) {
-                                            boolean flag = true;
-
-                                            String maxEmg = et_max_emg.getText().toString();
-                                            String maxAngle = et_max_angle.getText().toString();
-                                            String minEmg = String.valueOf(0);
-                                            String minAngle = et_min_angle.getText().toString();
-                                            flag = RegexOperations.checkIfNumeric(maxEmg);
-                                            if (flag)
-                                                flag = RegexOperations.checkIfNumeric(minAngle);
-                                            if (flag)
-                                                flag = RegexOperations.checkIfNumeric(maxAngle);
-                                            if (flag)
-                                                sendData(maxAngle, minAngle, maxEmg, minEmg);
-                                            else
-                                                Toast.makeText(BodyPartSelection.this, "Invalid Entry", Toast.LENGTH_SHORT).show();
-
-                                            mdialog.dismiss();
-                                        }
-                                    });
+                                if (bodypartSelected.equalsIgnoreCase("others")) {
+                                    tv_normal_max.setVisibility(View.GONE);
+                                    tv_normal_min.setVisibility(View.GONE);
+                                    tv_normal_max_text.setVisibility(View.GONE);
+                                    tv_normal_min_text.setVisibility(View.GONE);
                                 }
-                            });
 
-                            mdialog.show();
+                                if (json_reference != null) {
+                                    try {
+                                        et_max_emg.setText(json_reference.getString("maxemg"));
+                                        et_max_angle.setText(json_reference.getString("maxangle"));
+                                        et_min_angle.setText(json_reference.getString("minangle"));
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                                builder.setPositiveButton("Submit", null);
+                                builder.setView(dialogLayout);
+                                mdialog = builder.create();
+                                mdialog.setOnShowListener(new DialogInterface.OnShowListener() {
+
+                                    @Override
+                                    public void onShow(final DialogInterface dialog) {
+
+                                        Button p = mdialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                                        p.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                boolean flag = true;
+
+                                                String maxEmg = et_max_emg.getText().toString();
+                                                String maxAngle = et_max_angle.getText().toString();
+                                                String minEmg = String.valueOf(0);
+                                                String minAngle = et_min_angle.getText().toString();
+                                                flag = RegexOperations.checkIfNumeric(maxEmg);
+                                                if (flag)
+                                                    flag = RegexOperations.checkIfNumeric(minAngle);
+                                                if (flag)
+                                                    flag = RegexOperations.checkIfNumeric(maxAngle);
+                                                if (flag)
+                                                    sendData(maxAngle, minAngle, maxEmg, minEmg);
+                                                else
+                                                    Toast.makeText(BodyPartSelection.this, "Invalid Entry", Toast.LENGTH_SHORT).show();
+
+                                                mdialog.dismiss();
+                                            }
+                                        });
+                                    }
+                                });
+
+                                mdialog.show();
+                            }
+                            else {
+                                showToast("Please select exercise name!");
+                            }
                         }
                     });
 

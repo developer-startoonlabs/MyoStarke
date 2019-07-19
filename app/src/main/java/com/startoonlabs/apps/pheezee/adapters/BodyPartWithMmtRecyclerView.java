@@ -275,6 +275,8 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(position!=0)
                     BodyPartSelection.musclename = holder.sp_muscle_name.getSelectedItem().toString();
+                else
+                    BodyPartSelection.musclename="";
             }
 
             @Override

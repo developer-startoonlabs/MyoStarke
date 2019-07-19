@@ -26,7 +26,7 @@ public class MuscleOperation {
 
             {"Select Muscle*", "Pectoralis Major", "Pectoralis Minor", "Serratus Anterior", "Trapezius",  "Latissimus Dorsi", "Deltoid",
                     "Teres Major",  "Teres Minor", "Biceps"},   //Shoulder
-            {}
+            {"Select Muscle*","Others"}
     };
 
 
@@ -36,19 +36,19 @@ public class MuscleOperation {
 
 
     private final static String[][] exercise_names = {
-            {"Select Exercise*", "Flexion", "Extension", "Medial rotation", "Lateral Rotation", "Pronation", "Supination"},//elbow
+            {"Select Exercise*", "Flexion", "Extension", "Medial rotation", "Lateral Rotation", "Pronation", "Supination", "Others"},//elbow
 
-            {"Select Exercise*", "Flexion", "Extension", "Medial Rotation", "Lateral Rotation"}, //Knee
+            {"Select Exercise*", "Flexion", "Extension", "Medial Rotation", "Lateral Rotation", "Others"}, //Knee
 
-            {"Select Exercise*", "Dorsiflexion", "Plantarflexion", "Inversion", "Eversion"},    //Ankle
+            {"Select Exercise*", "Dorsiflexion", "Plantarflexion", "Inversion", "Eversion", "Others"},    //Ankle
 
-            {"Select Exercise*", "Flexion", "Extension", "Abduction", "Adduction", "Medial Rotation", "Lateral Rotation"},  //Hip
+            {"Select Exercise*", "Flexion", "Extension", "Abduction", "Adduction", "Medial Rotation", "Lateral Rotation", "Others"},  //Hip
 
-            {"Select Exercise*", "Flexion", "Extension", "Radial deviation", "Ulnar deviation"},  //Wrist
+            {"Select Exercise*", "Flexion", "Extension", "Radial deviation", "Ulnar deviation", "Others"},  //Wrist
 
             {"Select Exercise*", "Flexion", "Extension", "Abduction", "Adduction", "Protraction", "Retraction", "Elevation",
-                    "Depression", "Medial rotation", "Lateral Rotation"},   //Shoulder
-            {}
+                    "Depression", "Medial rotation", "Lateral Rotation", "Others"},   //Shoulder
+            {"Select Exercise*","Others"}
     };
 
     public static String[] getExerciseNames(int postion){
