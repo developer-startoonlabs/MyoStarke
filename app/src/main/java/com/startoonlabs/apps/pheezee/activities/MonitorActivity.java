@@ -44,6 +44,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -68,6 +69,9 @@ import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.adapters.BodyPartWithMmtRecyclerView;
 import com.startoonlabs.apps.pheezee.classes.BluetoothSingelton;
 import com.startoonlabs.apps.pheezee.classes.BodyPartWithMmtSelectionModel;
+import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
+import com.startoonlabs.apps.pheezee.room.Entity.MqttSync;
+import com.startoonlabs.apps.pheezee.room.PheezeeDatabase;
 import com.startoonlabs.apps.pheezee.services.MqttHelper;
 import com.startoonlabs.apps.pheezee.utils.AngleOperations;
 import com.startoonlabs.apps.pheezee.utils.BatteryOperation;
@@ -102,6 +106,7 @@ public class MonitorActivity extends AppCompatActivity {
 
     //session inserted on server
     private boolean session_inserted_in_server = false, sessionCompleted = false;
+    MqttSyncRepository repository;
     //MMT
     private String mmt_selected = "";
     //max min angle emg showing views
@@ -115,7 +120,6 @@ public class MonitorActivity extends AppCompatActivity {
     SharedPreferences.Editor editor;
     JSONObject json_phizio = new JSONObject();
     JSONArray jsonData, emgJsonArray, romJsonArray;
-    MyAsync async;
     boolean inside_ondestroy = false;
 //    public final int emg_data_size_raw = 20;
 //    public final int emg_num_packets_raw = 40;
@@ -241,7 +245,7 @@ public class MonitorActivity extends AppCompatActivity {
         handler                     = new Handler();
         emgJsonArray                = new JSONArray();
         romJsonArray                = new JSONArray();
-
+        repository = new MqttSyncRepository(getApplication());
 
         iv_back_monitor = findViewById(R.id.iv_back_monitor);
         tv_snap = findViewById(R.id.snap_monitor);
@@ -562,13 +566,15 @@ public class MonitorActivity extends AppCompatActivity {
                     }
 
                 if(topic.equals(mqtt_publish_add_patient_session_emg_data_response+json_phizio.getString("phizioemail"))){
-                    if(message.toString().equals("inserted")){
-                        editor = sharedPreferences.edit();
-                        editor.putString("sync_emg_session","");
-                        editor.apply();
-                        session_inserted_in_server = true;
-                        showToast("INSERTED!");
-                    }
+                        JSONObject object = new JSONObject(message.toString());
+                        if(object.has("response") && object.getString("response").equalsIgnoreCase("inserted")) {
+                            editor = sharedPreferences.edit();
+                            editor.putString("sync_emg_session", "");
+                            editor.apply();
+                            session_inserted_in_server = true;
+                            repository.deleteParticular(object.getInt("id"));
+                            showToast("INSERTED!");
+                        }
                 }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -635,6 +641,7 @@ public class MonitorActivity extends AppCompatActivity {
 
 
     public void startSession(){
+        updateGainView();
         session_inserted_in_server = false;sessionCompleted=false;
         mmt_selected="";ui_rate = 0;rate=0;devicePopped=false;
         PatientsView.sessionStarted = true;
@@ -716,6 +723,11 @@ public class MonitorActivity extends AppCompatActivity {
             pheezeeState = true;
             handler.postDelayed(runnable, 0);
         }
+    }
+
+    private void updateGainView() {
+        btn_emg_decrease_gain.setBackgroundResource(android.R.drawable.btn_default);
+        btn_emg_increase_gain.setBackgroundResource(android.R.drawable.btn_default);
     }
 
     private void insertValuesAndNotifyMediaStore() {
@@ -977,10 +989,8 @@ public class MonitorActivity extends AppCompatActivity {
                         message.obj = sub_byte;
                         if(!sessionCompleted) {
                             myHandler.sendMessage(message);
+//                            new MyValueViewAsyncTask().execute(sub_byte);
                         }
-//                        new MyAsync().execute(sub_byte);
-//                        async = new MyAsync();
-//                        async.execute(sub_byte);
 
                         try {
                             sessionResult.put(message);
@@ -997,7 +1007,7 @@ public class MonitorActivity extends AppCompatActivity {
                     message.obj = sub_byte;
 
                     myHandler.sendMessage(message);
-//                        new MyAsync().execute(sub_byte);
+//                        new MyValueViewAsyncTask().execute(sub_byte);
 
                     try {
                         sessionResult.put(message);
@@ -1163,7 +1173,7 @@ public class MonitorActivity extends AppCompatActivity {
                 }
                 emgJsonArray.put(emg_data[i]);
 
-                EMG.setText(Integer.toString(emg_data[i]).concat(getResources().getString(R.string.emg_unit)));
+
 
 
                 try {
@@ -1179,7 +1189,7 @@ public class MonitorActivity extends AppCompatActivity {
                 tv_max_emg.setText(String.valueOf(maxEmgValue));
                 params.height = (int) (((View) emgSignal.getParent()).getMeasuredHeight() * emg_data[i] / maxEmgValue);
             }
-
+            EMG.setText(Integer.toString(emg_data[emg_data.length-1]).concat(getResources().getString(R.string.emg_unit)));
             lineChart.notifyDataSetChanged();
             lineChart.invalidate();
             lineChart.getXAxis();
@@ -1628,7 +1638,7 @@ public class MonitorActivity extends AppCompatActivity {
                             }
                             jsonData.getJSONObject(i).put("numofsessions",""+numofsessions);
                             JSONObject object = new JSONObject();
-                            Log.i("datestring","2019-04-22 13:08:34");
+                            //Log.i("datestring","2019-04-22 13:08:34");
                             object.put("heldon",dateString);
                             object.put("maxangle",maxAngle);
                             object.put("minangle",minAngle);
@@ -1637,7 +1647,6 @@ public class MonitorActivity extends AppCompatActivity {
                             object.put("holdtime",holdTime.getText().toString());
                             object.put("bodypart",bodypart);
                             object.put("sessiontime",tempsession);
-
                             object.put("numofreps",Repetitions.getText().toString());
                             json_phizio.put("phiziopatients",jsonData);
                             editor = sharedPreferences.edit();
@@ -1646,67 +1655,19 @@ public class MonitorActivity extends AppCompatActivity {
                             object.put("numofsessions",""+numofsessions);
                             object.put("phizioemail",json_phizio.get("phizioemail"));
                             object.put("patientid",patientId.getText().toString());
-
-                            //mqtt publishing
-
-                            MqttMessage mqttMessage = new MqttMessage();
-                            mqttMessage.setPayload(object.toString().getBytes());
-
                             object.put("emgdata",emgJsonArray);
                             object.put("romdata",romJsonArray);
-//                            object.put("painscale",)
-                            editor = sharedPreferences.edit();
-                            if(NetworkOperations.isNetworkAvailable(MonitorActivity.this)) {
-                                mqttHelper.publishMqttTopic(mqtt_publish_add_patient_session, mqttMessage);
-                            }
-                                JSONObject temp = new JSONObject();
-                                temp.put("topic",mqtt_publish_add_patient_session);
-                                temp.put("message",mqttMessage.toString());
-
-                                editor = sharedPreferences.edit();
-                                if(!sharedPreferences.getString("sync_session","").equals("")){
-                                    array = new JSONArray(sharedPreferences.getString("sync_session",""));
-                                    array.put(temp);
-                                    editor.putString("sync_session",array.toString());
-                                    editor.commit();
-                                }
-                                else {
-                                    array = new JSONArray();
-                                    array.put(temp);
-                                    editor.putString("sync_session",array.toString());
-                                    editor.commit();
-                                }
-                                //clearing the previuos mqtt message
-                                mqttMessage.clearPayload();
-                                object.put("painscale",BodyPartSelection.painscale);
-                                object.put("muscletone",BodyPartSelection.muscletone);
-                                object.put("exercisename",BodyPartSelection.exercisename);
-                                object.put("commentsession",BodyPartSelection.commentsession);
-                                object.put("symptoms",BodyPartSelection.symptoms);
-                                object.put("activetime",tv_action_time.getText().toString());
-                                object.put("orientation", orientation);
-                                object.put("mmtgrade",mmt_selected);
-                                object.put("repsselected",BodyPartSelection.repsselected);
-                                object.put("musclename", BodyPartSelection.musclename);
-                                mqttMessage.setPayload(object.toString().getBytes());
-
-                                temp = new JSONObject();
-                                temp.put("topic",mqtt_publish_add_patient_session_emg_data);
-                                temp.put("message",mqttMessage.toString());
-                                if(NetworkOperations.isNetworkAvailable(MonitorActivity.this))
-                                    mqttHelper.publishMqttTopic(mqtt_publish_add_patient_session_emg_data, mqttMessage);
-                                if(!sharedPreferences.getString("sync_session","").equals("")){
-                                    array = new JSONArray(sharedPreferences.getString("sync_session",""));
-                                    array.put(temp);
-                                    editor.putString("sync_session",array.toString());
-                                    editor.commit();
-                                }
-                                else {
-                                    array = new JSONArray();
-                                    array.put(temp);
-                                    editor.putString("sync_session",array.toString());
-                                    editor.commit();
-                                }
+                            object.put("painscale",BodyPartSelection.painscale);
+                            object.put("muscletone",BodyPartSelection.muscletone);
+                            object.put("exercisename",BodyPartSelection.exercisename);
+                            object.put("commentsession",BodyPartSelection.commentsession);
+                            object.put("symptoms",BodyPartSelection.symptoms);
+                            object.put("activetime",tv_action_time.getText().toString());
+                            object.put("orientation", orientation);
+                            object.put("mmtgrade",mmt_selected);
+                            object.put("repsselected",BodyPartSelection.repsselected);
+                            object.put("musclename", BodyPartSelection.musclename);
+                            new SendDataAsyncTask().execute(object);
                             }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -1892,205 +1853,237 @@ public class MonitorActivity extends AppCompatActivity {
     }
 
 
-
-    private class MyAsync extends AsyncTask<byte[],Void,Void> {
+    public class MyValueViewAsyncTask extends AsyncTask<byte[],Void,JSONObject>{
 
         @Override
-        protected Void doInBackground(byte[]... bytes) {
-            rate+=20;
-            final int[] angleDetected = {0};
-            int num_of_reps = 0;
-            final int hold_time_minutes;
-            final int hold_time_seconds;
-            final int active_time_minutes;
-            final int active_time_seconds;
-            final int[] emg_data;
+        protected JSONObject doInBackground(byte[]... bytes) {
+            JSONObject object = new JSONObject();
+            int angleDetected=0,num_of_reps=0, hold_time_minutes, hold_time_seconds, active_time_minutes,active_time_seconds;
+            int[] emg_data;
             byte[] sub_byte;
             sub_byte = bytes[0];
-            emg_data = ByteToArrayOperations.constructEmgDataWithGain(sub_byte, software_gain);
-            angleDetected[0] = ByteToArrayOperations.getAngleFromData(sub_byte[40], sub_byte[41]);
-            if (ui_rate == 0) {
-                minAngle = angleDetected[0];
-                maxAngle = angleDetected[0];
+            emg_data = ByteToArrayOperations.constructEmgDataWithGain(sub_byte,software_gain);
+            angleDetected = ByteToArrayOperations.getAngleFromData(sub_byte[40],sub_byte[41]);
+            if(ui_rate==0){
+                minAngle = angleDetected;
+                maxAngle = angleDetected;
             }
             num_of_reps = ByteToArrayOperations.getNumberOfReps(sub_byte[42], sub_byte[43]);
             hold_time_minutes = sub_byte[44];
             hold_time_seconds = sub_byte[45];
             active_time_minutes = sub_byte[46];
             active_time_seconds = sub_byte[47];
-            Log.i("active time", active_time_minutes + "m " + active_time_seconds + "s");
-            currentAngle = angleDetected[0];
-            String angleValue = "" + angleDetected[0];
-            final String repetitionValue = "" + num_of_reps;
-
-            final String[] minutesValue = {"" + hold_time_minutes};
-            final String[] secondsValue = {"" + hold_time_seconds};
-            if (hold_time_minutes < 10)
-                minutesValue[0] = "0" + hold_time_minutes;
-            if (hold_time_seconds < 10)
-                secondsValue[0] = "0" + hold_time_seconds;
-            holdTimeValue = minutesValue[0] + " : " + secondsValue[0];
-
-            if (rate%60==0) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Repetitions.setText(repetitionValue);
-                        if (angleCorrected) {
-                            angleDetected[0] += angleCorrection;
-                            arcViewInside.setMaxAngle(angleDetected[0]);
-                        } else {
-                            arcViewInside.setMaxAngle(angleDetected[0]);
-                        }
-
-                        romJsonArray.put(angleDetected[0]);
-                        try {
-                            outputStream_session_romdata = new FileOutputStream(file_session_romdata, true);
-                            outputStream_session_romdata.write(String.valueOf(angleDetected[0]).getBytes());
-                            outputStream_session_romdata.write("\n".getBytes());
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        try {
-
-                            outputStream_session_romdata.flush();
-                            outputStream_session_romdata.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-
-                        LinearLayout.LayoutParams params;
-                        params = (LinearLayout.LayoutParams) emgSignal.getLayoutParams();
-                        for (int i = 0; i < emg_data.length; i++) {
-                            ++ui_rate;
-                            lineData.addEntry(new Entry((float) ui_rate / 1000, emg_data[i]), 0);
-                            lineChart.notifyDataSetChanged();
-                            lineChart.invalidate();
-                            lineChart.getXAxis();
-                            lineChart.getAxisLeft();
-                            lineChart.getAxisLeft().setValueFormatter(new IAxisValueFormatter() {
-                                @Override
-                                public String getFormattedValue(float value, AxisBase axis) {
-                                    return (int) value + getResources().getString(R.string.emg_unit);
-                                }
-                            });
-                            if (UpdateTime / 1000 > 3)
-                                lineChart.setVisibleXRangeMaximum(5f);
-                            lineChart.moveViewToX((float) ui_rate / 1000);
-
-                            try {
-                                outputStream_session_emgdata = new FileOutputStream(file_session_emgdata, true);
-                                outputStream_session_emgdata.write(String.valueOf(emg_data[i]).getBytes());
-                                outputStream_session_emgdata.write("\n".getBytes());
-                            } catch (FileNotFoundException e) {
-                                e.printStackTrace();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            emgJsonArray.put(emg_data[i]);
-
-                            EMG.setText(Integer.toString(emg_data[i]).concat(getResources().getString(R.string.emg_unit)));
+            Log.i("active time",active_time_minutes+"m "+active_time_seconds+"s");
+            currentAngle=angleDetected;
+            String angleValue = ""+angleDetected;
+            String repetitionValue = ""+num_of_reps;
+//            Repetitions.setText(repetitionValue);
+            try {
+                object.put("reps",repetitionValue);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            String minutesValue=""+hold_time_minutes,secondsValue=""+hold_time_seconds;
+            if(hold_time_minutes<10)
+                minutesValue = "0"+hold_time_minutes;
+            if(hold_time_seconds<10)
+                secondsValue = "0"+hold_time_seconds;
+            holdTimeValue = minutesValue+"m: "+secondsValue+"s";
 
 
-                            try {
-                                outputStream_session_emgdata.flush();
-                                outputStream_session_emgdata.close();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
 
-                            maxEmgValue = maxEmgValue < emg_data[i] ? emg_data[i] : maxEmgValue;
-                            if (maxEmgValue == 0)
-                                maxEmgValue = 1;
-                            tv_max_emg.setText(String.valueOf(maxEmgValue));
-                            params.height = (int) (((View) emgSignal.getParent()).getMeasuredHeight() * emg_data[i] / maxEmgValue);
-                        }
-                        maxAngle = maxAngle < angleDetected[0] ? angleDetected[0] : maxAngle;
-                        tv_max_angle.setText(String.valueOf(maxAngle));
-                        minAngle = minAngle > angleDetected[0] ? angleDetected[0] : minAngle;
-                        tv_min_angle.setText(String.valueOf(minAngle));
+            //Custom thresholds
+//            if(angleDetected>=minAnglePart && angleDetected<=maxAnglePart) {
+//                rangeOfMotion.setAngle(angleDetected);
+
+            if(angleCorrected) {
+                angleDetected+=angleCorrection;
+//                arcViewInside.setMaxAngle(angleDetected);
+            }
+//            else {
+//                arcViewInside.setMaxAngle(angleDetected);
 //            }
-                        emgSignal.setLayoutParams(params);
-                        holdTime.setText(holdTimeValue);
-                        minutesValue[0] = "" + active_time_minutes;
-                        secondsValue[0] = "" + active_time_seconds;
-                        if (active_time_minutes < 10)
-                            minutesValue[0] = "0" + active_time_minutes;
-                        if (active_time_seconds < 10)
-                            secondsValue[0] = "0" + active_time_seconds;
-                        tv_action_time.setText(minutesValue[0] + " : " + secondsValue[0]);
-                    }
-                });
-            } else {
-                if (angleCorrected) {
-                    angleDetected[0] += angleCorrection;
-//                    arcViewInside.setMaxAngle(angleDetected[0]);
-                } else {
-//                    arcViewInside.setMaxAngle(angleDetected[0]);
-                }
+            try {
+                object.put("angle",angleDetected);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
-                romJsonArray.put(angleDetected[0]);
+            romJsonArray.put(angleDetected);
+            try {
+                outputStream_session_romdata = new FileOutputStream(file_session_romdata, true);
+                outputStream_session_romdata.write(String.valueOf(angleDetected).getBytes());
+                outputStream_session_romdata.write("\n".getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+
+                outputStream_session_romdata.flush();
+                outputStream_session_romdata.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            LinearLayout.LayoutParams params;
+            params = (LinearLayout.LayoutParams) emgSignal.getLayoutParams();
+            for (int i=0;i<emg_data.length;i++) {
+                ++ui_rate;
+
+                lineData.addEntry(new Entry((float) ui_rate / 1000, emg_data[i]), 0);
+
                 try {
-                    outputStream_session_romdata = new FileOutputStream(file_session_romdata, true);
-                    outputStream_session_romdata.write(String.valueOf(angleDetected[0]).getBytes());
-                    outputStream_session_romdata.write("\n".getBytes());
+                    outputStream_session_emgdata = new FileOutputStream(file_session_emgdata, true);
+                    outputStream_session_emgdata.write(String.valueOf(emg_data[i]).getBytes());
+                    outputStream_session_emgdata.write("\n".getBytes());
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                try {
+                emgJsonArray.put(emg_data[i]);
 
-                    outputStream_session_romdata.flush();
-                    outputStream_session_romdata.close();
+                if(i==emg_data.length-1) {
+                    try {
+                        object.put("emg_last", emg_data[i]);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                try {
+                    outputStream_session_emgdata.flush();
+                    outputStream_session_emgdata.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
-                for (int i = 0; i < emg_data.length; i++) {
-                    ++ui_rate;
-                    lineData.addEntry(new Entry((float) ui_rate / 1000, emg_data[i]), 0);
-
-                    try {
-                        outputStream_session_emgdata = new FileOutputStream(file_session_emgdata, true);
-                        outputStream_session_emgdata.write(String.valueOf(emg_data[i]).getBytes());
-                        outputStream_session_emgdata.write("\n".getBytes());
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    emgJsonArray.put(emg_data[i]);
-                    try {
-                        outputStream_session_emgdata.flush();
-                        outputStream_session_emgdata.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    maxEmgValue = maxEmgValue < emg_data[i] ? emg_data[i] : maxEmgValue;
-                    if (maxEmgValue == 0)
-                        maxEmgValue = 1;
+                maxEmgValue = maxEmgValue < emg_data[i] ? emg_data[i] : maxEmgValue;
+                if (maxEmgValue == 0)
+                    maxEmgValue = 1;
+                try {
+                    object.put("maxemg",String.valueOf(maxEmgValue));
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-                maxAngle = maxAngle < angleDetected[0] ? angleDetected[0] : maxAngle;
-                minAngle = minAngle > angleDetected[0] ? angleDetected[0] : minAngle;
+//                tv_max_emg.setText(String.valueOf(maxEmgValue));
+                params.height = ((View) emgSignal.getParent()).getMeasuredHeight() * emg_data[i] / maxEmgValue;
+            }
+
+            //check out
+//            lineChart.notifyDataSetChanged();
+//            lineChart.invalidate();
+//            lineChart.getXAxis();
+//            lineChart.getAxisLeft();
+//            lineChart.getAxisLeft().setValueFormatter(new IAxisValueFormatter() {
+//                @Override
+//                public String getFormattedValue(float value, AxisBase axis) {
+//                    return (int) value + getResources().getString(R.string.emg_unit);
+//                }
+//            });
+//            if (UpdateTime / 1000 > 3)
+//                lineChart.setVisibleXRangeMaximum(5f);
+//            lineChart.moveViewToX((float) ui_rate / 1000);
+
+            maxAngle = maxAngle < angleDetected ? angleDetected : maxAngle;
+//            tv_max_angle.setText(String.valueOf(maxAngle));
+
+            minAngle = minAngle > angleDetected ? angleDetected : minAngle;
+//            tv_min_angle.setText(String.valueOf(minAngle));
+
 //            }
+
+            try {
+                object.put("params",params);
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+//            holdTime.setText(holdTimeValue);
 
-                return null;
+            minutesValue=""+active_time_minutes;secondsValue=""+active_time_seconds;
+            if(active_time_minutes<10)
+                minutesValue = "0"+active_time_minutes;
+            if(active_time_seconds<10)
+                secondsValue = "0"+active_time_seconds;
+//            tv_action_time.setText(minutesValue+"m: "+secondsValue+"s");
+            try {
+                object.put("maxangle",String.valueOf(maxAngle));
+                object.put("minangle",String.valueOf(minAngle));
+                object.put("holdtime",holdTimeValue);
+                object.put("actiontime",minutesValue+"m: "+secondsValue+"s");
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                @Override
-                public void run() {
-                }
-            });
+            if(num_of_reps>=BodyPartSelection.repsselected && BodyPartSelection.repsselected!=0){
+                sessionCompleted=true;
+                openSuccessfullDialogAndCloseSession();
+            }
+            return object;
         }
 
+        @Override
+        protected void onPostExecute(JSONObject jsonObject) {
+            super.onPostExecute(jsonObject);
 
-
+            try {
+                Repetitions.setText(jsonObject.getString("reps"));
+                arcViewInside.setMaxAngle(jsonObject.getInt("angle"));
+                EMG.setText(Integer.toString(jsonObject.getInt("emg_last")).concat(getResources().getString(R.string.emg_unit)));
+                tv_max_emg.setText(jsonObject.getString("maxemg"));
+                tv_max_angle.setText(jsonObject.getString("maxangle"));
+                tv_min_angle.setText(jsonObject.getString("minangle"));
+                holdTime.setText(jsonObject.getString("holdtime"));
+                tv_action_time.setText(jsonObject.getString("actiontime"));
+                emgSignal.setLayoutParams((ViewGroup.LayoutParams) jsonObject.get("params"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            lineChart.notifyDataSetChanged();
+            lineChart.invalidate();
+            lineChart.getXAxis();
+            lineChart.getAxisLeft();
+            lineChart.getAxisLeft().setValueFormatter(new IAxisValueFormatter() {
+                @Override
+                public String getFormattedValue(float value, AxisBase axis) {
+                    return (int) value + getResources().getString(R.string.emg_unit);
+                }
+            });
+            if (UpdateTime / 1000 > 3)
+                lineChart.setVisibleXRangeMaximum(5f);
+            lineChart.moveViewToX((float) ui_rate / 1000);
+        }
     }
+
+
+
     private void showToast(String message){
         Toast.makeText(MonitorActivity.this, message, Toast.LENGTH_SHORT).show();
+    }
+
+
+
+
+    public class SendDataAsyncTask extends AsyncTask<JSONObject,Void,JSONObject>{
+
+        @Override
+        protected JSONObject doInBackground(JSONObject... jsonObjects) {
+            PheezeeDatabase database = PheezeeDatabase.getInstance(MonitorActivity.this);
+            try {
+                jsonObjects[0].put("id",database.mqttSyncDao().insert(new MqttSync(mqtt_publish_add_patient_session_emg_data,jsonObjects[0].toString())));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return jsonObjects[0];
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject jsonObject) {
+            super.onPostExecute(jsonObject);
+            MqttMessage message = new MqttMessage();
+            message.setPayload(jsonObject.toString().getBytes());
+            if(NetworkOperations.isNetworkAvailable(MonitorActivity.this)){
+                mqttHelper.publishMqttTopic(mqtt_publish_add_patient_session_emg_data,message);
+            }
+        }
     }
 }

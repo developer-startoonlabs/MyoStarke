@@ -7,6 +7,8 @@ import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
+
 import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.DisconnectedBufferOptions;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
@@ -61,7 +63,7 @@ public class MqttHelper {
     MqttConnectOptions mqttConnectOptions = new MqttConnectOptions();
 
     private Context ctx;
-    public MqttHelper(Context context){
+    public MqttHelper(final Context context){
         ctx = context;
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
@@ -213,8 +215,6 @@ public class MqttHelper {
                                 message.setPayload(obj.toString().getBytes());
                                 publishMqttTopic(mqtt_get_profile_pic, message);
                             }
-//                            if (isNetworkAvailable())
-//                                syncData();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -406,87 +406,6 @@ public class MqttHelper {
         } catch (MqttException e) {
             e.printStackTrace();
         }
-    }
-
-    private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
-
-
-    public void syncData(){
-        String str_sync_session = preferences.getString("sync_session","");
-        Log.i("sync",str_sync_session);
-        JSONArray array = null;
-        if(!str_sync_session.equals("")) {
-            try {
-                array = new JSONArray(str_sync_session);
-                Log.i("array", array.toString());
-                for (int i = 0; i < array.length(); i++) {
-                    JSONObject object = array.getJSONObject(i);
-                    MqttMessage message = new MqttMessage();
-                    message.setPayload(object.get("message").toString().getBytes());
-                    publishMqttTopic(object.getString("topic"), message);
-                }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        final JSONArray finalArray = array;
-        mqttAndroidClient.setCallback(new MqttCallbackExtended() {
-            @Override
-            public void connectComplete(boolean reconnect, String serverURI) {
-
-            }
-
-            @Override
-            public void connectionLost(Throwable cause) {
-
-            }
-
-            @Override
-            public void messageArrived(String topic, MqttMessage message) {
-                if(topic.equals(mqtt_publish_add_patient_session_response)){
-                    if(message.toString().equals("inserted")){
-                        sync_count++;
-                        if(sync_count== finalArray.length()) {
-                            Log.i("message", message.toString());
-                            editor = preferences.edit();
-                            editor.putString("sync_session", "");
-                            editor.apply();
-                        }
-                    }
-                }
-                if(topic.equals(mqtt_publish_add_patient_session_emg_data_response)){
-                    if(message.toString().equals("inserted")){
-                        sync_count++;
-                        if(sync_count== finalArray.length()) {
-                            Log.i("message", message.toString());
-                            editor = preferences.edit();
-                            editor.putString("sync_session", "");
-                            editor.apply();
-                        }
-                    }
-                }
-                if(topic.equals(mqtt_subs_phizio_addpatient_response)){
-                    sync_count++;
-                    if(sync_count== finalArray.length()) {
-                        Log.i("message", message.toString());
-                        editor = preferences.edit();
-                        editor.putString("sync_session", "");
-                        editor.apply();
-                    }
-                }
-            }
-
-            @Override
-            public void deliveryComplete(IMqttDeliveryToken token) {
-
-            }
-        });
     }
 
 
