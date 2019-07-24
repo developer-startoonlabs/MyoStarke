@@ -93,6 +93,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.security.PrivateKey;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -537,7 +538,12 @@ public class MonitorActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                     }
                 });
-                builder.show();
+                if(PatientsView.sessionStarted) {
+                    builder.show();
+                }
+                else {
+                    showToast("Please start session!");
+                }
             }
         });
 
@@ -1667,7 +1673,8 @@ public class MonitorActivity extends AppCompatActivity {
                             object.put("mmtgrade",mmt_selected);
                             object.put("repsselected",BodyPartSelection.repsselected);
                             object.put("musclename", BodyPartSelection.musclename);
-                            new SendDataAsyncTask().execute(object);
+                            MqttSync sync = new MqttSync(mqtt_publish_add_patient_session_emg_data,object.toString());
+                            new SendDataAsyncTask(sync).execute();
                             }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -2062,28 +2069,33 @@ public class MonitorActivity extends AppCompatActivity {
 
 
 
-    public class SendDataAsyncTask extends AsyncTask<JSONObject,Void,JSONObject>{
+    public class SendDataAsyncTask extends AsyncTask<Void,Void,Long>{
+
+        private MqttSync mqttSync;
+        public SendDataAsyncTask(MqttSync mqttSync){
+            this.mqttSync = mqttSync;
+        }
 
         @Override
-        protected JSONObject doInBackground(JSONObject... jsonObjects) {
-            PheezeeDatabase database = PheezeeDatabase.getInstance(MonitorActivity.this);
+        protected Long doInBackground(Void... voids) {
+            return PheezeeDatabase.getInstance(MonitorActivity.this).mqttSyncDao().insert(mqttSync);
+        }
+
+        @Override
+        protected void onPostExecute(Long id) {
+            super.onPostExecute(id);
+            MqttMessage message = new MqttMessage();
             try {
-                jsonObjects[0].put("id",database.mqttSyncDao().insert(new MqttSync(mqtt_publish_add_patient_session_emg_data,jsonObjects[0].toString())));
+                JSONObject object = new JSONObject(mqttSync.getMessage());
+                object.put("id",id);
+                message.setPayload(object.toString().getBytes());
+                if(NetworkOperations.isNetworkAvailable(MonitorActivity.this)){
+                    mqttHelper.publishMqttTopic(mqtt_publish_add_patient_session_emg_data,message);
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            return jsonObjects[0];
-        }
-
-        @Override
-        protected void onPostExecute(JSONObject jsonObject) {
-            super.onPostExecute(jsonObject);
-            MqttMessage message = new MqttMessage();
-            message.setPayload(jsonObject.toString().getBytes());
-            if(NetworkOperations.isNetworkAvailable(MonitorActivity.this)){
-                mqttHelper.publishMqttTopic(mqtt_publish_add_patient_session_emg_data,message);
-            }
         }
     }
 }

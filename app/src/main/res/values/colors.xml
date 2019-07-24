@@ -18,20 +18,12 @@
     <color name="pale_good_green">#3FF0C4</color>
     <color name="average_blue">#00A3DE</color>
     <color name="not_good_orange">#EF7400</color>
-
     <color name="home_orange">#fdaf3b</color>
-
     <color name="progress_bar_color">#00B386</color>
-
     <color name="dirtyWhite">#cfcdcd</color>
-
-
     <color name="pale_white">#F1EEEE</color>
-
-
     <color name="body_part_left">#58A8C0</color>
     <color name="body_part_right">#F2DFB4</color>
-
     <color name="body_part_left_overlay">#9658A8C0</color>
     <color name="body_part_right_overlay">#96F2DFB4</color>
 </resources>

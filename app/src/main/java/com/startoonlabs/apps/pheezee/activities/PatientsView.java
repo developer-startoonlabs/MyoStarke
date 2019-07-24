@@ -717,6 +717,7 @@ public class PatientsView extends AppCompatActivity
     //                AccessToken.setCurrentAccessToken(null);
                  editor.clear();
                  editor.commit();
+                 repository.deleteAllSync();
                  disconnectDevice();
                  startActivity(new Intent(this, LoginActivity.class));
                  finish();

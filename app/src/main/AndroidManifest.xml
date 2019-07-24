@@ -27,7 +27,7 @@
         android:name=".App"
         android:allowBackup="true"
         android:fullBackupContent="true"
-        android:icon="@drawable/pheezee_logo_final"
+        android:icon="@mipmap/pheezee_logos_final_square"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:supportsRtl="true"

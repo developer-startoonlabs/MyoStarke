@@ -28,6 +28,10 @@ public class MqttSyncRepository {
         return mqttSyncDao.insert(mqttSync);
     }
 
+    public void deleteAllSync(){
+        new DeleteAllMqttSync(mqttSyncDao).execute();
+    }
+
     public void deleteParticular(int id){
         new DeleteMqttSyncAsyncTask(mqttSyncDao).execute(id);
     }
@@ -86,6 +90,18 @@ public class MqttSyncRepository {
         @Override
         protected Void doInBackground(Void... voids) {
             List<MqttSync> list = mqttSyncDao.getAllMqttSyncItems();
+            return null;
+        }
+    }
+
+    private static class DeleteAllMqttSync extends AsyncTask<Void,Void,Void>{
+        private MqttSyncDao mqttSyncDao;
+        public DeleteAllMqttSync(MqttSyncDao mqttSyncDao){
+            this.mqttSyncDao = mqttSyncDao;
+        }
+        @Override
+        protected Void doInBackground(Void... voids) {
+            mqttSyncDao.deleteAllMqttSync();
             return null;
         }
     }
