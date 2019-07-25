@@ -118,6 +118,7 @@ import java.util.UUID;
 public class PatientsView extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener {
     public static boolean deviceState = true, connectPressed = false, deviceBatteryUsbState = false,sessionStarted = false;
+    int maxid = 0;
     public static int deviceBatteryPercent=0;
     public static boolean insideMonitor = false;
     private boolean insidePatientViewActivity = true;
@@ -329,7 +330,6 @@ public class PatientsView extends AppCompatActivity
                 Log.i("phiziopic",temp);
                 temp = temp.replaceFirst("@", "%40");
                 temp = "https://s3.ap-south-1.amazonaws.com/pheezee/"+temp;
-                Log.i("inside check",temp);
                 Picasso.get().load(temp)
                         .placeholder(R.drawable.user_icon)
                         .error(R.drawable.user_icon)
@@ -379,7 +379,22 @@ public class PatientsView extends AppCompatActivity
 
                 JSONObject object = new JSONObject(sharedPref.getString("phiziodetails", ""));
                 JSONArray array = new JSONArray(object.getString("phiziopatients"));
-                Log.i("Patients View", "array"+array);
+                if(array.length()>0 && sharedPref.getInt("maxid",-1)==-1){
+                    for (int i=0;i<array.length();i++){
+                        JSONObject pateints = array.getJSONObject(i);
+                        try {
+                            int id = Integer.parseInt(pateints.getString("patientid"));
+                            if(id>maxid){
+                                maxid = id;
+                            }
+                        }catch (NumberFormatException e){
+                            Log.i("Exception",e.getMessage());
+                        }
+                    }
+                    editor = sharedPref.edit();
+                    editor.putInt("maxid",maxid);
+                    editor.apply();
+                }
                 if(array.length()>0) {
                     findViewById(R.id.noPatient).setVisibility(View.GONE);
                     pushJsonData(array);
@@ -601,13 +616,11 @@ public class PatientsView extends AppCompatActivity
 
     public void pushJsonData(JSONArray data) {
         mdataset.clear();
-        Log.i("data",data.toString());
         if (data.length() > 0) {
             PatientsListData patientsList;
             for (int i = data.length() - 1; i >= 0; i--) {
                 try {
                     if(!data.getJSONObject(i).has("status")  || data.getJSONObject(i).getString("status").equals("active")) {
-                        Log.i(data.getJSONObject(i).getString("patientid"),data.getJSONObject(i).getString("patientprofilepicurl"));
                         patientsList = new PatientsListData(data.getJSONObject(i).getString("patientname"), data.getJSONObject(i).getString("patientid"), data.getJSONObject(i).getString("patientprofilepicurl"));
                         mdataset.add(patientsList);
                     }
@@ -776,16 +789,21 @@ public class PatientsView extends AppCompatActivity
             pw.setFocusable(true);
             pw.showAtLocation(v, Gravity.CENTER, 0, 0);
 
-            final TextView patientName = layout.findViewById(R.id.patientName);
-            final TextView patientId = layout.findViewById(R.id.patientId);
-            final TextView patientAge = layout.findViewById(R.id.patientAge);
-            final TextView caseDescription = layout.findViewById(R.id.contentDescription);
+
+            final EditText patientName = layout.findViewById(R.id.patientName);
+
+            final EditText patientId = layout.findViewById(R.id.patientId);
+            if(sharedPref.getInt("maxid",-1)!=-1){
+                int id = sharedPref.getInt("maxid",0);
+                id+=1;
+                patientId.setEnabled(false);
+                patientId.setText(String.valueOf(id));
+            }
+            final EditText patientAge = layout.findViewById(R.id.patientAge);
+            final EditText caseDescription = layout.findViewById(R.id.contentDescription);
             final RadioGroup radioGroup = layout.findViewById(R.id.patientGender);
 
             final String todaysDate = DateOperations.dateInMmDdYyyy();
-
-
-            Log.i("Date", todaysDate);
 
             Button addBtn = layout.findViewById(R.id.addBtn);
             Button cancelBtn = layout.findViewById(R.id.cancelBtn);
@@ -833,6 +851,9 @@ public class PatientsView extends AppCompatActivity
 
                             json_phizio.put("phiziopatients",jsonData);
                             editor.putString("phiziodetails", json_phizio.toString());
+                            if(sharedPref.getInt("maxid",-1)!=-1) {
+                                editor.putInt("maxid", Integer.parseInt(patientId.getText().toString()));
+                            }
                             editor.commit();
                             pushJsonData(jsonData);
 
