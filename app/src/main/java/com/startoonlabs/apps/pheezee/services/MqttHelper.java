@@ -40,10 +40,12 @@ public class MqttHelper {
     private String mqtt_get_profile_pic_response = "phizio/getprofilepic/response";
     private String mqtt_publish_add_patient_session_response = "phizio/addpatientsession/response";
     private String mqtt_publish_add_patient_session_emg_data_response = "patient/entireEmgData/response";
-    String mqtt_phizio_profilepic_change_response = "phizio/profilepic/upload/response";
+    private String mqtt_phizio_profilepic_change_response = "phizio/profilepic/upload/response";
+    private String mqtt_mmt_updated_response = "phizio/patient/updateMmtGrade/response";
 
 
-    String mqtt_get_profile_pic = "phizio/getprofilepicture";
+    private String mqtt_get_profile_pic = "phizio/getprofilepicture";
+
 
 
     //topics which are published
@@ -344,6 +346,18 @@ public class MqttHelper {
                 });
 
                 mqttAndroidClient.subscribe(mqtt_phizio_profilepic_change_response+phizio_email, 1, null, new IMqttActionListener() {
+                    @Override
+                    public void onSuccess(IMqttToken asyncActionToken) {
+                        Log.w("Mqtt", "Subscribed!");
+                    }
+
+                    @Override
+                    public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
+                        Log.w("Mqtt", "Subscribed fail!");
+                    }
+                });
+
+                mqttAndroidClient.subscribe(mqtt_mmt_updated_response+phizio_email, 1, null, new IMqttActionListener() {
                     @Override
                     public void onSuccess(IMqttToken asyncActionToken) {
                         Log.w("Mqtt", "Subscribed!");

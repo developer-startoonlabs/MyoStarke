@@ -133,7 +133,7 @@
     <!--App info related tags-->
     <string name="app_info">Application Info</string>
     <string name="app_version">Application Version</string>
-    <string name="application_version">2.4.0</string>
+    <string name="application_version">2.5.0</string>
 
     <!--phizio profile related tags-->
     <string name="your_profile">Your Profile</string>
@@ -276,6 +276,14 @@
     <string name="ss_bad">Bad</string>
     <string name="ss_emg">ELECTROMAYOGRAM (EMG)</string>
     <string name="ss_click_to_view_report">click to view report&#032; </string>
+    <string name="stand">Stand</string>
+    <string name="sit">Sit</string>
+    <string name="supine">Supine</string>
+    <string name="session_type">Session Type</string>
+    <string name="body_orientation">Body Orientation</string>
+    <string name="active">Active</string>
+    <string name="passive">Passive</string>
+    <string name="assistive">Assistive</string>
 
 
     <!--Pop up comment section tags-->

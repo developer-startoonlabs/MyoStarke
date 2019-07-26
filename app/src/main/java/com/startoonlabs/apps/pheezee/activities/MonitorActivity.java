@@ -53,6 +53,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -109,7 +111,7 @@ public class MonitorActivity extends AppCompatActivity {
     private boolean session_inserted_in_server = false, sessionCompleted = false;
     MqttSyncRepository repository;
     //MMT
-    private String mmt_selected = "";
+    private String mmt_selected = "", body_orientation = "", session_type="";
     //max min angle emg showing views
     TextView tv_max_angle, tv_min_angle, tv_max_emg; int software_gain = 0;
     private int ui_rate = 0, gain_initial=20;
@@ -137,6 +139,7 @@ public class MonitorActivity extends AppCompatActivity {
     String mqtt_publish_add_patient_session_emg_data_response = "patient/entireEmgData/response";
     String mqtt_publish_update_patient_session_comment = "phizio/patient/updateCommentSection";
     String mqtt_publish_update_patient_mmt_grade = "phizio/patient/updateMmtGrade";
+    private String mqtt_mmt_updated_response = "phizio/patient/updateMmtGrade/response";
 
     PopupWindow report;
     int visiblity=View.VISIBLE;
@@ -571,17 +574,22 @@ public class MonitorActivity extends AppCompatActivity {
                         }
                     }
 
-                if(topic.equals(mqtt_publish_add_patient_session_emg_data_response+json_phizio.getString("phizioemail"))){
+                    if(topic.equals(mqtt_publish_add_patient_session_emg_data_response+json_phizio.getString("phizioemail"))){
+                            JSONObject object = new JSONObject(message.toString());
+                            if(object.has("response") && object.getString("response").equalsIgnoreCase("inserted")) {
+                                session_inserted_in_server = true;
+                                repository.deleteParticular(object.getInt("id"));
+                                showToast("INSERTED!");
+                            }
+                    }
+
+                    if(topic.equals(mqtt_mmt_updated_response+json_phizio.getString("phizioemail"))){
                         JSONObject object = new JSONObject(message.toString());
-                        if(object.has("response") && object.getString("response").equalsIgnoreCase("inserted")) {
-                            editor = sharedPreferences.edit();
-                            editor.putString("sync_emg_session", "");
-                            editor.apply();
-                            session_inserted_in_server = true;
+                        if(object.has("response") && object.getString("response").equalsIgnoreCase("updated")) {
                             repository.deleteParticular(object.getInt("id"));
-                            showToast("INSERTED!");
+                            Log.i("Updatedmmt","deleted");
                         }
-                }
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -649,7 +657,7 @@ public class MonitorActivity extends AppCompatActivity {
     public void startSession(){
         updateGainView();
         session_inserted_in_server = false;sessionCompleted=false;
-        mmt_selected="";ui_rate = 0;rate=0;devicePopped=false;
+        mmt_selected="";body_orientation="";session_type="";ui_rate = 0;rate=0;devicePopped=false;
         PatientsView.sessionStarted = true;
         isSessionRunning = true;
         angleCorrected = false;
@@ -1248,7 +1256,7 @@ public class MonitorActivity extends AppCompatActivity {
 
     @SuppressLint("ClickableViewAccessibility")
     private  void initiatePopupWindowModified(final View v){
-        View layout = getLayoutInflater().inflate(R.layout.session_summary, null);
+        final View layout = getLayoutInflater().inflate(R.layout.session_summary, null);
         int reference_max_angle=180, reference_min_angle=0;
         JSONObject object_reference = PatientOperations.checkReferenceWithoutOrientationDone(this,patientId.getText().toString() , bodypart);
         //getting the reference values if any
@@ -1298,6 +1306,8 @@ public class MonitorActivity extends AppCompatActivity {
         final LinearLayout ll_mmt_confirm = layout.findViewById(R.id.bp_model_mmt_confirm);
 
         LinearLayout ll_mmt_container = layout.findViewById(R.id.ll_mmt_grading);
+        final RadioGroup rg_body_orientation = layout.findViewById(R.id.rg_body_orientation);
+        final RadioGroup rg_session_type = layout.findViewById(R.id.rg_session_type);
         final LinearLayout ll_click_to_view_report = layout.findViewById(R.id.ll_click_to_view_report);
         final LinearLayout ll_click_to_choose_body_part = layout.findViewById(R.id.ll_click_to_choose_bodypart);
 
@@ -1483,29 +1493,40 @@ public class MonitorActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+
+        //radiobuttons from radio groups
+
+
         ll_mmt_confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!mmt_selected.equalsIgnoreCase("")){
+                RadioButton btn = layout.findViewById(rg_body_orientation.getCheckedRadioButtonId());
+                if(btn!=null)
+                    body_orientation = btn.getText().toString();
+                btn = layout.findViewById(rg_session_type.getCheckedRadioButtonId());
+                if(btn!=null)
+                    session_type = btn.getText().toString();
+                Log.i("mmtdetails",mmt_selected+" "+body_orientation+" "+session_type);
+                String check = mmt_selected.concat(body_orientation).concat(session_type);
+                if(!check.equalsIgnoreCase("")){
                     JSONObject object = new JSONObject();
                     MqttMessage message = new MqttMessage();
                     try {
-                        object.put("phizioemail",json_phizio.get("phizioemail"));
-                        object.put("patientid",patientId.getText().toString());
-                        object.put("heldon",dateString);
-                        object.put("mmtgrade",mmt_selected);
+                        object.put("phizioemail", json_phizio.get("phizioemail"));
+                        object.put("patientid", patientId.getText().toString());
+                        object.put("heldon", dateString);
+                        object.put("mmtgrade", mmt_selected);
+                        object.put("bodyorientation",body_orientation);
+                        object.put("sessiontype",session_type);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                     message.setPayload(object.toString().getBytes());
-                    if(session_inserted_in_server)
-                        sendMmtToServer(message);
-                    else {
-                        showToast("Please wait for the session to update on server and try again");
-                    }
+                    MqttSync mqttSync = new MqttSync(mqtt_publish_update_patient_mmt_grade, object.toString());
+                    new SendDataAsyncTask(mqttSync).execute();
                 }
                 else {
-                    showToast("Please Choose mmt");
+                    showToast("Nothing Selected");
                 }
             }
         });
@@ -1671,6 +1692,8 @@ public class MonitorActivity extends AppCompatActivity {
                             object.put("activetime",tv_action_time.getText().toString());
                             object.put("orientation", orientation);
                             object.put("mmtgrade",mmt_selected);
+                            object.put("bodyorientation",body_orientation);
+                            object.put("sessiontype",session_type);
                             object.put("repsselected",BodyPartSelection.repsselected);
                             object.put("musclename", BodyPartSelection.musclename);
                             MqttSync sync = new MqttSync(mqtt_publish_add_patient_session_emg_data,object.toString());
@@ -2090,7 +2113,17 @@ public class MonitorActivity extends AppCompatActivity {
                 object.put("id",id);
                 message.setPayload(object.toString().getBytes());
                 if(NetworkOperations.isNetworkAvailable(MonitorActivity.this)){
-                    mqttHelper.publishMqttTopic(mqtt_publish_add_patient_session_emg_data,message);
+                    if(mqttSync.getTopic()==mqtt_publish_update_patient_mmt_grade){
+                        if(session_inserted_in_server){
+                            mqttHelper.publishMqttTopic(mqttSync.getTopic(),message);
+                        }
+                        else {
+                            showToast("Mmt info saved locally, please sync later!");
+                        }
+                    }
+                    else {
+                        mqttHelper.publishMqttTopic(mqttSync.getTopic(), message);
+                    }
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -2098,4 +2131,7 @@ public class MonitorActivity extends AppCompatActivity {
 
         }
     }
+
+
+
 }
