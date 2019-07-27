@@ -8,7 +8,7 @@
     android:layout_height="match_parent">
 
 
-            <android.support.v7.widget.Toolbar
+            <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar_scandevices"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
@@ -145,13 +145,13 @@
 
                 </LinearLayout>
 
-            </android.support.v7.widget.Toolbar>
+            </androidx.appcompat.widget.Toolbar>
 
 
 
 
 
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
@@ -159,5 +159,5 @@ android:layout_height="match_parent"
 tools:context="com.startoonlabs.apps.pheezee.activities.ScanDevicesActivity">
     <include layout="@layout/content_scan_devices" />
 
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
 </LinearLayout>

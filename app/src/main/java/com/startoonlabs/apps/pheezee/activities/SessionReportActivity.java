@@ -65,7 +65,6 @@ public class SessionReportActivity extends AppCompatActivity {
         progress.setMessage("Generating report");
         progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progress.setIndeterminate(true);
-        progress.setCancelable(false);
         progress.show();
 
 

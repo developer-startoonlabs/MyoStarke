@@ -2,6 +2,8 @@ package com.startoonlabs.apps.pheezee.activities;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.app.Presentation;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -561,7 +563,7 @@ public class PatientsView extends AppCompatActivity
                         JSONObject object = new JSONObject(message.toString());
                         if(object.has("response") && object.getString("response").equalsIgnoreCase("updated")) {
                             repository.deleteParticular(object.getInt("id"));
-                            if(list_sync!=null ) {
+                            if(list_sync!=null) {
                                 list_sync.remove(0);
                                 if (list_sync.size() > 0) {
                                     MqttMessage new_message = new MqttMessage();
@@ -647,7 +649,6 @@ public class PatientsView extends AppCompatActivity
 
     @Override
     protected void onDestroy() {
-
         unregisterReceiver(bluetoothReceiver);
             mqttHelper.mqttAndroidClient.unregisterResources();
             mqttHelper.mqttAndroidClient.close();

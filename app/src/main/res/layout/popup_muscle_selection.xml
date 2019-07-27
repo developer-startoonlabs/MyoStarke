@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-   <android.support.constraint.ConstraintLayout
+   <androidx.constraintlayout.widget.ConstraintLayout
        android:id="@+id/cl_image"
        android:layout_width="match_parent"
        android:layout_height="280dp">
 
-       <android.support.constraint.ConstraintLayout
+       <androidx.constraintlayout.widget.ConstraintLayout
            android:layout_width="match_parent"
            android:layout_height="250dp"
            android:id="@+id/bodyPartConstraint"
@@ -19,7 +19,7 @@
            app:layout_constraintStart_toStartOf="parent"
            app:layout_constraintTop_toTopOf="parent">
 
-           <android.support.v7.widget.AppCompatImageView
+           <androidx.appcompat.widget.AppCompatImageView
                android:id="@+id/bodypartImage"
                android:layout_width="match_parent"
                android:layout_height="match_parent"
@@ -308,7 +308,7 @@
                app:layout_constraintEnd_toEndOf="parent"
                app:layout_constraintStart_toStartOf="parent" />
 
-       </android.support.constraint.ConstraintLayout>
+       </androidx.constraintlayout.widget.ConstraintLayout>
 
        <LinearLayout
            android:layout_width="match_parent"
@@ -333,6 +333,6 @@
                android:textSize="17sp" />
        </LinearLayout>
 
-   </android.support.constraint.ConstraintLayout>
+   </androidx.constraintlayout.widget.ConstraintLayout>
 
-</android.support.v7.widget.CardView>
+</androidx.cardview.widget.CardView>

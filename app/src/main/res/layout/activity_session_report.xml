@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context="com.startoonlabs.apps.pheezee.activities.SessionReportActivity">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/my_toolbar_session_report"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
@@ -38,7 +38,7 @@
                 android:layout_gravity="center"
                 android:paddingStart="30dp"/>
         </LinearLayout>
-    </android.support.v7.widget.Toolbar>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -48,7 +48,7 @@
     android:layout_marginTop="16dp"
     android:background="@color/white"
     android:layout_height="match_parent">
-<android.support.constraint.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:focusableInTouchMode="true"
     android:layout_height="wrap_content">
@@ -158,6 +158,6 @@
 
 
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
 </LinearLayout>

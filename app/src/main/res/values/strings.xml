@@ -296,5 +296,6 @@
     <string name="symptomps">Symptoms?</string>
     <string name="reference">Set Reference</string>
 
-
+    <!--Sync Dialog strings-->
+    <string name="sync_title">Syncing session data to the server</string>
 </resources>
