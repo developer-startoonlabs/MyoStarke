@@ -2,6 +2,8 @@ package com.startoonlabs.apps.pheezee.room.Dao;
 
 
 
+import android.arch.lifecycle.LiveData;
+
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -32,6 +34,7 @@ public interface MqttSyncDao {
     @Query("Delete from mqtt_sync where id=:mqttSyncId")
     void deleteParticular(int mqttSyncId);
 
-
+    @Query("SELECT COUNT(id) From mqtt_sync")
+    LiveData<List<MqttSync>> getEntityCount();
 
 }

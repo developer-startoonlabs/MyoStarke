@@ -3,6 +3,8 @@ package com.startoonlabs.apps.pheezee.activities;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
@@ -36,6 +38,7 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.NavigationView;
@@ -144,7 +147,7 @@ public class PatientsView extends AppCompatActivity
     LinearLayout ll_device_and_bluetooth;
 
     //bluetooth and device connection state
-    ImageView iv_bluetooth_connected, iv_bluetooth_disconnected, iv_device_connected, iv_device_disconnected, iv_sync_data;
+    ImageView iv_bluetooth_connected, iv_bluetooth_disconnected, iv_device_connected, iv_device_disconnected, iv_sync_data,  iv_sync_not_available;
 
 
 
@@ -277,6 +280,8 @@ public class PatientsView extends AppCompatActivity
         ll_device_and_bluetooth = findViewById(R.id.ll_device_and_bluetooth);
         rl_battery_usb_state = findViewById(R.id.rl_battery_usb_state);
         iv_sync_data = findViewById(R.id.iv_sync_data);
+        iv_sync_not_available = findViewById(R.id.iv_sync_data_disabled);
+
 
         iv_sync_data.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -602,6 +607,24 @@ public class PatientsView extends AppCompatActivity
             }
         });
 
+
+        repository.getCount().observe(this,
+                new Observer<List<MqttSync>>() {
+                    @Override
+                    public void onChanged(@Nullable List<MqttSync> mqttSyncs) {
+                        try {
+                            if (mqttSyncs != null && mqttSyncs.size() > 0) {
+                                iv_sync_not_available.setVisibility(View.GONE);
+                                iv_sync_data.setVisibility(View.VISIBLE);
+                            } else {
+                                iv_sync_data.setVisibility(View.GONE);
+                                iv_sync_not_available.setVisibility(View.VISIBLE);
+                            }
+                        }catch (NullPointerException e){
+                            Log.i("Exception",e.getMessage());
+                        }
+                    }
+                });
     }
 
     private void startBluetoothRequest() {

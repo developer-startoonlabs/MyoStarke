@@ -1,6 +1,7 @@
 package com.startoonlabs.apps.pheezee.repository;
 
 import android.app.Application;
+import android.arch.lifecycle.LiveData;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -15,11 +16,16 @@ import java.util.concurrent.ExecutorService;
 
 public class MqttSyncRepository {
     private MqttSyncDao mqttSyncDao;
-    private ExecutorService executorService;
+    private LiveData<List<MqttSync>> count;
 
     public MqttSyncRepository(Application application){
         PheezeeDatabase database =PheezeeDatabase.getInstance(application);
         mqttSyncDao = database.mqttSyncDao();
+        this.count = mqttSyncDao.getEntityCount();
+    }
+
+    public LiveData<List<MqttSync>> getCount(){
+        return count;
     }
 
     public long insert(final MqttSync mqttSync){
