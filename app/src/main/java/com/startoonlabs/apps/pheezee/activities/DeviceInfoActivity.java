@@ -15,15 +15,16 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.startoonlabs.apps.pheezee.classes.BluetoothSingelton;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.startoonlabs.apps.pheezee.R;
+import com.startoonlabs.apps.pheezee.classes.BluetoothSingelton;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;

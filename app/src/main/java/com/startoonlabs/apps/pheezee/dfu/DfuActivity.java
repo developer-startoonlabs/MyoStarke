@@ -22,8 +22,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -33,12 +31,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.classes.BluetoothSingelton;
 import com.startoonlabs.apps.pheezee.classes.FileHelper;
 import com.startoonlabs.apps.pheezee.dfu.fragment.UploadCancelFragment;
 import com.startoonlabs.apps.pheezee.dfu.fragment.ZipInfoFragment;
 import com.startoonlabs.apps.pheezee.dfu.settings.SettingsFragment;
-import com.startoonlabs.apps.pheezee.R;
 
 import java.io.File;
 

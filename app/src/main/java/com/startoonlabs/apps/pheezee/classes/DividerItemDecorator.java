@@ -2,8 +2,9 @@ package com.startoonlabs.apps.pheezee.classes;
 
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 public class DividerItemDecorator extends RecyclerView.ItemDecoration {
     private Drawable mDivider;

@@ -1,14 +1,11 @@
 package com.startoonlabs.apps.pheezee.fragments;
 
 import android.app.DatePickerDialog;
-import android.app.Notification;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.ParseException;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,8 +14,12 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.startoonlabs.apps.pheezee.activities.SessionReportActivity;
+
+import androidx.core.content.FileProvider;
+import androidx.fragment.app.Fragment;
+
 import com.startoonlabs.apps.pheezee.R;
+import com.startoonlabs.apps.pheezee.activities.SessionReportActivity;
 import com.startoonlabs.apps.pheezee.retrofit.GetDataService;
 import com.startoonlabs.apps.pheezee.retrofit.RetrofitClientInstance;
 import com.startoonlabs.apps.pheezee.utils.DateOperations;
@@ -32,7 +33,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;

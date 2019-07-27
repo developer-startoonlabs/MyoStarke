@@ -1,8 +1,9 @@
 package com.startoonlabs.apps.pheezee.utils;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
+
+import androidx.core.content.ContextCompat;
 
 import com.startoonlabs.apps.pheezee.R;
 

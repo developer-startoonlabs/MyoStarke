@@ -4,8 +4,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
-import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+
+import androidx.appcompat.app.AlertDialog;
 
 import com.startoonlabs.apps.pheezee.R;
 
