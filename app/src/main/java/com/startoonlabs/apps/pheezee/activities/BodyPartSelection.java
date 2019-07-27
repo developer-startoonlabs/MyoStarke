@@ -337,7 +337,7 @@ public class BodyPartSelection extends AppCompatActivity {
                     final Button btn_continue = layout.findViewById(R.id.comment_btn_continue);
 
                     //Adapter for spinner
-                    ArrayAdapter<CharSequence> array_exercise_names = new ArrayAdapter<CharSequence>(this, R.layout.support_simple_spinner_dropdown_item, MuscleOperation.getExerciseNames(selectedPosition));
+                    ArrayAdapter<String> array_exercise_names = new ArrayAdapter<String>(BodyPartSelection.this, R.layout.support_simple_spinner_dropdown_item, MuscleOperation.getExerciseNames(selectedPosition));
                     array_exercise_names.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
                     sp_exercise_name.setAdapter(array_exercise_names);
 
