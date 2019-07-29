@@ -6,6 +6,9 @@ import com.google.gson.GsonBuilder;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * Retrofit instance
+ */
 public class RetrofitClientInstance {
 
     private static Retrofit retrofit;

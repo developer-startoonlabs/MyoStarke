@@ -5,6 +5,11 @@ import android.content.Context;
 import com.startoonlabs.apps.pheezee.R;
 
 public class BatteryOperation {
+    /**
+     * battery formulae 0-25,50,75,100
+     * @param percent
+     * @return
+     */
     public static int convertBatteryToCell(int percent){
         if(percent<=25)
             percent = 25;
@@ -18,6 +23,12 @@ public class BatteryOperation {
         return percent;
     }
 
+    /**
+     * Sends dialog message based on the battery percentage
+     * @param percent
+     * @param context
+     * @return
+     */
     public static String getDialogMessageForLowBattery(int percent, Context context){
         String message;
 

@@ -2,6 +2,9 @@ package com.startoonlabs.apps.pheezee.classes;
 
 import android.bluetooth.BluetoothGatt;
 
+/**
+ * Bluetooth singleton class
+ */
 public class BluetoothGattSingleton {
     BluetoothGatt bluetoothGatt;
     private static BluetoothGattSingleton mInstance = new BluetoothGattSingleton();

@@ -163,6 +163,9 @@ public class ScanDevicesActivity extends AppCompatActivity {
         stopScan();
     }
 
+    /**
+     * Start bluetooth device scan
+     */
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void startScan() {
         if(Build.VERSION.SDK_INT>22) {
@@ -194,6 +197,9 @@ public class ScanDevicesActivity extends AppCompatActivity {
         // TODO start the scan
     }
 
+    /**
+     * stop bluetooth device callback
+     */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void stopScan() {
         if (mScanning && madapter_scandevices != null && madapter_scandevices.isEnabled() && mBluetoothLeScanner != null) {
@@ -205,6 +211,9 @@ public class ScanDevicesActivity extends AppCompatActivity {
         mScanning = false;
     }
 
+    /**
+     * scan complete, updates the list view
+     */
     private void scanComplete() {
         if (mScanResults.isEmpty()) {
             return;
@@ -230,6 +239,9 @@ public class ScanDevicesActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * request bluetooth enable
+     */
     private void requestBluetoothEnable() {
         Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
         startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
@@ -257,6 +269,9 @@ public class ScanDevicesActivity extends AppCompatActivity {
 }
 
 
+/**
+ * Bluetooth scan callback
+ */
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 class BtleScanCallback extends ScanCallback {
     private ArrayList<DeviceListClass> mScanResults;

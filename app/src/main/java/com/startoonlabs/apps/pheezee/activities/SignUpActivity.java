@@ -112,9 +112,9 @@ public class SignUpActivity extends AppCompatActivity {
         mqttHelper = new MqttHelper(this);
 
 
-
-
-
+        /**
+         * create account
+         */
         btn_signup_create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -216,6 +216,9 @@ public class SignUpActivity extends AppCompatActivity {
         });
 
 
+        /**
+         * Handles the flow of otp and email confirmation
+         */
         mqttHelper.setCallback(new MqttCallbackExtended() {
             @Override
             public void connectComplete(boolean reconnect, String serverURI) {

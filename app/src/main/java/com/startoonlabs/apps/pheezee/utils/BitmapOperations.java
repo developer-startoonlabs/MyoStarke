@@ -4,7 +4,12 @@ import android.graphics.Bitmap;
 import android.util.Log;
 
 public class BitmapOperations {
-
+    /**
+     * Resize the image
+     * @param image
+     * @param maxSize
+     * @return
+     */
     public static Bitmap getResizedBitmap(Bitmap image, int maxSize) {
         int width = image.getWidth();
         int height = image.getHeight();

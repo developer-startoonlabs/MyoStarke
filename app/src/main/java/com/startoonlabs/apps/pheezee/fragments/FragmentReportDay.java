@@ -211,7 +211,10 @@ public class FragmentReportDay extends Fragment {
         }
     };
 
-
+    /**
+     * Retrofit call to get the report pdf from the server
+     * @param date
+     */
     private void getDayReport(String date){
         GetDataService getDataService = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
         Call<ResponseBody> fileCall = getDataService.getReport("/getreport/"+patientId+"/"+phizioemail+"/" + date);

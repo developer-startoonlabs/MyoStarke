@@ -29,6 +29,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.activities.PatientsView;
 
+/**
+ * Bottom sheet dialog that opens when clicked on three dots
+ */
 @SuppressLint("ValidFragment")
 public class MyBottomSheetDialog extends BottomSheetDialogFragment {
 
@@ -69,6 +72,10 @@ public class MyBottomSheetDialog extends BottomSheetDialogFragment {
         return layout;
     }
 
+    /**
+     * Initializes views
+     * @param layout
+     */
     private void findviews(View layout) {
                 CoordinatorLayout layout1 = layout.findViewById(R.id.coordinator_patient_option);
         tv_patient_name_section = layout.findViewById(R.id.tv_patient_name_section);
@@ -82,6 +89,9 @@ public class MyBottomSheetDialog extends BottomSheetDialogFragment {
         ll_delete_patient = layout.findViewById(R.id.ll_delete_patient);
         ll_archive_patient = layout.findViewById(R.id.ll_archive_patient);
 
+        /**
+         * Calls update patient
+         */
         ll_archive_patient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,6 +99,9 @@ public class MyBottomSheetDialog extends BottomSheetDialogFragment {
             }
         });
 
+        /**
+         * calls openreport
+         */
         ll_report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,6 +109,9 @@ public class MyBottomSheetDialog extends BottomSheetDialogFragment {
             }
         });
 
+        /**
+         * calls editThePatientDetails
+         */
         ll_edit_patient_details.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,6 +119,9 @@ public class MyBottomSheetDialog extends BottomSheetDialogFragment {
             }
         });
 
+        /**
+         * calls deletePatient
+         */
         ll_delete_patient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -149,6 +168,10 @@ public class MyBottomSheetDialog extends BottomSheetDialogFragment {
 //            iv_patient_profile_pic.setImageBitmap(bitmap);
     }
 
+    /**
+     * making the home buttons to while, in sync with the dialog
+     * @param dialog
+     */
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void setWhiteNavigationBar(@NonNull Dialog dialog) {
         Window window = dialog.getWindow();

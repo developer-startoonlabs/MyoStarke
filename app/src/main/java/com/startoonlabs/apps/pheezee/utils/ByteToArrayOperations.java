@@ -2,6 +2,9 @@ package com.startoonlabs.apps.pheezee.utils;
 
 import android.util.Log;
 
+/**
+ * Main class with the packet structure emg
+ */
 public class ByteToArrayOperations {
     private static int emg_data_size_session = 20;
     private static int emg_num_packets_session = 40;

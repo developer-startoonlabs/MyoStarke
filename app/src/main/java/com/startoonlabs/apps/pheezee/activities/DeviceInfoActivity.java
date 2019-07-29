@@ -348,6 +348,9 @@ public class DeviceInfoActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Refresh the view with null string once disconnected
+     */
     public void refreshView(){
         tv_device_name.setText(R.string.device_null);
         tv_device_mamc.setText(R.string.device_null);

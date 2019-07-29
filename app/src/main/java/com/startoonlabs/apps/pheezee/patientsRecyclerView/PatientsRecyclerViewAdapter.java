@@ -28,6 +28,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Home patient list recycler view adapter
+ */
 public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRecyclerViewAdapter.ViewHolder> {
 
     private List<PatientsListData> patientsListData;

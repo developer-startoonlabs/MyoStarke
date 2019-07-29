@@ -78,6 +78,9 @@ public class LoginActivity extends AppCompatActivity {
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 
         mqttHelper = new MqttHelper(this);
+        /**
+         * Handles the data received from the server like, for forgot password and login response
+         */
         mqttHelper.setCallback(new MqttCallbackExtended() {
             @Override
             public void connectComplete(boolean reconnect, String serverURI) {
@@ -289,11 +292,17 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * disables the welcome view
+     */
     private void disableWelcomeView() {
         ll_welcome.setVisibility(View.INVISIBLE);
         dottedProgressBar.setVisibility(View.INVISIBLE);
     }
 
+    /**
+     * Enables the previous view with edit texts etc
+     */
     private void enablePreviousView() {
         ll_signup_section.setVisibility(View.VISIBLE);
         ll_signin_section.setVisibility(View.VISIBLE);

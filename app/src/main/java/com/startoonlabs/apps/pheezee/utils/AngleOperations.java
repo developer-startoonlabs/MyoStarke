@@ -1,6 +1,11 @@
 package com.startoonlabs.apps.pheezee.utils;
 
 public class AngleOperations {
+    /**
+     * getting max angle
+     * @param string
+     * @return
+     */
     public int getMaxAngle(String string){
         int angle;
         switch (string.toLowerCase()){
@@ -31,6 +36,11 @@ public class AngleOperations {
         return angle;
     }
 
+    /**
+     * get min angle
+     * @param string
+     * @return
+     */
     public int getMinAngle(String string){
         int angle;
         switch (string.toLowerCase()){

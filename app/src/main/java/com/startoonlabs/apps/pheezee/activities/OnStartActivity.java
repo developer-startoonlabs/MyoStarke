@@ -30,6 +30,9 @@ public class OnStartActivity extends AppCompatActivity {
         editor = sharedPreferences.edit();
         isLoggedIn = sharedPreferences.getBoolean("isLoggedIn",false);
         Log.i("isLoggedIn",""+isLoggedIn);
+        /**
+         * checks if already logged in or not and calls the particular value bassed on that
+         */
         Thread onstartThread = new Thread(new Runnable() {
             @Override
             public void run() {

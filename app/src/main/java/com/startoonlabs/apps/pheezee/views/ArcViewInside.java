@@ -22,6 +22,9 @@ import androidx.core.content.ContextCompat;
 
 import com.startoonlabs.apps.pheezee.R;
 
+/**
+ * Custom circle arc with max and min angle which is used in monitor and session summary.
+ */
 public class ArcViewInside extends View {
     Context context;
     boolean enableMinMaxLines = false;

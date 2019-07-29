@@ -185,6 +185,9 @@ public class MonitorActivity extends AppCompatActivity {
     public static final UUID descriptor_characteristic1_service1_uuid = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
     private int rate=0;
 
+    /**
+     * popup window when device gets disconnected in middle of session.
+     */
     public void deviceDisconnectedPopup() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(MonitorActivity.this);
         builder.setTitle("Device Disconnected");
@@ -356,6 +359,9 @@ public class MonitorActivity extends AppCompatActivity {
         exerciseType = getIntent().getStringExtra("exerciseType");
         Log.i("Exercise Type", exerciseType);
 
+        /**
+         * calls start session
+         */
         timer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -382,6 +388,10 @@ public class MonitorActivity extends AppCompatActivity {
                     startSession();
             }
         });
+
+        /**
+         * Cancel session
+         */
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -428,6 +438,10 @@ public class MonitorActivity extends AppCompatActivity {
                 }
             }
         });
+
+        /**
+         * Stop session
+         */
         stopBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -492,7 +506,9 @@ public class MonitorActivity extends AppCompatActivity {
             }
         });
 
-
+        /**
+         * Angle correction popup
+         */
         iv_angle_correction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -543,7 +559,9 @@ public class MonitorActivity extends AppCompatActivity {
         });
 
 
-        //recieved message
+        /**
+         * Receiving message from the server weather data inserted or not based on the topic and delets the data from the database
+         */
         mqttHelper.setCallback(new MqttCallbackExtended() {
             @Override
             public void connectComplete(boolean reconnect, String serverURI) {
@@ -645,7 +663,9 @@ public class MonitorActivity extends AppCompatActivity {
         });
     }
 
-
+    /**
+     * Start session
+     */
     public void startSession(){
         updateGainView();
         session_inserted_in_server = false;sessionCompleted=false;
@@ -731,11 +751,17 @@ public class MonitorActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Updates the view of gain to default
+     */
     private void updateGainView() {
         btn_emg_decrease_gain.setBackgroundResource(android.R.drawable.btn_default);
         btn_emg_increase_gain.setBackgroundResource(android.R.drawable.btn_default);
     }
 
+    /**
+     * Inserts the summary values in files and also tells the media to scan the files for visibility when connected to the laptop.
+     */
     private void insertValuesAndNotifyMediaStore() {
         try {
 
@@ -841,6 +867,9 @@ public class MonitorActivity extends AppCompatActivity {
 //        }
     }
 
+    /**
+     * Refreshes the line graph
+     */
     private void creatGraphView() {
         lineChart.setHardwareAccelerationEnabled(true);
         dataPoints = new ArrayList<>();
@@ -1040,7 +1069,11 @@ public class MonitorActivity extends AppCompatActivity {
         }
     };
 
-
+    /**
+     * sends data to the device by writing values to the characteristic
+     * @param data
+     * @return
+     */
     public boolean send(byte[] data) {
 
         if (mBluetoothGatt == null ) {
@@ -1062,6 +1095,9 @@ public class MonitorActivity extends AppCompatActivity {
         return mBluetoothGatt.writeCharacteristic(mCharacteristic);
     }
 
+    /**
+     * handler for session time incrimental
+     */
     public Runnable runnable = new Runnable() {
 
         public void run() {
@@ -1100,7 +1136,9 @@ public class MonitorActivity extends AppCompatActivity {
     };
 
 
-
+    /**
+     * Handler to post the values received from device in the view
+     */
     @SuppressLint("HandlerLeak")
     public final Handler myHandler = new Handler() {
         public void handleMessage(Message message ) {
@@ -1230,6 +1268,9 @@ public class MonitorActivity extends AppCompatActivity {
         }
     };
 
+    /**
+     * Close session in 2000ms once the session goal is reached
+     */
     private void openSuccessfullDialogAndCloseSession() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(MonitorActivity.this);
         builder.setTitle("Session Completed");
@@ -1246,6 +1287,10 @@ public class MonitorActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Calls the session summary popup window
+     * @param v
+     */
     @SuppressLint("ClickableViewAccessibility")
     private  void initiatePopupWindowModified(final View v){
         final View layout = getLayoutInflater().inflate(R.layout.session_summary, null);
@@ -1538,12 +1583,9 @@ public class MonitorActivity extends AppCompatActivity {
 
     }
 
-    private void sendMmtToServer(MqttMessage message) {
-        if(NetworkOperations.isNetworkAvailable(MonitorActivity.this))
-            mqttHelper.publishMqttTopic(mqtt_publish_update_patient_mmt_grade,message);
-    }
-
-
+    /**
+     * listner for mmt values
+     */
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -1562,7 +1604,11 @@ public class MonitorActivity extends AppCompatActivity {
     };
 
 
-
+    /**
+     * comment session popup window
+     * @param view
+     * @param dateString
+     */
     private void commentSectionPopUp(View view, final String dateString) {
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -1635,6 +1681,11 @@ public class MonitorActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * collects all the data of the session and sends to async task to send the data to the server and also to store locally.
+     * @param dateString
+     * @param tempsession
+     */
     private void storeLocalSessionDetails(String dateString,String tempsession) {
         JSONArray array ;
         if (!sharedPreferences.getString("phiziodetails", "").equals("")) {
@@ -1723,7 +1774,11 @@ public class MonitorActivity extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * sends the particular header to pheezee based on body part selected
+     * calls the send function.
+     * @param string
+     */
     public void sendParticularDataToPheeze(String string){
 
         switch (string.toLowerCase()){
@@ -1812,6 +1867,12 @@ public class MonitorActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * To take screen shord
+     * The popupwindow is null when sent to the while in monitor activity
+     * @param popupWindow
+     * @return
+     */
     private File takeScreenshot(PopupWindow popupWindow) {
 
         Date now = new Date();
@@ -2076,14 +2137,18 @@ public class MonitorActivity extends AppCompatActivity {
     }
 
 
-
+    /**
+     * show toask
+     * @param message
+     */
     private void showToast(String message){
         Toast.makeText(MonitorActivity.this, message, Toast.LENGTH_SHORT).show();
     }
 
 
-
-
+    /**
+     * Sending data to the server and storing locally
+     */
     public class SendDataAsyncTask extends AsyncTask<Void,Void,Long>{
 
         private MqttSync mqttSync;

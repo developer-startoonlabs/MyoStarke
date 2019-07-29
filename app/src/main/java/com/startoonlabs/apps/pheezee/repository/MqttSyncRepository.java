@@ -12,9 +12,14 @@ import com.startoonlabs.apps.pheezee.room.PheezeeDatabase;
 
 import java.util.List;
 
-
+/**
+ * That interacts with database
+ */
 public class MqttSyncRepository {
     private MqttSyncDao mqttSyncDao;
+    /**
+     * Live object returned to get the item count in the database to update the sync button view
+     */
     private LiveData<Long> count;
 
     public MqttSyncRepository(Application application){
@@ -33,10 +38,17 @@ public class MqttSyncRepository {
         return mqttSyncDao.insert(mqttSync);
     }
 
+    /**
+     * Called when pressed logout
+     */
     public void deleteAllSync(){
         new DeleteAllMqttSync(mqttSyncDao).execute();
     }
 
+    /**
+     * deletes a entry based on id
+     * @param id
+     */
     public void deleteParticular(int id){
         new DeleteMqttSyncAsyncTask(mqttSyncDao).execute(id);
     }

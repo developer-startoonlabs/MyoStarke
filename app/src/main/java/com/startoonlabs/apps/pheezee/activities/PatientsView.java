@@ -117,7 +117,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-
+/**
+ *
+ */
 public class PatientsView extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener {
     public static boolean deviceState = true, connectPressed = false, deviceBatteryUsbState = false,sessionStarted = false;
@@ -233,6 +235,7 @@ public class PatientsView extends AppCompatActivity
 
     MqttSyncRepository repository ;
     List<MqttSync> list_sync = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -281,7 +284,6 @@ public class PatientsView extends AppCompatActivity
         rl_battery_usb_state = findViewById(R.id.rl_battery_usb_state);
         iv_sync_data = findViewById(R.id.iv_sync_data);
         iv_sync_not_available = findViewById(R.id.iv_sync_data_disabled);
-
 
         iv_sync_data.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -627,11 +629,17 @@ public class PatientsView extends AppCompatActivity
                 });
     }
 
+    /**
+     * Promts user to turn on bluetooth
+     */
     private void startBluetoothRequest() {
         Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
         startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
     }
 
+    /**
+     * Bluetooth disconnected
+     */
     private void bluetoothDisconnected() {
         iv_bluetooth_disconnected.setVisibility(View.VISIBLE);
         iv_bluetooth_connected.setVisibility(View.GONE);
@@ -640,6 +648,9 @@ public class PatientsView extends AppCompatActivity
         findViewById(R.id.ll_device_and_bluetooth).setBackgroundResource(R.drawable.drawable_background_connect_to_pheezee);
     }
 
+    /**
+     * Bluetooth connected
+     */
     private void bluetoothConnected() {
         iv_bluetooth_disconnected.setVisibility(View.GONE);
         iv_bluetooth_connected.setVisibility(View.VISIBLE);
@@ -658,6 +669,10 @@ public class PatientsView extends AppCompatActivity
         super.onDestroy();
     }
 
+    /**
+     * Updating the recycler view adapter
+     * @param data
+     */
     public void pushJsonData(JSONArray data) {
         mdataset.clear();
         if (data.length() > 0) {
@@ -804,7 +819,10 @@ public class PatientsView extends AppCompatActivity
     }
 
 
-
+    /**
+     * Add patient
+     * @param v
+     */
     private void initiatePopupWindow(View v) {
         try {
             final JSONObject jsonObject = new JSONObject();
@@ -924,8 +942,9 @@ public class PatientsView extends AppCompatActivity
     }
 
 
-
-
+    /**
+     * Bluetooth callback
+     */
     public BluetoothGattCallback callback = new BluetoothGattCallback() {
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
@@ -1194,6 +1213,10 @@ public class PatientsView extends AppCompatActivity
         editPatientBuilder.show();
     }
 
+    /**
+     * Edit the patient details
+     * @param v
+     */
     public void editPopUpWindow(View v){
         patientLayout = (LinearLayout)v;
         final TextView patientIdTemp = v.findViewById(R.id.patientId);
@@ -1310,6 +1333,9 @@ public class PatientsView extends AppCompatActivity
 
     }
 
+    /**
+     * Bluetooth device status handler
+     */
     @SuppressLint("HandlerLeak")
     public final Handler bleStatusHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -1341,6 +1367,9 @@ public class PatientsView extends AppCompatActivity
         }
     };
 
+    /**
+     * Called when device connects to update the view
+     */
     private void pheezeeConnected() {
         iv_device_disconnected.setVisibility(View.GONE);
         iv_device_connected.setVisibility(View.VISIBLE);
@@ -1353,6 +1382,9 @@ public class PatientsView extends AppCompatActivity
         rl_cap_view.setBackground(drawable_cap);
     }
 
+    /**
+     * called when device disconnected to update the view
+     */
     private void pheezeeDisconnected() {
         Log.i("Inside disconnect", "Device Disconnected");
         iv_device_connected.setVisibility(View.GONE);
@@ -1372,6 +1404,9 @@ public class PatientsView extends AppCompatActivity
         Log.i("red color","red");
     }
 
+    /**
+     * Receiver for bluetooth connectivity and device disconnection
+     */
     private final BroadcastReceiver bluetoothReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
 
@@ -1461,6 +1496,11 @@ public class PatientsView extends AppCompatActivity
         }
     };
 
+
+    /**
+     * Opens the body part selection screen
+     * @param view
+     */
     public void startSession(View view) {
         patientTabLayout= (LinearLayout) (view).getParent().getParent();
         patientTabLayout = (LinearLayout) patientTabLayout.getChildAt(1);
@@ -1519,6 +1559,9 @@ public class PatientsView extends AppCompatActivity
         registerReceiver(bluetoothReceiver, filter);
     }
 
+    /**
+     * Disconnects the device
+     */
     public static void disconnectDevice() {
         if(bluetoothGatt==null){
             Log.i("inside","null");
@@ -1541,6 +1584,11 @@ public class PatientsView extends AppCompatActivity
         deviceState=false;
     }
 
+    /**
+     * Updates the chache of the device connected from the blutooth as it will not discover new services.
+     * @param gatt
+     * @return
+     */
     private boolean refreshDeviceCache(BluetoothGatt gatt){
         try {
             BluetoothGatt localBluetoothGatt = gatt;
@@ -1555,6 +1603,10 @@ public class PatientsView extends AppCompatActivity
         return false;
     }
 
+    /**
+     * Updating the image of patient
+     * @param view
+     */
     public void chooseImageUpdateAction(final View view){
         patientLayoutView = view;
         builder = new AlertDialog.Builder(PatientsView.this);
@@ -1581,6 +1633,10 @@ public class PatientsView extends AppCompatActivity
         builder.show();
     }
 
+    /**
+     * Opens the builer for different device connecting techniques
+     * @param view
+     */
     public void addPheezeeDevice(View view){
         builder = new AlertDialog.Builder(PatientsView.this);
         builder.setTitle("Add Pheezee Device!");
@@ -1619,6 +1675,12 @@ public class PatientsView extends AppCompatActivity
         startActivityForResult(takePicture, 5);
     }
 
+    /**
+     * For photo editing of patient
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -1720,6 +1782,10 @@ public class PatientsView extends AppCompatActivity
     }
 
 
+    /**
+     * Opens the bottom bar sheet
+     * @param view
+     */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @SuppressLint("ResourceType")
     public void openOpionsPopupWindow(View view){
@@ -1768,6 +1834,11 @@ public class PatientsView extends AppCompatActivity
         }
     }
 
+    /**
+     * Opens the report activity
+     * This is called only when user presses report in the home of a patient
+     * @param view
+     */
     public void openReportActivity(View view){
         if(NetworkOperations.isNetworkAvailable(PatientsView.this)){
             final TextView patientIdTemp = patientTabLayout.findViewById(R.id.patientId);
@@ -1788,6 +1859,10 @@ public class PatientsView extends AppCompatActivity
         }
     }
 
+    /**
+     * Triggered when user presses the update details of a patient.
+     * @param view
+     */
     public void updatePatientStatus(View view){
         myBottomSheetDialog.dismiss();
         final MqttMessage mqttMessage = new MqttMessage();
@@ -1843,7 +1918,10 @@ public class PatientsView extends AppCompatActivity
 
     }
 
-
+    /**
+     * Triggered when user presses the delete patient
+     * @param view
+     */
     public void deletePatient(View view){
         myBottomSheetDialog.dismiss();
         final MqttMessage mqttMessage = new MqttMessage();
@@ -1925,6 +2003,11 @@ public class PatientsView extends AppCompatActivity
         }
     }
 
+    /**
+     * sends the data to the device by writing into a characteristic
+     * @param data
+     * @return
+     */
     public boolean send(byte[] data) {
 
         if (bluetoothGatt == null ) {
@@ -1951,6 +2034,9 @@ public class PatientsView extends AppCompatActivity
         return bluetoothGatt.writeCharacteristic(mCustomCharacteristic);
     }
 
+    /**
+     * This handler handles the battery status and updates the bars of the battery symbol.
+     */
     @SuppressLint("HandlerLeak")
     public final Handler batteryStatus = new Handler(){
         @SuppressLint("SetTextI18n")
@@ -1974,6 +2060,9 @@ public class PatientsView extends AppCompatActivity
         }
     };
 
+    /**
+     * This handler handels the batery state view change
+     */
     @SuppressLint("HandlerLeak")
     public final Handler batteryUsbState = new Handler(){
         @Override
@@ -1990,6 +2079,9 @@ public class PatientsView extends AppCompatActivity
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * For syncing the data
+     */
     public class SyncDataAsync extends AsyncTask<Void,Void,List<MqttSync>>{
 
         @Override
@@ -2006,6 +2098,10 @@ public class PatientsView extends AppCompatActivity
         }
     }
 
+    /**
+     * called when user presses the sync button when sync is available
+     * @param list_sync
+     */
     public void startSync(List<MqttSync> list_sync) {
         if (list_sync.size() > 0) {
             this.list_sync = list_sync;
@@ -2033,6 +2129,9 @@ public class PatientsView extends AppCompatActivity
         }
     }
 
+    /**
+     * Stores the topic and message in database and sends to the server if internet is available.
+     */
     public class SendDataAsyncTask extends AsyncTask<JSONObject,Void,JSONObject>{
 
         @Override

@@ -133,6 +133,9 @@ public class BodyPartSelection extends AppCompatActivity {
 
 
         Log.i("str_recent",str_recent);
+        /**
+         * Loading the recent bodyparts
+         */
         if (str_recent.equals("")){
             tv_body_part_recent.setVisibility(View.VISIBLE);
         }
@@ -252,7 +255,10 @@ public class BodyPartSelection extends AppCompatActivity {
     }
 
 
-    //On click listner on all the images inside the horizontal view of body part selection screen
+    /**
+     * On click listner on all the images inside the horizontal view of body part selection screen
+     */
+
     View.OnClickListener onclicklistner = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -276,8 +282,8 @@ public class BodyPartSelection extends AppCompatActivity {
         }
     };
     /**
-     *
-     * @return String This method returns the patient id from by getting it from the intent.
+     *This method returns the patient id from by getting it from the intent.
+     * @return String
      */
     public String getPatientId(){
         String patientID = null;
@@ -301,7 +307,7 @@ public class BodyPartSelection extends AppCompatActivity {
     }
 
     /**
-     * This method is called when pressed done.
+     * This method is called when pressed done. Check weather any feild is not selected
      * @param view
      */
     public void startMonitorSession(View view) {
@@ -569,7 +575,9 @@ public class BodyPartSelection extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * Updates the values of some static variables
+     */
     public static void refreshView(){
         reinitializeStatics();
         selectedPosition = -1;
@@ -580,7 +588,7 @@ public class BodyPartSelection extends AppCompatActivity {
 
 
     /**
-     * Sending data to the server.
+     * Sending data to the server. Reference data
      * @param maxAngle
      * @param minAngle
      * @param maxEmg
@@ -638,12 +646,18 @@ public class BodyPartSelection extends AppCompatActivity {
         repsselected=0; selectedPosition=-1;
     }
 
+    /**
+     * Reinitialize static variables
+     */
     public static void reinitializeStatics() {
         painscale=""; muscletone=""; exercisename=""; commentsession=""; symptoms=""; musclename="";orientationSelected="";
         repsselected=0;
     }
 
-
+    /**
+     * Shows toast
+     * @param message
+     */
     private void showToast(String message){
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }

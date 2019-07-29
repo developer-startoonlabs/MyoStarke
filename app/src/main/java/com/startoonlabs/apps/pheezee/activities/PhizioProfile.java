@@ -108,6 +108,9 @@ public class PhizioProfile extends AppCompatActivity {
 
     }
 
+    /**
+     * Initializes views and sets the current values to all the view
+     */
     private void setPhizioDetails() {
         et_phizio_name =  findViewById(R.id.et_phizio_name);
         et_phizio_email =  findViewById(R.id.et_phizio_email);
@@ -161,10 +164,9 @@ public class PhizioProfile extends AppCompatActivity {
         btn_cancel_update = findViewById(R.id.btn_cancel_update);
 
 
-
-
-
-
+/**
+ * Response from the server
+ */
         mqttHelper.setCallback(new MqttCallbackExtended() {
             @Override
             public void connectComplete(boolean reconnect, String serverURI) {
@@ -220,7 +222,9 @@ public class PhizioProfile extends AppCompatActivity {
             }
         });
         focuseEditTexts(false);
-
+        /**
+         * gender
+         */
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -232,6 +236,9 @@ public class PhizioProfile extends AppCompatActivity {
 
             }
         });
+        /**
+         * Edit profile details
+         */
         tv_edit_profile_details.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -401,6 +408,10 @@ public class PhizioProfile extends AppCompatActivity {
         et_dob.setText(sdf.format(myCalendar.getTime()));
     }
 
+    /**
+     * To change the focus of the text views
+     * @param b
+     */
     private void focuseEditTexts(boolean b) {
         et_phizio_name.setFocusable(b);
         et_phizio_name.setFocusableInTouchMode(b); // user touches widget on phone with touch screen
