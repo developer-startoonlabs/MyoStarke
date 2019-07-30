@@ -132,6 +132,7 @@ public class MonitorActivity extends AppCompatActivity {
     String mqtt_publish_update_patient_session_comment = "phizio/patient/updateCommentSection";
     String mqtt_publish_update_patient_mmt_grade = "phizio/patient/updateMmtGrade";
     private String mqtt_mmt_updated_response = "phizio/patient/updateMmtGrade/response";
+    private String mqtt_delete_pateint_session = "phizio/patient/deletepatient/sesssion";
 
     PopupWindow report;
     int visiblity=View.VISIBLE;
@@ -597,7 +598,14 @@ public class MonitorActivity extends AppCompatActivity {
                         JSONObject object = new JSONObject(message.toString());
                         if(object.has("response") && object.getString("response").equalsIgnoreCase("updated")) {
                             repository.deleteParticular(object.getInt("id"));
-                            Log.i("Updatedmmt","deleted");
+                            showToast("Updated");
+                        }
+                    }
+                    if(topic.equals(mqtt_delete_pateint_session+json_phizio.getString("phizioemail"))){
+                        JSONObject object = new JSONObject(message.toString());
+                        if(object.has("response") && object.getString("response").equalsIgnoreCase("deleted")) {
+                            repository.deleteParticular(object.getInt("id"));
+                            showToast("Deleted");
                         }
                     }
                 } catch (JSONException e) {
@@ -1340,6 +1348,7 @@ public class MonitorActivity extends AppCompatActivity {
         TextView tv_musclename = layout.findViewById(R.id.tv_muscle_name);
         TextView tv_exercise_name = layout.findViewById(R.id.tv_exercise_name);
         TextView tv_range = layout.findViewById(R.id.tv_range_min_max);
+        TextView tv_delete_pateint_session = layout.findViewById(R.id.summary_tv_delete_session);
         final LinearLayout ll_mmt_confirm = layout.findViewById(R.id.bp_model_mmt_confirm);
 
         LinearLayout ll_mmt_container = layout.findViewById(R.id.ll_mmt_grading);
@@ -1547,7 +1556,6 @@ public class MonitorActivity extends AppCompatActivity {
                 String check = mmt_selected.concat(body_orientation).concat(session_type);
                 if(!check.equalsIgnoreCase("")){
                     JSONObject object = new JSONObject();
-                    MqttMessage message = new MqttMessage();
                     try {
                         object.put("phizioemail", json_phizio.get("phizioemail"));
                         object.put("patientid", patientId.getText().toString());
@@ -1558,7 +1566,6 @@ public class MonitorActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    message.setPayload(object.toString().getBytes());
                     MqttSync mqttSync = new MqttSync(mqtt_publish_update_patient_mmt_grade, object.toString());
                     new SendDataAsyncTask(mqttSync).execute();
                 }
@@ -1577,6 +1584,22 @@ public class MonitorActivity extends AppCompatActivity {
                     ll_mmt_confirm.setAlpha(1f);
                 }
                 return false;
+            }
+        });
+
+        tv_delete_pateint_session.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JSONObject object = new JSONObject();
+                try {
+                    object.put("phizioemail", json_phizio.get("phizioemail"));
+                    object.put("patientid", patientId.getText().toString());
+                    object.put("heldon", dateString);
+                }catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                MqttSync mqttSync = new MqttSync(mqtt_delete_pateint_session, object.toString());
+                new SendDataAsyncTask(mqttSync).execute();
             }
         });
 
@@ -2170,12 +2193,12 @@ public class MonitorActivity extends AppCompatActivity {
                 object.put("id",id);
                 message.setPayload(object.toString().getBytes());
                 if(NetworkOperations.isNetworkAvailable(MonitorActivity.this)){
-                    if(mqttSync.getTopic()==mqtt_publish_update_patient_mmt_grade){
+                    if(mqttSync.getTopic()==mqtt_publish_update_patient_mmt_grade || mqttSync.getTopic()==mqtt_delete_pateint_session){
                         if(session_inserted_in_server){
                             mqttHelper.publishMqttTopic(mqttSync.getTopic(),message);
                         }
                         else {
-                            showToast("Mmt info saved locally, please sync later!");
+                            showToast("Saved locally sync later");
                         }
                     }
                     else {

@@ -183,6 +183,7 @@ public class PatientsView extends AppCompatActivity
 
     String mqtt_get_profile_pic_response = "phizio/getprofilepic/response";
     private String mqtt_mmt_updated_response = "phizio/patient/updateMmtGrade/response";
+    private String mqtt_delete_session_response = "phizio/patient/deletepatient/sesssion/response";
 
     String mqtt_update_patient_status = "phizio/update/patientStatus";
 
@@ -564,6 +565,27 @@ public class PatientsView extends AppCompatActivity
                    else if(topic.equals(mqtt_mmt_updated_response+json_phizio.getString("phizioemail"))){
                         JSONObject object = new JSONObject(message.toString());
                         if(object.has("response") && object.getString("response").equalsIgnoreCase("updated")) {
+                            repository.deleteParticular(object.getInt("id"));
+                            if(list_sync!=null) {
+                                list_sync.remove(0);
+                                if (list_sync.size() > 0) {
+                                    MqttMessage new_message = new MqttMessage();
+                                    JSONObject object1 = new JSONObject(list_sync.get(0).getMessage());
+                                    object1.put("id", list_sync.get(0).getId());
+                                    new_message.setPayload(object1.toString().getBytes());
+                                    if (NetworkOperations.isNetworkAvailable(PatientsView.this)) {
+                                        mqttHelper.publishMqttTopic(list_sync.get(0).getTopic(), new_message);
+                                    }
+                                } else {
+                                    progress.dismiss();
+                                    showToast("Sync Completed!");
+                                }
+                            }
+                        }
+                    }
+                   else if(topic.equals(mqtt_delete_session_response+json_phizio.getString("phizioemail"))){
+                        JSONObject object = new JSONObject(message.toString());
+                        if(object.has("response") && object.getString("response").equalsIgnoreCase("deleted")) {
                             repository.deleteParticular(object.getInt("id"));
                             if(list_sync!=null) {
                                 list_sync.remove(0);

@@ -75,6 +75,7 @@ public class BodyPartSelection extends AppCompatActivity {
     RecyclerView bodyPartRecyclerView;
     MqttHelper mqttHelper;
     JSONObject json_phizio = null;
+    PopupWindow pw;
 
     //Adapter for body part recycler view
     BodyPartWithMmtRecyclerView bodyPartWithMmtRecyclerView;
@@ -303,6 +304,9 @@ public class BodyPartSelection extends AppCompatActivity {
             bodyPartRecyclerView.setAdapter(bodyPartWithMmtRecyclerView);
             selectedPosition=-1;
         }
+        if(pw!=null){
+            pw.dismiss();
+        }
         super.onResume();
     }
 
@@ -324,7 +328,7 @@ public class BodyPartSelection extends AppCompatActivity {
                     assert inflater != null;
                     @SuppressLint("InflateParams") View layout = inflater.inflate(R.layout.popup_comment_session, null);
 
-                    final PopupWindow pw = new PopupWindow(layout, ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
+                    pw = new PopupWindow(layout, ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
     //        pw.setHeight(height - 400);
                     pw.setWidth(width - 100);
 
