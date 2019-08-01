@@ -4,27 +4,63 @@
     <color name="colorPrimaryDark">#4B7080</color>
     <color name="colorAccent">#4b7080</color>
     <color name="button_color">#CCA586</color>
+    <!--I have to change-->
     <color name="white_opaque">#FFFFFFFF</color>
     <color name="pitch_black">#FF000000</color>
+
+    <!--Used for tansparent places-->
     <color name="translucent_black">#809b9393</color>
+
+    <!--extra-->
     <color name="background_green">#00B386</color>
     <color name="white">#FFFFFF</color>
     <color name="bodypart_heading">#8e8d8d</color>
-    <color name="darkGray">#716f6f  </color>
+    <!--used in the session report activity-->
+    <color name="darkGray">#716f6f</color>
+    <!--not being used now-->
     <color name="yellow">#fdaf3b</color>
+    <!--used in battery-->
     <color name="battery_gray">#AAA</color>
+    <!--used in the home bluetooth, sunc device icons-->
     <color name="red">#CC2016</color>
+    <!--Apps theme color-->
     <color name="good_green">#012e57</color>
+
+    <!--used in the session summary screen-->
     <color name="summary_green">#00B386</color>
+
+    <!--used in the values-21 file-->
     <color name="pale_good_green">#3FF0C4</color>
+
+    <!--used in session summary-->
     <color name="average_blue">#00A3DE</color>
+
+    <!--not used anywhere-->
     <color name="not_good_orange">#EF7400</color>
+
+    <!--used in report generation(the graph reference lines) weekly and custom view-->
     <color name="home_orange">#fdaf3b</color>
+
+    <!--used in the rounnd corner progress bar-->
     <color name="progress_bar_color">#00B386</color>
+
+    <!--used in the rounnd corner progress bar-->
     <color name="dirtyWhite">#cfcdcd</color>
+
+    <!--used in phizio profile login and comment dialog-->
     <color name="pale_white">#F1EEEE</color>
+
+    <!--Both not being used updated with new colors-->
     <color name="body_part_left">#58A8C0</color>
     <color name="body_part_right">#F2DFB4</color>
+    <!--used in the orientation overlay-->
     <color name="body_part_left_overlay">#9658A8C0</color>
     <color name="body_part_right_overlay">#96F2DFB4</color>
+
+    <!--red being used in the semi circle navigation and diconnected layout-->
+    <color name="home_semi_red">#e23c27</color>
+
+    <!--left and right colors-->
+    <color name="light_blue_theme">#54d2df</color>
+    <color name="dark_blue_theme">#007dd1</color>
 </resources>

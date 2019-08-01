@@ -18,6 +18,11 @@
         <item name="colorAccent">@color/good_green</item>
     </style>
 
+    <style name="PrimaryColoredButton" parent="Base.Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">@color/light_blue_theme</item>
+        <item name="colorControlHighlight">@color/white</item>
+    </style>
+
     <style name="AppTheme.NoActionBarLogin">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

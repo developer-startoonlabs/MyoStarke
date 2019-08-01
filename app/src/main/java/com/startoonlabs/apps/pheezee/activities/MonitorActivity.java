@@ -261,14 +261,14 @@ public class MonitorActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(PatientsView.sessionStarted==true){
-                    btn_emg_decrease_gain.setBackgroundResource(android.R.drawable.btn_default);
+                    btn_emg_decrease_gain.setBackgroundResource(R.drawable.monitor_gain_btn);
                     if(gain_initial<120){
                         gain_initial+=10;
 //                        lineChart.zoomIn();
                         lineChart.zoom(1.4f,1.4f,ui_rate,ui_rate);
 
                         if(gain_initial==120){
-                            btn_emg_increase_gain.setBackgroundColor(ContextCompat.getColor(MonitorActivity.this,R.color.red));
+                            btn_emg_increase_gain.setBackgroundColor(ContextCompat.getColor(MonitorActivity.this,R.color.home_semi_red));
                         }
                     }
                     byte[] gain_increase = ByteToArrayOperations.hexStringToByteArray("AD01");
@@ -284,11 +284,11 @@ public class MonitorActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(PatientsView.sessionStarted==true){
-                    btn_emg_increase_gain.setBackgroundResource(android.R.drawable.btn_default);
+                    btn_emg_increase_gain.setBackgroundResource(R.drawable.monitor_gain_btn);
                     if(gain_initial>10){
                         gain_initial-=10;
                         if (gain_initial==10){
-                            btn_emg_decrease_gain.setBackgroundColor(ContextCompat.getColor(MonitorActivity.this,R.color.red));
+                            btn_emg_decrease_gain.setBackgroundColor(ContextCompat.getColor(MonitorActivity.this,R.color.home_semi_red));
                         }
                         lineChart.zoomOut();
 //                        lineChart.zoom(-0.7f,-0.7f,ui_rate,0);
@@ -763,8 +763,11 @@ public class MonitorActivity extends AppCompatActivity {
      * Updates the view of gain to default
      */
     private void updateGainView() {
-        btn_emg_decrease_gain.setBackgroundResource(android.R.drawable.btn_default);
-        btn_emg_increase_gain.setBackgroundResource(android.R.drawable.btn_default);
+        btn_emg_decrease_gain.setBackgroundResource(R.drawable.monitor_gain_btn);
+        btn_emg_increase_gain.setBackgroundResource(R.drawable.monitor_gain_btn);
+
+//        btn_emg_decrease_gain = findViewById(R.id.btn_emg_decrease_gain);
+//        btn_emg_increase_gain = findViewById(R.id.btn_emg_increase_gain);
     }
 
     /**
@@ -1618,11 +1621,13 @@ public class MonitorActivity extends AppCompatActivity {
                 LinearLayout ll_child = (LinearLayout) parent.getChildAt(i);
                 TextView tv_childs = (TextView) ll_child.getChildAt(0);
                 tv_childs.setBackgroundResource(R.drawable.drawable_mmt_circular_tv);
+                tv_childs.setTextColor(ContextCompat.getColor(MonitorActivity.this,R.color.pitch_black));
             }
             TextView tv_selected = (TextView) ll_container.getChildAt(0);
             tv_selected.setBackgroundColor(Color.YELLOW);
             mmt_selected=tv_selected.getText().toString();
             tv_selected.setBackgroundResource(R.drawable.drawable_mmt_grade_selected);
+            tv_selected.setTextColor(ContextCompat.getColor(MonitorActivity.this,R.color.white));
         }
     };
 

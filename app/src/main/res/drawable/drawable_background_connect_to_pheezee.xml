@@ -10,7 +10,7 @@
         android:right="-100dp"
         android:height="150dp">
         <shape android:shape="oval">
-            <solid android:color="@color/home_orange"/>
+            <solid android:color="@color/home_semi_red"/>
         </shape>
     </item>
     <item android:height="25dp"
@@ -23,7 +23,7 @@
     <item android:height="25dp"
         android:top="24.8dp">
         <shape android:shape="oval">
-            <solid android:color="@color/home_orange"/>
+            <solid android:color="@color/home_semi_red"/>
             <corners android:radius="100dp"/>
         </shape>
     </item>

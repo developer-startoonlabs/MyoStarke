@@ -3,7 +3,7 @@
     <item
         android:left="-50dp">
         <shape android:shape="oval">
-            <solid android:color="@color/good_green" />
+            <solid android:color="@color/home_semi_red" />
             <corners android:radius="20dp"/>
         </shape>
     </item>
