@@ -386,8 +386,16 @@ public class ReportWeek extends Fragment {
                         maxangle = Integer.parseInt(object.getString("maxangle"));
                     if(object.has("minangle") && !object.getString("minangle").equalsIgnoreCase(""))
                         minangle = Integer.parseInt(object.getString("minangle"));
-                    if(object.has("maxemg") && !object.getString("maxemg").equalsIgnoreCase(""))
-                        maxemg = Integer.parseInt(object.getString("maxemg"));
+                    if(object.has("maxemg") && !object.getString("maxemg").equalsIgnoreCase("")) {
+                        String emg = object.getString("maxemg");
+                        if(emg.contains(".")){
+                            double d = Double.parseDouble(emg);
+                            int temp = (int) d;
+                            maxemg = temp;
+                        }
+                        else
+                            maxemg = Integer.parseInt(object.getString("maxemg"));
+                    }
                     rom.setUpperLine((short) maxangle);
                     rom.setLowerLine((short) minangle);
                     emg.setUpperLine((short) maxemg);
@@ -491,7 +499,14 @@ public class ReportWeek extends Fragment {
                         x++;
                         maxAngle += Integer.parseInt(object1.getString("maxangle"));
                         minAngle += Integer.parseInt(object1.getString("minangle"));
-                        maxEmg += Integer.parseInt(object1.getString("maxemg"));
+                        String emg = object1.getString("maxemg");
+                        if(emg.contains(".")){
+                            double d = Double.parseDouble(emg);
+                            int temp = (int) d;
+                            maxEmg+=temp;
+                        }
+                        else
+                            maxEmg += Integer.parseInt(object1.getString("maxemg"));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -506,7 +521,14 @@ public class ReportWeek extends Fragment {
                         x++;
                         maxAngle += Integer.parseInt(object1.getString("maxangle"));
                         minAngle += Integer.parseInt(object1.getString("minangle"));
-                        maxEmg += Integer.parseInt(object1.getString("maxemg"));
+                        String emg = object1.getString("maxemg");
+                        if(emg.contains(".")){
+                            double d = Double.parseDouble(emg);
+                            int temp = (int) d;
+                            maxEmg+=temp;
+                        }
+                        else
+                            maxEmg += Integer.parseInt(object1.getString("maxemg"));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -640,7 +662,16 @@ public class ReportWeek extends Fragment {
                 JSONObject object = array.getJSONObject(i);
                 Log.i("Response",object.toString());
 //                    String weekday = arr.getString("week");
-                int maxEmg = Integer.parseInt(object.getString("maxemg"));
+                String emg = object.getString("maxemg");
+                int maxEmg = 180;
+                if(emg.contains(".")){
+                    double d = Double.parseDouble(emg);
+                    int temp = (int) d;
+                    maxEmg = temp;
+                }
+                else
+                    maxEmg = Integer.parseInt(object.getString("maxemg"));
+//                int maxEmg = Integer.parseInt(object.getString("maxemg"));
                 data2[i] = new ApiData(i,-1,maxEmg);
             }
         } catch (JSONException e) {

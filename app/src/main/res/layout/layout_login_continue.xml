@@ -355,7 +355,7 @@
         android:layout_height="0dp"
         android:layout_marginBottom="30dp"
         android:padding="30dp"
-        app:activeDot="@drawable/active_dot"
+        app:activeDot="@drawable/login_dotted_progress"
         app:dotSize="25dp"
         app:inactiveDot="@drawable/inactive_dot"
         app:jumpingSpeed="300"

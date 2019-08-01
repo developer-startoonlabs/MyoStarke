@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context="com.startoonlabs.apps.pheezee.activities.SessionReportActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/my_toolbar_session_report"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
@@ -38,7 +38,7 @@
                 android:layout_gravity="center"
                 android:paddingStart="30dp"/>
         </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.appcompat.widget.Toolbar>
 
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
