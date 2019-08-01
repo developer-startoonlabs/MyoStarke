@@ -26,6 +26,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.alimuzaffar.lib.pin.PinEntryEditText;
 import com.startoonlabs.apps.pheezee.R;
+import com.startoonlabs.apps.pheezee.room.Entity.MqttSync;
 import com.startoonlabs.apps.pheezee.services.MqttHelper;
 import com.startoonlabs.apps.pheezee.utils.NetworkOperations;
 import com.startoonlabs.apps.pheezee.utils.OtpGeneration;
@@ -382,37 +383,50 @@ public class LoginActivity extends AppCompatActivity {
                     } else if (!RegexOperations.isValidEmail(str_login_email)) {
                         showToast("Invalid Email Address");
                     } else {
-                        try {
-                            mqttHelper.mqttAndroidClient.subscribe(mqtt_subs_login_response + str_login_email + str_login_password, 1, null, new IMqttActionListener() {
+
+                            if(!mqttHelper.mqttAndroidClient.isConnected()){
+                                MqttMessage message = new MqttMessage();
+                                message.setPayload("hello".getBytes());
+                                mqttHelper.publishMqttTopic("temp",message);
+                            }
+
+                            new Handler().postDelayed(new Runnable() {
                                 @Override
-                                public void onSuccess(IMqttToken asyncActionToken) {
-                                    Log.w("Mqtt", "Subscribed!");
-                                    Log.i("credentials", str_login_email + " " + str_login_password);
-                                    JSONObject jsonObject = new JSONObject();
+                                public void run() {
                                     try {
-                                        jsonObject.put("phiziopassword", str_login_password);
-                                        jsonObject.put("phizioemail", str_login_email);
-                                    } catch (JSONException e) {
+                                        mqttHelper.mqttAndroidClient.subscribe(mqtt_subs_login_response + str_login_email + str_login_password, 1, null, new IMqttActionListener() {
+                                            @Override
+                                            public void onSuccess(IMqttToken asyncActionToken) {
+                                                Log.w("Mqtt", "Subscribed!");
+                                                Log.i("credentials", str_login_email + " " + str_login_password);
+                                                JSONObject jsonObject = new JSONObject();
+                                                try {
+                                                    jsonObject.put("phiziopassword", str_login_password);
+                                                    jsonObject.put("phizioemail", str_login_email);
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                }
+                                                mqttMessage.setPayload(jsonObject.toString().getBytes());
+                                                mqttHelper.publishMqttTopic(mqtt_pubs_login_phizio, mqttMessage);
+                                            }
+
+                                            @Override
+                                            public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
+                                                Log.w("Mqtt", "Subscribed fail!");
+                                            }
+                                        });
+                                    } catch (MqttException e) {
                                         e.printStackTrace();
                                     }
-                                    mqttMessage.setPayload(jsonObject.toString().getBytes());
-                                    mqttHelper.publishMqttTopic(mqtt_pubs_login_phizio, mqttMessage);
-                                }
-
-                                @Override
-                                public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                                    Log.w("Mqtt", "Subscribed fail!");
-                                }
-                            });
-                        } catch (MqttException e) {
-                            e.printStackTrace();
-                        }
 
 
-                        disablePreviousView();
-                        enableWelcomeView();
-                        setWelcomeText("Logging in..");
-                        dottedProgressBar.startProgress();
+                                    disablePreviousView();
+                                    enableWelcomeView();
+                                    setWelcomeText("Logging in..");
+                                    dottedProgressBar.startProgress();
+                                    }
+                            },200);
+
                     }
                 }
                 else {
@@ -427,37 +441,48 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (NetworkOperations.isNetworkAvailable(LoginActivity.this)) {
                     if (!et_mail.getText().toString().equalsIgnoreCase("")) {
-                        setTheme(R.style.AppTheme_NoActionBar);
-                        dialogStatus = false;
-                        progressDialog.show();
-                        str_login_email = et_mail.getText().toString();
-                        final MqttMessage mqttMessage = new MqttMessage();
-                        otp = OtpGeneration.OTP(4);
-                        try {
-                            mqttHelper.mqttAndroidClient.subscribe(mqtt_pubs_forgot_password + str_login_email + otp, 1, null, new IMqttActionListener() {
-                                @Override
-                                public void onSuccess(IMqttToken asyncActionToken) {
-                                    Log.w("Mqtt", "Subscribed!");
-                                    Log.i("credentials", str_login_email + " " + str_login_password);
-                                    JSONObject jsonObject = new JSONObject();
-                                    try {
-                                        jsonObject.put("phizioemail", str_login_email);
-                                        jsonObject.put("otp", otp);
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                    mqttMessage.setPayload(jsonObject.toString().getBytes());
-                                    mqttHelper.publishMqttTopic(mqtt_pubs_forgot_password, mqttMessage);
-                                }
-
-                                @Override
-                                public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                                    Log.w("Mqtt", "Subscribed fail!");
-                                }
-                            });
-                        } catch (MqttException e) {
-                            e.printStackTrace();
+                        if(!mqttHelper.mqttAndroidClient.isConnected()){
+                            MqttMessage message = new MqttMessage();
+                            message.setPayload("hello".getBytes());
+                            mqttHelper.publishMqttTopic("temp",message);
                         }
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                setTheme(R.style.AppTheme_NoActionBar);
+                                dialogStatus = false;
+                                progressDialog.show();
+                                str_login_email = et_mail.getText().toString();
+                                final MqttMessage mqttMessage = new MqttMessage();
+                                otp = OtpGeneration.OTP(4);
+                                try {
+                                    mqttHelper.mqttAndroidClient.subscribe(mqtt_pubs_forgot_password + str_login_email + otp, 1, null, new IMqttActionListener() {
+                                        @Override
+                                        public void onSuccess(IMqttToken asyncActionToken) {
+                                            Log.w("Mqtt", "Subscribed!");
+                                            Log.i("credentials", str_login_email + " " + str_login_password);
+                                            JSONObject jsonObject = new JSONObject();
+                                            try {
+                                                jsonObject.put("phizioemail", str_login_email);
+                                                jsonObject.put("otp", otp);
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                            mqttMessage.setPayload(jsonObject.toString().getBytes());
+                                            mqttHelper.publishMqttTopic(mqtt_pubs_forgot_password, mqttMessage);
+                                        }
+
+                                        @Override
+                                        public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
+                                            Log.w("Mqtt", "Subscribed fail!");
+                                        }
+                                    });
+                                } catch (MqttException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        },200);
+
                     } else {
                         Toast.makeText(LoginActivity.this, "Please enter the email address!", Toast.LENGTH_SHORT).show();
                     }

@@ -28,6 +28,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,6 +42,8 @@ import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.services.MqttHelper;
 import com.startoonlabs.apps.pheezee.services.PicassoCircleTransformation;
 import com.startoonlabs.apps.pheezee.utils.BitmapOperations;
+import com.startoonlabs.apps.pheezee.utils.NetworkOperations;
+import com.startoonlabs.apps.pheezee.utils.RegexOperations;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
@@ -255,37 +258,47 @@ public class PhizioProfile extends AppCompatActivity {
         btn_update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String str_phizio_name = et_phizio_name.getText().toString();
-                String str_phizio_phone= et_phizio_phone.getText().toString();
+                if(NetworkOperations.isNetworkAvailable(PhizioProfile.this)) {
+                    String str_name = et_phizio_name.getText().toString();
+                    String str_phone = et_phizio_phone.getText().toString();
+                    if (!str_name.equals("")) {
+                        if (!str_phone.equals("") || !RegexOperations.isValidMobileNumber(str_phone.replaceAll("\\s", ""))) {
 
-                JSONObject object = new JSONObject();
-                MqttMessage message = new MqttMessage();
-                try {
-                    object.put("phizioname",str_phizio_name);
-                    object.put("phiziophone",str_phizio_phone);
-                    object.put("phizioemail",et_phizio_email.getText().toString());
-                    object.put("clinicname",et_clinic_name.getText().toString());
-                    object.put("phiziodob",et_dob.getText().toString());
-                    object.put("experience",et_experience.getText().toString());
-                    object.put("specialization",et_specialization.getText().toString());
-                    object.put("degree",et_degree.getText().toString());
-                    object.put("gender",et_gender.getText().toString());
-                    object.put("address",et_address.getText().toString());
-                    message.setPayload(object.toString().getBytes());
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                            JSONObject object = new JSONObject();
+                            MqttMessage message = new MqttMessage();
+                            try {
+                                object.put("phizioname", str_name);
+                                object.put("phiziophone", str_phone);
+                                object.put("phizioemail", et_phizio_email.getText().toString());
+                                object.put("clinicname", et_clinic_name.getText().toString());
+                                object.put("phiziodob", et_dob.getText().toString());
+                                object.put("experience", et_experience.getText().toString());
+                                object.put("specialization", et_specialization.getText().toString());
+                                object.put("degree", et_degree.getText().toString());
+                                object.put("gender", et_gender.getText().toString());
+                                object.put("address", et_address.getText().toString());
+                                message.setPayload(object.toString().getBytes());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                            mqttHelper.publishMqttTopic(mqtt_phizio_profile_update, message);
+
+
+                            setPaleWhiteBackground(false);
+                            btn_update.setVisibility(View.INVISIBLE);
+                            btn_cancel_update.setVisibility(View.INVISIBLE);
+
+                            focuseEditTexts(false);
+                        } else {
+                            showToast("Enter valid phone");
+                        }
+                    } else {
+                        showToast("Please enter name");
+                    }
+                }else {
+                    NetworkOperations.networkError(PhizioProfile.this);
                 }
-
-                mqttHelper.publishMqttTopic(mqtt_phizio_profile_update,message);
-
-
-
-
-                setPaleWhiteBackground(false);
-                btn_update.setVisibility(View.INVISIBLE);
-                btn_cancel_update.setVisibility(View.INVISIBLE);
-
-                focuseEditTexts(false);
             }
         });
 
@@ -474,6 +487,8 @@ public class PhizioProfile extends AppCompatActivity {
         et_experience.setBackground(drawable);
         et_specialization.setBackground(drawable);
         et_degree.setBackground(drawable);
+        et_phizio_name.setBackground(drawable);
+        et_phizio_phone.setBackground(drawable);
     }
 
     private void galleryIntent() {
@@ -553,6 +568,10 @@ public class PhizioProfile extends AppCompatActivity {
                 }
                 break;
         }
+    }
+
+    private void showToast(String message){
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
 

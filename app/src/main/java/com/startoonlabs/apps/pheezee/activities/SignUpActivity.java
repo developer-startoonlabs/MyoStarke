@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -139,68 +140,51 @@ public class SignUpActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Invalid Phone Number", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    try {
-//                        mqttHelper.mqttAndroidClient.subscribe(mqtt_subs_signup_response+str_signup_email+str_signup_password, 1, null, new IMqttActionListener() {
-//                            @Override
-//                            public void onSuccess(IMqttToken asyncActionToken) {
-//
-//                                Log.w("Mqtt", "Subscribed!");
-//                                JSONObject jsonObject = new JSONObject();
-//                                JSONArray jsonArray = new JSONArray();
-//                                MqttMessage mqttMessage = new MqttMessage();
-//                                try {
-//                                    jsonObject.put("phizioname",str_signup_name);
-//                                    jsonObject.put("phiziopassword",str_signup_password);
-//                                    jsonObject.put("phizioemail",str_signup_email);
-//                                    jsonObject.put("phiziophone",str_signup_phone);
-//                                    jsonObject.put("phizioprofilepicurl","url defauld now");
-//                                    jsonObject.put("phiziopatients",jsonArray);
-//                                } catch (JSONException e) {
-//                                    e.printStackTrace();
-//                                }
-//                                mqttMessage.setPayload(jsonObject.toString().getBytes());
-//
-//                                mqttHelper.publishMqttTopic(mqtt_publish_signup_doctor, mqttMessage);
-//                            }
-//
-//                            @Override
-//                            public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-//                                Log.w("Mqtt", "Subscribed fail!");
-//                            }
-//                        });
-                        mqttHelper.mqttAndroidClient.subscribe(mqtt_publish_confirm_email_response+str_signup_email+str_signup_password, 1, null, new IMqttActionListener() {
-                            @Override
-                            public void onSuccess(IMqttToken asyncActionToken) {
-
-                                Log.w("Mqtt", "Subscribed!");
-                                JSONObject jsonObject = new JSONObject();
-                                JSONArray jsonArray = new JSONArray();
-                                otp = OtpGeneration.OTP(4);
-                                MqttMessage mqttMessage = new MqttMessage();
-                                try {
-                                    jsonObject.put("phizioname",str_signup_name);
-                                    jsonObject.put("phiziopassword",str_signup_password);
-                                    jsonObject.put("phizioemail",str_signup_email);
-                                    jsonObject.put("phiziophone",str_signup_phone);
-                                    jsonObject.put("otp",otp);
-                                    jsonObject.put("phizioprofilepicurl","url defauld now");
-                                    jsonObject.put("phiziopatients",jsonArray);
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                                mqttMessage.setPayload(jsonObject.toString().getBytes());
-
-                                mqttHelper.publishMqttTopic(mqtt_publish_confirm_email, mqttMessage);
-                            }
-
-                            @Override
-                            public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                                Log.w("Mqtt", "Subscribed fail!");
-                            }
-                        });
-                    } catch (MqttException e) {
-                        e.printStackTrace();
+                    if(!mqttHelper.mqttAndroidClient.isConnected()){
+                        MqttMessage message = new MqttMessage();
+                        message.setPayload("hellow".getBytes());
+                        mqttHelper.publishMqttTopic("temp",message);
                     }
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                mqttHelper.mqttAndroidClient.subscribe(mqtt_publish_confirm_email_response+str_signup_email+str_signup_password, 1, null, new IMqttActionListener() {
+                                    @Override
+                                    public void onSuccess(IMqttToken asyncActionToken) {
+
+                                        Log.w("Mqtt", "Subscribed!");
+                                        JSONObject jsonObject = new JSONObject();
+                                        JSONArray jsonArray = new JSONArray();
+                                        otp = OtpGeneration.OTP(4);
+                                        MqttMessage mqttMessage = new MqttMessage();
+                                        try {
+                                            jsonObject.put("phizioname",str_signup_name);
+                                            jsonObject.put("phiziopassword",str_signup_password);
+                                            jsonObject.put("phizioemail",str_signup_email);
+                                            jsonObject.put("phiziophone",str_signup_phone);
+                                            jsonObject.put("otp",otp);
+                                            jsonObject.put("phizioprofilepicurl","url defauld now");
+                                            jsonObject.put("phiziopatients",jsonArray);
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                        mqttMessage.setPayload(jsonObject.toString().getBytes());
+
+                                        mqttHelper.publishMqttTopic(mqtt_publish_confirm_email, mqttMessage);
+                                    }
+
+                                    @Override
+                                    public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
+                                        Log.w("Mqtt", "Subscribed fail!");
+                                    }
+                                });
+                            } catch (MqttException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    },200);
+
                 }
             }
         });

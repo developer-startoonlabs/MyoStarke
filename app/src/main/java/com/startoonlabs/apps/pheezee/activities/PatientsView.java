@@ -404,10 +404,18 @@ public class PatientsView extends AppCompatActivity
                     editor.putInt("maxid",maxid);
                     editor.apply();
                 }
+                else if(array.length()<=0 && sharedPref.getInt("maxid",-1)==-1){
+                    editor = sharedPref.edit();
+                    editor.putInt("maxid",maxid);
+                    editor.apply();
+                }
                 if(array.length()>0) {
                     findViewById(R.id.noPatient).setVisibility(View.GONE);
                     pushJsonData(array);
                 }
+            }
+            else {
+                Log.i("emptypatient","empty");
             }
             if (!(getIntent().getStringExtra("macAddress") == null || getIntent().getStringExtra("macAddress").equals(""))) {
                     macAddress = getIntent().getStringExtra("macAddress");
