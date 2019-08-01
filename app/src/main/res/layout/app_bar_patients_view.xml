@@ -81,19 +81,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent">
                 <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
                     android:layout_gravity="center"
                     android:id="@+id/iv_bluetooth_connected"
                     android:visibility="gone"
-                    android:src="@drawable/bluetooth_connected_icon"
+                    android:src="@drawable/ic_bluetooth_connected"
                     android:contentDescription="@string/cd_bluetooth_connected" />
                 <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
                     android:id="@+id/iv_bluetooth_disconnected"
                     android:layout_gravity="center"
-                    android:src="@drawable/bluetooth_disconnected_icon"
+                    android:src="@drawable/ic_bluetooth_disabled"
                     android:contentDescription="@string/cd_bluetooth_disconnected" />
             </FrameLayout>
 
@@ -149,11 +149,11 @@
                     android:layout_gravity="center"
                     android:contentDescription="@string/cd_device_disconnected" />
                 <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
+                    android:layout_width="26dp"
+                    android:layout_height="30dp"
                     android:id="@+id/iv_device_connected"
                     android:onClick="addPheezeeDevice"
-                    android:src="@drawable/device_connected_icon"
+                    android:src="@drawable/ic_device_connected"
                     android:visibility="gone"
                     android:layout_gravity="center"
                     android:contentDescription="@string/cd_device_connected" />

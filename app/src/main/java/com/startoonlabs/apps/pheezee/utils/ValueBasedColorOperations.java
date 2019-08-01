@@ -31,7 +31,7 @@ public class ValueBasedColorOperations {
         }
         else {
             Log.i("inside", "else");
-            bodyPart = ContextCompat.getColor(context, R.color.good_green);
+            bodyPart = ContextCompat.getColor(context, R.color.summary_green);
         }
 
         return bodyPart;
@@ -54,7 +54,7 @@ public class ValueBasedColorOperations {
         }
         else {
             Log.i("inside", "else");
-            bodyPart = ContextCompat.getColor(context, R.color.good_green);
+            bodyPart = ContextCompat.getColor(context, R.color.summary_green);
         }
 
         return bodyPart;
