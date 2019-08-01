@@ -24,7 +24,7 @@ public class MuscleOperation {
                     "Flexor Digitorum  Profundus(Deep)", "Pronator Quadratus(Deep)", "Extensor Carpi Radialis Longus and Brevis", "Extensor Digiti Minimi",
                     "Extensor Carpi Ulnaris", "Supinator(Deep)", "Pronator Teres(Deep)", "Others"},  //Wrist
 
-            {"Select Muscle*", "Pectoralis Major", "Pectoralis Minor", "Serratus Anterior", "Trapezius",  "Latissimus Dorsi", "Deltoid",
+            {"Select Muscle*", "Pectoralis Major", "Pectoralis Minor", "Serratus Anterior", "Rhomboid", "Trapezius",  "Latissimus Dorsi", "Deltoid",
                     "Teres Major",  "Teres Minor", "Biceps", "Others"},   //Shoulder
             {"Select Muscle*","Others"}
     };

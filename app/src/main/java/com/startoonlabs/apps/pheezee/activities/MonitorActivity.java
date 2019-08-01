@@ -1272,7 +1272,7 @@ public class MonitorActivity extends AppCompatActivity {
             if(active_time_seconds<10)
                 secondsValue = "0"+active_time_seconds;
             tv_action_time.setText(minutesValue+"m: "+secondsValue+"s");
-            if(num_of_reps>=BodyPartSelection.repsselected && BodyPartSelection.repsselected!=0){
+            if(num_of_reps>=BodyPartSelection.repsselected && BodyPartSelection.repsselected!=0 && !sessionCompleted){
                 sessionCompleted=true;
                 openSuccessfullDialogAndCloseSession();
             }
