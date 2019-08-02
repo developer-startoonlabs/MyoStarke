@@ -90,7 +90,7 @@ public class BodyPartSelection extends AppCompatActivity {
     TextView tv_body_part_recent;
     ImageView iv_back_body_part_selection;
     String[] string;
-    String str_recent;public static String painscale="", muscletone="", exercisename="", commentsession="", symptoms="", musclename="";
+    String str_recent;public static String painscale="", muscletone="", exercisename="", commentsession="", symptoms="", musclename="", maxAngleSelected="", minAngleSelected="",maxEmgSelected="";
     public static int repsselected=0, exercise_selected_position=-1;
 
     FrameLayout fl_fab_background;
@@ -377,7 +377,7 @@ public class BodyPartSelection extends AppCompatActivity {
                         public void onClick(View v) {
 
                             if (!exercisename.equalsIgnoreCase("")) {
-                                JSONObject json_reference = PatientOperations.checkReferenceDone(orientationSelected, BodyPartSelection.this, getPatientId(), bodypartSelected);
+//                                JSONObject json_reference = PatientOperations.checkReferenceDone(orientationSelected, BodyPartSelection.this, getPatientId(), bodypartSelected);
                                 final AlertDialog.Builder builder = new AlertDialog.Builder(BodyPartSelection.this);
                                 LayoutInflater inflater = getLayoutInflater();
                                 final View dialogLayout = inflater.inflate(R.layout.popup_set_reference, null);
@@ -401,15 +401,6 @@ public class BodyPartSelection extends AppCompatActivity {
                                     tv_normal_min_text.setVisibility(View.GONE);
                                 }
 
-                                if (json_reference != null) {
-                                    try {
-                                        et_max_emg.setText(json_reference.getString("maxemg"));
-                                        et_max_angle.setText(json_reference.getString("maxangle"));
-                                        et_min_angle.setText(json_reference.getString("minangle"));
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
                                 builder.setPositiveButton("Submit", null);
                                 builder.setView(dialogLayout);
                                 mdialog = builder.create();
@@ -424,19 +415,9 @@ public class BodyPartSelection extends AppCompatActivity {
                                             public void onClick(View view) {
                                                 boolean flag = true;
 
-                                                String maxEmg = et_max_emg.getText().toString();
-                                                String maxAngle = et_max_angle.getText().toString();
-                                                String minEmg = String.valueOf(0);
-                                                String minAngle = et_min_angle.getText().toString();
-                                                flag = RegexOperations.checkIfNumeric(maxEmg);
-                                                if (flag)
-                                                    flag = RegexOperations.checkIfNumeric(minAngle);
-                                                if (flag)
-                                                    flag = RegexOperations.checkIfNumeric(maxAngle);
-                                                if (flag)
-                                                    sendData(maxAngle, minAngle, maxEmg, minEmg);
-                                                else
-                                                    Toast.makeText(BodyPartSelection.this, "Invalid Entry", Toast.LENGTH_SHORT).show();
+                                                maxEmgSelected = et_max_emg.getText().toString();
+                                                maxAngleSelected = et_max_angle.getText().toString();
+                                                minAngleSelected = et_min_angle.getText().toString();
 
                                                 mdialog.dismiss();
                                             }
@@ -646,15 +627,15 @@ public class BodyPartSelection extends AppCompatActivity {
         mqttHelper.mqttAndroidClient.unregisterResources();
         mqttHelper.mqttAndroidClient.close();
         super.onDestroy();
-        painscale=""; muscletone=""; exercisename=""; commentsession=""; symptoms=""; musclename="";orientationSelected="";
-        repsselected=0; selectedPosition=-1;
+        reinitializeStatics();
+        selectedPosition=-1;
     }
 
     /**
      * Reinitialize static variables
      */
     public static void reinitializeStatics() {
-        painscale=""; muscletone=""; exercisename=""; commentsession=""; symptoms=""; musclename="";orientationSelected="";
+        painscale=""; muscletone=""; exercisename=""; commentsession=""; symptoms=""; musclename="";orientationSelected=""; maxAngleSelected=""; minAngleSelected=""; maxEmgSelected="";
         repsselected=0;
     }
 

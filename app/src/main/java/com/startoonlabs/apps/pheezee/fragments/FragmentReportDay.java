@@ -89,7 +89,7 @@ public class FragmentReportDay extends Fragment {
             @Override
             public int compare(String arg0, String arg1) {
                 SimpleDateFormat format = new SimpleDateFormat(
-                        "yyyy-mm-dd");
+                        "yyyy-MM-dd");
                 int compareResult = 0;
                 try {
                     Date arg0Date = format.parse(arg0);
@@ -320,6 +320,7 @@ public class FragmentReportDay extends Fragment {
                 try {
                     JSONObject object = session_array.getJSONObject(i);
                     hashSet.add(object.getString("heldon").substring(0,10));
+                    Log.i("datespresent",object.getString("heldon").substring(0,10));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
