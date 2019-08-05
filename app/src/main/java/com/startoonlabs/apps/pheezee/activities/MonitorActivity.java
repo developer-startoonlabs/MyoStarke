@@ -1305,24 +1305,7 @@ public class MonitorActivity extends AppCompatActivity {
     @SuppressLint("ClickableViewAccessibility")
     private  void initiatePopupWindowModified(final View v){
         final View layout = getLayoutInflater().inflate(R.layout.session_summary, null);
-        int reference_max_angle=180, reference_min_angle=0;
-        JSONObject object_reference = PatientOperations.checkReferenceWithoutOrientationDone(this,patientId.getText().toString() , bodypart);
-        //getting the reference values if any
-        if(object_reference!=null){
-            try {
-                if(object_reference.has("maxangle") && !object_reference.getString("maxangle").equalsIgnoreCase(""))
-                    reference_max_angle = Integer.parseInt(object_reference.getString("maxangle"));
-                if(object_reference.has("minangle") && !object_reference.getString("minangle").equalsIgnoreCase(""))
-                    reference_min_angle = Integer.parseInt(object_reference.getString("minangle"));
 
-                Log.i("maxminangle",reference_max_angle+"");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }catch (NumberFormatException e){
-                object_reference = null;
-            }
-
-        }
 
 
         int color = ValueBasedColorOperations.getCOlorBasedOnTheBodyPart(bodypart,maxAngle,minAngle,this);
@@ -1505,10 +1488,13 @@ public class MonitorActivity extends AppCompatActivity {
         arcView.setMinAngle(minAngle);
         arcView.setRangeColor(color);
         //setting reference ranges
-        if(object_reference!=null){
             Log.i("inside","inside object reference");
-            arcView.setEnableAndMinMax(reference_min_angle,reference_max_angle,true);
-        }
+            if(!BodyPartSelection.minAngleSelected.equals("") && !BodyPartSelection.maxAngleSelected.equals("")){
+                int reference_min_angle = Integer.parseInt(BodyPartSelection.minAngleSelected);
+                int reference_max_angle = Integer.parseInt(BodyPartSelection.maxAngleSelected);
+                arcView.setEnableAndMinMax(reference_min_angle,reference_max_angle,true);
+            }
+
 
 
         TextView tv_180 = layout.findViewById(R.id.tv_180);
@@ -1767,6 +1753,9 @@ public class MonitorActivity extends AppCompatActivity {
                             object.put("sessiontype",session_type);
                             object.put("repsselected",BodyPartSelection.repsselected);
                             object.put("musclename", BodyPartSelection.musclename);
+                            object.put("maxangleselected",BodyPartSelection.maxAngleSelected);
+                            object.put("minangleselected",BodyPartSelection.minAngleSelected);
+                            object.put("maxemgselected",BodyPartSelection.maxEmgSelected);
                             MqttSync sync = new MqttSync(mqtt_publish_add_patient_session_emg_data,object.toString());
                             new SendDataAsyncTask(sync).execute();
                             }
