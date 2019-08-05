@@ -17,9 +17,9 @@ public class ValueBasedColorOperations {
      * @param context
      * @return
      */
-    public static int getCOlorBasedOnTheBodyPart(String bodypart, int max, int min, Context context){
+    public static int getCOlorBasedOnTheBodyPart(int bodypart, int exercise, int max, int min, Context context){
         int bodyPart;
-        int maxStaticRange = getBodyPartMaximumRange(bodypart);
+        int maxStaticRange = getBodyPartMaxValue(bodypart,exercise);
         int range = max-min;
         if((range<(maxStaticRange/3))){
             Log.i("inside", "less than 3");
@@ -38,27 +38,42 @@ public class ValueBasedColorOperations {
     }
 
 
+    public static int getEmgColor(int emg, int trueemg, Context context){
+        int color;
+        if(trueemg<(emg/3)){
+            color = ContextCompat.getColor(context, R.color.red);
+        }
+        else if(trueemg<((2*emg)/3)){
+            color = ContextCompat.getColor(context, R.color.average_blue);
+        }
+        else {
+            color = ContextCompat.getColor(context, R.color.summary_green);
+        }
+            return color;
+    }
 
 
-    public static int getCOlorBasedOnTheBodyPartAndExerciseName(String bodypart, String exercisename, int max, int min, Context context){
+    public static int getCOlorBasedOnTheBodyPartExercise(int bodypart, int exercise, int max, int min, Context context){
         int bodyPart;
-        int maxStaticRange = getBodyPartMaximumRange(bodypart);
+        int maxStaticRange = getBodyPartMaxValue(bodypart,exercise);
         int range = max-min;
         if((range<(maxStaticRange/3))){
             Log.i("inside", "less than 3");
-            bodyPart = ContextCompat.getColor(context, R.color.red);
+            bodyPart = 2;
         }
         else if((range<((2*maxStaticRange)/3))){
             Log.i("inside", "less than 2/3");
-            bodyPart = ContextCompat.getColor(context, R.color.average_blue);
+            bodyPart = 1;
         }
         else {
             Log.i("inside", "else");
-            bodyPart = ContextCompat.getColor(context, R.color.summary_green);
+            bodyPart = 0;
         }
 
         return bodyPart;
     }
+
+
 
     /**
      *

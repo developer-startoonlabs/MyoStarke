@@ -66,6 +66,7 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.startoonlabs.apps.pheezee.R;
+import com.startoonlabs.apps.pheezee.adapters.BodyPartWithMmtRecyclerView;
 import com.startoonlabs.apps.pheezee.classes.BluetoothSingelton;
 import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
 import com.startoonlabs.apps.pheezee.room.Entity.MqttSync;
@@ -1308,7 +1309,8 @@ public class MonitorActivity extends AppCompatActivity {
 
 
 
-        int color = ValueBasedColorOperations.getCOlorBasedOnTheBodyPart(bodypart,maxAngle,minAngle,this);
+        int color = ValueBasedColorOperations.getCOlorBasedOnTheBodyPart(BodyPartWithMmtRecyclerView.selectedPosition,BodyPartSelection.exercise_selected_position,maxAngle,minAngle,this);
+        int emg_color = ValueBasedColorOperations.getEmgColor(400,maxEmgValue,this);
         report = new PopupWindow(layout, ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT,true);
         report.setWindowLayoutMode(ConstraintLayout.LayoutParams.MATCH_PARENT,ConstraintLayout.LayoutParams.MATCH_PARENT);
         report.setOutsideTouchable(true);
@@ -1477,7 +1479,7 @@ public class MonitorActivity extends AppCompatActivity {
 
         tv_num_of_reps.setText(Repetitions.getText().toString());
         tv_max_emg.setText(Integer.toString(maxEmgValue).concat(getResources().getString(R.string.emg_unit)));
-        tv_max_emg.setBackgroundColor(color);
+        tv_max_emg.setBackgroundColor(emg_color);
 
 
         tv_range.setText(String.valueOf(maxAngle-minAngle).concat("°"));
@@ -1510,7 +1512,7 @@ public class MonitorActivity extends AppCompatActivity {
         pb_max_emg.setEnabled(false);
         LayerDrawable bgShape = (LayerDrawable) pb_max_emg.getProgressDrawable();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            bgShape.findDrawableByLayerId(bgShape.getId(1)).setTint(color);
+            bgShape.findDrawableByLayerId(bgShape.getId(1)).setTint(emg_color);
         }
 
         storeLocalSessionDetails(dateString,tempSessionTime);
@@ -1756,6 +1758,7 @@ public class MonitorActivity extends AppCompatActivity {
                             object.put("maxangleselected",BodyPartSelection.maxAngleSelected);
                             object.put("minangleselected",BodyPartSelection.minAngleSelected);
                             object.put("maxemgselected",BodyPartSelection.maxEmgSelected);
+                            object.put("sessioncolor",ValueBasedColorOperations.getCOlorBasedOnTheBodyPartExercise(BodyPartWithMmtRecyclerView.selectedPosition,BodyPartSelection.exercise_selected_position,maxAngle,minAngle,this));
                             MqttSync sync = new MqttSync(mqtt_publish_add_patient_session_emg_data,object.toString());
                             new SendDataAsyncTask(sync).execute();
                             }
