@@ -218,7 +218,7 @@ public class MonitorActivity extends AppCompatActivity {
         Configuration config = getResources().getConfiguration();
         if (config.smallestScreenWidthDp >= 600)
         {
-            setContentView(R.layout.monitor_screen);
+            setContentView(R.layout.activity_monitor);
         }
         else
         {
@@ -1315,7 +1315,17 @@ public class MonitorActivity extends AppCompatActivity {
      */
     @SuppressLint("ClickableViewAccessibility")
     private  void initiatePopupWindowModified(final View v){
-        final View layout = getLayoutInflater().inflate(R.layout.session_summary, null);
+        Configuration config = getResources().getConfiguration();
+        final View layout;
+        if (config.smallestScreenWidthDp >= 600)
+        {
+            layout = getLayoutInflater().inflate(R.layout.session_summary_large, null);
+        }
+        else
+        {
+            layout = getLayoutInflater().inflate(R.layout.session_summary, null);
+        }
+
 
 
 
