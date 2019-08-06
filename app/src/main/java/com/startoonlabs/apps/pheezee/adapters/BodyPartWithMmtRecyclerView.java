@@ -191,7 +191,7 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         holder.sp_set_goal.setAdapter(adapter);
 
-        ArrayAdapter<CharSequence> array_muscle_names = new ArrayAdapter<CharSequence>(context, R.layout.support_simple_spinner_dropdown_item, MuscleOperation.getMusleNames(position));
+        ArrayAdapter<CharSequence> array_muscle_names = new ArrayAdapter<CharSequence>(context, R.layout.support_simple_spinner_dropdown_item, MuscleOperation.getExerciseNames(position));
         array_muscle_names.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         holder.sp_muscle_name.setAdapter(array_muscle_names);
 
@@ -274,10 +274,14 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
         holder.sp_muscle_name.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position!=0)
+                if(position!=0) {
                     BodyPartSelection.musclename = holder.sp_muscle_name.getSelectedItem().toString();
-                else
-                    BodyPartSelection.musclename="";
+                    BodyPartSelection.exercise_selected_position=position;
+                }
+                else {
+                    BodyPartSelection.musclename = "";
+                    BodyPartSelection.exercise_selected_position=0;
+                }
             }
 
             @Override

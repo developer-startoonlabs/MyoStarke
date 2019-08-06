@@ -1745,7 +1745,7 @@ public class MonitorActivity extends AppCompatActivity {
                             object.put("romdata",romJsonArray);
                             object.put("painscale",BodyPartSelection.painscale);
                             object.put("muscletone",BodyPartSelection.muscletone);
-                            object.put("exercisename",BodyPartSelection.exercisename);
+                            object.put("exercisename",BodyPartSelection.musclename);
                             object.put("commentsession",BodyPartSelection.commentsession);
                             object.put("symptoms",BodyPartSelection.symptoms);
                             object.put("activetime",tv_action_time.getText().toString());
@@ -1754,7 +1754,7 @@ public class MonitorActivity extends AppCompatActivity {
                             object.put("bodyorientation",body_orientation);
                             object.put("sessiontype",session_type);
                             object.put("repsselected",BodyPartSelection.repsselected);
-                            object.put("musclename", BodyPartSelection.musclename);
+                            object.put("musclename", BodyPartSelection.exercisename);
                             object.put("maxangleselected",BodyPartSelection.maxAngleSelected);
                             object.put("minangleselected",BodyPartSelection.minAngleSelected);
                             object.put("maxemgselected",BodyPartSelection.maxEmgSelected);

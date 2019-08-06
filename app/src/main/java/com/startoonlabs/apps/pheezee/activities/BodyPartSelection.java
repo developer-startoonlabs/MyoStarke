@@ -90,7 +90,7 @@ public class BodyPartSelection extends AppCompatActivity {
     TextView tv_body_part_recent;
     ImageView iv_back_body_part_selection;
     String[] string;
-    String str_recent;public static String painscale="", muscletone="", exercisename="", commentsession="", symptoms="", musclename="", maxAngleSelected="", minAngleSelected="",maxEmgSelected="";
+    String str_recent;public static String painscale="", muscletone="", exercisename="", commentsession="", symptoms="", musclename="", maxAngleSelected="", minAngleSelected="",maxEmgSelected="";     //musclename is actually exercise name and exercisename is musclename. As the flow changed.
     public static int repsselected=0, exercise_selected_position=-1;
 
     FrameLayout fl_fab_background;
@@ -347,7 +347,7 @@ public class BodyPartSelection extends AppCompatActivity {
                     final Button btn_continue = layout.findViewById(R.id.comment_btn_continue);
 
                     //Adapter for spinner
-                    ArrayAdapter<String> array_exercise_names = new ArrayAdapter<String>(BodyPartSelection.this, R.layout.support_simple_spinner_dropdown_item, MuscleOperation.getExerciseNames(selectedPosition));
+                    ArrayAdapter<String> array_exercise_names = new ArrayAdapter<String>(BodyPartSelection.this, R.layout.support_simple_spinner_dropdown_item, MuscleOperation.getMusleNames(selectedPosition));
                     array_exercise_names.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
                     sp_exercise_name.setAdapter(array_exercise_names);
 
@@ -358,11 +358,10 @@ public class BodyPartSelection extends AppCompatActivity {
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                             if (position != 0) {
                                 exercisename = sp_exercise_name.getSelectedItem().toString();
-                                exercise_selected_position=position;
+
                             }
                             else {
                                 exercisename="";
-                                exercise_selected_position=0;
                             }
                         }
 
@@ -428,7 +427,7 @@ public class BodyPartSelection extends AppCompatActivity {
                                 mdialog.show();
                             }
                             else {
-                                showToast("Please select exercise name!");
+                                showToast("Please select Muscle name!");
                             }
                         }
                     });
@@ -541,14 +540,14 @@ public class BodyPartSelection extends AppCompatActivity {
                                 Log.i("intent", intent.toString());
                                 startActivity(intent);
                             } else {
-                                showToast("Please select exercise name!");
+                                showToast("Please select Muscle name!");
                             }
                         }
 
                     });
                 }
                 else {
-                    showToast("Please select Muscle name!");
+                    showToast("Please select Exercise name!");
                 }
             }
             else {
