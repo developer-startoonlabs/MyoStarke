@@ -57,6 +57,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -214,7 +215,16 @@ public class MonitorActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_monitor);
+        Configuration config = getResources().getConfiguration();
+        if (config.smallestScreenWidthDp >= 600)
+        {
+            setContentView(R.layout.monitor_screen);
+        }
+        else
+        {
+            setContentView(R.layout.fragment_monitor);
+        }
+
         arrayList = new ArrayList<>();
         PatientsView.insideMonitor = true;
         angleOperations = new AngleOperations();
