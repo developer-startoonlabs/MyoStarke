@@ -269,6 +269,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.3"
+                    android:orientation="vertical"
                     android:gravity="left">
 
                     <TextView
@@ -276,7 +277,8 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/ebrima"
                         android:padding="8dp"
-                        android:text="Min "
+                        android:text="@string/min_angle"
+                        android:layout_gravity="center"
                         android:textColor="@color/pitch_black"
                         android:textSize="15sp" />
 
@@ -285,13 +287,45 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@color/background_green"
-
                         android:fontFamily="@font/ebrima"
                         android:paddingLeft="5dp"
                         android:paddingTop="1dp"
+                        android:layout_gravity="center"
                         android:paddingRight="5dp"
                         android:paddingBottom="1dp"
                         android:text="20°"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3"
+                    android:orientation="vertical"
+                    android:gravity="right">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/ebrima"
+                        android:padding="8dp"
+                        android:text="@string/max_angle"
+                        android:layout_gravity="center"
+                        android:textColor="@color/pitch_black"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/tv_max_angle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/background_green"
+                        android:fontFamily="@font/ebrima"
+                        android:paddingLeft="5dp"
+                        android:paddingTop="1dp"
+                        android:layout_gravity="center"
+                        android:paddingRight="5dp"
+                        android:paddingBottom="1dp"
+                        android:text="165°"
                         android:textColor="@color/white"
                         android:textSize="15sp" />
                 </LinearLayout>
@@ -300,6 +334,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.3"
+                    android:orientation="vertical"
                     android:gravity="center">
 
                     <TextView
@@ -307,7 +342,8 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/ebrima"
                         android:padding="8dp"
-                        android:text="Range "
+                        android:text="@string/range_angle"
+                        android:layout_gravity="center"
                         android:textColor="@color/pitch_black"
                         android:textSize="15sp" />
 
@@ -322,39 +358,12 @@
                         android:paddingRight="5dp"
                         android:paddingBottom="1dp"
                         android:text="20°"
+                        android:layout_gravity="center"
                         android:textColor="@color/white"
                         android:textSize="15sp" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.3"
-                    android:gravity="right">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/ebrima"
-                        android:padding="8dp"
-                        android:text="Max "
-                        android:textColor="@color/pitch_black"
-                        android:textSize="15sp" />
-
-                    <TextView
-                        android:id="@+id/tv_max_angle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@color/background_green"
-                        android:fontFamily="@font/ebrima"
-                        android:paddingLeft="5dp"
-                        android:paddingTop="1dp"
-                        android:paddingRight="5dp"
-                        android:paddingBottom="1dp"
-                        android:text="165°"
-                        android:textColor="@color/white"
-                        android:textSize="15sp" />
-                </LinearLayout>
             </LinearLayout>
 
 
