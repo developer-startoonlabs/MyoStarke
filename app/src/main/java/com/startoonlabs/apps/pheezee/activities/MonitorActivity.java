@@ -102,7 +102,7 @@ import java.util.UUID;
 public class MonitorActivity extends AppCompatActivity {
 
     //session inserted on server
-    private boolean session_inserted_in_server = false, sessionCompleted = false;
+    private boolean session_inserted_in_server = false, sessionCompleted = false, first_packet=true;
     MqttSyncRepository repository;
     //MMT
     private String mmt_selected = "", body_orientation = "", session_type="";
@@ -118,7 +118,7 @@ public class MonitorActivity extends AppCompatActivity {
     JSONObject json_phizio = new JSONObject();
     JSONArray jsonData, emgJsonArray, romJsonArray;
     boolean inside_ondestroy = false;
-//    public final int emg_data_size_raw = 20;
+    //    public final int emg_data_size_raw = 20;
 //    public final int emg_num_packets_raw = 40;
     ImageView iv_back_monitor;
 
@@ -491,25 +491,25 @@ public class MonitorActivity extends AppCompatActivity {
                 isSessionRunning=false;
 
 //                if(maxAngle!=0&&!(maxAngle>180)&&minAngle!=180&&!(minAngle<0)) {
-                    tsLong = System.currentTimeMillis();
-                    String ts = tsLong.toString();
-                    try {
+                tsLong = System.currentTimeMillis();
+                String ts = tsLong.toString();
+                try {
 
-                        JSONObject summary = new JSONObject();
-                        summary.put("repetition", Integer.parseInt(Repetitions.getText().toString()));
-                        summary.put("maxAngle", maxAngle);
-                        summary.put("minAngle", minAngle);
-                        summary.put("maxEmg", maxEmgValue);
-                        summary.put("holdTime", holdTimeValue);
-                        summary.put("sessionTime",time.getText().toString().substring(16));
-                        summary.put("timeStamp", tsLong);
-                        sessionObj.put("Summary", summary);
-                        sessionObj.put("timeStamp", ts);
+                    JSONObject summary = new JSONObject();
+                    summary.put("repetition", Integer.parseInt(Repetitions.getText().toString()));
+                    summary.put("maxAngle", maxAngle);
+                    summary.put("minAngle", minAngle);
+                    summary.put("maxEmg", maxEmgValue);
+                    summary.put("holdTime", holdTimeValue);
+                    summary.put("sessionTime",time.getText().toString().substring(16));
+                    summary.put("timeStamp", tsLong);
+                    sessionObj.put("Summary", summary);
+                    sessionObj.put("timeStamp", ts);
 
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    initiatePopupWindowModified(v);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                initiatePopupWindowModified(v);
                 //sessiondetails file output stream and notifying the media store about the files
                 insertValuesAndNotifyMediaStore();
 //                }else {
@@ -597,12 +597,12 @@ public class MonitorActivity extends AppCompatActivity {
                     }
 
                     if(topic.equals(mqtt_publish_add_patient_session_emg_data_response+json_phizio.getString("phizioemail"))){
-                            JSONObject object = new JSONObject(message.toString());
-                            if(object.has("response") && object.getString("response").equalsIgnoreCase("inserted")) {
-                                session_inserted_in_server = true;
-                                repository.deleteParticular(object.getInt("id"));
-                                showToast("INSERTED!");
-                            }
+                        JSONObject object = new JSONObject(message.toString());
+                        if(object.has("response") && object.getString("response").equalsIgnoreCase("inserted")) {
+                            session_inserted_in_server = true;
+                            repository.deleteParticular(object.getInt("id"));
+                            showToast("INSERTED!");
+                        }
                     }
 
                     if(topic.equals(mqtt_mmt_updated_response+json_phizio.getString("phizioemail"))){
@@ -687,7 +687,7 @@ public class MonitorActivity extends AppCompatActivity {
      */
     public void startSession(){
         updateGainView();
-        session_inserted_in_server = false;sessionCompleted=false;
+        session_inserted_in_server = false;sessionCompleted=false;first_packet=true;
         mmt_selected="";body_orientation="";session_type="";ui_rate = 0;rate=0;devicePopped=false;
         PatientsView.sessionStarted = true;
         isSessionRunning = true;
@@ -923,7 +923,7 @@ public class MonitorActivity extends AppCompatActivity {
         lineChart.setData(lineData);
     }
 
-//    @Override
+    //    @Override
 //    protected void onPause() {
 //        super.onPause();s
 //        if(mBluetoothGatt!=null && mCharacteristic!=null){
@@ -1022,7 +1022,7 @@ public class MonitorActivity extends AppCompatActivity {
         public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
         }
 
-//        @RequiresApi(api = Build.VERSION_CODES.O)
+        //        @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         public void onCharacteristicChanged(final BluetoothGatt gatt, final BluetoothGattCharacteristic characteristic) {
             if(characteristic1_service1_uuid.equals(characteristic.getUuid())) {
@@ -1044,9 +1044,12 @@ public class MonitorActivity extends AppCompatActivity {
                         }
                         Message message = Message.obtain();
                         message.obj = sub_byte;
-                        if(!sessionCompleted) {
+                        if(!sessionCompleted && !first_packet) {
                             myHandler.sendMessage(message);
 //                            new MyValueViewAsyncTask().execute(sub_byte);
+                        }
+                        else {
+                            first_packet=false;
                         }
 
                         try {
@@ -1270,10 +1273,10 @@ public class MonitorActivity extends AppCompatActivity {
                 lineChart.setVisibleXRangeMaximum(5f);
             lineChart.moveViewToX((float) ui_rate / 1000);
 
-                maxAngle = maxAngle < angleDetected ? angleDetected : maxAngle;
-                tv_max_angle.setText(String.valueOf(maxAngle));
-                minAngle = minAngle > angleDetected ? angleDetected : minAngle;
-                tv_min_angle.setText(String.valueOf(minAngle));
+            maxAngle = maxAngle < angleDetected ? angleDetected : maxAngle;
+            tv_max_angle.setText(String.valueOf(maxAngle));
+            minAngle = minAngle > angleDetected ? angleDetected : minAngle;
+            tv_min_angle.setText(String.valueOf(minAngle));
 //            }
             emgSignal.setLayoutParams(params);
             holdTime.setText(holdTimeValue);
@@ -1448,11 +1451,11 @@ public class MonitorActivity extends AppCompatActivity {
                 File file = takeScreenshot(report);
                 Uri pdfURI = FileProvider.getUriForFile(MonitorActivity.this, getApplicationContext().getPackageName() + ".my.package.name.provider", file);
 
-             Intent i = new Intent();
-             i.setAction(Intent.ACTION_SEND);
-             i.putExtra(Intent.EXTRA_STREAM,pdfURI);
-             i.setType("application/jpg");
-             startActivity(Intent.createChooser(i, "share pdf"));
+                Intent i = new Intent();
+                i.setAction(Intent.ACTION_SEND);
+                i.putExtra(Intent.EXTRA_STREAM,pdfURI);
+                i.setType("application/jpg");
+                startActivity(Intent.createChooser(i, "share pdf"));
             }
         });
 
@@ -1510,12 +1513,12 @@ public class MonitorActivity extends AppCompatActivity {
         arcView.setMinAngle(minAngle);
         arcView.setRangeColor(color);
         //setting reference ranges
-            Log.i("inside","inside object reference");
-            if(!BodyPartSelection.minAngleSelected.equals("") && !BodyPartSelection.maxAngleSelected.equals("")){
-                int reference_min_angle = Integer.parseInt(BodyPartSelection.minAngleSelected);
-                int reference_max_angle = Integer.parseInt(BodyPartSelection.maxAngleSelected);
-                arcView.setEnableAndMinMax(reference_min_angle,reference_max_angle,true);
-            }
+        Log.i("inside","inside object reference");
+        if(!BodyPartSelection.minAngleSelected.equals("") && !BodyPartSelection.maxAngleSelected.equals("")){
+            int reference_min_angle = Integer.parseInt(BodyPartSelection.minAngleSelected);
+            int reference_max_angle = Integer.parseInt(BodyPartSelection.maxAngleSelected);
+            arcView.setEnableAndMinMax(reference_min_angle,reference_max_angle,true);
+        }
 
 
 
@@ -1781,7 +1784,7 @@ public class MonitorActivity extends AppCompatActivity {
                             object.put("sessioncolor",ValueBasedColorOperations.getCOlorBasedOnTheBodyPartExercise(BodyPartWithMmtRecyclerView.selectedPosition,BodyPartSelection.exercise_selected_position,maxAngle,minAngle,this));
                             MqttSync sync = new MqttSync(mqtt_publish_add_patient_session_emg_data,object.toString());
                             new SendDataAsyncTask(sync).execute();
-                            }
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
