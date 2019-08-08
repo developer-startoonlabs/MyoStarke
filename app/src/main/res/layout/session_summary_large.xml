@@ -184,17 +184,6 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:id="@+id/summary_tv_delete_session"
-                                android:fontFamily="@font/ebrima"
-                                android:layout_gravity="end"
-                                android:paddingBottom="10dp"
-                                android:layout_marginEnd="10dp"
-                                android:text="Delete Session"
-                                android:textColor="@color/pitch_black"
-                                android:textSize="25sp" />
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
                                 android:id="@+id/summary_tv_comment"
                                 android:fontFamily="@font/ebrima"
                                 android:layout_gravity="end"
@@ -1347,6 +1336,46 @@
                         </LinearLayout>
 
                     </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/deleteSession"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/round_corner_layout"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ll_overall_summary"
+                    app:layout_constraintVertical_bias="0.0"
+                    tools:ignore="MissingConstraints">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="25sp"
+                        android:layout_marginTop="15dp"
+                        android:text="Want to delete session?"
+                        android:textColor="@color/pitch_black"
+                        android:layout_gravity="center"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/summary_tv_delete_session"
+                        android:fontFamily="@font/ebrima"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginBottom="15dp"
+                        android:paddingBottom="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:text="Click here to delete Session"
+                        android:textColor="@color/pitch_black"
+                        android:textSize="25sp" />
                 </LinearLayout>
 
 

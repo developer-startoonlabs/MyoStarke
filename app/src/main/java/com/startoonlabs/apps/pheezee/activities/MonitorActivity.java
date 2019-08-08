@@ -135,6 +135,7 @@ public class MonitorActivity extends AppCompatActivity {
     String mqtt_publish_update_patient_mmt_grade = "phizio/patient/updateMmtGrade";
     private String mqtt_mmt_updated_response = "phizio/patient/updateMmtGrade/response";
     private String mqtt_delete_pateint_session = "phizio/patient/deletepatient/sesssion";
+    private String mqtt_delete_session_response = "phizio/patient/deletepatient/sesssion/response";
 
     PopupWindow report;
     int visiblity=View.VISIBLE;
@@ -612,7 +613,7 @@ public class MonitorActivity extends AppCompatActivity {
                             showToast("Updated");
                         }
                     }
-                    if(topic.equals(mqtt_delete_pateint_session+json_phizio.getString("phizioemail"))){
+                    if(topic.equals(mqtt_delete_session_response+json_phizio.getString("phizioemail"))){
                         JSONObject object = new JSONObject(message.toString());
                         if(object.has("response") && object.getString("response").equalsIgnoreCase("deleted")) {
                             repository.deleteParticular(object.getInt("id"));
