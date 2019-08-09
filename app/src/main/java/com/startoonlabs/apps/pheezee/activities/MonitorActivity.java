@@ -102,7 +102,7 @@ import java.util.UUID;
 public class MonitorActivity extends AppCompatActivity {
 
     //session inserted on server
-    private boolean session_inserted_in_server = false, sessionCompleted = false, first_packet=true;
+    private boolean session_inserted_in_server = false, sessionCompleted = false, first_packet=true, can_beeep = true;
     MqttSyncRepository repository;
     //MMT
     private String mmt_selected = "", body_orientation = "", session_type="";
@@ -1178,6 +1178,9 @@ public class MonitorActivity extends AppCompatActivity {
                 minAngle = angleDetected;
                 maxAngle = angleDetected;
             }
+            if(ui_rate%2000==0){
+                can_beeep = true;
+            }
             num_of_reps = ByteToArrayOperations.getNumberOfReps(sub_byte[42], sub_byte[43]);
             hold_time_minutes = sub_byte[44];
             hold_time_seconds = sub_byte[45];
@@ -1207,6 +1210,14 @@ public class MonitorActivity extends AppCompatActivity {
             }
             else {
                 arcViewInside.setMaxAngle(angleDetected);
+            }
+
+            //Beep
+            if(!BodyPartSelection.maxAngleSelected.equals("")){
+                int x = Integer.parseInt(BodyPartSelection.maxAngleSelected);
+                if(currentAngle>x && can_beeep){
+
+                }
             }
 
             romJsonArray.put(angleDetected);
