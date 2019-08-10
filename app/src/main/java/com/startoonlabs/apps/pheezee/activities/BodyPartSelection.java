@@ -358,7 +358,6 @@ public class BodyPartSelection extends AppCompatActivity {
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                             if (position != 0) {
                                 exercisename = sp_exercise_name.getSelectedItem().toString();
-
                             }
                             else {
                                 exercisename="";

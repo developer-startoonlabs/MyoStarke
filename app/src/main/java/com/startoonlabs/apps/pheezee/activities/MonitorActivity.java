@@ -350,7 +350,7 @@ public class MonitorActivity extends AppCompatActivity {
         bodypart = getIntent().getStringExtra("exerciseType");
         orientation = getIntent().getStringExtra("orientation");
         tv_body_part.setText(tv_body_part.getText().toString().concat(bodypart));
-        tv_body_part.setText(orientation+"-"+bodypart+"-"+BodyPartSelection.exercisename);
+        tv_body_part.setText(orientation+"-"+bodypart+"-"+BodyPartSelection.musclename);
         if(BodyPartSelection.repsselected!=0){
             tv_repsselected.setText("/".concat(String.valueOf(BodyPartSelection.repsselected)));
         }
@@ -1380,10 +1380,10 @@ public class MonitorActivity extends AppCompatActivity {
 
         //setting session no
         tv_session_num.setText(tv_session_no.getText().toString());
-        tv_exercise_name.setText(BodyPartSelection.exercisename);
+        tv_exercise_name.setText(BodyPartSelection.musclename);
 
         tv_orientation_and_bodypart.setText(orientation+"-"+bodypart);
-        tv_musclename.setText(BodyPartSelection.musclename);
+        tv_musclename.setText(BodyPartSelection.exercisename);
 
         ll_click_to_choose_body_part.setOnClickListener(new View.OnClickListener() {
             @Override
