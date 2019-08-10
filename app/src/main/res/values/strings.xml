@@ -133,7 +133,7 @@
     <!--App info related tags-->
     <string name="app_info">Application Info</string>
     <string name="app_version">Application Version</string>
-    <string name="application_version">2.7.5</string>
+    <string name="application_version">2.7.6</string>
 
     <!--phizio profile related tags-->
     <string name="your_profile">Your Profile</string>
@@ -293,6 +293,7 @@
     <string name="pain_scale">Pain Scale?</string>
     <string name="muscle_tone">Muscle Tone?</string>
     <string name="exercise_name">Exercise Name?*</string>
+    <string name="muscle_name">Muscle Name?*</string>
     <string name="comment">Comment?</string>
     <string name="comment_if_any">Comment(if any)</string>
     <string name="continue_session">Continue</string>
