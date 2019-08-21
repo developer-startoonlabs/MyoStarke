@@ -1169,8 +1169,7 @@ public class MonitorActivity extends AppCompatActivity {
     public final Handler myHandler = new Handler() {
         public void handleMessage(Message message ) {
             int angleDetected=0,num_of_reps=0, hold_time_minutes, hold_time_seconds, active_time_minutes,active_time_seconds;
-            int[] emg_data;
-            byte[] sub_byte;
+            int[] emg_data;byte[] sub_byte;
             sub_byte = (byte[]) message.obj;
             emg_data = ByteToArrayOperations.constructEmgDataWithGain(sub_byte,software_gain);
             angleDetected = ByteToArrayOperations.getAngleFromData(sub_byte[40],sub_byte[41]);
@@ -1194,13 +1193,6 @@ public class MonitorActivity extends AppCompatActivity {
             if(hold_time_seconds<10)
                 secondsValue = "0"+hold_time_seconds;
             holdTimeValue = minutesValue+"m: "+secondsValue+"s";
-
-
-
-            //Custom thresholds
-//            if(angleDetected>=minAnglePart && angleDetected<=maxAnglePart) {
-//                rangeOfMotion.setAngle(angleDetected);
-
             if(angleCorrected) {
                 angleDetected+=angleCorrection;
                 arcViewInside.setMaxAngle(angleDetected);
@@ -1384,6 +1376,10 @@ public class MonitorActivity extends AppCompatActivity {
 
         tv_orientation_and_bodypart.setText(orientation+"-"+bodypart);
         tv_musclename.setText(BodyPartSelection.exercisename);
+        if(BodyPartSelection.musclename.equalsIgnoreCase("Isometric")){
+            maxAngle = 0;
+            minAngle = 0;
+        }
 
         ll_click_to_choose_body_part.setOnClickListener(new View.OnClickListener() {
             @Override

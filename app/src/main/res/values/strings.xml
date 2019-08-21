@@ -38,6 +38,19 @@
         <item>25 Reps</item>
     </string-array>
 
+    <string-array name="case_description">
+        <item>Select Case</item><item>GBS</item><item>Spinal Cord injury</item>
+        <item>Stroke</item><item>Monoplegia</item><item>Paraplagia</item>
+        <item>Monoparesis</item><item>Paraparesis</item><item>TkR</item>
+        <item>Cervical Decompression</item><item>Hemiperasis</item><item>Quadriperasis</item>
+        <item>Joint Pain</item><item>Subdural Hygroma</item>
+        <item>Cardio embolic stroke</item><item>Hemeplegia</item>
+        <item>Thalamic CG Bleed</item><item>paralize</item>
+        <item>Dyselectrolytemia</item>
+        <item>Laminectomy</item>
+        <item>Enter case description</item>
+    </string-array>
+
 
     <string name="overall_feedback">Overall Feedback</string>
 
@@ -299,6 +312,7 @@
     <string name="continue_session">Continue</string>
     <string name="symptomps">Symptoms?</string>
     <string name="reference">Set Reference</string>
+    <string name="max_char">100 character max</string>
 
     <!--Sync Dialog strings-->
     <string name="sync_title">Syncing session data to the server</string>

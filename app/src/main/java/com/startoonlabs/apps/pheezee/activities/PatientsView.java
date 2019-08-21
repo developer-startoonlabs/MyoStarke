@@ -2,6 +2,7 @@ package com.startoonlabs.apps.pheezee.activities;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.Presentation;
 import android.app.ProgressDialog;
@@ -44,7 +45,11 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -54,6 +59,7 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -99,6 +105,7 @@ import com.startoonlabs.apps.pheezee.utils.BatteryOperation;
 import com.startoonlabs.apps.pheezee.utils.BitmapOperations;
 import com.startoonlabs.apps.pheezee.utils.ByteToArrayOperations;
 import com.startoonlabs.apps.pheezee.utils.DateOperations;
+import com.startoonlabs.apps.pheezee.utils.MuscleOperation;
 import com.startoonlabs.apps.pheezee.utils.NetworkOperations;
 import com.startoonlabs.apps.pheezee.utils.PatientOperations;
 
@@ -116,6 +123,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+
+import static com.startoonlabs.apps.pheezee.adapters.BodyPartWithMmtRecyclerView.selectedPosition;
 
 /**
  *
@@ -856,6 +865,7 @@ public class PatientsView extends AppCompatActivity
     private void initiatePopupWindow(View v) {
         try {
             final JSONObject jsonObject = new JSONObject();
+            final String[] case_description = {""};
             jsonData = new JSONArray();
             Display display = getWindowManager().getDefaultDisplay();
             Point size = new Point();
@@ -894,18 +904,54 @@ public class PatientsView extends AppCompatActivity
             final EditText patientAge = layout.findViewById(R.id.patientAge);
             final EditText caseDescription = layout.findViewById(R.id.contentDescription);
             final RadioGroup radioGroup = layout.findViewById(R.id.patientGender);
-
+            final Spinner sp_case_des = layout.findViewById(R.id.sp_case_des);
+            //Adapter for spinner
+            ArrayAdapter<String> array_exercise_names = new ArrayAdapter<String>(PatientsView.this, R.layout.support_simple_spinner_dropdown_item, getResources().getStringArray(R.array.case_description));
+            array_exercise_names.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+            sp_case_des.setAdapter(array_exercise_names);
             final String todaysDate = DateOperations.dateInMmDdYyyy();
+            sp_case_des.setOnTouchListener(new View.OnTouchListener() {
 
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    InputMethodManager imm=(InputMethodManager)getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                    return false;
+                }
+            }) ;
             Button addBtn = layout.findViewById(R.id.addBtn);
             Button cancelBtn = layout.findViewById(R.id.cancelBtn);
+
+            sp_case_des.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    if(position<sp_case_des.getAdapter().getCount()-1){
+                        caseDescription.setVisibility(View.GONE);
+                        if(position!=0) {
+                            case_description[0] = sp_case_des.getSelectedItem().toString();
+                        }
+                    }
+                    if(position==sp_case_des.getAdapter().getCount()-1){
+                        case_description[0] = "";
+                        caseDescription.setVisibility(View.VISIBLE);
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
 
             jsonData = new JSONArray(json_phizio.getString("phiziopatients"));
             addBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     RadioButton btn = layout.findViewById(radioGroup.getCheckedRadioButtonId());
-                    if ((!patientName.getText().toString().equals("")) && (!patientId.getText().toString().equals("")) && (!patientAge.getText().toString().equals(""))&& (!caseDescription.getText().toString().equals("")) && btn!=null) {
+                    if(caseDescription.getVisibility()==View.VISIBLE){
+                        case_description[0] = caseDescription.getText().toString();
+                    }
+                    if ((!patientName.getText().toString().equals("")) && (!patientId.getText().toString().equals("")) && (!patientAge.getText().toString().equals(""))&& (!case_description[0].equals("")) && btn!=null) {
                         if (!Objects.requireNonNull(sharedPref.getString("phiziodetails", "")).equals("")) {
                             if(jsonData.length()>0) {
                                 try {
@@ -931,7 +977,7 @@ public class PatientsView extends AppCompatActivity
                             jsonObject.put("numofsessions", "0");
                             jsonObject.put("patientage",patientAge.getText().toString());
                             jsonObject.put("patientgender",btn.getText().toString());
-                            jsonObject.put("patientcasedes",caseDescription.getText().toString());
+                            jsonObject.put("patientcasedes",case_description[0]);
                             jsonObject.put("status","active");
                             jsonObject.put("patientphone", patientId.getText().toString());
                             jsonObject.put("patientprofilepicurl", "empty");
@@ -952,11 +998,12 @@ public class PatientsView extends AppCompatActivity
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        pw.dismiss();
                     }
                     else {
                         Toast.makeText(PatientsView.this, "Invalid Input!!", Toast.LENGTH_SHORT).show();
                     }
-                    pw.dismiss();
+
                 }
             });
             cancelBtn.setOnClickListener(new View.OnClickListener() {
@@ -1249,6 +1296,7 @@ public class PatientsView extends AppCompatActivity
      */
     public void editPopUpWindow(View v){
         patientLayout = (LinearLayout)v;
+        final String[] case_description = {""};
         final TextView patientIdTemp = v.findViewById(R.id.patientId);
         JSONObject object = PatientOperations.findPatient(this,patientIdTemp.getText().toString().substring(5));
         final JSONObject jsonObject = new JSONObject();
@@ -1285,12 +1333,41 @@ public class PatientsView extends AppCompatActivity
         final RadioGroup radioGroup = layout.findViewById(R.id.patientGender);
         RadioButton btn_male = layout.findViewById(R.id.radioBtn_male);
         RadioButton btn_female = layout.findViewById(R.id.radioBtn_female);
+        final Spinner sp_case_des = layout.findViewById(R.id.sp_case_des);
+        //Adapter for spinner
+        ArrayAdapter<String> array_exercise_names = new ArrayAdapter<String>(PatientsView.this, R.layout.support_simple_spinner_dropdown_item, getResources().getStringArray(R.array.case_description));
+        array_exercise_names.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        sp_case_des.setAdapter(array_exercise_names);
 
-        final String todaysDate = DateOperations.dateInMmDdYyyy();
+        sp_case_des.setOnTouchListener(new View.OnTouchListener() {
 
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                InputMethodManager imm=(InputMethodManager)getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                return false;
+            }
+        }) ;
 
-        Log.i("Date", todaysDate);
+        sp_case_des.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position<sp_case_des.getAdapter().getCount()-1){
+                    caseDescription.setVisibility(View.GONE);
+                    if(position!=0) {
+                        case_description[0] = sp_case_des.getSelectedItem().toString();
+                    }
+                }
+                if(position==sp_case_des.getAdapter().getCount()-1){
+                    caseDescription.setVisibility(View.VISIBLE);
+                }
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         Button addBtn = layout.findViewById(R.id.addBtn);
         addBtn.setText("Update");
         patientId.setVisibility(View.GONE);
@@ -1303,6 +1380,7 @@ public class PatientsView extends AppCompatActivity
             else
                 radioGroup.check(btn_female.getId());
             caseDescription.setText(object.getString("patientcasedes"));
+            case_description[0] = object.getString("patientcasedes");
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -1316,8 +1394,11 @@ public class PatientsView extends AppCompatActivity
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(caseDescription.getVisibility()==View.VISIBLE){
+                    case_description[0] = caseDescription.getText().toString();
+                }
                 RadioButton btn = layout.findViewById(radioGroup.getCheckedRadioButtonId());
-                if ((!patientName.getText().toString().equals(""))  && (!patientAge.getText().toString().equals(""))&& (!caseDescription.getText().toString().equals("")) && btn!=null) {
+                if ((!patientName.getText().toString().equals(""))  && (!patientAge.getText().toString().equals(""))&& (!case_description[0].equals("")) && btn!=null) {
                     if (!Objects.requireNonNull(sharedPref.getString("phiziodetails", "")).equals("")) {
                         if(jsonData.length()>0) {
                             for(int k=0;k<jsonData.length();k++){
@@ -1326,7 +1407,7 @@ public class PatientsView extends AppCompatActivity
                                         jsonData.getJSONObject(k).put("patientname",patientName.getText().toString());
                                         jsonData.getJSONObject(k).put("patientage",patientAge.getText().toString());
                                         jsonData.getJSONObject(k).put("patientgender",btn.getText().toString());
-                                        jsonData.getJSONObject(k).put("patientcasedes",caseDescription.getText().toString());
+                                        jsonData.getJSONObject(k).put("patientcasedes",case_description[0]);
                                         json_phizio.put("phiziopatients",jsonData);
                                         jsonObject.put("phizioemail", json_phizio.get("phizioemail"));
                                         jsonObject.put("patientid",jsonData.getJSONObject(k).get("patientid"));
@@ -2152,7 +2233,6 @@ public class PatientsView extends AppCompatActivity
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
         }
         else {
             showToast("Nothing to sync");
@@ -2192,5 +2272,7 @@ public class PatientsView extends AppCompatActivity
             }
         }
     }
+
+
 
 }

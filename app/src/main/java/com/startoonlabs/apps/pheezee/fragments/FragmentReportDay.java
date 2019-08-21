@@ -1,11 +1,13 @@
 package com.startoonlabs.apps.pheezee.fragments;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.ParseException;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,12 +19,14 @@ import android.widget.Toast;
 
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.activities.SessionReportActivity;
 import com.startoonlabs.apps.pheezee.retrofit.GetDataService;
 import com.startoonlabs.apps.pheezee.retrofit.RetrofitClientInstance;
 import com.startoonlabs.apps.pheezee.utils.DateOperations;
+import com.startoonlabs.apps.pheezee.utils.NetworkOperations;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -63,6 +67,9 @@ public class FragmentReportDay extends Fragment {
     JSONArray session_array;
     ArrayList<String> dates_sessions;
     Iterator iterator;
+    ProgressDialog report_dialog;
+    boolean report_generated = false;
+    Handler server_busy_handler;
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
@@ -74,7 +81,11 @@ public class FragmentReportDay extends Fragment {
         iv_right = view.findViewById(R.id.fragment_day_iv_right);
         tv_report_date = view.findViewById(R.id.fragment_day_tv_report_date);
         session_array = ((SessionReportActivity)getActivity()).getSessions();
-
+        server_busy_handler = new Handler();
+        report_dialog = new ProgressDialog(getActivity());
+        report_dialog.setMessage("Generating day report please wait....");
+        report_dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        report_dialog.setIndeterminate(true);
 
 
         HashSet<String> hashSet = fetchAllDates();
@@ -155,7 +166,10 @@ public class FragmentReportDay extends Fragment {
             public void onClick(View v) {
 //                openDatePicker();
                 if(dates_sessions.size()>0){
-                    getDayReport(dates_sessions.get(current_date_position));
+                    if(NetworkOperations.isNetworkAvailable(getActivity()))
+                        getDayReport(dates_sessions.get(current_date_position));
+                    else
+                        NetworkOperations.networkError(getActivity());
                 }
                 else {
                     sendToast("No sessions done");
@@ -216,15 +230,21 @@ public class FragmentReportDay extends Fragment {
      * @param date
      */
     private void getDayReport(String date){
+        report_generated = false;
         GetDataService getDataService = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
         Call<ResponseBody> fileCall = getDataService.getReport("/getreport/"+patientId+"/"+phizioemail+"/" + date);
-        sendToast("Generating report please wait....");
+        report_dialog.setMessage("Generating day report for sessions held on "+date+", please wait....");
+        report_dialog.show();
+        server_busy_handler.postDelayed(runnable,12000);
         fileCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 Log.i("Response", response.body().toString());
                 File file = writeResponseBodyToDisk(response.body(), patientName+"-day-"+patientId);
                 if (file != null) {
+                    report_dialog.dismiss();
+                    report_generated=true;
+                    server_busy_handler.removeCallbacks(runnable);
                     Intent target = new Intent(Intent.ACTION_VIEW);
                     target.setDataAndType(FileProvider.getUriForFile(getActivity(), getActivity().getPackageName() + ".my.package.name.provider", file), "application/pdf");
                     target.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -245,6 +265,14 @@ public class FragmentReportDay extends Fragment {
             }
         });
     }
+
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+                report_dialog.dismiss();
+                NetworkOperations.openServerBusyDialog(getActivity());
+        }
+    };
 
 
 

@@ -1,12 +1,15 @@
 package com.startoonlabs.apps.pheezee.activities;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -66,7 +69,16 @@ public class SessionReportActivity extends AppCompatActivity {
         progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progress.setIndeterminate(true);
         progress.show();
-
+        progress.setOnKeyListener(new DialogInterface.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    finish();
+                    dialog.dismiss();
+                }
+                return true;
+            }
+        });
 
 
 
@@ -180,26 +192,34 @@ public class SessionReportActivity extends AppCompatActivity {
         tv_month.setAlpha(0.5f);
     }
 
-
     public void openDayFragment(){
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragment = new FragmentReportDay();
-        fragmentTransaction.replace(R.id.fragment_report_container,fragment);
-        fragmentTransaction.commit();
-        FragmentManager fm = getSupportFragmentManager();
-        for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
-            fm.popBackStack();
+        if(session_arry!=null) {
+            fragmentTransaction = fragmentManager.beginTransaction();
+            fragment = new FragmentReportDay();
+            fragmentTransaction.replace(R.id.fragment_report_container, fragment);
+            fragmentTransaction.commit();
+            FragmentManager fm = getSupportFragmentManager();
+            for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+                fm.popBackStack();
+            }
+        }else {
+            showToast("Fetching report data, please wait...");
         }
     }
 
     public void openWeekFragment(){
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragment = new ReportWeek();
-        fragmentTransaction.replace(R.id.fragment_report_container,fragment);
-        fragmentTransaction.commit();
-        FragmentManager fm = getSupportFragmentManager();
-        for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
-            fm.popBackStack();
+        if(session_arry!=null) {
+            fragmentTransaction = fragmentManager.beginTransaction();
+            fragment = new ReportWeek();
+            fragmentTransaction.replace(R.id.fragment_report_container, fragment);
+            fragmentTransaction.commit();
+            FragmentManager fm = getSupportFragmentManager();
+            for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+                fm.popBackStack();
+            }
+        }
+        else {
+            showToast("Fetching report data, please wait...");
         }
     }
 
@@ -232,5 +252,9 @@ public class SessionReportActivity extends AppCompatActivity {
 
     public JSONArray getSessions(){
         return session_arry;
+    }
+
+    public void showToast(String message){
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }
