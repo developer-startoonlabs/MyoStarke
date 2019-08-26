@@ -245,6 +245,7 @@ public class PatientsView extends AppCompatActivity
 
     MqttSyncRepository repository ;
     List<MqttSync> list_sync = null;
+    Handler server_busy_handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -263,7 +264,7 @@ public class PatientsView extends AppCompatActivity
         mRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-
+        server_busy_handler = new Handler();
 
         //connected disconnected toast
         connected_disconnected_toast = Toast.makeText(getApplicationContext(),null,Toast.LENGTH_SHORT);
@@ -532,6 +533,7 @@ public class PatientsView extends AppCompatActivity
                        if(object.has("response") && object.getString("response").equalsIgnoreCase("inserted")){
                            repository.deleteParticular(object.getInt("id"));
                            if(list_sync!=null){
+                               server_busy_handler.removeCallbacks(runnable);
                                list_sync.remove(0);
                                if(list_sync.size()>0){
                                    MqttMessage new_message = new MqttMessage();
@@ -563,6 +565,7 @@ public class PatientsView extends AppCompatActivity
                         if(object.has("response") && object.getString("response").equalsIgnoreCase("inserted")) {
                             repository.deleteParticular(object.getInt("id"));
                             if(list_sync!=null ) {
+                                server_busy_handler.removeCallbacks(runnable);
                                 list_sync.remove(0);
                                 if (list_sync.size() > 0) {
                                     MqttMessage new_message = new MqttMessage();
@@ -584,6 +587,7 @@ public class PatientsView extends AppCompatActivity
                         if(object.has("response") && object.getString("response").equalsIgnoreCase("updated")) {
                             repository.deleteParticular(object.getInt("id"));
                             if(list_sync!=null) {
+                                server_busy_handler.removeCallbacks(runnable);
                                 list_sync.remove(0);
                                 if (list_sync.size() > 0) {
                                     MqttMessage new_message = new MqttMessage();
@@ -2216,6 +2220,7 @@ public class PatientsView extends AppCompatActivity
     public void startSync(List<MqttSync> list_sync) {
         if (list_sync.size() > 0) {
             this.list_sync = list_sync;
+            server_busy_handler.postDelayed(runnable,12000);
             progress = new ProgressDialog(PatientsView.this);
             progress.setMessage("Syncing session data to the server");
             progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -2238,6 +2243,13 @@ public class PatientsView extends AppCompatActivity
             showToast("Nothing to sync");
         }
     }
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            progress.dismiss();
+            NetworkOperations.openServerBusyDialog(PatientsView.this);
+        }
+    };
 
     /**
      * Stores the topic and message in database and sends to the server if internet is available.

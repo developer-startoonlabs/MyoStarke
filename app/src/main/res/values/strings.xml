@@ -146,7 +146,7 @@
     <!--App info related tags-->
     <string name="app_info">Application Info</string>
     <string name="app_version">Application Version</string>
-    <string name="application_version">2.7.8</string>
+    <string name="application_version">2.8.0</string>
 
     <!--phizio profile related tags-->
     <string name="your_profile">Your Profile</string>
