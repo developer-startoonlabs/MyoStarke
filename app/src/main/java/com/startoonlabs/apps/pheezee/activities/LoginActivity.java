@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -23,10 +24,17 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.PrimaryKey;
 
 import com.alimuzaffar.lib.pin.PinEntryEditText;
 import com.startoonlabs.apps.pheezee.R;
-import com.startoonlabs.apps.pheezee.room.Entity.MqttSync;
+import com.startoonlabs.apps.pheezee.pojos.LoginData;
+import com.startoonlabs.apps.pheezee.pojos.LoginResult;
+import com.startoonlabs.apps.pheezee.pojos.Phiziopatient;
+import com.startoonlabs.apps.pheezee.retrofit.GetDataService;
+import com.startoonlabs.apps.pheezee.retrofit.RetrofitClientInstance;
+import com.startoonlabs.apps.pheezee.room.Entity.PhizioPatients;
+import com.startoonlabs.apps.pheezee.room.PheezeeDatabase;
 import com.startoonlabs.apps.pheezee.services.MqttHelper;
 import com.startoonlabs.apps.pheezee.utils.NetworkOperations;
 import com.startoonlabs.apps.pheezee.utils.OtpGeneration;
@@ -42,6 +50,13 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -69,6 +84,7 @@ public class LoginActivity extends AppCompatActivity {
     LinearLayout ll_login,ll_signin_section,btn_login,tv_forgot_password,ll_signup_section,ll_welcome;
     RelativeLayout rl_login_section;
     EditText et_mail,et_password;
+    GetDataService getDataService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
 
         initializeView();
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-
+        getDataService = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
         mqttHelper = new MqttHelper(this);
         /**
          * Handles the data received from the server like, for forgot password and login response
@@ -383,8 +399,19 @@ public class LoginActivity extends AppCompatActivity {
                     } else if (!RegexOperations.isValidEmail(str_login_email)) {
                         showToast("Invalid Email Address");
                     } else {
+                            //here need to change mqtt to http
+                            JSONObject jsonObject = new JSONObject();
+                            try {
+                                jsonObject.put("phiziopassword", str_login_password);
+                                jsonObject.put("phizioemail", str_login_email);
+                            } catch (JSONException e) {
+                            e.printStackTrace();
+                            }
+                            loginUser(str_login_email, str_login_password)
+                            ;
 
-                            if(!mqttHelper.mqttAndroidClient.isConnected()){
+                            //MQTT LOGIN
+                            /*if(!mqttHelper.mqttAndroidClient.isConnected()){
                                 MqttMessage message = new MqttMessage();
                                 message.setPayload("hello".getBytes());
                                 mqttHelper.publishMqttTopic("temp",message);
@@ -425,7 +452,11 @@ public class LoginActivity extends AppCompatActivity {
                                     setWelcomeText("Logging in..");
                                     dottedProgressBar.startProgress();
                                     }
-                            },200);
+                            },200);*/
+                        disablePreviousView();
+                        enableWelcomeView();
+                        setWelcomeText("Logging in..");
+                        dottedProgressBar.startProgress();
 
                     }
                 }
@@ -551,5 +582,98 @@ public class LoginActivity extends AppCompatActivity {
         super.onDetachedFromWindow();
         mqttHelper.mqttAndroidClient.unregisterResources();
         mqttHelper.mqttAndroidClient.close();
+    }
+
+
+    private void loginUser(String email, String password){
+        final int[] maxid = {0};
+        Call<List<LoginResult>> login = getDataService.login(new LoginData(email,password));
+        login.enqueue(new Callback<List<LoginResult>>() {
+            @Override
+            public void onResponse(Call<List<LoginResult>> call, Response<List<LoginResult>> response) {
+                List<LoginResult> results = response.body();
+                if(results.get(0).getIsvalid()){
+                    String name = results.get(0).getPhizioname();
+                    editor = sharedPref.edit();
+                    editor.putBoolean("isLoggedIn",true);
+                    JSONObject object = new JSONObject();
+                    try {
+                        object.put("phizioname",results.get(0).getPhizioname());
+                        object.put("phizioemail",results.get(0).getPhizioemail());
+                        object.put("phiziophone",results.get(0).getPhiziophone());
+                        object.put("phizioprofilepicurl",results.get(0).getPhizioprofilepicurl());
+                        object.put("address",results.get(0).getAddress());
+                        object.put("clinicname",results.get(0).getClinicname());
+                        object.put("degree",results.get(0).getDegree());
+                        object.put("experience",results.get(0).getExperience());
+                        object.put("gender",results.get(0).getGender());
+                        object.put("phiziodob",results.get(0).getPhiziodob());
+                        object.put("specialization",results.get(0).getSpecialization());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    editor.putString("phiziodetails",object.toString());
+                    editor.commit();
+                    List<PhizioPatients> phiziopatients = results.get(0).getPhiziopatients();
+
+                    if(phiziopatients.size()>0 && sharedPref.getInt("maxid",-1)==-1){
+                        for (int i=0;i<phiziopatients.size();i++){
+                            try {
+                                int id = Integer.parseInt(phiziopatients.get(i).getPatientid());
+                                if(id> maxid[0]){
+                                    maxid[0] = id;
+                                }
+                            }catch (NumberFormatException e){
+                                Log.i("Exception",e.getMessage());
+                            }
+                        }
+                        editor = sharedPref.edit();
+                        editor.putInt("maxid", maxid[0]);
+                        editor.apply();
+                    }
+                    new InsertAllInDatabase().execute(phiziopatients);
+                    setWelcomeText("Welcome");
+                    tv_login_welcome_user.setText(name);
+                    dottedProgressBar.startProgress();
+
+                }
+                else {
+                    Log.i("not valid","NV");
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<LoginResult>> call, Throwable t) {
+                Log.i("Failure", t.getMessage());
+            }
+        });
+    }
+
+
+
+    private class InsertAllInDatabase extends AsyncTask<List<PhizioPatients>,Void,Void>{
+
+        @Override
+        protected Void doInBackground(List<PhizioPatients>... lists) {
+            PheezeeDatabase database = PheezeeDatabase.getInstance(LoginActivity.this);
+            database.phizioPatientsDao().insertAllPatients(lists[0]);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent i = new Intent(LoginActivity.this, PatientsView.class);
+                    startActivity(i);
+                    finish();
+                    dottedProgressBar.stopProgress();
+                }
+            },500);
+        }
     }
 }

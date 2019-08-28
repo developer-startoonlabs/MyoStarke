@@ -28,6 +28,8 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.activities.PatientsView;
+import com.startoonlabs.apps.pheezee.room.Entity.PhizioPatients;
+import com.startoonlabs.apps.pheezee.utils.DateOperations;
 
 /**
  * Bottom sheet dialog that opens when clicked on three dots
@@ -39,17 +41,16 @@ public class MyBottomSheetDialog extends BottomSheetDialogFragment {
 
    TextView tv_patient_name_section,tv_patient_id_section,tv_date_of_join,tv_Image_Container;
     ImageView iv_patient_profile_pic;
-    String name,id,dateofjoin;
     Bitmap bitmap;
+
+    PhizioPatients patient;
 
     LinearLayout ll_report,ll_edit_patient_details,ll_delete_patient,ll_archive_patient;
 
     @SuppressLint("ValidFragment")
-    public MyBottomSheetDialog(String name, Bitmap bitmap, String id, String dateofjoin){
-        this.name = name;
-        this.id = id;
+    public MyBottomSheetDialog(Bitmap bitmap, PhizioPatients patient){
         this.bitmap = bitmap;
-        this.dateofjoin = dateofjoin;
+        this.patient = patient;
     }
 
 
@@ -95,7 +96,7 @@ public class MyBottomSheetDialog extends BottomSheetDialogFragment {
         ll_archive_patient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((PatientsView)getActivity()).updatePatientStatus(v);
+                ((PatientsView)getActivity()).updatePatientStatus(patient);
             }
         });
 
@@ -105,7 +106,7 @@ public class MyBottomSheetDialog extends BottomSheetDialogFragment {
         ll_report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((PatientsView)getActivity()).openReportActivity(v);
+                ((PatientsView)getActivity()).openReportActivity(patient.getPatientid(),patient.getPatientname());
             }
         });
 
@@ -115,7 +116,7 @@ public class MyBottomSheetDialog extends BottomSheetDialogFragment {
         ll_edit_patient_details.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((PatientsView)getActivity()).editThePatientDetails(v);
+                ((PatientsView)getActivity()).editThePatientDetails(patient);
             }
         });
 
@@ -128,19 +129,19 @@ public class MyBottomSheetDialog extends BottomSheetDialogFragment {
                 ((PatientsView)getActivity()).deletePatient(v);
             }
         });
-        tv_patient_name_section.setText(name);
-        tv_date_of_join.setText(dateofjoin);
+        tv_patient_name_section.setText(patient.getPatientname());
+        tv_date_of_join.setText( DateOperations.getDateInMonthAndDate(patient.getDateofjoin()));
         String s = tv_patient_id_section.getText().toString();
-        s=s+" "+id;
+        s=s+" "+patient.getPatientid();
         tv_patient_id_section.setText(s);
         if(bitmap!=null)
             iv_patient_profile_pic.setImageBitmap(bitmap);
         else {
             Log.i("NOt change","no change");
-            if(tv_patient_name_section.getText().length()==1 || tv_patient_name_section.getText().length()==2)
-                tv_Image_Container.setText(tv_patient_name_section.getText().toString().toUpperCase());
+            if(patient.getPatientname().length()==1 || patient.getPatientname().length()==2)
+                tv_Image_Container.setText(patient.getPatientname().toUpperCase());
             else
-                tv_Image_Container.setText(tv_patient_name_section.getText().toString().substring(0,2).toUpperCase());
+                tv_Image_Container.setText(patient.getPatientname().substring(0,2).toUpperCase());
         }
     }
 
@@ -154,18 +155,6 @@ public class MyBottomSheetDialog extends BottomSheetDialogFragment {
 
 
         return dialog;
-    }
-
-    public void setName(String name){
-        tv_patient_name_section.setText(name);
-    }
-
-    public void setId(String id){
-        tv_patient_id_section.setText(id);
-    }
-    public void setImage(Bitmap bitmap){
-//        if(bitmap!=null)
-//            iv_patient_profile_pic.setImageBitmap(bitmap);
     }
 
     /**

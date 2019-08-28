@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,6 +22,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.activities.PatientsView;
+import com.startoonlabs.apps.pheezee.room.Entity.PhizioPatients;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,18 +35,21 @@ import java.util.List;
  */
 public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRecyclerViewAdapter.ViewHolder> {
 
-    private List<PatientsListData> patientsListData;
-    private List<PatientsListData> updatedPatientList;
+    private List<PhizioPatients> patientsListData;
+    private List<PhizioPatients> updatedPatientList;
     private Context context;
     private JSONObject object;
     private SharedPreferences preferences;
     private String str_phizioemail;
+    onItemClickListner listner;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         private TextView patientName, patientId,patientNameContainer;
         private ImageView patientProfilepic;
         private LinearLayout ll_option_patient_list;
+        private Button btn_start_session;
+
         ViewHolder(View view) {
             super(view);
             patientName =   view.findViewById(R.id.patientName);
@@ -52,12 +57,13 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
             patientProfilepic = view.findViewById(R.id.patientProfilePic);
             ll_option_patient_list = view.findViewById(R.id.options_popup_window);
             patientNameContainer  = view.findViewById(R.id.iv_patient_name_container);
+            btn_start_session = view.findViewById(R.id.btn_start_session);
+
         }
+
     }
 
-    public PatientsRecyclerViewAdapter(List<PatientsListData> patientsListData, Context context){
-        this.patientsListData = patientsListData;
-        this.updatedPatientList = patientsListData;
+    public PatientsRecyclerViewAdapter( Context context){
         this.context = context;
         preferences = PreferenceManager.getDefaultSharedPreferences(this.context);
         try {
@@ -79,6 +85,12 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
         }
     }
 
+    public void setNotes(List<PhizioPatients> notes){
+        this.patientsListData = notes;
+        this.updatedPatientList = notes;
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public PatientsRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -92,27 +104,33 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        PatientsListData patientsList = updatedPatientList.get(position);
-        holder.patientName.setText(patientsList.getPatientName());
-        holder.patientId.setText("Id : "+patientsList.getPatientId());
+        PhizioPatients patientsList = updatedPatientList.get(position);
+        holder.patientName.setText(patientsList.getPatientname());
+        holder.patientId.setText("Id : "+patientsList.getPatientid());
         holder.patientNameContainer.setVisibility(View.GONE);
         holder.patientProfilepic.setImageResource(android.R.color.transparent);
 
         holder.ll_option_patient_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    ((PatientsView)context).openOpionsPopupWindow(v);
-                }
+                if(listner!=null  && position != RecyclerView.NO_POSITION)
+                    listner.onItemClick(updatedPatientList.get(position), v);
             }
         });
 
-        String patientUrl = patientsList.getPatientUrl();
-        Log.i(patientsList.getPatientId(),patientsList.getPatientUrl());
+        holder.btn_start_session.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(listner!=null  && position != RecyclerView.NO_POSITION)
+                    listner.onStartSessionClickListner(updatedPatientList.get(position));
+            }
+        });
+
+        String patientUrl = patientsList.getPatientprofilepicurl();
 
         if(!patientUrl.trim().toLowerCase().equals("empty")) {
                 Glide.with(context)
-                        .load("https://s3.ap-south-1.amazonaws.com/pheezee/physiotherapist/" + str_phizioemail.replaceFirst("@", "%40") + "/patients/" + patientsList.getPatientId() + "/images/profilepic.png")
+                        .load("https://s3.ap-south-1.amazonaws.com/pheezee/physiotherapist/" + str_phizioemail.replaceFirst("@", "%40") + "/patients/" + patientsList.getPatientid() + "/images/profilepic.png")
                         .apply(new RequestOptions()
                                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                                 .skipMemoryCache(true))
@@ -138,9 +156,9 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
                     if(patientString.isEmpty()){
                         updatedPatientList = patientsListData;
                     }else {
-                        List<PatientsListData> filterList = new ArrayList<>();
-                        for(PatientsListData patientsList: patientsListData){
-                            if(patientsList.getPatientName().toLowerCase().contains(patientString)){
+                        List<PhizioPatients> filterList = new ArrayList<>();
+                        for(PhizioPatients patientsList: patientsListData){
+                            if(patientsList.getPatientname().toLowerCase().contains(patientString)){
                                 filterList.add(patientsList);
                             }
                         }
@@ -153,7 +171,7 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
 
                 @Override
                 protected void publishResults(CharSequence constraint, FilterResults results) {
-                    updatedPatientList = (ArrayList<PatientsListData>)results.values;
+                    updatedPatientList = (ArrayList<PhizioPatients>)results.values;
                     Log.i("updated Values",updatedPatientList.toString());
                     notifyDataSetChanged();
                 }
@@ -166,5 +184,17 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
         return patientsListData==null?0:updatedPatientList.size();
         //https://s3.ap-south-1.amazonaws.com/pheezee/physiotherapist/ankushsharma8210%40gmail.co/patients/xzy/images/profilepic.png
         //https://s3.ap-south-1.amazonaws.com/pheezee/physiotherapist/" + str_phizioemail.replaceFirst("@", "%40") + "/patients/" + patientsList.getPatientId() + "/images/profilepic.png
+    }
+
+
+
+    public interface onItemClickListner{
+        void onItemClick(PhizioPatients patient, View view);
+        void onStartSessionClickListner(PhizioPatients patient);
+    }
+
+
+    public void setOnItemClickListner(onItemClickListner listner){
+        this.listner = listner;
     }
 }
