@@ -93,6 +93,7 @@
         android:gravity="center"
         android:outlineProvider="background"
         android:scaleType="fitXY"
+        android:spinnerMode="dialog"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
