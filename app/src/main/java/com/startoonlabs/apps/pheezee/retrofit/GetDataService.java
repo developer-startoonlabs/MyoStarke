@@ -1,9 +1,12 @@
 package com.startoonlabs.apps.pheezee.retrofit;
 
+import com.startoonlabs.apps.pheezee.pojos.AddPatientData;
+import com.startoonlabs.apps.pheezee.pojos.DeletePatientData;
 import com.startoonlabs.apps.pheezee.pojos.LoginData;
 import com.startoonlabs.apps.pheezee.pojos.LoginResult;
 import com.startoonlabs.apps.pheezee.pojos.PatientDetailsData;
 import com.startoonlabs.apps.pheezee.pojos.PatientStatusData;
+import com.startoonlabs.apps.pheezee.pojos.ResponseData;
 import com.startoonlabs.apps.pheezee.room.Entity.PhizioPatients;
 
 import java.util.List;
@@ -32,5 +35,10 @@ public interface GetDataService {
     @POST("/api/phizio/updatepatientdetails")
     Call<String> updatePatientDetails(@Body PatientDetailsData patient);
 
+    @POST("/api/phizio/addpatient")
+    Call<ResponseData> addPatient(@Body AddPatientData patientData);
+
+    @POST("/api/phizio/deletepatient")
+    Call<String> deletePatient(@Body DeletePatientData data);
 
 }

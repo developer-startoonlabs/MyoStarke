@@ -21,7 +21,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -37,26 +36,17 @@ import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -83,6 +73,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.navigation.NavigationView;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -92,8 +84,13 @@ import com.startoonlabs.apps.pheezee.classes.BluetoothSingelton;
 import com.startoonlabs.apps.pheezee.classes.MyBottomSheetDialog;
 import com.startoonlabs.apps.pheezee.patientsRecyclerView.PatientsListData;
 import com.startoonlabs.apps.pheezee.patientsRecyclerView.PatientsRecyclerViewAdapter;
+import com.startoonlabs.apps.pheezee.pojos.AddPatientData;
+import com.startoonlabs.apps.pheezee.pojos.DeletePatientData;
 import com.startoonlabs.apps.pheezee.pojos.PatientDetailsData;
 import com.startoonlabs.apps.pheezee.pojos.PatientStatusData;
+import com.startoonlabs.apps.pheezee.pojos.ResponseData;
+import com.startoonlabs.apps.pheezee.popup.AddPatientPopUpWindow;
+import com.startoonlabs.apps.pheezee.popup.EditPopUpWindow;
 import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
 import com.startoonlabs.apps.pheezee.retrofit.GetDataService;
 import com.startoonlabs.apps.pheezee.retrofit.RetrofitClientInstance;
@@ -106,7 +103,6 @@ import com.startoonlabs.apps.pheezee.services.Scanner;
 import com.startoonlabs.apps.pheezee.utils.BatteryOperation;
 import com.startoonlabs.apps.pheezee.utils.BitmapOperations;
 import com.startoonlabs.apps.pheezee.utils.ByteToArrayOperations;
-import com.startoonlabs.apps.pheezee.utils.DateOperations;
 import com.startoonlabs.apps.pheezee.utils.NetworkOperations;
 import com.startoonlabs.apps.pheezee.utils.PatientOperations;
 
@@ -126,7 +122,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -135,7 +130,7 @@ import retrofit2.Response;
  *
  */
 public class PatientsView extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener, PatientsRecyclerViewAdapter.onItemClickListner {
+        implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener, PatientsRecyclerViewAdapter.onItemClickListner, MqttSyncRepository.onServerResponse {
     String json_phizioemail = "";
     public static boolean deviceState = true, connectPressed = false, deviceBatteryUsbState = false,sessionStarted = false;
     int maxid = 0;
@@ -167,8 +162,6 @@ public class PatientsView extends AppCompatActivity
     ImageView iv_bluetooth_connected, iv_bluetooth_disconnected, iv_device_connected, iv_device_disconnected, iv_sync_data,  iv_sync_not_available;
 
 
-
-    PopupWindow bodyPartLayoutWndow;
     PopupWindow bodyPartLayout;
     View patientLayoutView;
     MyBottomSheetDialog myBottomSheetDialog;
@@ -219,7 +212,6 @@ public class PatientsView extends AppCompatActivity
 
     private List<PatientsListData> mdataset = new ArrayList<>();
     private PatientsRecyclerViewAdapter mAdapter;
-    EditText patientNameField;
     TextView tv_battery_percentage, tv_patient_view_add_patient;
     ProgressBar battery_bar;
     PopupWindow pw;
@@ -227,7 +219,6 @@ public class PatientsView extends AppCompatActivity
     DrawerLayout drawer;
     static SharedPreferences sharedPref;
     static SharedPreferences.Editor editor;
-    JSONArray jsonData;
     AlertDialog.Builder builder;
     static BluetoothGatt bluetoothGatt;
     BluetoothDevice remoteDevice;
@@ -238,14 +229,13 @@ public class PatientsView extends AppCompatActivity
     GoogleSignInOptions gso;
     Context context;
     LinearLayout patientTabLayout;
-    LinearLayout patientLayout;
     ImageView iv_addPatient;
     LinearLayout ll_add_bluetooth, ll_add_device;
     RelativeLayout rl_battery_usb_state;
 
 
     RecyclerView mRecyclerView;
-    ProgressDialog progress;
+    ProgressDialog progress, deletepatient_progress;
 
     SearchView searchView;
 
@@ -261,6 +251,8 @@ public class PatientsView extends AppCompatActivity
         context = this;
         sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         repository = new MqttSyncRepository(getApplication());
+        //server responses
+        repository.setOnServerResponseListner(this);
 //        Log.i("Ble",Build.HARDWARE);
         editor = sharedPref.edit();
         MacAddress = sharedPref.getString("deviceMacaddress", "");
@@ -416,46 +408,11 @@ public class PatientsView extends AppCompatActivity
                 mAdapter.setNotes(patients);
             }
         });
-
-            /*if (!Objects.requireNonNull(sharedPref.getString("phiziodetails", "")).equals("")) {
-
-                JSONObject object = new JSONObject(sharedPref.getString("phiziodetails", ""));
-                JSONArray array = new JSONArray(object.getString("phiziopatients"));
-                if(array.length()>0 && sharedPref.getInt("maxid",-1)==-1){
-                    for (int i=0;i<array.length();i++){
-                        JSONObject pateints = array.getJSONObject(i);
-                        try {
-                            int id = Integer.parseInt(pateints.getString("patientid"));
-                            if(id>maxid){
-                                maxid = id;
-                            }
-                        }catch (NumberFormatException e){
-                            Log.i("Exception",e.getMessage());
-                        }
-                    }
-                    editor = sharedPref.edit();
-                    editor.putInt("maxid",maxid);
-                    editor.apply();
-                }
-                else if(array.length()<=0 && sharedPref.getInt("maxid",-1)==-1){
-                    editor = sharedPref.edit();
-                    editor.putInt("maxid",maxid);
-                    editor.apply();
-                }
-                if(array.length()>0) {
-                    findViewById(R.id.noPatient).setVisibility(View.GONE);
-                    pushJsonData(array);
-                }
-            }
-            else {
-                Log.i("emptypatient","empty");
-            }*/
         if (!(getIntent().getStringExtra("macAddress") == null || getIntent().getStringExtra("macAddress").equals(""))) {
                 macAddress = getIntent().getStringExtra("macAddress");
                 editor.putString("deviceMacaddress", macAddress);
                 editor.apply();
         }
-
         if(ScanDevicesActivity.selectedDeviceMacAddress != null){
             macAddress = ScanDevicesActivity.selectedDeviceMacAddress;
             editor.putString("deviceMacaddress",macAddress);
@@ -516,13 +473,13 @@ public class PatientsView extends AppCompatActivity
         iv_addPatient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                initiatePopupWindow(v);
+                initiatePopupWindow();
             }
         });
         tv_patient_view_add_patient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                initiatePopupWindow(v);
+                initiatePopupWindow();
             }
         });
 
@@ -887,170 +844,23 @@ public class PatientsView extends AppCompatActivity
 
 
     /**
-     * Add patient
-     * @param v
+     *
      */
-    private void initiatePopupWindow(View v) {
-        try {
-            final JSONObject jsonObject = new JSONObject();
-            final String[] case_description = {""};
-            jsonData = new JSONArray();
-            Display display = getWindowManager().getDefaultDisplay();
-            Point size = new Point();
-            display.getSize(size);
-            int width = size.x;
-            int height = size.y;
-            LayoutInflater inflater = (LayoutInflater) PatientsView.this
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            assert inflater != null;
-            @SuppressLint("InflateParams") final View layout = inflater.inflate(R.layout.popup, null);
-
-            pw = new PopupWindow(layout);
-            pw.setHeight(height - 400);
-            pw.setWidth(width - 100);
-
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                pw.setElevation(10);
+    private void initiatePopupWindow() {
+        AddPatientPopUpWindow patientPopUpWindow = new AddPatientPopUpWindow(this,json_phizioemail);
+        patientPopUpWindow.openAddPatientPopUpWindow();
+        patientPopUpWindow.setOnClickListner(new AddPatientPopUpWindow.onClickListner() {
+            @Override
+            public void onAddPatientClickListner(PhizioPatients patient, PatientDetailsData data, boolean isvalid) {
+                if(isvalid){
+                    repository.insertPatient(patient);
+                    new SendDataAsyncTask().execute(data);
+                }
+                else {
+                    showToast("Invalid Input!!");
+                }
             }
-            pw.setTouchable(true);
-            pw.setOutsideTouchable(true);
-            pw.setContentView(layout);
-            pw.setFocusable(true);
-            pw.showAtLocation(mRecyclerView, Gravity.CENTER, 0, 0);
-
-
-            final EditText patientName = layout.findViewById(R.id.patientName);
-
-            final EditText patientId = layout.findViewById(R.id.patientId);
-            if(sharedPref.getInt("maxid",-1)!=-1){
-                int id = sharedPref.getInt("maxid",0);
-                id+=1;
-                patientId.setEnabled(false);
-                patientId.setText(String.valueOf(id));
-            }
-            final EditText patientAge = layout.findViewById(R.id.patientAge);
-            final EditText caseDescription = layout.findViewById(R.id.contentDescription);
-            final RadioGroup radioGroup = layout.findViewById(R.id.patientGender);
-            final Spinner sp_case_des = layout.findViewById(R.id.sp_case_des);
-            //Adapter for spinner
-            ArrayAdapter<String> array_exercise_names = new ArrayAdapter<String>(PatientsView.this, R.layout.support_simple_spinner_dropdown_item, getResources().getStringArray(R.array.case_description));
-            array_exercise_names.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-            sp_case_des.setAdapter(array_exercise_names);
-            final String todaysDate = DateOperations.dateInMmDdYyyy();
-            sp_case_des.setOnTouchListener(new View.OnTouchListener() {
-
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    InputMethodManager imm=(InputMethodManager)getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                    return false;
-                }
-            }) ;
-            Button addBtn = layout.findViewById(R.id.addBtn);
-            Button cancelBtn = layout.findViewById(R.id.cancelBtn);
-
-            sp_case_des.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    if(position<sp_case_des.getAdapter().getCount()-1){
-                        caseDescription.setVisibility(View.GONE);
-                        if(position!=0) {
-                            case_description[0] = sp_case_des.getSelectedItem().toString();
-                        }
-                    }
-                    if(position==sp_case_des.getAdapter().getCount()-1){
-                        case_description[0] = "";
-                        caseDescription.setVisibility(View.VISIBLE);
-                    }
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-
-                }
-            });
-
-            jsonData = new JSONArray(json_phizio.getString("phiziopatients"));
-            addBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    RadioButton btn = layout.findViewById(radioGroup.getCheckedRadioButtonId());
-                    if(caseDescription.getVisibility()==View.VISIBLE){
-                        case_description[0] = caseDescription.getText().toString();
-                    }
-                    String patientid =  patientId.getText().toString();
-                    String patientname = patientName.getText().toString();
-                    String patientage = patientAge.getText().toString();
-
-                    if ((!patientname.equals("")) && (!patientid.equals("")) && (!patientage.equals(""))&& (!case_description[0].equals("")) && btn!=null) {
-                        PatientDetailsData data = new PatientDetailsData(json_phizioemail,patientid, patientname, "0",
-                                todaysDate,patientage, btn.getText().toString(),case_description[0],"active", "", "empty");
-
-                        /*if (!Objects.requireNonNull(sharedPref.getString("phiziodetails", "")).equals("")) {
-                            if(jsonData.length()>0) {
-                                try {
-                                    for (int i = 0; i < jsonData.length(); i++) {
-                                        if (jsonData.getJSONObject(i).get("patientid").equals(patientId.getText().toString())) {
-                                            Toast.makeText(PatientsView.this,
-                                                    "Patient with same patient id is already exsists for patient name " + jsonData.getJSONObject(i).get("patientname"),
-                                                    Toast.LENGTH_LONG).show();
-                                            Log.i("ALREDY PRESENT","ALREADY");
-
-                                            pw.dismiss();
-                                            return;
-                                        }
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
-                        try {
-                            jsonObject.put("patientname", patientName.getText().toString());
-                            jsonObject.put("patientid", patientId.getText().toString());
-                            jsonObject.put("numofsessions", "0");
-                            jsonObject.put("patientage",patientAge.getText().toString());
-                            jsonObject.put("patientgender",btn.getText().toString());
-                            jsonObject.put("patientcasedes",case_description[0]);
-                            jsonObject.put("status","active");
-                            jsonObject.put("patientphone", patientId.getText().toString());
-                            jsonObject.put("patientprofilepicurl", "empty");
-                            jsonObject.put("dateofjoin",todaysDate);
-                            jsonObject.put("sessions", new JSONArray());
-                            jsonData.put(jsonObject);
-                            jsonObject.put("phizioemail",json_phizio.get("phizioemail"));
-                            new SendDataAsyncTask().execute(jsonObject);
-
-                            json_phizio.put("phiziopatients",jsonData);
-                            editor.putString("phiziodetails", json_phizio.toString());
-                            if(sharedPref.getInt("maxid",-1)!=-1) {
-                                editor.putInt("maxid", Integer.parseInt(patientId.getText().toString()));
-                            }
-                            editor.commit();
-                            pushJsonData(jsonData);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }*/
-                        pw.dismiss();
-                    }
-                    else {
-                        Toast.makeText(PatientsView.this, "Invalid Input!!", Toast.LENGTH_SHORT).show();
-                    }
-
-                }
-            });
-            cancelBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    pw.dismiss();
-                }
-            });
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        });
     }
 
 
@@ -1277,126 +1087,22 @@ public class PatientsView extends AppCompatActivity
      * @param patient
      */
     public void editPopUpWindow(PhizioPatients patient){
-        final String[] case_description = {""};
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();display.getSize(size);int width = size.x;int height = size.y;
-        LayoutInflater inflater = (LayoutInflater) PatientsView.this
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        assert inflater != null;
-        @SuppressLint("InflateParams") final View layout = inflater.inflate(R.layout.popup, null);
-
-        pw = new PopupWindow(layout);
-        pw.setHeight(height - 400);
-        pw.setWidth(width - 100);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            pw.setElevation(10);
-        }
-        pw.setTouchable(true);
-        pw.setOutsideTouchable(true);
-        pw.setContentView(layout);
-        pw.setFocusable(true);
-        pw.showAtLocation(mRecyclerView, Gravity.CENTER, 0, 0);
-
-        final TextView patientName = layout.findViewById(R.id.patientName);
-        final TextView patientId = layout.findViewById(R.id.patientId);
-        final TextView patientAge = layout.findViewById(R.id.patientAge);
-        final TextView caseDescription = layout.findViewById(R.id.contentDescription);
-        final RadioGroup radioGroup = layout.findViewById(R.id.patientGender);
-        RadioButton btn_male = layout.findViewById(R.id.radioBtn_male);
-        RadioButton btn_female = layout.findViewById(R.id.radioBtn_female);
-        final Spinner sp_case_des = layout.findViewById(R.id.sp_case_des);
-        //Adapter for spinner
-        ArrayAdapter<String> array_exercise_names = new ArrayAdapter<String>(PatientsView.this, R.layout.support_simple_spinner_dropdown_item, getResources().getStringArray(R.array.case_description));
-        array_exercise_names.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        sp_case_des.setAdapter(array_exercise_names);
-
-        sp_case_des.setOnTouchListener(new View.OnTouchListener() {
-
+        EditPopUpWindow popUpWindow = new EditPopUpWindow(this,patient,json_phizioemail);
+        popUpWindow.openEditPopUpWindow();
+        popUpWindow.setOnClickListner(new EditPopUpWindow.onClickListner() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                InputMethodManager imm=(InputMethodManager)getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                return false;
-            }
-        }) ;
-
-        sp_case_des.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position<sp_case_des.getAdapter().getCount()-1){
-                    caseDescription.setVisibility(View.GONE);
-                    if(position!=0) {
-                        case_description[0] = sp_case_des.getSelectedItem().toString();
-                    }
-                }
-                if(position==sp_case_des.getAdapter().getCount()-1){
-                    caseDescription.setVisibility(View.VISIBLE);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        Button addBtn = layout.findViewById(R.id.addBtn);
-        addBtn.setText("Update");
-        patientId.setVisibility(View.GONE);
-        final Button cancelBtn = layout.findViewById(R.id.cancelBtn);
-
-        patientName.setText(patient.getPatientname());
-        patientAge.setText(patient.getPatientage());
-        if(patient.getPatientgender().equalsIgnoreCase("M"))
-            radioGroup.check(btn_male.getId());
-        else
-            radioGroup.check(btn_female.getId());
-        caseDescription.setText(patient.getPatientcasedes());
-        case_description[0] = patient.getPatientcasedes();
-        addBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(caseDescription.getVisibility()==View.VISIBLE){
-                    case_description[0] = caseDescription.getText().toString();
-                }
-                RadioButton btn = layout.findViewById(radioGroup.getCheckedRadioButtonId());
-                if ((!patientName.getText().toString().equals(""))  && (!patientAge.getText().toString().equals(""))&& (!case_description[0].equals("")) && btn!=null) {
-                    patient.setPatientname(patientName.getText().toString());
-                    patient.setPatientage(patientAge.getText().toString());
-                    patient.setPatientcasedes(case_description[0]);
-                    patient.setPatientgender(btn.getText().toString());
-                    repository.updatePatient(patient);
-                    Call<String> call = null;
-                    try {
-                        PatientDetailsData data = new PatientDetailsData(json_phizio.getString("phizioemail"), patient.getPatientid(),
-                                patient.getPatientname(),patient.getNumofsessions(), patient.getDateofjoin(), patient.getPatientage(),
-                                patient.getPatientgender(), patient.getPatientcasedes(), patient.getStatus(), patient.getPatientphone(), patient.getPatientprofilepicurl());
-                        call = getDataService.updatePatientDetails(data);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    call.enqueue(new Callback<String>() {
-                        @Override
-                        public void onResponse(Call<String> call, Response<String> response) {
-                            String string = response.body();
-                            Log.i("response",string);
-                        }
-
-                        @Override
-                        public void onFailure(Call<String> call, Throwable t) {
-
-                        }
-                    });
+            public void onAddClickListner(PhizioPatients patients, PatientDetailsData data, boolean isvalid) {
+                if(isvalid){
+                    deletepatient_progress = new ProgressDialog(PatientsView.this);
+                    deletepatient_progress.setTitle("Updating patient details, please wait");
+                    deletepatient_progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                    deletepatient_progress.setIndeterminate(true);
+                    deletepatient_progress.show();
+                    repository.updatePatientDetailsServer(patient,data);
                 }
                 else {
-                    Toast.makeText(PatientsView.this, "Invalid Input!!", Toast.LENGTH_SHORT).show();
+                    showToast("Invalid Input!!");
                 }
-                pw.dismiss();
-            }
-        });
-        cancelBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                pw.dismiss();
             }
         });
     }
@@ -1457,11 +1163,8 @@ public class PatientsView extends AppCompatActivity
      */
     private final BroadcastReceiver bluetoothReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
-
             String action = intent.getAction();
             if(BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)){
-
-//                Toast.makeText(PatientsView.this, "The device has got disconnected...", Toast.LENGTH_LONG).show();
                 connected_disconnected_toast.setText("The device got disconnected..");
                 connected_disconnected_toast.show();
                 if(sessionStarted && insideMonitor){
@@ -1549,21 +1252,16 @@ public class PatientsView extends AppCompatActivity
      * @param patient
      */
     public void startSession(PhizioPatients patient) {
-
         final Intent intent = new Intent(PatientsView.this, BodyPartSelection.class);
         intent.putExtra("deviceMacAddress", sharedPref.getString("deviceMacaddress", ""));
         intent.putExtra("patientId", patient.getPatientid());
         intent.putExtra("patientName", patient.getPatientname());
-
-
-
         if (Objects.requireNonNull(sharedPref.getString("deviceMacaddress", "")).equals("")) {
             Toast.makeText(this, "First add pheezee to your application", Toast.LENGTH_LONG).show();
         } else if (!(iv_device_connected.getVisibility()==View.VISIBLE)  ) {
             Toast.makeText(this, "Make sure that the pheezee is on", Toast.LENGTH_LONG).show();
         }
         else {
-
             String message = BatteryOperation.getDialogMessageForLowBattery(deviceBatteryPercent,this);
             if(!message.equalsIgnoreCase("c")){
                 final AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -1610,7 +1308,6 @@ public class PatientsView extends AppCompatActivity
             editor.commit();
             return;
         }
-
         if(mCharacteristic!=null && mBluetoothGattDescriptor!=null) {
             Log.i("inside","Characteristics");
             bluetoothGatt.setCharacteristicNotification(mCharacteristic, false);
@@ -1711,7 +1408,6 @@ public class PatientsView extends AppCompatActivity
 
     private void cameraIntent() {
         Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
         startActivityForResult(takePicture, 5);
     }
 
@@ -1848,9 +1544,6 @@ public class PatientsView extends AppCompatActivity
             }
         }
         myBottomSheetDialog = new MyBottomSheetDialog(patientpic_bitmap, patient);
-
-
-
         myBottomSheetDialog.show(getSupportFragmentManager(),"MyBottomSheet");
 
     }
@@ -1864,7 +1557,6 @@ public class PatientsView extends AppCompatActivity
             NetworkOperations.networkError(PatientsView.this);
         }
     }
-
     /**
      *
      * @param patientid
@@ -1894,9 +1586,6 @@ public class PatientsView extends AppCompatActivity
      */
     public void updatePatientStatus(PhizioPatients patient){
         myBottomSheetDialog.dismiss();
-//        final MqttMessage mqttMessage = new MqttMessage();
-//        final JSONObject object = new JSONObject();
-
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Archive Patient");
         builder.setMessage("Are you sure you want to archive the patient?");
@@ -1905,45 +1594,13 @@ public class PatientsView extends AppCompatActivity
             public void onClick(DialogInterface dialog, int which) {
                 if(NetworkOperations.isNetworkAvailable(PatientsView.this)){
                     patient.setStatus("inactive");
-                    repository.updatePatient(patient);
-                    try {
-                        Call<String> call = getDataService.updatePatientStatus(new PatientStatusData(json_phizio.getString("phizioemail"),patient.getPatientid(),patient.getStatus()));
-                        call.enqueue(new Callback<String>() {
-                            @Override
-                            public void onResponse(Call<String> call, Response<String> response) {
-                                String string = response.body();
-                                Log.i("response",string);
-                            }
-
-                            @Override
-                            public void onFailure(Call<String> call, Throwable t) {
-
-                            }
-                        });
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-//                    for(int k=0;k<jsonData.length();k++){
-//                        try {
-//                            if(jsonData.getJSONObject(k).getString("patientid").equals(patientIdTemp.getText().toString().substring(5))){
-//
-//
-//                                object.put("phizioemail", json_phizio.get("phizioemail"));
-//                                object.put("patientid",jsonData.getJSONObject(k).get("patientid"));
-//                                object.put("status","inactive");
-//                                jsonData.getJSONObject(k).put("status","inactive");
-//                                json_phizio.put("phiziopatients",jsonData);
-//
-//                                editor.putString("phiziodetails",json_phizio.toString());
-//                                editor.commit();
-//                                pushJsonData(new JSONArray(json_phizio.getString("phiziopatients")));
-//                                mqttMessage.setPayload(object.toString().getBytes());
-//                                mqttHelper.publishMqttTopic(mqtt_update_patient_status,mqttMessage);
-//                            }
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
+                    deletepatient_progress = new ProgressDialog(PatientsView.this);
+                    deletepatient_progress.setTitle("Updating patient status, please wait");
+                    deletepatient_progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                    deletepatient_progress.setIndeterminate(true);
+                    deletepatient_progress.show();
+                    PatientStatusData data = new PatientStatusData(json_phizioemail,patient.getPatientid(),patient.getStatus());
+                    repository.updatePatientStatusServer(patient,data);
                 }
                 else {
                     NetworkOperations.networkError(PatientsView.this);
@@ -1957,23 +1614,14 @@ public class PatientsView extends AppCompatActivity
             }
         });
         builder.show();
-
     }
 
     /**
-     * Triggered when user presses the delete patient
-     * @param view
+     *
+     * @param patient
      */
-    public void deletePatient(View view){
+    public void deletePatient(PhizioPatients patient){
         myBottomSheetDialog.dismiss();
-        final MqttMessage mqttMessage = new MqttMessage();
-        final JSONObject object = new JSONObject();
-        try {
-            jsonData = new JSONArray(json_phizio.getString("phiziopatients"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Delete Patient");
         builder.setMessage("Are you sure you want to delete the patient?");
@@ -1981,29 +1629,13 @@ public class PatientsView extends AppCompatActivity
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if(NetworkOperations.isNetworkAvailable(PatientsView.this)){
-                    final TextView patientIdTemp = patientTabLayout.findViewById(R.id.patientId);
-                    for(int k=0;k<jsonData.length();k++){
-                        try {
-                            if(jsonData.getJSONObject(k).getString("patientid").equals(patientIdTemp.getText().toString().substring(5))){
-
-
-                                object.put("phizioemail", json_phizio.get("phizioemail"));
-                                object.put("patientid",jsonData.getJSONObject(k).get("patientid"));
-                                jsonData.remove(k);
-                                json_phizio.put("phiziopatients",jsonData);
-
-                                editor.putString("phiziodetails",json_phizio.toString());
-                                editor.commit();
-
-                                Log.i("jsonData", json_phizio.getString("phiziopatients"));
-                                pushJsonData(jsonData);
-                                mqttMessage.setPayload(object.toString().getBytes());
-                                mqttHelper.publishMqttTopic(mqtt_publish_phizio_deletepatient,mqttMessage);
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
+                    deletepatient_progress = new ProgressDialog(PatientsView.this);
+                    deletepatient_progress.setTitle("Deleting patient, please wait");
+                    deletepatient_progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                    deletepatient_progress.setIndeterminate(true);
+                    deletepatient_progress.show();
+                    DeletePatientData data = new DeletePatientData(json_phizioemail,patient.getPatientid());
+                    repository.deletePatientFromServer(data,patient);
                 }
                 else {
                     NetworkOperations.networkError(PatientsView.this);
@@ -2017,7 +1649,6 @@ public class PatientsView extends AppCompatActivity
             }
         });
         builder.show();
-
     }
 
     @Override
@@ -2028,6 +1659,44 @@ public class PatientsView extends AppCompatActivity
     @Override
     public void onStartSessionClickListner(PhizioPatients patient) {
         startSession(patient);
+    }
+
+    @Override
+    public void onDeletePateintResponse(boolean response) {
+        if(response){
+            if(deletepatient_progress!=null){
+                deletepatient_progress.dismiss();
+                showToast("Patient Deleted");
+            }
+        }
+        else {
+            showToast("Please try again");
+        }
+    }
+
+    @Override
+    public void onUpdatePatientDetailsResponse(boolean response) {
+        if(response){
+            if(deletepatient_progress!=null){
+                deletepatient_progress.dismiss();
+                showToast("Patient details updated");
+            }
+        }else {
+            showToast("Please try again");
+        }
+    }
+
+    @Override
+    public void onUpdatePatientStatusResponse(boolean response) {
+        if(response){
+            if(deletepatient_progress!=null){
+                deletepatient_progress.dismiss();
+                showToast("Patient Staus Updated");
+            }
+        }
+        else {
+            showToast("Please try again");
+        }
     }
 
     private class MyAsync extends AsyncTask<Void,Void,Void>{
@@ -2191,23 +1860,22 @@ public class PatientsView extends AppCompatActivity
     /**
      * Stores the topic and message in database and sends to the server if internet is available.
      */
-    public class SendDataAsyncTask extends AsyncTask<JSONObject,Void,JSONObject>{
+    public class SendDataAsyncTask extends AsyncTask<PatientDetailsData,Void,JSONObject>{
 
         @Override
-        protected JSONObject doInBackground(JSONObject... jsonObjects) {
+        protected JSONObject doInBackground(PatientDetailsData... patientDetailsData) {
             PheezeeDatabase database = PheezeeDatabase.getInstance(PatientsView.this);
-
-//            message.setPayload(jsonObjects[0].toString().getBytes());
-            MqttSync mqttSync = new MqttSync(mqtt_publish_phizio_addpatient,jsonObjects[0].toString());
-//            long id = database.mqttSyncDao().insert(mqttSync);
-//            Log.i("identity",String.valueOf(id));
+            JSONObject object = null;
             try {
-                jsonObjects[0].put("id",database.mqttSyncDao().insert(mqttSync));
+                Gson gson = new GsonBuilder().create();
+                String json = gson.toJson(patientDetailsData[0]);
+                object = new JSONObject(json);
+                MqttSync mqttSync = new MqttSync(mqtt_publish_phizio_addpatient,object.toString());
+                object.put("id",database.mqttSyncDao().insert(mqttSync));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-            return jsonObjects[0];
+            return object;
         }
 
         @Override
@@ -2216,8 +1884,24 @@ public class PatientsView extends AppCompatActivity
             MqttMessage message = new MqttMessage();
             message.setPayload(jsonObject.toString().getBytes());
             if(NetworkOperations.isNetworkAvailable(PatientsView.this)) {
-//                                mqttHelper.syncData();
-                mqttHelper.publishMqttTopic(mqtt_publish_phizio_addpatient, message);
+                Gson gson = new Gson();
+                AddPatientData data = gson.fromJson(jsonObject.toString(),AddPatientData.class);
+                Call<ResponseData> add_patient_call = getDataService.addPatient(data);
+                add_patient_call.enqueue(new Callback<ResponseData>() {
+                    @Override
+                    public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                        if(response.code()==200) {
+                            ResponseData responseData = response.body();
+                            Log.i("Response",responseData.getResponse());
+                            if(responseData.getResponse().equalsIgnoreCase("inserted"))
+                                repository.deleteParticular(responseData.getId());
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<ResponseData> call, Throwable t) {
+                        Log.i("parseerror",t.getMessage());
+                    }
+                });
             }
         }
     }

@@ -31,6 +31,7 @@ import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.pojos.LoginData;
 import com.startoonlabs.apps.pheezee.pojos.LoginResult;
 import com.startoonlabs.apps.pheezee.pojos.Phiziopatient;
+import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
 import com.startoonlabs.apps.pheezee.retrofit.GetDataService;
 import com.startoonlabs.apps.pheezee.retrofit.RetrofitClientInstance;
 import com.startoonlabs.apps.pheezee.room.Entity.PhizioPatients;
@@ -59,7 +60,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements MqttSyncRepository.OnLoginResponse {
     MqttHelper mqttHelper;
     int backpressCount = 0;
     SharedPreferences.Editor editor;
@@ -85,6 +86,7 @@ public class LoginActivity extends AppCompatActivity {
     RelativeLayout rl_login_section;
     EditText et_mail,et_password;
     GetDataService getDataService;
+    MqttSyncRepository repository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +97,8 @@ public class LoginActivity extends AppCompatActivity {
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         getDataService = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
         mqttHelper = new MqttHelper(this);
+        repository = new MqttSyncRepository(getApplication());
+        repository.setOnLoginResponse(this);
         /**
          * Handles the data received from the server like, for forgot password and login response
          */
@@ -392,72 +396,15 @@ public class LoginActivity extends AppCompatActivity {
                 if (NetworkOperations.isNetworkAvailable(LoginActivity.this)) {
                     str_login_email = et_mail.getText().toString();
                     str_login_password = et_password.getText().toString();
-                    final MqttMessage mqttMessage = new MqttMessage();
-
-                    if (str_login_email.equals("") || str_login_password.equals("")) {
-                        showToast("Invalid Credentials");
-                    } else if (!RegexOperations.isValidEmail(str_login_email)) {
-                        showToast("Invalid Email Address");
-                    } else {
-                            //here need to change mqtt to http
-                            JSONObject jsonObject = new JSONObject();
-                            try {
-                                jsonObject.put("phiziopassword", str_login_password);
-                                jsonObject.put("phizioemail", str_login_email);
-                            } catch (JSONException e) {
-                            e.printStackTrace();
-                            }
-                            loginUser(str_login_email, str_login_password)
-                            ;
-
-                            //MQTT LOGIN
-                            /*if(!mqttHelper.mqttAndroidClient.isConnected()){
-                                MqttMessage message = new MqttMessage();
-                                message.setPayload("hello".getBytes());
-                                mqttHelper.publishMqttTopic("temp",message);
-                            }
-
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    try {
-                                        mqttHelper.mqttAndroidClient.subscribe(mqtt_subs_login_response + str_login_email + str_login_password, 1, null, new IMqttActionListener() {
-                                            @Override
-                                            public void onSuccess(IMqttToken asyncActionToken) {
-                                                Log.w("Mqtt", "Subscribed!");
-                                                Log.i("credentials", str_login_email + " " + str_login_password);
-                                                JSONObject jsonObject = new JSONObject();
-                                                try {
-                                                    jsonObject.put("phiziopassword", str_login_password);
-                                                    jsonObject.put("phizioemail", str_login_email);
-                                                } catch (JSONException e) {
-                                                    e.printStackTrace();
-                                                }
-                                                mqttMessage.setPayload(jsonObject.toString().getBytes());
-                                                mqttHelper.publishMqttTopic(mqtt_pubs_login_phizio, mqttMessage);
-                                            }
-
-                                            @Override
-                                            public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                                                Log.w("Mqtt", "Subscribed fail!");
-                                            }
-                                        });
-                                    } catch (MqttException e) {
-                                        e.printStackTrace();
-                                    }
-
-
-                                    disablePreviousView();
-                                    enableWelcomeView();
-                                    setWelcomeText("Logging in..");
-                                    dottedProgressBar.startProgress();
-                                    }
-                            },200);*/
+                    if(RegexOperations.isLoginValid(str_login_email,str_login_password)) {
+                        repository.loginUser(str_login_email, str_login_password);
                         disablePreviousView();
                         enableWelcomeView();
                         setWelcomeText("Logging in..");
                         dottedProgressBar.startProgress();
-
+                    }
+                     else {
+                         showToast(RegexOperations.getNonValidMessageLogin(str_login_email,str_login_password));
                     }
                 }
                 else {
@@ -585,86 +532,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    private void loginUser(String email, String password){
-        final int[] maxid = {0};
-        Call<List<LoginResult>> login = getDataService.login(new LoginData(email,password));
-        login.enqueue(new Callback<List<LoginResult>>() {
-            @Override
-            public void onResponse(Call<List<LoginResult>> call, Response<List<LoginResult>> response) {
-                List<LoginResult> results = response.body();
-                if(results.get(0).getIsvalid()){
-                    String name = results.get(0).getPhizioname();
-                    editor = sharedPref.edit();
-                    editor.putBoolean("isLoggedIn",true);
-                    JSONObject object = new JSONObject();
-                    try {
-                        object.put("phizioname",results.get(0).getPhizioname());
-                        object.put("phizioemail",results.get(0).getPhizioemail());
-                        object.put("phiziophone",results.get(0).getPhiziophone());
-                        object.put("phizioprofilepicurl",results.get(0).getPhizioprofilepicurl());
-                        object.put("address",results.get(0).getAddress());
-                        object.put("clinicname",results.get(0).getClinicname());
-                        object.put("degree",results.get(0).getDegree());
-                        object.put("experience",results.get(0).getExperience());
-                        object.put("gender",results.get(0).getGender());
-                        object.put("phiziodob",results.get(0).getPhiziodob());
-                        object.put("specialization",results.get(0).getSpecialization());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                    editor.putString("phiziodetails",object.toString());
-                    editor.commit();
-                    List<PhizioPatients> phiziopatients = results.get(0).getPhiziopatients();
-
-                    if(phiziopatients.size()>0 && sharedPref.getInt("maxid",-1)==-1){
-                        for (int i=0;i<phiziopatients.size();i++){
-                            try {
-                                int id = Integer.parseInt(phiziopatients.get(i).getPatientid());
-                                if(id> maxid[0]){
-                                    maxid[0] = id;
-                                }
-                            }catch (NumberFormatException e){
-                                Log.i("Exception",e.getMessage());
-                            }
-                        }
-                        editor = sharedPref.edit();
-                        editor.putInt("maxid", maxid[0]);
-                        editor.apply();
-                    }
-                    new InsertAllInDatabase().execute(phiziopatients);
-                    setWelcomeText("Welcome");
-                    tv_login_welcome_user.setText(name);
-                    dottedProgressBar.startProgress();
-
-                }
-                else {
-                    Log.i("not valid","NV");
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<List<LoginResult>> call, Throwable t) {
-                Log.i("Failure", t.getMessage());
-            }
-        });
-    }
-
-
-
-    private class InsertAllInDatabase extends AsyncTask<List<PhizioPatients>,Void,Void>{
-
-        @Override
-        protected Void doInBackground(List<PhizioPatients>... lists) {
-            PheezeeDatabase database = PheezeeDatabase.getInstance(LoginActivity.this);
-            database.phizioPatientsDao().insertAllPatients(lists[0]);
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
+    @Override
+    public void onLoginResponse(boolean response, String message) {
+        if(response){
+            setWelcomeText("Welcome");
+            tv_login_welcome_user.setText(message);
+            dottedProgressBar.startProgress();
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -675,5 +548,18 @@ public class LoginActivity extends AppCompatActivity {
                 }
             },500);
         }
+        else {
+            setWelcomeText(message);
+//                        showToast("Invalid Credentials");
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    disableWelcomeView();
+                    enablePreviousView();
+                }
+            },1000);
+        }
     }
+
+
 }

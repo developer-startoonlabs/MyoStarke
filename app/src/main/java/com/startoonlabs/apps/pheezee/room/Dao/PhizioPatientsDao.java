@@ -34,4 +34,7 @@ public interface PhizioPatientsDao {
 
     @Query("UPDATE phizio_patients SET status=:status WHERE patientid=:patientid")
     void updatePatientStatus(String status, String patientid);
+
+    @Query("DELETE FROM phizio_patients WHERE patientid=:patientid")
+    void deleteParticularPatient(String patientid);
 }

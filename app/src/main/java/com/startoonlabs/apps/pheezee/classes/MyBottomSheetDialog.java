@@ -59,17 +59,7 @@ public class MyBottomSheetDialog extends BottomSheetDialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View layout = inflater.inflate(R.layout.layout_patient_options,container,false);
-
-//        LinearLayout ll_edit_patient = layout.findViewById(R.id.ll_edit_patient_details);
-//        ll_edit_patient.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                PatientsView patientsView = new PatientsView();
-//                Toast.makeText(getActivity(), "Hello", Toast.LENGTH_SHORT).show();
-//            }
-//        });
         findviews(layout);
-
         return layout;
     }
 
@@ -126,7 +116,7 @@ public class MyBottomSheetDialog extends BottomSheetDialogFragment {
         ll_delete_patient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((PatientsView)getActivity()).deletePatient(v);
+                ((PatientsView)getActivity()).deletePatient(patient);
             }
         });
         tv_patient_name_section.setText(patient.getPatientname());

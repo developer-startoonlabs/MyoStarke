@@ -316,4 +316,13 @@
 
     <!--Sync Dialog strings-->
     <string name="sync_title">Syncing session data to the server</string>
+
+
+
+    <!--Dialog titles-->
+    <string name="delete_title">Delete Patient</string>
+    <string name="delete_message">Are you sure you want to delete the patient?</string>
+
+    <string name="archive_title">Archive Patient</string>
+    <string name="archive_message">Are you sure you want to archive the patient?</string>
 </resources>

@@ -47,4 +47,20 @@ public class RegexOperations {
 //            flag = false;
         return flag;
     }
+
+    public static boolean isLoginValid(String email, String password){
+        if(email.equals("")||password.equals(""))
+            return false;
+        else if(!isValidEmail(email))
+            return false;
+        else
+            return true;
+    }
+
+    public static String getNonValidMessageLogin(String email, String password){
+        if(email.equals("")||password.equals(""))
+            return "Please fill all details";
+        else
+            return "Invalid Email Address";
+    }
 }
