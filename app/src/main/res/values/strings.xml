@@ -8,7 +8,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="add_patients_text">+ <u>Add patients</u></string>
+    <string name="add_patients_text">+ <u>Add patient</u></string>
     <string name="title_activity_scan_devices">ScanDevicesActivity</string>
     <string name="repetition"><b>Repetitions</b></string>
 

@@ -1,7 +1,10 @@
 package com.startoonlabs.apps.pheezee.utils;
 
 import android.graphics.Bitmap;
+import android.util.Base64;
 import android.util.Log;
+
+import java.io.ByteArrayOutputStream;
 
 public class BitmapOperations {
     /**
@@ -25,4 +28,11 @@ public class BitmapOperations {
         return Bitmap.createScaledBitmap(image, width, height, true);
     }
 
+    public static String bitmapToString(Bitmap photo){
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        photo.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+        String encodedString = Base64.encodeToString(byteArray,Base64.DEFAULT);
+        return encodedString;
+    }
 }

@@ -376,7 +376,7 @@ public class ReportWeek extends Fragment {
 
     public void updateLines(){
         if(str_part.size()>0) {
-            object = PatientOperations.checkReferenceWithoutOrientationDone(getActivity(), SessionReportActivity.patientId, str_part.get(current_bodypart));
+            object = new JSONObject();
 
             if (object != null) Log.i("object123", object.toString());
             if (object != null) {

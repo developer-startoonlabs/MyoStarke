@@ -1,6 +1,7 @@
 package com.startoonlabs.apps.pheezee.utils;
 
 import android.util.Patterns;
+import android.widget.Toast;
 
 import java.util.regex.Pattern;
 
@@ -63,4 +64,56 @@ public class RegexOperations {
         else
             return "Invalid Email Address";
     }
+
+    public static boolean isSignupValid(String name, String email, String password, String phone){
+        if(name.equals("")||password.equals("")||email.equals("")||phone.equals(""))
+            return false;
+        else if(!isValidEmail(email)|| !isValidMobileNumber(phone.replaceAll("\\s","")))
+            return false;
+        else
+            return true;
+    }
+
+    public static String getNonValidMessageSignup(String name, String email, String password, String phone ){
+        if(name.equals("")||password.equals("")||email.equals("")||phone.equals("")){
+            return "Please fill all the details";
+        }
+
+        else {
+            if(!RegexOperations.isValidEmail(email)&& !RegexOperations.isValidMobileNumber(phone))
+                return "Invalid Credentials";
+            else if(!RegexOperations.isValidEmail(email))
+                return "Invalid Email Address";
+            else
+                return "Invalid Phone Number";
+        }
+    }
+
+    public static boolean isValidUpdatePhizioDetails(String name, String phone){
+        if (!name.equals("")) {
+            if (!phone.equals("") || isValidMobileNumber(phone.replaceAll("\\s", ""))) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            return false;
+        }
+    }
+
+    public static String getNonValidStringForPhizioDetails(String name, String phone){
+        if (!name.equals("")) {
+            return "Please enter name";
+        }
+        else if(phone.equals("")) {
+            return "Please enter phone";
+        }
+        else {
+            return "Enter valid phone";
+        }
+    }
+
+
 }

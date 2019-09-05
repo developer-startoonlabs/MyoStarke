@@ -46,21 +46,7 @@ public class ByteToArrayOperations {
         int k=0;
         int[] emg_data = new int[emg_data_size_session];
         for (int i = 0; i<emg_num_packets_session; i++){
-//            int a = sub_byte[i];
-//            int b = sub_byte[i+1];
-
-//            emg_data[k] = b<<8 | a;
             emg_data[k] = sub_byte[i+1]<<8 | sub_byte[i]&0xFF;
-            //emg formula
-            Log.i("emg_data1",String.valueOf(emg_data[k]));
-//            emg_data[k] = (float) (emg_data[k]/284.44);
-//            Log.i("Emg before 1000",String.valueOf(emg_data[k]));
-
-//            emg_data[k]/=1000;
-//            Log.i("emg_data2",String.valueOf(emg_data[k]));
-////            Log.i("Emg after 1000",String.valueOf(emg_data[k]));
-//            emg_data[k]= Float.parseFloat(roundOffTo2DecPlaces(emg_data[k]));
-//            Log.i("EMG VALUE", String.valueOf(emg_data[k]));
             i++;
             k++;
         }

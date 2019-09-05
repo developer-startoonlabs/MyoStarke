@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -104,12 +105,17 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
+        CircularProgressDrawable drawable = new CircularProgressDrawable(context);
+        drawable.setStrokeWidth(5f);
+        drawable.setCenterRadius(30f);
+        drawable.start();
         PhizioPatients patientsList = updatedPatientList.get(position);
         holder.patientName.setText(patientsList.getPatientname());
         holder.patientId.setText("Id : "+patientsList.getPatientid());
         holder.patientNameContainer.setVisibility(View.GONE);
         holder.patientProfilepic.setImageResource(android.R.color.transparent);
 
+        //listners
         holder.ll_option_patient_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,7 +123,6 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
                     listner.onItemClick(updatedPatientList.get(position), v);
             }
         });
-
         holder.btn_start_session.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,13 +132,13 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
         });
 
         String patientUrl = patientsList.getPatientprofilepicurl();
-
         if(!patientUrl.trim().toLowerCase().equals("empty")) {
                 Glide.with(context)
                         .load("https://s3.ap-south-1.amazonaws.com/pheezee/physiotherapist/" + str_phizioemail.replaceFirst("@", "%40") + "/patients/" + patientsList.getPatientid() + "/images/profilepic.png")
                         .apply(new RequestOptions()
                                 .diskCacheStrategy(DiskCacheStrategy.NONE)
-                                .skipMemoryCache(true))
+                                .skipMemoryCache(true)
+                                .placeholder(drawable))
                         .into(holder.patientProfilepic);
         }
         else {
@@ -182,17 +187,12 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
     @Override
     public int getItemCount() {
         return patientsListData==null?0:updatedPatientList.size();
-        //https://s3.ap-south-1.amazonaws.com/pheezee/physiotherapist/ankushsharma8210%40gmail.co/patients/xzy/images/profilepic.png
-        //https://s3.ap-south-1.amazonaws.com/pheezee/physiotherapist/" + str_phizioemail.replaceFirst("@", "%40") + "/patients/" + patientsList.getPatientId() + "/images/profilepic.png
     }
-
-
 
     public interface onItemClickListner{
         void onItemClick(PhizioPatients patient, View view);
         void onStartSessionClickListner(PhizioPatients patient);
     }
-
 
     public void setOnItemClickListner(onItemClickListner listner){
         this.listner = listner;

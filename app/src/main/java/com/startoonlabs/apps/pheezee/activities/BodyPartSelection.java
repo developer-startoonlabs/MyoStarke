@@ -63,7 +63,6 @@ import static com.startoonlabs.apps.pheezee.adapters.BodyPartWithMmtRecyclerView
 import static com.startoonlabs.apps.pheezee.adapters.BodyPartWithMmtRecyclerView.selectedPosition;
 
 public class BodyPartSelection extends AppCompatActivity {
-
     //Drawable arry for the body part selection
 
     int[] myPartList = new int[]{R.drawable.elbow_part, R.drawable.knee_part,R.drawable.ankle_part,R.drawable.hip_part,R.drawable.wrist_part,R.drawable.shoulder_part,R.drawable.other_body_part};
@@ -332,7 +331,6 @@ public class BodyPartSelection extends AppCompatActivity {
     //        pw.setHeight(height - 400);
                     pw.setWidth(width - 100);
 
-
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         pw.setElevation(10);
                     }
@@ -373,7 +371,6 @@ public class BodyPartSelection extends AppCompatActivity {
                     btn_set_reference.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-
                             if (!exercisename.equalsIgnoreCase("")) {
 //                                JSONObject json_reference = PatientOperations.checkReferenceDone(orientationSelected, BodyPartSelection.this, getPatientId(), bodypartSelected);
                                 final AlertDialog.Builder builder = new AlertDialog.Builder(BodyPartSelection.this);
@@ -430,8 +427,6 @@ public class BodyPartSelection extends AppCompatActivity {
                             }
                         }
                     });
-
-
                     //buttom of the coment section pop up to continue to the session
                     btn_continue.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -528,7 +523,6 @@ public class BodyPartSelection extends AppCompatActivity {
                                         e.printStackTrace();
                                     }
                                 }
-
                                 Intent intent = new Intent(BodyPartSelection.this, MonitorActivity.class);
                                 //To be started here i need to putextras in the intents and send them to the moitor activity
                                 intent.putExtra("deviceMacAddress", getIntent().getStringExtra("deviceMacAddress"));
@@ -569,39 +563,6 @@ public class BodyPartSelection extends AppCompatActivity {
         editor.commit();
     }
 
-
-    /**
-     * Sending data to the server. Reference data
-     * @param maxAngle
-     * @param minAngle
-     * @param maxEmg
-     * @param minEmg
-     */
-    private void sendData(String maxAngle, String minAngle, String maxEmg, String minEmg) {
-        JSONObject object = new JSONObject();
-        MqttMessage message = new MqttMessage();
-        try {
-            object.put("phizioemail", json_phizio.getString("phizioemail"));
-            object.put("patientid",getPatientId());
-            object.put("bodypart",bodypartSelected);
-            object.put("orientation",orientationSelected);
-            object.put("maxemg",maxEmg);
-            object.put("maxangle",maxAngle);
-            object.put("minemg",minEmg);
-            object.put("minangle",minAngle);
-
-            message.setPayload(object.toString().getBytes());
-            mqttHelper.publishMqttTopic(mqtt_publish_message_reference,message);
-            object.put("bodypartselected",bodypartSelected);
-            object.put("orientationselected",orientationSelected);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        PatientOperations.saveReferenceSessionLocally(object,this);
-    }
-
     public void setFabVisible(){
         fab_done.setVisibility(View.VISIBLE);
     }
@@ -621,7 +582,6 @@ public class BodyPartSelection extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        bodyPartWithMmtRecyclerView.removeResources();
         mqttHelper.mqttAndroidClient.unregisterResources();
         mqttHelper.mqttAndroidClient.close();
         super.onDestroy();

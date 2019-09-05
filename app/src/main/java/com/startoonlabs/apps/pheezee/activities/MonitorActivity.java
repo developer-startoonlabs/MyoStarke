@@ -69,6 +69,7 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.adapters.BodyPartWithMmtRecyclerView;
 import com.startoonlabs.apps.pheezee.classes.BluetoothSingelton;
+import com.startoonlabs.apps.pheezee.popup.SessionSummaryPopupWindow;
 import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
 import com.startoonlabs.apps.pheezee.room.Entity.MqttSync;
 import com.startoonlabs.apps.pheezee.room.PheezeeDatabase;
@@ -99,11 +100,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-public class MonitorActivity extends AppCompatActivity {
+public class MonitorActivity extends AppCompatActivity implements MqttSyncRepository.GetSessionNumberResponse {
 
     //session inserted on server
     private boolean session_inserted_in_server = false, sessionCompleted = false, first_packet=true;
     MqttSyncRepository repository;
+    String json_phizioemail="";
     //MMT
     private String mmt_selected = "", body_orientation = "", session_type="";
     //max min angle emg showing views
@@ -258,6 +260,7 @@ public class MonitorActivity extends AppCompatActivity {
         emgJsonArray                = new JSONArray();
         romJsonArray                = new JSONArray();
         repository = new MqttSyncRepository(getApplication());
+        repository.setOnSessionNumberResponse(this);
 
         iv_back_monitor = findViewById(R.id.iv_back_monitor);
         tv_snap = findViewById(R.id.snap_monitor);
@@ -334,7 +337,7 @@ public class MonitorActivity extends AppCompatActivity {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         try {
             json_phizio = new JSONObject(sharedPreferences.getString("phiziodetails", ""));
-            Log.i("Patient View", json_phizio.toString());
+            json_phizioemail = json_phizio.getString("phizioemail");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -342,11 +345,7 @@ public class MonitorActivity extends AppCompatActivity {
         patientId.setText(getIntent().getStringExtra("patientId"));
         patientName.setText(getIntent().getStringExtra("patientName"));
         //setting session number
-        try {
-            tv_session_no.setText(String.valueOf(PatientOperations.getPatientNewSessionNumber(json_phizio.getString("phizioemail"),patientId.getText().toString(),this)));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        repository.getPatientSessionNo(patientId.getText().toString());
         bodypart = getIntent().getStringExtra("exerciseType");
         orientation = getIntent().getStringExtra("orientation");
         tv_body_part.setText(tv_body_part.getText().toString().concat(bodypart));
@@ -363,14 +362,12 @@ public class MonitorActivity extends AppCompatActivity {
         arcViewInside.setMinAngle(0);
         arcViewInside.setMaxAngle(0);
 
-        Log.i("max and min",maxAnglePart+" "+minAnglePart);
         creatGraphView();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
         exerciseType = getIntent().getStringExtra("exerciseType");
-        Log.i("Exercise Type", exerciseType);
 
         /**
          * calls start session
@@ -443,7 +440,6 @@ public class MonitorActivity extends AppCompatActivity {
                     timer.setText(R.string.timer_start);
                     recieverState = false;
                     isSessionRunning=false;
-                    Log.i("minAngle",""+minAngle);
 //                if(maxAngle!=0&&!(maxAngle>180)&&minAngle!=180&&!(minAngle<0)) {
                     tsLong = System.currentTimeMillis();
 
@@ -823,8 +819,6 @@ public class MonitorActivity extends AppCompatActivity {
                 new MediaScannerConnection.OnScanCompletedListener() {
                     @Override
                     public void onScanCompleted(String path, Uri uri) {
-                        Log.v("grokkingandroid",
-                                "file " + path + " was scanned seccessfully: " + uri);
                     }
                 });
         MediaScannerConnection.scanFile(
@@ -834,8 +828,6 @@ public class MonitorActivity extends AppCompatActivity {
                 new MediaScannerConnection.OnScanCompletedListener() {
                     @Override
                     public void onScanCompleted(String path, Uri uri) {
-                        Log.v("grokkingandroid",
-                                "file " + path + " was scanned seccessfully: " + uri);
                     }
                 });
         MediaScannerConnection.scanFile(
@@ -845,8 +837,8 @@ public class MonitorActivity extends AppCompatActivity {
                 new MediaScannerConnection.OnScanCompletedListener() {
                     @Override
                     public void onScanCompleted(String path, Uri uri) {
-                        Log.v("grokkingandroid",
-                                "file " + path + " was scanned seccessfully: " + uri);
+//                        Log.v("grokkingandroid",
+//                                "file " + path + " was scanned seccessfully: " + uri);
                     }
                 });
     }
@@ -966,16 +958,14 @@ public class MonitorActivity extends AppCompatActivity {
                 Log.i("GATT CONNECTED", "Attempting to start the service discovery in monitoring"+ gatt.discoverServices());
             }
             else if (newState == BluetoothProfile.STATE_CONNECTING){
-                Log.i("GATT DISCONNECTED", "GATT server is being connected");
+//                Log.i("GATT DISCONNECTED", "GATT server is being connected");
             }
-
             else if(newState == BluetoothProfile.STATE_DISCONNECTING){
-                Log.i("GATT DISCONNECTING","Gatt server disconnecting");
+//                Log.i("GATT DISCONNECTING","Gatt server disconnecting");
             }
             else if (newState == BluetoothProfile.STATE_DISCONNECTED){
-                Log.i("GATT DISCONNECTED", "Gatt server disconnected");
+//                Log.i("GATT DISCONNECTED", "Gatt server disconnected");
             }
-
             super.onConnectionStateChange(gatt, status, newState);
         }
 
@@ -1000,17 +990,12 @@ public class MonitorActivity extends AppCompatActivity {
                 servicesDiscovered = true;
                 BluetoothGattCharacteristic characteristic = gatt.getService(service1_uuid).getCharacteristic(characteristic1_service1_uuid);
                 Log.i("TEST", "INSIDE IF");
-
-
                 if(characteristic1_service1_uuid.equals(characteristic.getUuid()))
                     mCharacteristic = characteristic;
-
                 mBluetoothGatt = gatt;
                 gatt.setCharacteristicNotification(characteristic,true);
                 mBluetoothGattDescriptor = characteristic.getDescriptor(descriptor_characteristic1_service1_uuid);
-
                 arrayList.add(mCharacteristic);
-
                 if(timer.getVisibility()==View.GONE){
                     PatientsView.sessionStarted = true;
                     devicePopped = false;
@@ -1028,15 +1013,10 @@ public class MonitorActivity extends AppCompatActivity {
         public void onCharacteristicChanged(final BluetoothGatt gatt, final BluetoothGattCharacteristic characteristic) {
             if(characteristic1_service1_uuid.equals(characteristic.getUuid())) {
                 byte[] temp_byte;
-
                 temp_byte = characteristic.getValue();
-
                 byte header_main = temp_byte[0];
                 byte header_sub = temp_byte[1];
-
-
                 byte[] sub_byte = new byte[sub_byte_size];
-
                 if (ByteToArrayOperations.byteToStringHexadecimal(header_main).equals("AA")) {
                     if (ByteToArrayOperations.byteToStringHexadecimal(header_sub).equals("01")) {
                         int j = 2;
@@ -1047,35 +1027,17 @@ public class MonitorActivity extends AppCompatActivity {
                         message.obj = sub_byte;
                         if(!sessionCompleted && !first_packet) {
                             myHandler.sendMessage(message);
-//                            new MyValueViewAsyncTask().execute(sub_byte);
                         }
                         else {
                             first_packet=false;
-                        }
-
-                        try {
-                            sessionResult.put(message);
-                            sessionObj.put("data", sessionResult);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
                     }
                 }
                 if(ByteToArrayOperations.byteToStringHexadecimal(header_main).equals("AF")){
                     software_gain = header_sub;
-                    Log.i("Software gain",String.valueOf(software_gain));
                     Message message = Message.obtain();
                     message.obj = sub_byte;
-
                     myHandler.sendMessage(message);
-//                        new MyValueViewAsyncTask().execute(sub_byte);
-
-                    try {
-                        sessionResult.put(message);
-                        sessionObj.put("data", sessionResult);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                 }
             }
         }
@@ -1125,27 +1087,15 @@ public class MonitorActivity extends AppCompatActivity {
      * handler for session time incrimental
      */
     public Runnable runnable = new Runnable() {
-
         public void run() {
-
             MillisecondTime = SystemClock.uptimeMillis() - StartTime;
-
             UpdateTime = TimeBuff + MillisecondTime;
-
             Seconds = (int) (UpdateTime / 1000);
-
             Minutes = Seconds / 60;
-
             Seconds = Seconds % 60;
-
             MilliSeconds = (int) (UpdateTime % 1000);
-
-//            timeText ="Session time:   " + String.format("%02d", Minutes) + " : " + String.format("%02d", Seconds) + " : " + String.format("%02d", MilliSeconds);
             timeText ="Session time:   " + String.format("%02d", Minutes) + " : " + String.format("%02d", Seconds);
-            String time_action = String.format("%02d", Minutes) + " : " + String.format("%02d", Seconds);
             time.setText(timeText);
-//            tv_action_time.setText(time_action);
-
             handler.postDelayed(this, 0);
             if(PatientsView.sessionStarted==false && devicePopped==false){
                 devicePopped = true;
@@ -1155,10 +1105,8 @@ public class MonitorActivity extends AppCompatActivity {
                         deviceDisconnectedPopup();
                     }
                 });
-
             }
         }
-
     };
 
 
@@ -1182,9 +1130,7 @@ public class MonitorActivity extends AppCompatActivity {
             hold_time_seconds = sub_byte[45];
             active_time_minutes = sub_byte[46];
             active_time_seconds = sub_byte[47];
-            Log.i("active time",active_time_minutes+"m "+active_time_seconds+"s");
             currentAngle=angleDetected;
-            String angleValue = ""+angleDetected;
             String repetitionValue = ""+num_of_reps;
             Repetitions.setText(repetitionValue);
             String minutesValue=""+hold_time_minutes,secondsValue=""+hold_time_seconds;
@@ -1234,10 +1180,6 @@ public class MonitorActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 emgJsonArray.put(emg_data[i]);
-
-
-
-
                 try {
                     outputStream_session_emgdata.flush();
                     outputStream_session_emgdata.close();
@@ -1311,7 +1253,36 @@ public class MonitorActivity extends AppCompatActivity {
      */
     @SuppressLint("ClickableViewAccessibility")
     private  void initiatePopupWindowModified(final View v){
-        Configuration config = getResources().getConfiguration();
+
+        String sessionNo = tv_session_no.getText().toString();
+        String sessiontime = time.getText().toString().substring(16);
+        String actiontime = tv_action_time.getText().toString();
+        SessionSummaryPopupWindow window = new SessionSummaryPopupWindow(this,maxEmgValue, sessionNo,maxAngle,minAngle,orientation,bodypart,
+                json_phizioemail, sessiontime, actiontime, holdTime.getText().toString(),Repetitions.getText().toString(),emgJsonArray,romJsonArray,
+                angleCorrection, patientId.getText().toString(),patientName.getText().toString(), tsLong);
+        window.showWindow();
+        window.setOnSessionDataResponse(new MqttSyncRepository.OnSessionDataResponse() {
+            @Override
+            public void onInsertSessionData(Boolean response, String message) {
+                showToast(message);
+            }
+
+            @Override
+            public void onSessionDeleted(Boolean response, String message) {
+                showToast(message);
+            }
+
+            @Override
+            public void onMmtValuesUpdated(Boolean response, String message) {
+                showToast(message);
+            }
+
+            @Override
+            public void onCommentSessionUpdated(Boolean response) {
+            }
+        });
+
+        /*Configuration config = getResources().getConfiguration();
         final View layout;
         if (config.smallestScreenWidthDp >= 600)
         {
@@ -1544,16 +1515,10 @@ public class MonitorActivity extends AppCompatActivity {
             }
         });
 
-        try {
-            tv_session_no.setText(String.valueOf(PatientOperations.getPatientNewSessionNumber(json_phizio.getString("phizioemail"),patientId.getText().toString(),this)));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        repository.getPatientSessionNo(patientId.getText().toString());
 
 
         //radiobuttons from radio groups
-
-
         ll_mmt_confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1612,9 +1577,7 @@ public class MonitorActivity extends AppCompatActivity {
                 MqttSync mqttSync = new MqttSync(mqtt_delete_pateint_session, object.toString());
                 new SendDataAsyncTask(mqttSync).execute();
             }
-        });
-
-
+        });*/
     }
 
     /**
@@ -1825,83 +1788,42 @@ public class MonitorActivity extends AppCompatActivity {
 
             case "elbow":{
                 byte[] b = ByteToArrayOperations.hexStringToByteArray("AA03");
-                if(send(b)){
-                    Log.i("SENDING","MESSAGE SENT AA03");
-                }
-                else {
-                    Log.i("SENDING","UNSUCCESSFULL");
-                }
+                send(b);
                 break;
             }
 
             case "knee":{
                 byte[] b = ByteToArrayOperations.hexStringToByteArray("AA04");
-                if(send(b)){
-                    Log.i("SENDING","MESSAGE SENT AA04");
-                }
-                else {
-                    Log.i("Knee", "true");
-                    Log.i("SENDING","UNSUCCESSFULL");
-                }
+                send(b);
                 break;
             }
 
             case "ankle":{
                 byte[] b = ByteToArrayOperations.hexStringToByteArray("AA05");
-                if(send(b)){
-                    Log.i("SENDING","MESSAGE SENT AA05");
-                }
-                else {
-                    Log.i("ankle", "true");
-                    Log.i("SENDING","UNSUCCESSFULL");
-                }
+                send(b);
                 break;
             }
             case "hip":{
                 byte[] b = ByteToArrayOperations.hexStringToByteArray("AA06");
-                if(send(b)){
-                    Log.i("SENDING","MESSAGE SENT AA06");
-                }
-                else {
-                    Log.i("hip", "true");
-                    Log.i("SENDING","UNSUCCESSFULL");
-                }
+                send(b);
                 break;
             }
 
             case "wrist":{
                 byte[] b = ByteToArrayOperations.hexStringToByteArray("AA07");
-                if(send(b)){
-                    Log.i("SENDING","MESSAGE SENT AA07");
-                }
-                else {
-                    Log.i("wrist", "true");
-                    Log.i("SENDING","UNSUCCESSFULL");
-                }
+                send(b);
                 break;
             }
 
             case "shoulder":{
                 byte[] b = ByteToArrayOperations.hexStringToByteArray("AA08");
-                if(send(b)){
-                    Log.i("SENDING","MESSAGE SENT AA08");
-                }
-                else {
-                    Log.i("sholder", "true");
-                    Log.i("SENDING","UNSUCCESSFULL");
-                }
+                send(b);
                 break;
             }
 
             case "others":{
                 byte[] b = ByteToArrayOperations.hexStringToByteArray("AA04");
-                if(send(b)){
-                    Log.i("SENDING","MESSAGE SENT AA09");
-                }
-                else {
-                    Log.i("others", "true");
-                    Log.i("SENDING","UNSUCCESSFULL");
-                }
+                send(b);
                 break;
             }
         }
@@ -1914,7 +1836,6 @@ public class MonitorActivity extends AppCompatActivity {
      * @return
      */
     private File takeScreenshot(PopupWindow popupWindow) {
-
         Date now = new Date();
         File snap = null;
         View v1;
@@ -1963,8 +1884,8 @@ public class MonitorActivity extends AppCompatActivity {
                     new MediaScannerConnection.OnScanCompletedListener() {
                         @Override
                         public void onScanCompleted(String path, Uri uri) {
-                            Log.v("grokkingandroid",
-                                    "file " + path + " was scanned seccessfully: " + uri);
+//                            Log.v("grokkingandroid",
+//                                    "file " + path + " was scanned seccessfully: " + uri);
                         }
                     });
             //openScreenshot(imageFile);
@@ -1983,6 +1904,8 @@ public class MonitorActivity extends AppCompatActivity {
     private void showToast(String message){
         Toast.makeText(MonitorActivity.this, message, Toast.LENGTH_SHORT).show();
     }
+
+
 
 
     /**
@@ -2026,6 +1949,11 @@ public class MonitorActivity extends AppCompatActivity {
             }
 
         }
+    }
+
+    @Override
+    public void onSessionNumberResponse(String sessionnumber) {
+        tv_session_no.setText(sessionnumber);
     }
 
 

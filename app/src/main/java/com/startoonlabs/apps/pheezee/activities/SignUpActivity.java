@@ -20,6 +20,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.alimuzaffar.lib.pin.PinEntryEditText;
 import com.startoonlabs.apps.pheezee.R;
+import com.startoonlabs.apps.pheezee.pojos.SignUpData;
+import com.startoonlabs.apps.pheezee.popup.OtpBuilder;
+import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
+import com.startoonlabs.apps.pheezee.room.Entity.PhizioPatients;
 import com.startoonlabs.apps.pheezee.services.MqttHelper;
 import com.startoonlabs.apps.pheezee.utils.OtpGeneration;
 import com.startoonlabs.apps.pheezee.utils.RegexOperations;
@@ -36,8 +40,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
 
-public class SignUpActivity extends AppCompatActivity {
+
+public class SignUpActivity extends AppCompatActivity implements MqttSyncRepository.OnSignUpResponse {
 
 
 
@@ -52,13 +59,10 @@ public class SignUpActivity extends AppCompatActivity {
 
     MqttHelper mqttHelper;
 
-    MqttConnectOptions mqttConnectOptions;
-    String clientId;
-    MqttAndroidClient client;
     boolean dialogStatus = false;
     AlertDialog mdialog = null;
     String otp;
-
+    MqttSyncRepository repository;
 
     //topics to subscribe
 
@@ -86,13 +90,15 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
 
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        repository = new MqttSyncRepository(getApplication());
+        repository.setOnSignUpResponse(this);
         //defining all the view elements
         dialogStatus = false;
         //EDIT TEXTS
-        et_signup_name = (EditText)findViewById(R.id.et_signup_name);
-        et_signup_password = (EditText)findViewById(R.id.et_signup_password);
-        et_signup_email = (EditText)findViewById(R.id.et_signup_email);
-        et_signup_phone = (EditText)findViewById(R.id.et_signup_phone);
+        et_signup_name = findViewById(R.id.et_signup_name);
+        et_signup_password = findViewById(R.id.et_signup_password);
+        et_signup_email = findViewById(R.id.et_signup_email);
+        et_signup_phone = findViewById(R.id.et_signup_phone);
 
         progressDialog = new ProgressDialog(this,R.style.greenprogress);
         progressDialog.setMessage("Please wait");
@@ -103,11 +109,11 @@ public class SignUpActivity extends AppCompatActivity {
 
         //Buttons
 
-        btn_signup_create  = (Button)findViewById(R.id.btn_signup_create);
+        btn_signup_create  = findViewById(R.id.btn_signup_create);
 
         //TextViews
 
-        tv_signup_cancel = (TextView)findViewById(R.id.tv_cancel_signup);
+        tv_signup_cancel = findViewById(R.id.tv_cancel_signup);
 
 
         mqttHelper = new MqttHelper(this);
@@ -119,14 +125,21 @@ public class SignUpActivity extends AppCompatActivity {
         btn_signup_create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressDialog.show();
+
                 str_signup_name = et_signup_name.getText().toString();
                 str_signup_password = et_signup_password.getText().toString();
                 str_signup_email = et_signup_email.getText().toString();
                 str_signup_phone = et_signup_phone.getText().toString();
 
+                if(RegexOperations.isSignupValid(str_signup_name,str_signup_email,str_signup_password,str_signup_phone)){
+                    progressDialog.show();
+                    repository.confirmEmail(str_signup_email);
+                }
+                else {
+                    showToast(RegexOperations.getNonValidMessageSignup(str_signup_name,str_signup_email,str_signup_password,str_signup_phone));
+                }
 
-                if(str_signup_name.equals("")||str_signup_password.equals("")||str_signup_email.equals("")||str_signup_phone.equals("")){
+                /*if(str_signup_name.equals("")||str_signup_password.equals("")||str_signup_email.equals("")||str_signup_phone.equals("")){
                     progressDialog.dismiss();
                     Toast.makeText(getApplicationContext(), "Please fill all the details", Toast.LENGTH_SHORT).show();
                 }
@@ -185,7 +198,7 @@ public class SignUpActivity extends AppCompatActivity {
                         }
                     },200);
 
-                }
+                }*/
             }
         });
 
@@ -365,5 +378,49 @@ public class SignUpActivity extends AppCompatActivity {
 
     public void showToast(String message){
         Toast.makeText(getApplicationContext(),message,Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onConfirmEmail(boolean response, String message) {
+        progressDialog.dismiss();
+        if(response){
+            OtpBuilder builder = new OtpBuilder(this,message);
+            builder.showDialog();
+            builder.setOnOtpResponseListner(new OtpBuilder.OtpResponseListner() {
+                @Override
+                public void onResendClick() {
+                    builder.dismiss();
+                    progressDialog.show();
+                    repository.confirmEmail(str_signup_email);
+                }
+
+                @Override
+                public void onPinEntery(boolean pin) {
+                    if(pin){
+                        progressDialog.show();
+                        SignUpData data = new SignUpData(str_signup_name,str_signup_email,str_signup_password,str_signup_phone,"empty", new ArrayList<>());
+                        repository.signUp(data);
+                    }
+                    else {
+                        showToast("Invalid pin!");
+                    }
+                }
+            });
+        }
+        else {
+            showToast(message);
+        }
+    }
+
+    @Override
+    public void onSignUp(boolean response) {
+        if(!response){
+            showToast("Error, try again later");
+        }
+        else {
+            Intent i = new Intent(SignUpActivity.this, PatientsView.class);
+            startActivity(i);
+            finish();
+        }
     }
 }

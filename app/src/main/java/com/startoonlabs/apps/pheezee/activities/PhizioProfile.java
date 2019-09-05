@@ -1,13 +1,11 @@
 package com.startoonlabs.apps.pheezee.activities;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -16,8 +14,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.MediaStore;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -30,85 +26,65 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.startoonlabs.apps.pheezee.R;
+import com.startoonlabs.apps.pheezee.pojos.PhizioDetailsData;
+import com.startoonlabs.apps.pheezee.popup.UploadImageDialog;
+import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
 import com.startoonlabs.apps.pheezee.services.MqttHelper;
 import com.startoonlabs.apps.pheezee.services.PicassoCircleTransformation;
 import com.startoonlabs.apps.pheezee.utils.BitmapOperations;
 import com.startoonlabs.apps.pheezee.utils.NetworkOperations;
 import com.startoonlabs.apps.pheezee.utils.RegexOperations;
 
-import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
-import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
-import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
 import static com.startoonlabs.apps.pheezee.activities.PatientsView.ivBasicImage;
 
-public class PhizioProfile extends AppCompatActivity {
+public class PhizioProfile extends AppCompatActivity implements MqttSyncRepository.OnPhizioDetailsResponseListner {
     EditText et_phizio_name, et_phizio_email, et_phizio_phone,et_address, et_clinic_name, et_dob, et_experience, et_specialization, et_degree, et_gender;
     MqttHelper mqttHelper ;
     Spinner spinner;
-    String mqtt_phizio_profile_update = "phizioprofile/update";
-    String mqtt_phizio_profile_update_response = "phizioprofile/update/response";
-
-    boolean message_sent = false;
-    String datePicked = "";
-
-    String mqtt_phizio_profilepic_change = "phizio/profilepic/upload";
-    String mqtt_phizio_profilepic_change_response = "phizio/profilepic/upload/response";
-    String mqtt_get_profile_pic_response = "phizio/getprofilepic/response";
+    MqttSyncRepository repository;
     TextView tv_edit_profile_pic, tv_edit_profile_details;
-
     ImageView iv_phizio_profilepic;
 
     final Calendar myCalendar = Calendar.getInstance();
-
-    //For Alert Dialog
-    final CharSequence[] items = { "Take Photo", "Choose from Library",
-            "Cancel" };
-
-    AlertDialog.Builder builder;
 
     Button btn_update, btn_cancel_update;
 
     JSONObject json_phizio;
     SharedPreferences sharedPref;
     SharedPreferences.Editor editor;
+    ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_phizio_profile);
         mqttHelper = new MqttHelper(PhizioProfile.this,"phizioprofile");
-
+        repository = new MqttSyncRepository(getApplication());
+        repository.setOnPhizioDetailsResponseListner(this);
         //Shared Preference
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         editor = sharedPref.edit();
-
+        dialog = new ProgressDialog(this);
+        dialog.setMessage("Updated details, please wait");
         try {
             json_phizio = new JSONObject(sharedPref.getString("phiziodetails", ""));
-            Log.i("Patient View", json_phizio.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-
         setPhizioDetails();
-
     }
 
     /**
@@ -161,8 +137,6 @@ public class PhizioProfile extends AppCompatActivity {
         catch (JSONException e) {
             e.printStackTrace();
         }
-
-
         btn_update = findViewById(R.id.btn_update_details);
         btn_cancel_update = findViewById(R.id.btn_cancel_update);
 
@@ -170,60 +144,6 @@ public class PhizioProfile extends AppCompatActivity {
 /**
  * Response from the server
  */
-        mqttHelper.setCallback(new MqttCallbackExtended() {
-            @Override
-            public void connectComplete(boolean reconnect, String serverURI) {
-
-            }
-
-            @Override
-            public void connectionLost(Throwable cause) {
-
-            }
-
-            @Override
-            public void messageArrived(String topic, MqttMessage message) throws Exception {
-                if(topic.equals(mqtt_phizio_profile_update_response+json_phizio.getString("phizioemail"))){
-
-                    Log.i("MQ ME",message.toString());
-                    json_phizio.put("phizioname",et_phizio_name.getText().toString());
-                    json_phizio.put("phiziophone",et_phizio_phone.getText().toString());
-                    json_phizio.put("clinicname",et_clinic_name.getText().toString());
-                    json_phizio.put("phiziodob",et_dob.getText().toString());
-                    json_phizio.put("experience",et_experience.getText().toString());
-                    json_phizio.put("specialization",et_specialization.getText().toString());
-                    json_phizio.put("degree",et_degree.getText().toString());
-                    json_phizio.put("gender",et_gender.getText().toString());
-                    json_phizio.put("address",et_address.getText().toString());
-                    editor.putString("phiziodetails",json_phizio.toString());
-                    editor.commit();
-                }
-
-                else if(topic.equals(mqtt_get_profile_pic_response+json_phizio.getString("phizioemail"))){
-                    /*Bitmap bitmap = BitmapFactory.decodeByteArray(message.getPayload(), 0, message.getPayload().length);
-                    iv_phizio_profilepic.setImageBitmap(bitmap);
-                    PatientsView.ivBasicImage.setImageBitmap(bitmap);*/
-                }
-
-                else if(topic.equals(mqtt_phizio_profilepic_change_response+json_phizio.getString("phizioemail"))){
-                    editor = sharedPref.edit();
-                    try {
-                        json_phizio.put("phizioprofilepicurl",message.toString());
-                        editor.putString("phiziodetails",json_phizio.toString());
-                        editor.commit();
-                        Log.i("array",json_phizio.toString());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-            }
-
-            @Override
-            public void deliveryComplete(IMqttDeliveryToken token) {
-
-            }
-        });
         focuseEditTexts(false);
         /**
          * gender
@@ -236,7 +156,6 @@ public class PhizioProfile extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
         /**
@@ -247,7 +166,6 @@ public class PhizioProfile extends AppCompatActivity {
             public void onClick(View v) {
                 focuseEditTexts(true);
                 setPaleWhiteBackground(true);
-
                 //Setting the visibility of the buttons tured on
                 btn_cancel_update.setVisibility(View.VISIBLE);
                 btn_update.setVisibility(View.VISIBLE);
@@ -261,40 +179,22 @@ public class PhizioProfile extends AppCompatActivity {
                 if(NetworkOperations.isNetworkAvailable(PhizioProfile.this)) {
                     String str_name = et_phizio_name.getText().toString();
                     String str_phone = et_phizio_phone.getText().toString();
-                    if (!str_name.equals("")) {
-                        if (!str_phone.equals("") || !RegexOperations.isValidMobileNumber(str_phone.replaceAll("\\s", ""))) {
-
-                            JSONObject object = new JSONObject();
-                            MqttMessage message = new MqttMessage();
-                            try {
-                                object.put("phizioname", str_name);
-                                object.put("phiziophone", str_phone);
-                                object.put("phizioemail", et_phizio_email.getText().toString());
-                                object.put("clinicname", et_clinic_name.getText().toString());
-                                object.put("phiziodob", et_dob.getText().toString());
-                                object.put("experience", et_experience.getText().toString());
-                                object.put("specialization", et_specialization.getText().toString());
-                                object.put("degree", et_degree.getText().toString());
-                                object.put("gender", et_gender.getText().toString());
-                                object.put("address", et_address.getText().toString());
-                                message.setPayload(object.toString().getBytes());
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
-                            mqttHelper.publishMqttTopic(mqtt_phizio_profile_update, message);
-
-
-                            setPaleWhiteBackground(false);
-                            btn_update.setVisibility(View.INVISIBLE);
-                            btn_cancel_update.setVisibility(View.INVISIBLE);
-
-                            focuseEditTexts(false);
-                        } else {
-                            showToast("Enter valid phone");
-                        }
-                    } else {
-                        showToast("Please enter name");
+                    String str_phizioemail  = et_phizio_email.getText().toString();
+                    String str_clinicname = et_clinic_name.getText().toString();
+                    String str_dob = et_dob.getText().toString();
+                    String str_experience = et_experience.getText().toString();
+                    String specialization = et_specialization.getText().toString();
+                    String degree = et_degree.getText().toString();
+                    String gender = et_gender.getText().toString();
+                    String address = et_address.getText().toString();
+                    if(RegexOperations.isValidUpdatePhizioDetails(str_name,str_phone)){
+                        PhizioDetailsData data = new PhizioDetailsData(str_name,str_phone,str_phizioemail,str_clinicname,str_dob,str_experience,specialization,degree,gender,address);
+                        repository.updatePhizioDetails(data);
+                        dialog.setMessage("Updated details, please wait");
+                        dialog.show();
+                    }
+                    else {
+                        showToast(RegexOperations.getNonValidStringForPhizioDetails(str_name,str_phone));
                     }
                 }else {
                     NetworkOperations.networkError(PhizioProfile.this);
@@ -321,30 +221,13 @@ public class PhizioProfile extends AppCompatActivity {
         tv_edit_profile_pic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent i = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//                startActivityForResult(i, RESULT_LOAD_IMAGE);
-                builder = new AlertDialog.Builder(PhizioProfile.this);
-                builder.setTitle("Add Photo!");
-                builder.setItems(items, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int item) {
-                        if (items[item].equals("Take Photo")) {
-                            if(ContextCompat.checkSelfPermission(PhizioProfile.this, Manifest.permission.CAMERA)
-                                    == PackageManager.PERMISSION_DENIED) {
-                                ActivityCompat.requestPermissions(PhizioProfile.this, new String[]{Manifest.permission.CAMERA}, 0);
-                                cameraIntent();
-                            }
-                            else {
-                                cameraIntent();
-                            }
-                        } else if (items[item].equals("Choose from Library")) {
-                            galleryIntent();
-                        } else if (items[item].equals("Cancel")) {
-                            dialog.dismiss();
-                        }
-                    }
-                });
-                builder.show();
+                if(NetworkOperations.isNetworkAvailable(PhizioProfile.this)) {
+                    UploadImageDialog dialog1 = new UploadImageDialog(PhizioProfile.this);
+                    dialog1.showDialog();
+                }
+                else {
+                    NetworkOperations.networkError(PhizioProfile.this);
+                }
             }
         });
 
@@ -491,19 +374,6 @@ public class PhizioProfile extends AppCompatActivity {
         et_phizio_phone.setBackground(drawable);
     }
 
-    private void galleryIntent() {
-        Intent pickPhoto = new Intent(Intent.ACTION_PICK,
-                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(pickPhoto , 1);
-
-    }
-
-
-    private void cameraIntent() {
-        Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(takePicture, 0);
-    }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -514,57 +384,29 @@ public class PhizioProfile extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
         switch(requestCode) {
-            case 0:
+            case 5:
                 if(resultCode == RESULT_OK){
                     Bitmap photo = (Bitmap) imageReturnedIntent.getExtras().get("data");
                     photo = BitmapOperations.getResizedBitmap(photo,128);
                     iv_phizio_profilepic.setImageBitmap(photo);
                     ivBasicImage.setImageBitmap(photo);
-                    JSONObject object = new JSONObject();
-
-                    MqttMessage message = new MqttMessage();
-
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    photo.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                    byte[] byteArray = stream.toByteArray();
-                    String encodedString = Base64.encodeToString(byteArray,Base64.DEFAULT);
-                    try {
-                        object.put("image",encodedString);
-                        object.put("phizioemail",et_phizio_email.getText().toString());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    message.setPayload(object.toString().getBytes());
-
-                    mqttHelper.publishMqttTopic(mqtt_phizio_profilepic_change,message);
+                    repository.updatePhizioProfilePic(et_phizio_email.getText().toString(),photo);
+                    dialog.setMessage("Uploading image, please wait");
+                    dialog.show();
                 }
-
                 break;
-            case 1:
+            case 6:
                 if(resultCode == RESULT_OK){
                     Uri selectedImage = imageReturnedIntent.getData();
                     iv_phizio_profilepic.setImageURI(selectedImage);
                     ivBasicImage.setImageURI(selectedImage);
-
                     iv_phizio_profilepic.invalidate();
                     BitmapDrawable drawable = (BitmapDrawable) iv_phizio_profilepic.getDrawable();
                     Bitmap photo = drawable.getBitmap();
                     photo = BitmapOperations.getResizedBitmap(photo,128);
-                    MqttMessage message = new MqttMessage();
-                    JSONObject object = new JSONObject();
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    photo.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                    byte[] byteArray = stream.toByteArray();
-                    String encodedString = Base64.encodeToString(byteArray,Base64.DEFAULT);
-                    try {
-                        object.put("image",encodedString);
-                        object.put("phizioemail",et_phizio_email.getText().toString());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    message.setPayload(object.toString().getBytes());
-
-                    mqttHelper.publishMqttTopic(mqtt_phizio_profilepic_change,message);
+                    repository.updatePhizioProfilePic(et_phizio_email.getText().toString(),photo);
+                    dialog.setMessage("Uploading image, please wait");
+                    dialog.show();
                 }
                 break;
         }
@@ -583,5 +425,26 @@ public class PhizioProfile extends AppCompatActivity {
 
     public Context getContext(){
         return this;
+    }
+
+    @Override
+    public void onDetailsUpdated(Boolean response) {
+        dialog.dismiss();
+        if(response){
+            showToast("Details updated");
+            setPaleWhiteBackground(false);
+            btn_update.setVisibility(View.INVISIBLE);
+            btn_cancel_update.setVisibility(View.INVISIBLE);
+
+            focuseEditTexts(false);
+        }
+        else {
+            showToast("Error try again, later");
+        }
+    }
+
+    @Override
+    public void onProfilePictureUpdated(Boolean response) {
+        dialog.dismiss();
     }
 }

@@ -20,6 +20,7 @@ import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.fragments.FragmentReportDay;
 import com.startoonlabs.apps.pheezee.fragments.ReportMonth;
 import com.startoonlabs.apps.pheezee.fragments.ReportWeek;
+import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
 import com.startoonlabs.apps.pheezee.services.MqttHelper;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
@@ -29,7 +30,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class SessionReportActivity extends AppCompatActivity {
+public class SessionReportActivity extends AppCompatActivity implements MqttSyncRepository.OnReportDataResponseListner {
 
     JSONArray session_arry;
     boolean initia = true;
@@ -39,7 +40,7 @@ public class SessionReportActivity extends AppCompatActivity {
     ProgressDialog progress;
 
     TextView tv_day, tv_week, tv_month, tv_overall_summary;
-
+    MqttSyncRepository repository;
 
 
 
@@ -57,7 +58,8 @@ public class SessionReportActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_session_report);
         fragmentManager = getSupportFragmentManager();
-
+        repository = new MqttSyncRepository(getApplication());
+        repository.setOnReportDataResponseListener(this);
         declareView();
 
         patientId = getIntent().getStringExtra("patientid");
@@ -80,10 +82,7 @@ public class SessionReportActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-        mqttHelper.setCallback(new MqttCallbackExtended() {
+        /*mqttHelper.setCallback(new MqttCallbackExtended() {
             @Override
             public void connectComplete(boolean reconnect, String serverURI) {
                 MqttMessage message = new MqttMessage();
@@ -122,9 +121,10 @@ public class SessionReportActivity extends AppCompatActivity {
             public void deliveryComplete(IMqttDeliveryToken token) {
 
             }
-        });
+        });*/
 
 
+        repository.getReportData(phizioemail,patientId);
 
     }
 
@@ -256,5 +256,17 @@ public class SessionReportActivity extends AppCompatActivity {
 
     public void showToast(String message){
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onReportDataReceived(JSONArray array, boolean response) {
+        progress.dismiss();
+        if (response){
+            session_arry = array;
+            tv_day.performClick();
+        }
+        else {
+            showToast("Error please try later!");
+        }
     }
 }

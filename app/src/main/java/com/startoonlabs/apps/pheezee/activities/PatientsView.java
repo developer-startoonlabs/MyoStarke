@@ -34,14 +34,12 @@ import android.os.Looper;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -59,8 +57,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.Observer;
@@ -82,7 +78,6 @@ import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.classes.BluetoothGattSingleton;
 import com.startoonlabs.apps.pheezee.classes.BluetoothSingelton;
 import com.startoonlabs.apps.pheezee.classes.MyBottomSheetDialog;
-import com.startoonlabs.apps.pheezee.patientsRecyclerView.PatientsListData;
 import com.startoonlabs.apps.pheezee.patientsRecyclerView.PatientsRecyclerViewAdapter;
 import com.startoonlabs.apps.pheezee.pojos.AddPatientData;
 import com.startoonlabs.apps.pheezee.pojos.DeletePatientData;
@@ -91,6 +86,7 @@ import com.startoonlabs.apps.pheezee.pojos.PatientStatusData;
 import com.startoonlabs.apps.pheezee.pojos.ResponseData;
 import com.startoonlabs.apps.pheezee.popup.AddPatientPopUpWindow;
 import com.startoonlabs.apps.pheezee.popup.EditPopUpWindow;
+import com.startoonlabs.apps.pheezee.popup.UploadImageDialog;
 import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
 import com.startoonlabs.apps.pheezee.retrofit.GetDataService;
 import com.startoonlabs.apps.pheezee.retrofit.RetrofitClientInstance;
@@ -104,19 +100,15 @@ import com.startoonlabs.apps.pheezee.utils.BatteryOperation;
 import com.startoonlabs.apps.pheezee.utils.BitmapOperations;
 import com.startoonlabs.apps.pheezee.utils.ByteToArrayOperations;
 import com.startoonlabs.apps.pheezee.utils.NetworkOperations;
-import com.startoonlabs.apps.pheezee.utils.PatientOperations;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -133,7 +125,6 @@ public class PatientsView extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener, PatientsRecyclerViewAdapter.onItemClickListner, MqttSyncRepository.onServerResponse {
     String json_phizioemail = "";
     public static boolean deviceState = true, connectPressed = false, deviceBatteryUsbState = false,sessionStarted = false;
-    int maxid = 0;
     public static int deviceBatteryPercent=0;
     public static boolean insideMonitor = false;
     private boolean insidePatientViewActivity = true;
@@ -161,14 +152,8 @@ public class PatientsView extends AppCompatActivity
     //bluetooth and device connection state
     ImageView iv_bluetooth_connected, iv_bluetooth_disconnected, iv_device_connected, iv_device_disconnected, iv_sync_data,  iv_sync_not_available;
 
-
-    PopupWindow bodyPartLayout;
     View patientLayoutView;
     MyBottomSheetDialog myBottomSheetDialog;
-
-    //For Alert Dialog
-    final CharSequence[] items = { "Take Photo", "Choose from Library",
-            "Cancel" };
 
     final CharSequence[] peezee_items = { "Scan Nearby Devices",
             "Qrcode Scan", "Cancel" };
@@ -198,19 +183,12 @@ public class PatientsView extends AppCompatActivity
 
 
     String mqtt_subs_phizio_addpatient_response = "phizio/addpatient/response";
-//    String mqtt_phizio_profilepic_change_response = "phizio/profilepic/upload/response";  //for the profile picture change of patient
-    //Request action intents
-
     int REQUEST_ENABLE_BT = 1;
     final int REQUEST_ENABLE_BT_SCAN = 2;
 
     boolean isBleConnected;
     public boolean gattconnection_established = false;
-    //All the intents
-
     Intent to_scan_devices_activity;
-
-    private List<PatientsListData> mdataset = new ArrayList<>();
     private PatientsRecyclerViewAdapter mAdapter;
     TextView tv_battery_percentage, tv_patient_view_add_patient;
     ProgressBar battery_bar;
@@ -232,13 +210,9 @@ public class PatientsView extends AppCompatActivity
     ImageView iv_addPatient;
     LinearLayout ll_add_bluetooth, ll_add_device;
     RelativeLayout rl_battery_usb_state;
-
-
     RecyclerView mRecyclerView;
     ProgressDialog progress, deletepatient_progress;
-
     SearchView searchView;
-
     MqttSyncRepository repository ;
     List<MqttSync> list_sync = null;
     Handler server_busy_handler;
@@ -316,8 +290,6 @@ public class PatientsView extends AppCompatActivity
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.nav_header_patients_view, navigationView);
 
-        Log.i("shared pref",sharedPref.getString("sync_emg_session",""));
-
         //external storage permission
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -326,16 +298,18 @@ public class PatientsView extends AppCompatActivity
         }
 
         //Getting previous patient data
-
         try {
             json_phizio = new JSONObject(sharedPref.getString("phiziodetails", ""));
+
             json_phizioemail = json_phizio.getString("phizioemail");
+            Log.i("phiziodetails",json_phizioemail);
             Log.i("Patient View", json_phizio.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
         searchView = findViewById(R.id.search_view);
         ivBasicImage =  view.findViewById(R.id.imageViewdp);
+        email = view.findViewById(R.id.emailId);
         Picasso.get().load(Environment.getExternalStoragePublicDirectory("profilePic"))
                 .placeholder(R.drawable.user_icon)
                 .error(R.drawable.user_icon)
@@ -358,7 +332,7 @@ public class PatientsView extends AppCompatActivity
                         .into(ivBasicImage);
 
             }
-            email = view.findViewById(R.id.emailId);
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -692,36 +666,6 @@ public class PatientsView extends AppCompatActivity
         super.onDestroy();
     }
 
-    /**
-     * Updating the recycler view adapter
-     * @param data
-     */
-    public void pushJsonData(JSONArray data) {
-        mdataset.clear();
-        if (data.length() > 0) {
-            PatientsListData patientsList;
-            for (int i = data.length() - 1; i >= 0; i--) {
-                try {
-                    if(!data.getJSONObject(i).has("status")  || data.getJSONObject(i).getString("status").equals("active")) {
-                        patientsList = new PatientsListData(data.getJSONObject(i).getString("patientname"), data.getJSONObject(i).getString("patientid"), data.getJSONObject(i).getString("patientprofilepicurl"));
-                        mdataset.add(patientsList);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        if(mdataset.size()>0) {
-            findViewById(R.id.noPatient).setVisibility(View.GONE);
-            findViewById(R.id.cl_recycler_view).setVisibility(View.VISIBLE);
-        }
-        else {
-            findViewById(R.id.cl_recycler_view).setVisibility(View.GONE);
-            findViewById(R.id.noPatient).setVisibility(View.VISIBLE);
-        }
-        mAdapter.notifyDataSetChanged();
-    }
-
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
@@ -736,36 +680,31 @@ public class PatientsView extends AppCompatActivity
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            if(f_bodypart_popup){ bodyPartLayout.dismiss(); f_bodypart_popup = false; }
-           else {
-                backpressCount++;
-                if (backpressCount == 1) {
-                    Toast.makeText(PatientsView.this, "press again to close pheezee app", Toast.LENGTH_SHORT).show();
-                    Thread thread = new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                Thread.sleep(1000);
-                                backpressCount = 0;
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
+            backpressCount++;
+            if (backpressCount == 1) {
+                Toast.makeText(PatientsView.this, "press again to close pheezee app", Toast.LENGTH_SHORT).show();
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(1000);
+                            backpressCount = 0;
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
                         }
-                    });
-                    thread.start();
-                }
-                if (backpressCount == 2) {
-                    Intent intent = new Intent(Intent.ACTION_MAIN);
-                    intent.addCategory(Intent.CATEGORY_HOME);
-                    startActivity(intent);
-                    finishAffinity();
-                }
+                    }
+                });
+                thread.start();
             }
-
+            if (backpressCount == 2) {
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.addCategory(Intent.CATEGORY_HOME);
+                startActivity(intent);
+                finishAffinity();
+            }
         }
     }
 
@@ -1346,28 +1285,8 @@ public class PatientsView extends AppCompatActivity
      */
     public void chooseImageUpdateAction(final View view){
         patientLayoutView = view;
-        builder = new AlertDialog.Builder(PatientsView.this);
-        builder.setTitle("Add Photo!");
-        builder.setItems(items, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int item) {
-                if (items[item].equals("Take Photo")) {
-                    if(ContextCompat.checkSelfPermission(PatientsView.this, Manifest.permission.CAMERA)
-                            == PackageManager.PERMISSION_DENIED) {
-                        ActivityCompat.requestPermissions(PatientsView.this, new String[]{Manifest.permission.CAMERA}, 5);
-                        cameraIntent();
-                    }
-                    else {
-                        cameraIntent();
-                    }
-                } else if (items[item].equals("Choose from Library")) {
-                    galleryIntent();
-                } else if (items[item].equals("Cancel")) {
-                    dialog.dismiss();
-                }
-            }
-        });
-        builder.show();
+        UploadImageDialog dialog = new UploadImageDialog(this);
+        dialog.showDialog();
     }
 
     /**
@@ -1399,18 +1318,6 @@ public class PatientsView extends AppCompatActivity
         builder.show();
     }
 
-    private void galleryIntent() {
-        Intent pickPhoto = new Intent(Intent.ACTION_PICK,
-                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(pickPhoto , 6);
-    }
-
-
-    private void cameraIntent() {
-        Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(takePicture, 5);
-    }
-
     /**
      * For photo editing of patient
      * @param requestCode
@@ -1426,36 +1333,16 @@ public class PatientsView extends AppCompatActivity
                 ImageView imageView_patientpic = patientLayoutView.findViewById(R.id.patientProfilePic);
                 patientTabLayout= (LinearLayout) (patientLayoutView).getParent().getParent();
                 patientTabLayout = (LinearLayout) patientTabLayout.getChildAt(1);
-                //TextView tv_patientId = patientLayoutView.getRootView().findViewById(R.id.patientId);
                 Bitmap photo = (Bitmap) Objects.requireNonNull(data.getExtras()).get("data");
                 photo = BitmapOperations.getResizedBitmap(photo,128);
                 imageView_patientpic.setImageBitmap(photo);
                 TextView tv_patientId = (TextView) patientTabLayout.getChildAt(1);
-                JSONObject object = new JSONObject();
-
-                MqttMessage message = new MqttMessage();
-
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                if (photo != null) {
-                    photo.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                }
-                byte[] byteArray = stream.toByteArray();
-                String encodedString = Base64.encodeToString(byteArray,Base64.DEFAULT);
-                try {
-                    object.put("image",encodedString);
-                    object.put("phizioemail",json_phizio.getString("phizioemail"));
-                    object.put("patientid",tv_patientId.getText().toString().substring(4).replaceAll("\\s+",""));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                PatientOperations.putPatientProfilePicUrl(this,tv_patientId.getText().toString().substring(4).replaceAll("\\s+",""),"");
-                message.setPayload(object.toString().getBytes());
-
-                if(NetworkOperations.isNetworkAvailable(PatientsView.this))
-                    mqttHelper.publishMqttTopic(mqtt_publish_phizio_patient_profilepic,message);
+                if(NetworkOperations.isNetworkAvailable(this))
+                    repository.uploadPatientImage(tv_patientId.getText().toString().substring(4).replaceAll("\\s+",""),json_phizioemail,photo);
+                else
+                    NetworkOperations.networkError(this);
             }
         }
-
         if(requestCode==6){
             ImageView imageView_patientpic = patientLayoutView.findViewById(R.id.patientProfilePic);
             patientTabLayout= (LinearLayout) (patientLayoutView).getParent().getParent();
@@ -1471,45 +1358,12 @@ public class PatientsView extends AppCompatActivity
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                JSONObject object = new JSONObject();
-
-                MqttMessage message = new MqttMessage();
-
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                if (photo != null) {
-                    photo.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                }
-                byte[] byteArray = stream.toByteArray();
-                String encodedString = Base64.encodeToString(byteArray, Base64.DEFAULT);
-                try {
-                    object.put("image", encodedString);
-                    object.put("phizioemail", json_phizio.getString("phizioemail"));
-                    object.put("patientid", tv_patientId.getText().toString().substring(4).replaceAll("\\s+", ""));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                message.setPayload(object.toString().getBytes());
-                if(NetworkOperations.isNetworkAvailable(PatientsView.this)) {
-                    mqttHelper.publishMqttTopic(mqtt_publish_phizio_patient_profilepic, message);
-                    PatientOperations.putPatientProfilePicUrl(this,tv_patientId.getText().toString().substring(4).replaceAll("\\s+",""),"");
-                }
+                if(NetworkOperations.isNetworkAvailable(this))
+                    repository.uploadPatientImage(tv_patientId.getText().toString().substring(4).replaceAll("\\s+",""),json_phizioemail,photo);
+                else
+                    NetworkOperations.networkError(this);
             }
         }
-        if (resultCode != 0) {
-            if(!Objects.requireNonNull(sharedPref.getString("deviceMacaddress", "")).equals("")) {
-                remoteDevice = bluetoothAdapter.getRemoteDevice(sharedPref.getString("deviceMacaddress", ""));
-
-
-                new Handler(Looper.getMainLooper()).post(new Runnable() {
-                    @Override
-                    public void run() {
-                        bluetoothGatt = remoteDevice.connectGatt(PatientsView.this, true, callback);
-                    }
-                });
-
-            }
-        }
-
         if(requestCode==2){
             if(resultCode!=0){
                 startActivity(new Intent(this,ScanDevicesActivity.class));
@@ -1525,12 +1379,8 @@ public class PatientsView extends AppCompatActivity
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @SuppressLint("ResourceType")
     public void openOpionsPopupWindow(View view, PhizioPatients patient){
-        Boolean bool = true;
         Bitmap patientpic_bitmap=null;
-
-
         patientTabLayout= (LinearLayout) (view).getParent();
-
         LinearLayout iv_layout = (LinearLayout)patientTabLayout.getChildAt(0);
 
         ImageView iv_patient_pic = iv_layout.findViewById(R.id.patientProfilePic);

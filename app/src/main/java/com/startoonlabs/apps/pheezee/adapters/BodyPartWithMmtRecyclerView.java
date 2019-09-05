@@ -35,18 +35,10 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
 
     private List<BodyPartWithMmtSelectionModel> bodyPartsList;
     private Context context;
-    private MqttHelper mqttHelper;
-    private String mqtt_publish_message = "phizio/mmt/addpatientsession";
-    private JSONObject json_phizio;
-    private JSONArray json_patients;
-    private JSONArray json_patient_mmt;
-    private String patientID;
     public static int selectedPosition = -1;
 
 
     public static String gradeSelected="",bodypartSelected="", orientationSelected="";
-
-    private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
     static class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView iv_bodypart;
@@ -83,9 +75,6 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
             tv_selected_goal_text = view.findViewById(R.id.tv_selected_goal_text);
             tv_body_part_name = view.findViewById(R.id.tv_body_part_name);
 
-
-
-
             //spinner
             sp_set_goal = view.findViewById(R.id.sp_set_goal);
             sp_muscle_name = view.findViewById(R.id.sp_set_muscle);
@@ -96,37 +85,6 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
     public BodyPartWithMmtRecyclerView(List<BodyPartWithMmtSelectionModel> bodyPartsList, Context context){
         this.bodyPartsList = bodyPartsList;
         this.context = context;
-        patientID = ((BodyPartSelection)context).getPatientId();
-        preferences = PreferenceManager.getDefaultSharedPreferences(this.context);
-        editor = preferences.edit();
-        json_phizio = new JSONObject();
-        json_patients = new JSONArray();
-        json_patient_mmt = new JSONArray();
-        mqttHelper = new MqttHelper(context);
-
-        try {
-            json_phizio = new JSONObject(preferences.getString("phiziodetails",""));
-            json_patients = new JSONArray(json_phizio.getString("phiziopatients"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        if(patientID!=null){
-            for (int i=0;i<json_patients.length();i++){
-                try {
-                    JSONObject object = json_patients.getJSONObject(i);
-                    if(object.getString("patientid").equals(patientID)){
-                        if(object.has("mmtsessions"))
-                            json_patient_mmt = new JSONArray(object.getString("mmtsessions"));
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        Log.i("json mmt", json_patient_mmt.toString());
-        Log.i("json mmt", patientID);
     }
 
 
@@ -200,7 +158,6 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
             public void onClick(View v) {
                 ((BodyPartSelection)context).reinitializeStatics();
                 ((BodyPartSelection)context).setFabVisible();
-                editor = preferences.edit();
                 if(selectedPosition!=-1){
                     notifyItemChanged(selectedPosition);
                 }
@@ -210,8 +167,6 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
                 bodypartSelected = holder.tv_body_part_name.getText().toString();
                 holder.iv_bodypart.setVisibility(View.INVISIBLE);
                 holder.rl_left_right.setVisibility(View.VISIBLE);
-                editor.putString("bodyPartClicked",position+"");
-                editor.apply();
             }
         });
 
@@ -333,15 +288,6 @@ public class BodyPartWithMmtRecyclerView extends RecyclerView.Adapter<BodyPartWi
                 holder.tv_selected_goal_text.setText(String.valueOf(num).concat(" Reps"));
             }
         });
-    }
-
-
-
-    public void removeResources(){
-        if(mqttHelper!=null){
-            mqttHelper.mqttAndroidClient.unregisterResources();
-            mqttHelper.mqttAndroidClient.close();
-        }
     }
 
     @Override

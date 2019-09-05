@@ -7,7 +7,6 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.startoonlabs.apps.pheezee.patientsRecyclerView.PatientsListData;
 import com.startoonlabs.apps.pheezee.room.Entity.PhizioPatients;
 
 import java.util.List;
@@ -37,4 +36,14 @@ public interface PhizioPatientsDao {
 
     @Query("DELETE FROM phizio_patients WHERE patientid=:patientid")
     void deleteParticularPatient(String patientid);
+
+    @Query("UPDATE phizio_patients SET patientprofilepicurl=:url WHERE patientid=:patientid")
+    void updatePatientProfilePicUrl(String url, String patientid);
+
+    @Query("SELECT numofsessions FROM phizio_patients WHERE patientid=:patientid")
+    String getPatientSessionNumber(String patientid);
+
+    @Query("UPDATE phizio_patients SET numofsessions=:numberOfSessions WHERE patientid=:patientid")
+    void setNumberOfSessions(String numberOfSessions, String patientid);
+
 }

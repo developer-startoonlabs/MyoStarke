@@ -62,6 +62,7 @@
                 android:layout_height="match_parent"
                 android:scrollbars="vertical"
                 android:paddingBottom="50dp"
+                android:nestedScrollingEnabled="false"
                 android:clipToPadding="false"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -84,7 +85,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/noPatient"
             android:layout_width="match_parent"
-            android:layout_height="670dp"
+            android:layout_height="match_parent"
             android:background="#FFFFFF"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -94,17 +95,19 @@
                 android:id="@+id/reportIcon"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
+                android:contentDescription="@string/add_patients_text"
                 android:src="@drawable/empty_patient_screen_icon"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.304"
-                android:contentDescription="@string/add_patients_text" />
+                app:layout_constraintVertical_bias="0.304" />
 
             <TextView
+                android:id="@+id/textView6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:text="@string/what_is_pheezee"
                 android:textColor="@color/good_green"
                 android:textSize="16sp"
@@ -112,29 +115,31 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/reportIcon"
+                app:layout_constraintVertical_bias="0.0" />
 
 
             <TextView
                 android:id="@+id/tv_patient_view_add_patient"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:background="@drawable/inputfield_background"
                 android:clickable="true"
                 android:focusable="true"
                 android:padding="5dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:text="@string/add_patients_text"
 
+                android:text="@string/add_patients_text"
                 android:textColor="@color/good_green"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.501"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.624" />
+                app:layout_constraintTop_toBottomOf="@+id/textView6"
+                app:layout_constraintVertical_bias="0.0" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 

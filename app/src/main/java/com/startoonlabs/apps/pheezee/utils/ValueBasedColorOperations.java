@@ -22,15 +22,12 @@ public class ValueBasedColorOperations {
         int maxStaticRange = getBodyPartMaxValue(bodypart,exercise);
         int range = max-min;
         if((range<(maxStaticRange/3))){
-            Log.i("inside", "less than 3");
             bodyPart = ContextCompat.getColor(context, R.color.red);
         }
         else if((range<((2*maxStaticRange)/3))){
-            Log.i("inside", "less than 2/3");
             bodyPart = ContextCompat.getColor(context, R.color.average_blue);
         }
         else {
-            Log.i("inside", "else");
             bodyPart = ContextCompat.getColor(context, R.color.summary_green);
         }
 
@@ -173,12 +170,12 @@ public class ValueBasedColorOperations {
     }
 
     private final static int[][] max_values = {
-            {0,160,145,90,90,90,90,160},    //elbow
-            {0,150,150,45,45,150},          //knee
-            {0,30,50,35,25,50},             //ankle
-            {0,125,115,45,45,125},  //Hip
-            {0,90,75,25,65,90},             //wrist
-            {0,180,60,184,140,30,30,30,30,180}, //shoulder
+            {0,160,145,90,90,90,90,0},    //elbow
+            {0,150,150,45,45,0},          //knee
+            {0,30,50,35,25,0},             //ankle
+            {0,125,115,45,45,0},  //Hip
+            {0,90,75,25,65,0},             //wrist
+            {0,180,60,184,140,30,30,30,30,0}, //shoulder
             {0,0}
     };
 
