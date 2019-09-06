@@ -57,6 +57,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -117,6 +119,7 @@ import retrofit2.Response;
  */
 public class PatientsView extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener, PatientsRecyclerViewAdapter.onItemClickListner, MqttSyncRepository.onServerResponse {
+
     String json_phizioemail = "";
     public static boolean deviceState = true, connectPressed = false, deviceBatteryUsbState = false,sessionStarted = false;
     public static int deviceBatteryPercent=0;
@@ -134,9 +137,6 @@ public class PatientsView extends AppCompatActivity
 
     public static final UUID battery_service1_uuid = UUID.fromString("0000180f-0000-1000-8000-00805f9b34fb");
     public static final UUID battery_level_battery_service_characteristic_uuid = UUID.fromString("00002a19-0000-1000-8000-00805f9b34fb");
-
-    //Boolean for weather the bodypart window is present or not on the activity
-    boolean f_bodypart_popup = false;
 
     static BluetoothGattCharacteristic mCharacteristic;
     BluetoothGattCharacteristic mCustomCharacteristic;
@@ -438,8 +438,6 @@ public class PatientsView extends AppCompatActivity
         filter.addAction(BluetoothProfile.EXTRA_STATE);
         filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
         this.registerReceiver(bluetoothReceiver, filter);
-
-
         //search option android
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -453,8 +451,6 @@ public class PatientsView extends AppCompatActivity
                 return false;
             }
         });
-
-
         repository.getCount().observe(this,
                 new Observer<Long>() {
                     @Override
@@ -472,11 +468,8 @@ public class PatientsView extends AppCompatActivity
                         }
                     }
                 });
-
-
         mAdapter.setOnItemClickListner(this);
     }
-
     /**
      * Promts user to turn on bluetooth
      */
@@ -484,7 +477,6 @@ public class PatientsView extends AppCompatActivity
         Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
         startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
     }
-
     /**
      * Bluetooth disconnected
      */
@@ -559,7 +551,6 @@ public class PatientsView extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.patients_view, menu);
         return true;
     }
@@ -572,7 +563,6 @@ public class PatientsView extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
             if (id==R.id.pheeze_device_info){
                  Intent i = new Intent(PatientsView.this, DeviceInfoActivity.class);
@@ -594,10 +584,6 @@ public class PatientsView extends AppCompatActivity
                 startActivity(new Intent(PatientsView.this,AppInfo.class));
             }
             else if (id == R.id.nav_logout) {
-    //            if (GoogleSignIn.getLastSignedInAccount(this) != null)
-    //                signOut();
-    //            else
-    //                AccessToken.setCurrentAccessToken(null);
                  editor.clear();
                  editor.commit();
                  repository.clearDatabase();
@@ -624,13 +610,9 @@ public class PatientsView extends AppCompatActivity
         return true;
     }
 
-
-
     public void drawSideBar(View view) {
         drawer.openDrawer(GravityCompat.START);
     }
-
-
     /**
      *
      */
@@ -641,8 +623,8 @@ public class PatientsView extends AppCompatActivity
             @Override
             public void onAddPatientClickListner(PhizioPatients patient, PatientDetailsData data, boolean isvalid) {
                 if(isvalid){
-                    repository.insertPatient(patient);
-                    new SendDataAsyncTask().execute(data);
+                    repository.insertPatient(patient,data);
+//                    new SendDataAsyncTask().execute(data);
                 }
                 else {
                     showToast("Invalid Input!!");
@@ -650,8 +632,6 @@ public class PatientsView extends AppCompatActivity
             }
         });
     }
-
-
     /**
      * Bluetooth callback
      */
@@ -695,7 +675,6 @@ public class PatientsView extends AppCompatActivity
                 bleStatusHandler.sendMessage(msg);
             }
         }
-
         @Override
         public void onServicesDiscovered(BluetoothGatt gatt, int status) throws NullPointerException {
             BluetoothGattCharacteristic characteristic = gatt.getService(service1_uuid).getCharacteristic(characteristic1_service1_uuid);
@@ -714,7 +693,6 @@ public class PatientsView extends AppCompatActivity
             super.onDescriptorWrite(gatt, descriptor, status);
             Log.i("inside","descritor");
         }
-
         @Override
         public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
             Message msg = new Message();
@@ -741,7 +719,6 @@ public class PatientsView extends AppCompatActivity
                 batteryStatus.sendMessage(message);
             }
         }
-
         @Override
         public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
             super.onCharacteristicRead(gatt, characteristic, status);
@@ -799,7 +776,6 @@ public class PatientsView extends AppCompatActivity
             bluetoothGatt.readCharacteristic(mCustomCharacteristic);
         }
     };
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -868,8 +844,6 @@ public class PatientsView extends AppCompatActivity
     public void onPointerCaptureChanged(boolean hasCapture) {
 
     }
-
-
     /**
      *
      * @param patient
@@ -894,7 +868,6 @@ public class PatientsView extends AppCompatActivity
             }
         });
     }
-
     /**
      * Bluetooth device status handler
      */
@@ -1073,7 +1046,6 @@ public class PatientsView extends AppCompatActivity
         }
 
     }
-
 
     @Override
     protected void onStart() {
@@ -1504,56 +1476,4 @@ public class PatientsView extends AppCompatActivity
     public void showToast(String message){
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
-
-
-
-    /**
-     * Stores the topic and message in database and sends to the server if internet is available.
-     */
-    public class SendDataAsyncTask extends AsyncTask<PatientDetailsData,Void,JSONObject>{
-
-        @Override
-        protected JSONObject doInBackground(PatientDetailsData... patientDetailsData) {
-            PheezeeDatabase database = PheezeeDatabase.getInstance(PatientsView.this);
-            JSONObject object = null;
-            try {
-                Gson gson = new GsonBuilder().create();
-                String json = gson.toJson(patientDetailsData[0]);
-                object = new JSONObject(json);
-                MqttSync mqttSync = new MqttSync(mqtt_publish_phizio_addpatient,object.toString());
-                object.put("id",database.mqttSyncDao().insert(mqttSync));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return object;
-        }
-
-        @Override
-        protected void onPostExecute(JSONObject jsonObject) {
-            super.onPostExecute(jsonObject);
-            if(NetworkOperations.isNetworkAvailable(PatientsView.this)) {
-                Gson gson = new Gson();
-                AddPatientData data = gson.fromJson(jsonObject.toString(),AddPatientData.class);
-                Call<ResponseData> add_patient_call = getDataService.addPatient(data);
-                add_patient_call.enqueue(new Callback<ResponseData>() {
-                    @Override
-                    public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-                        if(response.code()==200) {
-                            ResponseData responseData = response.body();
-                            Log.i("Response",responseData.getResponse());
-                            if(responseData.getResponse().equalsIgnoreCase("inserted"))
-                                repository.deleteParticular(responseData.getId());
-                        }
-                    }
-                    @Override
-                    public void onFailure(Call<ResponseData> call, Throwable t) {
-                        Log.i("parseerror",t.getMessage());
-                    }
-                });
-            }
-        }
-    }
-
-
-
 }

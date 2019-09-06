@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.startoonlabs.apps.pheezee.activities.LoginActivity;
 import com.startoonlabs.apps.pheezee.activities.PatientsView;
+import com.startoonlabs.apps.pheezee.pojos.AddPatientData;
 import com.startoonlabs.apps.pheezee.pojos.CommentSessionUpdateData;
 import com.startoonlabs.apps.pheezee.pojos.DeletePatientData;
 import com.startoonlabs.apps.pheezee.pojos.DeleteSessionData;
@@ -45,6 +46,7 @@ import com.startoonlabs.apps.pheezee.room.Entity.MqttSync;
 import com.startoonlabs.apps.pheezee.room.Entity.PhizioPatients;
 import com.startoonlabs.apps.pheezee.room.PheezeeDatabase;
 import com.startoonlabs.apps.pheezee.utils.BitmapOperations;
+import com.startoonlabs.apps.pheezee.utils.NetworkOperations;
 import com.startoonlabs.apps.pheezee.utils.OtpGeneration;
 import com.startoonlabs.apps.pheezee.utils.WriteResponseBodyToDisk;
 
@@ -81,6 +83,7 @@ public class MqttSyncRepository {
     OnReportDataResponseListner reportDataResponseListner;
     GetSessionNumberResponse response;
     OnSessionDataResponse onSessionDataResponse;
+    String mqtt_publish_phizio_addpatient = "phizio/addpatient";
     /**
      * Live object returned to get the item count in the database to update the sync button view
      */
@@ -123,8 +126,9 @@ public class MqttSyncRepository {
         new UpdatePatient(phizioPatientsDao).execute(patient);
     }
 
-    public void insertPatient(PhizioPatients patient){
+    public void insertPatient(PhizioPatients patient, PatientDetailsData data){
         new InsertPhizioPatient(phizioPatientsDao).execute(patient);
+        new SendDataAsyncTask(phizioPatientsDao).execute(data);
     }
 
     public void getPatientSessionNo(String patientid){
@@ -412,6 +416,54 @@ public class MqttSyncRepository {
                 listner.onSyncComplete(true,"Sync Completed");
             }
             super.onPostExecute(aVoid);
+        }
+    }
+
+    /**
+     * Stores the topic and message in database and sends to the server if internet is available.
+     */
+    public class SendDataAsyncTask extends AsyncTask<PatientDetailsData,Void,JSONObject>{
+
+        PhizioPatientsDao patientsDao;
+        public SendDataAsyncTask(PhizioPatientsDao patientsDao){
+            this.patientsDao = patientsDao;
+        }
+        @Override
+        protected JSONObject doInBackground(PatientDetailsData... patientDetailsData) {
+            JSONObject object = null;
+            try {
+                Gson gson = new GsonBuilder().create();
+                String json = gson.toJson(patientDetailsData[0]);
+                object = new JSONObject(json);
+                MqttSync mqttSync = new MqttSync(mqtt_publish_phizio_addpatient,object.toString());
+                object.put("id",database.mqttSyncDao().insert(mqttSync));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return object;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject jsonObject) {
+            super.onPostExecute(jsonObject);
+                Gson gson = new Gson();
+                AddPatientData data = gson.fromJson(jsonObject.toString(),AddPatientData.class);
+                Call<ResponseData> add_patient_call = getDataService.addPatient(data);
+                add_patient_call.enqueue(new Callback<ResponseData>() {
+                    @Override
+                    public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                        if(response.code()==200) {
+                            ResponseData responseData = response.body();
+                            Log.i("Response",responseData.getResponse());
+                            if(responseData.getResponse().equalsIgnoreCase("inserted"))
+                                deleteParticular(responseData.getId());
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<ResponseData> call, Throwable t) {
+                        Log.i("parseerror",t.getMessage());
+                    }
+                });
         }
     }
 
