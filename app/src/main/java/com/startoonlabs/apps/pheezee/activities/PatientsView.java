@@ -20,7 +20,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -42,7 +41,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -78,7 +76,7 @@ import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.classes.BluetoothGattSingleton;
 import com.startoonlabs.apps.pheezee.classes.BluetoothSingelton;
 import com.startoonlabs.apps.pheezee.classes.MyBottomSheetDialog;
-import com.startoonlabs.apps.pheezee.patientsRecyclerView.PatientsRecyclerViewAdapter;
+import com.startoonlabs.apps.pheezee.adapters.PatientsRecyclerViewAdapter;
 import com.startoonlabs.apps.pheezee.pojos.AddPatientData;
 import com.startoonlabs.apps.pheezee.pojos.DeletePatientData;
 import com.startoonlabs.apps.pheezee.pojos.PatientDetailsData;
@@ -93,7 +91,6 @@ import com.startoonlabs.apps.pheezee.retrofit.RetrofitClientInstance;
 import com.startoonlabs.apps.pheezee.room.Entity.MqttSync;
 import com.startoonlabs.apps.pheezee.room.Entity.PhizioPatients;
 import com.startoonlabs.apps.pheezee.room.PheezeeDatabase;
-import com.startoonlabs.apps.pheezee.services.MqttHelper;
 import com.startoonlabs.apps.pheezee.services.PicassoCircleTransformation;
 import com.startoonlabs.apps.pheezee.services.Scanner;
 import com.startoonlabs.apps.pheezee.utils.BatteryOperation;
@@ -101,9 +98,6 @@ import com.startoonlabs.apps.pheezee.utils.BitmapOperations;
 import com.startoonlabs.apps.pheezee.utils.ByteToArrayOperations;
 import com.startoonlabs.apps.pheezee.utils.NetworkOperations;
 
-import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
-import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
-import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -164,35 +158,15 @@ public class PatientsView extends AppCompatActivity
     //new
     JSONObject json_phizio = new JSONObject();
     //MQTT HELPER
-
-    MqttHelper mqttHelper;
     String mqtt_publish_phizio_addpatient = "phizio/addpatient";
-    String mqtt_publish_phizio_deletepatient = "phizio/deletepatient";
-    String mqtt_publish_phizio_update_patientdetails = "phizio/updatepatientdetails";
-
-    String mqtt_publish_phizio_patient_profilepic = "phizio/update/patientProfilePic";
-    String mqtt_sub_phizio_patient_profilepic = "phizio/update/patientProfilePic/response";
-    String mqtt_publish_add_patient_session_emg_data_response = "patient/entireEmgData/response";
-
-    String mqtt_get_profile_pic_response = "phizio/getprofilepic/response";
-    private String mqtt_mmt_updated_response = "phizio/patient/updateMmtGrade/response";
-    private String mqtt_delete_session_response = "phizio/patient/deletepatient/sesssion/response";
-
-    String mqtt_update_patient_status = "phizio/update/patientStatus";
-
-
-
-    String mqtt_subs_phizio_addpatient_response = "phizio/addpatient/response";
     int REQUEST_ENABLE_BT = 1;
     final int REQUEST_ENABLE_BT_SCAN = 2;
-
     boolean isBleConnected;
     public boolean gattconnection_established = false;
     Intent to_scan_devices_activity;
     private PatientsRecyclerViewAdapter mAdapter;
     TextView tv_battery_percentage, tv_patient_view_add_patient;
     ProgressBar battery_bar;
-    PopupWindow pw;
     int backpressCount = 0;
     DrawerLayout drawer;
     static SharedPreferences sharedPref;
@@ -214,20 +188,17 @@ public class PatientsView extends AppCompatActivity
     ProgressDialog progress, deletepatient_progress;
     SearchView searchView;
     MqttSyncRepository repository ;
-    List<MqttSync> list_sync = null;
     Handler server_busy_handler;
     GetDataService getDataService;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patients_view);
         context = this;
         sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         repository = new MqttSyncRepository(getApplication());
-        //server responses
         repository.setOnServerResponseListner(this);
-//        Log.i("Ble",Build.HARDWARE);
+
         editor = sharedPref.edit();
         MacAddress = sharedPref.getString("deviceMacaddress", "");
         iv_addPatient = findViewById(R.id.home_iv_addPatient);
@@ -272,8 +243,17 @@ public class PatientsView extends AppCompatActivity
         iv_sync_data.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(NetworkOperations.isNetworkAvailable(PatientsView.this))
-                    new SyncDataAsync().execute();
+                if(NetworkOperations.isNetworkAvailable(PatientsView.this)){
+                    progress = new ProgressDialog(PatientsView.this);
+                    progress.setMessage("Syncing session data to the server");
+                    progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                    progress.setIndeterminate(true);
+                    progress.setCancelable(false);
+                    progress.show();
+                    repository.syncDataToServer();
+//                    new SyncDataAsync().execute();
+                }
+
                 else
                     NetworkOperations.networkError(PatientsView.this);
             }
@@ -360,10 +340,6 @@ public class PatientsView extends AppCompatActivity
         });
 
         String macAddress;
-
-
-        //MQTT HELPER
-        mqttHelper  = new MqttHelper(this,"patientsview");
 
 
         repository.getAllPatietns().observe(this, new Observer<List<PhizioPatients>>() {
@@ -464,132 +440,7 @@ public class PatientsView extends AppCompatActivity
         this.registerReceiver(bluetoothReceiver, filter);
 
 
-        //mqttcallback
-        mqttHelper.setCallback(new MqttCallbackExtended() {
-            @Override
-            public void connectComplete(boolean reconnect, String serverURI) { }
-            @Override
-            public void connectionLost(Throwable cause) { }
-
-            @Override
-            public void messageArrived(String topic, MqttMessage message){
-                Log.i(topic,message.toString());
-                try {
-                    if(topic.equals(mqtt_get_profile_pic_response+json_phizio.getString("phizioemail"))){
-                       Bitmap bitmap = BitmapFactory.decodeByteArray(message.getPayload(), 0, message.getPayload().length);
-                       ivBasicImage.setImageBitmap(bitmap);
-                   }
-                   else if(topic.equals(mqtt_subs_phizio_addpatient_response+json_phizio.getString("phizioemail"))){
-                       JSONObject object = new JSONObject(message.toString());
-                       if(object.has("response") && object.getString("response").equalsIgnoreCase("inserted")){
-                           repository.deleteParticular(object.getInt("id"));
-                           if(list_sync!=null){
-                               server_busy_handler.removeCallbacks(runnable);
-                               list_sync.remove(0);
-                               if(list_sync.size()>0){
-                                   MqttMessage new_message = new MqttMessage();
-                                   JSONObject object1 = new JSONObject(list_sync.get(0).getMessage());
-                                   object1.put("id", list_sync.get(0).getId());
-                                   new_message.setPayload(object1.toString().getBytes());
-                                   if (NetworkOperations.isNetworkAvailable(PatientsView.this)) {
-                                       mqttHelper.publishMqttTopic(list_sync.get(0).getTopic(), new_message);
-                                   }
-                               }else {
-                                   progress.dismiss();
-                                   showToast("Sync Completed!");
-                               }
-                           }
-                       }
-                        if(message.toString().equals("inserted")){
-                             Log.i("message emg",message.toString());
-                             editor = sharedPref.edit();
-                             editor.putString("sync_emg_session","");
-                             editor.apply();
-                        }
-                   }
-                   else if(topic.equals(mqtt_sub_phizio_patient_profilepic+json_phizio.getString("phizioemail"))){
-                        Log.i("patient profilepic",message.toString());
-                   }
-
-                   else if(topic.equals(mqtt_publish_add_patient_session_emg_data_response+json_phizio.getString("phizioemail"))){
-                        JSONObject object = new JSONObject(message.toString());
-                        if(object.has("response") && object.getString("response").equalsIgnoreCase("inserted")) {
-                            repository.deleteParticular(object.getInt("id"));
-                            if(list_sync!=null ) {
-                                server_busy_handler.removeCallbacks(runnable);
-                                list_sync.remove(0);
-                                if (list_sync.size() > 0) {
-                                    MqttMessage new_message = new MqttMessage();
-                                    JSONObject object1 = new JSONObject(list_sync.get(0).getMessage());
-                                    object1.put("id", list_sync.get(0).getId());
-                                    new_message.setPayload(object1.toString().getBytes());
-                                    if (NetworkOperations.isNetworkAvailable(PatientsView.this)) {
-                                        mqttHelper.publishMqttTopic(list_sync.get(0).getTopic(), new_message);
-                                    }
-                                } else {
-                                    progress.dismiss();
-                                    showToast("Sync Completed!");
-                                }
-                            }
-                        }
-                    }
-                   else if(topic.equals(mqtt_mmt_updated_response+json_phizio.getString("phizioemail"))){
-                        JSONObject object = new JSONObject(message.toString());
-                        if(object.has("response") && object.getString("response").equalsIgnoreCase("updated")) {
-                            repository.deleteParticular(object.getInt("id"));
-                            if(list_sync!=null) {
-                                server_busy_handler.removeCallbacks(runnable);
-                                list_sync.remove(0);
-                                if (list_sync.size() > 0) {
-                                    MqttMessage new_message = new MqttMessage();
-                                    JSONObject object1 = new JSONObject(list_sync.get(0).getMessage());
-                                    object1.put("id", list_sync.get(0).getId());
-                                    new_message.setPayload(object1.toString().getBytes());
-                                    if (NetworkOperations.isNetworkAvailable(PatientsView.this)) {
-                                        mqttHelper.publishMqttTopic(list_sync.get(0).getTopic(), new_message);
-                                    }
-                                } else {
-                                    progress.dismiss();
-                                    showToast("Sync Completed!");
-                                }
-                            }
-                        }
-                    }
-                   else if(topic.equals(mqtt_delete_session_response+json_phizio.getString("phizioemail"))){
-                        JSONObject object = new JSONObject(message.toString());
-                        if(object.has("response") && object.getString("response").equalsIgnoreCase("deleted")) {
-                            repository.deleteParticular(object.getInt("id"));
-                            if(list_sync!=null) {
-                                list_sync.remove(0);
-                                if (list_sync.size() > 0) {
-                                    MqttMessage new_message = new MqttMessage();
-                                    JSONObject object1 = new JSONObject(list_sync.get(0).getMessage());
-                                    object1.put("id", list_sync.get(0).getId());
-                                    new_message.setPayload(object1.toString().getBytes());
-                                    if (NetworkOperations.isNetworkAvailable(PatientsView.this)) {
-                                        mqttHelper.publishMqttTopic(list_sync.get(0).getTopic(), new_message);
-                                    }
-                                } else {
-                                    progress.dismiss();
-                                    showToast("Sync Completed!");
-                                }
-                            }
-                        }
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void deliveryComplete(IMqttDeliveryToken token) {
-
-            }
-        });
-
-
         //search option android
-
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -658,8 +509,6 @@ public class PatientsView extends AppCompatActivity
     @Override
     protected void onDestroy() {
         unregisterReceiver(bluetoothReceiver);
-            mqttHelper.mqttAndroidClient.unregisterResources();
-            mqttHelper.mqttAndroidClient.close();
         if(bluetoothGatt!=null){
             disconnectDevice();
         }
@@ -1549,6 +1398,12 @@ public class PatientsView extends AppCompatActivity
         }
     }
 
+    @Override
+    public void onSyncComplete(boolean response, String message) {
+        progress.dismiss();
+        showToast(message);
+    }
+
     private class MyAsync extends AsyncTask<Void,Void,Void>{
 
         @Override
@@ -1650,62 +1505,7 @@ public class PatientsView extends AppCompatActivity
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 
-    /**
-     * For syncing the data
-     */
-    public class SyncDataAsync extends AsyncTask<Void,Void,List<MqttSync>>{
 
-        @Override
-        protected List<MqttSync> doInBackground(Void... voids) {
-            PheezeeDatabase database = PheezeeDatabase.getInstance(PatientsView.this);
-            List<MqttSync> list = database.mqttSyncDao().getAllMqttSyncItems();
-            return list;
-        }
-
-        @Override
-        protected void onPostExecute(List<MqttSync> mqttSyncs) {
-            super.onPostExecute(mqttSyncs);
-            startSync(mqttSyncs);
-        }
-    }
-
-    /**
-     * called when user presses the sync button when sync is available
-     * @param list_sync
-     */
-    public void startSync(List<MqttSync> list_sync) {
-        if (list_sync.size() > 0) {
-            this.list_sync = list_sync;
-            server_busy_handler.postDelayed(runnable,12000);
-            progress = new ProgressDialog(PatientsView.this);
-            progress.setMessage("Syncing session data to the server");
-            progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            progress.setIndeterminate(true);
-            progress.setCancelable(false);
-            progress.show();
-            MqttMessage message = new MqttMessage();
-            try {
-                JSONObject object = new JSONObject(list_sync.get(0).getMessage());
-                object.put("id", list_sync.get(0).getId());
-                message.setPayload(object.toString().getBytes());
-                if (NetworkOperations.isNetworkAvailable(PatientsView.this)) {
-                    mqttHelper.publishMqttTopic(list_sync.get(0).getTopic(), message);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        else {
-            showToast("Nothing to sync");
-        }
-    }
-    Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            progress.dismiss();
-            NetworkOperations.openServerBusyDialog(PatientsView.this);
-        }
-    };
 
     /**
      * Stores the topic and message in database and sends to the server if internet is available.
@@ -1731,8 +1531,6 @@ public class PatientsView extends AppCompatActivity
         @Override
         protected void onPostExecute(JSONObject jsonObject) {
             super.onPostExecute(jsonObject);
-            MqttMessage message = new MqttMessage();
-            message.setPayload(jsonObject.toString().getBytes());
             if(NetworkOperations.isNetworkAvailable(PatientsView.this)) {
                 Gson gson = new Gson();
                 AddPatientData data = gson.fromJson(jsonObject.toString(),AddPatientData.class);

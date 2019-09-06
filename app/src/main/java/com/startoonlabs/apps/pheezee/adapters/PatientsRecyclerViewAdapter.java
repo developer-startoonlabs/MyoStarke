@@ -1,8 +1,7 @@
-package com.startoonlabs.apps.pheezee.patientsRecyclerView;
+package com.startoonlabs.apps.pheezee.adapters;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,7 +21,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.startoonlabs.apps.pheezee.R;
-import com.startoonlabs.apps.pheezee.activities.PatientsView;
 import com.startoonlabs.apps.pheezee.room.Entity.PhizioPatients;
 
 import org.json.JSONException;
@@ -45,7 +43,6 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
     onItemClickListner listner;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
         private TextView patientName, patientId,patientNameContainer;
         private ImageView patientProfilepic;
         private LinearLayout ll_option_patient_list;
@@ -182,7 +179,6 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
                 }
             };
     }
-
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {

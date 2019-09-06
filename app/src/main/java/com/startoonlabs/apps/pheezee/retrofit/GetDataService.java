@@ -18,6 +18,7 @@ import com.startoonlabs.apps.pheezee.pojos.PhizioDetailsData;
 import com.startoonlabs.apps.pheezee.pojos.ResponseData;
 import com.startoonlabs.apps.pheezee.pojos.SessionData;
 import com.startoonlabs.apps.pheezee.pojos.SignUpData;
+import com.startoonlabs.apps.pheezee.room.Entity.MqttSync;
 import com.startoonlabs.apps.pheezee.room.Entity.PhizioPatients;
 
 import org.json.JSONArray;
@@ -91,5 +92,7 @@ public interface GetDataService {
     @POST("/api/phizio/patient/updateCommentSection")
     Call<String> updateCommentData(@Body CommentSessionUpdateData data);
 
+    @POST("/api/sync/data")
+    Call<List<Integer>> syncDataToServer(@Body List<MqttSync> sync);
 
 }

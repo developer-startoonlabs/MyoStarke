@@ -37,4 +37,6 @@ public interface MqttSyncDao {
     @Query("SELECT COUNT(topic) From mqtt_sync")
     LiveData<Long> getEntityCount();
 
+    @Query("DELETE FROM mqtt_sync WHERE id IN (:list)")
+    void deleteMultipleItems(List<Integer> list);
 }

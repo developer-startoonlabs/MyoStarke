@@ -10,19 +10,12 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothProfile;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.Point;
-import android.graphics.drawable.LayerDrawable;
 import android.media.MediaScannerConnection;
-import android.net.ConnectivityManager;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -34,30 +27,18 @@ import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.text.format.DateFormat;
 import android.util.Log;
-import android.view.Display;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
-import android.widget.ProgressBar;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
-import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -67,24 +48,16 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.startoonlabs.apps.pheezee.R;
-import com.startoonlabs.apps.pheezee.adapters.BodyPartWithMmtRecyclerView;
 import com.startoonlabs.apps.pheezee.classes.BluetoothSingelton;
 import com.startoonlabs.apps.pheezee.popup.SessionSummaryPopupWindow;
 import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
-import com.startoonlabs.apps.pheezee.room.Entity.MqttSync;
-import com.startoonlabs.apps.pheezee.room.PheezeeDatabase;
-import com.startoonlabs.apps.pheezee.services.MqttHelper;
 import com.startoonlabs.apps.pheezee.utils.AngleOperations;
 import com.startoonlabs.apps.pheezee.utils.BatteryOperation;
 import com.startoonlabs.apps.pheezee.utils.ByteToArrayOperations;
-import com.startoonlabs.apps.pheezee.utils.NetworkOperations;
-import com.startoonlabs.apps.pheezee.utils.PatientOperations;
+import com.startoonlabs.apps.pheezee.utils.TakeScreenShot;
 import com.startoonlabs.apps.pheezee.utils.ValueBasedColorOperations;
 import com.startoonlabs.apps.pheezee.views.ArcViewInside;
 
-import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
-import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
-import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -93,7 +66,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -103,93 +75,50 @@ import java.util.UUID;
 public class MonitorActivity extends AppCompatActivity implements MqttSyncRepository.GetSessionNumberResponse {
 
     //session inserted on server
-    private boolean session_inserted_in_server = false, sessionCompleted = false, first_packet=true;
+    private boolean  sessionCompleted = false, first_packet=true, inside_ondestroy = false;;
     MqttSyncRepository repository;
     String json_phizioemail="";
-    //MMT
-    private String mmt_selected = "", body_orientation = "", session_type="";
-    //max min angle emg showing views
-    TextView tv_max_angle, tv_min_angle, tv_max_emg; int software_gain = 0;
-    private int ui_rate = 0, gain_initial=20;
-    public final int sub_byte_size = 48;
-    int maxAnglePart, minAnglePart, angleCorrection = 0, currentAngle=0;
-    boolean angleCorrected = false,devicePopped = false, servicesDiscovered = false, isSessionRunning=false, pheezeeState = false, recieverState=false;
-    String bodypart,orientation="NO";
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
-    JSONObject json_phizio = new JSONObject();
-    JSONArray jsonData, emgJsonArray, romJsonArray;
-    boolean inside_ondestroy = false;
-    //    public final int emg_data_size_raw = 20;
-//    public final int emg_num_packets_raw = 40;
-    ImageView iv_back_monitor;
+    TextView tv_max_angle, tv_min_angle, tv_max_emg, tv_snap, Repetitions, holdTime,
+            tv_session_no, tv_body_part, tv_repsselected, EMG, time, patientId, patientName, tv_action_time;
 
+    private int ui_rate = 0, gain_initial=20, software_gain = 0, maxAnglePart, minAnglePart, angleCorrection = 0,
+            currentAngle=0, Seconds, Minutes, maxAngle, minAngle, maxEmgValue;
+    int REQUEST_ENABLE_BT = 1;
+    public final int sub_byte_size = 48;
+    boolean angleCorrected = false,devicePopped = false, servicesDiscovered = false, isSessionRunning=false, pheezeeState = false, recieverState=false;
+    String bodypart,orientation="NO", timeText ="", holdTimeValue="0:0", exerciseType;
+    SharedPreferences sharedPreferences;
+    JSONObject json_phizio = new JSONObject();
+    JSONObject sessionObj = new JSONObject();
+    JSONArray emgJsonArray, romJsonArray;
+    ImageView iv_back_monitor;
     File  file_session_emgdata, file_dir_session_emgdata,file_session_romdata,file_session_sessiondetails;
     FileOutputStream  outputStream_session_emgdata,outputStream_session_romdata,outputStream_session_sessiondetails;
-
-    //MQTT
-    MqttHelper mqttHelper;
-    String mqtt_publish_add_patient_session = "phizio/addpatientsession";
-    String mqtt_publish_add_patient_session_emg_data = "patient/entireEmgData";
-    String mqtt_publish_add_patient_session_response = "phizio/addpatientsession/response";
-    String mqtt_publish_add_patient_session_emg_data_response = "patient/entireEmgData/response";
-    String mqtt_publish_update_patient_session_comment = "phizio/patient/updateCommentSection";
-    String mqtt_publish_update_patient_mmt_grade = "phizio/patient/updateMmtGrade";
-    private String mqtt_mmt_updated_response = "phizio/patient/updateMmtGrade/response";
-    private String mqtt_delete_pateint_session = "phizio/patient/deletepatient/sesssion";
-    private String mqtt_delete_session_response = "phizio/patient/deletepatient/sesssion/response";
-
-    PopupWindow report;
     int visiblity=View.VISIBLE;
-    String timeText ="";
     List<Entry> dataPoints;
     LineChart lineChart;
     LineDataSet lineDataSet;
     BluetoothGattCharacteristic mCharacteristic;
     BluetoothGatt mBluetoothGatt;
-    TextView tv_snap;
-    TextView Repetitions;
-    TextView holdTime,tv_session_no, tv_body_part, tv_repsselected;
-    TextView EMG;
     ArcViewInside arcViewInside;
-    TextView time;
-    TextView patientId;
-    TextView patientName, tv_action_time;
     ImageView iv_angle_correction;
     LineData lineData, lineDataNew;
-    JSONArray sessionResult  = new JSONArray();
-    JSONObject sessionObj = new JSONObject();
-
-    Button timer, btn_emg_decrease_gain, btn_emg_increase_gain;
-    Button stopBtn, cancelBtn;
+    Button timer, btn_emg_decrease_gain, btn_emg_increase_gain, stopBtn, cancelBtn;
     long MillisecondTime, StartTime, TimeBuff, UpdateTime = 0L;
     Handler handler;
-    int Seconds, Minutes, MilliSeconds ;
-    ProgressBar r;
     BluetoothAdapter bluetoothAdapter;
     BluetoothDevice remoteDevice;
-    int REQUEST_ENABLE_BT = 1;
-    ConnectivityManager connectivityManager;
     LinearLayout emgSignal;
-    String holdTimeValue="0:0";
-    int maxAngle;
-    int minAngle;
-    int maxEmgValue;
     Date rawdata_timestamp;
     Long tsLong=0L;
-    String exerciseType;
     BluetoothGattDescriptor mBluetoothGattDescriptor;
-
     ArrayList<BluetoothGattCharacteristic> arrayList;
-
     AngleOperations angleOperations;
-
 
     //All the constant uuids are written here
     public static final UUID service1_uuid = UUID.fromString("909a1400-9693-4920-96e6-893c0157fedd");
     public static final UUID characteristic1_service1_uuid = UUID.fromString("909a1401-9693-4920-96e6-893c0157fedd");
     public static final UUID descriptor_characteristic1_service1_uuid = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
-    private int rate=0;
 
     /**
      * popup window when device gets disconnected in middle of session.
@@ -267,11 +196,11 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
         tv_snap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                takeScreenshot(null);
+                TakeScreenShot screenShot = new TakeScreenShot(MonitorActivity.this,patientName.getText().toString(),patientId.getText().toString());
+                screenShot.takeScreenshot(null);
                 showToast("Took Screenshot");
             }
         });
-
         btn_emg_increase_gain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -279,9 +208,7 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
                     btn_emg_decrease_gain.setBackgroundResource(R.drawable.monitor_gain_btn);
                     if(gain_initial<120){
                         gain_initial+=10;
-//                        lineChart.zoomIn();
                         lineChart.zoom(1.4f,1.4f,ui_rate,ui_rate);
-
                         if(gain_initial==120){
                             btn_emg_increase_gain.setBackgroundColor(ContextCompat.getColor(MonitorActivity.this,R.color.home_semi_red));
                         }
@@ -294,7 +221,6 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
                 }
             }
         });
-
         btn_emg_decrease_gain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -306,7 +232,6 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
                             btn_emg_decrease_gain.setBackgroundColor(ContextCompat.getColor(MonitorActivity.this,R.color.home_semi_red));
                         }
                         lineChart.zoomOut();
-//                        lineChart.zoom(-0.7f,-0.7f,ui_rate,0);
                     }
                     byte[] gain_decrease = ByteToArrayOperations.hexStringToByteArray("AD02");
                     send(gain_decrease);
@@ -316,7 +241,6 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
                 }
             }
         });
-
         tv_snap.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -328,12 +252,6 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
                 return false;
             }
         });
-
-
-
-
-        //mqtt
-        mqttHelper = new MqttHelper(this);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         try {
             json_phizio = new JSONObject(sharedPreferences.getString("phiziodetails", ""));
@@ -341,7 +259,7 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        connectivityManager         = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+
         patientId.setText(getIntent().getStringExtra("patientId"));
         patientName.setText(getIntent().getStringExtra("patientName"));
         //setting session number
@@ -356,7 +274,6 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
         else {
             tv_repsselected.setVisibility(View.GONE);
         }
-        //Getting the max and min angle of the particular body part
         maxAnglePart = angleOperations.getMaxAngle(bodypart);
         minAnglePart = angleOperations.getMinAngle(bodypart);
         arcViewInside.setMinAngle(0);
@@ -368,7 +285,6 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
             requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
         exerciseType = getIntent().getStringExtra("exerciseType");
-
         /**
          * calls start session
          */
@@ -398,7 +314,6 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
                     startSession();
             }
         });
-
         /**
          * Cancel session
          */
@@ -413,7 +328,6 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
                     visiblity = View.VISIBLE;
                     stopBtn.setVisibility(View.GONE);
                     timer.setVisibility(View.VISIBLE);
-                    //Discable notifications
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                         @Override
                         public void run() {
@@ -425,8 +339,6 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
                             }
                         }
                     });
-
-
                     TimeBuff += MillisecondTime;
                     handler.removeCallbacks(runnable);
                     MillisecondTime = 0L ;
@@ -435,19 +347,16 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
                     UpdateTime = 0L ;
                     Seconds = 0 ;
                     Minutes = 0 ;
-                    MilliSeconds = 0 ;
                     pheezeeState =false;
                     timer.setText(R.string.timer_start);
                     recieverState = false;
                     isSessionRunning=false;
 //                if(maxAngle!=0&&!(maxAngle>180)&&minAngle!=180&&!(minAngle<0)) {
                     tsLong = System.currentTimeMillis();
-
                     insertValuesAndNotifyMediaStore();
                 }
             }
         });
-
         /**
          * Stop session
          */
@@ -471,8 +380,6 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
                         mBluetoothGatt.writeCharacteristic(mCharacteristic);
                     }
                 });
-
-
                 TimeBuff += MillisecondTime;
                 handler.removeCallbacks(runnable);
                 MillisecondTime = 0L ;
@@ -481,37 +388,13 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
                 UpdateTime = 0L ;
                 Seconds = 0 ;
                 Minutes = 0 ;
-                MilliSeconds = 0 ;
                 pheezeeState =false;
                 timer.setText(R.string.timer_start);
                 recieverState = false;
                 isSessionRunning=false;
-
-//                if(maxAngle!=0&&!(maxAngle>180)&&minAngle!=180&&!(minAngle<0)) {
                 tsLong = System.currentTimeMillis();
-                String ts = tsLong.toString();
-                try {
-
-                    JSONObject summary = new JSONObject();
-                    summary.put("repetition", Integer.parseInt(Repetitions.getText().toString()));
-                    summary.put("maxAngle", maxAngle);
-                    summary.put("minAngle", minAngle);
-                    summary.put("maxEmg", maxEmgValue);
-                    summary.put("holdTime", holdTimeValue);
-                    summary.put("sessionTime",time.getText().toString().substring(16));
-                    summary.put("timeStamp", tsLong);
-                    sessionObj.put("Summary", summary);
-                    sessionObj.put("timeStamp", ts);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                initiatePopupWindowModified(v);
-                //sessiondetails file output stream and notifying the media store about the files
+                initiatePopupWindowModified();
                 insertValuesAndNotifyMediaStore();
-//                }else {
-//                    Toast.makeText(MonitorActivity.this,"your alignment is wrong!! try again,",Toast.LENGTH_LONG).show();
-//                }
             }
         });
 
@@ -566,74 +449,12 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
                 }
             }
         });
-
-
-        /**
-         * Receiving message from the server weather data inserted or not based on the topic and delets the data from the database
-         */
-        mqttHelper.setCallback(new MqttCallbackExtended() {
-            @Override
-            public void connectComplete(boolean reconnect, String serverURI) {
-
-            }
-
-            @Override
-            public void connectionLost(Throwable cause) {
-
-            }
-
-            @Override
-            public void messageArrived(String topic, MqttMessage message){
-                try {
-                    if(topic.equals(mqtt_publish_add_patient_session_response+json_phizio.getString("phizioemail"))){
-                        if(message.toString().equals("inserted")){
-                            editor = sharedPreferences.edit();
-                            editor.putString("sync_session","");
-                            editor.apply();
-                        }
-                    }
-
-                    if(topic.equals(mqtt_publish_add_patient_session_emg_data_response+json_phizio.getString("phizioemail"))){
-                        JSONObject object = new JSONObject(message.toString());
-                        if(object.has("response") && object.getString("response").equalsIgnoreCase("inserted")) {
-                            session_inserted_in_server = true;
-                            repository.deleteParticular(object.getInt("id"));
-                            showToast("INSERTED!");
-                        }
-                    }
-
-                    if(topic.equals(mqtt_mmt_updated_response+json_phizio.getString("phizioemail"))){
-                        JSONObject object = new JSONObject(message.toString());
-                        if(object.has("response") && object.getString("response").equalsIgnoreCase("updated")) {
-                            repository.deleteParticular(object.getInt("id"));
-                            showToast("Updated");
-                        }
-                    }
-                    if(topic.equals(mqtt_delete_session_response+json_phizio.getString("phizioemail"))){
-                        JSONObject object = new JSONObject(message.toString());
-                        if(object.has("response") && object.getString("response").equalsIgnoreCase("deleted")) {
-                            repository.deleteParticular(object.getInt("id"));
-                            showToast("Deleted");
-                        }
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-
-            @Override
-            public void deliveryComplete(IMqttDeliveryToken token) {
-
-            }
-        });
         MillisecondTime = 0L ;
         StartTime = 0L ;
         TimeBuff = 0L ;
         UpdateTime = 0L ;
         Seconds = 0 ;
         Minutes = 0 ;
-        MilliSeconds = 0 ;
         time.setText("Session time:   00 : 00");
 
         bluetoothAdapter = BluetoothSingelton.getmInstance().getAdapter();
@@ -679,13 +500,10 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
         });
     }
 
-    /**
-     * Start session
-     */
     public void startSession(){
         updateGainView();
-        session_inserted_in_server = false;sessionCompleted=false;first_packet=true;
-        mmt_selected="";body_orientation="";session_type="";ui_rate = 0;rate=0;devicePopped=false;
+        sessionCompleted=false;first_packet=true;
+        ui_rate = 0;devicePopped=false;
         PatientsView.sessionStarted = true;
         isSessionRunning = true;
         angleCorrected = false;
@@ -727,9 +545,6 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-
-
             try {
                 outputStream_session_emgdata = new FileOutputStream(file_session_emgdata, true);
                 outputStream_session_romdata = new FileOutputStream(file_session_romdata, true);
@@ -773,9 +588,6 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
     private void updateGainView() {
         btn_emg_decrease_gain.setBackgroundResource(R.drawable.monitor_gain_btn);
         btn_emg_increase_gain.setBackgroundResource(R.drawable.monitor_gain_btn);
-
-//        btn_emg_decrease_gain = findViewById(R.id.btn_emg_decrease_gain);
-//        btn_emg_increase_gain = findViewById(R.id.btn_emg_increase_gain);
     }
 
     /**
@@ -843,45 +655,6 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
                 });
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-//        ConstraintSet mConstraintSet1 = new ConstraintSet();
-//        mConstraintSet1.clone(this,R.layout.fragment_monitor);
-//        ConstraintLayout mConstraintLayout = findViewById(R.id.monitorLayout);
-//        LinearLayout linearLayout = mConstraintLayout.findViewById(R.id.pIdAndPName);
-//        ProtractorView rangeOfMotionTemp = mConstraintLayout.findViewById(R.id.rangeOfMotion);
-//        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-//            linearLayout.setOrientation(LinearLayout.VERTICAL);
-//            rangeOfMotionTemp.setVisibility(View.GONE);
-//            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-//            params.setMargins(0,0,0,0);
-//            angleTemp.setTextColor(Color.parseColor("#000000"));
-//            angleTemp.setLayoutParams(params);
-//        }
-//
-//        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-//            linearLayout.setOrientation(LinearLayout.HORIZONTAL);
-//            rangeOfMotionTemp.setVisibility(View.VISIBLE);
-//            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-//            params.setMargins(0,-120,0,0);
-//            angleTemp.setTextColor(Color.parseColor("#4B7080"));
-//            angleTemp.setLayoutParams(params);
-//        }
-//
-//        mConstraintSet1.setVisibility(R.id.timer,visiblity);
-//        mConstraintSet1.setVisibility(R.id.stopBtn,ConstraintSet.VISIBLE);
-//        mConstraintSet1.applyTo(mConstraintLayout);
-
-//        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-////            rangeOfMotion.setVisibility(View.INVISIBLE);
-//        }
-//
-//        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-////            rangeOfMotion.setVisibility(View.VISIBLE);
-//        }
-    }
-
     /**
      * Refreshes the line graph
      */
@@ -895,11 +668,8 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
         lineDataSet.setDrawValues(false);
         lineDataSet.setColor(getResources().getColor(R.color.pitch_black));
         lineData = new LineData(lineDataSet);
-
         lineDataNew = new LineData(lineDataSet);    //for 30000
-
         lineChart.getXAxis();
-//        lineChart.setVisibleXRangeMaximum(1000);
         lineChart.getXAxis().setAxisMinimum(0f);
         lineChart.getAxisLeft().setSpaceTop(60f);
         lineChart.getAxisRight().setSpaceTop(60f);
@@ -916,20 +686,10 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
         lineChart.setData(lineData);
     }
 
-    //    @Override
-//    protected void onPause() {
-//        super.onPause();s
-//        if(mBluetoothGatt!=null && mCharacteristic!=null){
-//            mBluetoothGatt.setCharacteristicNotification(mCharacteristic,false);
-//            mBluetoothGattDescriptor.setValue(BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
-//            mBluetoothGatt.writeDescriptor(mBluetoothGattDescriptor);
-//            mBluetoothGatt.writeCharacteristic(mCharacteristic);
-//        }
-//    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        // check if the request code is same as what is passed  here it is 1
         if(resultCode!=0){
             remoteDevice = bluetoothAdapter.getRemoteDevice(getIntent().getStringExtra("deviceMacAddress"));
             new Handler(Looper.getMainLooper()).post(new Runnable() {
@@ -1046,8 +806,6 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
         public void onDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
         }
 
-
-
         @Override
         public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
             if(inside_ondestroy){
@@ -1063,7 +821,6 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
      * @return
      */
     public boolean send(byte[] data) {
-
         if (mBluetoothGatt == null ) {
             return false;
         }
@@ -1093,7 +850,6 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
             Seconds = (int) (UpdateTime / 1000);
             Minutes = Seconds / 60;
             Seconds = Seconds % 60;
-            MilliSeconds = (int) (UpdateTime % 1000);
             timeText ="Session time:   " + String.format("%02d", Minutes) + " : " + String.format("%02d", Seconds);
             time.setText(timeText);
             handler.postDelayed(this, 0);
@@ -1146,7 +902,6 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
             else {
                 arcViewInside.setMaxAngle(angleDetected);
             }
-
             romJsonArray.put(angleDetected);
             try {
                 outputStream_session_romdata = new FileOutputStream(file_session_romdata, true);
@@ -1156,18 +911,15 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
                 e.printStackTrace();
             }
             try {
-
                 outputStream_session_romdata.flush();
                 outputStream_session_romdata.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
             LinearLayout.LayoutParams params;
             params = (LinearLayout.LayoutParams) emgSignal.getLayoutParams();
             for (int i=0;i<emg_data.length;i++) {
                 ++ui_rate;
-
                 lineData.addEntry(new Entry((float) ui_rate / 1000, emg_data[i]), 0);
 
                 try {
@@ -1247,13 +999,8 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
     }
 
 
-    /**
-     * Calls the session summary popup window
-     * @param v
-     */
     @SuppressLint("ClickableViewAccessibility")
-    private  void initiatePopupWindowModified(final View v){
-
+    private  void initiatePopupWindowModified(){
         String sessionNo = tv_session_no.getText().toString();
         String sessiontime = time.getText().toString().substring(16);
         String actiontime = tv_action_time.getText().toString();
@@ -1281,484 +1028,12 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
             public void onCommentSessionUpdated(Boolean response) {
             }
         });
-
-        /*Configuration config = getResources().getConfiguration();
-        final View layout;
-        if (config.smallestScreenWidthDp >= 600)
-        {
-            layout = getLayoutInflater().inflate(R.layout.session_summary_large, null);
-        }
-        else
-        {
-            layout = getLayoutInflater().inflate(R.layout.session_summary, null);
-        }
-
-
-
-
-        int color = ValueBasedColorOperations.getCOlorBasedOnTheBodyPart(BodyPartWithMmtRecyclerView.selectedPosition,BodyPartSelection.exercise_selected_position,maxAngle,minAngle,this);
-        int emg_color = ValueBasedColorOperations.getEmgColor(400,maxEmgValue,this);
-        report = new PopupWindow(layout, ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT,true);
-        report.setWindowLayoutMode(ConstraintLayout.LayoutParams.MATCH_PARENT,ConstraintLayout.LayoutParams.MATCH_PARENT);
-        report.setOutsideTouchable(true);
-        report.showAtLocation(v, Gravity.CENTER, 0, 0);
-
-
-        //Gettig all the view items from the layout
-
-        LinearLayout ll_min_max_arc = layout.findViewById(R.id.ll_min_max_arc);
-        final TextView tv_patient_name =layout.findViewById(R.id.tv_summary_patient_name);
-        final TextView tv_patient_id = layout.findViewById(R.id.tv_summary_patient_id);
-        TextView tv_comment = layout.findViewById(R.id.summary_tv_comment);
-        TextView tv_held_on = layout.findViewById(R.id.session_held_on);
-        TextView tv_min_angle = layout.findViewById(R.id.tv_min_angle);
-        TextView tv_max_angle = layout.findViewById(R.id.tv_max_angle);
-        TextView tv_total_time = layout.findViewById(R.id.tv_total_time);
-        TextView tv_action_time_summary = layout.findViewById(R.id.tv_action_time);
-        TextView tv_hold_time = layout.findViewById(R.id.tv_hold_time);
-        TextView tv_num_of_reps = layout.findViewById(R.id.tv_num_of_reps);
-        TextView tv_max_emg = layout.findViewById(R.id.tv_max_emg);
-        TextView tv_session_num = layout.findViewById(R.id.tv_session_no);
-        TextView tv_orientation_and_bodypart = layout.findViewById(R.id.tv_orientation_and_bodypart);
-        TextView tv_musclename = layout.findViewById(R.id.tv_muscle_name);
-        TextView tv_exercise_name = layout.findViewById(R.id.tv_exercise_name);
-        TextView tv_range = layout.findViewById(R.id.tv_range_min_max);
-        TextView tv_delete_pateint_session = layout.findViewById(R.id.summary_tv_delete_session);
-        final LinearLayout ll_mmt_confirm = layout.findViewById(R.id.bp_model_mmt_confirm);
-
-        LinearLayout ll_mmt_container = layout.findViewById(R.id.ll_mmt_grading);
-        final RadioGroup rg_body_orientation = layout.findViewById(R.id.rg_body_orientation);
-        final RadioGroup rg_session_type = layout.findViewById(R.id.rg_session_type);
-        final LinearLayout ll_click_to_view_report = layout.findViewById(R.id.ll_click_to_view_report);
-        final LinearLayout ll_click_to_choose_body_part = layout.findViewById(R.id.ll_click_to_choose_bodypart);
-
-        for (int i=0;i<ll_mmt_container.getChildCount();i++){
-            View view_nested = ll_mmt_container.getChildAt(i);
-            view_nested.setOnClickListener(onClickListener);
-        }
-
-
-
-
-
-        //setting session no
-        tv_session_num.setText(tv_session_no.getText().toString());
-        tv_exercise_name.setText(BodyPartSelection.musclename);
-
-        tv_orientation_and_bodypart.setText(orientation+"-"+bodypart);
-        tv_musclename.setText(BodyPartSelection.exercisename);
-        if(BodyPartSelection.musclename.equalsIgnoreCase("Isometric")){
-            maxAngle = 0;
-            minAngle = 0;
-        }
-
-        ll_click_to_choose_body_part.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                report.dismiss();
-                finish();
-                BodyPartSelection.refreshView();
-            }
-        });
-
-        ll_click_to_choose_body_part.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == android.view.MotionEvent.ACTION_DOWN) {
-                    ll_click_to_choose_body_part.setAlpha(0.4f);
-                } else if (event.getAction() == android.view.MotionEvent.ACTION_UP) {
-                    ll_click_to_choose_body_part.setAlpha(1f);
-                }
-                return false;
-            }
-        });
-
-
-
-
-        ll_click_to_view_report.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(NetworkOperations.isNetworkAvailable(MonitorActivity.this)){
-                    Intent mmt_intent = new Intent(MonitorActivity.this, SessionReportActivity.class);
-                    mmt_intent.putExtra("patientid", tv_patient_id.getText().toString());
-                    mmt_intent.putExtra("patientname", tv_patient_name.getText().toString());
-                    try {
-                        mmt_intent.putExtra("phizioemail", json_phizio.getString("phizioemail"));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    startActivity(mmt_intent);
-                }
-                else {
-                    NetworkOperations.networkError(MonitorActivity.this);
-                }
-            }
-        });
-
-
-        ll_click_to_view_report.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == android.view.MotionEvent.ACTION_DOWN) {
-                    ll_click_to_view_report.setAlpha(0.4f);
-                } else if (event.getAction() == android.view.MotionEvent.ACTION_UP) {
-                    ll_click_to_view_report.setAlpha(1f);
-                }
-                return false;
-            }
-        });
-
-        //Share and cancel image view
-        ImageView summary_go_back = layout.findViewById(R.id.summary_go_back);
-        ImageView summary_share =  layout.findViewById(R.id.summary_share);
-
-        summary_share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                File file = takeScreenshot(report);
-                Uri pdfURI = FileProvider.getUriForFile(MonitorActivity.this, getApplicationContext().getPackageName() + ".my.package.name.provider", file);
-
-                Intent i = new Intent();
-                i.setAction(Intent.ACTION_SEND);
-                i.putExtra(Intent.EXTRA_STREAM,pdfURI);
-                i.setType("application/jpg");
-                startActivity(Intent.createChooser(i, "share pdf"));
-            }
-        });
-
-
-        summary_go_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                report.dismiss();
-            }
-        });
-
-
-        //Emg Progress Bar
-        ProgressBar pb_max_emg = layout.findViewById(R.id.progress_max_emg);
-
-        //Setting the text views
-        tv_patient_id.setText(patientId.getText().toString());
-        tv_patient_name.setText(patientName.getText().toString());
-
-
-        //for held on date
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        SimpleDateFormat formatter_date = new SimpleDateFormat("yyyy-MM-dd");
-        final String dateString = formatter.format(new Date(tsLong));
-        String dateString_date = formatter_date.format(new Date(tsLong));
-        tv_held_on.setText(dateString_date);
-
-
-        tv_min_angle.setText(minAngle +"°");
-        tv_min_angle.setBackgroundColor(color);
-        tv_max_angle.setText(maxAngle +"°");
-        tv_max_angle.setBackgroundColor(color);
-
-
-        //total session time
-        String tempSessionTime = time.getText().toString().substring(16);
-        tempSessionTime = tempSessionTime.substring(0,2)+"m"+tempSessionTime.substring(3,7)+"s";
-        tv_total_time.setText(tempSessionTime);
-
-
-        tv_action_time_summary.setText(tv_action_time.getText().toString());
-        tv_hold_time.setText(holdTime.getText().toString());
-
-
-        tv_num_of_reps.setText(Repetitions.getText().toString());
-        tv_max_emg.setText(Integer.toString(maxEmgValue).concat(getResources().getString(R.string.emg_unit)));
-        tv_max_emg.setBackgroundColor(emg_color);
-
-
-        tv_range.setText(String.valueOf(maxAngle-minAngle).concat("°"));
-        tv_range.setBackgroundColor(color);
-        //Creating the arc
-        ArcViewInside arcView =layout.findViewById(R.id.session_summary_arcview);
-        arcView.setMaxAngle(maxAngle);
-        arcView.setMinAngle(minAngle);
-        arcView.setRangeColor(color);
-        //setting reference ranges
-        Log.i("inside","inside object reference");
-        if(!BodyPartSelection.minAngleSelected.equals("") && !BodyPartSelection.maxAngleSelected.equals("")){
-            int reference_min_angle = Integer.parseInt(BodyPartSelection.minAngleSelected);
-            int reference_max_angle = Integer.parseInt(BodyPartSelection.maxAngleSelected);
-            arcView.setEnableAndMinMax(reference_min_angle,reference_max_angle,true);
-        }
-
-
-
-        TextView tv_180 = layout.findViewById(R.id.tv_180);
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
-            tv_180.setPadding(5,1,170,1);
-        }
-
-//        arcView.setRangeColor(getResources().getColor(R.color.good_green));
-
-        //Max Emg Progress
-        pb_max_emg.setMax(3000);
-        pb_max_emg.setProgress(maxEmgValue);
-        pb_max_emg.setEnabled(false);
-        LayerDrawable bgShape = (LayerDrawable) pb_max_emg.getProgressDrawable();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            bgShape.findDrawableByLayerId(bgShape.getId(1)).setTint(emg_color);
-        }
-
-        storeLocalSessionDetails(dateString,tempSessionTime);
-
-        tv_comment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                commentSectionPopUp(v,dateString);
-            }
-        });
-
-        repository.getPatientSessionNo(patientId.getText().toString());
-
-
-        //radiobuttons from radio groups
-        ll_mmt_confirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                RadioButton btn = layout.findViewById(rg_body_orientation.getCheckedRadioButtonId());
-                if(btn!=null)
-                    body_orientation = btn.getText().toString();
-                btn = layout.findViewById(rg_session_type.getCheckedRadioButtonId());
-                if(btn!=null)
-                    session_type = btn.getText().toString();
-                Log.i("mmtdetails",mmt_selected+" "+body_orientation+" "+session_type);
-                String check = mmt_selected.concat(body_orientation).concat(session_type);
-                if(!check.equalsIgnoreCase("")){
-                    JSONObject object = new JSONObject();
-                    try {
-                        object.put("phizioemail", json_phizio.get("phizioemail"));
-                        object.put("patientid", patientId.getText().toString());
-                        object.put("heldon", dateString);
-                        object.put("mmtgrade", mmt_selected);
-                        object.put("bodyorientation",body_orientation);
-                        object.put("sessiontype",session_type);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    MqttSync mqttSync = new MqttSync(mqtt_publish_update_patient_mmt_grade, object.toString());
-                    new SendDataAsyncTask(mqttSync).execute();
-                }
-                else {
-                    showToast("Nothing Selected");
-                }
-            }
-        });
-
-        ll_mmt_confirm.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    ll_mmt_confirm.setAlpha(0.4f);
-                } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    ll_mmt_confirm.setAlpha(1f);
-                }
-                return false;
-            }
-        });
-
-        tv_delete_pateint_session.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                JSONObject object = new JSONObject();
-                try {
-                    object.put("phizioemail", json_phizio.get("phizioemail"));
-                    object.put("patientid", patientId.getText().toString());
-                    object.put("heldon", dateString);
-                }catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                MqttSync mqttSync = new MqttSync(mqtt_delete_pateint_session, object.toString());
-                new SendDataAsyncTask(mqttSync).execute();
-            }
-        });*/
-    }
-
-    /**
-     * listner for mmt values
-     */
-    View.OnClickListener onClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            LinearLayout ll_container = ((LinearLayout)v);
-            LinearLayout parent = (LinearLayout) ll_container.getParent();
-            for (int i=0;i<parent.getChildCount();i++){
-                LinearLayout ll_child = (LinearLayout) parent.getChildAt(i);
-                TextView tv_childs = (TextView) ll_child.getChildAt(0);
-                tv_childs.setBackgroundResource(R.drawable.drawable_mmt_circular_tv);
-                tv_childs.setTextColor(ContextCompat.getColor(MonitorActivity.this,R.color.pitch_black));
-            }
-            TextView tv_selected = (TextView) ll_container.getChildAt(0);
-            tv_selected.setBackgroundColor(Color.YELLOW);
-            mmt_selected=tv_selected.getText().toString();
-            tv_selected.setBackgroundResource(R.drawable.drawable_mmt_grade_selected);
-            tv_selected.setTextColor(ContextCompat.getColor(MonitorActivity.this,R.color.white));
-        }
-    };
-
-
-    /**
-     * comment session popup window
-     * @param view
-     * @param dateString
-     */
-    private void commentSectionPopUp(View view, final String dateString) {
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int width = size.x;
-        int height = size.y;
-        LayoutInflater inflater = (LayoutInflater) MonitorActivity.this
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        assert inflater != null;
-        @SuppressLint("InflateParams") View layout = inflater.inflate(R.layout.popup_comment_session, null);
-
-        final PopupWindow pw = new PopupWindow(layout, ConstraintLayout.LayoutParams.WRAP_CONTENT,ConstraintLayout.LayoutParams.WRAP_CONTENT);
-//        pw.setHeight(height - 400);
-        pw.setWidth(width - 100);
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            pw.setElevation(10);
-        }
-        pw.setTouchable(true);
-        pw.setOutsideTouchable(true);
-        pw.setContentView(layout);
-        pw.setFocusable(true);
-        pw.showAtLocation(view, Gravity.CENTER, 0, 0);
-        final Spinner sp_exercise_name = layout.findViewById(R.id.sp_exercise_name);
-        final TextView tv_exercise_name = layout.findViewById(R.id.popup_comment_tv_exercise_name);
-
-        final EditText et_comment_section = layout.findViewById(R.id.comment_et_comment);
-        et_comment_section.setText(BodyPartSelection.commentsession);
-        Button btn_continue = layout.findViewById(R.id.comment_btn_continue);
-        Button btn_cancel = layout.findViewById(R.id.comment_btn_cancel);
-        Button set_reference = layout.findViewById(R.id.comment_btn_setreference);
-        set_reference.setVisibility(View.GONE);
-        tv_exercise_name.setVisibility(View.GONE);
-        sp_exercise_name.setVisibility(View.GONE);
-        btn_cancel.setVisibility(View.VISIBLE);
-        btn_continue.setText("save");
-        btn_continue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                BodyPartSelection.commentsession = et_comment_section.getText().toString();
-                JSONObject object = new JSONObject();
-                MqttMessage message = new MqttMessage();
-
-                try {
-                    object.put("phizioemail",json_phizio.get("phizioemail"));
-                    object.put("patientid",patientId.getText().toString());
-                    object.put("heldon",dateString);
-                    object.put("painscale",BodyPartSelection.painscale);
-                    object.put("muscletone",BodyPartSelection.muscletone);
-                    object.put("exercisename",BodyPartSelection.exercisename);
-                    object.put("commentsession",et_comment_section.getText().toString());
-                    object.put("symptoms",BodyPartSelection.symptoms);
-
-                    message.setPayload(object.toString().getBytes());
-                    if(NetworkOperations.isNetworkAvailable(MonitorActivity.this))
-                        mqttHelper.publishMqttTopic(mqtt_publish_update_patient_session_comment,message);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                pw.dismiss();
-            }
-        });
-        btn_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pw.dismiss();
-            }
-        });
-    }
-
-    /**
-     * collects all the data of the session and sends to async task to send the data to the server and also to store locally.
-     * @param dateString
-     * @param tempsession
-     */
-    private void storeLocalSessionDetails(String dateString,String tempsession) {
-        JSONArray array ;
-        if (!sharedPreferences.getString("phiziodetails", "").equals("")) {
-            try {
-                jsonData = new JSONArray(json_phizio.getString("phiziopatients"));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            if(jsonData.length()>0) {
-                for (int i = 0; i < jsonData.length(); i++) {
-                    try {
-                        int numofsessions;
-                        if (jsonData.getJSONObject(i).get("patientid").equals(patientId.getText().toString())) {
-                            if(jsonData.getJSONObject(i).has("numofsessions")) {
-                                numofsessions = Integer.parseInt(jsonData.getJSONObject(i).get("numofsessions").toString());
-                                numofsessions += 1;
-                            }
-                            else {
-                                numofsessions = 1;
-                            }
-                            jsonData.getJSONObject(i).put("numofsessions",""+numofsessions);
-                            JSONObject object = new JSONObject();
-                            //Log.i("datestring","2019-04-22 13:08:34");
-                            object.put("heldon",dateString);
-                            object.put("maxangle",maxAngle);
-                            object.put("minangle",minAngle);
-                            object.put("anglecorrected",angleCorrection);
-                            object.put("maxemg",maxEmgValue);
-                            object.put("holdtime",holdTime.getText().toString());
-                            object.put("bodypart",bodypart);
-                            object.put("sessiontime",tempsession);
-                            object.put("numofreps",Repetitions.getText().toString());
-                            json_phizio.put("phiziopatients",jsonData);
-                            editor = sharedPreferences.edit();
-                            editor.putString("phiziodetails", json_phizio.toString());
-                            editor.apply();
-                            object.put("numofsessions",""+numofsessions);
-                            object.put("phizioemail",json_phizio.get("phizioemail"));
-                            object.put("patientid",patientId.getText().toString());
-                            object.put("emgdata",emgJsonArray);
-                            object.put("romdata",romJsonArray);
-                            object.put("painscale",BodyPartSelection.painscale);
-                            object.put("muscletone",BodyPartSelection.muscletone);
-                            object.put("exercisename",BodyPartSelection.musclename);
-                            object.put("commentsession",BodyPartSelection.commentsession);
-                            object.put("symptoms",BodyPartSelection.symptoms);
-                            object.put("activetime",tv_action_time.getText().toString());
-                            object.put("orientation", orientation);
-                            object.put("mmtgrade",mmt_selected);
-                            object.put("bodyorientation",body_orientation);
-                            object.put("sessiontype",session_type);
-                            object.put("repsselected",BodyPartSelection.repsselected);
-                            object.put("musclename", BodyPartSelection.exercisename);
-                            object.put("maxangleselected",BodyPartSelection.maxAngleSelected);
-                            object.put("minangleselected",BodyPartSelection.minAngleSelected);
-                            object.put("maxemgselected",BodyPartSelection.maxEmgSelected);
-                            object.put("sessioncolor",ValueBasedColorOperations.getCOlorBasedOnTheBodyPartExercise(BodyPartWithMmtRecyclerView.selectedPosition,BodyPartSelection.exercise_selected_position,maxAngle,minAngle,this));
-                            MqttSync sync = new MqttSync(mqtt_publish_add_patient_session_emg_data,object.toString());
-                            new SendDataAsyncTask(sync).execute();
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         inside_ondestroy = true;
-        mqttHelper.mqttAndroidClient.unregisterResources();
-        mqttHelper.mqttAndroidClient.close();
         if(mBluetoothGatt!=null && mCharacteristic!=null){
             mBluetoothGatt.setCharacteristicNotification(mCharacteristic,false);
             mBluetoothGattDescriptor.setValue(BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
@@ -1776,126 +1051,14 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
             mBluetoothGatt.close();
         }
     }
-
     /**
      * sends the particular header to pheezee based on body part selected
      * calls the send function.
      * @param string
      */
     public void sendParticularDataToPheeze(String string){
-
-        switch (string.toLowerCase()){
-
-            case "elbow":{
-                byte[] b = ByteToArrayOperations.hexStringToByteArray("AA03");
-                send(b);
-                break;
-            }
-
-            case "knee":{
-                byte[] b = ByteToArrayOperations.hexStringToByteArray("AA04");
-                send(b);
-                break;
-            }
-
-            case "ankle":{
-                byte[] b = ByteToArrayOperations.hexStringToByteArray("AA05");
-                send(b);
-                break;
-            }
-            case "hip":{
-                byte[] b = ByteToArrayOperations.hexStringToByteArray("AA06");
-                send(b);
-                break;
-            }
-
-            case "wrist":{
-                byte[] b = ByteToArrayOperations.hexStringToByteArray("AA07");
-                send(b);
-                break;
-            }
-
-            case "shoulder":{
-                byte[] b = ByteToArrayOperations.hexStringToByteArray("AA08");
-                send(b);
-                break;
-            }
-
-            case "others":{
-                byte[] b = ByteToArrayOperations.hexStringToByteArray("AA04");
-                send(b);
-                break;
-            }
-        }
+        send(ValueBasedColorOperations.getParticularDataToPheeze(string));
     }
-
-    /**
-     * To take screen shord
-     * The popupwindow is null when sent to the while in monitor activity
-     * @param popupWindow
-     * @return
-     */
-    private File takeScreenshot(PopupWindow popupWindow) {
-        Date now = new Date();
-        File snap = null;
-        View v1;
-        DateFormat.format("yyyy-MM-dd_hh:mm:ss", now);
-
-        try {
-            // image naming and path  to include sd card  appending name you choose for file
-            String mPath = Environment.getExternalStorageDirectory().toString() + "/" + now + ".jpg";
-            String child = patientName.getText().toString()+patientId.getText().toString();
-            File f1 =  new File(Environment.getExternalStorageDirectory()+"/Pheezee/files/Monitor",child);
-
-            if (!f1.exists()) {
-                f1.mkdirs();
-            }
-
-            snap = new File(f1,now+".jpg");
-
-            try {
-                snap.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            // create bitmap screen capture
-            if(popupWindow!=null){
-                v1 = popupWindow.getContentView().getRootView();
-                v1.setDrawingCacheEnabled(true);
-            }
-            else {
-                v1 = getWindow().getDecorView().getRootView();
-                v1.setDrawingCacheEnabled(true);
-            }
-            Bitmap bitmap = Bitmap.createBitmap(v1.getDrawingCache());
-            v1.setDrawingCacheEnabled(false);
-
-            FileOutputStream outputStream = new FileOutputStream(snap);
-            int quality = 100;
-            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
-            outputStream.flush();
-            outputStream.close();
-
-
-            MediaScannerConnection.scanFile(
-                    getApplicationContext(),
-                    new String[]{snap.getAbsolutePath()},
-                    null,
-                    new MediaScannerConnection.OnScanCompletedListener() {
-                        @Override
-                        public void onScanCompleted(String path, Uri uri) {
-//                            Log.v("grokkingandroid",
-//                                    "file " + path + " was scanned seccessfully: " + uri);
-                        }
-                    });
-            //openScreenshot(imageFile);
-        } catch (Throwable e) {
-            // Several error may come out with file handling or DOM
-            e.printStackTrace();
-        }
-        return snap;
-    }
-
 
     /**
      * show toask
@@ -1905,57 +1068,8 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
         Toast.makeText(MonitorActivity.this, message, Toast.LENGTH_SHORT).show();
     }
 
-
-
-
-    /**
-     * Sending data to the server and storing locally
-     */
-    public class SendDataAsyncTask extends AsyncTask<Void,Void,Long>{
-
-        private MqttSync mqttSync;
-        public SendDataAsyncTask(MqttSync mqttSync){
-            this.mqttSync = mqttSync;
-        }
-
-        @Override
-        protected Long doInBackground(Void... voids) {
-            return PheezeeDatabase.getInstance(MonitorActivity.this).mqttSyncDao().insert(mqttSync);
-        }
-
-        @Override
-        protected void onPostExecute(Long id) {
-            super.onPostExecute(id);
-            MqttMessage message = new MqttMessage();
-            try {
-                JSONObject object = new JSONObject(mqttSync.getMessage());
-                object.put("id",id);
-                message.setPayload(object.toString().getBytes());
-                if(NetworkOperations.isNetworkAvailable(MonitorActivity.this)){
-                    if(mqttSync.getTopic()==mqtt_publish_update_patient_mmt_grade || mqttSync.getTopic()==mqtt_delete_pateint_session){
-                        if(session_inserted_in_server){
-                            mqttHelper.publishMqttTopic(mqttSync.getTopic(),message);
-                        }
-                        else {
-                            showToast("Saved locally sync later");
-                        }
-                    }
-                    else {
-                        mqttHelper.publishMqttTopic(mqttSync.getTopic(), message);
-                    }
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-        }
-    }
-
     @Override
     public void onSessionNumberResponse(String sessionnumber) {
         tv_session_no.setText(sessionnumber);
     }
-
-
-
 }

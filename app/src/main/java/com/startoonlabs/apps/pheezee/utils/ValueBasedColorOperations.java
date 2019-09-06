@@ -182,4 +182,41 @@ public class ValueBasedColorOperations {
     public static int getBodyPartMaxValue(int bodypart, int exercisename){
         return max_values[bodypart][exercisename];
     }
+
+
+    public static byte[] getParticularDataToPheeze(String string){
+
+        switch (string.toLowerCase()){
+
+            case "elbow":{
+                return ByteToArrayOperations.hexStringToByteArray("AA03");
+            }
+
+            case "knee":{
+                return ByteToArrayOperations.hexStringToByteArray("AA04");
+            }
+
+            case "ankle":{
+                return ByteToArrayOperations.hexStringToByteArray("AA05");
+            }
+            case "hip":{
+                return ByteToArrayOperations.hexStringToByteArray("AA06");
+            }
+
+            case "wrist":{
+                return ByteToArrayOperations.hexStringToByteArray("AA07");
+            }
+
+            case "shoulder":{
+                return ByteToArrayOperations.hexStringToByteArray("AA08");
+            }
+
+            case "others":{
+                return ByteToArrayOperations.hexStringToByteArray("AA04");
+            }
+
+            default:
+                return ByteToArrayOperations.hexStringToByteArray("AA04");
+        }
+    }
 }

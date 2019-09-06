@@ -36,19 +36,6 @@ public class RegexOperations {
        }
     }
 
-    public static boolean checkIfNumeric(String value){
-        boolean flag = true;
-        int number = 0;
-        try {
-            number = Integer.parseInt(value);
-        }catch (NumberFormatException e){
-            flag = false;
-        }
-//        if(number>1000)
-//            flag = false;
-        return flag;
-    }
-
     public static boolean isLoginValid(String email, String password){
         if(email.equals("")||password.equals(""))
             return false;

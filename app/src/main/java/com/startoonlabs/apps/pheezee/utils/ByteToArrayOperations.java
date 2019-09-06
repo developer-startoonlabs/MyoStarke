@@ -72,17 +72,6 @@ public class ByteToArrayOperations {
         return emg_data;
     }
 
-    public static int[] constructEmgDataRawWithoutCombine(byte[] sub_byte){
-        int k=0;
-        int[] emg_data = new int[emg_data_size_raw];
-        for (int i=0;i<sub_byte.length;i++){
-            emg_data[k] = sub_byte[i]&0xFF;
-            i++;
-            k++;
-        }
-        return emg_data;
-    }
-
     public static int getAngleFromData(byte a, byte b){
         return b<<8 | a&0xFF;
     }

@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,14 +20,10 @@ import com.startoonlabs.apps.pheezee.fragments.FragmentReportDay;
 import com.startoonlabs.apps.pheezee.fragments.ReportMonth;
 import com.startoonlabs.apps.pheezee.fragments.ReportWeek;
 import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
-import com.startoonlabs.apps.pheezee.services.MqttHelper;
 
-import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
-import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
-import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+
+import java.io.File;
 
 public class SessionReportActivity extends AppCompatActivity implements MqttSyncRepository.OnReportDataResponseListner {
 
@@ -49,10 +44,6 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
 
 
     public static String patientId="", phizioemail="", patientName="";
-    String mqtt_publish_getpatientReport_response = "patient/generate/report/response";
-    String mqtt_publish_getpatientReport = "patient/generate/report";
-
-    MqttHelper mqttHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +56,6 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
         patientId = getIntent().getStringExtra("patientid");
         phizioemail = getIntent().getStringExtra("phizioemail");
         patientName = getIntent().getStringExtra("patientname");
-        mqttHelper = new MqttHelper(this);
         progress = new ProgressDialog(this);
         progress.setMessage("Generating report");
         progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -81,47 +71,6 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
                 return true;
             }
         });
-
-        /*mqttHelper.setCallback(new MqttCallbackExtended() {
-            @Override
-            public void connectComplete(boolean reconnect, String serverURI) {
-                MqttMessage message = new MqttMessage();
-                JSONObject object = new JSONObject();
-                try {
-                    object.put("patientid",patientId);
-                    object.put("phizioemail",phizioemail);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                message.setPayload(object.toString().getBytes());
-                if(initia==true)
-                    mqttHelper.publishMqttTopic(mqtt_publish_getpatientReport,message);
-            }
-
-            @Override
-            public void connectionLost(Throwable cause) {
-
-            }
-
-            @Override
-            public void messageArrived(String topic, MqttMessage message) throws Exception {
-                if(topic.equals(mqtt_publish_getpatientReport_response+phizioemail)) {
-                    if(initia==true) {
-                        initia = false;
-                        progress.dismiss();
-                        session_arry = new JSONArray(message.toString());
-                        tv_day.performClick();
-                        Log.i("array sessions", session_arry.toString());
-                        Log.i("array sessions len", String.valueOf(session_arry.length()));
-                    }
-                }
-            }
-
-            @Override
-            public void deliveryComplete(IMqttDeliveryToken token) {
-
-            }
-        });*/
 
 
         repository.getReportData(phizioemail,patientId);
@@ -243,8 +192,6 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mqttHelper.mqttAndroidClient.unregisterResources();
-        mqttHelper.mqttAndroidClient.close();
     }
 
 
@@ -268,5 +215,10 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
         else {
             showToast("Error please try later!");
         }
+    }
+
+    @Override
+    public void onDayReportReceived(File file, String message, Boolean response) {
+
     }
 }

@@ -3,7 +3,6 @@ package com.startoonlabs.apps.pheezee.adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,12 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.activities.BodyPartSelection;
 import com.startoonlabs.apps.pheezee.classes.BodyPartWithMmtSelectionModel;
-import com.startoonlabs.apps.pheezee.services.MqttHelper;
 import com.startoonlabs.apps.pheezee.utils.MuscleOperation;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.List;
 

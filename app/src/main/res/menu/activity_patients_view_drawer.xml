@@ -24,10 +24,6 @@
 
         <item  android:id="@+id/nav_app_version"
             android:title="@string/nav_app_version"/>
-        <!--<item-->
-            <!--android:id="@+id/demo_app"-->
-            <!--android:icon="@drawable/app_version"-->
-            <!--android:title="Demo App" />-->
 
         <item
             android:id="@+id/nav_logout"

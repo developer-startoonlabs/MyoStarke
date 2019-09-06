@@ -35,7 +35,6 @@ import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.pojos.PhizioDetailsData;
 import com.startoonlabs.apps.pheezee.popup.UploadImageDialog;
 import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
-import com.startoonlabs.apps.pheezee.services.MqttHelper;
 import com.startoonlabs.apps.pheezee.services.PicassoCircleTransformation;
 import com.startoonlabs.apps.pheezee.utils.BitmapOperations;
 import com.startoonlabs.apps.pheezee.utils.NetworkOperations;
@@ -52,7 +51,6 @@ import static com.startoonlabs.apps.pheezee.activities.PatientsView.ivBasicImage
 
 public class PhizioProfile extends AppCompatActivity implements MqttSyncRepository.OnPhizioDetailsResponseListner {
     EditText et_phizio_name, et_phizio_email, et_phizio_phone,et_address, et_clinic_name, et_dob, et_experience, et_specialization, et_degree, et_gender;
-    MqttHelper mqttHelper ;
     Spinner spinner;
     MqttSyncRepository repository;
     TextView tv_edit_profile_pic, tv_edit_profile_details;
@@ -71,7 +69,6 @@ public class PhizioProfile extends AppCompatActivity implements MqttSyncReposito
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_phizio_profile);
-        mqttHelper = new MqttHelper(PhizioProfile.this,"phizioprofile");
         repository = new MqttSyncRepository(getApplication());
         repository.setOnPhizioDetailsResponseListner(this);
         //Shared Preference
@@ -377,7 +374,6 @@ public class PhizioProfile extends AppCompatActivity implements MqttSyncReposito
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mqttHelper.mqttAndroidClient.unregisterResources();
     }
 
 

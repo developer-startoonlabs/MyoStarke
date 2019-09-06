@@ -27,17 +27,5 @@ public class NetworkOperations {
         builder.show();
     }
 
-    public static void openServerBusyDialog(Context context){
-        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Server Not Responding");
-        builder.setMessage("The server is not responding. Sorry for the inconvenience, please try again later.... ");
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-            }
-        });
-        builder.show();
-    }
-
 
 }

@@ -37,7 +37,6 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.activities.PatientsView;
 import com.startoonlabs.apps.pheezee.activities.SessionReportActivity;
-import com.startoonlabs.apps.pheezee.utils.PatientOperations;
 import com.startoonlabs.apps.pheezee.utils.TimeOperations;
 import com.startoonlabs.apps.pheezee.views.custom_graph.ApiData;
 import com.startoonlabs.apps.pheezee.views.custom_graph.EmonjiBarGraph;

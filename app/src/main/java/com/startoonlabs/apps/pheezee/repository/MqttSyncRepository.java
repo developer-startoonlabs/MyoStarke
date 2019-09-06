@@ -1,6 +1,7 @@
 package com.startoonlabs.apps.pheezee.repository;
 
 import android.app.Application;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -11,6 +12,7 @@ import android.util.Base64;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.FileProvider;
 import androidx.lifecycle.LiveData;
 
 import com.google.gson.Gson;
@@ -44,20 +46,26 @@ import com.startoonlabs.apps.pheezee.room.Entity.PhizioPatients;
 import com.startoonlabs.apps.pheezee.room.PheezeeDatabase;
 import com.startoonlabs.apps.pheezee.utils.BitmapOperations;
 import com.startoonlabs.apps.pheezee.utils.OtpGeneration;
+import com.startoonlabs.apps.pheezee.utils.WriteResponseBodyToDisk;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.startoonlabs.apps.pheezee.activities.SessionReportActivity.patientId;
+import static com.startoonlabs.apps.pheezee.activities.SessionReportActivity.patientName;
 
 /**
  * That interacts with database
@@ -383,6 +391,27 @@ public class MqttSyncRepository {
         protected Void doInBackground(String... strings) {
             patientsDao.setNumberOfSessions(strings[0],strings[1]);
             return null;
+        }
+    }
+
+    private class DeleteMultipleSyncItem extends AsyncTask<List<Integer>,Void,Void>{
+
+        MqttSyncDao mqttSyncDao;
+        public DeleteMultipleSyncItem(MqttSyncDao mqttSyncDao){
+            this.mqttSyncDao = mqttSyncDao;
+        }
+        @Override
+        protected Void doInBackground(List<Integer>... lists) {
+            mqttSyncDao.deleteMultipleItems(lists[0]);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            if(listner!=null){
+                listner.onSyncComplete(true,"Sync Completed");
+            }
+            super.onPostExecute(aVoid);
         }
     }
 
@@ -865,6 +894,37 @@ public class MqttSyncRepository {
     }
 
 
+    public void getDayReport(String url, String patientname){
+        Call<ResponseBody> fileCall = getDataService.getReport(url);
+        fileCall.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.i("Response", response.body().toString());
+                File file = WriteResponseBodyToDisk.writeResponseBodyToDisk(response.body(), patientname+"-day");
+                if (file != null) {
+                    if(reportDataResponseListner!=null){
+                        reportDataResponseListner.onDayReportReceived(file,null,true);
+                    }
+                }
+                else {
+                    if(reportDataResponseListner!=null) {
+                        reportDataResponseListner.onDayReportReceived(file, "Not received!", false);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                if(reportDataResponseListner!=null) {
+                    reportDataResponseListner.onDayReportReceived(null, "Server not responding, try again later", false);
+                }
+            }
+        });
+    }
+
+
+
+
     public void insertSessionData(SessionData data){
         Call<ResponseData> dataCall = getDataService.insertSessionData(data);
         dataCall.enqueue(new Callback<ResponseData>() {
@@ -986,7 +1046,55 @@ public class MqttSyncRepository {
         });
     }
 
+    public void syncDataToServer(){
+        Log.i("hello","insidesync");
+        new SyncDataAsync(mqttSyncDao).execute();
+    }
 
+    private class SyncDataAsync extends AsyncTask<Void,Void,List<MqttSync>>{
+
+        MqttSyncDao mqttSyncDao;
+        public SyncDataAsync(MqttSyncDao mqttSyncDao){
+            this.mqttSyncDao = mqttSyncDao;
+        }
+        @Override
+        protected List<MqttSync> doInBackground(Void... voids) {
+            List<MqttSync> list = mqttSyncDao.getAllMqttSyncItems();
+            return list;
+        }
+
+        @Override
+        protected void onPostExecute(List<MqttSync> mqttSyncs) {
+            super.onPostExecute(mqttSyncs);
+            startSync(mqttSyncs);
+        }
+    }
+
+    private void startSync(List<MqttSync> mqttSyncs) {
+        Call<List<Integer>> sync_data = getDataService.syncDataToServer(mqttSyncs);
+        sync_data.enqueue(new Callback<List<Integer>>() {
+            @Override
+            public void onResponse(Call<List<Integer>> call, Response<List<Integer>> response) {
+                if(response.code()==200){
+                    List<Integer> list = response.body();
+                    new DeleteMultipleSyncItem(mqttSyncDao).execute(list);
+                }
+                else {
+                    if(listner!=null){
+                        listner.onSyncComplete(false,"Server busy, try again later!");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Integer>> call, Throwable t) {
+                if(listner!=null){
+                    listner.onSyncComplete(false,"Server busy, try again later!");
+                }
+            }
+        });
+
+    }
 
 
     //Callbacks
@@ -1004,6 +1112,7 @@ public class MqttSyncRepository {
 
     public interface OnReportDataResponseListner{
         void onReportDataReceived(JSONArray array, boolean response);
+        void onDayReportReceived(File file, String message, Boolean response);
     }
 
     public interface OnPhizioDetailsResponseListner{
@@ -1023,15 +1132,11 @@ public class MqttSyncRepository {
         void onPasswordUpdated( String message);
     }
 
-
-
-
-
-
     public interface onServerResponse{
         void onDeletePateintResponse(boolean response);
         void onUpdatePatientDetailsResponse(boolean response);
         void onUpdatePatientStatusResponse(boolean response);
+        void onSyncComplete(boolean response, String message);
     }
 
     public void setOnPhizioDetailsResponseListner(OnPhizioDetailsResponseListner phizioDetailsResponseListner){
@@ -1061,8 +1166,4 @@ public class MqttSyncRepository {
     public void setOnSessionDataResponse(OnSessionDataResponse onSessionDataResponse){
         this.onSessionDataResponse = onSessionDataResponse;
     }
-
-
-
-
 }

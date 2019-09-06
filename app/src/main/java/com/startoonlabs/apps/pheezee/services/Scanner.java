@@ -20,11 +20,6 @@ import java.util.regex.Pattern;
 import info.androidhive.barcode.BarcodeReader;
 
 public class Scanner extends AppCompatActivity implements BarcodeReader.BarcodeReaderListener {
-
-//    SharedPreferences sharedPref;
-//    JSONArray jsonData = new JSONArray();
-//    AlertDialog.Builder builder;
-//    SharedPreferences.Editor editor;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
 
@@ -48,7 +43,6 @@ public class Scanner extends AppCompatActivity implements BarcodeReader.BarcodeR
             editor.putString("deviceMacaddress", barcode.displayValue);
             editor.commit();
         }
-//        intent.putExtra("macAddress", barcode.displayValue);
         PatientsView.disconnectDevice();
         startActivity(intent);
         finish();
@@ -79,42 +73,4 @@ public class Scanner extends AppCompatActivity implements BarcodeReader.BarcodeR
         Matcher m = p.matcher(mac);
         return m.find();
     }
-
-//    private void displayDialogBox(final String macAddress) {
-//        builder.setTitle("Pheezee is detected");
-//        builder.setMessage("Mac Address: "+ macAddress+"\nEnter the name of the bed");
-//        final EditText input = new EditText(this);
-//        input.setInputType(InputType.TYPE_CLASS_TEXT);
-//        builder.setView(input);
-//        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                String m_Text = input.getText().toString();
-//                JSONObject jsonObject = new JSONObject();
-//                try {
-//                    jsonObject.put("name",m_Text);
-//                    jsonObject.put("macAddress",macAddress);
-//                    jsonObject.put("patientId","");
-//
-//                    if(!(new JSONArray(sharedPref.getString("data","")).getJSONObject(0).getString("name").equals(null)))
-//                        jsonData = new JSONArray(sharedPref.getString("data",""));
-//                    jsonData.put(jsonObject);
-//                    editor.putString("data",jsonData.toString());
-//                    editor.commit();
-//
-//
-//                    System.out.println(new JSONArray(sharedPref.getString("data","")).getJSONObject(1).getString("macAddress"));
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
-//        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                dialog.cancel();
-//            }
-//        });
-//        builder.show();
-//    }
 }

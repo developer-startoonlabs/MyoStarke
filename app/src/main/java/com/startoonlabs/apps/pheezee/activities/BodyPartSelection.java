@@ -8,15 +8,13 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.Build;
-import android.preference.PreferenceManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -25,7 +23,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,19 +36,15 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.startoonlabs.apps.pheezee.classes.BodyPartWithMmtSelectionModel;
-import com.startoonlabs.apps.pheezee.classes.BodyPartSelectionModel;
-import com.startoonlabs.apps.pheezee.classes.DividerItemDecorator;
+import com.robertlevonyan.views.customfloatingactionbutton.FloatingLayout;
 import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.adapters.BodyPartWithMmtRecyclerView;
-import com.startoonlabs.apps.pheezee.services.MqttHelper;
+import com.startoonlabs.apps.pheezee.classes.BodyPartSelectionModel;
+import com.startoonlabs.apps.pheezee.classes.BodyPartWithMmtSelectionModel;
+import com.startoonlabs.apps.pheezee.classes.DividerItemDecorator;
 import com.startoonlabs.apps.pheezee.utils.MuscleOperation;
-import com.startoonlabs.apps.pheezee.utils.PatientOperations;
-import com.startoonlabs.apps.pheezee.utils.RegexOperations;
 import com.startoonlabs.apps.pheezee.utils.ValueBasedColorOperations;
-import com.robertlevonyan.views.customfloatingactionbutton.FloatingLayout;
 
-import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -72,7 +65,6 @@ public class BodyPartSelection extends AppCompatActivity {
     static SharedPreferences.Editor editor;
     AlertDialog mdialog = null;
     RecyclerView bodyPartRecyclerView;
-    MqttHelper mqttHelper;
     JSONObject json_phizio = null;
     PopupWindow pw;
 
@@ -108,13 +100,8 @@ public class BodyPartSelection extends AppCompatActivity {
         tv_body_part_recent = findViewById(R.id.tv_recently_items); //this textview is visible when no recent body part is selected.
         fab_done =  findViewById(R.id.fab_done);    //floating button Done.
         fl_fab_background = findViewById(R.id.fl_fab_background);
-
-        //shared preference variable
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         editor = preferences.edit();
-
-        //Mqtt helper class object.
-        mqttHelper = new MqttHelper(this);
 
 
         //THis string extracts the recently selected body part from the shared preference.
@@ -372,7 +359,6 @@ public class BodyPartSelection extends AppCompatActivity {
                         @Override
                         public void onClick(View v) {
                             if (!exercisename.equalsIgnoreCase("")) {
-//                                JSONObject json_reference = PatientOperations.checkReferenceDone(orientationSelected, BodyPartSelection.this, getPatientId(), bodypartSelected);
                                 final AlertDialog.Builder builder = new AlertDialog.Builder(BodyPartSelection.this);
                                 LayoutInflater inflater = getLayoutInflater();
                                 final View dialogLayout = inflater.inflate(R.layout.popup_set_reference, null);
@@ -582,8 +568,6 @@ public class BodyPartSelection extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        mqttHelper.mqttAndroidClient.unregisterResources();
-        mqttHelper.mqttAndroidClient.close();
         super.onDestroy();
         reinitializeStatics();
         selectedPosition=-1;

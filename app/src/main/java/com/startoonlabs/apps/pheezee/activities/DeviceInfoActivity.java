@@ -106,11 +106,6 @@ public class DeviceInfoActivity extends AppCompatActivity {
 
         if(!getIntent().getStringExtra("deviceMacAddress").equals(""))
             remoteDevice = bluetoothAdapter.getRemoteDevice(getIntent().getStringExtra("deviceMacAddress"));
-        //Log.i("Remote Device",remoteDevice.getName());
-//        if(remoteDevice!=null){
-//            tv_device_mamc.setText(remoteDevice.getAddress());
-//            tv_device_name.setText(remoteDevice.getName());
-//        }
 
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
@@ -258,9 +253,6 @@ public class DeviceInfoActivity extends AppCompatActivity {
                     public void run() {
 
                         tv_battery_level.setText(String.valueOf(battery).concat("%"));
-//                        mBluetoothGattDescriptor = mCharacteristic.getDescriptor(descriptor_characteristic1_service1_uuid);
-//                        mBluetoothGattDescriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
-//                        bluetoothGatt.writeDescriptor(mBluetoothGattDescriptor);
                     }
                 });
             }
@@ -274,14 +266,6 @@ public class DeviceInfoActivity extends AppCompatActivity {
         }
         @Override
         public void onCharacteristicChanged(final BluetoothGatt gatt, final BluetoothGattCharacteristic characteristic) {
-//            if(characteristic.getUuid().equals(battery_level_battery_service_characteristic_uuid)){
-//                byte b[] = characteristic.getValue();
-//                final int battery  = b[0];
-//                Log.i("battery",battery+"");
-//                Message message = new Message();
-//                message.obj = battery+"";
-//                batteryStatus.sendMessage(message);
-//            }
         }
 
         @Override
@@ -327,16 +311,6 @@ public class DeviceInfoActivity extends AppCompatActivity {
             }
         }
     };
-
-
-    @SuppressLint("HandlerLeak")
-    public final Handler deviceNameHandler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            tv_battery_level.setText(msg.obj.toString().concat("%"));
-        }
-    };
-
 
 
     @Override

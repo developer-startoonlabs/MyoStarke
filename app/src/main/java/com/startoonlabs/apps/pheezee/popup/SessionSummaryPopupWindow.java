@@ -11,7 +11,6 @@ import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -49,8 +48,6 @@ import com.startoonlabs.apps.pheezee.utils.NetworkOperations;
 import com.startoonlabs.apps.pheezee.utils.TakeScreenShot;
 import com.startoonlabs.apps.pheezee.utils.ValueBasedColorOperations;
 import com.startoonlabs.apps.pheezee.views.ArcViewInside;
-
-import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -63,7 +60,6 @@ public class SessionSummaryPopupWindow {
     String mqtt_delete_pateint_session = "phizio/patient/deletepatient/sesssion";
     String mqtt_publish_update_patient_mmt_grade = "phizio/patient/updateMmtGrade";
     String mqtt_publish_add_patient_session_emg_data = "patient/entireEmgData";
-    String mqtt_publish_update_patient_session_comment = "phizio/patient/updateCommentSection";
 
     boolean session_inserted_in_server = false;
     Context context;
@@ -402,11 +398,9 @@ public class SessionSummaryPopupWindow {
         @Override
         protected void onPostExecute(Long id) {
             super.onPostExecute(id);
-            MqttMessage message = new MqttMessage();
             try {
                 JSONObject object = new JSONObject(mqttSync.getMessage());
                 object.put("id",id);
-                message.setPayload(object.toString().getBytes());
                 if(NetworkOperations.isNetworkAvailable(context)){
                     Gson gson = new GsonBuilder().setPrettyPrinting().create();
                     if(mqttSync.getTopic()==mqtt_publish_update_patient_mmt_grade){
