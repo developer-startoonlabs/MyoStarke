@@ -78,7 +78,7 @@ public class RegexOperations {
 
     public static boolean isValidUpdatePhizioDetails(String name, String phone){
         if (!name.equals("")) {
-            if (!phone.equals("") || isValidMobileNumber(phone.replaceAll("\\s", ""))) {
+            if (!phone.equals("") && isValidMobileNumber(phone.replaceAll("\\s", ""))) {
                 return true;
             }
             else {
@@ -91,7 +91,7 @@ public class RegexOperations {
     }
 
     public static String getNonValidStringForPhizioDetails(String name, String phone){
-        if (!name.equals("")) {
+        if (name.equals("")) {
             return "Please enter name";
         }
         else if(phone.equals("")) {

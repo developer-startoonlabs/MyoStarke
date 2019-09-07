@@ -58,9 +58,8 @@ import static com.startoonlabs.apps.pheezee.adapters.BodyPartWithMmtRecyclerView
 public class BodyPartSelection extends AppCompatActivity {
     //Drawable arry for the body part selection
 
-    int[] myPartList = new int[]{R.drawable.elbow_part, R.drawable.knee_part,R.drawable.ankle_part,R.drawable.hip_part,R.drawable.wrist_part,R.drawable.shoulder_part,R.drawable.other_body_part};
-
-
+    int[] myPartList = new int[]{R.drawable.elbow_part, R.drawable.knee_part,R.drawable.ankle_part,R.drawable.hip_part,
+            R.drawable.wrist_part,R.drawable.shoulder_part,R.drawable.other_body_part};
     static SharedPreferences preferences;
     static SharedPreferences.Editor editor;
     AlertDialog mdialog = null;
@@ -89,8 +88,6 @@ public class BodyPartSelection extends AppCompatActivity {
 
 //    GridLayoutManager manager;
     RecyclerView.LayoutManager manager;
-    private String mqtt_publish_message_reference = "phizio/calibration/addpatientsession";
-    private String mqtt_publish_message_reference_response = "phizio/calibration/addpatientsession/response";
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -102,8 +99,6 @@ public class BodyPartSelection extends AppCompatActivity {
         fl_fab_background = findViewById(R.id.fl_fab_background);
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         editor = preferences.edit();
-
-
         //THis string extracts the recently selected body part from the shared preference.
         str_recent = preferences.getString("recently","");
         try {
@@ -111,11 +106,8 @@ public class BodyPartSelection extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         //Layout of the recently body part
         ll_recent_bodypart = findViewById(R.id.ll_recent_section);
-
-
         iv_back_body_part_selection = findViewById(R.id.iv_back_body_part_selection);
 
 
@@ -260,7 +252,6 @@ public class BodyPartSelection extends AppCompatActivity {
                     if(object1.getString("patientid").equals(getPatientId())) {
                         JSONArray array_exercises = new JSONArray(object1.getString("recent"));
                         JSONObject object = array_exercises.getJSONObject(pos);
-                        Toast.makeText(BodyPartSelection.this,object.toString(),Toast.LENGTH_LONG).show();
                     }
                 }
             } catch (JSONException e) {

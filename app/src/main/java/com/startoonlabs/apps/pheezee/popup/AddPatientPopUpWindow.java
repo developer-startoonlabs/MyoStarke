@@ -70,6 +70,7 @@ public class AddPatientPopUpWindow {
         pw.setOutsideTouchable(true);
         pw.setContentView(layout);
         pw.setFocusable(true);
+        pw.setAnimationStyle(R.style.Animation);
         pw.showAtLocation(layout, Gravity.CENTER, 0, 0);
 
 

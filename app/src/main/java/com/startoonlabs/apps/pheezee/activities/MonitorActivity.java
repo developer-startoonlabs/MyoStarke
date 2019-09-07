@@ -1011,7 +1011,8 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
         window.setOnSessionDataResponse(new MqttSyncRepository.OnSessionDataResponse() {
             @Override
             public void onInsertSessionData(Boolean response, String message) {
-                showToast(message);
+                if (response)
+                    showToast(message);
             }
 
             @Override

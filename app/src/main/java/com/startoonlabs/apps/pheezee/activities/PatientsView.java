@@ -57,8 +57,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -69,30 +67,24 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.navigation.NavigationView;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.startoonlabs.apps.pheezee.R;
+import com.startoonlabs.apps.pheezee.adapters.PatientsRecyclerViewAdapter;
 import com.startoonlabs.apps.pheezee.classes.BluetoothGattSingleton;
 import com.startoonlabs.apps.pheezee.classes.BluetoothSingelton;
 import com.startoonlabs.apps.pheezee.classes.MyBottomSheetDialog;
-import com.startoonlabs.apps.pheezee.adapters.PatientsRecyclerViewAdapter;
-import com.startoonlabs.apps.pheezee.pojos.AddPatientData;
 import com.startoonlabs.apps.pheezee.pojos.DeletePatientData;
 import com.startoonlabs.apps.pheezee.pojos.PatientDetailsData;
 import com.startoonlabs.apps.pheezee.pojos.PatientStatusData;
-import com.startoonlabs.apps.pheezee.pojos.ResponseData;
 import com.startoonlabs.apps.pheezee.popup.AddPatientPopUpWindow;
 import com.startoonlabs.apps.pheezee.popup.EditPopUpWindow;
 import com.startoonlabs.apps.pheezee.popup.UploadImageDialog;
 import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
 import com.startoonlabs.apps.pheezee.retrofit.GetDataService;
 import com.startoonlabs.apps.pheezee.retrofit.RetrofitClientInstance;
-import com.startoonlabs.apps.pheezee.room.Entity.MqttSync;
 import com.startoonlabs.apps.pheezee.room.Entity.PhizioPatients;
-import com.startoonlabs.apps.pheezee.room.PheezeeDatabase;
 import com.startoonlabs.apps.pheezee.services.PicassoCircleTransformation;
 import com.startoonlabs.apps.pheezee.services.Scanner;
 import com.startoonlabs.apps.pheezee.utils.BatteryOperation;
@@ -109,11 +101,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 /**
  *
  */
@@ -1334,6 +1321,8 @@ public class PatientsView extends AppCompatActivity
 
     @Override
     public void onDeletePateintResponse(boolean response) {
+        if(deletepatient_progress!=null)
+            deletepatient_progress.dismiss();
         if(response){
             if(deletepatient_progress!=null){
                 deletepatient_progress.dismiss();
@@ -1341,24 +1330,28 @@ public class PatientsView extends AppCompatActivity
             }
         }
         else {
-            showToast("Please try again");
+            showToast("Please try again later");
         }
     }
 
     @Override
     public void onUpdatePatientDetailsResponse(boolean response) {
+        if(deletepatient_progress!=null)
+            deletepatient_progress.dismiss();
         if(response){
             if(deletepatient_progress!=null){
                 deletepatient_progress.dismiss();
                 showToast("Patient details updated");
             }
         }else {
-            showToast("Please try again");
+            showToast("Please try again later");
         }
     }
 
     @Override
     public void onUpdatePatientStatusResponse(boolean response) {
+        if(deletepatient_progress!=null)
+            deletepatient_progress.dismiss();
         if(response){
             if(deletepatient_progress!=null){
                 deletepatient_progress.dismiss();
@@ -1366,7 +1359,7 @@ public class PatientsView extends AppCompatActivity
             }
         }
         else {
-            showToast("Please try again");
+            showToast("Please try again later");
         }
     }
 

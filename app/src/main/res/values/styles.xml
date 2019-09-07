@@ -84,5 +84,9 @@
 
     <!--enter mac edress connect related style-->
 
+    <style name="Animation">
+        <item name="android:windowEnterAnimation">@anim/left_to_right</item>
+        <item name="android:windowExitAnimation">@anim/right_to_left</item>
+    </style>
 
 </resources>

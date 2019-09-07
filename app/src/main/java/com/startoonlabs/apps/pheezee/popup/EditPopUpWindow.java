@@ -57,6 +57,7 @@ public class EditPopUpWindow {
         pw.setOutsideTouchable(true);
         pw.setContentView(layout);
         pw.setFocusable(true);
+        pw.setAnimationStyle(R.style.Animation);
         pw.showAtLocation(layout, Gravity.CENTER, 0, 0);
 
         final TextView patientName = layout.findViewById(R.id.patientName);
@@ -123,6 +124,8 @@ public class EditPopUpWindow {
                 String patientname = patientName.getText().toString();
                 String patientage = patientAge.getText().toString();
                 if ((!patientname.equals(""))  && (!patientage.equals(""))&& (!case_description[0].equals("")) && btn!=null) {
+                    PhizioPatients patients = new PhizioPatients(patient.getPatientid(),patientname,patient.getNumofsessions(),patient.getDateofjoin()
+                                ,patientage,btn.getText().toString(),case_description[0],patient.getStatus(),patient.getPatientphone(),patient.getPatientprofilepicurl());
                     patient.setPatientname(patientname);
                     patient.setPatientage(patientage);
                     patient.setPatientcasedes(case_description[0]);

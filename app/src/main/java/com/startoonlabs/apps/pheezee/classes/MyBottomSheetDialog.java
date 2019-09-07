@@ -68,7 +68,7 @@ public class MyBottomSheetDialog extends BottomSheetDialogFragment {
      * @param layout
      */
     private void findviews(View layout) {
-                CoordinatorLayout layout1 = layout.findViewById(R.id.coordinator_patient_option);
+        CoordinatorLayout layout1 = layout.findViewById(R.id.coordinator_patient_option);
         tv_patient_name_section = layout.findViewById(R.id.tv_patient_name_section);
         tv_patient_id_section = layout.findViewById(R.id.tv_patient_id_section);
         iv_patient_profile_pic = layout.findViewById(R.id.patient_profilepic_section);
@@ -138,12 +138,9 @@ public class MyBottomSheetDialog extends BottomSheetDialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
             setWhiteNavigationBar(dialog);
         }
-
-
         return dialog;
     }
 

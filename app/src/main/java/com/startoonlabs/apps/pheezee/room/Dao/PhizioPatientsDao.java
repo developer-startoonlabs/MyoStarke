@@ -46,4 +46,8 @@ public interface PhizioPatientsDao {
     @Query("UPDATE phizio_patients SET numofsessions=:numberOfSessions WHERE patientid=:patientid")
     void setNumberOfSessions(String numberOfSessions, String patientid);
 
+    @Query("UPDATE phizio_patients SET  patientgender=:pateintgender, patientcasedes=:casedes, patientage=:patientage, patientname=:patientname " +
+            "WHERE patientid=:patientid")
+    void updatePatientDetails(String patientname, String patientid, String patientage, String casedes, String pateintgender);
+
 }

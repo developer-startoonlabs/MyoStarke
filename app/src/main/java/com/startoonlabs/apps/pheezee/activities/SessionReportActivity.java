@@ -213,7 +213,8 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
             tv_day.performClick();
         }
         else {
-            showToast("Error please try later!");
+            showToast("Server busy, please try later!");
+            onBackPressed();
         }
     }
 

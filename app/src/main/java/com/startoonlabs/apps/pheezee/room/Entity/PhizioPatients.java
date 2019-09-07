@@ -19,6 +19,7 @@ public class PhizioPatients {
     String patientphone;
     String patientprofilepicurl;
 
+
     public PhizioPatients(String patientid, String patientname, String numofsessions,
                           String dateofjoin, String patientage, String patientgender, String patientcasedes,
                           String status, String patientphone, String patientprofilepicurl) {

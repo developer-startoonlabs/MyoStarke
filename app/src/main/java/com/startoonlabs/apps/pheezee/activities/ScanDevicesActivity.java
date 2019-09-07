@@ -13,6 +13,7 @@ import android.bluetooth.le.ScanSettings;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -31,6 +32,7 @@ import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.adapters.DeviceListArrayAdapter;
 import com.startoonlabs.apps.pheezee.classes.BluetoothSingelton;
 import com.startoonlabs.apps.pheezee.classes.DeviceListClass;
+import com.startoonlabs.apps.pheezee.utils.NetworkOperations;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,20 +73,11 @@ public class ScanDevicesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_scan_devices);
         Toolbar toolbar = findViewById(R.id.toolbar_scandevices);
         setSupportActionBar(toolbar);
-
-
         //Initialization
         tv_stoScan = findViewById(R.id.tv_stopscan);
         iv_back_scan_devices = findViewById(R.id.back_scan_devices);
         lv_scandevices =findViewById(R.id.lv_deviceList);
         swipeRefreshLayout = findViewById(R.id.scandevices_swiperefresh);
-
-//        iv_bluetooth_connected = findViewById(R.id.iv_bluetooth_connected);
-//        iv_bluetooth_disconnected = findViewById(R.id.iv_bluetooth_disconnected);
-//        iv_device_connected = findViewById(R.id.iv_device_connected);
-//        iv_device_disconnected = findViewById(R.id.iv_device_disconnected);
-
-
         handler = new Handler();
         mScanResults = new ArrayList<>();
         deviceListArrayAdapter = new DeviceListArrayAdapter(this, mScanResults);
@@ -97,6 +90,7 @@ public class ScanDevicesActivity extends AppCompatActivity {
             startActivityForResult(enable_bluetooth, REQUEST_ENABLE_BT);
         }
 
+        NetworkOperations.locationServicesEnabled(this);
 
         iv_back_scan_devices.setOnClickListener(new View.OnClickListener() {
             @Override

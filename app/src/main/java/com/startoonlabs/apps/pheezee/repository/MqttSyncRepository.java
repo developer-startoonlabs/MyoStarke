@@ -1,24 +1,18 @@
 package com.startoonlabs.apps.pheezee.repository;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
-import android.content.ActivityNotFoundException;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
-import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.util.Base64;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.FileProvider;
 import androidx.lifecycle.LiveData;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.startoonlabs.apps.pheezee.activities.LoginActivity;
-import com.startoonlabs.apps.pheezee.activities.PatientsView;
 import com.startoonlabs.apps.pheezee.pojos.AddPatientData;
 import com.startoonlabs.apps.pheezee.pojos.CommentSessionUpdateData;
 import com.startoonlabs.apps.pheezee.pojos.DeletePatientData;
@@ -37,7 +31,6 @@ import com.startoonlabs.apps.pheezee.pojos.PhizioDetailsData;
 import com.startoonlabs.apps.pheezee.pojos.ResponseData;
 import com.startoonlabs.apps.pheezee.pojos.SessionData;
 import com.startoonlabs.apps.pheezee.pojos.SignUpData;
-import com.startoonlabs.apps.pheezee.popup.SessionSummaryPopupWindow;
 import com.startoonlabs.apps.pheezee.retrofit.GetDataService;
 import com.startoonlabs.apps.pheezee.retrofit.RetrofitClientInstance;
 import com.startoonlabs.apps.pheezee.room.Dao.MqttSyncDao;
@@ -46,7 +39,6 @@ import com.startoonlabs.apps.pheezee.room.Entity.MqttSync;
 import com.startoonlabs.apps.pheezee.room.Entity.PhizioPatients;
 import com.startoonlabs.apps.pheezee.room.PheezeeDatabase;
 import com.startoonlabs.apps.pheezee.utils.BitmapOperations;
-import com.startoonlabs.apps.pheezee.utils.NetworkOperations;
 import com.startoonlabs.apps.pheezee.utils.OtpGeneration;
 import com.startoonlabs.apps.pheezee.utils.WriteResponseBodyToDisk;
 
@@ -54,20 +46,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.lang.reflect.Array;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.startoonlabs.apps.pheezee.activities.SessionReportActivity.patientId;
-import static com.startoonlabs.apps.pheezee.activities.SessionReportActivity.patientName;
 
 /**
  * That interacts with database
@@ -75,23 +60,22 @@ import static com.startoonlabs.apps.pheezee.activities.SessionReportActivity.pat
 public class MqttSyncRepository {
     private MqttSyncDao mqttSyncDao;
     private PhizioPatientsDao phizioPatientsDao;
-    GetDataService getDataService;
-    onServerResponse listner;
-    OnLoginResponse loginlistner;
-    OnSignUpResponse signUpResponse;
-    OnPhizioDetailsResponseListner phizioDetailsResponseListner;
-    OnReportDataResponseListner reportDataResponseListner;
-    GetSessionNumberResponse response;
-    OnSessionDataResponse onSessionDataResponse;
-    String mqtt_publish_phizio_addpatient = "phizio/addpatient";
+    private GetDataService getDataService;
+    private onServerResponse listner;
+    private OnLoginResponse loginlistner;
+    private OnSignUpResponse signUpResponse;
+    private OnPhizioDetailsResponseListner phizioDetailsResponseListner;
+    private OnReportDataResponseListner reportDataResponseListner;
+    private GetSessionNumberResponse response;
+    private OnSessionDataResponse onSessionDataResponse;
     /**
      * Live object returned to get the item count in the database to update the sync button view
      */
     private LiveData<Long> count;
     private LiveData<List<PhizioPatients>> patients;
     private PheezeeDatabase database;
-    SharedPreferences sharedPref;
-    SharedPreferences.Editor editor;
+    private SharedPreferences sharedPref;
+    private SharedPreferences.Editor editor;
 
     public MqttSyncRepository(Application application){
         database =PheezeeDatabase.getInstance(application);
@@ -116,15 +100,10 @@ public class MqttSyncRepository {
         return count;
     }
 
-    public long insert(final MqttSync mqttSync){
-//        new InsertMqttSyncAsyncTask(mqttSyncDao).execute(mqttSync);
-//        return mqttSyncDao.insert(mqttSync);
-        return mqttSyncDao.insert(mqttSync);
-    }
-
-    public void updatePatientLocally(PhizioPatients patient){
+    private void updatePatientLocally(PhizioPatients patient){
         new UpdatePatient(phizioPatientsDao).execute(patient);
     }
+//    private void updatePatientDetails()
 
     public void insertPatient(PhizioPatients patient, PatientDetailsData data){
         new InsertPhizioPatient(phizioPatientsDao).execute(patient);
@@ -139,11 +118,6 @@ public class MqttSyncRepository {
         new SetPatientSessionNumber(phizioPatientsDao).execute(sessionno,patientid);
     }
 
-
-    public void deleteParticularPatient(String patientid){
-        new DeleteParticularPatient(phizioPatientsDao).execute(patientid);
-    }
-
     /**
      * Called when pressed logout
      */
@@ -151,46 +125,15 @@ public class MqttSyncRepository {
         new DeleteAllMqttSync(mqttSyncDao).execute();
     }
 
-    /**
-     * deletes a entry based on id
-     * @param id
-     */
-    public void deleteParticular(int id){
+    private void deleteParticular(int id){
         new DeleteMqttSyncAsyncTask(mqttSyncDao).execute(id);
-    }
-
-    public List<MqttSync> getAllSyncMessages(){
-        return mqttSyncDao.getAllMqttSyncItems();
-    }
-
-
-
-    //local database async tasks
-    private static class InsertMqttSyncAsyncTask extends AsyncTask<MqttSync, Void, Long> {
-
-        private MqttSyncDao mqttSyncDao;
-
-        public InsertMqttSyncAsyncTask(MqttSyncDao mqttSyncDao){
-            this.mqttSyncDao = mqttSyncDao;
-        }
-        @Override
-        protected Long doInBackground(MqttSync... notes) {
-            mqttSyncDao.insert(notes[0]);
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Long aLong) {
-            super.onPostExecute(aLong);
-
-        }
     }
 
     private static class DeleteMqttSyncAsyncTask extends AsyncTask<Integer, Void, Void> {
 
         private MqttSyncDao mqttSyncDao;
 
-        public DeleteMqttSyncAsyncTask(MqttSyncDao mqttSyncDao){
+        DeleteMqttSyncAsyncTask(MqttSyncDao mqttSyncDao){
             this.mqttSyncDao = mqttSyncDao;
         }
 
@@ -204,24 +147,9 @@ public class MqttSyncRepository {
     }
 
 
-    private static class GetAllSyncList extends AsyncTask<Void,Void,Void>{
-        private MqttSyncDao mqttSyncDao;
-
-        public GetAllSyncList(MqttSyncDao mqttSyncDao){
-            this.mqttSyncDao = mqttSyncDao;
-        }
-
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            List<MqttSync> list = mqttSyncDao.getAllMqttSyncItems();
-            return null;
-        }
-    }
-
     private static class DeleteAllMqttSync extends AsyncTask<Void,Void,Void>{
         private MqttSyncDao mqttSyncDao;
-        public DeleteAllMqttSync(MqttSyncDao mqttSyncDao){
+        DeleteAllMqttSync(MqttSyncDao mqttSyncDao){
             this.mqttSyncDao = mqttSyncDao;
         }
         @Override
@@ -233,7 +161,7 @@ public class MqttSyncRepository {
 
     private static class DeleteDatabase extends AsyncTask<Void, Void, Void>{
         private PheezeeDatabase database;
-        public DeleteDatabase(PheezeeDatabase database){
+        DeleteDatabase(PheezeeDatabase database){
             this.database = database;
         }
         @Override
@@ -251,7 +179,7 @@ public class MqttSyncRepository {
 
     private static class UpdatePatient extends AsyncTask<PhizioPatients, Void, Void>{
         PhizioPatientsDao phizioPatientsDao;
-        public UpdatePatient(PhizioPatientsDao dao){
+        UpdatePatient(PhizioPatientsDao dao){
             this.phizioPatientsDao = dao;
         }
         @Override
@@ -268,7 +196,7 @@ public class MqttSyncRepository {
 
     private static class InsertPhizioPatient extends AsyncTask<PhizioPatients, Void, Void>{
         PhizioPatientsDao phizioPatientsDao;
-        public InsertPhizioPatient(PhizioPatientsDao dao){
+        InsertPhizioPatient(PhizioPatientsDao dao){
             this.phizioPatientsDao = dao;
         }
         @Override
@@ -283,26 +211,9 @@ public class MqttSyncRepository {
         }
     }
 
-    private static class DeleteParticularPatient extends AsyncTask<String, Void, Void>{
-        PhizioPatientsDao phizioPatientsDao;
-        public DeleteParticularPatient(PhizioPatientsDao dao){
-            this.phizioPatientsDao = dao;
-        }
-        @Override
-        protected Void doInBackground(String... patientid) {
-            phizioPatientsDao.deleteParticularPatient(patientid[0]);
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-        }
-    }
-
     private static class DeletePatient extends AsyncTask<PhizioPatients, Void, Void>{
         PhizioPatientsDao phizioPatientsDao;
-        public DeletePatient(PhizioPatientsDao dao){
+        DeletePatient(PhizioPatientsDao dao){
             this.phizioPatientsDao = dao;
         }
         @Override
@@ -316,13 +227,15 @@ public class MqttSyncRepository {
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class InsertAllPatients extends AsyncTask<List<PhizioPatients>,Void,Void>{
         PhizioPatientsDao patientsDao;
-        public InsertAllPatients(PhizioPatientsDao patientsDao){
+        InsertAllPatients(PhizioPatientsDao patientsDao){
             this.patientsDao = patientsDao;
         }
+        @SafeVarargs
         @Override
-        protected Void doInBackground(List<PhizioPatients>... lists) {
+        protected final Void doInBackground(List<PhizioPatients>... lists) {
             patientsDao.insertAllPatients(lists[0]);
             return null;
         }
@@ -343,9 +256,10 @@ public class MqttSyncRepository {
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class GetSessionNumber extends AsyncTask<String,Void,String>{
         PhizioPatientsDao patientsDao;
-        public GetSessionNumber(PhizioPatientsDao patientsDao){
+        GetSessionNumber(PhizioPatientsDao patientsDao){
             this.patientsDao = patientsDao;
         }
 
@@ -367,9 +281,10 @@ public class MqttSyncRepository {
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class UpdatePatientProfilePicUrl extends AsyncTask<PatientImageUploadResponse,Void,Void>{
         PhizioPatientsDao patientsDao;
-        public UpdatePatientProfilePicUrl(PhizioPatientsDao patientsDao){
+        UpdatePatientProfilePicUrl(PhizioPatientsDao patientsDao){
             this.patientsDao = patientsDao;
         }
         @Override
@@ -384,10 +299,11 @@ public class MqttSyncRepository {
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class SetPatientSessionNumber extends AsyncTask<String,Void,Void>{
 
         PhizioPatientsDao patientsDao;
-        public SetPatientSessionNumber(PhizioPatientsDao patientsDao){
+        SetPatientSessionNumber(PhizioPatientsDao patientsDao){
             this.patientsDao = patientsDao;
         }
 
@@ -398,14 +314,16 @@ public class MqttSyncRepository {
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class DeleteMultipleSyncItem extends AsyncTask<List<Integer>,Void,Void>{
 
         MqttSyncDao mqttSyncDao;
-        public DeleteMultipleSyncItem(MqttSyncDao mqttSyncDao){
+        DeleteMultipleSyncItem(MqttSyncDao mqttSyncDao){
             this.mqttSyncDao = mqttSyncDao;
         }
+        @SafeVarargs
         @Override
-        protected Void doInBackground(List<Integer>... lists) {
+        protected final Void doInBackground(List<Integer>... lists) {
             mqttSyncDao.deleteMultipleItems(lists[0]);
             return null;
         }
@@ -413,7 +331,12 @@ public class MqttSyncRepository {
         @Override
         protected void onPostExecute(Void aVoid) {
             if(listner!=null){
-                listner.onSyncComplete(true,"Sync Completed");
+                listner.onSyncComplete(true, "Sync Completed");
+                /*if(count.getValue()>0){
+                    listner.onSyncComplete(false, "Sync unsuccessful, please try again later!");
+                }else {
+                    listner.onSyncComplete(true, "Sync Completed");
+                }*/
             }
             super.onPostExecute(aVoid);
         }
@@ -422,10 +345,11 @@ public class MqttSyncRepository {
     /**
      * Stores the topic and message in database and sends to the server if internet is available.
      */
+    @SuppressLint("StaticFieldLeak")
     public class SendDataAsyncTask extends AsyncTask<PatientDetailsData,Void,JSONObject>{
 
         PhizioPatientsDao patientsDao;
-        public SendDataAsyncTask(PhizioPatientsDao patientsDao){
+        SendDataAsyncTask(PhizioPatientsDao patientsDao){
             this.patientsDao = patientsDao;
         }
         @Override
@@ -435,6 +359,7 @@ public class MqttSyncRepository {
                 Gson gson = new GsonBuilder().create();
                 String json = gson.toJson(patientDetailsData[0]);
                 object = new JSONObject(json);
+                String mqtt_publish_phizio_addpatient = "phizio/addpatient";
                 MqttSync mqttSync = new MqttSync(mqtt_publish_phizio_addpatient,object.toString());
                 object.put("id",database.mqttSyncDao().insert(mqttSync));
             } catch (JSONException e) {
@@ -451,49 +376,53 @@ public class MqttSyncRepository {
                 Call<ResponseData> add_patient_call = getDataService.addPatient(data);
                 add_patient_call.enqueue(new Callback<ResponseData>() {
                     @Override
-                    public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                    public void onResponse(@NonNull Call<ResponseData> call, @NonNull Response<ResponseData> response) {
                         if(response.code()==200) {
                             ResponseData responseData = response.body();
-                            Log.i("Response",responseData.getResponse());
-                            if(responseData.getResponse().equalsIgnoreCase("inserted"))
-                                deleteParticular(responseData.getId());
+                            if(responseData!=null) {
+                                Log.i("Response", responseData.getResponse());
+                                if (responseData.getResponse().equalsIgnoreCase("inserted"))
+                                    deleteParticular(responseData.getId());
+                            }
                         }
                     }
                     @Override
-                    public void onFailure(Call<ResponseData> call, Throwable t) {
+                    public void onFailure(@NonNull Call<ResponseData> call, @NonNull Throwable t) {
                         Log.i("parseerror",t.getMessage());
                     }
                 });
         }
     }
 
-
-
-
-
     //Server related
     public void deletePatientFromServer(DeletePatientData deletePatientData,PhizioPatients patient){
         Call<String> delete_call = getDataService.deletePatient(deletePatientData);
         delete_call.enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                 if(response.code()==200){
                     String response_delete = response.body();
-                    if(response_delete.equalsIgnoreCase("deleted")){
-                        Log.i("response",response.body());
-                        new DeletePatient(phizioPatientsDao).execute(patient);
-                        if(listner!=null){
-                            listner.onDeletePateintResponse(true);
+                    if(response_delete!=null) {
+                        if (response_delete.equalsIgnoreCase("deleted")) {
+                            Log.i("response", response.body());
+                            new DeletePatient(phizioPatientsDao).execute(patient);
+                            if (listner != null) {
+                                listner.onDeletePateintResponse(true);
+                            }
                         }
+                    }else {
+                        if(listner!=null)
+                            listner.onUpdatePatientDetailsResponse(false);
                     }
                 }
                 else {
-                    listner.onUpdatePatientDetailsResponse(false);
+                    if(listner!=null)
+                        listner.onUpdatePatientDetailsResponse(false);
                 }
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
                 if(listner!=null)
                     listner.onDeletePateintResponse(false);
             }
@@ -505,16 +434,23 @@ public class MqttSyncRepository {
         Call<String> call = getDataService.updatePatientStatus(data);
         call.enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                 if(response.code()==200){
                     String status_response = response.body();
-                    if(status_response.equalsIgnoreCase("inserted")){
-                        updatePatientLocally(patient);
-                        if(listner!=null){
-                            listner.onUpdatePatientStatusResponse(true);
+                    if(status_response!=null) {
+                        if (status_response.equalsIgnoreCase("inserted")) {
+                            updatePatientLocally(patient);
+                            if (listner != null) {
+                                listner.onUpdatePatientStatusResponse(true);
+                            }
+                        } else {
+                            listner.onUpdatePatientStatusResponse(false);
                         }
-                    }else {
-                        listner.onUpdatePatientStatusResponse(false);
+                    }
+                    else {
+                        if (listner != null) {
+                            listner.onUpdatePatientStatusResponse(false);
+                        }
                     }
                 }
                 else {
@@ -523,7 +459,7 @@ public class MqttSyncRepository {
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
                 if(listner!=null)
                     listner.onUpdatePatientStatusResponse(false);
             }
@@ -535,29 +471,33 @@ public class MqttSyncRepository {
         Call<String> call = getDataService.updatePatientDetails(data);
         call.enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                 if(response.code()==200){
                     String update_response = response.body();
-                    if(update_response.equalsIgnoreCase("updated")){
-                        updatePatientLocally(patient);
-                        if(listner!=null){
-                            listner.onUpdatePatientDetailsResponse(true);
+                    if(update_response!=null) {
+                        if (update_response.equalsIgnoreCase("updated")) {
+                            updatePatientLocally(patient);
+                            if (listner != null)
+                                listner.onUpdatePatientDetailsResponse(true);
+                        } else {
+                            listner.onUpdatePatientDetailsResponse(false);
                         }
                     }
                     else {
-                        listner.onUpdatePatientDetailsResponse(false);
+                        if (listner != null)
+                            listner.onUpdatePatientDetailsResponse(false);
                     }
                 }
                 else {
-                    listner.onUpdatePatientDetailsResponse(false);
+                    if (listner != null)
+                        listner.onUpdatePatientDetailsResponse(false);
                 }
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                if(listner!=null){
+            public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
+                if(listner!=null)
                     listner.onUpdatePatientDetailsResponse(false);
-                }
             }
         });
     }
@@ -568,27 +508,31 @@ public class MqttSyncRepository {
         Call<String> forgot_password = getDataService.forgotPassword(password);
         forgot_password.enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                 String res = response.body();
-                if(res.equalsIgnoreCase("invalid")){
-                    if(loginlistner!=null){
-                        loginlistner.onForgotPasswordResponse(false,"Invalid email!");
-                    }
-                }
-                else if(res.equalsIgnoreCase("nsent")){
-                    if(loginlistner!=null){
-                        loginlistner.onForgotPasswordResponse(false,"Email not sent!");
+                if (res!=null) {
+                    if (res.equalsIgnoreCase("invalid")) {
+                        if (loginlistner != null) {
+                            loginlistner.onForgotPasswordResponse(false, "Invalid email!");
+                        }
+                    } else if (res.equalsIgnoreCase("nsent")) {
+                        if (loginlistner != null) {
+                            loginlistner.onForgotPasswordResponse(false, "Email not sent!");
+                        }
+                    } else {
+                        if (loginlistner != null) {
+                            loginlistner.onForgotPasswordResponse(true, otp);
+                        }
                     }
                 }
                 else {
-                    if(loginlistner!=null){
-                        loginlistner.onForgotPasswordResponse(true,otp);
-                    }
+                    if (loginlistner != null)
+                        loginlistner.onForgotPasswordResponse(false, "Invalid, try again later!");
                 }
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
                 if(loginlistner!=null){
                     loginlistner.onForgotPasswordResponse(false,"Email not sent!");
                 }
@@ -601,26 +545,29 @@ public class MqttSyncRepository {
         Call<String> update_password_call = getDataService.updatePassword(data);
         update_password_call.enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                 if(response.code()==200) {
                     String res = response.body();
-                    if (res.equalsIgnoreCase("updated")) {
-                        if (loginlistner != null) {
-                            loginlistner.onPasswordUpdated("Password updated!");
+                    if(res!=null) {
+                        if (res.equalsIgnoreCase("updated")) {
+                            if (loginlistner != null)
+                                loginlistner.onPasswordUpdated("Password updated!");
+                        } else {
+                            if (loginlistner != null)
+                                loginlistner.onPasswordUpdated("Error please try later");
                         }
-                    } else {
-                        if (loginlistner != null) {
+                    }
+                    else {
+                        if (loginlistner != null)
                             loginlistner.onPasswordUpdated("Error please try later");
-                        }
                     }
                 }
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                if(loginlistner!=null){
+            public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
+                if(loginlistner!=null)
                     loginlistner.onPasswordUpdated("Error please try later");
-                }
             }
         });
     }
@@ -664,7 +611,7 @@ public class MqttSyncRepository {
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
                 if(signUpResponse!=null){
                     signUpResponse.onConfirmEmail(false,"Error try again later!");
                 }
@@ -676,15 +623,13 @@ public class MqttSyncRepository {
         Call<String> sign_up = getDataService.signUp(data);
         sign_up.enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                 if(response.code()==200) {
                     String res = response.body();
                     if (res != null) {
                         if (res.equalsIgnoreCase("inserted")) {
                             editor = sharedPref.edit();
                             editor.putBoolean("isLoggedIn", true);
-                            editor.commit();
-                            editor = sharedPref.edit();
                             JSONObject jsonObject = new JSONObject();
                             try {
                                 jsonObject.put("phizioname", data.getPhizioname());
@@ -695,7 +640,7 @@ public class MqttSyncRepository {
                                 e.printStackTrace();
                             }
                             editor.putString("phiziodetails", jsonObject.toString());
-                            editor.commit();
+                            editor.apply();
                             if (sharedPref.getInt("maxid", -1) == -1) {
                                 editor = sharedPref.edit();
                                 editor.putInt("maxid", 0);
@@ -719,7 +664,7 @@ public class MqttSyncRepository {
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
                 if(signUpResponse!=null){
                     signUpResponse.onSignUp(false);
                 }
@@ -734,69 +679,71 @@ public class MqttSyncRepository {
         final int[] maxid = {0};
         Call<List<LoginResult>> login = getDataService.login(new LoginData(email,password));
         login.enqueue(new Callback<List<LoginResult>>() {
+            @SuppressLint("ApplySharedPref")
             @Override
-            public void onResponse(Call<List<LoginResult>> call, Response<List<LoginResult>> response) {
+            public void onResponse(@NonNull Call<List<LoginResult>> call, @NonNull Response<List<LoginResult>> response) {
                 List<LoginResult> results = response.body();
-                if(results.get(0).getIsvalid()){
-                    String name = results.get(0).getPhizioname();
-                    editor = sharedPref.edit();
-                    editor.putBoolean("isLoggedIn",true);
-                    JSONObject object = new JSONObject();
-                    try {
-                        object.put("phizioname",results.get(0).getPhizioname());
-                        object.put("phizioemail",results.get(0).getPhizioemail());
-                        object.put("phiziophone",results.get(0).getPhiziophone());
-                        object.put("phizioprofilepicurl",results.get(0).getPhizioprofilepicurl());
-                        object.put("address",results.get(0).getAddress());
-                        object.put("clinicname",results.get(0).getClinicname());
-                        object.put("degree",results.get(0).getDegree());
-                        object.put("experience",results.get(0).getExperience());
-                        object.put("gender",results.get(0).getGender());
-                        object.put("phiziodob",results.get(0).getPhiziodob());
-                        object.put("specialization",results.get(0).getSpecialization());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                    editor.putString("phiziodetails",object.toString());
-                    editor.commit();
-                    List<PhizioPatients> phiziopatients = results.get(0).getPhiziopatients();
-
-                    if(phiziopatients.size()>0 && sharedPref.getInt("maxid",-1)==-1){
-                        for (int i=0;i<phiziopatients.size();i++){
-                            try {
-                                int id = Integer.parseInt(phiziopatients.get(i).getPatientid());
-                                if(id> maxid[0]){
-                                    maxid[0] = id;
-                                }
-                            }catch (NumberFormatException e){
-                                Log.i("Exception",e.getMessage());
-                            }
+                if(results!=null) {
+                    if (results.get(0).getIsvalid()) {
+                        editor = sharedPref.edit();
+                        editor.putBoolean("isLoggedIn", true);
+                        JSONObject object = new JSONObject();
+                        try {
+                            object.put("phizioname", results.get(0).getPhizioname());
+                            object.put("phizioemail", results.get(0).getPhizioemail());
+                            object.put("phiziophone", results.get(0).getPhiziophone());
+                            object.put("phizioprofilepicurl", results.get(0).getPhizioprofilepicurl());
+                            object.put("address", results.get(0).getAddress());
+                            object.put("clinicname", results.get(0).getClinicname());
+                            object.put("degree", results.get(0).getDegree());
+                            object.put("experience", results.get(0).getExperience());
+                            object.put("gender", results.get(0).getGender());
+                            object.put("phiziodob", results.get(0).getPhiziodob());
+                            object.put("specialization", results.get(0).getSpecialization());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                        editor = sharedPref.edit();
-                        editor.putInt("maxid", maxid[0]);
-                        editor.apply();
+
+                        editor.putString("phiziodetails", object.toString());
+                        editor.commit();
+                        List<PhizioPatients> phiziopatients = results.get(0).getPhiziopatients();
+
+                        if (phiziopatients.size() > 0 && sharedPref.getInt("maxid", -1) == -1) {
+                            for (int i = 0; i < phiziopatients.size(); i++) {
+                                try {
+                                    int id = Integer.parseInt(phiziopatients.get(i).getPatientid());
+                                    if (id > maxid[0]) {
+                                        maxid[0] = id;
+                                    }
+                                } catch (NumberFormatException e) {
+                                    Log.i("Exception", e.getMessage());
+                                }
+                            }
+                            editor = sharedPref.edit();
+                            editor.putInt("maxid", maxid[0]);
+                            editor.apply();
+                        } else {
+                            editor = sharedPref.edit();
+                            editor.putInt("maxid", maxid[0]);
+                            editor.apply();
+                        }
+                        new InsertAllPatients(phizioPatientsDao).execute(phiziopatients);
+                    } else {
+                        if (loginlistner != null)
+                            loginlistner.onLoginResponse(false, "Invalid Credentials");
                     }
-                    else {
-                        editor = sharedPref.edit();
-                        editor.putInt("maxid", maxid[0]);
-                        editor.apply();
-                    }
-                    new InsertAllPatients(phizioPatientsDao).execute(phiziopatients);
                 }
                 else {
-                    if(loginlistner!=null) {
+                    if (loginlistner != null)
                         loginlistner.onLoginResponse(false, "Invalid Credentials");
-                    }
                 }
 
             }
 
             @Override
-            public void onFailure(Call<List<LoginResult>> call, Throwable t) {
-                if(loginlistner!=null) {
+            public void onFailure(@NonNull Call<List<LoginResult>> call, @NonNull Throwable t) {
+                if(loginlistner!=null)
                     loginlistner.onLoginResponse(false, "Invalid Credentials");
-                }
             }
         });
     }
@@ -807,17 +754,19 @@ public class MqttSyncRepository {
         Call<PatientImageUploadResponse> upload_patient_image = getDataService.uploadPatientProfilePicture(data);
         upload_patient_image.enqueue(new Callback<PatientImageUploadResponse>() {
             @Override
-            public void onResponse(Call<PatientImageUploadResponse> call, Response<PatientImageUploadResponse> response) {
+            public void onResponse(@NonNull Call<PatientImageUploadResponse> call, @NonNull Response<PatientImageUploadResponse> response) {
                 if(response.code()==200){
                     PatientImageUploadResponse res = response.body();
-                    if(res.getIsvalid()){
-                        new UpdatePatientProfilePicUrl(phizioPatientsDao).execute(res);
+                    if(res!=null) {
+                        if (res.getIsvalid()) {
+                            new UpdatePatientProfilePicUrl(phizioPatientsDao).execute(res);
+                        }
                     }
                 }
             }
 
             @Override
-            public void onFailure(Call<PatientImageUploadResponse> call, Throwable t) {
+            public void onFailure(@NonNull Call<PatientImageUploadResponse> call, @NonNull Throwable t) {
 
             }
         });
@@ -827,46 +776,50 @@ public class MqttSyncRepository {
         Call<String> update_phizio_details = getDataService.updatePhizioDetails(data);
         update_phizio_details.enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                if(response.code()==200){
+            public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
+                if(response.code()==200) {
                     String res = response.body();
-                    if(res.equalsIgnoreCase("updated")){
-                        JSONObject json_phizio = null;
-                        try {
-                            json_phizio = new JSONObject(sharedPref.getString("phiziodetails",""));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        editor = sharedPref.edit();
-                        try {
-                            json_phizio.put("phizioname",data.getPhizioname());
-                            json_phizio.put("phiziophone",data.getPhiziophone());
-                            json_phizio.put("clinicname",data.getClinicname());
-                            json_phizio.put("phiziodob",data.getPhiziodob());
-                            json_phizio.put("experience",data.getExperience());
-                            json_phizio.put("specialization",data.getSpecialization());
-                            json_phizio.put("degree",data.getDegree());
-                            json_phizio.put("gender",data.getGender());
-                            json_phizio.put("address",data.getAddress());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        editor.putString("phiziodetails",json_phizio.toString());
-                        editor.commit();
-                        if(phizioDetailsResponseListner!=null){
-                            phizioDetailsResponseListner.onDetailsUpdated(true);
+                    if (res != null) {
+                        if (res.equalsIgnoreCase("updated")) {
+                            JSONObject json_phizio = null;
+                            try {
+                                json_phizio = new JSONObject(sharedPref.getString("phiziodetails", ""));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            editor = sharedPref.edit();
+                            try {
+                                assert json_phizio != null;
+                                json_phizio.put("phizioname", data.getPhizioname());
+                                json_phizio.put("phiziophone", data.getPhiziophone());
+                                json_phizio.put("clinicname", data.getClinicname());
+                                json_phizio.put("phiziodob", data.getPhiziodob());
+                                json_phizio.put("experience", data.getExperience());
+                                json_phizio.put("specialization", data.getSpecialization());
+                                json_phizio.put("degree", data.getDegree());
+                                json_phizio.put("gender", data.getGender());
+                                json_phizio.put("address", data.getAddress());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            editor.putString("phiziodetails", json_phizio.toString());
+                            editor.commit();
+                            if (phizioDetailsResponseListner != null)
+                                phizioDetailsResponseListner.onDetailsUpdated(true);
+                        } else {
+                            if (phizioDetailsResponseListner != null)
+                                phizioDetailsResponseListner.onDetailsUpdated(false);
                         }
                     }
-                    else {
-                        if(phizioDetailsResponseListner!=null){
-                            phizioDetailsResponseListner.onDetailsUpdated(false);
-                        }
-                    }
+                }
+                else {
+                    if (phizioDetailsResponseListner != null)
+                        phizioDetailsResponseListner.onDetailsUpdated(false);
                 }
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
                 if(phizioDetailsResponseListner!=null){
                     phizioDetailsResponseListner.onDetailsUpdated(false);
                 }
@@ -879,25 +832,31 @@ public class MqttSyncRepository {
         Call<PatientImageUploadResponse> update_phizio_pic = getDataService.updatePhizioProfilePic(data);
         update_phizio_pic.enqueue(new Callback<PatientImageUploadResponse>() {
             @Override
-            public void onResponse(Call<PatientImageUploadResponse> call, Response<PatientImageUploadResponse> response) {
+            public void onResponse(@NonNull Call<PatientImageUploadResponse> call, @NonNull Response<PatientImageUploadResponse> response) {
                 if(response.code()==200){
                     PatientImageUploadResponse response1 = response.body();
-                    if(response1.getIsvalid()){
-                        try {
-                            JSONObject object = new JSONObject(sharedPref.getString("phiziodetails",""));
-                            object.put("phizioprofilepicurl",response1.getUrl());
-                            editor = sharedPref.edit();
-                            editor.putString("phiziodetails",object.toString());
-                            editor.commit();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        if(phizioDetailsResponseListner!=null){
-                            phizioDetailsResponseListner.onProfilePictureUpdated(true);
+                    if(response1!=null) {
+                        if (response1.getIsvalid()) {
+                            try {
+                                JSONObject object = new JSONObject(sharedPref.getString("phiziodetails", ""));
+                                object.put("phizioprofilepicurl", response1.getUrl());
+                                editor = sharedPref.edit();
+                                editor.putString("phiziodetails", object.toString());
+                                editor.apply();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            if (phizioDetailsResponseListner != null) {
+                                phizioDetailsResponseListner.onProfilePictureUpdated(true);
+                            }
+                        } else {
+                            if (phizioDetailsResponseListner != null) {
+                                phizioDetailsResponseListner.onProfilePictureUpdated(false);
+                            }
                         }
                     }
                     else {
-                        if(phizioDetailsResponseListner!=null){
+                        if (phizioDetailsResponseListner != null) {
                             phizioDetailsResponseListner.onProfilePictureUpdated(false);
                         }
                     }
@@ -905,7 +864,7 @@ public class MqttSyncRepository {
             }
 
             @Override
-            public void onFailure(Call<PatientImageUploadResponse> call, Throwable t) {
+            public void onFailure(@NonNull Call<PatientImageUploadResponse> call, @NonNull Throwable t) {
                 if(phizioDetailsResponseListner!=null){
                     phizioDetailsResponseListner.onProfilePictureUpdated(false);
                 }
@@ -917,7 +876,7 @@ public class MqttSyncRepository {
         Call<List<GetReportDataResponse>> get_report = getDataService.getReportData(new GetReportData(email,patientid));
         get_report.enqueue(new Callback<List<GetReportDataResponse>>() {
             @Override
-            public void onResponse(Call<List<GetReportDataResponse>> call, Response<List<GetReportDataResponse>> response) {
+            public void onResponse(@NonNull Call<List<GetReportDataResponse>> call, @NonNull Response<List<GetReportDataResponse>> response) {
                 if(response.code()==200){
                     List<GetReportDataResponse> res = response.body();
                     Gson gson = new GsonBuilder().create();
@@ -936,11 +895,10 @@ public class MqttSyncRepository {
             }
 
             @Override
-            public void onFailure(Call<List<GetReportDataResponse>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<GetReportDataResponse>> call, @NonNull Throwable t) {
                 Log.i("res",t.getMessage());
-                if(reportDataResponseListner!=null){
+                if(reportDataResponseListner!=null)
                     reportDataResponseListner.onReportDataReceived(new JSONArray(),false);
-                }
             }
         });
     }
@@ -950,8 +908,7 @@ public class MqttSyncRepository {
         Call<ResponseBody> fileCall = getDataService.getReport(url);
         fileCall.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.i("Response", response.body().toString());
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                 File file = WriteResponseBodyToDisk.writeResponseBodyToDisk(response.body(), patientname+"-day");
                 if (file != null) {
                     if(reportDataResponseListner!=null){
@@ -960,13 +917,13 @@ public class MqttSyncRepository {
                 }
                 else {
                     if(reportDataResponseListner!=null) {
-                        reportDataResponseListner.onDayReportReceived(file, "Not received!", false);
+                        reportDataResponseListner.onDayReportReceived(null, "Not received!", false);
                     }
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
                 if(reportDataResponseListner!=null) {
                     reportDataResponseListner.onDayReportReceived(null, "Server not responding, try again later", false);
                 }
@@ -974,34 +931,37 @@ public class MqttSyncRepository {
         });
     }
 
-
-
-
     public void insertSessionData(SessionData data){
         Call<ResponseData> dataCall = getDataService.insertSessionData(data);
         dataCall.enqueue(new Callback<ResponseData>() {
             @Override
-            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+            public void onResponse(@NonNull Call<ResponseData> call, @NonNull Response<ResponseData> response) {
                 if(response.code()==200){
                     ResponseData res = response.body();
-                    if(res.getResponse().equalsIgnoreCase("inserted")){
-                        deleteParticular(res.getId());
-                        if(onSessionDataResponse!=null){
-                            onSessionDataResponse.onInsertSessionData(true,res.getResponse().toUpperCase());
+                    if(res!=null) {
+                        if (res.getResponse().equalsIgnoreCase("inserted")) {
+                            deleteParticular(res.getId());
+                            if (onSessionDataResponse != null) {
+                                onSessionDataResponse.onInsertSessionData(true, res.getResponse().toUpperCase());
+                            }
+                        } else {
+                            if (onSessionDataResponse != null) {
+                                onSessionDataResponse.onInsertSessionData(false, "Not inserted, Try again later");
+                            }
                         }
                     }
                     else {
-                        if(onSessionDataResponse!=null){
-                            onSessionDataResponse.onInsertSessionData(true,"Not inserted, Try again later");
+                        if (onSessionDataResponse != null) {
+                            onSessionDataResponse.onInsertSessionData(false, "Not inserted, Try again later");
                         }
                     }
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponseData> call, Throwable t) {
+            public void onFailure(@NonNull Call<ResponseData> call, @NonNull Throwable t) {
                 if(onSessionDataResponse!=null){
-                    onSessionDataResponse.onInsertSessionData(true,"Error, try again later");
+                        onSessionDataResponse.onInsertSessionData(false, "");
                 }
             }
         });
@@ -1011,33 +971,34 @@ public class MqttSyncRepository {
         Call<ResponseData> dataCall = getDataService.deletePatientSession(data);
         dataCall.enqueue(new Callback<ResponseData>() {
             @Override
-            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+            public void onResponse(@NonNull Call<ResponseData> call, @NonNull Response<ResponseData> response) {
                 if(response.code()==200){
                     ResponseData res = response.body();
-                    if(res.getResponse().equalsIgnoreCase("deleted")){
-                        deleteParticular(res.getId());
-                        if(onSessionDataResponse!=null){
-                            onSessionDataResponse.onSessionDeleted(true,res.getResponse().toUpperCase());
+                    if(res!=null) {
+                        if (res.getResponse().equalsIgnoreCase("deleted")) {
+                            deleteParticular(res.getId());
+                            if (onSessionDataResponse != null)
+                                onSessionDataResponse.onSessionDeleted(true, res.getResponse().toUpperCase());
+                        } else {
+                            if (onSessionDataResponse != null)
+                                onSessionDataResponse.onSessionDeleted(false, "");
                         }
                     }
                     else {
-                        if(onSessionDataResponse!=null){
-                            onSessionDataResponse.onSessionDeleted(true,"Error, try again later");
-                        }
+                        if (onSessionDataResponse != null)
+                            onSessionDataResponse.onSessionDeleted(false, "");
                     }
                 }
                 else {
-                    if(onSessionDataResponse!=null){
-                        onSessionDataResponse.onSessionDeleted(true,"There is some issue with the server, please try again later");
-                    }
+                    if(onSessionDataResponse!=null)
+                        onSessionDataResponse.onSessionDeleted(false,"");
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponseData> call, Throwable t) {
-                if(onSessionDataResponse!=null){
-                    onSessionDataResponse.onSessionDeleted(true,"There is some issue with the server, please try again later");
-                }
+            public void onFailure(@NonNull Call<ResponseData> call, @NonNull Throwable t) {
+                if(onSessionDataResponse!=null)
+                    onSessionDataResponse.onSessionDeleted(false,"");
             }
         });
     }
@@ -1046,33 +1007,36 @@ public class MqttSyncRepository {
         Call<ResponseData> dataCall = getDataService.updateMmtData(data);
         dataCall.enqueue(new Callback<ResponseData>() {
             @Override
-            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+            public void onResponse(@NonNull Call<ResponseData> call, @NonNull Response<ResponseData> response) {
                 if(response.code()==200){
                     ResponseData res = response.body();
-                    if(res.getResponse().equalsIgnoreCase("updated")){
-                        deleteParticular(res.getId());
-                        if(onSessionDataResponse!=null){
-                            onSessionDataResponse.onMmtValuesUpdated(true,res.getResponse().toUpperCase());
+                    if(res!=null) {
+                        if (res.getResponse().equalsIgnoreCase("updated")) {
+                            deleteParticular(res.getId());
+                            if (onSessionDataResponse != null) {
+                                onSessionDataResponse.onMmtValuesUpdated(true, res.getResponse().toUpperCase());
+                            }
+                        } else {
+                            if (onSessionDataResponse != null) {
+                                onSessionDataResponse.onMmtValuesUpdated(false, "");
+                            }
                         }
                     }
                     else {
-                        if(onSessionDataResponse!=null){
-                            onSessionDataResponse.onMmtValuesUpdated(true,"Error, try again later");
-                        }
+                        if (onSessionDataResponse != null)
+                            onSessionDataResponse.onMmtValuesUpdated(false, "");
                     }
                 }
                 else {
-                    if(onSessionDataResponse!=null){
-                        onSessionDataResponse.onSessionDeleted(true,"There is some issue with the server, please try again later");
-                    }
+                    if(onSessionDataResponse!=null)
+                        onSessionDataResponse.onSessionDeleted(false,"");
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponseData> call, Throwable t) {
-                if(onSessionDataResponse!=null){
-                    onSessionDataResponse.onSessionDeleted(true,"There is some issue with the server, please try again later");
-                }
+            public void onFailure(@NonNull Call<ResponseData> call, @NonNull Throwable t) {
+                if(onSessionDataResponse!=null)
+                    onSessionDataResponse.onSessionDeleted(false,"");
             }
         });
     }
@@ -1081,18 +1045,20 @@ public class MqttSyncRepository {
         Call<String> comment_data = getDataService.updateCommentData(data);
         comment_data.enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                 if(response.code()==200){
-                    if(response.body().equalsIgnoreCase("updated")){
-                        if(onSessionDataResponse!=null){
-                            onSessionDataResponse.onCommentSessionUpdated(true);
+                    if(response.body()!=null) {
+                        if (response.body().equalsIgnoreCase("updated")) {
+                            if (onSessionDataResponse != null) {
+                                onSessionDataResponse.onCommentSessionUpdated(true);
+                            }
                         }
                     }
                 }
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
 
             }
         });
@@ -1103,16 +1069,16 @@ public class MqttSyncRepository {
         new SyncDataAsync(mqttSyncDao).execute();
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class SyncDataAsync extends AsyncTask<Void,Void,List<MqttSync>>{
 
         MqttSyncDao mqttSyncDao;
-        public SyncDataAsync(MqttSyncDao mqttSyncDao){
+        SyncDataAsync(MqttSyncDao mqttSyncDao){
             this.mqttSyncDao = mqttSyncDao;
         }
         @Override
         protected List<MqttSync> doInBackground(Void... voids) {
-            List<MqttSync> list = mqttSyncDao.getAllMqttSyncItems();
-            return list;
+            return mqttSyncDao.getAllMqttSyncItems();
         }
 
         @Override
@@ -1126,7 +1092,7 @@ public class MqttSyncRepository {
         Call<List<Integer>> sync_data = getDataService.syncDataToServer(mqttSyncs);
         sync_data.enqueue(new Callback<List<Integer>>() {
             @Override
-            public void onResponse(Call<List<Integer>> call, Response<List<Integer>> response) {
+            public void onResponse(@NonNull Call<List<Integer>> call, @NonNull Response<List<Integer>> response) {
                 if(response.code()==200){
                     List<Integer> list = response.body();
                     new DeleteMultipleSyncItem(mqttSyncDao).execute(list);
@@ -1139,10 +1105,9 @@ public class MqttSyncRepository {
             }
 
             @Override
-            public void onFailure(Call<List<Integer>> call, Throwable t) {
-                if(listner!=null){
+            public void onFailure(@NonNull Call<List<Integer>> call, @NonNull Throwable t) {
+                if(listner!=null)
                     listner.onSyncComplete(false,"Server busy, try again later!");
-                }
             }
         });
 

@@ -116,8 +116,11 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
         holder.ll_option_patient_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                PhizioPatients temp = updatedPatientList.get(position);
+                PhizioPatients patients = new PhizioPatients(temp.getPatientid(),temp.getPatientname(),temp.getNumofsessions(),temp.getDateofjoin(),
+                        temp.getPatientage(),temp.getPatientgender(),temp.getPatientcasedes(),temp.getStatus(),temp.getPatientphone(),temp.getPatientprofilepicurl());
                 if(listner!=null  && position != RecyclerView.NO_POSITION)
-                    listner.onItemClick(updatedPatientList.get(position), v);
+                    listner.onItemClick(patients, v);
             }
         });
         holder.btn_start_session.setOnClickListener(new View.OnClickListener() {
