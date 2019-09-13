@@ -92,6 +92,7 @@ public class SignUpActivity extends AppCompatActivity implements MqttSyncReposit
             public void onClick(View v) {
                 Intent intent_redirectlogin = new Intent(SignUpActivity.this, LoginActivity.class);
                 startActivity(intent_redirectlogin);
+                finish();
             }
         });
     }

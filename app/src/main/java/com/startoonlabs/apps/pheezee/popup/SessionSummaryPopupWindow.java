@@ -438,51 +438,50 @@ public class SessionSummaryPopupWindow {
      */
     private void storeLocalSessionDetails(String dateString,String tempsession) {
             try {
-                            JSONObject object = new JSONObject();
-                            //Log.i("datestring","2019-04-22 13:08:34");
-                            object.put("heldon",dateString);
-                            object.put("maxangle",maxAngle);
-                            object.put("minangle",minAngle);
-                            object.put("anglecorrected",angleCorrection);
-                            object.put("maxemg",maxEmgValue);
-                            object.put("holdtime",holdtime);
-                            object.put("bodypart",bodypart);
-                            object.put("sessiontime",tempsession);
-                            object.put("numofreps",numofreps);
-                            object.put("numofsessions",sessionNo);
-                            object.put("phizioemail",phizioemail);
-                            object.put("patientid",patientid);
-
-                            object.put("painscale",BodyPartSelection.painscale);
-                            object.put("muscletone",BodyPartSelection.muscletone);
-                            object.put("exercisename",BodyPartSelection.musclename);
-                            object.put("commentsession",BodyPartSelection.commentsession);
-                            object.put("symptoms",BodyPartSelection.symptoms);
-                            object.put("activetime",actiontime);
-                            object.put("orientation", orientation);
-                            object.put("mmtgrade",mmt_selected);
-                            object.put("bodyorientation",body_orientation);
-                            object.put("sessiontype",session_type);
-                            object.put("repsselected",BodyPartSelection.repsselected);
-                            object.put("musclename", BodyPartSelection.exercisename);
-                            object.put("maxangleselected",BodyPartSelection.maxAngleSelected);
-                            object.put("minangleselected",BodyPartSelection.minAngleSelected);
-                            object.put("maxemgselected",BodyPartSelection.maxEmgSelected);
-                            object.put("sessioncolor",ValueBasedColorOperations.getCOlorBasedOnTheBodyPartExercise(BodyPartWithMmtRecyclerView.selectedPosition,BodyPartSelection.exercise_selected_position,maxAngle,minAngle,context));
-                            Gson gson = new GsonBuilder().create();
-                            SessionData data = gson.fromJson(object.toString(),SessionData.class);
-                            data.setEmgdata(emgJsonArray);
-                            data.setRomdata(romJsonArray);
-                            object = new JSONObject(gson.toJson(data));
-                            MqttSync sync = new MqttSync(mqtt_publish_add_patient_session_emg_data,object.toString());
-                            new SendDataAsyncTask(sync).execute();
-                            int numofsessions = Integer.parseInt(sessionNo);
-                            numofsessions+=1;
-                            repository.setPatientSessionNumber(String.valueOf(numofsessions),patientid);
-                        }catch (JSONException e) {
-                                e.printStackTrace();
-                        }
+                JSONObject object = new JSONObject();
+                //Log.i("datestring","2019-04-22 13:08:34");
+                object.put("heldon",dateString);
+                object.put("maxangle",maxAngle);
+                object.put("minangle",minAngle);
+                object.put("anglecorrected",angleCorrection);
+                object.put("maxemg",maxEmgValue);
+                object.put("holdtime",holdtime);
+                object.put("bodypart",bodypart);
+                object.put("sessiontime",tempsession);
+                object.put("numofreps",numofreps);
+                object.put("numofsessions",sessionNo);
+                object.put("phizioemail",phizioemail);
+                object.put("patientid",patientid);
+                object.put("painscale",BodyPartSelection.painscale);
+                object.put("muscletone",BodyPartSelection.muscletone);
+                object.put("exercisename",BodyPartSelection.musclename);
+                object.put("commentsession",BodyPartSelection.commentsession);
+                object.put("symptoms",BodyPartSelection.symptoms);
+                object.put("activetime",actiontime);
+                object.put("orientation", orientation);
+                object.put("mmtgrade",mmt_selected);
+                object.put("bodyorientation",body_orientation);
+                object.put("sessiontype",session_type);
+                object.put("repsselected",BodyPartSelection.repsselected);
+                object.put("musclename", BodyPartSelection.exercisename);
+                object.put("maxangleselected",BodyPartSelection.maxAngleSelected);
+                object.put("minangleselected",BodyPartSelection.minAngleSelected);
+                object.put("maxemgselected",BodyPartSelection.maxEmgSelected);
+                object.put("sessioncolor",ValueBasedColorOperations.getCOlorBasedOnTheBodyPartExercise(BodyPartWithMmtRecyclerView.selectedPosition,BodyPartSelection.exercise_selected_position,maxAngle,minAngle,context));
+                Gson gson = new GsonBuilder().create();
+                SessionData data = gson.fromJson(object.toString(),SessionData.class);
+                data.setEmgdata(emgJsonArray);
+                data.setRomdata(romJsonArray);
+                object = new JSONObject(gson.toJson(data));
+                MqttSync sync = new MqttSync(mqtt_publish_add_patient_session_emg_data,object.toString());
+                new SendDataAsyncTask(sync).execute();
+                int numofsessions = Integer.parseInt(sessionNo);
+                numofsessions+=1;
+                repository.setPatientSessionNumber(String.valueOf(numofsessions),patientid);
+            }catch (JSONException e) {
+                e.printStackTrace();
             }
+    }
 
 
     /**

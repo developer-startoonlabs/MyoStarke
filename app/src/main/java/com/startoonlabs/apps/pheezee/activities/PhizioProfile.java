@@ -75,7 +75,7 @@ public class PhizioProfile extends AppCompatActivity implements MqttSyncReposito
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         editor = sharedPref.edit();
         dialog = new ProgressDialog(this);
-        dialog.setMessage("Updated details, please wait");
+        dialog.setMessage("Updating details, please wait");
         try {
             json_phizio = new JSONObject(sharedPref.getString("phiziodetails", ""));
         } catch (JSONException e) {

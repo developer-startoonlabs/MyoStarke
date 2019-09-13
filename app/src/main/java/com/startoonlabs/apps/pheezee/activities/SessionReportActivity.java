@@ -28,7 +28,7 @@ import java.io.File;
 public class SessionReportActivity extends AppCompatActivity implements MqttSyncRepository.OnReportDataResponseListner {
 
     JSONArray session_arry;
-    boolean initia = true;
+    boolean inside_report_activity = true;
     Fragment fragment;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
@@ -126,8 +126,6 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
                 openWeekFragment();
             }
         });
-
-
     }
 
 
@@ -142,34 +140,33 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
     }
 
     public void openDayFragment(){
-        if(session_arry!=null) {
-            fragmentTransaction = fragmentManager.beginTransaction();
-            fragment = new FragmentReportDay();
-            fragmentTransaction.replace(R.id.fragment_report_container, fragment);
-            fragmentTransaction.commit();
-            FragmentManager fm = getSupportFragmentManager();
-            for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
-                fm.popBackStack();
+            if (session_arry != null) {
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragment = new FragmentReportDay();
+                fragmentTransaction.replace(R.id.fragment_report_container, fragment);
+                fragmentTransaction.commit();
+                FragmentManager fm = getSupportFragmentManager();
+                for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+                    fm.popBackStack();
+                }
+            } else {
+                showToast("Fetching report data, please wait...");
             }
-        }else {
-            showToast("Fetching report data, please wait...");
-        }
     }
 
-    public void openWeekFragment(){
-        if(session_arry!=null) {
-            fragmentTransaction = fragmentManager.beginTransaction();
-            fragment = new ReportWeek();
-            fragmentTransaction.replace(R.id.fragment_report_container, fragment);
-            fragmentTransaction.commit();
-            FragmentManager fm = getSupportFragmentManager();
-            for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
-                fm.popBackStack();
+    public void openWeekFragment() {
+            if (session_arry != null) {
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragment = new ReportWeek();
+                fragmentTransaction.replace(R.id.fragment_report_container, fragment);
+                fragmentTransaction.commit();
+                FragmentManager fm = getSupportFragmentManager();
+                for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+                    fm.popBackStack();
+                }
+            } else {
+                showToast("Fetching report data, please wait...");
             }
-        }
-        else {
-            showToast("Fetching report data, please wait...");
-        }
     }
 
     public void openMonthFragment(){
@@ -187,10 +184,12 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
     @Override
     protected void onPause() {
         super.onPause();
+        inside_report_activity = false;
     }
 
     @Override
     protected void onDestroy() {
+        repository.disableReportDataListner();
         super.onDestroy();
     }
 
@@ -210,7 +209,10 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
         progress.dismiss();
         if (response){
             session_arry = array;
-            tv_day.performClick();
+            changeViewOfDayMonthWeek();
+            tv_day.setTypeface(null, Typeface.BOLD);
+            tv_day.setAlpha(1);
+            openDayFragment();
         }
         else {
             showToast("Server busy, please try later!");
@@ -220,6 +222,14 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
 
     @Override
     public void onDayReportReceived(File file, String message, Boolean response) {
-
     }
+
+
+    @Override
+    protected void onResume() {
+
+        super.onResume();
+        inside_report_activity = true;
+    }
+
 }

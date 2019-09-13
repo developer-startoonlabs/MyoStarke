@@ -1029,6 +1029,7 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
             public void onCommentSessionUpdated(Boolean response) {
             }
         });
+//        repository.getPatientSessionNo(patientId.getText().toString());
     }
 
     @Override

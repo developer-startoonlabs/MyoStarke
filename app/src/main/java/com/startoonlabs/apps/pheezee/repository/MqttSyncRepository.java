@@ -1183,4 +1183,9 @@ public class MqttSyncRepository {
     public void setOnSessionDataResponse(OnSessionDataResponse onSessionDataResponse){
         this.onSessionDataResponse = onSessionDataResponse;
     }
+
+
+    public void disableReportDataListner(){
+        this.reportDataResponseListner = null;
+    }
 }
