@@ -97,7 +97,6 @@ public class DeviceInfoActivity extends AppCompatActivity {
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
         }
-        //bluetoothGatt = BluetoothGattSingleton.getmInstance().getAdapter();
         if(bluetoothGatt!=null){
             bluetoothGatt.disconnect();
             bluetoothGatt.close();
@@ -106,6 +105,11 @@ public class DeviceInfoActivity extends AppCompatActivity {
 
         if(!getIntent().getStringExtra("deviceMacAddress").equals(""))
             remoteDevice = bluetoothAdapter.getRemoteDevice(getIntent().getStringExtra("deviceMacAddress"));
+        //Log.i("Remote Device",remoteDevice.getName());
+//        if(remoteDevice!=null){
+//            tv_device_mamc.setText(remoteDevice.getAddress());
+//            tv_device_name.setText(remoteDevice.getName());
+//        }
 
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
@@ -126,14 +130,17 @@ public class DeviceInfoActivity extends AppCompatActivity {
                     editor = preferences.edit();
                     editor.putString("deviceMacaddress","");
                     editor.commit();
-                    PatientsView.disconnectDevice();
-                    refreshView();
+//                    PatientsView.disconnectDevice();
+                    Intent intent = new Intent();
+                    setResult(13,intent);
+//                    refreshView();
+                    finish();
                 }
                 else if(tv_disconnect_forget.getText().toString().equalsIgnoreCase("forget previous device")){
                     editor = preferences.edit();
                     editor.putString("deviceMacaddress","");
                     editor.commit();
-                    PatientsView.deviceState = false;
+//                    PatientsView.deviceState = false;
                     refreshView();
                 }
             }
@@ -253,6 +260,9 @@ public class DeviceInfoActivity extends AppCompatActivity {
                     public void run() {
 
                         tv_battery_level.setText(String.valueOf(battery).concat("%"));
+//                        mBluetoothGattDescriptor = mCharacteristic.getDescriptor(descriptor_characteristic1_service1_uuid);
+//                        mBluetoothGattDescriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+//                        bluetoothGatt.writeDescriptor(mBluetoothGattDescriptor);
                     }
                 });
             }
@@ -266,6 +276,14 @@ public class DeviceInfoActivity extends AppCompatActivity {
         }
         @Override
         public void onCharacteristicChanged(final BluetoothGatt gatt, final BluetoothGattCharacteristic characteristic) {
+//            if(characteristic.getUuid().equals(battery_level_battery_service_characteristic_uuid)){
+//                byte b[] = characteristic.getValue();
+//                final int battery  = b[0];
+//                Log.i("battery",battery+"");
+//                Message message = new Message();
+//                message.obj = battery+"";
+//                batteryStatus.sendMessage(message);
+//            }
         }
 
         @Override
@@ -311,6 +329,16 @@ public class DeviceInfoActivity extends AppCompatActivity {
             }
         }
     };
+
+
+    @SuppressLint("HandlerLeak")
+    public final Handler deviceNameHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            tv_battery_level.setText(msg.obj.toString().concat("%"));
+        }
+    };
+
 
 
     @Override

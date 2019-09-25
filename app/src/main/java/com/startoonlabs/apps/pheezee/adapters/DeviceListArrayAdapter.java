@@ -30,6 +30,7 @@ public class DeviceListArrayAdapter extends ArrayAdapter<DeviceListClass> {
 
     Context context;
     ArrayList<DeviceListClass> mdeviceArrayList;
+    onDeviceConnectPressed connectPressed;
 
     public  DeviceListArrayAdapter(Context context, ArrayList<DeviceListClass> mdeviceArrayList){
         super(context, R.layout.scanned_devices_listview_model, mdeviceArrayList);
@@ -71,20 +72,33 @@ public class DeviceListArrayAdapter extends ArrayAdapter<DeviceListClass> {
             @Override
             public void onClick(View view) {
                 //Toast.makeText(context, macAddressOfTheSelectedDevice, Toast.LENGTH_SHORT).show();
-                editor = preferences.edit();
-                ScanDevicesActivity.selectedDeviceMacAddress = mdeviceArrayList.get(position).getDeviceMacAddress();
-                editor.putString("deviceMacaddress", mdeviceArrayList.get(position).getDeviceMacAddress());
-                editor.commit();
-                Toast.makeText(context, "connecting....", Toast.LENGTH_SHORT).show();
-                editor.putString("pressed","c");
-                editor.commit();
-                PatientsView.disconnectDevice();
-                Intent i = new Intent(context, PatientsView.class);
-                context.startActivity(i);
-                PatientsView.deviceState=false;
-                ((Activity)context).finish();
+
+                if(connectPressed!=null){
+                    connectPressed.onDeviceConnectPressed(mdeviceArrayList.get(position).getDeviceMacAddress());
+                }
+//                editor = preferences.edit();
+//                ScanDevicesActivity.selectedDeviceMacAddress = mdeviceArrayList.get(position).getDeviceMacAddress();
+//                editor.putString("deviceMacaddress", mdeviceArrayList.get(position).getDeviceMacAddress());
+//                editor.commit();
+//                Toast.makeText(context, "connecting....", Toast.LENGTH_SHORT).show();
+//                editor.putString("pressed","c");
+//                editor.commit();
+//                PatientsView.disconnectDevice();
+//                Intent i = new Intent(context, PatientsView.class);
+//                context.startActivity(i);
+//                PatientsView.deviceState=false;
+//                ((Activity)context).finish();
             }
         });
         return row;
+    }
+
+
+    public interface onDeviceConnectPressed{
+        void onDeviceConnectPressed(String macAddress);
+    }
+
+    public void setOnDeviceConnectPressed(onDeviceConnectPressed connectPressed){
+        this.connectPressed = connectPressed;
     }
 }

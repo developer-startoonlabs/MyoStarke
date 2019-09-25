@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.activities.PatientsView;
+import com.startoonlabs.apps.pheezee.utils.RegexOperations;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -27,7 +28,6 @@ public class Scanner extends AppCompatActivity implements BarcodeReader.BarcodeR
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scanner);
-        //builder = new AlertDialog.Builder(this);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         editor = sharedPreferences.edit();
@@ -36,15 +36,16 @@ public class Scanner extends AppCompatActivity implements BarcodeReader.BarcodeR
 
     @Override
     public void onScanned(Barcode barcode) {
-        Intent intent = new Intent(this, PatientsView.class);
-        boolean isMac = validate(barcode.displayValue);
+        Intent intent = new Intent();
+        boolean isMac = RegexOperations.validate(barcode.displayValue);
         if(isMac) {
-            Log.i("mac add","true");
-            editor.putString("deviceMacaddress", barcode.displayValue);
-            editor.commit();
+            intent.putExtra("macAddress", barcode.displayValue);
+            setResult(-1, intent);
         }
-        PatientsView.disconnectDevice();
-        startActivity(intent);
+        else {
+            intent.putExtra("macAddress", barcode.displayValue);
+            setResult(2, intent);
+        }
         finish();
     }
 
@@ -66,11 +67,5 @@ public class Scanner extends AppCompatActivity implements BarcodeReader.BarcodeR
     @Override
     public void onCameraPermissionDenied() {
 
-    }
-
-    public boolean validate(String mac) {
-        Pattern p = Pattern.compile("^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$");
-        Matcher m = p.matcher(mac);
-        return m.find();
     }
 }

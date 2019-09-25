@@ -545,7 +545,7 @@ public class PatientsView extends AppCompatActivity
             if (id==R.id.pheeze_device_info){
                  Intent i = new Intent(PatientsView.this, DeviceInfoActivity.class);
                  i.putExtra("deviceMacAddress", sharedPref.getString("deviceMacaddress", ""));
-                 startActivity(i);
+                startActivityForResult(i,13);
             }
 
             else if(id==R.id.nav_home){
@@ -1104,9 +1104,9 @@ public class PatientsView extends AppCompatActivity
                         startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT_SCAN);
                     }
                     else
-                        startActivity(to_scan_devices_activity);
+                        startActivityForResult(to_scan_devices_activity,12);
                 }  else if (peezee_items[item].equals("Qrcode Scan")) {
-                    startActivity(new Intent(PatientsView.this, Scanner.class));
+                    startActivityForResult(new Intent(PatientsView.this, Scanner.class),12);
                 }
                 else{
                     dialog.dismiss();
