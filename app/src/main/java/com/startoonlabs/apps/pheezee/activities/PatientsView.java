@@ -91,6 +91,7 @@ import com.startoonlabs.apps.pheezee.utils.BatteryOperation;
 import com.startoonlabs.apps.pheezee.utils.BitmapOperations;
 import com.startoonlabs.apps.pheezee.utils.ByteToArrayOperations;
 import com.startoonlabs.apps.pheezee.utils.NetworkOperations;
+import com.startoonlabs.apps.pheezee.utils.RegexOperations;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -125,9 +126,9 @@ public class PatientsView extends AppCompatActivity
     public static final UUID battery_service1_uuid = UUID.fromString("0000180f-0000-1000-8000-00805f9b34fb");
     public static final UUID battery_level_battery_service_characteristic_uuid = UUID.fromString("00002a19-0000-1000-8000-00805f9b34fb");
 
-    static BluetoothGattCharacteristic mCharacteristic;
+    BluetoothGattCharacteristic mCharacteristic;
     BluetoothGattCharacteristic mCustomCharacteristic;
-    static BluetoothGattDescriptor mBluetoothGattDescriptor;
+    BluetoothGattDescriptor mBluetoothGattDescriptor;
     LinearLayout ll_device_and_bluetooth;
 
     //bluetooth and device connection state
@@ -135,6 +136,7 @@ public class PatientsView extends AppCompatActivity
 
     View patientLayoutView;
     MyBottomSheetDialog myBottomSheetDialog;
+    ProgressDialog connecting_device_dialog;
 
     final CharSequence[] peezee_items = { "Scan Nearby Devices",
             "Qrcode Scan", "Cancel" };
@@ -156,10 +158,10 @@ public class PatientsView extends AppCompatActivity
     ProgressBar battery_bar;
     int backpressCount = 0;
     DrawerLayout drawer;
-    static SharedPreferences sharedPref;
-    static SharedPreferences.Editor editor;
+    SharedPreferences sharedPref;
+    SharedPreferences.Editor editor;
     AlertDialog.Builder builder;
-    static BluetoothGatt bluetoothGatt;
+    BluetoothGatt bluetoothGatt;
     BluetoothDevice remoteDevice;
     BluetoothAdapter bluetoothAdapter;
     BluetoothManager mBluetoothManager;
@@ -226,6 +228,9 @@ public class PatientsView extends AppCompatActivity
         rl_battery_usb_state = findViewById(R.id.rl_battery_usb_state);
         iv_sync_data = findViewById(R.id.iv_sync_data);
         iv_sync_not_available = findViewById(R.id.iv_sync_data_disabled);
+
+        //connecting dialog
+        connecting_device_dialog = new ProgressDialog(this);
 
         iv_sync_data.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -350,12 +355,12 @@ public class PatientsView extends AppCompatActivity
                 editor.putString("deviceMacaddress", macAddress);
                 editor.apply();
         }
-        if(ScanDevicesActivity.selectedDeviceMacAddress != null){
-            macAddress = ScanDevicesActivity.selectedDeviceMacAddress;
-            editor.putString("deviceMacaddress",macAddress);
-            editor.apply();
-            ScanDevicesActivity.selectedDeviceMacAddress = null;
-        }
+//        if(ScanDevicesActivity.selectedDeviceMacAddress != null){
+//            macAddress = ScanDevicesActivity.selectedDeviceMacAddress;
+//            editor.putString("deviceMacaddress",macAddress);
+//            editor.apply();
+//            ScanDevicesActivity.selectedDeviceMacAddress = null;
+//        }
 
         mBluetoothManager = (BluetoothManager)getSystemService(BLUETOOTH_SERVICE);
         bluetoothAdapter = mBluetoothManager.getAdapter();
@@ -380,30 +385,16 @@ public class PatientsView extends AppCompatActivity
             bluetoothConnected();
             if (bluetoothGatt != null) {
 //                bluetoothGatt.disconnect();
-                Log.i("pressed",""+connectPressed);
+//                Log.i("pressed",""+connectPressed);
 
-                BluetoothGattSingleton.getmInstance().setAdapter(bluetoothGatt);
+//                BluetoothGattSingleton.getmInstance().setAdapter(bluetoothGatt);
                 gattconnection_established = false;
                 Message message = Message.obtain();
                 message.obj = "N/C";
                 bleStatusHandler.sendMessage(message);
             }
             if(!Objects.requireNonNull(sharedPref.getString("deviceMacaddress", "")).equals("")) {
-                Log.i("Enabled","true");
-                remoteDevice = bluetoothAdapter.getRemoteDevice(sharedPref.getString("deviceMacaddress", "EC:24:B8:31:BD:67"));
-
-                if(!sharedPref.getString("pressed","").equalsIgnoreCase("c") || bluetoothGatt==null) {
-                    new Handler(Looper.getMainLooper()).post(new Runnable() {
-                        @Override
-                        public void run() {
-                            bluetoothGatt = remoteDevice.connectGatt(PatientsView.this, true, callback);
-                            if (bluetoothGatt != null) {
-                                gattconnection_established = true;
-                                BluetoothGattSingleton.getmInstance().setAdapter(bluetoothGatt);
-                            }
-                        }
-                    });
-                }
+                connectDevice(sharedPref.getString("deviceMacaddress", ""), false);
             }
         }
 
@@ -626,30 +617,16 @@ public class PatientsView extends AppCompatActivity
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
             if (status == BluetoothGatt.GATT_SUCCESS) {
-                if (newState == BluetoothProfile.STATE_CONNECTING) {
-                    refreshDeviceCache(gatt);
-                    isBleConnected = true;
-                    Message msg = Message.obtain();
-                    msg.obj = "C..";
-                    Log.i("connected","true");
-                    deviceState = true;
-                    bleStatusHandler.sendMessage(msg);
-                } else if (newState == BluetoothProfile.STATE_CONNECTED) {
-                    refreshDeviceCache(gatt);
+                if (newState == BluetoothProfile.STATE_CONNECTED) {
+                    Log.i("connected123","true");
                     Message msg = Message.obtain();
                     isBleConnected = true;
                     msg.obj = "C";
                     deviceState=true;
-                    Log.i("connected", "connected");
                     bleStatusHandler.sendMessage(msg);
+                    refreshDeviceCache(gatt);
                     gatt.discoverServices();
-                } else if (newState == BluetoothProfile.STATE_DISCONNECTING) {
-                    Message msg = Message.obtain();
-                    isBleConnected = false;
-                    msg.obj = "N/C";
-                    bleStatusHandler.sendMessage(msg);
-                }
-                else {
+                } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                     Message msg = Message.obtain();
                     isBleConnected = false;
                     msg.obj = "N/C";
@@ -815,10 +792,10 @@ public class PatientsView extends AppCompatActivity
             message.obj = "N/C";
             bleStatusHandler.sendMessage(message);
         }
-        if(!deviceState){
-            disconnectDevice();
-            pheezeeDisconnected();
-        }
+//        if(!deviceState){
+//            disconnectDevice();
+//            pheezeeDisconnected();
+//        }
         super.onRestart();
     }
 
@@ -867,6 +844,8 @@ public class PatientsView extends AppCompatActivity
             else if(status.equalsIgnoreCase("C")) {
                 pheezeeConnected();
                 showToast("Device Connected");
+                if(connecting_device_dialog!=null)
+                    connecting_device_dialog.dismiss();
             }
         }
     };
@@ -913,6 +892,7 @@ public class PatientsView extends AppCompatActivity
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if(BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)){
+//                Toast.makeText(PatientsView.this, "The device has got disconnected...", Toast.LENGTH_LONG).show();
                 connected_disconnected_toast.setText("The device got disconnected..");
                 connected_disconnected_toast.show();
                 if(sessionStarted && insideMonitor){
@@ -922,35 +902,34 @@ public class PatientsView extends AppCompatActivity
                 if(sharedPref.getBoolean("isLoggedIn",false)==false)
                     finish();
 
-                if(sharedPref.getString("pressed", "").equals("c")){
-                    if(bluetoothGatt==null){
-                    if (bluetoothAdapter==null || !bluetoothAdapter.isEnabled()) {
-                        bluetoothDisconnected();
-                        startBluetoothRequest();
-                    }
-                    else {
-                        if(!Objects.requireNonNull(sharedPref.getString("deviceMacaddress", "")).equals("")) {
-                            Log.i("Enabled","true");
-                            remoteDevice = bluetoothAdapter.getRemoteDevice(sharedPref.getString("deviceMacaddress", "EC:24:B8:31:BD:67"));
-
-
-                            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    bluetoothGatt = remoteDevice.connectGatt(PatientsView.this, true, callback);
-                                    if(bluetoothGatt!=null) {
-                                        gattconnection_established = true;
-                                        BluetoothGattSingleton.getmInstance().setAdapter(bluetoothGatt);
-                                    }
-                                }
-                            });
-                        }
-                    }
-                }
-                    editor = sharedPref.edit();
-                    editor.putString("pressed","");
-                    editor.commit();
-                }
+//                if(sharedPref.getString("pressed", "").equals("c")){
+//                    if(bluetoothGatt==null){
+//                    if (bluetoothAdapter==null || !bluetoothAdapter.isEnabled()) {
+//                        bluetoothDisconnected();
+//                        startBluetoothRequest();
+//                    }
+//                    else {
+//                        if(!Objects.requireNonNull(sharedPref.getString("deviceMacaddress", "")).equals("")) {
+//                            Log.i("Enabled","true");
+//                            remoteDevice = bluetoothAdapter.getRemoteDevice(sharedPref.getString("deviceMacaddress", "EC:24:B8:31:BD:67"));
+//
+//
+//                            new Handler(Looper.getMainLooper()).post(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    bluetoothGatt = remoteDevice.connectGatt(PatientsView.this, true, callback);
+//                                    if(bluetoothGatt!=null) {
+//                                        gattconnection_established = true;
+//                                    }
+//                                }
+//                            });
+//                        }
+//                    }
+//                }
+//                    editor = sharedPref.edit();
+//                    editor.putString("pressed","");
+//                    editor.commit();
+//                }
                 else {
                     isBleConnected = false;
                     Message message = Message.obtain();
@@ -967,16 +946,8 @@ public class PatientsView extends AppCompatActivity
                 if (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1) == BluetoothAdapter.STATE_ON) {
                     bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
                     bluetoothConnected();
-                    if(!MacAddress.equals("")) {
-                        remoteDevice = bluetoothAdapter.getRemoteDevice(MacAddress);
-                        if (remoteDevice != null) {
-                            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    bluetoothGatt = remoteDevice.connectGatt(PatientsView.this, true, callback);
-                                }
-                            });
-                        }
+                    if(!Objects.requireNonNull(sharedPref.getString("deviceMacaddress", "")).equals("")) {
+                        connectDevice(sharedPref.getString("deviceMacaddress", ""), false);
                     }
                 }
                 if (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1) == BluetoothAdapter.STATE_OFF) {
@@ -1047,7 +1018,7 @@ public class PatientsView extends AppCompatActivity
     /**
      * Disconnects the device
      */
-    public static void disconnectDevice() {
+    public void disconnectDevice() {
         if(bluetoothGatt==null){
             Log.i("inside","null");
             editor = sharedPref.edit();
@@ -1066,6 +1037,25 @@ public class PatientsView extends AppCompatActivity
         Log.i("bluetooth gatt closed","closed");
         bluetoothGatt = null;
         deviceState=false;
+    }
+
+    public void connectDevice(String macAddress, boolean showDialog){
+        disconnectDevice();
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        BluetoothDevice remoteDevice = bluetoothAdapter.getRemoteDevice(macAddress);
+        this.remoteDevice = remoteDevice;
+        if(showDialog) {
+            connecting_device_dialog.setMessage("Connecting " + remoteDevice.getName() + " device, please wait..");
+            connecting_device_dialog.setIndeterminate(true);
+            connecting_device_dialog.show();
+        }
+        bluetoothGatt = remoteDevice.connectGatt(this, true, callback);
+    }
+
+    private void saveDeviceLocally(String macAddress){
+        editor = sharedPref.edit();
+        editor.putString("deviceMacaddress",macAddress);
+        editor.commit();
     }
 
     /**
@@ -1172,6 +1162,35 @@ public class PatientsView extends AppCompatActivity
                     NetworkOperations.networkError(this);
             }
         }
+        else if(requestCode==12){
+            if(resultCode==RESULT_OK){
+                String macAddress = data.getStringExtra("macAddress");
+                Log.i("StartActivityResult123", macAddress);
+                if(RegexOperations.validate(macAddress)){
+
+                    connectDevice(macAddress, true);
+                    saveDeviceLocally(macAddress);
+                }
+            }
+            else if(resultCode == 2) {
+                showToast("Not a mac address");
+            }
+        }
+
+        else if(requestCode==13){
+            if(resultCode==13){
+                Log.i("codefromdeviceinfo", "inside");
+                disconnectDevice();
+            }
+        }
+
+        else{
+            if(!Objects.requireNonNull(sharedPref.getString("deviceMacaddress", "")).equals("")) {
+                connectDevice(sharedPref.getString("deviceMacaddress", ""),false);
+
+            }
+        }
+
         if(requestCode==2){
             if(resultCode!=0){
                 startActivity(new Intent(this,ScanDevicesActivity.class));
@@ -1464,6 +1483,8 @@ public class PatientsView extends AppCompatActivity
                 rl_battery_usb_state.setVisibility(View.GONE);
         }
     };
+
+
 
 
     public void showToast(String message){

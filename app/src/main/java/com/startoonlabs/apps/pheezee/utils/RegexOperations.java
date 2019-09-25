@@ -3,6 +3,7 @@ package com.startoonlabs.apps.pheezee.utils;
 import android.util.Patterns;
 import android.widget.Toast;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RegexOperations {
@@ -100,6 +101,12 @@ public class RegexOperations {
         else {
             return "Enter valid phone";
         }
+    }
+
+    public static boolean validate(String mac) {
+        Pattern p = Pattern.compile("^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$");
+        Matcher m = p.matcher(mac);
+        return m.find();
     }
 
 
