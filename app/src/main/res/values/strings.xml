@@ -39,13 +39,24 @@
     </string-array>
 
     <string-array name="case_description">
-        <item>Select Case</item><item>GBS</item><item>Spinal Cord injury</item>
-        <item>Stroke</item><item>Monoplegia</item><item>Paraplagia</item>
-        <item>Monoparesis</item><item>Paraparesis</item><item>TkR</item>
-        <item>Cervical Decompression</item><item>Hemiperasis</item><item>Quadriperasis</item>
-        <item>Joint Pain</item><item>Subdural Hygroma</item>
-        <item>Cardio embolic stroke</item><item>Hemeplegia</item>
-        <item>Thalamic CG Bleed</item><item>paralize</item>
+        <item>Select Case</item>
+        <item>GBS</item>
+        <item>Spinal Cord injury</item>
+        <item>Stroke</item>
+        <item>Monoplegia</item>
+        <item>Paraplagia</item>
+        <item>Monoparesis</item>
+        <item>Paraparesis</item>
+        <item>TkR</item>
+        <item>Cervical Decompression</item>
+        <item>Hemiperasis</item>
+        <item>Quadriperasis</item>
+        <item>Joint Pain</item>
+        <item>Subdural Hygroma</item>
+        <item>Cardio embolic stroke</item>
+        <item>Hemeplegia</item>
+        <item>Thalamic CG Bleed</item>
+        <item>paralize</item>
         <item>Dyselectrolytemia</item>
         <item>Laminectomy</item>
         <item>Enter case description</item>
@@ -318,11 +329,13 @@
     <string name="sync_title">Syncing session data to the server</string>
 
 
-
     <!--Dialog titles-->
     <string name="delete_title">Delete Patient</string>
     <string name="delete_message">Are you sure you want to delete the patient?</string>
 
     <string name="archive_title">Archive Patient</string>
     <string name="archive_message">Are you sure you want to archive the patient?</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

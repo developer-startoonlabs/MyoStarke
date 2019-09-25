@@ -1,9 +1,9 @@
 package com.startoonlabs.apps.pheezee.fragments;
 
 
+import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,39 +14,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
-import com.anychart.AnyChart;
-import com.anychart.AnyChartView;
-import com.anychart.chart.common.dataentry.DataEntry;
-import com.anychart.charts.Cartesian;
-import com.anychart.core.cartesian.series.RangeColumn;
-import com.anychart.data.Mapping;
-import com.anychart.data.Set;
-import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.highlight.Highlight;
-import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.jjoe64.graphview.series.BarGraphSeries;
-import com.jjoe64.graphview.series.DataPoint;
 import com.startoonlabs.apps.pheezee.R;
-import com.startoonlabs.apps.pheezee.activities.PatientsView;
 import com.startoonlabs.apps.pheezee.activities.SessionReportActivity;
-import com.startoonlabs.apps.pheezee.utils.TimeOperations;
-import com.startoonlabs.apps.pheezee.views.custom_graph.ApiData;
-import com.startoonlabs.apps.pheezee.views.custom_graph.EmonjiBarGraph;
+import com.startoonlabs.apps.pheezee.models.StartAndEndDate;
+import com.startoonlabs.apps.pheezee.retrofit.GetDataService;
+import com.startoonlabs.apps.pheezee.retrofit.RetrofitClientInstance;
+import com.startoonlabs.apps.pheezee.utils.WriteResponseBodyToDisk;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormatSymbols;
+import java.io.File;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -54,45 +37,32 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.startoonlabs.apps.pheezee.activities.SessionReportActivity.patientId;
+import static com.startoonlabs.apps.pheezee.activities.SessionReportActivity.patientName;
+import static com.startoonlabs.apps.pheezee.activities.SessionReportActivity.phizioemail;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ReportMonth extends Fragment {
-    //rom graph
-    AnyChartView anyChartView_rom;
-    Set set;
-    Cartesian cartesian;
 
+    private TextView tv_report_month, tv_click_to_generate_report;
+    private int currentMonth1, currentMonth2;
 
-    //Bar chart
-    BarChart barChart;
-    BarDataSet barChartDataSet;
-    BarData barChartData;
-    ArrayList<BarEntry> dataPoints;
-    BarGraphSeries<DataPoint> series;
-    DataPoint[] datapoints;
+    private JSONArray session_array;
+    private ArrayList<String> str_part;
+    private Iterator iterator;
+    private String month_end_date = "";
+    private ProgressDialog report_dialog;
+    private StartAndEndDate global_date = null;
 
-    ImageView iv_left, iv_right, iv_left_joint, iv_right_joint;
-    TextView tv_report_month, tv_overall, tv_individual, tv_joint_name, tv_total_hours, tv_total_reps_report, tv_total_holdtime,tv_body_part,tv_back;
-    int currentMonth,current_bodypart=0;
-
-    boolean mTypeSelected = false;   //true for over all and false for individual
-
-    JSONArray session_array;
-    ArrayList<String> str_part;
-    Iterator iterator;
-
-
-    //custom bar graph related stuff
-    private String[] weeks = {"Week1", "Week2", "Week3", "Week4"};
-    EmonjiBarGraph mbg,emg;
-    ArrayList<ApiData> data;
-    ApiData data1[] = null;
-    ApiData data2[] = null;
 
     public ReportMonth() {
         // Required empty public constructor
@@ -106,102 +76,21 @@ public class ReportMonth extends Fragment {
         View view=  inflater.inflate(R.layout.fragment_report_month, container, false);
 
 
-        //custom bar graph
-        mbg = view.findViewById(R.id.graphView);
-        mbg.setBarNames(weeks);
-
-        emg = view.findViewById(R.id.month_emggraph);
-        emg.setBarNames(weeks);
-        data = new ArrayList<>();
-
-
-        anyChartView_rom = view.findViewById(R.id.rom_chartView);
-        barChart = view.findViewById(R.id.emg_barchart_report);
-
-        //bar chart related stuff
-        dataPoints = new ArrayList<>();
-        barChartDataSet=new BarDataSet(dataPoints, "Sessions Vs Emg Graph");
-        barChartDataSet.setColor(Color.parseColor("#7BC0F7"));
-
-        barChartData = new BarData(barChartDataSet);
-        barChartData.setBarWidth(0.1f);
-        barChart.setData(barChartData);
-        barChart.invalidate();
-
-        barChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener()
-        {
-            @Override
-            public void onValueSelected(Entry e, Highlight h)
-            {
-                float x=e.getX();
-
-            }
-
-            @Override
-            public void onNothingSelected()
-            {
-
-            }
-        });
-        datapoints = new DataPoint[]{};
-        series = new BarGraphSeries<>(datapoints);
-
-
-        //range chart related stuff
-        cartesian = AnyChart.cartesian();
-        cartesian.animation(true,500);
-        cartesian.title("Range Bar chart");
-        anyChartView_rom.setChart(cartesian);
-        anyChartView_rom.setZoomEnabled(true);
-        anyChartView_rom.setHorizontalScrollBarEnabled(true);
-        List<DataEntry> seriesData = new ArrayList<>();
-        seriesData.add(new CustomDataEntry(1,0,0));
-
-        set = Set.instantiate();
-        set.data(seriesData);
-        Mapping edinburgData = set.mapAs("{ x: 'x', high: 'MaxAngle', low: 'MinAngle' }");
-        RangeColumn columnEdinburg = cartesian.rangeColumn(edinburgData);
-        columnEdinburg.name("Range Of Motion");
-
-
-        cartesian.xAxis(true);
-        cartesian.yAxis(true);
-
-
-        cartesian.yScale()
-                .minimum(0d)
-                .maximum(180d);
-
-
-        cartesian.legend(true);
-
-        cartesian.yGrid(false)
-                .yMinorGrid(true);
-        cartesian.tooltip().titleFormat("{%SeriesName} ({%x})");
-
-
 
 
         session_array = ((SessionReportActivity)getActivity()).getSessions();
         Log.i("month",session_array.toString());
 
         //defining all the view items
-        iv_left = view.findViewById(R.id.iv_left);
-        iv_right = view.findViewById(R.id.iv_right);
-        iv_left_joint = view.findViewById(R.id.iv_left_joint);
-        iv_right_joint = view.findViewById(R.id.iv_right_joint);
+        ImageView iv_left = view.findViewById(R.id.fragment_month_iv_left);
+        ImageView iv_right = view.findViewById(R.id.fragment_month_iv_right);
 
-        tv_report_month = view.findViewById(R.id.tv_report_date);
-//        tv_overall = view.findViewById(R.id.tv_overall);
-//        tv_individual = view.findViewById(R.id.tv_individual);
-        tv_joint_name = view.findViewById(R.id.tv_individual_joint_name);
-//        tv_total_hours = view.findViewById(R.id.tv_total_hours_session);
-//        tv_total_reps_report = view.findViewById(R.id.total_reps_report);
-//        tv_total_holdtime = view.findViewById(R.id.report_month_tv_hold_time);
-        tv_body_part = view.findViewById(R.id.tv_individual_joint_name);
-        tv_back = view.findViewById(R.id.tv_back_report);
-
-
+        tv_report_month = view.findViewById(R.id.fragment_month_tv_report_date);
+        tv_click_to_generate_report = view.findViewById(R.id.fragment_month_generate_report);
+        report_dialog = new ProgressDialog(getActivity());
+        report_dialog.setMessage("Generating day report please wait....");
+        report_dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        report_dialog.setIndeterminate(true);
 
 
         //setting the initial month
@@ -213,9 +102,13 @@ public class ReportMonth extends Fragment {
         iv_left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                currentMonth=currentMonth-1;
-                String month = getMonthForInt(currentMonth);
-                tv_report_month.setText(month);
+                global_date = getPreviousDates();
+                Log.i("globaldate", global_date.getStart_date().getTime().toString());
+                currentMonth1 = global_date.getStart_date().get(Calendar.MONTH);
+                currentMonth2 = global_date.getEnd_date().get(Calendar.MONTH);
+                String month_string = calanderToString(global_date.getStart_date())+" - "+calanderToString(global_date.getEnd_date());
+                tv_report_month.setText(month_string);
+                month_end_date = calenderToYYYMMDD(global_date.getEnd_date());
                 str_part = new ArrayList<>();
                 HashSet<String> set_part = fetchAllParts();
                 str_part = new ArrayList<>();
@@ -223,19 +116,10 @@ public class ReportMonth extends Fragment {
                 while (iterator.hasNext()){
                     str_part.add(iterator.next()+"");
                 }
-                Log.i("array",str_part.toString());
-                if(str_part.size()>0) {
-                    makeIndividualVisible();
-                    tv_body_part.setText(str_part.get(current_bodypart));
-                }
-                else {
-                    makeIndividualInvisible();
-                    Toast.makeText(getActivity(), "No Exercises done", Toast.LENGTH_SHORT).show();
-                }
-                try {
-                    updateScreen(false);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                if(str_part.size()<=0) {
+                    tv_click_to_generate_report.setText("No exercise done in this month");
+                }else {
+                    tv_click_to_generate_report.setText("Click to generate monthly report");
                 }
             }
         });
@@ -243,9 +127,12 @@ public class ReportMonth extends Fragment {
         iv_right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                currentMonth+=1;
-                String month = getMonthForInt(currentMonth);
-                tv_report_month.setText(month);
+                global_date = getNextDates();
+                currentMonth1 = global_date.getStart_date().get(Calendar.MONTH);
+                currentMonth2 = global_date.getEnd_date().get(Calendar.MONTH);
+                String month_string = calanderToString(global_date.getStart_date())+" - "+calanderToString(global_date.getEnd_date());
+                tv_report_month.setText(month_string);
+                month_end_date = calenderToYYYMMDD(global_date.getEnd_date());
                 str_part = new ArrayList<>();
                 HashSet<String> set_part = fetchAllParts();
                 str_part = new ArrayList<>();
@@ -253,122 +140,23 @@ public class ReportMonth extends Fragment {
                 while (iterator.hasNext()){
                     str_part.add(iterator.next()+"");
                 }
-                Log.i("array",str_part.toString());
-                if(str_part.size()>0) {
-                    makeIndividualVisible();
-                    tv_body_part.setText(str_part.get(current_bodypart));
+                if(str_part.size()<=0)
+                    tv_click_to_generate_report.setText("No exercise done in this month");
+                else {
+                    tv_click_to_generate_report.setText("Click to generate monthly report");
+                }
+            }
+        });
+
+        tv_click_to_generate_report.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(tv_click_to_generate_report.getText().toString().substring(0,2).equals("No")){
+                    Toast.makeText(getActivity(), "No Exercises done in this month.", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    makeIndividualInvisible();
-                    Toast.makeText(getActivity(), "No Exercises done", Toast.LENGTH_SHORT).show();
+                    getMonthReport(month_end_date);
                 }
-                try {
-                    updateScreen(false);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-
-
-
-
-        iv_left_joint.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                current_bodypart--;
-                Log.i("current body part",current_bodypart+"");
-                if(current_bodypart>=0 && current_bodypart<str_part.size())
-                    tv_body_part.setText(str_part.get(current_bodypart));
-                else if(current_bodypart<0){
-                    current_bodypart = str_part.size()-1;
-                    tv_body_part.setText(str_part.get(current_bodypart));
-                }
-                try {
-                    updateScreen(false);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        iv_right_joint.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                current_bodypart++;
-                Log.i("current body part",current_bodypart+"");
-                if(current_bodypart>=0 && current_bodypart<str_part.size())
-                    tv_body_part.setText(str_part.get(current_bodypart));
-                else if(current_bodypart>=str_part.size()){
-                    current_bodypart = 0;
-                    tv_body_part.setText(str_part.get(current_bodypart));
-                }
-                try {
-                    updateScreen(false);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-
-        //individual and overall
-//        tv_overall.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mTypeSelected=true;
-//                changeViewOverallAndIndividual();
-//                tv_overall.setTypeface(null, Typeface.BOLD);
-//                tv_overall.setAlpha(1);
-//                makeIndividualInvisible();
-//                try {
-//                    updateScreen(mTypeSelected);
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
-//
-//
-//        tv_individual.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mTypeSelected = false;
-//                changeViewOverallAndIndividual();
-//                tv_individual.setTypeface(null, Typeface.BOLD);
-//                tv_individual.setAlpha(1);
-//                makeIndividualVisible();
-//                str_part = new ArrayList<>();
-//                HashSet<String> set_part = fetchAllParts();
-//                str_part = new ArrayList<>();
-//                iterator = set_part.iterator();
-//                while (iterator.hasNext()){
-//                    str_part.add(iterator.next()+"");
-//                }
-//                Log.i("array",str_part.toString());
-//                if(str_part.size()>0) {
-//                    makeIndividualVisible();
-//                    tv_body_part.setText(str_part.get(current_bodypart));
-//                }
-//                else {
-//                    makeIndividualInvisible();
-//                    Toast.makeText(getActivity(), "No Exercises done", Toast.LENGTH_SHORT).show();
-//                }
-//                try {
-//                    updateScreen(mTypeSelected);
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
-
-        tv_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), PatientsView.class));
-                getActivity().finish();
             }
         });
 
@@ -377,12 +165,12 @@ public class ReportMonth extends Fragment {
 
 
     private void setInitialMonth() throws JSONException {
-        currentMonth = Calendar.getInstance().get(Calendar.MONTH);
-        String month = getMonthForInt(currentMonth);
-        tv_report_month.setText(month);
-        JSONArray array = getCurrentMonthJson(false);
-
-        makeIndividualVisible();
+        global_date = getFirstDates();
+        currentMonth1 = global_date.getStart_date().get(Calendar.MONTH);
+        currentMonth2 = global_date.getEnd_date().get(Calendar.MONTH);
+        String month_string = calanderToString(global_date.getStart_date())+" - "+calanderToString(global_date.getEnd_date());
+        tv_report_month.setText(month_string);
+        month_end_date = calenderToYYYMMDD(global_date.getEnd_date());
         str_part = new ArrayList<>();
         HashSet<String> set_part = fetchAllParts();
         str_part = new ArrayList<>();
@@ -390,253 +178,28 @@ public class ReportMonth extends Fragment {
         while (iterator.hasNext()){
             str_part.add(iterator.next()+"");
         }
-        Log.i("array",str_part.toString());
-        if(str_part.size()>0) {
-            makeIndividualVisible();
-            tv_body_part.setText(str_part.get(current_bodypart));
-        }
+        if(str_part.size()<=0)
+            tv_click_to_generate_report.setText("No exercise done in this month");
         else {
-            makeIndividualInvisible();
-            Toast.makeText(getActivity(), "No Exercises done", Toast.LENGTH_SHORT).show();
+            tv_click_to_generate_report.setText("Click to generate monthly report");
         }
-        try {
-            updateScreen(false);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-//        updateTotalTime();
-//        updateHoldTime(array);
-//        updateTotalReps(array);
-//        updateGraphs();
-    }
-
-    private void updateHoldTime(JSONArray array) throws JSONException {
-            TimeOperations timeOperations = new TimeOperations();
-            String temp_hours = timeOperations.addTotalHoldTime(array);
-            tv_total_holdtime.setText(temp_hours);
     }
 
 
-    public void makeIndividualInvisible(){
-        tv_joint_name.setVisibility(View.GONE);
-        iv_left_joint.setVisibility(View.GONE);
-        iv_right_joint.setVisibility(View.GONE);
-    }
 
-
-    public void makeIndividualVisible(){
-        tv_joint_name.setVisibility(View.VISIBLE);
-        iv_left_joint.setVisibility(View.VISIBLE);
-        iv_right_joint.setVisibility(View.VISIBLE);
-    }
-
-
-    public JSONArray getCurrentMonthJson(boolean mTypeSelected) throws JSONException {
-        Toast.makeText(getActivity(), ""+currentMonth, Toast.LENGTH_SHORT).show();
+    private JSONArray getCurrentMonthJson(boolean mTypeSelected) throws JSONException {
         JSONArray array = new JSONArray();
-
-        if(mTypeSelected) {
-            for (int i = 0; i < session_array.length(); i++) {
-                JSONObject object = session_array.getJSONObject(i);
-                String month = object.getString("heldon");
-                month = month.substring(5, 7);
-                int m = Integer.parseInt(month);
-                if (m == (currentMonth + 1)) {
-                    Log.i("current", currentMonth + "");
-                    array.put(object);
-                }
-            }
-        }
-        else {
-            for (int i = 0; i < session_array.length(); i++) {
-                JSONObject object = session_array.getJSONObject(i);
-                String month = object.getString("heldon");
-                month = month.substring(5, 7);
-                int m = Integer.parseInt(month);
-                if (m == (currentMonth + 1) && object.getString("bodypart").equals(tv_body_part.getText().toString())) {
-                    Log.i("current", currentMonth + "");
-                    array.put(object);
-                }
+        for (int i = 0; i < session_array.length(); i++) {
+            JSONObject object = session_array.getJSONObject(i);
+            String month = object.getString("heldon");
+            month = month.substring(5, 7);
+            int m = Integer.parseInt(month);
+            if (m == (currentMonth1 + 1) || m == (currentMonth2 + 1) ) {
+                array.put(object);
             }
         }
         return array;
     }
-
-
-    private void updateTotalTime() {
-        JSONArray array = null;
-        try {
-            array = getCurrentMonthJson(true);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        TimeOperations timeOperations = new TimeOperations();
-        String str_time = timeOperations.addTotalTime(array);
-        tv_total_hours.setText(str_time);
-    }
-
-    String getMonthForInt(int m) {
-        String month;
-        DateFormatSymbols dfs = new DateFormatSymbols();
-        String[] months = dfs.getMonths();
-        if(m<0){
-            m=11;
-            currentMonth=m;
-        }
-        else if(m>11){
-            m=0;
-            currentMonth=m;
-        }
-        month = months[m];
-
-        return month;
-    }
-
-    public void updateTotalReps( JSONArray array) throws JSONException {
-            int total_reps = 0;
-            TimeOperations timeOperations = new TimeOperations();
-            total_reps = timeOperations.addTotalRes(array);
-            tv_total_reps_report.setText(total_reps+"");
-    }
-
-
-
-    public void changeViewOverallAndIndividual(){
-        tv_overall.setTypeface(null, Typeface.NORMAL);
-        tv_individual.setTypeface(null, Typeface.NORMAL);
-        tv_overall.setAlpha(0.5f);
-        tv_individual.setAlpha(0.5f);
-    }
-
-    public void updateScreen(boolean mTypeSelected) throws JSONException {
-        JSONArray array = getCurrentMonthJson(mTypeSelected);
-        Log.i("array",array.toString());
-//        updateTotalTime();
-//        updateHoldTime(array);
-//        updateTotalReps(array);
-        updateGraphs();
-    }
-
-    private void updateGraphs() {
-        JSONArray array = fetchAllWeeksArray(false);
-        Log.i("Graphs",array.toString());
-        updateEmgGraph(array);
-        updateRomGraph(array);
-    }
-
-    private void updateRomGraph(JSONArray array) {
-//        List<DataEntry> data = new ArrayList<>();
-//
-//        Log.i("Length",array.length()+"");
-//        if(array.length()==0){
-//            data.add(new CustomDataEntry(0,0,0));
-//        }
-//        else {
-//            for (int i = 0; i < array.length(); i++) {
-//                try {
-//                    int x = i + 1;
-//                    JSONObject object = array.getJSONObject(i);
-//                    int maxAngle = Integer.parseInt(object.getString("maxangle"));
-//                    int minAngle = Integer.parseInt(object.getString("minangle"));
-//                    data.add(new CustomDataEntry(x, maxAngle, minAngle));
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-//        set.data(data);
-
-//        if(array.length()==0){
-//            data.add(new ApiData());
-//        }
-//        else {
-
-        try {
-            data1 = new ApiData[array.length()];
-            Log.i("Response",array.length()+"");
-            for (int i = 0; i < array.length(); i++) {
-
-                    int x = i + 1;
-                    JSONObject object = array.getJSONObject(i);
-                    Log.i("Response",object.toString());
-//                    String weekday = arr.getString("week");
-                    int maxAngle = Integer.parseInt(object.getString("maxangle"));
-                    int minAngle = Integer.parseInt(object.getString("minangle"));
-                    data1[i] = new ApiData(i,minAngle,maxAngle);
-            }
-            } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-            mbg.setBarData(data1);
-//            mbg.notifyDataSetChanged();
-
-            //hello
-        //hello
-
-        //hello
-//        }
-    }
-
-    private void updateEmgGraph(JSONArray array){
-//        dataPoints.clear();
-//        barChart.invalidate();
-//        barChart.notifyDataSetChanged();
-//        barChart.clear();
-//        series = new BarGraphSeries<>(datapoints);
-//
-//        barChartDataSet=new BarDataSet(dataPoints, "Sessions Vs EMG Graph");
-//        Log.i("emg data set",array.length()+"");
-//        int j=0;
-//        for (int i=0;i<array.length();i++){
-//            String maxemg = null;
-//            try {
-//                maxemg = array.getJSONObject(i).get("maxemg").toString();
-//                barChartData.addEntry(new BarEntry(++j,Integer.parseInt(maxemg)),0);
-//                barChart.moveViewToX(j);
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//            //maxemg = maxemg.substring(0,maxemg.length());
-//
-//
-//        }
-//        barChart.setData(barChartData);
-//        barChart.notifyDataSetChanged();
-//        barChart.invalidate();
-//
-//        setEmgChartCharacteristics();
-//        XAxis xAxis = barChart.getXAxis();
-//        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-//        xAxis.setAxisMinimum(0f);
-//        xAxis.setAxisMaximum(array.length()+1);
-//        xAxis.setGranularity(1f);
-
-
-        Log.i("array",array.toString());
-
-        try {
-            data2 = new ApiData[array.length()];
-            Log.i("Response",array.length()+"");
-            for (int i = 0; i < array.length(); i++) {
-
-                int x = i + 1;
-                JSONObject object = array.getJSONObject(i);
-                Log.i("Response",object.toString());
-//                    String weekday = arr.getString("week");
-                int maxEmg = Integer.parseInt(object.getString("maxemg"));
-                data2[i] = new ApiData(i,-1,maxEmg);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        emg.setBarData(data2);
-//        emg.notifyDataSetChanged();
-
-    }
-
-
 
     private HashSet<String> fetchAllParts() {
         HashSet<String> hashSet = new HashSet<>();
@@ -659,176 +222,197 @@ public class ReportMonth extends Fragment {
         }
         return hashSet;
     }
+    private StartAndEndDate getFirstDates(){
+        StartAndEndDate date = null;
+        Calendar cal_first_date = Calendar.getInstance(), cal_end_date = Calendar.getInstance(), cal_end_month = Calendar.getInstance();
+        String dateOfJoin = SessionReportActivity.dateofjoin;
+        Date first_date= null;
+        try {
+            first_date = new SimpleDateFormat("dd/MM/yyyy").parse(dateOfJoin);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Log.i("Date of join", first_date.toString());
+        cal_first_date.add(Calendar.DATE,-29);
+//        cal_end_month.setTime(first_date);
+        date = new StartAndEndDate(cal_first_date, cal_end_month);
+        return date;
+    }
 
-    public JSONArray fetchAllWeeksArray(boolean mTypeSelected){
-        Date d_first_of_month = getFirstDate(currentMonth);
-        Date d_last_of_month = getLastDate(currentMonth);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        String first_date = simpleDateFormat.format(d_first_of_month);
-        String last_date = simpleDateFormat.format(d_last_of_month);
-
-        int last = Integer.parseInt(last_date.substring(8,10).trim());
-        Log.i("First date",first_date+" "+last_date+" "+last);
-        int maxAngle =0, minAngle = 0, maxEmg = 0, week=0, x=0;
-        JSONObject object = new JSONObject();
-        JSONArray array = new JSONArray();
-        if(mTypeSelected){
-            for (int i=0;i<last;i++){
-                week++;
-                for (int j=0;j<session_array.length();j++){
-                    try {
-                        JSONObject object1 = session_array.getJSONObject(j);
-                        if (first_date.equals(object1.getString("heldon").substring(0, 10).trim())) {
-                            x++;
-                            maxAngle += Integer.parseInt(object1.getString("maxangle"));
-                            minAngle += Integer.parseInt(object1.getString("minangle"));
-                            maxEmg += Integer.parseInt(object1.getString("maxemg"));
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-                if(week==7 || i==last-1){
-                    if (x>0){
-                        maxAngle = maxAngle/x;
-                        minAngle = minAngle/x;
-                        maxEmg = maxEmg/x;
-                    }
-                    try {
-                        object.put("maxangle",maxAngle);
-                        object.put("minangle",minAngle);
-                        object.put("maxemg",maxEmg);
-                        array.put(object);
-                        object = new JSONObject();
-                        week=0;x=0;maxAngle=0;minAngle=0;maxEmg=0;
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-
-                Calendar c = Calendar.getInstance();
-                try {
-                    c.setTime(simpleDateFormat.parse(first_date));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                c.add(Calendar.DATE, 1);  // number of days to add
-                first_date = simpleDateFormat.format(c.getTime());
-                Log.i("First Date",first_date);
-            }
+    private StartAndEndDate getPreviousDates(){
+        Calendar cal_first_date = Calendar.getInstance(), cal_end_date = Calendar.getInstance(), cal_end_month = Calendar.getInstance();
+        String dateOfJoin = SessionReportActivity.dateofjoin;
+        Date first_date_join= null;
+        try {
+            first_date_join = new SimpleDateFormat("dd/MM/yyyy").parse(dateOfJoin);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Log.i("Date of join", first_date_join.toString());
+        cal_first_date.setTime(first_date_join);
+        Calendar first_date = global_date.getStart_date();
+        Calendar end_date = global_date.getEnd_date();
+        first_date.add(Calendar.DATE,-30);
+        end_date.add(Calendar.DATE,-30);
+        Log.i("comparedates", String.valueOf(first_date.compareTo(cal_first_date)));
+        if(end_date.compareTo(cal_first_date)>=0){
+            global_date.setStart_date(first_date);
+            global_date.setEnd_date(end_date);
+            return global_date;
         }
         else {
-            for (int i = 0; i < last; i++) {
-                week++;
-                for (int j = 0; j < session_array.length(); j++) {
+            first_date.add(Calendar.DATE,30);
+            end_date.add(Calendar.DATE,30);
+            global_date.setStart_date(first_date);
+            global_date.setEnd_date(end_date);
+            return global_date;
+        }
+    }
+
+    private StartAndEndDate getNextDates(){
+        Calendar cal_end_date = Calendar.getInstance();
+        Calendar first_date = global_date.getStart_date();
+        Calendar end_date = global_date.getEnd_date();
+        first_date.add(Calendar.DATE,30);
+        end_date.add(Calendar.DATE,30);
+        Log.i("comparedates", String.valueOf(first_date.compareTo(cal_end_date)));
+        if(end_date.compareTo(cal_end_date)<=0){
+            global_date.setStart_date(first_date);
+            global_date.setEnd_date(end_date);
+            return global_date;
+        }
+        else {
+            first_date.add(Calendar.DATE,-30);
+            end_date.add(Calendar.DATE,-30);
+            global_date.setStart_date(first_date);
+            global_date.setEnd_date(end_date);
+            return global_date;
+        }
+    }
+
+
+    /**
+     *
+     *date of join to next month datea
+     */
+
+//    private StartAndEndDate getFirstDates(){
+//        StartAndEndDate date = null;
+//        Calendar cal_first_date = Calendar.getInstance(), cal_end_date = Calendar.getInstance(), cal_end_month = Calendar.getInstance();
+//        String dateOfJoin = SessionReportActivity.dateofjoin;
+//        Date first_date= null;
+//        try {
+//            first_date = new SimpleDateFormat("dd/MM/yyyy").parse(dateOfJoin);
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//        Log.i("Date of join", first_date.toString());
+//        cal_first_date.setTime(first_date);
+//        cal_end_month.setTime(first_date);
+//        cal_end_month.add(Calendar.DATE,29);
+//
+//        while (cal_end_month.compareTo(cal_end_date)<0){
+//            cal_first_date.add(Calendar.DATE,29);
+//            cal_end_month.add(Calendar.DATE,29);
+//        }
+//        date = new StartAndEndDate(cal_first_date, cal_end_month);
+//        return date;
+//    }
+//
+//    private StartAndEndDate getPreviousDates(){
+//        Calendar cal_first_date = Calendar.getInstance(), cal_end_date = Calendar.getInstance(), cal_end_month = Calendar.getInstance();
+//        String dateOfJoin = SessionReportActivity.dateofjoin;
+//        Date first_date_join= null;
+//        try {
+//            first_date_join = new SimpleDateFormat("dd/MM/yyyy").parse(dateOfJoin);
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//        Log.i("Date of join", first_date_join.toString());
+//        cal_first_date.setTime(first_date_join);
+//        Calendar first_date = global_date.getStart_date();
+//        Calendar end_date = global_date.getEnd_date();
+//        first_date.add(Calendar.DATE,-29);
+//        end_date.add(Calendar.DATE,-29);
+//        Log.i("comparedates", String.valueOf(first_date.compareTo(cal_first_date)));
+//        if(first_date.compareTo(cal_first_date)>=0){
+//            global_date.setStart_date(first_date);
+//            global_date.setEnd_date(end_date);
+//            return global_date;
+//        }
+//        else {
+//            first_date.add(Calendar.DATE,29);
+//            end_date.add(Calendar.DATE,29);
+//            global_date.setStart_date(first_date);
+//            global_date.setEnd_date(end_date);
+//            return global_date;
+//        }
+//    }
+//
+//    private StartAndEndDate getNextDates(){
+//        Calendar cal_end_date = Calendar.getInstance();
+//        Calendar first_date = global_date.getStart_date();
+//        Calendar end_date = global_date.getEnd_date();
+//        first_date.add(Calendar.DATE,29);
+//        end_date.add(Calendar.DATE,29);
+//        Log.i("comparedates", String.valueOf(first_date.compareTo(cal_end_date)));
+//        if(first_date.compareTo(cal_end_date)<=0){
+//            global_date.setStart_date(first_date);
+//            global_date.setEnd_date(end_date);
+//            return global_date;
+//        }
+//        else {
+//            first_date.add(Calendar.DATE,-29);
+//            end_date.add(Calendar.DATE,-29);
+//            global_date.setStart_date(first_date);
+//            global_date.setEnd_date(end_date);
+//            return global_date;
+//        }
+//    }
+
+    private String calanderToString(Calendar date){
+        Date date_cal = date.getTime();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
+        String strDate = formatter.format(date_cal);
+        return strDate;
+    }
+
+    private String calenderToYYYMMDD(Calendar date){
+        Date date_cal = date.getTime();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String strDate = dateFormat.format(date_cal);
+        Log.i("Date sent", strDate);
+        return strDate;
+    }
+
+
+    private void getMonthReport(String date){
+        GetDataService getDataService = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
+        Call<ResponseBody> fileCall = getDataService.getReport("/getreport/monthly/"+patientId+"/"+phizioemail+"/" + date);
+        report_dialog.setMessage("Generating monthly report report, please wait....");
+        report_dialog.show();
+        fileCall.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                File file = WriteResponseBodyToDisk.writeResponseBodyToDisk(response.body(), patientName+"-monthly");
+                if (file != null) {
+                    report_dialog.dismiss();
+                    Intent target = new Intent(Intent.ACTION_VIEW);
+                    target.setDataAndType(FileProvider.getUriForFile(getActivity(), getActivity().getPackageName() + ".my.package.name.provider", file), "application/pdf");
+                    target.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    target.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                     try {
-                        JSONObject object1 = session_array.getJSONObject(j);
-                        if (first_date.equals(object1.getString("heldon").substring(0, 10).trim()) && object1.getString("bodypart").equals(tv_body_part.getText().toString())) {
-                            x++;
-                            maxAngle += Integer.parseInt(object1.getString("maxangle"));
-                            minAngle += Integer.parseInt(object1.getString("minangle"));
-                            maxEmg += Integer.parseInt(object1.getString("maxemg"));
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                        startActivity(target);
+                    } catch (ActivityNotFoundException e) {
+                        // Instruct the user to install a PDF reader here, or something
                     }
                 }
-                if (week == 7 || i == last - 1) {
-                    if (x > 0) {
-                        maxAngle = maxAngle / x;
-                        minAngle = minAngle / x;
-                        maxEmg = maxEmg / x;
-                    }
-                    try {
-                        object.put("maxangle", maxAngle);
-                        object.put("minangle", minAngle);
-                        object.put("maxemg", maxEmg);
-                        array.put(object);
-                        object = new JSONObject();
-                        week = 0;
-                        x = 0;
-                        maxAngle = 0;
-                        minAngle = 0;
-                        maxEmg = 0;
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-
-                Calendar c = Calendar.getInstance();
-                try {
-                    c.setTime(simpleDateFormat.parse(first_date));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                c.add(Calendar.DATE, 1);  // number of days to add
-                first_date = simpleDateFormat.format(c.getTime());
-                Log.i("First Date", first_date);
             }
-        }
 
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
 
-        return array;
-    }
-
-    private Date getFirstDate(int num) {
-        Calendar c = Calendar.getInstance();   // this takes current date
-        c.set(Calendar.MONTH,num);
-        c.set(Calendar.DAY_OF_MONTH, 1);
-        return  c.getTime();
-    }
-    private Date getLastDate(int num) {
-        Calendar c = Calendar.getInstance();   // this takes current date
-        c.set(Calendar.MONTH,num);
-        c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH));
-        return  c.getTime();
-    }
-
-
-    private class CustomDataEntry extends DataEntry {
-        public CustomDataEntry(int x, Number maxAngle, Number minAngle) {
-            setValue("x", x);
-            setValue("MaxAngle", maxAngle);
-            setValue("MinAngle", minAngle);
-        }
-    }
-
-
-    private void setEmgChartCharacteristics() {
-        barChart.setDrawGridBackground(false);
-        barChart.setDrawBarShadow(false);
-        barChartData.setBarWidth(0.9f);
-
-        //mChart.setHighlightFullBarEnabled(false);
-        barChart.setPinchZoom(true);
-
-        barChart.animateXY(1500, 2000);
-        barChart.setHorizontalScrollBarEnabled(true);
-
-        Legend l = barChart.getLegend();
-        l.setWordWrapEnabled(true);
-        l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
-        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
-        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
-
-        YAxis rightAxis = barChart.getAxisRight();
-        rightAxis.setDrawGridLines(false);
-        rightAxis.setAxisMinimum(0f);// this replaces setStartAtZero(true)
-
-
-        YAxis leftAxis = barChart.getAxisLeft();
-        leftAxis.setDrawGridLines(false);
-        leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
-
-
-        //XAxis
-        XAxis xAxis = barChart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setAxisMinimum(0f);
-        xAxis.setGranularity(1f);
+            }
+        });
     }
 }

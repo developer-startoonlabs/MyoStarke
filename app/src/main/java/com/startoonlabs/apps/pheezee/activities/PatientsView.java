@@ -1239,11 +1239,12 @@ public class PatientsView extends AppCompatActivity
      * @param patientid
      * @param patientname
      */
-    public void openReportActivity(String patientid, String patientname){
+    public void openReportActivity(String patientid, String patientname, String dateofjoin){
         if(NetworkOperations.isNetworkAvailable(PatientsView.this)){
             Intent mmt_intent = new Intent(PatientsView.this, SessionReportActivity.class);
             mmt_intent.putExtra("patientid", patientid);
             mmt_intent.putExtra("patientname", patientname);
+            mmt_intent.putExtra("dateofjoin", dateofjoin);
             try {
                 mmt_intent.putExtra("phizioemail", json_phizio.getString("phizioemail"));
             } catch (JSONException e) {

@@ -43,7 +43,7 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
     ImageView iv_go_back;
 
 
-    public static String patientId="", phizioemail="", patientName="";
+    public static String patientId="", phizioemail="", patientName="", dateofjoin="";;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +56,8 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
         patientId = getIntent().getStringExtra("patientid");
         phizioemail = getIntent().getStringExtra("phizioemail");
         patientName = getIntent().getStringExtra("patientname");
+        dateofjoin = getIntent().getStringExtra("dateofjoin");
+
         progress = new ProgressDialog(this);
         progress.setMessage("Generating report");
         progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);

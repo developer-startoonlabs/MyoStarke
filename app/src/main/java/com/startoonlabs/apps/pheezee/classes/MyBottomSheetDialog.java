@@ -96,7 +96,7 @@ public class MyBottomSheetDialog extends BottomSheetDialogFragment {
         ll_report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((PatientsView)getActivity()).openReportActivity(patient.getPatientid(),patient.getPatientname());
+                ((PatientsView)getActivity()).openReportActivity(patient.getPatientid(),patient.getPatientname(), patient.getDateofjoin());
             }
         });
 
