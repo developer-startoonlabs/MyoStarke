@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.activities.SessionReportActivity;
 import com.startoonlabs.apps.pheezee.models.StartAndEndDate;
+import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
 import com.startoonlabs.apps.pheezee.retrofit.GetDataService;
 import com.startoonlabs.apps.pheezee.retrofit.RetrofitClientInstance;
 import com.startoonlabs.apps.pheezee.utils.WriteResponseBodyToDisk;
@@ -51,7 +52,7 @@ import static com.startoonlabs.apps.pheezee.activities.SessionReportActivity.phi
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ReportMonth extends Fragment {
+public class ReportMonth extends Fragment implements MqttSyncRepository.OnReportDataResponseListner {
 
     private TextView tv_report_month, tv_click_to_generate_report;
     private int currentMonth1, currentMonth2;
@@ -62,6 +63,7 @@ public class ReportMonth extends Fragment {
     private String month_end_date = "";
     private ProgressDialog report_dialog;
     private StartAndEndDate global_date = null;
+    MqttSyncRepository repository;
 
 
     public ReportMonth() {
@@ -91,6 +93,8 @@ public class ReportMonth extends Fragment {
         report_dialog.setMessage("Generating day report please wait....");
         report_dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         report_dialog.setIndeterminate(true);
+        repository = new MqttSyncRepository(getActivity().getApplication());
+        repository.setOnReportDataResponseListener(this);
 
 
         //setting the initial month
@@ -387,32 +391,39 @@ public class ReportMonth extends Fragment {
 
 
     private void getMonthReport(String date){
-        GetDataService getDataService = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
-        Call<ResponseBody> fileCall = getDataService.getReport("/getreport/monthly/"+patientId+"/"+phizioemail+"/" + date);
-        report_dialog.setMessage("Generating monthly report report, please wait....");
+        String url = "/getreport/monthly/"+patientId+"/"+phizioemail+"/" + date;
+        report_dialog.setMessage("Generating day report for sessions held on "+date+", please wait....");
         report_dialog.show();
-        fileCall.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                File file = WriteResponseBodyToDisk.writeResponseBodyToDisk(response.body(), patientName+"-monthly");
-                if (file != null) {
-                    report_dialog.dismiss();
-                    Intent target = new Intent(Intent.ACTION_VIEW);
-                    target.setDataAndType(FileProvider.getUriForFile(getActivity(), getActivity().getPackageName() + ".my.package.name.provider", file), "application/pdf");
-                    target.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                    target.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                    try {
-                        startActivity(target);
-                    } catch (ActivityNotFoundException e) {
-                        // Instruct the user to install a PDF reader here, or something
-                    }
-                }
-            }
+        repository.getDayReport(url,patientName+"-monthly");
+    }
 
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+    @Override
+    public void onReportDataReceived(JSONArray array, boolean response) {
 
+    }
+
+    @Override
+    public void onDayReportReceived(File file, String message, Boolean response) {
+        report_dialog.dismiss();
+        if(response){
+            Intent target = new Intent(Intent.ACTION_VIEW);
+            target.setDataAndType(FileProvider.getUriForFile(getActivity(), getActivity().getPackageName() + ".my.package.name.provider", file), "application/pdf");
+            target.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            target.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            try {
+                startActivity(target);
+            } catch (ActivityNotFoundException e) {
+                // Instruct the user to install a PDF reader here, or something
             }
-        });
+        }
+        else {
+            Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        repository.disableReportDataListner();
+        super.onDestroy();
     }
 }

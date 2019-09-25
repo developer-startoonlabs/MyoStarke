@@ -68,6 +68,7 @@
     <string name="report_day">Day</string>
     <string name="report_week">Week</string>
     <string name="report_month">Month</string>
+    <string name="report_overall">Overall</string>
 
     <string name="generate_report">Click to generate report</string>
 

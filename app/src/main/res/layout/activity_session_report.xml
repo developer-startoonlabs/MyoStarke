@@ -41,123 +41,141 @@
     </androidx.appcompat.widget.Toolbar>
 
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_marginTop="16dp"
-    android:background="@color/white"
-    android:layout_height="match_parent">
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:focusableInTouchMode="true"
-    android:layout_height="wrap_content">
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:paddingStart="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="15dp"
-        android:textSize="15sp"
-        android:text="@string/overall_feedback"
-        tools:ignore="MissingConstraints" />
-
-    <TextView
-        android:id="@+id/tv_session_report_overall_report"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text=""
-        android:alpha="0.85"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView7" />
-
-
-    <LinearLayout
-        android:id="@+id/ll_day_w_m"
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/background_session_report_dwm"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_session_report_overall_report">
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.33"
-            android:gravity="center">
-
+        android:layout_marginTop="16dp"
+        android:background="@color/white"
+        android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:focusableInTouchMode="true"
+            android:layout_height="wrap_content">
             <TextView
-                android:id="@+id/tv_session_report_day"
+                android:id="@+id/textView7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:alpha="0.5"
-                android:padding="5dp"
-                android:text="@string/report_day"
-                android:textColor="@color/pitch_black"
-                android:textSize="15sp"
+                android:layout_marginStart="8dp"
+                android:paddingStart="8dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView7" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.33"
-            android:gravity="center">
+                android:layout_marginTop="15dp"
+                android:textSize="15sp"
+                android:text="@string/overall_feedback"
+                tools:ignore="MissingConstraints" />
 
             <TextView
-                android:id="@+id/tv_session_report_week"
+                android:id="@+id/tv_session_report_overall_report"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="2dp"
-                android:text="@string/report_week"
-                android:textStyle="bold"
-                android:textColor="@color/pitch_black"
-                android:textSize="15sp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text=""
+                android:alpha="0.85"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView7" />
-        </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.33"
-            android:gravity="center">
 
-            <TextView
-                android:id="@+id/tv_session_report_month"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/ll_day_w_m"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="2dp"
-                android:alpha="0.5"
-                android:text="@string/report_month"
-                android:textColor="@color/pitch_black"
-                android:textSize="15sp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/background_session_report_dwm"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView7" />
-        </LinearLayout>
-    </LinearLayout>
+                app:layout_constraintTop_toBottomOf="@+id/tv_session_report_overall_report">
 
-    <FrameLayout
-        android:id="@+id/fragment_report_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        app:layout_constraintTop_toBottomOf="@+id/ll_day_w_m">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.33"
+                    android:gravity="center">
 
-    </FrameLayout>
+                    <TextView
+                        android:id="@+id/tv_session_report_day"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="0.5"
+                        android:padding="5dp"
+                        android:text="@string/report_day"
+                        android:textColor="@color/pitch_black"
+                        android:textSize="15sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.33"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/tv_session_report_week"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="2dp"
+                        android:text="@string/report_week"
+                        android:textStyle="bold"
+                        android:textColor="@color/pitch_black"
+                        android:textSize="15sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.33"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/tv_session_report_month"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="2dp"
+                        android:alpha="0.5"
+                        android:text="@string/report_month"
+                        android:textColor="@color/pitch_black"
+                        android:textSize="15sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.33"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/tv_session_report_overall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="0.5"
+                        android:padding="5dp"
+                        android:text="@string/report_overall"
+                        android:textColor="@color/pitch_black"
+                        android:textSize="15sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/fragment_report_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                app:layout_constraintTop_toBottomOf="@+id/ll_day_w_m">
+
+            </FrameLayout>
 
 
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </LinearLayout>

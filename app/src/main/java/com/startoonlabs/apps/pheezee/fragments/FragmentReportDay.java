@@ -171,29 +171,6 @@ public class FragmentReportDay extends Fragment implements MqttSyncRepository.On
         return view;
     }
 
-    public void openDatePicker() {
-        new DatePickerDialog(getActivity(), dateChangedListener, myCalendar
-                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-    }
-
-    DatePickerDialog.OnDateSetListener dateChangedListener = new DatePickerDialog.OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-            myCalendar.set(Calendar.YEAR, year);
-            myCalendar.set(Calendar.MONTH, month);
-            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            updateLabel();
-
-            if(dateSelected!=null) {
-                String url ="/getreport/"+patientId+"/"+phizioemail+"/" + dateSelected;
-                report_dialog.setMessage("Generating day report for sessions held on "+dateSelected+", please wait....");
-                report_dialog.show();
-                repository.getDayReport(url,patientId);
-            }
-        }
-    };
-
     /**
      * Retrofit call to get the report pdf from the server
      * @param date
@@ -202,7 +179,7 @@ public class FragmentReportDay extends Fragment implements MqttSyncRepository.On
         String url = "/getreport/"+patientId+"/"+phizioemail+"/" + date;
         report_dialog.setMessage("Generating day report for sessions held on "+date+", please wait....");
         report_dialog.show();
-        repository.getDayReport(url,patientId);
+        repository.getDayReport(url,patientName+"-day");
     }
 
 
@@ -261,5 +238,11 @@ public class FragmentReportDay extends Fragment implements MqttSyncRepository.On
         else {
             Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        repository.disableReportDataListner();
+        super.onDestroy();
     }
 }

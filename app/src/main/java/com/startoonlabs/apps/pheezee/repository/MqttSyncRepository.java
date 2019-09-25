@@ -904,12 +904,12 @@ public class MqttSyncRepository {
     }
 
 
-    public void getDayReport(String url, String patientname){
+    public void getDayReport(String url, String fineName){
         Call<ResponseBody> fileCall = getDataService.getReport(url);
         fileCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-                File file = WriteResponseBodyToDisk.writeResponseBodyToDisk(response.body(), patientname+"-day");
+                File file = WriteResponseBodyToDisk.writeResponseBodyToDisk(response.body(), fineName);
                 if (file != null) {
                     if(reportDataResponseListner!=null){
                         reportDataResponseListner.onDayReportReceived(file,null,true);

@@ -18,6 +18,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.fragments.FragmentReportDay;
 import com.startoonlabs.apps.pheezee.fragments.ReportMonth;
+import com.startoonlabs.apps.pheezee.fragments.ReportOverall;
 import com.startoonlabs.apps.pheezee.fragments.ReportWeek;
 import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
 
@@ -34,7 +35,7 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
     FragmentTransaction fragmentTransaction;
     ProgressDialog progress;
 
-    TextView tv_day, tv_week, tv_month, tv_overall_summary;
+    TextView tv_day, tv_week, tv_month, tv_overall_summary, tv_overall;
     MqttSyncRepository repository;
 
 
@@ -85,6 +86,7 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
         tv_month = findViewById(R.id.tv_session_report_month);
         tv_week = findViewById(R.id.tv_session_report_week);
         tv_overall_summary = findViewById(R.id.tv_session_report_overall_report);
+        tv_overall = findViewById(R.id.tv_session_report_overall);
         iv_go_back = findViewById(R.id.iv_back_session_report);
 
 
@@ -108,16 +110,16 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
         });
 
 
-//        tv_month.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                changeViewOfDayMonthWeek();
-//                tv_month.setTypeface(null, Typeface.BOLD);
-//                tv_month.setAlpha(1);
-//
-//                openMonthFragment();
-//            }
-//        });
+        tv_month.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeViewOfDayMonthWeek();
+                tv_month.setTypeface(null, Typeface.BOLD);
+                tv_month.setAlpha(1);
+
+                openMonthFragment();
+            }
+        });
 
         tv_week.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,6 +130,16 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
                 openWeekFragment();
             }
         });
+
+        tv_overall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeViewOfDayMonthWeek();
+                tv_overall.setTypeface(null, Typeface.BOLD);
+                tv_overall.setAlpha(1);
+                openOverallFragment();
+            }
+        });
     }
 
 
@@ -136,9 +148,11 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
         tv_month.setTypeface(null, Typeface.NORMAL);
         tv_week.setTypeface(null, Typeface.NORMAL);
         tv_day.setTypeface(null, Typeface.NORMAL);
+        tv_overall.setTypeface(null, Typeface.NORMAL);
         tv_day.setAlpha(0.5f);
         tv_week.setAlpha(0.5f);
         tv_month.setAlpha(0.5f);
+        tv_overall.setAlpha(0.5f);
     }
 
     public void openDayFragment(){
@@ -179,6 +193,22 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
         FragmentManager fm = getSupportFragmentManager();
         for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
             fm.popBackStack();
+        }
+    }
+
+    public void openOverallFragment(){
+        if(session_arry!=null) {
+            fragmentTransaction = fragmentManager.beginTransaction();
+            fragment = new ReportOverall();
+            fragmentTransaction.replace(R.id.fragment_report_container, fragment);
+            fragmentTransaction.commit();
+            FragmentManager fm = getSupportFragmentManager();
+            for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+                fm.popBackStack();
+            }
+        }
+        else {
+            showToast("Fetching report data, please wait...");
         }
     }
 
