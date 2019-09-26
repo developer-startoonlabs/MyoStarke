@@ -146,6 +146,8 @@ public class SessionSummaryPopupWindow {
         final LinearLayout ll_click_to_view_report = layout.findViewById(R.id.ll_click_to_view_report);
         final LinearLayout ll_click_to_choose_body_part = layout.findViewById(R.id.ll_click_to_choose_bodypart);
 
+
+
         //Share and cancel image view
         ImageView summary_go_back = layout.findViewById(R.id.summary_go_back);
         ImageView summary_share =  layout.findViewById(R.id.summary_share);
@@ -515,8 +517,6 @@ public class SessionSummaryPopupWindow {
         final Spinner sp_exercise_name = layout.findViewById(R.id.sp_exercise_name);
         final TextView tv_exercise_name = layout.findViewById(R.id.popup_comment_tv_exercise_name);
 
-        final EditText et_comment_section = layout.findViewById(R.id.comment_et_comment);
-        et_comment_section.setText(BodyPartSelection.commentsession);
         Button btn_continue = layout.findViewById(R.id.comment_btn_continue);
         Button btn_cancel = layout.findViewById(R.id.comment_btn_cancel);
         Button set_reference = layout.findViewById(R.id.comment_btn_setreference);
@@ -528,9 +528,8 @@ public class SessionSummaryPopupWindow {
         btn_continue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BodyPartSelection.commentsession = et_comment_section.getText().toString();
                 CommentSessionUpdateData data = new CommentSessionUpdateData(phizioemail,patientid,dateString,BodyPartSelection.painscale,
-                        BodyPartSelection.muscletone,BodyPartSelection.exercisename, et_comment_section.getText().toString(), BodyPartSelection.symptoms);
+                        BodyPartSelection.muscletone,BodyPartSelection.exercisename, BodyPartSelection.commentsession, BodyPartSelection.symptoms);
                 repository.updateCommentData(data);
                 pw.dismiss();
             }

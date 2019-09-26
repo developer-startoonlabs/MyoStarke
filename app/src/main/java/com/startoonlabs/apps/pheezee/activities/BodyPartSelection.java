@@ -318,7 +318,6 @@ public class BodyPartSelection extends AppCompatActivity {
                     pw.setFocusable(true);
                     pw.showAtLocation(view, Gravity.CENTER, 0, 0);
                     final Spinner sp_exercise_name = layout.findViewById(R.id.sp_exercise_name);
-                    final EditText et_comment_section = layout.findViewById(R.id.comment_et_comment);
                     final Button btn_set_reference = layout.findViewById(R.id.comment_btn_setreference);
                     final Button btn_continue = layout.findViewById(R.id.comment_btn_continue);
 
@@ -408,7 +407,6 @@ public class BodyPartSelection extends AppCompatActivity {
                     btn_continue.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            commentsession = et_comment_section.getText().toString();
                             int temp_index = -1;
                             boolean flag = false, present = false;
                             if (!exercisename.equalsIgnoreCase("")) {
