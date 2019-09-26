@@ -77,11 +77,11 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
     //session inserted on server
     private boolean  sessionCompleted = false, first_packet=true, inside_ondestroy = false;;
     MqttSyncRepository repository;
-    String json_phizioemail="";
+    private String json_phizioemail="", patientid="", patientname="";
     TextView tv_max_angle, tv_min_angle, tv_max_emg, tv_snap, Repetitions, holdTime,
             tv_session_no, tv_body_part, tv_repsselected, EMG, time, patientId, patientName, tv_action_time;
 
-    private int ui_rate = 0, gain_initial=20, software_gain = 0, maxAnglePart, minAnglePart, angleCorrection = 0,
+    private int ui_rate = 0, gain_initial=20, software_gain = 0, angleCorrection = 0,
             currentAngle=0, Seconds, Minutes, maxAngle, minAngle, maxEmgValue;
     int REQUEST_ENABLE_BT = 1;
     public final int sub_byte_size = 48;
@@ -196,7 +196,7 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
         tv_snap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TakeScreenShot screenShot = new TakeScreenShot(MonitorActivity.this,patientName.getText().toString(),patientId.getText().toString());
+                TakeScreenShot screenShot = new TakeScreenShot(MonitorActivity.this,patientname,patientid);
                 screenShot.takeScreenshot(null);
                 showToast("Took Screenshot");
             }
@@ -260,10 +260,12 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
             e.printStackTrace();
         }
 
-        patientId.setText(getIntent().getStringExtra("patientId"));
-        patientName.setText(getIntent().getStringExtra("patientName"));
+        patientid = getIntent().getStringExtra("patientId");
+        patientname = getIntent().getStringExtra("patientName");
+        patientId.setText(patientid);
+        patientName.setText(patientname);
         //setting session number
-        repository.getPatientSessionNo(patientId.getText().toString());
+        repository.getPatientSessionNo(patientid);
         bodypart = getIntent().getStringExtra("exerciseType");
         orientation = getIntent().getStringExtra("orientation");
         tv_body_part.setText(tv_body_part.getText().toString().concat(bodypart));
@@ -274,8 +276,6 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
         else {
             tv_repsselected.setVisibility(View.GONE);
         }
-        maxAnglePart = angleOperations.getMaxAngle(bodypart);
-        minAnglePart = angleOperations.getMinAngle(bodypart);
         arcViewInside.setMinAngle(0);
         arcViewInside.setMaxAngle(0);
 
@@ -530,7 +530,7 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
             android.text.format.DateFormat df = new android.text.format.DateFormat();
 //            String s = rawdata_timestamp.toString().substring(0, 19);
             String s = String.valueOf(DateFormat.format("yyyy-MM-dd hh-mm-ssa", rawdata_timestamp));
-            String child = patientName.getText().toString()+patientId.getText().toString();
+            String child = patientname+patientid;
             file_dir_session_emgdata = new File(Environment.getExternalStorageDirectory()+"/Pheezee/files/EmgData/"+child+"/sessiondata/",s);
             if (!file_dir_session_emgdata.exists()) {
                 file_dir_session_emgdata.mkdirs();
@@ -561,9 +561,9 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
 
                 //sessiondetails file output stream
                 outputStream_session_sessiondetails.write("Patient Name : ".getBytes());
-                outputStream_session_sessiondetails.write(patientName.getText().toString().getBytes());
+                outputStream_session_sessiondetails.write(patientname.getBytes());
                 outputStream_session_sessiondetails.write("\n".getBytes());
-                outputStream_session_sessiondetails.write("Patient Id: ".concat(patientId.getText().toString()).getBytes());
+                outputStream_session_sessiondetails.write("Patient Id: ".concat(patientid).getBytes());
                 outputStream_session_sessiondetails.write("\n".getBytes());
                 outputStream_session_sessiondetails.write("Orientation-Bodypart-ExerciseName : ".concat(orientation+"-"+bodypart+"-"+BodyPartSelection.exercisename).getBytes());
                 outputStream_session_sessiondetails.write("\n".getBytes());
@@ -1008,8 +1008,9 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
         String actiontime = tv_action_time.getText().toString();
         SessionSummaryPopupWindow window = new SessionSummaryPopupWindow(this,maxEmgValue, sessionNo,maxAngle,minAngle,orientation,bodypart,
                 json_phizioemail, sessiontime, actiontime, holdTime.getText().toString(),Repetitions.getText().toString(),emgJsonArray,romJsonArray,
-                angleCorrection, patientId.getText().toString(),patientName.getText().toString(), tsLong);
+                angleCorrection, patientid,patientname, tsLong);
         window.showWindow();
+        repository.getPatientSessionNo(patientid);
         window.setOnSessionDataResponse(new MqttSyncRepository.OnSessionDataResponse() {
             @Override
             public void onInsertSessionData(Boolean response, String message) {

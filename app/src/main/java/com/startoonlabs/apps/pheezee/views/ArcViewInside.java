@@ -89,14 +89,11 @@ public class ArcViewInside extends View {
 
         mX = getWidth()/2;
         mY = getHeight()/2;
-
         radius = Math.min(getWidth(), getHeight()) / 2;
         radius-=60;
-//        float left = mX+30-radius, top = mY+30-radius, right = mX-30+radius, bottom = mY-30+radius;
+//        mY = radius+20;
         float left = mX-radius, top = mY-radius, right = mX+radius, bottom = mY+radius;
-//        oval = new RectF(mX - radius, mY - radius, mX + radius, mY + radius);
         oval = new RectF(left, top, right, bottom);
-//        circle = new RectF(left+40,top+40,right-40,bottom-40);
         circle = new RectF(left,top,right,bottom);
         float scaleMarkSize = getResources().getDisplayMetrics().density * 16; // 16dp
 
@@ -129,13 +126,9 @@ public class ArcViewInside extends View {
         Paint range_paint = new Paint();
         range_paint.setTextSize(radius/6);
         range_paint.setColor(Color.RED);
-//        Point p1 = calculatePointOnArc(oval.centerX(),oval.centerY(),radius,-(-30));
-//        Point p2 = calculatePointOnArc(oval.centerX(),oval.centerY(),radius,-120);
-//        drawMaxMinCircleOnArc(p1,p2,canvas,paint,range_paint);
         if(enableMinMaxLines)
             drawMinMaxLines(canvas,oval.centerX(),oval.centerY(),radius,-min,-max);
 
-//        canvas.drawText("90",getWidth()/2,100,paint);
         canvas.save();
         for (int i = 0; i < 360; i += 45) {
             float angle = (float) Math.toRadians(i); // Need to convert to radians first
@@ -191,34 +184,17 @@ public class ArcViewInside extends View {
 
 
     }
+
     private void drawMinMaxLines(Canvas canvas,float circleCeX, float circleCeY, float circleRadius, float startAngle, float endAngle){
         float scaleMarkSize = getResources().getDisplayMetrics().density * 16;
         float minAngle = (float) Math.toRadians(120); // Need to convert to radians first
         float maxAngle = (float) Math.toRadians(-30);
-
-//        float startX = (float) (mX + radius * Math.sin(minAngle));
-//        float startY = (float) (mY - radius * Math.cos(minAngle));
-//
-//        float stopX = (float) (mX + (radius - scaleMarkSize) * Math.sin(minAngle));
-//        float stopY = (float) (mY - (radius - scaleMarkSize) * Math.cos(minAngle));
         double endAngleRadian = Math.toRadians(startAngle);
         int startX = (int) Math.round((circleCeX + (circleRadius+25) * Math.cos(endAngleRadian)));
         int startY = (int) Math.round((circleCeY + (circleRadius+25) * Math.sin(endAngleRadian)));
 
         int stopX = (int) Math.round((circleCeX + (circleRadius-25) * Math.cos(endAngleRadian)));
         int stopY = (int) Math.round((circleCeY + (circleRadius-25) * Math.sin(endAngleRadian)));
-
-//        startX = (float) (startX-(scaleMarkSize*Math.cos(minAngle)));
-//        startY = (float) (startY-(scaleMarkSize*Math.sin(minAngle)));
-//        stopX = (float) (stopX-(scaleMarkSize*Math.cos(minAngle)));
-//        stopY = (float) (stopY-(scaleMarkSize*Math.sin(minAngle)));
-
-
-//        float startX1 = (float) (mX + radius * Math.sin(maxAngle));
-//        float startY1 = (float) (mY - radius * Math.cos(maxAngle));
-//
-//        float stopX1 = (float) (mX + (radius - scaleMarkSize) * Math.sin(maxAngle));
-//        float stopY1 = (float) (mY - (radius - scaleMarkSize) * Math.cos(maxAngle));
 
         endAngleRadian = Math.toRadians(endAngle);
         int startX1 = (int) Math.round((circleCeX + (circleRadius+25) * Math.cos(endAngleRadian)));
@@ -238,26 +214,6 @@ public class ArcViewInside extends View {
 
     }
     private void drawCircleOnArc(Point p, Canvas canvas,Paint paint) {
-//        if(max_angle<0)
-//            canvas.drawCircle(p.x,p.y-30,radius/10,paint);
-//        else
-//            canvas.drawCircle(p.x,p.y+30,radius/10,paint);
-
-//        if(max_angle<90 && max_angle>-90) {
-//            if(max_angle>0) {
-//                canvas.drawCircle(p.x - 30, p.y + 30, radius / 10, paint);
-//            }
-//            else {
-//                canvas.drawCircle(p.x - 30, p.y - 30, radius / 10, paint);
-//            }
-//        }
-//        else {
-//            if(max_angle>0)
-//                canvas.drawCircle(p.x + 30, p.y+30, radius / 10, paint);
-//            else
-//                canvas.drawCircle(p.x - 30, p.y-30, radius / 10, paint);
-//        }
-
         canvas.drawCircle(p.x , p.y, radius / 10, paint);
     }
 

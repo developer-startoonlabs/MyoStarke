@@ -472,7 +472,7 @@ public class SessionSummaryPopupWindow {
                 MqttSync sync = new MqttSync(mqtt_publish_add_patient_session_emg_data,object.toString());
                 new SendDataAsyncTask(sync).execute();
                 int numofsessions = Integer.parseInt(sessionNo);
-                numofsessions+=1;
+//                numofsessions+=1;
                 repository.setPatientSessionNumber(String.valueOf(numofsessions),patientid);
             }catch (JSONException e) {
                 e.printStackTrace();
