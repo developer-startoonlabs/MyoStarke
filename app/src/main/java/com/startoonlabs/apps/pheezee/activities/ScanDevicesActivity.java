@@ -16,6 +16,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -37,6 +38,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static android.content.Context.BLUETOOTH_SERVICE;
+
 
 public class ScanDevicesActivity extends AppCompatActivity {
 
@@ -47,11 +50,12 @@ public class ScanDevicesActivity extends AppCompatActivity {
     public static ImageView iv_device_disconnected;
     public static ImageView iv_bluetooth_connected;
     public static ImageView iv_bluetooth_disconnected;
+    private Handler scan_handler = new Handler();
 
     private boolean mScanning = false;
     Handler handler;
 
-
+    Handler mainHandler = new Handler();
     private static final int REQUEST_FINE_LOCATION = 1;
     TextView tv_stoScan;
     ArrayList<DeviceListClass> mScanResults;
@@ -63,6 +67,8 @@ public class ScanDevicesActivity extends AppCompatActivity {
     public static String selectedDeviceMacAddress;
     public static boolean connectPressed =false;
     ImageView iv_back_scan_devices;
+    ScanHandler start_scan_handler = new ScanHandler();
+    ScanStopHandler stop_handler = new ScanStopHandler();
 
     @SuppressLint("ResourceAsColor")
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -132,11 +138,11 @@ public class ScanDevicesActivity extends AppCompatActivity {
                 check_operation = tv_stoScan.getText().toString();
                 if(check_operation.equalsIgnoreCase("SCAN")){
                     tv_stoScan.setText(R.string.scandevices_stop);
-                    startScan();
+                    start_scan_handler.run();
                 }
                 else {
                     tv_stoScan.setText(R.string.scandevices_scan);
-                    stopScan();
+                    stop_handler.run();
                 }
             }
         });
@@ -145,7 +151,7 @@ public class ScanDevicesActivity extends AppCompatActivity {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                startScan();
+                start_scan_handler.run();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -157,7 +163,7 @@ public class ScanDevicesActivity extends AppCompatActivity {
 
         lv_scandevices.setAdapter(deviceListArrayAdapter);
 
-        startScan();
+        start_scan_handler.run();
     }
     public Context getContext(){
         return this;
@@ -176,7 +182,7 @@ public class ScanDevicesActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        stopScan();
+        stop_handler.run();
     }
 
     /**
@@ -282,6 +288,23 @@ public class ScanDevicesActivity extends AppCompatActivity {
 //        }
 //    }
 
+    class ScanHandler implements Runnable{
+
+        @RequiresApi(api = Build.VERSION_CODES.M)
+        @Override
+        public void run() {
+            startScan();
+        }
+    }
+
+    class ScanStopHandler implements Runnable{
+
+        @Override
+        public void run() {
+            stopScan();
+        }
+    }
+
 }
 
 
@@ -372,6 +395,4 @@ class BtleScanCallback extends ScanCallback {
         }
         deviceListArrayAdapter.updateList(mScanResults);
     }
-
-
 }
