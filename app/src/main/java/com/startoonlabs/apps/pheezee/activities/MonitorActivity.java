@@ -614,7 +614,9 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
             outputStream_session_sessiondetails.write("\n".getBytes());
             outputStream_session_sessiondetails.write("Num of Reps:".concat(Repetitions.getText().toString()).getBytes());
             outputStream_session_sessiondetails.write("\n".getBytes());
-            outputStream_session_sessiondetails.write("Session Time:".concat(timer.getText().toString()).getBytes());
+            outputStream_session_sessiondetails.write("Session Time:".concat(time.getText().toString()).getBytes());
+            outputStream_session_sessiondetails.write("\n".getBytes());
+            outputStream_session_sessiondetails.write("Active Time:".concat(tv_action_time.getText().toString()).getBytes());
             outputStream_session_sessiondetails.write("\n".getBytes());
             outputStream_session_sessiondetails.write("Painscale-Muscletone : ".concat(BodyPartSelection.painscale+"-"+BodyPartSelection.muscletone).getBytes());
             outputStream_session_sessiondetails.write("\n".getBytes());
