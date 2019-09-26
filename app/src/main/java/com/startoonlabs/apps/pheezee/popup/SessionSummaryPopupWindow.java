@@ -123,7 +123,6 @@ public class SessionSummaryPopupWindow {
         LinearLayout ll_min_max_arc = layout.findViewById(R.id.ll_min_max_arc);
         final TextView tv_patient_name =layout.findViewById(R.id.tv_summary_patient_name);
         final TextView tv_patient_id = layout.findViewById(R.id.tv_summary_patient_id);
-        TextView tv_comment = layout.findViewById(R.id.summary_tv_comment);
         TextView tv_held_on = layout.findViewById(R.id.session_held_on);
         TextView tv_min_angle = layout.findViewById(R.id.tv_min_angle);
         TextView tv_max_angle = layout.findViewById(R.id.tv_max_angle);
@@ -145,7 +144,7 @@ public class SessionSummaryPopupWindow {
         final RadioGroup rg_session_type = layout.findViewById(R.id.rg_session_type);
         final LinearLayout ll_click_to_view_report = layout.findViewById(R.id.ll_click_to_view_report);
         final LinearLayout ll_click_to_choose_body_part = layout.findViewById(R.id.ll_click_to_choose_bodypart);
-
+        EditText et_remarks = layout.findViewById(R.id.et_remarks);
 
 
         //Share and cancel image view
@@ -297,13 +296,6 @@ public class SessionSummaryPopupWindow {
 
         storeLocalSessionDetails(dateString,sessiontime);
 
-        tv_comment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                commentSectionPopUp(dateString);
-            }
-        });
-
         ll_mmt_confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -314,6 +306,7 @@ public class SessionSummaryPopupWindow {
                 if(btn!=null)
                     session_type = btn.getText().toString();
                 String check = mmt_selected.concat(body_orientation).concat(session_type);
+                BodyPartSelection.commentsession = et_remarks.getText().toString();
                 if(!check.equalsIgnoreCase("")){
                     JSONObject object = new JSONObject();
                     try {
@@ -323,6 +316,7 @@ public class SessionSummaryPopupWindow {
                         object.put("mmtgrade", mmt_selected);
                         object.put("bodyorientation",body_orientation);
                         object.put("sessiontype",session_type);
+                        object.put("commentsession",et_remarks.getText().toString());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

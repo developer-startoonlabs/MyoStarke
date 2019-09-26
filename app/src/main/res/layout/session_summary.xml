@@ -176,24 +176,6 @@
                         android:textColor="@color/pitch_black"
                         android:textSize="15sp" />
                 </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.7"
-                    android:gravity="right">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/summary_tv_comment"
-                        android:fontFamily="@font/ebrima"
-                        android:layout_gravity="end"
-                        android:paddingBottom="10dp"
-                        android:text="Edit comments"
-                        android:textColor="@color/pitch_black"
-                        android:textSize="15sp" />
-
-                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 
@@ -1308,6 +1290,20 @@
                         android:layout_gravity="right"
                         android:layout_marginEnd="8dp"/>
                 </RadioGroup>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/et_remarks"
+                    android:maxLength="100"
+                    android:maxLines="1"
+                    android:hint="Remarks?(if any)"/>
             </LinearLayout>
 
             <LinearLayout

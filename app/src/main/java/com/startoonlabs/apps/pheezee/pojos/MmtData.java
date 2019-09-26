@@ -2,15 +2,16 @@ package com.startoonlabs.apps.pheezee.pojos;
 
 public class MmtData {
 
-    String phizioemail, patientid, heldon, mmtgrade, bodyorientation, sessiontype, id;
+    String phizioemail, patientid, heldon, mmtgrade, bodyorientation, sessiontype, id, commentsession;
 
-    public MmtData(String phizioemail, String patientid, String heldon, String mmtgrade, String bodyorientation, String sessiontype, String id) {
+    public MmtData(String phizioemail, String patientid, String heldon, String mmtgrade, String bodyorientation, String sessiontype, String id, String commentsession) {
         this.phizioemail = phizioemail;
         this.patientid = patientid;
         this.heldon = heldon;
         this.mmtgrade = mmtgrade;
         this.bodyorientation = bodyorientation;
         this.sessiontype = sessiontype;
+        this.commentsession = commentsession;
         this.id = id;
     }
 
