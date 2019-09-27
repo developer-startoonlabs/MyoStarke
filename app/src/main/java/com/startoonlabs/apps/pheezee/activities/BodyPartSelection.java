@@ -23,6 +23,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -320,6 +322,7 @@ public class BodyPartSelection extends AppCompatActivity {
                     final Spinner sp_exercise_name = layout.findViewById(R.id.sp_exercise_name);
                     final Button btn_set_reference = layout.findViewById(R.id.comment_btn_setreference);
                     final Button btn_continue = layout.findViewById(R.id.comment_btn_continue);
+                    final RadioGroup rg_body_orientation = layout.findViewById(R.id.rg_body_orientation);
 
                     //Adapter for spinner
                     ArrayAdapter<String> array_exercise_names = new ArrayAdapter<String>(BodyPartSelection.this, R.layout.support_simple_spinner_dropdown_item, MuscleOperation.getMusleNames(selectedPosition));
@@ -409,8 +412,17 @@ public class BodyPartSelection extends AppCompatActivity {
                         public void onClick(View v) {
                             int temp_index = -1;
                             boolean flag = false, present = false;
-                            if (!exercisename.equalsIgnoreCase("")) {
+
+                            RadioButton btn = layout.findViewById(rg_body_orientation.getCheckedRadioButtonId());
+                            if (!exercisename.equalsIgnoreCase("") && btn!=null) {
                                 pw.dismiss();
+                                String bodyorientation = btn.getText().toString();
+                                int body_orientation = 0;
+                                if(bodyorientation.equalsIgnoreCase("sit")) body_orientation=1;
+                                else if (bodyorientation.equalsIgnoreCase("stand")) body_orientation = 2;
+                                else body_orientation=3;
+
+
                                 int position_list_selected = selectedPosition;
                                 String str_time = repsselected + "";
                                 editor = preferences.edit();
@@ -505,10 +517,16 @@ public class BodyPartSelection extends AppCompatActivity {
                                 intent.putExtra("patientName", getIntent().getStringExtra("patientName"));
                                 intent.putExtra("exerciseType", bodypartSelected);
                                 intent.putExtra("orientation", orientationSelected);
+                                intent.putExtra("bodyorientation",bodyorientation);
+                                intent.putExtra("body_orientation",body_orientation);
                                 Log.i("intent", intent.toString());
                                 startActivity(intent);
                             } else {
-                                showToast("Please select Muscle name!");
+                                if(btn==null){
+                                    showToast("Please select Body orientation!");
+                                }else {
+                                    showToast("Please select Muscle name!");
+                                }
                             }
                         }
 

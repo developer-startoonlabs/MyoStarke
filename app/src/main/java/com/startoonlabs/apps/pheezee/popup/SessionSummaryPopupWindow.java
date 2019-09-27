@@ -65,8 +65,9 @@ public class SessionSummaryPopupWindow {
     Context context;
     PopupWindow report;
     int maxEmgValue, maxAngle, minAngle, angleCorrection;
-    String sessionNo, mmt_selected = "", orientation, bodypart, phizioemail, patientname, patientid, sessiontime, actiontime,
+    private String sessionNo, mmt_selected = "", orientation, bodypart, phizioemail, patientname, patientid, sessiontime, actiontime,
             holdtime, numofreps, body_orientation="", session_type="";
+    String bodyOrientation="";
 
     JSONArray emgJsonArray,romJsonArray;
     MqttSyncRepository repository;
@@ -75,7 +76,7 @@ public class SessionSummaryPopupWindow {
     public SessionSummaryPopupWindow(Context context, int maxEmgValue, String sessionNo, int maxAngle, int minAngle,
                                      String orientation, String bodypart, String phizioemail, String sessiontime, String actiontime,
                                      String holdtime, String numofreps, JSONArray emgJsonArray, JSONArray romJsonArray, int angleCorrection,
-                                     String patientid, String patientname, Long tsLong){
+                                     String patientid, String patientname, Long tsLong, String bodyOrientation){
         this.context = context;
         this.maxEmgValue = maxEmgValue;
         this.sessionNo = sessionNo;
@@ -94,6 +95,7 @@ public class SessionSummaryPopupWindow {
         this.patientid = patientid;
         this.patientname = patientname;
         this.tsLong = tsLong;
+        this.bodyOrientation = bodyOrientation;
         repository = new MqttSyncRepository(((Activity)context).getApplication());
         repository.setOnSessionDataResponse(onSessionDataResponse);
     }
@@ -140,7 +142,6 @@ public class SessionSummaryPopupWindow {
         final LinearLayout ll_mmt_confirm = layout.findViewById(R.id.bp_model_mmt_confirm);
 
         LinearLayout ll_mmt_container = layout.findViewById(R.id.ll_mmt_grading);
-        final RadioGroup rg_body_orientation = layout.findViewById(R.id.rg_body_orientation);
         final RadioGroup rg_session_type = layout.findViewById(R.id.rg_session_type);
         final LinearLayout ll_click_to_view_report = layout.findViewById(R.id.ll_click_to_view_report);
         final LinearLayout ll_click_to_choose_body_part = layout.findViewById(R.id.ll_click_to_choose_bodypart);
@@ -299,13 +300,11 @@ public class SessionSummaryPopupWindow {
         ll_mmt_confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RadioButton btn = layout.findViewById(rg_body_orientation.getCheckedRadioButtonId());
-                if(btn!=null)
-                    body_orientation = btn.getText().toString();
-                btn = layout.findViewById(rg_session_type.getCheckedRadioButtonId());
-                if(btn!=null)
-                    session_type = btn.getText().toString();
-                String check = mmt_selected.concat(body_orientation).concat(session_type);
+                RadioButton rb_session_type =  layout.findViewById(rg_session_type.getCheckedRadioButtonId());
+                if(rb_session_type!=null){
+                    session_type = rb_session_type.getText().toString();
+                }
+                String check = mmt_selected.concat(session_type);
                 BodyPartSelection.commentsession = et_remarks.getText().toString();
                 if(!check.equalsIgnoreCase("")){
                     JSONObject object = new JSONObject();
@@ -314,7 +313,7 @@ public class SessionSummaryPopupWindow {
                         object.put("patientid", patientid);
                         object.put("heldon", dateString);
                         object.put("mmtgrade", mmt_selected);
-                        object.put("bodyorientation",body_orientation);
+                        object.put("bodyorientation",bodyOrientation);
                         object.put("sessiontype",session_type);
                         object.put("commentsession",et_remarks.getText().toString());
                     } catch (JSONException e) {
@@ -456,7 +455,7 @@ public class SessionSummaryPopupWindow {
                 object.put("activetime",actiontime);
                 object.put("orientation", orientation);
                 object.put("mmtgrade",mmt_selected);
-                object.put("bodyorientation",body_orientation);
+                object.put("bodyorientation",bodyOrientation);
                 object.put("sessiontype",session_type);
                 object.put("repsselected",BodyPartSelection.repsselected);
                 object.put("musclename", BodyPartSelection.exercisename);

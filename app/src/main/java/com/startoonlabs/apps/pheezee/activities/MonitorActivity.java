@@ -77,11 +77,11 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
     //session inserted on server
     private boolean  sessionCompleted = false, first_packet=true, inside_ondestroy = false;;
     MqttSyncRepository repository;
-    private String json_phizioemail="", patientid="", patientname="";
+    private String json_phizioemail="", patientid="",bodyorientation = ""	, patientname="";
     TextView tv_max_angle, tv_min_angle, tv_max_emg, tv_snap, Repetitions, holdTime,
             tv_session_no, tv_body_part, tv_repsselected, EMG, time, patientId, patientName, tv_action_time;
 
-    private int ui_rate = 0, gain_initial=20, software_gain = 0, angleCorrection = 0,
+    private int ui_rate = 0, gain_initial=20, software_gain = 0,body_orientation = 0, angleCorrection = 0,
             currentAngle=0, Seconds, Minutes, maxAngle, minAngle, maxEmgValue;
     int REQUEST_ENABLE_BT = 1;
     public final int sub_byte_size = 48;
@@ -262,6 +262,8 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
 
         patientid = getIntent().getStringExtra("patientId");
         patientname = getIntent().getStringExtra("patientName");
+        bodyorientation = getIntent().getStringExtra("bodyorientation");
+        body_orientation = getIntent().getIntExtra("body_orientation",0);
         patientId.setText(patientid);
         patientName.setText(patientname);
         //setting session number
@@ -523,7 +525,7 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    sendParticularDataToPheeze(exerciseType);
+                    sendParticularDataToPheeze(exerciseType, body_orientation);
                 }
             }, 100);
             rawdata_timestamp = Calendar.getInstance().getTime();
@@ -761,7 +763,7 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
                 if(timer.getVisibility()==View.GONE){
                     PatientsView.sessionStarted = true;
                     devicePopped = false;
-                    sendParticularDataToPheeze(exerciseType);
+                    sendParticularDataToPheeze(exerciseType, body_orientation);
                 }
             }
         }
@@ -1008,7 +1010,7 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
         String actiontime = tv_action_time.getText().toString();
         SessionSummaryPopupWindow window = new SessionSummaryPopupWindow(this,maxEmgValue, sessionNo,maxAngle,minAngle,orientation,bodypart,
                 json_phizioemail, sessiontime, actiontime, holdTime.getText().toString(),Repetitions.getText().toString(),emgJsonArray,romJsonArray,
-                angleCorrection, patientid,patientname, tsLong);
+                angleCorrection, patientid,patientname, tsLong, bodyorientation);
         window.showWindow();
         repository.getPatientSessionNo(patientid);
         window.setOnSessionDataResponse(new MqttSyncRepository.OnSessionDataResponse() {
@@ -1061,8 +1063,8 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
      * calls the send function.
      * @param string
      */
-    public void sendParticularDataToPheeze(String string){
-        send(ValueBasedColorOperations.getParticularDataToPheeze(string));
+    public void sendParticularDataToPheeze(String string, int body_orientation){
+        send(ValueBasedColorOperations.getParticularDataToPheeze(string, body_orientation));
     }
 
     /**
