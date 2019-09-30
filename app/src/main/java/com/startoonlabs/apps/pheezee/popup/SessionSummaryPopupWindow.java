@@ -26,6 +26,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
@@ -144,8 +145,8 @@ public class SessionSummaryPopupWindow {
         LinearLayout ll_mmt_container = layout.findViewById(R.id.ll_mmt_grading);
         final RadioGroup rg_session_type = layout.findViewById(R.id.rg_session_type);
         final LinearLayout ll_click_to_view_report = layout.findViewById(R.id.ll_click_to_view_report);
-        final LinearLayout ll_click_to_choose_body_part = layout.findViewById(R.id.ll_click_to_choose_bodypart);
         EditText et_remarks = layout.findViewById(R.id.et_remarks);
+        TextView tv_confirm = layout.findViewById(R.id.tv_confirm_ll_overall_summary);
 
 
         //Share and cancel image view
@@ -155,10 +156,43 @@ public class SessionSummaryPopupWindow {
         //Emg Progress Bar
         ProgressBar pb_max_emg = layout.findViewById(R.id.progress_max_emg);
 
+        rg_session_type.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                tv_confirm.setText("Confirm");
+            }
+        });
+
+
+//        et_remarks.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                tv_confirm.setText("Confirm");
+//            }
+//        });
+
 
         for (int i=0;i<ll_mmt_container.getChildCount();i++){
             View view_nested = ll_mmt_container.getChildAt(i);
-            view_nested.setOnClickListener(onClickListener);
+            view_nested.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    tv_confirm.setText("Confirm");
+                    LinearLayout ll_container = ((LinearLayout)v);
+                    LinearLayout parent = (LinearLayout) ll_container.getParent();
+                    for (int i=0;i<parent.getChildCount();i++){
+                        LinearLayout ll_child = (LinearLayout) parent.getChildAt(i);
+                        TextView tv_childs = (TextView) ll_child.getChildAt(0);
+                        tv_childs.setBackgroundResource(R.drawable.drawable_mmt_circular_tv);
+                        tv_childs.setTextColor(ContextCompat.getColor(context,R.color.pitch_black));
+                    }
+                    TextView tv_selected = (TextView) ll_container.getChildAt(0);
+                    tv_selected.setBackgroundColor(Color.YELLOW);
+                    mmt_selected=tv_selected.getText().toString();
+                    tv_selected.setBackgroundResource(R.drawable.drawable_mmt_grade_selected);
+                    tv_selected.setTextColor(ContextCompat.getColor(context,R.color.white));
+                }
+            });
         }
 
         tv_session_num.setText(sessionNo);
@@ -170,27 +204,6 @@ public class SessionSummaryPopupWindow {
             maxAngle = 0;
             minAngle = 0;
         }
-
-        ll_click_to_choose_body_part.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                report.dismiss();
-                ((Activity)context).finish();
-                BodyPartSelection.refreshView();
-            }
-        });
-
-        ll_click_to_choose_body_part.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == android.view.MotionEvent.ACTION_DOWN) {
-                    ll_click_to_choose_body_part.setAlpha(0.4f);
-                } else if (event.getAction() == android.view.MotionEvent.ACTION_UP) {
-                    ll_click_to_choose_body_part.setAlpha(1f);
-                }
-                return false;
-            }
-        });
 
         ll_click_to_view_report.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -300,30 +313,39 @@ public class SessionSummaryPopupWindow {
         ll_mmt_confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RadioButton rb_session_type =  layout.findViewById(rg_session_type.getCheckedRadioButtonId());
-                if(rb_session_type!=null){
-                    session_type = rb_session_type.getText().toString();
-                }
-                String check = mmt_selected.concat(session_type);
-                BodyPartSelection.commentsession = et_remarks.getText().toString();
-                if(!check.equalsIgnoreCase("")){
-                    JSONObject object = new JSONObject();
-                    try {
-                        object.put("phizioemail", phizioemail);
-                        object.put("patientid", patientid);
-                        object.put("heldon", dateString);
-                        object.put("mmtgrade", mmt_selected);
-                        object.put("bodyorientation",bodyOrientation);
-                        object.put("sessiontype",session_type);
-                        object.put("commentsession",et_remarks.getText().toString());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                String type = tv_confirm.getText().toString();
+                if(type.equalsIgnoreCase("Confirm")) {
+
+                    RadioButton rb_session_type = layout.findViewById(rg_session_type.getCheckedRadioButtonId());
+                    if (rb_session_type != null) {
+                        session_type = rb_session_type.getText().toString();
                     }
-                    MqttSync mqttSync = new MqttSync(mqtt_publish_update_patient_mmt_grade, object.toString());
-                    new SendDataAsyncTask(mqttSync).execute();
-                }
-                else {
-                    //showToast("Nothing Selected");
+                    String check = mmt_selected.concat(session_type);
+                    BodyPartSelection.commentsession = et_remarks.getText().toString();
+                    if (!check.equalsIgnoreCase("")) {
+                        tv_confirm.setText("New Session");
+                        JSONObject object = new JSONObject();
+                        try {
+                            object.put("phizioemail", phizioemail);
+                            object.put("patientid", patientid);
+                            object.put("heldon", dateString);
+                            object.put("mmtgrade", mmt_selected);
+                            object.put("bodyorientation", bodyOrientation);
+                            object.put("sessiontype", session_type);
+                            object.put("commentsession", et_remarks.getText().toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        MqttSync mqttSync = new MqttSync(mqtt_publish_update_patient_mmt_grade, object.toString());
+                        new SendDataAsyncTask(mqttSync).execute();
+                    } else {
+                        showToast("Nothing Selected");
+                    }
+                }else {
+                    tv_confirm.setText("Confirm");
+                    report.dismiss();
+                    ((Activity)context).finish();
+                    BodyPartSelection.refreshView();
                 }
             }
         });
@@ -355,6 +377,10 @@ public class SessionSummaryPopupWindow {
                 new SendDataAsyncTask(mqttSync).execute();
             }
         });
+    }
+
+    private void showToast(String nothing_selected) {
+        Toast.makeText(context, nothing_selected, Toast.LENGTH_SHORT).show();
     }
 
     View.OnClickListener onClickListener = new View.OnClickListener() {

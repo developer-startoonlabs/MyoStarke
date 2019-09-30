@@ -160,7 +160,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_gravity="bottom"
-                android:background="@color/good_green"></com.robertlevonyan.views.customfloatingactionbutton.FloatingLayout>
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/round_same_buttons"></com.robertlevonyan.views.customfloatingactionbutton.FloatingLayout>
 
             <TextView
                 android:layout_width="wrap_content"
