@@ -2,6 +2,7 @@ package com.startoonlabs.apps.pheezee.activities;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -225,8 +226,13 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
         super.onDestroy();
     }
 
-
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(this, PatientsView.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(i);
+    }
 
     public JSONArray getSessions(){
         return session_arry;
@@ -255,6 +261,9 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
     @Override
     public void onDayReportReceived(File file, String message, Boolean response) {
     }
+
+
+
 
 
     @Override

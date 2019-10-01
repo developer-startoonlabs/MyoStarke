@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -53,7 +54,7 @@ public class PhizioProfile extends AppCompatActivity implements MqttSyncReposito
     EditText et_phizio_name, et_phizio_email, et_phizio_phone,et_address, et_clinic_name, et_dob, et_experience, et_specialization, et_degree, et_gender;
     Spinner spinner;
     MqttSyncRepository repository;
-    TextView tv_edit_profile_pic, tv_edit_profile_details;
+    TextView tv_edit_profile_pic, tv_edit_profile_details, tv_upload_clinic_logo;
     ImageView iv_phizio_profilepic;
 
     final Calendar myCalendar = Calendar.getInstance();
@@ -93,6 +94,8 @@ public class PhizioProfile extends AppCompatActivity implements MqttSyncReposito
         et_phizio_phone =  findViewById(R.id.et_phizio_phone);
         tv_edit_profile_details  = findViewById(R.id.edit_phizio_details);
         tv_edit_profile_pic = findViewById(R.id.change_profile_pic);
+        tv_upload_clinic_logo = findViewById(R.id.tv_upload_clinic_logo);
+
         et_address = findViewById(R.id.et_phizio_address);
         et_clinic_name = findViewById(R.id.et_phizio_clinic_name);
         et_dob = findViewById(R.id.et_phizio_dob);
@@ -170,6 +173,8 @@ public class PhizioProfile extends AppCompatActivity implements MqttSyncReposito
         });
 
 
+
+
         btn_update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -219,7 +224,21 @@ public class PhizioProfile extends AppCompatActivity implements MqttSyncReposito
             @Override
             public void onClick(View v) {
                 if(NetworkOperations.isNetworkAvailable(PhizioProfile.this)) {
-                    UploadImageDialog dialog1 = new UploadImageDialog(PhizioProfile.this);
+                    UploadImageDialog dialog1 = new UploadImageDialog(PhizioProfile.this, 5, 6);
+                    dialog1.showDialog();
+                }
+                else {
+                    NetworkOperations.networkError(PhizioProfile.this);
+                }
+            }
+        });
+
+
+        tv_upload_clinic_logo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(NetworkOperations.isNetworkAvailable(PhizioProfile.this)) {
+                    UploadImageDialog dialog1 = new UploadImageDialog(PhizioProfile.this, 7, 8);
                     dialog1.showDialog();
                 }
                 else {
@@ -278,6 +297,12 @@ public class PhizioProfile extends AppCompatActivity implements MqttSyncReposito
                 et_address.setText(json_phizio.getString("address"));
             else
                 et_address.setText("");
+
+            if(json_phizio.has("cliniclogo") && !json_phizio.getString("cliniclogo").equalsIgnoreCase("/icons/clinic.png")) {
+                tv_upload_clinic_logo.setText("Update Clinic Logo");
+                Drawable drawable = getResources().getDrawable(R.drawable.round_same_buttons);
+                tv_upload_clinic_logo.setBackground(drawable);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -405,6 +430,32 @@ public class PhizioProfile extends AppCompatActivity implements MqttSyncReposito
                     dialog.show();
                 }
                 break;
+
+            case 7:
+                if(resultCode == RESULT_OK){
+                    Bitmap photo = (Bitmap) imageReturnedIntent.getExtras().get("data");
+                    photo = BitmapOperations.getResizedBitmap(photo,128);
+                    iv_phizio_profilepic.setImageBitmap(photo);
+                    ivBasicImage.setImageBitmap(photo);
+                    repository.updatePhizioClinicLogoPic(et_phizio_email.getText().toString(),photo);
+                    dialog.setMessage("Uploading image, please wait");
+                    dialog.show();
+                }
+                break;
+            case 8:
+                if(resultCode == RESULT_OK){
+                    Uri selectedImage = imageReturnedIntent.getData();
+                    iv_phizio_profilepic.setImageURI(selectedImage);
+                    ivBasicImage.setImageURI(selectedImage);
+                    iv_phizio_profilepic.invalidate();
+                    BitmapDrawable drawable = (BitmapDrawable) iv_phizio_profilepic.getDrawable();
+                    Bitmap photo = drawable.getBitmap();
+                    photo = BitmapOperations.getResizedBitmap(photo,128);
+                    repository.updatePhizioClinicLogoPic(et_phizio_email.getText().toString(),photo);
+                    dialog.setMessage("Uploading image, please wait");
+                    dialog.show();
+                }
+                break;
         }
     }
 
@@ -442,5 +493,16 @@ public class PhizioProfile extends AppCompatActivity implements MqttSyncReposito
     @Override
     public void onProfilePictureUpdated(Boolean response) {
         dialog.dismiss();
+    }
+
+
+    @Override
+    public void onClinicLogoUpdated(Boolean response) {
+        dialog.dismiss();
+        if(tv_upload_clinic_logo!=null && response){
+            Drawable drawable = getResources().getDrawable(R.drawable.round_same_buttons);
+            tv_upload_clinic_logo.setBackground(drawable);
+            tv_upload_clinic_logo.setText("Update Clinic Logo");
+        }
     }
 }

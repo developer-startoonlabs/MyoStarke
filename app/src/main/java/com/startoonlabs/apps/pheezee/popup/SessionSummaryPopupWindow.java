@@ -266,9 +266,9 @@ public class SessionSummaryPopupWindow {
         tv_held_on.setText(dateString_date);
 
         tv_min_angle.setText(String.valueOf(minAngle).concat("°"));
-        tv_min_angle.setBackgroundColor(color);
+        tv_min_angle.setTextColor(color);
         tv_max_angle.setText(String.valueOf(maxAngle).concat("°"));
-        tv_max_angle.setBackgroundColor(color);
+        tv_max_angle.setTextColor(color);
 
         //total session time
         sessiontime = sessiontime.substring(0,2)+"m"+sessiontime.substring(3,7)+"s";
@@ -278,10 +278,10 @@ public class SessionSummaryPopupWindow {
         tv_hold_time.setText(holdtime);
         tv_num_of_reps.setText(numofreps);
         tv_max_emg.setText(String.valueOf(maxEmgValue).concat(((Activity)context).getResources().getString(R.string.emg_unit)));
-        tv_max_emg.setBackgroundColor(emg_color);
+        tv_max_emg.setTextColor(emg_color);
 
         tv_range.setText(String.valueOf(maxAngle-minAngle).concat("°"));
-        tv_range.setBackgroundColor(color);
+        tv_range.setTextColor(color);
 
         //Creating the arc
         ArcViewInside arcView =layout.findViewById(R.id.session_summary_arcview);

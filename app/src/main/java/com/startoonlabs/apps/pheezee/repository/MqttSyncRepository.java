@@ -872,6 +872,50 @@ public class MqttSyncRepository {
         });
     }
 
+    public void updatePhizioClinicLogoPic(String phizioemail, Bitmap photo){
+        PatientImageData data = new PatientImageData(null,phizioemail, BitmapOperations.bitmapToString(photo));
+        Call<PatientImageUploadResponse> update_phizio_pic = getDataService.updatePhizioClinicLogoPic(data);
+        update_phizio_pic.enqueue(new Callback<PatientImageUploadResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<PatientImageUploadResponse> call, @NonNull Response<PatientImageUploadResponse> response) {
+                if(response.code()==200){
+                    PatientImageUploadResponse response1 = response.body();
+                    if(response1!=null) {
+                        if (response1.getIsvalid()) {
+                            try {
+                                JSONObject object = new JSONObject(sharedPref.getString("phiziodetails", ""));
+                                object.put("cliniclogo", response1.getUrl());
+                                editor = sharedPref.edit();
+                                editor.putString("phiziodetails", object.toString());
+                                editor.apply();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            if (phizioDetailsResponseListner != null) {
+                                phizioDetailsResponseListner.onClinicLogoUpdated(true);
+                            }
+                        }else {
+                            if (phizioDetailsResponseListner != null) {
+                                phizioDetailsResponseListner.onClinicLogoUpdated(false);
+                            }
+                        }
+                    }else {
+                        if (phizioDetailsResponseListner != null) {
+                            phizioDetailsResponseListner.onClinicLogoUpdated(false);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<PatientImageUploadResponse> call, @NonNull Throwable t) {
+                if(phizioDetailsResponseListner!=null){
+                    phizioDetailsResponseListner.onClinicLogoUpdated(false);
+                }
+            }
+        });
+    }
+
     public void getReportData(String email, String patientid){
         Call<List<GetReportDataResponse>> get_report = getDataService.getReportData(new GetReportData(email,patientid));
         get_report.enqueue(new Callback<List<GetReportDataResponse>>() {
@@ -1135,6 +1179,7 @@ public class MqttSyncRepository {
     public interface OnPhizioDetailsResponseListner{
         void onDetailsUpdated(Boolean response);
         void onProfilePictureUpdated(Boolean response);
+        void onClinicLogoUpdated(Boolean response);
     }
 
     public interface OnSignUpResponse{

@@ -1083,7 +1083,7 @@ public class PatientsView extends AppCompatActivity
      */
     public void chooseImageUpdateAction(final View view){
         patientLayoutView = view;
-        UploadImageDialog dialog = new UploadImageDialog(this);
+        UploadImageDialog dialog = new UploadImageDialog(this, 5, 6);
         dialog.showDialog();
     }
 

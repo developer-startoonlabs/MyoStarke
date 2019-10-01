@@ -24,9 +24,13 @@ public class UploadImageDialog {
     final CharSequence[] items = { "Take Photo", "Choose from Library",
             "Cancel" };
 
+    private int result_code_gallery, result_code_camera;
 
-    public UploadImageDialog(Context context){
+
+    public UploadImageDialog(Context context, int result_code_camera, int result_code_gallery){
         this.context = context;
+        this.result_code_camera = result_code_camera;
+        this.result_code_gallery = result_code_gallery;
     }
 
     public void showDialog(){
@@ -56,14 +60,14 @@ public class UploadImageDialog {
 
     private void cameraIntent() {
         Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        ((Activity)context).startActivityForResult(takePicture, 5);
+        ((Activity)context).startActivityForResult(takePicture, result_code_camera);
     }
 
     private void galleryIntent() {
         Intent pickPhoto = new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 //        pickPhoto.putExtra("patientid",1);
-        ((Activity)context).startActivityForResult(pickPhoto , 6);
+        ((Activity)context).startActivityForResult(pickPhoto , result_code_gallery);
     }
 
 

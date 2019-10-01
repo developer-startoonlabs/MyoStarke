@@ -82,7 +82,7 @@ public class BodyPartSelection extends AppCompatActivity {
     TextView tv_body_part_recent;
     ImageView iv_back_body_part_selection;
     String[] string;
-    String str_recent;public static String painscale="", muscletone="", exercisename="", commentsession="", symptoms="", musclename="", maxAngleSelected="", minAngleSelected="",maxEmgSelected="";     //musclename is actually exercise name and exercisename is musclename. As the flow changed.
+    public static String painscale="", muscletone="", exercisename="", commentsession="", symptoms="", musclename="", maxAngleSelected="", minAngleSelected="",maxEmgSelected="";     //musclename is actually exercise name and exercisename is musclename. As the flow changed.
     public static int repsselected=0, exercise_selected_position=-1;
 
     FrameLayout fl_fab_background;
@@ -96,67 +96,18 @@ public class BodyPartSelection extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_body_part_selection);
-        tv_body_part_recent = findViewById(R.id.tv_recently_items); //this textview is visible when no recent body part is selected.
         fab_done =  findViewById(R.id.fab_done);    //floating button Done.
         fl_fab_background = findViewById(R.id.fl_fab_background);
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         editor = preferences.edit();
         //THis string extracts the recently selected body part from the shared preference.
-        str_recent = preferences.getString("recently","");
         try {
             json_phizio = new JSONObject(preferences.getString("phiziodetails",""));
         } catch (JSONException e) {
             e.printStackTrace();
         }
         //Layout of the recently body part
-        ll_recent_bodypart = findViewById(R.id.ll_recent_section);
         iv_back_body_part_selection = findViewById(R.id.iv_back_body_part_selection);
-
-
-        Log.i("str_recent",str_recent);
-        /**
-         * Loading the recent bodyparts
-         */
-        if (str_recent.equals("")){
-            tv_body_part_recent.setVisibility(View.VISIBLE);
-        }
-        else {
-            try {
-                JSONArray array = new JSONArray(str_recent);
-
-                for (int i=0;i<array.length();i++){
-                    JSONObject object1 = array.getJSONObject(i);
-                    if(object1.getString("patientid").equals(getPatientId())) {
-                        JSONArray array1 = new JSONArray(object1.getString("recent"));
-                        ImageView iv_recent_body[] = new ImageView[array1.length()];
-                        for (int j=0;j<array1.length();j++) {
-                            flag_recent = true;
-                            int width = dpToPixel(95);
-                            iv_recent_body[j] = new ImageView(getApplicationContext());
-                            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                                    width, LinearLayout.LayoutParams.WRAP_CONTENT);
-                            JSONObject object = array1.getJSONObject(j);
-                            int res_id = object.getInt("res_id");
-                            String pos = object.getString("position");
-                            iv_recent_body[j].setImageResource(myPartList[Integer.parseInt(pos)]);
-                            iv_recent_body[j].setId(res_id);
-                            int left_padding = dpToPixel(20);
-                            iv_recent_body[j].setPadding(left_padding, 0, 0, 0);
-                            Log.i("res_id", res_id + "");
-                            iv_recent_body[j].setTag(j);
-                            iv_recent_body[j].setScaleType(ImageView.ScaleType.FIT_XY);
-                            iv_recent_body[j].setOnClickListener(onclicklistner);
-                            ll_recent_bodypart.addView(iv_recent_body[j], layoutParams);
-                        }
-                    }
-                }
-                if(!flag_recent){
-                    tv_body_part_recent.setVisibility(View.VISIBLE);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
         bodyPartRecyclerView = findViewById(R.id.bodyPartRecyclerView);
         bodyPartRecyclerView.setHasFixedSize(true);
 
@@ -236,31 +187,6 @@ public class BodyPartSelection extends AppCompatActivity {
     }
 
 
-    /**
-     * On click listner on all the images inside the horizontal view of body part selection screen
-     */
-
-    View.OnClickListener onclicklistner = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            ImageView imageView = ((ImageView)v);
-            int pos = Integer.parseInt(imageView.getTag().toString());
-            Log.i("tag",String.valueOf(pos));
-            JSONArray array = null;
-            try {
-                array = new JSONArray(str_recent);
-                for (int i=0;i<array.length();i++){
-                    JSONObject object1 = array.getJSONObject(i);
-                    if(object1.getString("patientid").equals(getPatientId())) {
-                        JSONArray array_exercises = new JSONArray(object1.getString("recent"));
-                        JSONObject object = array_exercises.getJSONObject(pos);
-                    }
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-    };
     /**
      *This method returns the patient id from by getting it from the intent.
      * @return String
@@ -427,89 +353,89 @@ public class BodyPartSelection extends AppCompatActivity {
                                 String str_time = repsselected + "";
                                 editor = preferences.edit();
 
-                                JSONArray array = new JSONArray();
-                                JSONArray array1 = new JSONArray();
-                                JSONObject object = new JSONObject();
-                                JSONArray temp_array = new JSONArray();
-                                JSONObject patient_object = new JSONObject();
-                                try {
-                                    object.put("part_name", bodypartSelected);
-                                    object.put("res_id", myPartList[position_list_selected]);
-                                    object.put("position", position_list_selected + "");
-                                    object.put("str_time", str_time);
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-
-                                if (preferences.getString("recently", "").equals("")) {
-
-                                    array1.put(object);
-                                    try {
-                                        patient_object.put("patientid", getPatientId());
-                                        patient_object.put("recent", array1.toString());
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                    array.put(patient_object);
-                                    editor.putString("recently", array.toString());
-                                    editor.commit();
-                                } else {
-                                    try {
-                                        array = new JSONArray(preferences.getString("recently", ""));
-                                        for (int i = 0; i < array.length(); i++) {
-                                            JSONObject object1 = array.getJSONObject(i);
-                                            if (object1.getString("patientid").equals(getPatientId())) {
-                                                present = true;
-                                                temp_index = i;
-                                                JSONArray recent_array = new JSONArray(object1.getString("recent"));
-                                                for (int j = 0; j < recent_array.length(); j++) {
-                                                    JSONObject recent_object = recent_array.getJSONObject(j);
-                                                    if (recent_object.getString("position").equals(object.getString("position"))) {
-                                                        flag = true;
-                                                        recent_array.remove(j);
-                                                        temp_array.put(object);
-                                                        for (int k = 0; k < recent_array.length(); k++) {
-                                                            temp_array.put(recent_array.getJSONObject(k));
-                                                        }
-                                                        break;
-                                                    }
-                                                }
-                                                break;
-                                            }
-
-                                        }
-
-                                        if (flag) {
-                                            if (temp_index != -1) {
-                                                array.getJSONObject(temp_index).put("recent", temp_array.toString());
-                                            }
-                                            editor.putString("recently", array.toString());
-                                            editor.commit();
-                                        } else if (present == true && flag == false) {
-                                            temp_array.put(0, object);
-                                            JSONArray array2 = new JSONArray(array.getJSONObject(temp_index).getString("recent"));
-                                            for (int j = 0; j < array2.length(); j++) {
-                                                temp_array.put(array2.getJSONObject(j));
-                                            }
-                                            array.getJSONObject(temp_index).put("recent", temp_array.toString());
-                                            editor.putString("recently", array.toString());
-                                            editor.commit();
-                                        } else if (present == false) {
-                                            JSONArray temp = new JSONArray();
-                                            temp.put(object);
-                                            JSONObject temp_obj = new JSONObject();
-                                            temp_obj.put("patientid", getPatientId());
-                                            temp_obj.put("recent", temp.toString());
-                                            array.put(temp_obj);
-                                            editor.putString("recently", array.toString());
-                                            editor.commit();
-                                        }
-
-
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
+//                                JSONArray array = new JSONArray();
+//                                JSONArray array1 = new JSONArray();
+//                                JSONObject object = new JSONObject();
+//                                JSONArray temp_array = new JSONArray();
+//                                JSONObject patient_object = new JSONObject();
+//                                try {
+//                                    object.put("part_name", bodypartSelected);
+//                                    object.put("res_id", myPartList[position_list_selected]);
+//                                    object.put("position", position_list_selected + "");
+//                                    object.put("str_time", str_time);
+//                                } catch (JSONException e) {
+//                                    e.printStackTrace();
+//                                }
+//
+//                                if (preferences.getString("recently", "").equals("")) {
+//
+//                                    array1.put(object);
+//                                    try {
+//                                        patient_object.put("patientid", getPatientId());
+//                                        patient_object.put("recent", array1.toString());
+//                                    } catch (JSONException e) {
+//                                        e.printStackTrace();
+//                                    }
+//                                    array.put(patient_object);
+//                                    editor.putString("recently", array.toString());
+//                                    editor.commit();
+//                                } else {
+//                                    try {
+//                                        array = new JSONArray(preferences.getString("recently", ""));
+//                                        for (int i = 0; i < array.length(); i++) {
+//                                            JSONObject object1 = array.getJSONObject(i);
+//                                            if (object1.getString("patientid").equals(getPatientId())) {
+//                                                present = true;
+//                                                temp_index = i;
+//                                                JSONArray recent_array = new JSONArray(object1.getString("recent"));
+//                                                for (int j = 0; j < recent_array.length(); j++) {
+//                                                    JSONObject recent_object = recent_array.getJSONObject(j);
+//                                                    if (recent_object.getString("position").equals(object.getString("position"))) {
+//                                                        flag = true;
+//                                                        recent_array.remove(j);
+//                                                        temp_array.put(object);
+//                                                        for (int k = 0; k < recent_array.length(); k++) {
+//                                                            temp_array.put(recent_array.getJSONObject(k));
+//                                                        }
+//                                                        break;
+//                                                    }
+//                                                }
+//                                                break;
+//                                            }
+//
+//                                        }
+//
+//                                        if (flag) {
+//                                            if (temp_index != -1) {
+//                                                array.getJSONObject(temp_index).put("recent", temp_array.toString());
+//                                            }
+//                                            editor.putString("recently", array.toString());
+//                                            editor.commit();
+//                                        } else if (present == true && flag == false) {
+//                                            temp_array.put(0, object);
+//                                            JSONArray array2 = new JSONArray(array.getJSONObject(temp_index).getString("recent"));
+//                                            for (int j = 0; j < array2.length(); j++) {
+//                                                temp_array.put(array2.getJSONObject(j));
+//                                            }
+//                                            array.getJSONObject(temp_index).put("recent", temp_array.toString());
+//                                            editor.putString("recently", array.toString());
+//                                            editor.commit();
+//                                        } else if (present == false) {
+//                                            JSONArray temp = new JSONArray();
+//                                            temp.put(object);
+//                                            JSONObject temp_obj = new JSONObject();
+//                                            temp_obj.put("patientid", getPatientId());
+//                                            temp_obj.put("recent", temp.toString());
+//                                            array.put(temp_obj);
+//                                            editor.putString("recently", array.toString());
+//                                            editor.commit();
+//                                        }
+//
+//
+//                                    } catch (JSONException e) {
+//                                        e.printStackTrace();
+//                                    }
+//                                }
                                 Intent intent = new Intent(BodyPartSelection.this, MonitorActivity.class);
                                 //To be started here i need to putextras in the intents and send them to the moitor activity
                                 intent.putExtra("deviceMacAddress", getIntent().getStringExtra("deviceMacAddress"));

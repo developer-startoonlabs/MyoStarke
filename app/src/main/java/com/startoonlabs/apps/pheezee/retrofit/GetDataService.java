@@ -76,6 +76,9 @@ public interface GetDataService {
     @POST("/api/phizio/profilepic/upload")
     Call<PatientImageUploadResponse> updatePhizioProfilePic(@Body PatientImageData data);
 
+    @POST("/api/phizio/cliniclogo/upload")
+    Call<PatientImageUploadResponse> updatePhizioClinicLogoPic(@Body PatientImageData data);
+
     @POST("/api/patient/generate/report")
     Call<List<GetReportDataResponse>> getReportData(@Body GetReportData data);
 
