@@ -123,7 +123,7 @@
                 android:id="@+id/tv_patient_view_add_patient"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/inputfield_background"
                 android:clickable="true"
                 android:focusable="true"
@@ -145,18 +145,19 @@
 
 
     <ImageView
+        android:id="@+id/home_iv_addPatients"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:id="@+id/home_iv_addPatient"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:visibility="visible"
+        android:contentDescription="@string/cd_floating"
         android:enabled="true"
-        android:src="@mipmap/ic_add_patient"
         android:nestedScrollingEnabled="true"
+        android:src="@mipmap/ic_add_patient"
+        android:translationZ="0.0dp"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:contentDescription="@string/cd_floating" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

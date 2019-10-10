@@ -196,7 +196,7 @@ public class PatientsView extends AppCompatActivity
 
         editor = sharedPref.edit();
         MacAddress = sharedPref.getString("deviceMacaddress", "");
-        iv_addPatient = findViewById(R.id.home_iv_addPatient);
+        iv_addPatient = findViewById(R.id.home_iv_addPatients);
         rl_cap_view = findViewById(R.id.rl_cap_view);
         mRecyclerView = findViewById(R.id.patients_recycler_view);
         mRecyclerView.setHasFixedSize(true);
@@ -280,8 +280,6 @@ public class PatientsView extends AppCompatActivity
             json_phizio = new JSONObject(sharedPref.getString("phiziodetails", ""));
 
             json_phizioemail = json_phizio.getString("phizioemail");
-            Log.i("phiziodetails",json_phizioemail);
-            Log.i("Patient View", json_phizio.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -298,7 +296,6 @@ public class PatientsView extends AppCompatActivity
             if(!json_phizio.getString("phizioprofilepicurl").equals("empty")){
 
                 String temp = json_phizio.getString("phizioprofilepicurl");
-                Log.i("phiziopic",temp);
                 temp = temp.replaceFirst("@", "%40");
                 temp = "https://s3.ap-south-1.amazonaws.com/pheezee/"+temp;
                 Picasso.get().load(temp)
@@ -407,7 +404,6 @@ public class PatientsView extends AppCompatActivity
         iv_addPatient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("imageview","onClickListner");
                 initiatePopupWindow();
             }
         });
@@ -449,7 +445,6 @@ public class PatientsView extends AppCompatActivity
                                 iv_sync_not_available.setVisibility(View.VISIBLE);
                             }
                         }catch (NullPointerException e){
-                            Log.i("Exception",e.getMessage());
                         }
                     }
                 });
@@ -625,7 +620,6 @@ public class PatientsView extends AppCompatActivity
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 if (newState == BluetoothProfile.STATE_CONNECTED) {
-                    Log.i("connected123","true");
                     Message msg = Message.obtain();
                     isBleConnected = true;
                     msg.obj = "C";
@@ -649,7 +643,6 @@ public class PatientsView extends AppCompatActivity
         @Override
         public void onServicesDiscovered(BluetoothGatt gatt, int status) throws NullPointerException {
             BluetoothGattCharacteristic characteristic = gatt.getService(service1_uuid).getCharacteristic(characteristic1_service1_uuid);
-            Log.i("TEST", "INSIDE IF");
             bluetoothGatt = gatt;
             if(characteristic!=null)
                 mCustomCharacteristic = characteristic;
@@ -663,7 +656,6 @@ public class PatientsView extends AppCompatActivity
         @Override
         public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
             super.onDescriptorWrite(gatt, descriptor, status);
-            Log.i("inside","descritor");
         }
         @Override
         public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
@@ -677,15 +669,11 @@ public class PatientsView extends AppCompatActivity
                         msg.obj = "c";
                         batteryUsbState.sendMessage(msg);
                     }
-                    Log.i("battery notif read","connected");
                 }
                 else if(usb_state==0) {
                     msg.obj = "nc";
                     batteryUsbState.sendMessage(msg);
-                    Log.i("battery notif read","disconnected");
                 }
-
-                Log.i("battery changed to",battery+"");
                 Message message = new Message();
                 message.obj = battery+"";
                 batteryStatus.sendMessage(message);
@@ -695,10 +683,8 @@ public class PatientsView extends AppCompatActivity
         public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
             super.onCharacteristicRead(gatt, characteristic, status);
             Message msg = new Message();
-            Log.i("chatacteristic","read");
                 if(characteristic.getUuid()==mCustomCharacteristic.getUuid()) {
                     byte info_packet[] = characteristic.getValue();
-                    Log.i("inside", "inside");
                     int battery = info_packet[11] & 0xFF;
                     int device_status = info_packet[12] & 0xFF;
                     int device_usb_state = info_packet[13] & 0xFF;
@@ -710,7 +696,6 @@ public class PatientsView extends AppCompatActivity
                         msg.obj = "nc";
                         batteryUsbState.sendMessage(msg);
                     }
-                    Log.i("device", battery + " " + device_status + " " + device_usb_state);
                     bluetoothGatt.readCharacteristic(mCharacteristic);
                 }
 
@@ -723,14 +708,11 @@ public class PatientsView extends AppCompatActivity
                     if(usb_state==1) {
                         msg.obj = "c";
                         batteryUsbState.sendMessage(msg);
-                        Log.i("battery service read","connected");
                     }
                     else if(usb_state==0) {
                         msg.obj = "nc";
                         batteryUsbState.sendMessage(msg);
-                        Log.i("battery service read","disconnected");
                     }
-                    Log.i("battery",battery+" read");
                     Message message = new Message();
                     message.obj = battery+"";
                     batteryStatus.sendMessage(message);
@@ -747,14 +729,12 @@ public class PatientsView extends AppCompatActivity
                     String str = new String(b, StandardCharsets.UTF_8);
                     str = str.replace(".","");
                     firmware_version = Integer.parseInt(str);
-                    Log.i("Firmware version", String.valueOf(firmware_version));
                 }
         }
 
         @Override
         public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
             super.onCharacteristicWrite(gatt, characteristic, status);
-            Log.i("chatacteristic","written");
             bluetoothGatt.readCharacteristic(mCustomCharacteristic);
         }
     };
@@ -886,7 +866,6 @@ public class PatientsView extends AppCompatActivity
      * called when device disconnected to update the view
      */
     private void pheezeeDisconnected() {
-        Log.i("Inside disconnect", "Device Disconnected");
         iv_device_connected.setVisibility(View.GONE);
         iv_device_disconnected.setVisibility(View.VISIBLE);
         ll_add_device.setVisibility(View.VISIBLE);
@@ -900,7 +879,6 @@ public class PatientsView extends AppCompatActivity
         @SuppressLint("ResourceAsColor") Drawable drawable_cap = new ColorDrawable(getResources().getColor(R.color.red));
         rl_cap_view.setBackground(drawable_cap);
         rl_battery_usb_state.setVisibility(View.GONE);
-        Log.i("red color","red");
     }
 
     /**
@@ -1043,21 +1021,18 @@ public class PatientsView extends AppCompatActivity
      */
     public void disconnectDevice() {
         if(bluetoothGatt==null){
-            Log.i("inside","null");
             editor = sharedPref.edit();
             editor.putString("pressed","");
             editor.commit();
             return;
         }
         if(mCharacteristic!=null && mBluetoothGattDescriptor!=null) {
-            Log.i("inside","Characteristics");
             bluetoothGatt.setCharacteristicNotification(mCharacteristic, false);
             mBluetoothGattDescriptor = mCharacteristic.getDescriptor(descriptor_characteristic1_service1_uuid);
             mBluetoothGattDescriptor.setValue(BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
             bluetoothGatt.writeDescriptor(mBluetoothGattDescriptor);
         }
         bluetoothGatt.close();
-        Log.i("bluetooth gatt closed","closed");
         bluetoothGatt = null;
         deviceState=false;
     }
@@ -1095,7 +1070,6 @@ public class PatientsView extends AppCompatActivity
             }
         }
         catch (Exception localException) {
-            Log.e("EXCEPTION", "An exception occured while refreshing device");
         }
         return false;
     }
@@ -1188,7 +1162,6 @@ public class PatientsView extends AppCompatActivity
         else if(requestCode==12){
             if(resultCode==RESULT_OK){
                 String macAddress = data.getStringExtra("macAddress");
-                Log.i("StartActivityResult123", macAddress);
                 if(RegexOperations.validate(macAddress)){
 
                     connectDevice(macAddress, true);
@@ -1202,7 +1175,6 @@ public class PatientsView extends AppCompatActivity
 
         else if(requestCode==13){
             if(resultCode==13){
-                Log.i("codefromdeviceinfo", "inside");
                 disconnectDevice();
             }
         }
@@ -1355,7 +1327,6 @@ public class PatientsView extends AppCompatActivity
 
     @Override
     public void onItemClick(PhizioPatients patient, View view) {
-        Log.i("here","here in on item click");
         openOpionsPopupWindow(view,patient);
     }
 
@@ -1419,13 +1390,8 @@ public class PatientsView extends AppCompatActivity
         @Override
         protected Void doInBackground(Void... voids) {
 
-            byte b[] = ByteToArrayOperations.hexStringToByteArray("AA02");
-            if(send(b)){
-                Log.i("SENDING","MESSAGE SENT");
-            }
-            else {
-                Log.i("SENDING","UNSUCCESSFULL");
-            }
+            byte[] b = ByteToArrayOperations.hexStringToByteArray("AA02");
+            send(b);
             return null;
         }
 
@@ -1461,7 +1427,6 @@ public class PatientsView extends AppCompatActivity
             }
         }
         if(characteristic1_service1_uuid.equals(mCustomCharacteristic.getUuid())){
-            Log.i("TRUE", "TRUE");
         }
 
 
@@ -1478,12 +1443,9 @@ public class PatientsView extends AppCompatActivity
         @SuppressLint("SetTextI18n")
         @Override
         public void handleMessage(Message msg) {
-            Log.i("Battery",msg.obj.toString());
             tv_battery_percentage.setText(msg.obj.toString().concat("%"));
-            Log.i("Battery Percentage",msg.obj.toString());
             deviceBatteryPercent = Integer.parseInt(msg.obj.toString());
             int percent = BatteryOperation.convertBatteryToCell(deviceBatteryPercent);
-            Log.i("After percent Formulae",percent+"");
             if(deviceBatteryPercent<15) {
                 Drawable drawable = getResources().getDrawable(R.drawable.drawable_progress_battery_low);
                 battery_bar.setProgressDrawable(drawable);
