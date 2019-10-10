@@ -25,3 +25,13 @@ description:-
 
 
 ###############
+Version:- 2.9.9.h
+Date:- 10-10-2019
+Responsible:- Ankush
+Firmware Version(Tested With):- 1.9.11, 1.9.10(To check if it does not work)
+server version:- 1.10.4
+Hardware Version MVP_3
+description:-
+    Updated the app such that it does not work with the device whose firmware version is less than 1.9.11.
+
+###############

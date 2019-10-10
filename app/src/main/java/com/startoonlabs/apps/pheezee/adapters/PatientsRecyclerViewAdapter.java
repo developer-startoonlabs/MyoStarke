@@ -102,10 +102,6 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        CircularProgressDrawable drawable = new CircularProgressDrawable(context);
-        drawable.setStrokeWidth(5f);
-        drawable.setCenterRadius(30f);
-        drawable.start();
         PhizioPatients patientsList = updatedPatientList.get(position);
         holder.patientName.setText(patientsList.getPatientname());
         holder.patientId.setText("Id : "+patientsList.getPatientid());
@@ -116,6 +112,7 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
         holder.ll_option_patient_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.i("here","inside adapter");
                 PhizioPatients temp = updatedPatientList.get(position);
                 PhizioPatients patients = new PhizioPatients(temp.getPatientid(),temp.getPatientname(),temp.getNumofsessions(),temp.getDateofjoin(),
                         temp.getPatientage(),temp.getPatientgender(),temp.getPatientcasedes(),temp.getStatus(),temp.getPatientphone(),temp.getPatientprofilepicurl());
@@ -137,8 +134,7 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
                         .load("https://s3.ap-south-1.amazonaws.com/pheezee/physiotherapist/" + str_phizioemail.replaceFirst("@", "%40") + "/patients/" + patientsList.getPatientid() + "/images/profilepic.png")
                         .apply(new RequestOptions()
                                 .diskCacheStrategy(DiskCacheStrategy.NONE)
-                                .skipMemoryCache(true)
-                                .placeholder(drawable))
+                                .skipMemoryCache(true))
                         .into(holder.patientProfilepic);
         }
         else {

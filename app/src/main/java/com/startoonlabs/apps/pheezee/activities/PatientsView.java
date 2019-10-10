@@ -98,6 +98,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -126,7 +127,11 @@ public class PatientsView extends AppCompatActivity
     public static final UUID battery_service1_uuid = UUID.fromString("0000180f-0000-1000-8000-00805f9b34fb");
     public static final UUID battery_level_battery_service_characteristic_uuid = UUID.fromString("00002a19-0000-1000-8000-00805f9b34fb");
 
-    BluetoothGattCharacteristic mCharacteristic;
+    public static final UUID device_info_service1_uuid = UUID.fromString("0000180a-0000-1000-8000-00805f9b34fb");
+    public static final UUID firmware_version_characteristic_uuid = UUID.fromString("00002a26-0000-1000-8000-00805f9b34fb");
+
+
+    BluetoothGattCharacteristic mCharacteristic, mFirmwareVersionCharacteristic;
     BluetoothGattCharacteristic mCustomCharacteristic;
     BluetoothGattDescriptor mBluetoothGattDescriptor;
     LinearLayout ll_device_and_bluetooth;
@@ -157,6 +162,7 @@ public class PatientsView extends AppCompatActivity
     TextView tv_battery_percentage, tv_patient_view_add_patient;
     ProgressBar battery_bar;
     int backpressCount = 0;
+    private int firmware_version = -1;
     DrawerLayout drawer;
     SharedPreferences sharedPref;
     SharedPreferences.Editor editor;
@@ -401,6 +407,7 @@ public class PatientsView extends AppCompatActivity
         iv_addPatient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.i("imageview","onClickListner");
                 initiatePopupWindow();
             }
         });
@@ -649,6 +656,7 @@ public class PatientsView extends AppCompatActivity
             gatt.setCharacteristicNotification(mCustomCharacteristic,true);
             mBluetoothGattDescriptor = mCustomCharacteristic.getDescriptor(descriptor_characteristic1_service1_uuid);
             mCharacteristic = gatt.getService(battery_service1_uuid).getCharacteristic(battery_level_battery_service_characteristic_uuid);
+            mFirmwareVersionCharacteristic = gatt.getService(device_info_service1_uuid).getCharacteristic(firmware_version_characteristic_uuid);
             new MyAsync().execute();
         }
 
@@ -708,6 +716,7 @@ public class PatientsView extends AppCompatActivity
 
                 //remove comments later now.
                 else if(characteristic.getUuid()==mCharacteristic.getUuid()) {
+
                     byte b[] = characteristic.getValue();
                     int battery  = b[0];
                     int usb_state = b[1];
@@ -725,11 +734,20 @@ public class PatientsView extends AppCompatActivity
                     Message message = new Message();
                     message.obj = battery+"";
                     batteryStatus.sendMessage(message);
-
+                    bluetoothGatt.readCharacteristic(mFirmwareVersionCharacteristic);
                     gatt.setCharacteristicNotification(mCharacteristic, true);
                     mBluetoothGattDescriptor = mCharacteristic.getDescriptor(descriptor_characteristic1_service1_uuid);
                     mBluetoothGattDescriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
                     bluetoothGatt.writeDescriptor(mBluetoothGattDescriptor);
+
+                }
+
+                else  if (characteristic.getUuid()==mFirmwareVersionCharacteristic.getUuid()){
+                    byte b[] = characteristic.getValue();
+                    String str = new String(b, StandardCharsets.UTF_8);
+                    str = str.replace(".","");
+                    firmware_version = Integer.parseInt(str);
+                    Log.i("Firmware version", String.valueOf(firmware_version));
                 }
         }
 
@@ -999,8 +1017,13 @@ public class PatientsView extends AppCompatActivity
                 });
                 builder.show();
             }
-            else
-                startActivity(intent);
+            else {
+                if(firmware_version<1911){
+                    NetworkOperations.firmwareVirsionNotCompatible(this);
+                }else {
+                    startActivity(intent);
+                }
+            }
         }
 
     }
@@ -1207,6 +1230,7 @@ public class PatientsView extends AppCompatActivity
     @SuppressLint("ResourceType")
     public void openOpionsPopupWindow(View view, PhizioPatients patient){
         Bitmap patientpic_bitmap=null;
+        Log.i("inside","here");
         patientTabLayout= (LinearLayout) (view).getParent();
         LinearLayout iv_layout = (LinearLayout)patientTabLayout.getChildAt(0);
 
@@ -1331,6 +1355,7 @@ public class PatientsView extends AppCompatActivity
 
     @Override
     public void onItemClick(PhizioPatients patient, View view) {
+        Log.i("here","here in on item click");
         openOpionsPopupWindow(view,patient);
     }
 

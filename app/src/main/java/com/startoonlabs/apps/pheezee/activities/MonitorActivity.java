@@ -941,33 +941,6 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
                 maxEmgValue = 1;
             tv_max_emg.setText(String.valueOf(maxEmgValue));
             params.height = (int) (((View) emgSignal.getParent()).getMeasuredHeight() * emg_data / maxEmgValue);
-//            for (int i=0;i<emg_data.length;i++) {
-//                ++ui_rate;
-//                lineData.addEntry(new Entry((float) ui_rate / 1000, emg_data[i]), 0);
-//
-//                try {
-//                    outputStream_session_emgdata = new FileOutputStream(file_session_emgdata, true);
-//                    outputStream_session_emgdata.write(String.valueOf(emg_data[i]).getBytes());
-//                    outputStream_session_emgdata.write("\n".getBytes());
-//                } catch (FileNotFoundException e) {
-//                    e.printStackTrace();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//                emgJsonArray.put(emg_data[i]);
-//                try {
-//                    outputStream_session_emgdata.flush();
-//                    outputStream_session_emgdata.close();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//
-//                maxEmgValue = maxEmgValue < emg_data[i] ? emg_data[i] : maxEmgValue;
-//                if (maxEmgValue == 0)
-//                    maxEmgValue = 1;
-//                tv_max_emg.setText(String.valueOf(maxEmgValue));
-//                params.height = (int) (((View) emgSignal.getParent()).getMeasuredHeight() * emg_data[i] / maxEmgValue);
-//            }
             EMG.setText(Integer.toString(emg_data).concat(getResources().getString(R.string.emg_unit)));
             lineChart.notifyDataSetChanged();
             lineChart.invalidate();

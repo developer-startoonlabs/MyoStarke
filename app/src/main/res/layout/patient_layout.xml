@@ -104,7 +104,6 @@
                     android:id="@+id/btn_start_session"
                     android:backgroundTint="#eaeaea"
                     android:fontFamily="@font/ebrima"
-                    android:onClick="startSession"
                     android:text="Start Session"
                     android:textAllCaps="false"
                     android:textColor="@color/good_green"
