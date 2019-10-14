@@ -67,7 +67,7 @@ public class SessionSummaryPopupWindow {
     PopupWindow report;
     int maxEmgValue, maxAngle, minAngle, angleCorrection;
     private String sessionNo, mmt_selected = "", orientation, bodypart, phizioemail, patientname, patientid, sessiontime, actiontime,
-            holdtime, numofreps, body_orientation="", session_type="";
+            holdtime, numofreps, body_orientation="", session_type="", dateofjoin;
     String bodyOrientation="";
 
     JSONArray emgJsonArray,romJsonArray;
@@ -77,7 +77,7 @@ public class SessionSummaryPopupWindow {
     public SessionSummaryPopupWindow(Context context, int maxEmgValue, String sessionNo, int maxAngle, int minAngle,
                                      String orientation, String bodypart, String phizioemail, String sessiontime, String actiontime,
                                      String holdtime, String numofreps, JSONArray emgJsonArray, JSONArray romJsonArray, int angleCorrection,
-                                     String patientid, String patientname, Long tsLong, String bodyOrientation){
+                                     String patientid, String patientname, Long tsLong, String bodyOrientation, String dateOfJoin){
         this.context = context;
         this.maxEmgValue = maxEmgValue;
         this.sessionNo = sessionNo;
@@ -97,6 +97,7 @@ public class SessionSummaryPopupWindow {
         this.patientname = patientname;
         this.tsLong = tsLong;
         this.bodyOrientation = bodyOrientation;
+        this.dateofjoin = dateOfJoin;
         repository = new MqttSyncRepository(((Activity)context).getApplication());
         repository.setOnSessionDataResponse(onSessionDataResponse);
     }
@@ -213,6 +214,7 @@ public class SessionSummaryPopupWindow {
                     mmt_intent.putExtra("patientid", tv_patient_id.getText().toString());
                     mmt_intent.putExtra("patientname", tv_patient_name.getText().toString());
                     mmt_intent.putExtra("phizioemail", phizioemail);
+                    mmt_intent.putExtra("dateofjoin",dateofjoin);
                     ((Activity)context).startActivity(mmt_intent);
                 }
                 else {

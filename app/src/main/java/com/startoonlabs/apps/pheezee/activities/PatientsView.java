@@ -656,7 +656,9 @@ public class PatientsView extends AppCompatActivity
         @Override
         public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
             super.onDescriptorWrite(gatt, descriptor, status);
+            bluetoothGatt.readCharacteristic(mFirmwareVersionCharacteristic);
         }
+
         @Override
         public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
             Message msg = new Message();
@@ -716,7 +718,7 @@ public class PatientsView extends AppCompatActivity
                     Message message = new Message();
                     message.obj = battery+"";
                     batteryStatus.sendMessage(message);
-                    bluetoothGatt.readCharacteristic(mFirmwareVersionCharacteristic);
+
                     gatt.setCharacteristicNotification(mCharacteristic, true);
                     mBluetoothGattDescriptor = mCharacteristic.getDescriptor(descriptor_characteristic1_service1_uuid);
                     mBluetoothGattDescriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
@@ -971,6 +973,7 @@ public class PatientsView extends AppCompatActivity
         intent.putExtra("deviceMacAddress", sharedPref.getString("deviceMacaddress", ""));
         intent.putExtra("patientId", patient.getPatientid());
         intent.putExtra("patientName", patient.getPatientname());
+        intent.putExtra("dateofjoin",patient.getDateofjoin());
         if (Objects.requireNonNull(sharedPref.getString("deviceMacaddress", "")).equals("")) {
             Toast.makeText(this, "First add pheezee to your application", Toast.LENGTH_LONG).show();
         } else if (!(iv_device_connected.getVisibility()==View.VISIBLE)  ) {

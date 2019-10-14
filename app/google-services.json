@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "567862502878",
+    "firebase_url": "https://pheezeeandroid.firebaseio.com",
+    "project_id": "pheezeeandroid",
+    "storage_bucket": "pheezeeandroid.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:567862502878:android:3bfb79f6fde56347ad294f",
+        "android_client_info": {
+          "package_name": "com.startoonlabs.apps.pheezee"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "567862502878-kbsss4h6ku8d5lli6j0ho09lfnt4tthc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.startoonlabs.apps.pheezee",
+            "certificate_hash": "9cb1d209c100fa2344d5fc18d3b6ce2551abf40a"
+          }
+        },
+        {
+          "client_id": "567862502878-4klan85e5mihs97ecnignq3macgfimnb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANT9T6PHEyVntMFPbWBYHfYR9pOKcphcA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "567862502878-4klan85e5mihs97ecnignq3macgfimnb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

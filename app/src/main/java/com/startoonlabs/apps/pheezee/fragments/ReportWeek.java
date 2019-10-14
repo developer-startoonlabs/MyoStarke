@@ -1,6 +1,7 @@
 //week
 package com.startoonlabs.apps.pheezee.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -250,17 +251,11 @@ public class ReportWeek extends Fragment implements MqttSyncRepository.OnReportD
     }
 
 
+    @SuppressLint("SimpleDateFormat")
     private StartAndEndDate getFirstDates(){
         StartAndEndDate date = null;
         Calendar cal_first_date = Calendar.getInstance(), cal_end_date = Calendar.getInstance(), cal_end_month = Calendar.getInstance();
         String dateOfJoin = SessionReportActivity.dateofjoin;
-        Date first_date= null;
-        try {
-            first_date = new SimpleDateFormat("dd/MM/yyyy").parse(dateOfJoin);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Log.i("Date of join", first_date.toString());
         cal_first_date.add(Calendar.DATE,-6);
 //        cal_end_month.setTime(first_date);
         date = new StartAndEndDate(cal_first_date, cal_end_month);
@@ -270,12 +265,15 @@ public class ReportWeek extends Fragment implements MqttSyncRepository.OnReportD
     private StartAndEndDate getPreviousDates(){
         Calendar cal_first_date = Calendar.getInstance(), cal_end_date = Calendar.getInstance(), cal_end_month = Calendar.getInstance();
         String dateOfJoin = SessionReportActivity.dateofjoin;
-        Date first_date_join= null;
+        Date first_date_join = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
         try {
-            first_date_join = new SimpleDateFormat("dd/MM/yyyy").parse(dateOfJoin);
+            first_date_join = format.parse(dateOfJoin);
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
         Log.i("Date of join", first_date_join.toString());
         cal_first_date.setTime(first_date_join);
         Calendar first_date = global_date.getStart_date();

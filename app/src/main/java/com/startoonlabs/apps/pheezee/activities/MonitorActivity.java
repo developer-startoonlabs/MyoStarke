@@ -14,7 +14,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.media.AudioManager;
 import android.media.MediaScannerConnection;
+import android.media.ToneGenerator;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -75,7 +77,7 @@ import java.util.UUID;
 public class MonitorActivity extends AppCompatActivity implements MqttSyncRepository.GetSessionNumberResponse {
 
     //session inserted on server
-    private boolean sessionCompleted = false, first_packet = true, inside_ondestroy = false;
+    private boolean sessionCompleted = false, first_packet = true, can_beeep_max = true,can_beep_min = true,inside_ondestroy = false;
     ;
     MqttSyncRepository repository;
     private String json_phizioemail = "", patientid = "", bodyorientation = "", patientname = "";
@@ -902,6 +904,21 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
                 arcViewInside.setMaxAngle(angleDetected);
             }
             romJsonArray.put(angleDetected);
+
+            //Beep
+            if(!BodyPartSelection.maxAngleSelected.equals("") && ui_rate%150==0){
+                int x = Integer.parseInt(BodyPartSelection.maxAngleSelected);
+                if(angleDetected<x && !can_beeep_max){
+                    can_beeep_max = true;
+                }
+            }
+
+            if(!BodyPartSelection.minAngleSelected.equals("") && ui_rate%200==0){
+                int x = Integer.parseInt(BodyPartSelection.minAngleSelected);
+                if(angleDetected>x && !can_beep_min){
+                    can_beep_min = true;
+                }
+            }
             try {
                 outputStream_session_romdata = new FileOutputStream(file_session_romdata, true);
                 outputStream_session_romdata.write(String.valueOf(angleDetected).getBytes());
@@ -956,6 +973,37 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
                 lineChart.setVisibleXRangeMaximum(5f);
             lineChart.moveViewToX((float) ui_rate / 50);
 
+
+            //Beep
+            if(!BodyPartSelection.maxAngleSelected.equals("")){
+                int x = Integer.parseInt(BodyPartSelection.maxAngleSelected);
+                if(angleDetected>x && can_beeep_max){
+                    new Handler().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
+                            //toneGen1.startTone(ToneGenerator.TONE_PROP_BEEP,150);
+                            toneGen1.startTone(ToneGenerator.TONE_PROP_ACK,100);
+                        }
+                    });
+                    can_beeep_max = false;
+                }
+            }
+
+            if(!BodyPartSelection.minAngleSelected.equals("")){
+                int x = Integer.parseInt(BodyPartSelection.minAngleSelected);
+                if(angleDetected<x && can_beep_min){
+                    new Handler().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
+                            //toneGen1.startTone(ToneGenerator.TONE_PROP_BEEP,150);
+                            toneGen1.startTone(ToneGenerator.TONE_PROP_ACK,100);
+                        }
+                    });
+                    can_beep_min = false;
+                }
+            }
             maxAngle = maxAngle < angleDetected ? angleDetected : maxAngle;
             tv_max_angle.setText(String.valueOf(maxAngle));
             minAngle = minAngle > angleDetected ? angleDetected : minAngle;
@@ -1003,7 +1051,7 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
         String actiontime = tv_action_time.getText().toString();
         SessionSummaryPopupWindow window = new SessionSummaryPopupWindow(this, maxEmgValue, sessionNo, maxAngle, minAngle, orientation, bodypart,
                 json_phizioemail, sessiontime, actiontime, holdTime.getText().toString(), Repetitions.getText().toString(), emgJsonArray, romJsonArray,
-                angleCorrection, patientid, patientname, tsLong, bodyorientation);
+                angleCorrection, patientid, patientname, tsLong, bodyorientation, getIntent().getStringExtra("dateofjoin"));
         window.showWindow();
         repository.getPatientSessionNo(patientid);
         window.setOnSessionDataResponse(new MqttSyncRepository.OnSessionDataResponse() {

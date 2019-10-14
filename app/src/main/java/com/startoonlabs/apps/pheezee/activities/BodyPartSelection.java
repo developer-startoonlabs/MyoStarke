@@ -445,6 +445,7 @@ public class BodyPartSelection extends AppCompatActivity {
                                 intent.putExtra("orientation", orientationSelected);
                                 intent.putExtra("bodyorientation",bodyorientation);
                                 intent.putExtra("body_orientation",body_orientation);
+                                intent.putExtra("dateofjoin",getIntent().getStringExtra("dateofjoin"));
                                 Log.i("intent", intent.toString());
                                 startActivity(intent);
                             } else {
