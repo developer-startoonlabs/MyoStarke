@@ -455,7 +455,7 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
         time.setText("Session time:   00 : 00");
 
         bluetoothAdapter = BluetoothSingelton.getmInstance().getAdapter();
-        if (!bluetoothAdapter.isEnabled()) {
+        if (bluetoothAdapter!=null && !bluetoothAdapter.isEnabled()) {
             showToast("Bluetooth Disabled");
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
@@ -509,9 +509,8 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
         angleCorrection = 0;
         emgJsonArray = new JSONArray();
         romJsonArray = new JSONArray();
-        maxAngle = 0;
-        minAngle = 360;
-        maxEmgValue = 0;
+        maxAngle = 0;minAngle = 360;maxEmgValue = 0;
+        can_beeep_max=true;can_beep_min=true;
         creatGraphView();
         timer.setVisibility(View.GONE);
         cancelBtn.setVisibility(View.VISIBLE);
@@ -872,6 +871,7 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
     @SuppressLint("HandlerLeak")
     public final Handler myHandler = new Handler() {
         public void handleMessage(Message message) {
+
             int angleDetected = 0, num_of_reps = 0, hold_time_minutes, hold_time_seconds, active_time_minutes, active_time_seconds;
 //            int[] emg_data;
             int emg_data;
@@ -905,15 +905,15 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
             }
             romJsonArray.put(angleDetected);
 
-            //Beep
-            if(!BodyPartSelection.maxAngleSelected.equals("") && ui_rate%150==0){
+//            //Beep
+            if(!BodyPartSelection.maxAngleSelected.equals("")){
                 int x = Integer.parseInt(BodyPartSelection.maxAngleSelected);
                 if(angleDetected<x && !can_beeep_max){
                     can_beeep_max = true;
                 }
             }
 
-            if(!BodyPartSelection.minAngleSelected.equals("") && ui_rate%200==0){
+            if(!BodyPartSelection.minAngleSelected.equals("")){
                 int x = Integer.parseInt(BodyPartSelection.minAngleSelected);
                 if(angleDetected>x && !can_beep_min){
                     can_beep_min = true;
@@ -983,7 +983,7 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
                         public void run() {
                             ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
                             //toneGen1.startTone(ToneGenerator.TONE_PROP_BEEP,150);
-                            toneGen1.startTone(ToneGenerator.TONE_PROP_ACK,100);
+                            toneGen1.startTone(ToneGenerator.TONE_PROP_ACK,150);
                         }
                     });
                     can_beeep_max = false;
@@ -998,7 +998,7 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
                         public void run() {
                             ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
                             //toneGen1.startTone(ToneGenerator.TONE_PROP_BEEP,150);
-                            toneGen1.startTone(ToneGenerator.TONE_PROP_ACK,100);
+                            toneGen1.startTone(ToneGenerator.TONE_PROP_ACK,150);
                         }
                     });
                     can_beep_min = false;
@@ -1018,6 +1018,7 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
             if (active_time_seconds < 10)
                 secondsValue = "0" + active_time_seconds;
             tv_action_time.setText(minutesValue + "m: " + secondsValue + "s");
+
             if (num_of_reps >= BodyPartSelection.repsselected && BodyPartSelection.repsselected != 0 && !sessionCompleted) {
                 sessionCompleted = true;
                 openSuccessfullDialogAndCloseSession();
@@ -1122,5 +1123,22 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
     @Override
     public void onSessionNumberResponse(String sessionnumber) {
         tv_session_no.setText(sessionnumber);
+    }
+
+    public void beepNow(){
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
+                //toneGen1.startTone(ToneGenerator.TONE_PROP_BEEP,150);
+                toneGen1.startTone(ToneGenerator.TONE_PROP_ACK,150);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        toneGen1.release();
+                    }
+                },150);
+            }
+        });
     }
 }

@@ -173,7 +173,6 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
                 @Override
                 protected void publishResults(CharSequence constraint, FilterResults results) {
                     updatedPatientList = (ArrayList<PhizioPatients>)results.values;
-                    Log.i("updated Values",updatedPatientList.toString());
                     notifyDataSetChanged();
                 }
             };
