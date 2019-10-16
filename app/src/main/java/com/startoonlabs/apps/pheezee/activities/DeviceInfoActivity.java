@@ -38,7 +38,6 @@ public class DeviceInfoActivity extends AppCompatActivity {
     BluetoothDevice remoteDevice;
     BluetoothAdapter bluetoothAdapter;
     BluetoothManager mBluetoothManager;
-    BluetoothGattDescriptor mBluetoothGattDescriptor;
     BluetoothGattCharacteristic mCharacteristic,firmware_characteristic,serial_characteristic,devicename_characteristic;
     BluetoothGatt bluetoothGatt;
 

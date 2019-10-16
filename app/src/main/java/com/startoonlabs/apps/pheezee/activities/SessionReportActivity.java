@@ -95,7 +95,9 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
         iv_go_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                Intent i = new Intent(SessionReportActivity.this, PatientsView.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(i);
             }
         });
 

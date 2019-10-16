@@ -30,7 +30,7 @@
 
 
     <string-array name="setSessionGoalSpinner">
-        <item>Set Goal</item>
+        <item>Set Reps</item>
         <item>5 Reps</item>
         <item>10 Reps</item>
         <item>15 Reps</item>
@@ -313,6 +313,7 @@
     <string name="min_angle">Starting Angle</string>
     <string name="max_angle">End Angle</string>
     <string name="range_angle">Range Gained</string>
+    <string name="max_emg">Max EMG</string>
 
 
     <!--Pop up comment section tags-->
@@ -340,4 +341,14 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+
+    <!--Body part selection-->
+    <string name="orientation">Select Side: </string>
+    <string name="str_position">Select Position: </string>
+    <string name="set_max_emg">Set Max EMG: </string>
+    <string name="set_angle">Set Angles: </string>
+    <string name="start">Start:&#032;</string>
+    <string name="end">End:&#032;</string>
 </resources>

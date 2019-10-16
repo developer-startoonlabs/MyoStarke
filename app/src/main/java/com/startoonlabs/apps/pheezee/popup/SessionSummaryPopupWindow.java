@@ -37,7 +37,6 @@ import com.google.gson.GsonBuilder;
 import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.activities.BodyPartSelection;
 import com.startoonlabs.apps.pheezee.activities.SessionReportActivity;
-import com.startoonlabs.apps.pheezee.adapters.BodyPartWithMmtRecyclerView;
 import com.startoonlabs.apps.pheezee.pojos.CommentSessionUpdateData;
 import com.startoonlabs.apps.pheezee.pojos.DeleteSessionData;
 import com.startoonlabs.apps.pheezee.pojos.MmtData;
@@ -65,9 +64,10 @@ public class SessionSummaryPopupWindow {
     boolean session_inserted_in_server = false;
     Context context;
     PopupWindow report;
-    int maxEmgValue, maxAngle, minAngle, angleCorrection;
+    int maxEmgValue, maxAngle, minAngle, angleCorrection, exercise_selected_position, body_part_selected_position, repsselected;
     private String sessionNo, mmt_selected = "", orientation, bodypart, phizioemail, patientname, patientid, sessiontime, actiontime,
-            holdtime, numofreps, body_orientation="", session_type="", dateofjoin;
+            holdtime, numofreps, body_orientation="", session_type="", dateofjoin, exercise_name, muscle_name, min_angle_selected,
+            max_angle_selected, max_emg_selected;
     String bodyOrientation="";
 
     JSONArray emgJsonArray,romJsonArray;
@@ -77,7 +77,9 @@ public class SessionSummaryPopupWindow {
     public SessionSummaryPopupWindow(Context context, int maxEmgValue, String sessionNo, int maxAngle, int minAngle,
                                      String orientation, String bodypart, String phizioemail, String sessiontime, String actiontime,
                                      String holdtime, String numofreps, JSONArray emgJsonArray, JSONArray romJsonArray, int angleCorrection,
-                                     String patientid, String patientname, Long tsLong, String bodyOrientation, String dateOfJoin){
+                                     String patientid, String patientname, Long tsLong, String bodyOrientation, String dateOfJoin,
+                                     int exercise_selected_position, int body_part_selected_position, String muscle_name, String exercise_name,
+                                     String min_angle_selected, String max_angle_selected, String max_emg_selected, int repsselected){
         this.context = context;
         this.maxEmgValue = maxEmgValue;
         this.sessionNo = sessionNo;
@@ -98,6 +100,14 @@ public class SessionSummaryPopupWindow {
         this.tsLong = tsLong;
         this.bodyOrientation = bodyOrientation;
         this.dateofjoin = dateOfJoin;
+        this.exercise_selected_position = exercise_selected_position;
+        this.body_part_selected_position = body_part_selected_position;
+        this.exercise_name = exercise_name;
+        this.muscle_name = muscle_name;
+        this.min_angle_selected = min_angle_selected;
+        this.max_angle_selected = max_angle_selected;
+        this.max_emg_selected = max_emg_selected;
+        this.repsselected = repsselected;
         repository = new MqttSyncRepository(((Activity)context).getApplication());
         repository.setOnSessionDataResponse(onSessionDataResponse);
     }
@@ -115,8 +125,8 @@ public class SessionSummaryPopupWindow {
         }
 
 
-        int color = ValueBasedColorOperations.getCOlorBasedOnTheBodyPart(BodyPartWithMmtRecyclerView.selectedPosition,
-                BodyPartSelection.exercise_selected_position,maxAngle,minAngle,context);
+        int color = ValueBasedColorOperations.getCOlorBasedOnTheBodyPart(body_part_selected_position,
+                exercise_selected_position,maxAngle,minAngle,context);
 
         int emg_color = ValueBasedColorOperations.getEmgColor(400,maxEmgValue,context);
         report = new PopupWindow(layout, ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT,true);
@@ -197,11 +207,11 @@ public class SessionSummaryPopupWindow {
         }
 
         tv_session_num.setText(sessionNo);
-        tv_exercise_name.setText(BodyPartSelection.musclename);
+        tv_exercise_name.setText(exercise_name);
         tv_orientation_and_bodypart.setText(orientation+"-"+bodypart);
-        tv_musclename.setText(BodyPartSelection.exercisename);
+        tv_musclename.setText(muscle_name);
 
-        if(BodyPartSelection.musclename.equalsIgnoreCase("Isometric")){
+        if(exercise_name.equalsIgnoreCase("Isometric")){
             maxAngle = 0;
             minAngle = 0;
         }
@@ -291,9 +301,9 @@ public class SessionSummaryPopupWindow {
         arcView.setMinAngle(minAngle);
         arcView.setRangeColor(color);
 
-        if(!BodyPartSelection.minAngleSelected.equals("") && !BodyPartSelection.maxAngleSelected.equals("")){
-            int reference_min_angle = Integer.parseInt(BodyPartSelection.minAngleSelected);
-            int reference_max_angle = Integer.parseInt(BodyPartSelection.maxAngleSelected);
+        if(!min_angle_selected.equals("") && !max_angle_selected.equals("")){
+            int reference_min_angle = Integer.parseInt(min_angle_selected);
+            int reference_max_angle = Integer.parseInt(max_angle_selected);
             arcView.setEnableAndMinMax(reference_min_angle,reference_max_angle,true);
         }
 
@@ -323,7 +333,7 @@ public class SessionSummaryPopupWindow {
                         session_type = rb_session_type.getText().toString();
                     }
                     String check = mmt_selected.concat(session_type);
-                    BodyPartSelection.commentsession = et_remarks.getText().toString();
+                    String comment_session = et_remarks.getText().toString();
                     if (!check.equalsIgnoreCase("")) {
                         tv_confirm.setText("New Session");
                         JSONObject object = new JSONObject();
@@ -334,7 +344,7 @@ public class SessionSummaryPopupWindow {
                             object.put("mmtgrade", mmt_selected);
                             object.put("bodyorientation", bodyOrientation);
                             object.put("sessiontype", session_type);
-                            object.put("commentsession", et_remarks.getText().toString());
+                            object.put("commentsession", comment_session);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -347,7 +357,6 @@ public class SessionSummaryPopupWindow {
                     tv_confirm.setText("Confirm");
                     report.dismiss();
                     ((Activity)context).finish();
-                    BodyPartSelection.refreshView();
                 }
             }
         });
@@ -475,22 +484,22 @@ public class SessionSummaryPopupWindow {
                 object.put("numofsessions",sessionNo);
                 object.put("phizioemail",phizioemail);
                 object.put("patientid",patientid);
-                object.put("painscale",BodyPartSelection.painscale);
-                object.put("muscletone",BodyPartSelection.muscletone);
-                object.put("exercisename",BodyPartSelection.musclename);
-                object.put("commentsession",BodyPartSelection.commentsession);
-                object.put("symptoms",BodyPartSelection.symptoms);
+                object.put("painscale","");
+                object.put("muscletone","");
+                object.put("exercisename",exercise_name);
+                object.put("commentsession","");
+                object.put("symptoms","");
                 object.put("activetime",actiontime);
                 object.put("orientation", orientation);
                 object.put("mmtgrade",mmt_selected);
                 object.put("bodyorientation",bodyOrientation);
                 object.put("sessiontype",session_type);
-                object.put("repsselected",BodyPartSelection.repsselected);
-                object.put("musclename", BodyPartSelection.exercisename);
-                object.put("maxangleselected",BodyPartSelection.maxAngleSelected);
-                object.put("minangleselected",BodyPartSelection.minAngleSelected);
-                object.put("maxemgselected",BodyPartSelection.maxEmgSelected);
-                object.put("sessioncolor",ValueBasedColorOperations.getCOlorBasedOnTheBodyPartExercise(BodyPartWithMmtRecyclerView.selectedPosition,BodyPartSelection.exercise_selected_position,maxAngle,minAngle,context));
+                object.put("repsselected",repsselected);
+                object.put("musclename", muscle_name);
+                object.put("maxangleselected",max_angle_selected);
+                object.put("minangleselected",min_angle_selected);
+                object.put("maxemgselected",max_emg_selected);
+                object.put("sessioncolor",ValueBasedColorOperations.getCOlorBasedOnTheBodyPartExercise(body_part_selected_position,exercise_selected_position,maxAngle,minAngle,context));
                 Gson gson = new GsonBuilder().create();
                 SessionData data = gson.fromJson(object.toString(),SessionData.class);
                 data.setEmgdata(emgJsonArray);
@@ -504,63 +513,6 @@ public class SessionSummaryPopupWindow {
             }catch (JSONException e) {
                 e.printStackTrace();
             }
-    }
-
-
-    /**
-     * comment session popup window
-     * @param dateString
-     */
-    private void commentSectionPopUp(final String dateString) {
-        Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int width = size.x;
-        int height = size.y;
-        LayoutInflater inflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        assert inflater != null;
-        @SuppressLint("InflateParams") View layout = inflater.inflate(R.layout.popup_comment_session, null);
-
-        final PopupWindow pw = new PopupWindow(layout, ConstraintLayout.LayoutParams.WRAP_CONTENT,ConstraintLayout.LayoutParams.WRAP_CONTENT);
-//        pw.setHeight(height - 400);
-        pw.setWidth(width - 100);
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            pw.setElevation(10);
-        }
-        pw.setTouchable(true);
-        pw.setOutsideTouchable(true);
-        pw.setContentView(layout);
-        pw.setFocusable(true);
-        pw.showAtLocation(layout, Gravity.CENTER, 0, 0);
-        final Spinner sp_exercise_name = layout.findViewById(R.id.sp_exercise_name);
-        final TextView tv_exercise_name = layout.findViewById(R.id.popup_comment_tv_exercise_name);
-
-        Button btn_continue = layout.findViewById(R.id.comment_btn_continue);
-        Button btn_cancel = layout.findViewById(R.id.comment_btn_cancel);
-        Button set_reference = layout.findViewById(R.id.comment_btn_setreference);
-        set_reference.setVisibility(View.GONE);
-        tv_exercise_name.setVisibility(View.GONE);
-        sp_exercise_name.setVisibility(View.GONE);
-        btn_cancel.setVisibility(View.VISIBLE);
-        btn_continue.setText("save");
-        btn_continue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CommentSessionUpdateData data = new CommentSessionUpdateData(phizioemail,patientid,dateString,BodyPartSelection.painscale,
-                        BodyPartSelection.muscletone,BodyPartSelection.exercisename, BodyPartSelection.commentsession, BodyPartSelection.symptoms);
-                repository.updateCommentData(data);
-                pw.dismiss();
-            }
-        });
-        btn_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pw.dismiss();
-            }
-        });
     }
 
     MqttSyncRepository.OnSessionDataResponse onSessionDataResponse = new MqttSyncRepository.OnSessionDataResponse() {

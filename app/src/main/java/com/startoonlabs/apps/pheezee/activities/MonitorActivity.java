@@ -91,6 +91,8 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
     public final int sub_byte_size = 10;
     boolean angleCorrected = false, devicePopped = false, servicesDiscovered = false, isSessionRunning = false, pheezeeState = false, recieverState = false;
     String bodypart, orientation = "NO", timeText = "", holdTimeValue = "0:0", exerciseType;
+    private String str_body_orientation, str_exercise_name, str_muscle_name, str_max_emg_selected, str_min_angle_selected, str_max_angle_selected;
+    private int exercise_position, bodypart_position, repsselected;
     SharedPreferences sharedPreferences;
     JSONObject json_phizio = new JSONObject();
     JSONObject sessionObj = new JSONObject();
@@ -264,16 +266,27 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
         patientname = getIntent().getStringExtra("patientName");
         bodyorientation = getIntent().getStringExtra("bodyorientation");
         body_orientation = getIntent().getIntExtra("body_orientation", 0);
+        bodypart = getIntent().getStringExtra("exerciseType");
+        orientation = getIntent().getStringExtra("orientation");
+        str_body_orientation = getIntent().getStringExtra("bodyorientation");
+        str_exercise_name = getIntent().getStringExtra("exercisename");
+
+        str_muscle_name = getIntent().getStringExtra("musclename");
+        str_max_emg_selected = getIntent().getStringExtra("maxemgselected");
+        str_max_angle_selected = getIntent().getStringExtra("maxangleselected");
+        str_min_angle_selected = getIntent().getStringExtra("minangleselected");
+        exercise_position = getIntent().getIntExtra("exerciseposition",0);
+        bodypart_position = getIntent().getIntExtra("bodypartposition",0);
+        repsselected = getIntent().getIntExtra("repsselected",0);
         patientId.setText(patientid);
         patientName.setText(patientname);
         //setting session number
         repository.getPatientSessionNo(patientid);
-        bodypart = getIntent().getStringExtra("exerciseType");
-        orientation = getIntent().getStringExtra("orientation");
+
         tv_body_part.setText(tv_body_part.getText().toString().concat(bodypart));
-        tv_body_part.setText(orientation + "-" + bodypart + "-" + BodyPartSelection.musclename);
-        if (BodyPartSelection.repsselected != 0) {
-            tv_repsselected.setText("/".concat(String.valueOf(BodyPartSelection.repsselected)));
+        tv_body_part.setText(orientation + "-" + bodypart + "-" + str_exercise_name);
+        if (repsselected!= 0) {
+            tv_repsselected.setText("/".concat(String.valueOf(repsselected)));
         } else {
             tv_repsselected.setVisibility(View.GONE);
         }
@@ -568,9 +581,7 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
                 outputStream_session_sessiondetails.write("\n".getBytes());
                 outputStream_session_sessiondetails.write("Patient Id: ".concat(patientid).getBytes());
                 outputStream_session_sessiondetails.write("\n".getBytes());
-                outputStream_session_sessiondetails.write("Orientation-Bodypart-ExerciseName : ".concat(orientation + "-" + bodypart + "-" + BodyPartSelection.exercisename).getBytes());
-                outputStream_session_sessiondetails.write("\n".getBytes());
-                outputStream_session_sessiondetails.write("Painscale-Muscletone : ".concat(BodyPartSelection.painscale + "-" + BodyPartSelection.muscletone).getBytes());
+                outputStream_session_sessiondetails.write("Orientation-Bodypart-ExerciseName : ".concat(orientation + "-" + bodypart + "-" + str_exercise_name).getBytes());
                 outputStream_session_sessiondetails.write("\n".getBytes());
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -621,10 +632,6 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
             outputStream_session_sessiondetails.write("\n".getBytes());
             outputStream_session_sessiondetails.write("Active Time:".concat(tv_action_time.getText().toString()).getBytes());
             outputStream_session_sessiondetails.write("\n".getBytes());
-            outputStream_session_sessiondetails.write("Painscale-Muscletone : ".concat(BodyPartSelection.painscale + "-" + BodyPartSelection.muscletone).getBytes());
-            outputStream_session_sessiondetails.write("\n".getBytes());
-            outputStream_session_sessiondetails.write("Comment : ".concat(BodyPartSelection.commentsession).getBytes());
-            outputStream_session_sessiondetails.write("\n\n\n".getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -909,15 +916,15 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
             romJsonArray.put(angleDetected);
 
 //            //Beep
-            if(!BodyPartSelection.maxAngleSelected.equals("")){
-                int x = Integer.parseInt(BodyPartSelection.maxAngleSelected);
+            if(!str_max_angle_selected.equals("")){
+                int x = Integer.parseInt(str_max_angle_selected);
                 if(angleDetected<x && !can_beeep_max){
                     can_beeep_max = true;
                 }
             }
 
-            if(!BodyPartSelection.minAngleSelected.equals("")){
-                int x = Integer.parseInt(BodyPartSelection.minAngleSelected);
+            if(!str_min_angle_selected.equals("")){
+                int x = Integer.parseInt(str_min_angle_selected);
                 if(angleDetected>x && !can_beep_min){
                     can_beep_min = true;
                 }
@@ -978,8 +985,8 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
 
 
             //Beep
-            if(!BodyPartSelection.maxAngleSelected.equals("")){
-                int x = Integer.parseInt(BodyPartSelection.maxAngleSelected);
+            if(!str_max_angle_selected.equals("")){
+                int x = Integer.parseInt(str_max_angle_selected);
                 if(angleDetected>x && can_beeep_max){
                     new Handler().post(new Runnable() {
                         @Override
@@ -993,8 +1000,8 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
                 }
             }
 
-            if(!BodyPartSelection.minAngleSelected.equals("")){
-                int x = Integer.parseInt(BodyPartSelection.minAngleSelected);
+            if(!str_min_angle_selected.equals("")){
+                int x = Integer.parseInt(str_min_angle_selected);
                 if(angleDetected<x && can_beep_min){
                     new Handler().post(new Runnable() {
                         @Override
@@ -1022,7 +1029,7 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
                 secondsValue = "0" + active_time_seconds;
             tv_action_time.setText(minutesValue + "m: " + secondsValue + "s");
 
-            if (num_of_reps >= BodyPartSelection.repsselected && BodyPartSelection.repsselected != 0 && !sessionCompleted) {
+            if (num_of_reps >= repsselected && repsselected != 0 && !sessionCompleted) {
                 sessionCompleted = true;
                 openSuccessfullDialogAndCloseSession();
             }
@@ -1055,7 +1062,8 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
         String actiontime = tv_action_time.getText().toString();
         SessionSummaryPopupWindow window = new SessionSummaryPopupWindow(this, maxEmgValue, sessionNo, maxAngle, minAngle, orientation, bodypart,
                 json_phizioemail, sessiontime, actiontime, holdTime.getText().toString(), Repetitions.getText().toString(), emgJsonArray, romJsonArray,
-                angleCorrection, patientid, patientname, tsLong, bodyorientation, getIntent().getStringExtra("dateofjoin"));
+                angleCorrection, patientid, patientname, tsLong, bodyorientation, getIntent().getStringExtra("dateofjoin"), exercise_position,bodypart_position,
+                str_muscle_name,str_exercise_name,str_min_angle_selected,str_max_angle_selected,str_max_emg_selected,repsselected);
         window.showWindow();
         repository.getPatientSessionNo(patientid);
         window.setOnSessionDataResponse(new MqttSyncRepository.OnSessionDataResponse() {
