@@ -36,10 +36,12 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.robertlevonyan.views.customfloatingactionbutton.FloatingLayout;
 import com.startoonlabs.apps.pheezee.R;
+import com.startoonlabs.apps.pheezee.adapters.BodyPartSelectionRecyclerViewAdapter;
 import com.startoonlabs.apps.pheezee.adapters.BodyPartWithMmtRecyclerView;
 import com.startoonlabs.apps.pheezee.classes.BodyPartSelectionModel;
 import com.startoonlabs.apps.pheezee.classes.BodyPartWithMmtSelectionModel;
@@ -77,19 +79,17 @@ public class BodyPartSelection extends AppCompatActivity {
     LinearLayout ll_recent_bodypart;
 
     //Floating action button for done
-    FloatingLayout fab_done ;
-
-    TextView tv_body_part_recent;
+    Button fab_done ;
     ImageView iv_back_body_part_selection;
     String[] string;
+    private String str_orientation, str_exercise_name, str_muscle_name, str_body_orientation;
+    private int int_repsselected = 0;
     public static String painscale="", muscletone="", exercisename="", commentsession="", symptoms="", musclename="", maxAngleSelected="", minAngleSelected="",maxEmgSelected="";     //musclename is actually exercise name and exercisename is musclename. As the flow changed.
     public static int repsselected=0, exercise_selected_position=-1;
 
-    FrameLayout fl_fab_background;
-    boolean flag_recent = false;
-
 //    GridLayoutManager manager;
     RecyclerView.LayoutManager manager;
+    BodyPartSelectionRecyclerViewAdapter adapter;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -97,10 +97,8 @@ public class BodyPartSelection extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_body_part_selection);
         fab_done =  findViewById(R.id.fab_done);    //floating button Done.
-        fl_fab_background = findViewById(R.id.fl_fab_background);
-        preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        editor = preferences.edit();
         //THis string extracts the recently selected body part from the shared preference.
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
         try {
             json_phizio = new JSONObject(preferences.getString("phiziodetails",""));
         } catch (JSONException e) {
@@ -111,71 +109,48 @@ public class BodyPartSelection extends AppCompatActivity {
         bodyPartRecyclerView = findViewById(R.id.bodyPartRecyclerView);
         bodyPartRecyclerView.setHasFixedSize(true);
 
-        RecyclerView.ItemDecoration dividerItemDecoration = new DividerItemDecorator(ContextCompat.getDrawable(this, R.drawable.devider_gridview_bodypart));
-        bodyPartRecyclerView.addItemDecoration(dividerItemDecoration);
-        bodyPartRecyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.HORIZONTAL));
-        bodyPartRecyclerView.setHasFixedSize(true);
-        Configuration config = getResources().getConfiguration();
-        if (config.smallestScreenWidthDp >= 600)
-        {
-            manager = new GridLayoutManager(this,2);    //development
-        }
-        else
-        {
-            manager = new GridLayoutManager(this,1);    //development
-        }
-//        manager = new GridLayoutManager(this,1);    //development
+//        RecyclerView.ItemDecoration dividerItemDecoration = new DividerItemDecorator(ContextCompat.getDrawable(this, R.drawable.devider_gridview_bodypart));
+//        bodyPartRecyclerView.addItemDecoration(dividerItemDecoration);
+//        bodyPartRecyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.HORIZONTAL));
+//        bodyPartRecyclerView.setHasFixedSize(true);
+//        Configuration config = getResources().getConfiguration();
+//        if (config.smallestScreenWidthDp >= 600)
+//        {
+//            manager = new GridLayoutManager(this,2);    //development
+//        }
+//        else
+//        {
+//            manager = new GridLayoutManager(this,1);    //development
+//        }
+////        manager = new GridLayoutManager(this,1);    //development
+//        bodyPartRecyclerView.setLayoutManager(manager);
+//        bodyPartSelectionList = new ArrayList<>();
+//        bodyPartWithMmtSelectionModels = new ArrayList<>();
+//
+//        string = getResources().getStringArray(R.array.bodyPartName);
+//
+//        for (int i=0;i<string.length;i++){
+//            BodyPartWithMmtSelectionModel bp = new BodyPartWithMmtSelectionModel(myPartList[i],string[i]);
+//            bodyPartWithMmtSelectionModels.add(bp);
+//        }
+//        bodyPartWithMmtRecyclerView = new BodyPartWithMmtRecyclerView(bodyPartWithMmtSelectionModels,this);
+//
+//
+//        bodyPartRecyclerView.setAdapter(bodyPartWithMmtRecyclerView);
+
+
+
+        manager = new LinearLayoutManager(this);
         bodyPartRecyclerView.setLayoutManager(manager);
         bodyPartSelectionList = new ArrayList<>();
         bodyPartWithMmtSelectionModels = new ArrayList<>();
-
         string = getResources().getStringArray(R.array.bodyPartName);
-
         for (int i=0;i<string.length;i++){
             BodyPartWithMmtSelectionModel bp = new BodyPartWithMmtSelectionModel(myPartList[i],string[i]);
             bodyPartWithMmtSelectionModels.add(bp);
         }
-        bodyPartWithMmtRecyclerView = new BodyPartWithMmtRecyclerView(bodyPartWithMmtSelectionModels,this);
-
-
-        bodyPartRecyclerView.setAdapter(bodyPartWithMmtRecyclerView);
-
-
-
-        //This listner is used to disable and enable the floating layout while scrolling
-//        bodyPartRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-//                Animation animation_up = AnimationUtils.loadAnimation(BodyPartSelection.this, R.anim.slide_up_dialog);
-//                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-//                    fl_fab_background.setVisibility(View.VISIBLE);
-//                    fl_fab_background.startAnimation(animation_up);
-//                }
-//                super.onScrollStateChanged(recyclerView, newState);
-//            }
-//
-//            @Override
-//            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-//                Animation animation_down = AnimationUtils.loadAnimation(BodyPartSelection.this, R.anim.slide_out_down);
-//                Animation animation_up = AnimationUtils.loadAnimation(BodyPartSelection.this, R.anim.slide_up_dialog);
-//                super.onScrolled(recyclerView, dx, dy);
-//
-//                if(!recyclerView.canScrollVertically(1)){
-//                    fl_fab_background.setVisibility(View.VISIBLE);
-////                    fl_fab_background.startAnimation(animation_up);
-//                }
-//                else if(dy>0 && fab_done.isShown()){
-//                    fl_fab_background.setVisibility(View.INVISIBLE);
-//                    fl_fab_background.startAnimation(animation_down);
-//                }
-//                else if(dy<0){
-//                    fl_fab_background.setVisibility(View.VISIBLE);
-//                    fl_fab_background.startAnimation(animation_up);
-//                }
-//            }
-//        });
-
-
+        adapter = new BodyPartSelectionRecyclerViewAdapter(bodyPartWithMmtSelectionModels,this);
+        bodyPartRecyclerView.setAdapter(adapter);
 
         //Going back to the previous activity
         iv_back_body_part_selection.setOnClickListener(new View.OnClickListener() {
@@ -186,21 +161,6 @@ public class BodyPartSelection extends AppCompatActivity {
         });
     }
 
-
-    /**
-     *This method returns the patient id from by getting it from the intent.
-     * @return String
-     */
-    public String getPatientId(){
-        String patientID = null;
-
-        if(!getIntent().getStringExtra("patientId").equals("")) {
-            patientID = getIntent().getStringExtra("patientId");
-            Log.i("test",getIntent().getStringExtra("patientId"));
-        }
-
-        return patientID;
-    }
 
 
     @Override
@@ -347,95 +307,6 @@ public class BodyPartSelection extends AppCompatActivity {
                                 if(bodyorientation.equalsIgnoreCase("sit")) body_orientation=1;
                                 else if (bodyorientation.equalsIgnoreCase("stand")) body_orientation = 2;
                                 else body_orientation=3;
-
-
-                                int position_list_selected = selectedPosition;
-                                String str_time = repsselected + "";
-                                editor = preferences.edit();
-
-//                                JSONArray array = new JSONArray();
-//                                JSONArray array1 = new JSONArray();
-//                                JSONObject object = new JSONObject();
-//                                JSONArray temp_array = new JSONArray();
-//                                JSONObject patient_object = new JSONObject();
-//                                try {
-//                                    object.put("part_name", bodypartSelected);
-//                                    object.put("res_id", myPartList[position_list_selected]);
-//                                    object.put("position", position_list_selected + "");
-//                                    object.put("str_time", str_time);
-//                                } catch (JSONException e) {
-//                                    e.printStackTrace();
-//                                }
-//
-//                                if (preferences.getString("recently", "").equals("")) {
-//
-//                                    array1.put(object);
-//                                    try {
-//                                        patient_object.put("patientid", getPatientId());
-//                                        patient_object.put("recent", array1.toString());
-//                                    } catch (JSONException e) {
-//                                        e.printStackTrace();
-//                                    }
-//                                    array.put(patient_object);
-//                                    editor.putString("recently", array.toString());
-//                                    editor.commit();
-//                                } else {
-//                                    try {
-//                                        array = new JSONArray(preferences.getString("recently", ""));
-//                                        for (int i = 0; i < array.length(); i++) {
-//                                            JSONObject object1 = array.getJSONObject(i);
-//                                            if (object1.getString("patientid").equals(getPatientId())) {
-//                                                present = true;
-//                                                temp_index = i;
-//                                                JSONArray recent_array = new JSONArray(object1.getString("recent"));
-//                                                for (int j = 0; j < recent_array.length(); j++) {
-//                                                    JSONObject recent_object = recent_array.getJSONObject(j);
-//                                                    if (recent_object.getString("position").equals(object.getString("position"))) {
-//                                                        flag = true;
-//                                                        recent_array.remove(j);
-//                                                        temp_array.put(object);
-//                                                        for (int k = 0; k < recent_array.length(); k++) {
-//                                                            temp_array.put(recent_array.getJSONObject(k));
-//                                                        }
-//                                                        break;
-//                                                    }
-//                                                }
-//                                                break;
-//                                            }
-//
-//                                        }
-//
-//                                        if (flag) {
-//                                            if (temp_index != -1) {
-//                                                array.getJSONObject(temp_index).put("recent", temp_array.toString());
-//                                            }
-//                                            editor.putString("recently", array.toString());
-//                                            editor.commit();
-//                                        } else if (present == true && flag == false) {
-//                                            temp_array.put(0, object);
-//                                            JSONArray array2 = new JSONArray(array.getJSONObject(temp_index).getString("recent"));
-//                                            for (int j = 0; j < array2.length(); j++) {
-//                                                temp_array.put(array2.getJSONObject(j));
-//                                            }
-//                                            array.getJSONObject(temp_index).put("recent", temp_array.toString());
-//                                            editor.putString("recently", array.toString());
-//                                            editor.commit();
-//                                        } else if (present == false) {
-//                                            JSONArray temp = new JSONArray();
-//                                            temp.put(object);
-//                                            JSONObject temp_obj = new JSONObject();
-//                                            temp_obj.put("patientid", getPatientId());
-//                                            temp_obj.put("recent", temp.toString());
-//                                            array.put(temp_obj);
-//                                            editor.putString("recently", array.toString());
-//                                            editor.commit();
-//                                        }
-//
-//
-//                                    } catch (JSONException e) {
-//                                        e.printStackTrace();
-//                                    }
-//                                }
                                 Intent intent = new Intent(BodyPartSelection.this, MonitorActivity.class);
                                 //To be started here i need to putextras in the intents and send them to the moitor activity
                                 intent.putExtra("deviceMacAddress", getIntent().getStringExtra("deviceMacAddress"));

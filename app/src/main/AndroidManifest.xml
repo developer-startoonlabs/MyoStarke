@@ -43,6 +43,8 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
+        <meta-data android:name="firebase_analytics_collection_deactivated" android:value="true" />
+
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -128,6 +130,7 @@
         <activity
             android:name=".activities.BodyPartSelection"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.MonitorActivity"
