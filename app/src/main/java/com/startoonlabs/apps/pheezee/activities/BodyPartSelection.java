@@ -67,7 +67,7 @@ public class BodyPartSelection extends AppCompatActivity {
             public void run() {
                 bodyPartRecyclerView.setAdapter(adapter);
             }
-        },100);
+        },50);
 
 
         //Going back to the previous activity
@@ -146,7 +146,7 @@ public class BodyPartSelection extends AppCompatActivity {
                 public void run() {
                     bodyPartRecyclerView.setAdapter(adapter);
                 }
-            },100);
+            },50);
         }
         reinitializeStatics();
         super.onResume();

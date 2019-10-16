@@ -9,6 +9,7 @@ import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
+import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothProfile;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -112,6 +113,7 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
     long MillisecondTime, StartTime, TimeBuff, UpdateTime = 0L;
     Handler handler;
     BluetoothAdapter bluetoothAdapter;
+    BluetoothManager mBluetoothManager;
     BluetoothDevice remoteDevice;
     LinearLayout emgSignal;
     Date rawdata_timestamp;
@@ -467,7 +469,8 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
         Minutes = 0;
         time.setText("Session time:   00 : 00");
 
-        bluetoothAdapter = BluetoothSingelton.getmInstance().getAdapter();
+        mBluetoothManager = (BluetoothManager)getSystemService(BLUETOOTH_SERVICE);
+        bluetoothAdapter = mBluetoothManager.getAdapter();
         if (bluetoothAdapter!=null && !bluetoothAdapter.isEnabled()) {
             showToast("Bluetooth Disabled");
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);

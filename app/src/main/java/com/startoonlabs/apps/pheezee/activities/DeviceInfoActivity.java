@@ -7,6 +7,7 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
+import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothProfile;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -36,7 +37,7 @@ public class DeviceInfoActivity extends AppCompatActivity {
     private static final int REQUEST_ENABLE_BT = 1;
     BluetoothDevice remoteDevice;
     BluetoothAdapter bluetoothAdapter;
-    BluetoothGattDescriptor mBluetoothGattDescriptor;
+    BluetoothManager mBluetoothManager;
     BluetoothGattCharacteristic mCharacteristic,firmware_characteristic,serial_characteristic,devicename_characteristic;
     BluetoothGatt bluetoothGatt;
 
@@ -91,7 +92,8 @@ public class DeviceInfoActivity extends AppCompatActivity {
 
 
         //checking bluetooth switched on and connecting gatt functions
-        bluetoothAdapter = BluetoothSingelton.getmInstance().getAdapter();
+        mBluetoothManager = (BluetoothManager)getSystemService(BLUETOOTH_SERVICE);
+        bluetoothAdapter = mBluetoothManager.getAdapter();
         if (!bluetoothAdapter.isEnabled()) {
             Toast.makeText(DeviceInfoActivity.this, "Bluetooth Disabled", Toast.LENGTH_SHORT).show();
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
