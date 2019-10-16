@@ -2,7 +2,9 @@ package com.startoonlabs.apps.pheezee.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
+import android.content.res.TypedArray;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.NumberPicker;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -24,25 +26,23 @@ import androidx.transition.Transition;
 import androidx.transition.TransitionManager;
 
 import com.startoonlabs.apps.pheezee.R;
-import com.startoonlabs.apps.pheezee.activities.BodyPartSelection;
-import com.startoonlabs.apps.pheezee.classes.BodyPartWithMmtSelectionModel;
 import com.startoonlabs.apps.pheezee.classes.CircularRevealTransition;
 import com.startoonlabs.apps.pheezee.utils.MuscleOperation;
 import com.startoonlabs.apps.pheezee.utils.ValueBasedColorOperations;
 
-import java.util.List;
-import java.util.logging.Handler;
-
-import static com.startoonlabs.apps.pheezee.adapters.BodyPartWithMmtRecyclerView.selectedPosition;
-
 public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<BodyPartSelectionRecyclerViewAdapter.ViewHolder> {
     private int selected_position = -1;
     Context context;
-    private String msucle_name, exercise_name, orientation, body_orientation, default_max_emg = "900";
-    private int reps_selected, max_angle_selected, min_angle_selected, max_emg_selected;
-    private List<BodyPartWithMmtSelectionModel> bodyPartsList;
+//    int[] myPartList = new int[]{R.drawable.elbow_part, R.drawable.knee_part,R.drawable.ankle_part,R.drawable.hip_part,
+//            R.drawable.wrist_part,R.drawable.shoulder_part,R.drawable.other_body_part};
+    TypedArray myPartList;
+    String[] string_array_bodypart;
+    private String default_max_emg = "900";
+//    private List<BodyPartWithMmtSelectionModel> bodyPartsList;
     private int color_after_selected , color_nothing_selected;
     private String str_start, str_end, str_max_emg;
+    onBodyPartOptionsSelectedListner listner;
+
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tv_body_part_name;
@@ -83,12 +83,16 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
             tv_end = view.findViewById(R.id.model_tv_stop);
             tv_max_emg = view.findViewById(R.id.tv_max_emg);
         }
+
+        public void bindView(int id, String body_part){
+
+        }
     }
 
-    public BodyPartSelectionRecyclerViewAdapter(List<BodyPartWithMmtSelectionModel> bodyPartsList, Context context){
-        this.bodyPartsList = bodyPartsList;
+    public BodyPartSelectionRecyclerViewAdapter( Context context){
         this.context = context;
-
+        this.myPartList = context.getResources().obtainTypedArray(R.array.body_part);
+        string_array_bodypart = context.getResources().getStringArray(R.array.bodyPartName);
         this.str_start = context.getResources().getString(R.string.start);
         this.str_end = context.getResources().getString(R.string.end);
         this.str_max_emg = context.getResources().getString(R.string.max_emg);
@@ -108,36 +112,21 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
 
     @Override
     public void onBindViewHolder(@NonNull final BodyPartSelectionRecyclerViewAdapter.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
-        BodyPartWithMmtSelectionModel bodyPartWithMmtSelectionModel = bodyPartsList.get(position);
-        holder.iv_body_part_image.setImageResource(bodyPartWithMmtSelectionModel.getIv_body_part());
-        holder.tv_body_part_name.setText(bodyPartWithMmtSelectionModel.getExercise_name());
-        Transition transition = new CircularRevealTransition();
-        transition.setDuration(300);
-        transition.addTarget(holder.cl_selection);
-        Animation slide_down = AnimationUtils.loadAnimation(context,R.anim.list_item_down);
-        Animation slide_up = AnimationUtils.loadAnimation(context,R.anim.list_item_up);
+//        BodyPartWithMmtSelectionModel bodyPartWithMmtSelectionModel = bodyPartsList.get(position);
+        holder.iv_body_part_image.setImageResource(myPartList.getResourceId(position,-1));
+        holder.tv_body_part_name.setText(string_array_bodypart[position]);
+
 
         if(selected_position!=position && selected_position!=-1){
             holder.cl_selection.setVisibility(View.GONE);
         }
 
-        //Reps array
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context,R.array.setSessionGoalSpinner, R.layout.support_simple_spinner_dropdown_item);
-        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        holder.sp_goal.setAdapter(adapter);
-
-        ArrayAdapter<CharSequence> array_muscle_names = new ArrayAdapter<CharSequence>(context, R.layout.support_simple_spinner_dropdown_item, MuscleOperation.getExerciseNames(position));
-        array_muscle_names.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        holder.sp_exercise_name.setAdapter(array_muscle_names);
-
-        ArrayAdapter<String> array_exercise_names = new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item, MuscleOperation.getMusleNames(position));
-        array_exercise_names.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        holder.sp_muscle_name.setAdapter(array_exercise_names);
-
-
         holder.cl_body_tv_and_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Transition transition = new CircularRevealTransition();
+                transition.setDuration(300);
+                transition.addTarget(holder.cl_selection);
                 Animation aniFade = AnimationUtils.loadAnimation(context,R.anim.fade_in);
                 holder.cl_body_tv_and_image.setAnimation(aniFade);
                 holder.cl_body_tv_and_image.bringToFront();
@@ -145,6 +134,18 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
                     selected_position=-1;
                     TransitionManager.beginDelayedTransition((ViewGroup)holder.cl_selection.getParent(), transition);
                     holder.cl_selection.setVisibility(View.GONE);
+                    if(listner!=null){
+                        listner.onBodyPartSelected(null);
+                        listner.onOrientationSelected(null);
+                        listner.onBodyOrientationSelected(null);
+                        listner.onExerciseNameSelected(null);
+                        listner.onMuscleNameSelected(null);
+                        listner.onGoalSelected(0);
+                        listner.onMaxEmgUpdated("");
+                        listner.onMaxAngleUpdated("");
+                        listner.onMinAngleUpdated("");
+                        listner.onBodyPartSelectedPostion(-1);
+                    }
                 }else{
                     if(selected_position!=-1){
                         notifyItemChanged(selected_position);
@@ -152,6 +153,44 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
                     TransitionManager.beginDelayedTransition((ViewGroup)holder.cl_selection.getParent(), transition);
                     holder.cl_selection.setVisibility(View.VISIBLE);
                     selected_position = position;
+                    if(listner!=null){
+                        String bodypart = string_array_bodypart[position];
+                        listner.onBodyPartSelected(bodypart);
+                        listner.onBodyPartSelectedPostion(selected_position);
+                    }
+                    ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context,R.array.setSessionGoalSpinner, R.layout.support_simple_spinner_dropdown_item);
+                    adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                    holder.sp_goal.setAdapter(adapter);
+
+                    ArrayAdapter<CharSequence> array_muscle_names = new ArrayAdapter<CharSequence>(context, R.layout.support_simple_spinner_dropdown_item, MuscleOperation.getExerciseNames(selected_position));
+                    array_muscle_names.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                    holder.sp_exercise_name.setAdapter(array_muscle_names);
+
+                    ArrayAdapter<String> array_exercise_names = new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item, MuscleOperation.getMusleNames(selected_position));
+                    array_exercise_names.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                    holder.sp_muscle_name.setAdapter(array_exercise_names);
+                }
+            }
+        });
+
+        holder.rg_orientation.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton btn = group.findViewById(checkedId);
+                String orientation = btn.getText().toString();
+                if (listner!=null){
+                    listner.onOrientationSelected(orientation);
+                }
+            }
+        });
+
+        holder.rg_body_orientation.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton btn = group.findViewById(checkedId);
+                String body_orientation = btn.getText().toString();
+                if(listner!=null){
+                    listner.onBodyOrientationSelected(body_orientation);
                 }
             }
         });
@@ -160,7 +199,7 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(position!=0){
-                    exercise_name = holder.sp_exercise_name.getSelectedItem().toString();
+                    String exercise_name = holder.sp_exercise_name.getSelectedItem().toString();
                     int normal_min = ValueBasedColorOperations.getBodyPartMinValue(selected_position,position);
                     int normal_max = ValueBasedColorOperations.getBodyPartMaxValue(selected_position,position);
                     holder.tv_end.setText(str_end.concat(String.valueOf(normal_max)));
@@ -172,6 +211,13 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
                     holder.tv_max_emg.setTextColor(color_after_selected);
                     holder.tv_start.setTextColor(color_after_selected);
                     holder.tv_end.setTextColor(color_after_selected);
+                    if(listner!=null){
+                        listner.onExerciseNameSelected(exercise_name);
+                        listner.onMinAngleUpdated(String.valueOf(normal_min));
+                        listner.onMaxAngleUpdated(String.valueOf(normal_max));
+                        listner.onMaxEmgUpdated(String.valueOf(900));
+                        listner.onExerciseSelectedPostion(position);
+                    }
                 }else {
                     holder.tv_end.setText(str_end);
                     holder.tv_start.setText(str_start);
@@ -182,6 +228,12 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
                     holder.tv_max_emg.setTextColor(color_nothing_selected);
                     holder.tv_start.setTextColor(color_nothing_selected);
                     holder.tv_end.setTextColor(color_nothing_selected);
+                    if(listner!=null){
+                        listner.onExerciseNameSelected(null);
+                        listner.onMinAngleUpdated("");
+                        listner.onMaxAngleUpdated("");
+                        listner.onMaxEmgUpdated("");
+                    }
                 }
             }
 
@@ -191,17 +243,138 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
             }
         });
 
+        holder.sp_muscle_name.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position!=0){
+                    if(listner!=null){
+                        String muscle_name = holder.sp_muscle_name.getSelectedItem().toString();
+                        listner.onMuscleNameSelected(muscle_name);
+                    }
+                }
+                else {
+                    if(listner!=null){
+                        listner.onMuscleNameSelected(null);
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        holder.sp_goal.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position!=0){
+                    String str_goal = holder.sp_goal.getSelectedItem().toString().substring(0,2);
+                    str_goal = str_goal.replaceAll("\\s+","");
+                    int reps_selected = Integer.parseInt(str_goal);
+                    if(listner!=null){
+                        listner.onGoalSelected(reps_selected);
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                if(listner!=null){
+                    listner.onGoalSelected(0);
+                }
+            }
+        });
+
+        holder.et_max_emg.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(listner!=null){
+                    String s1 = s.toString();
+                    listner.onMaxEmgUpdated(s1);
+                }
+            }
+        });
+
+        holder.et_max_angle.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(listner!=null){
+                    String s1 = s.toString();
+                    listner.onMaxAngleUpdated(s1);
+                }
+            }
+        });
+
+        holder.et_min_angle.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(listner!=null){
+                    String s1 = s.toString();
+                    listner.onMinAngleUpdated(s1);
+                }
+            }
+        });
 
     }
 
 
     @Override
     public int getItemCount() {
-        return bodyPartsList==null?0:bodyPartsList.size();
+        return string_array_bodypart==null?0:string_array_bodypart.length;
     }
 
     @Override
     public int getItemViewType(int position) {
         return position;
+    }
+
+
+    public interface onBodyPartOptionsSelectedListner{
+        void onBodyPartSelected(String bodypart);
+        void onOrientationSelected(String orientation);
+        void onBodyOrientationSelected(String body_orientation);
+        void onExerciseNameSelected(String exercise_name);
+        void onMuscleNameSelected(String muscle_name);
+        void onGoalSelected(int reps_selected);
+        void onMaxEmgUpdated(String max_emg_updated);
+        void onMaxAngleUpdated(String max_angle_updated);
+        void onMinAngleUpdated(String min_angle_updated);
+        void onBodyPartSelectedPostion(int position);
+        void onExerciseSelectedPostion(int position);
+    }
+
+    public void onSetOptionsSelectedListner(onBodyPartOptionsSelectedListner listner){
+        this.listner = listner;
     }
 }

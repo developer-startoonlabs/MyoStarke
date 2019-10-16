@@ -15,5 +15,15 @@
         <item>#26A69A</item>
     </array>
 
+    <array name="body_part">
+        <item>@drawable/elbow_part</item>
+        <item>@drawable/knee_part</item>
+        <item>@drawable/ankle_part</item>
+        <item>@drawable/hip_part</item>
+        <item>@drawable/wrist_part</item>
+        <item>@drawable/shoulder_part</item>
+        <item>@drawable/other_body_part</item>
+    </array>
+
 
 </resources>

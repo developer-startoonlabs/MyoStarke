@@ -30,7 +30,7 @@
 
 
     <string-array name="setSessionGoalSpinner">
-        <item>Set Goal</item>
+        <item>Set Reps</item>
         <item>5 Reps</item>
         <item>10 Reps</item>
         <item>15 Reps</item>

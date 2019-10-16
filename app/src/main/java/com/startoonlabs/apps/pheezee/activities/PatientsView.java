@@ -99,7 +99,9 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -703,7 +705,6 @@ public class PatientsView extends AppCompatActivity
 
                 //remove comments later now.
                 else if(characteristic.getUuid()==mCharacteristic.getUuid()) {
-
                     byte b[] = characteristic.getValue();
                     int battery  = b[0];
                     int usb_state = b[1];
@@ -969,7 +970,8 @@ public class PatientsView extends AppCompatActivity
      * @param patient
      */
     public void startSession(PhizioPatients patient) {
-        final Intent intent = new Intent(PatientsView.this, BodyPartSelection.class);
+        Log.i("timestamp1", String.valueOf(Calendar.getInstance().getTimeInMillis()));
+        Intent intent = new Intent(PatientsView.this, BodyPartSelection.class);
         intent.putExtra("deviceMacAddress", sharedPref.getString("deviceMacaddress", ""));
         intent.putExtra("patientId", patient.getPatientid());
         intent.putExtra("patientName", patient.getPatientname());
@@ -980,8 +982,9 @@ public class PatientsView extends AppCompatActivity
             Toast.makeText(this, "Make sure that the pheezee is on", Toast.LENGTH_LONG).show();
         }
         else {
-            String message = BatteryOperation.getDialogMessageForLowBattery(deviceBatteryPercent,this);
-            if(!message.equalsIgnoreCase("c")){
+
+            if(deviceBatteryPercent<15){
+                String message = BatteryOperation.getDialogMessageForLowBattery(deviceBatteryPercent,this);
                 final AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("Battery Low");
                 builder.setMessage(message);
@@ -1002,6 +1005,7 @@ public class PatientsView extends AppCompatActivity
                 if(firmware_version<1911){
                     NetworkOperations.firmwareVirsionNotCompatible(this);
                 }else {
+                    Log.i("timestamp2", String.valueOf(Calendar.getInstance().getTimeInMillis()));
                     startActivity(intent);
                 }
             }
