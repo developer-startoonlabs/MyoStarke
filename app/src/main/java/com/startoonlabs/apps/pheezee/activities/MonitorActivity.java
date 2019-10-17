@@ -481,7 +481,6 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
             mBluetoothGatt.close();
         }
         if (!getIntent().getStringExtra("deviceMacAddress").equals(""))
-
             remoteDevice = bluetoothAdapter.getRemoteDevice(getIntent().getStringExtra("deviceMacAddress"));
         if (remoteDevice == null) {
             showToast("Make sure pheeze is On.");
