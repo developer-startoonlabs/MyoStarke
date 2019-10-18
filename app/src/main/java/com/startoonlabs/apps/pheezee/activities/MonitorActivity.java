@@ -931,7 +931,7 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
             try {
                 outputStream_session_romdata = new FileOutputStream(file_session_romdata, true);
                 outputStream_session_romdata.write(String.valueOf(angleDetected).getBytes());
-                outputStream_session_romdata.write("\n".getBytes());
+                outputStream_session_romdata.write(",".getBytes());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -948,7 +948,7 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
             try {
                 outputStream_session_emgdata = new FileOutputStream(file_session_emgdata, true);
                 outputStream_session_emgdata.write(String.valueOf(emg_data).getBytes());
-                outputStream_session_emgdata.write("\n".getBytes());
+                outputStream_session_emgdata.write(",".getBytes());
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -1059,6 +1059,11 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
         String sessionNo = tv_session_no.getText().toString();
         String sessiontime = time.getText().toString().substring(16);
         String actiontime = tv_action_time.getText().toString();
+
+        //testing with empty emg and rom array
+//        emgJsonArray = new JSONArray();
+//        romJsonArray = new JSONArray();
+
         SessionSummaryPopupWindow window = new SessionSummaryPopupWindow(this, maxEmgValue, sessionNo, maxAngle, minAngle, orientation, bodypart,
                 json_phizioemail, sessiontime, actiontime, holdTime.getText().toString(), Repetitions.getText().toString(), emgJsonArray, romJsonArray,
                 angleCorrection, patientid, patientname, tsLong, bodyorientation, getIntent().getStringExtra("dateofjoin"), exercise_position,bodypart_position,

@@ -112,7 +112,8 @@ public class PatientsView extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener, PatientsRecyclerViewAdapter.onItemClickListner, MqttSyncRepository.onServerResponse {
 
     String json_phizioemail = "";
-    public static boolean deviceState = true, connectPressed = false, deviceBatteryUsbState = false,sessionStarted = false;
+    public static boolean isDeviceConnected = false;
+    public static boolean deviceState = false, connectPressed = false, deviceBatteryUsbState = false,sessionStarted = false;
     public static int deviceBatteryPercent=0;
     public static boolean insideMonitor = false;
     private boolean insidePatientViewActivity = true;
@@ -626,6 +627,7 @@ public class PatientsView extends AppCompatActivity
                     isBleConnected = true;
                     msg.obj = "C";
                     deviceState=true;
+                    isDeviceConnected = true;
                     bleStatusHandler.sendMessage(msg);
                     refreshDeviceCache(gatt);
                     gatt.discoverServices();
@@ -891,6 +893,7 @@ public class PatientsView extends AppCompatActivity
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if(BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)){
+                isDeviceConnected = false;
 //                Toast.makeText(PatientsView.this, "The device has got disconnected...", Toast.LENGTH_LONG).show();
                 connected_disconnected_toast.setText("The device got disconnected..");
                 connected_disconnected_toast.show();
@@ -900,35 +903,6 @@ public class PatientsView extends AppCompatActivity
                 }
                 if(sharedPref.getBoolean("isLoggedIn",false)==false)
                     finish();
-
-//                if(sharedPref.getString("pressed", "").equals("c")){
-//                    if(bluetoothGatt==null){
-//                    if (bluetoothAdapter==null || !bluetoothAdapter.isEnabled()) {
-//                        bluetoothDisconnected();
-//                        startBluetoothRequest();
-//                    }
-//                    else {
-//                        if(!Objects.requireNonNull(sharedPref.getString("deviceMacaddress", "")).equals("")) {
-//                            Log.i("Enabled","true");
-//                            remoteDevice = bluetoothAdapter.getRemoteDevice(sharedPref.getString("deviceMacaddress", "EC:24:B8:31:BD:67"));
-//
-//
-//                            new Handler(Looper.getMainLooper()).post(new Runnable() {
-//                                @Override
-//                                public void run() {
-//                                    bluetoothGatt = remoteDevice.connectGatt(PatientsView.this, true, callback);
-//                                    if(bluetoothGatt!=null) {
-//                                        gattconnection_established = true;
-//                                    }
-//                                }
-//                            });
-//                        }
-//                    }
-//                }
-//                    editor = sharedPref.edit();
-//                    editor.putString("pressed","");
-//                    editor.commit();
-//                }
                 else {
                     isBleConnected = false;
                     Message message = Message.obtain();

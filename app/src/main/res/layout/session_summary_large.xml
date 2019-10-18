@@ -258,8 +258,6 @@
                                 android:id="@+id/tv_min_angle"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:background="@color/background_green"
-
                                 android:fontFamily="@font/ebrima"
                                 android:paddingLeft="5dp"
                                 android:paddingTop="1dp"
@@ -267,7 +265,7 @@
                                 android:paddingRight="5dp"
                                 android:paddingBottom="1dp"
                                 android:text="20°"
-                                android:textColor="@color/white"
+                                android:textColor="@color/pitch_black"
                                 android:textSize="25sp" />
                         </LinearLayout>
 
@@ -294,7 +292,6 @@
                                 android:id="@+id/tv_max_angle"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:background="@color/background_green"
                                 android:fontFamily="@font/ebrima"
                                 android:paddingLeft="5dp"
                                 android:layout_gravity="center"
@@ -302,7 +299,7 @@
                                 android:paddingRight="5dp"
                                 android:paddingBottom="1dp"
                                 android:text="165°"
-                                android:textColor="@color/white"
+                                android:textColor="@color/pitch_black"
                                 android:textSize="25sp" />
                         </LinearLayout>
 
@@ -328,7 +325,6 @@
                                 android:id="@+id/tv_range_min_max"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:background="@color/background_green"
                                 android:fontFamily="@font/ebrima"
                                 android:paddingLeft="5dp"
                                 android:paddingTop="1dp"
@@ -336,7 +332,7 @@
                                 android:paddingRight="5dp"
                                 android:paddingBottom="1dp"
                                 android:text="20°"
-                                android:textColor="@color/white"
+                                android:textColor="@color/pitch_black"
                                 android:textSize="25sp" />
                         </LinearLayout>
                     </LinearLayout>
@@ -892,14 +888,13 @@
                                 android:id="@+id/tv_max_emg"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:background="@color/background_green"
                                 android:fontFamily="@font/ebrima"
                                 android:paddingLeft="5dp"
                                 android:paddingTop="1dp"
                                 android:paddingRight="5dp"
                                 android:paddingBottom="1dp"
                                 android:text="165"
-                                android:textColor="@color/white"
+                                android:textColor="@color/pitch_black"
                                 android:textSize="24sp" />
                         </LinearLayout>
                     </LinearLayout>

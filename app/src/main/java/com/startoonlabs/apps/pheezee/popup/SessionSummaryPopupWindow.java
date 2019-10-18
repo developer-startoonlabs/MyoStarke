@@ -11,6 +11,7 @@ import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -277,6 +278,7 @@ public class SessionSummaryPopupWindow {
         String dateString_date = formatter_date.format(new Date(tsLong));
         tv_held_on.setText(dateString_date);
 
+        Log.i("maxangle,min,maxrange",maxAngle+" "+minAngle+" "+maxEmgValue);
         tv_min_angle.setText(String.valueOf(minAngle).concat("°"));
         tv_min_angle.setTextColor(color);
         tv_max_angle.setText(String.valueOf(maxAngle).concat("°"));

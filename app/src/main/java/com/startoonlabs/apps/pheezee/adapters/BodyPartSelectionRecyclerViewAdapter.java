@@ -348,6 +348,10 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
 
     }
 
+    public void setPositionToInitial()
+    {
+        selected_position=-1;
+    }
 
     @Override
     public int getItemCount() {
