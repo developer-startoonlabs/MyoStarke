@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
+import android.os.Binder;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
@@ -80,6 +81,10 @@ public class PheezeeBleService extends Service {
     //descriptor
     public static final UUID universal_descriptor = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
 
+
+    //Binder
+    IBinder myServiceBinder = new LocalBinder();
+
     private Boolean mDeviceState = false, mBluetoothState = false, mUsbState = false;
     private int mBatteryPercent = 0;
     private String mFirmwareVersion = "";
@@ -103,7 +108,7 @@ public class PheezeeBleService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
-        throw new UnsupportedOperationException("Not yet implemented");
+        return myServiceBinder;
     }
 
     @Override
@@ -522,4 +527,11 @@ public class PheezeeBleService extends Service {
 
         }
     };
+
+
+    public class LocalBinder extends Binder {
+        public PheezeeBleService getServiceInstance(){
+            return PheezeeBleService.this;
+        }
+    }
 }

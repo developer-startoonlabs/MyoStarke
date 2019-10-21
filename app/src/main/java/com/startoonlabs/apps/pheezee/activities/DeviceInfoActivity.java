@@ -148,6 +148,8 @@ public class DeviceInfoActivity extends AppCompatActivity {
             }
         });
 
+
+
     }
 
 
