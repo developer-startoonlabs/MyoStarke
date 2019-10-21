@@ -113,14 +113,14 @@ public class DeviceInfoActivity extends AppCompatActivity {
 //            tv_device_name.setText(remoteDevice.getName());
 //        }
 
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                if(remoteDevice!=null) {
-                    bluetoothGatt = remoteDevice.connectGatt(DeviceInfoActivity.this, true, callback);
-                }
-            }
-        });
+//        new Handler(Looper.getMainLooper()).post(new Runnable() {
+//            @Override
+//            public void run() {
+//                if(remoteDevice!=null) {
+//                    bluetoothGatt = remoteDevice.connectGatt(DeviceInfoActivity.this, true, callback);
+//                }
+//            }
+//        });
 
 
         tv_disconnect_forget.setOnClickListener(new View.OnClickListener() {
@@ -151,160 +151,160 @@ public class DeviceInfoActivity extends AppCompatActivity {
     }
 
 
-    public BluetoothGattCallback callback = new BluetoothGattCallback() {
-
-
-
-        @Override
-        public void onPhyUpdate(BluetoothGatt gatt, int txPhy, int rxPhy, int status) {
-            super.onPhyUpdate(gatt, txPhy, rxPhy, status);
-        }
-
-        @Override
-        public void onPhyRead(BluetoothGatt gatt, int txPhy, int rxPhy, int status) {
-            super.onPhyRead(gatt, txPhy, rxPhy, status);
-        }
-
-        @Override
-        public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
-            if(newState == BluetoothProfile.STATE_CONNECTED){
-                arrayList = new ArrayList<>();
-                Log.i("GATT CONNECTED", "Attempting to start the service discovery");
-                Message message = new Message();
-                message.obj = "Connected";
-                bleStatusHandler.sendMessage(message);
-                gatt.discoverServices();
-            }
-            else if (newState == BluetoothProfile.STATE_CONNECTING){
-                Log.i("GATT DISCONNECTED", "GATT server is being connected");
-            }
-
-            else if(newState == BluetoothProfile.STATE_DISCONNECTING){
-                Log.i("GATT DISCONNECTING","Gatt server disconnecting");
-            }
-            else if (newState == BluetoothProfile.STATE_DISCONNECTED){
-                Log.i("GATT DISCONNECTED", "Gatt server disconnected");
-            }
-
-            super.onConnectionStateChange(gatt, status, newState);
-        }
-
-        @Override
-        public void onServicesDiscovered(BluetoothGatt gatt, int status) {
-            if(status==BluetoothGatt.GATT_SUCCESS){
-                mCharacteristic = gatt.getService(battery_service1_uuid).getCharacteristic(battery_level_battery_service_characteristic_uuid);
-                Log.i("Check",mCharacteristic.getUuid().toString());
-                firmware_characteristic = gatt.getService(device_info_service1_uuid).getCharacteristic(firmware_version_characteristic_uuid);
-                Log.i("Check",firmware_characteristic.getUuid().toString());
-                serial_characteristic = gatt.getService(device_info_service1_uuid).getCharacteristic(serial_number_characteristic);
-                Log.i("Check",serial_characteristic.getUuid().toString());
-                devicename_characteristic = gatt.getService(device_info_service1_uuid).getCharacteristic(device_name_characteristic);
-                gatt.setCharacteristicNotification(mCharacteristic,true);
-
-
-
-                arrayList.add(firmware_characteristic);
-                arrayList.add(serial_characteristic);
-                arrayList.add(devicename_characteristic);
-                arrayList.add(mCharacteristic);
-
-
-                Message message = new Message();
-                message.obj = "setvalues";
-                bleStatusHandler.sendMessage(message);
-
-
-
-            }
-        }
-
-        @Override
-        public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, final int status) {
-            super.onCharacteristicRead(gatt, characteristic, status);
-            byte b[] = characteristic.getValue();
-            final String str;
-            str = new String(b, StandardCharsets.UTF_8);
-
-            if(characteristic.getUuid().equals(firmware_version_characteristic_uuid)){
-                runOnUiThread(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        tv_firmware_version.setText(str);
-                        // Stuff that updates the UI
-
-                    }
-                });
-            }
-            else if(characteristic.getUuid().equals(serial_number_characteristic)){
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        tv_serial_id.setText(str);
-                        // Stuff that updates the UI
-
-                    }
-                });
-            }
-            else if(characteristic.getUuid().equals(device_name_characteristic)){
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        tv_device_name.setText(str);
-                        // Stuff that updates the UI
-                    }
-                });
-            }
-            else if(characteristic.getUuid().equals(battery_level_battery_service_characteristic_uuid)){
-                final int battery  = b[0];
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        tv_battery_level.setText(String.valueOf(battery).concat("%"));
-//                        mBluetoothGattDescriptor = mCharacteristic.getDescriptor(descriptor_characteristic1_service1_uuid);
-//                        mBluetoothGattDescriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
-//                        bluetoothGatt.writeDescriptor(mBluetoothGattDescriptor);
-                    }
-                });
-            }
-
-            arrayList.remove(0);
-            if(arrayList.size()>0){
-                bluetoothGatt.readCharacteristic(arrayList.get(0));
-            }
-
-
-        }
-        @Override
-        public void onCharacteristicChanged(final BluetoothGatt gatt, final BluetoothGattCharacteristic characteristic) {
-//            if(characteristic.getUuid().equals(battery_level_battery_service_characteristic_uuid)){
-//                byte b[] = characteristic.getValue();
-//                final int battery  = b[0];
-//                Log.i("battery",battery+"");
+//    public BluetoothGattCallback callback = new BluetoothGattCallback() {
+//
+//
+//
+//        @Override
+//        public void onPhyUpdate(BluetoothGatt gatt, int txPhy, int rxPhy, int status) {
+//            super.onPhyUpdate(gatt, txPhy, rxPhy, status);
+//        }
+//
+//        @Override
+//        public void onPhyRead(BluetoothGatt gatt, int txPhy, int rxPhy, int status) {
+//            super.onPhyRead(gatt, txPhy, rxPhy, status);
+//        }
+//
+//        @Override
+//        public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+//            if(newState == BluetoothProfile.STATE_CONNECTED){
+//                arrayList = new ArrayList<>();
+//                Log.i("GATT CONNECTED", "Attempting to start the service discovery");
 //                Message message = new Message();
-//                message.obj = battery+"";
-//                batteryStatus.sendMessage(message);
+//                message.obj = "Connected";
+//                bleStatusHandler.sendMessage(message);
+//                gatt.discoverServices();
 //            }
-        }
-
-        @Override
-        public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-            super.onCharacteristicWrite(gatt, characteristic, status);
-        }
-
-        @Override
-        public void onDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
-            Log.i("hello","READ");
-        }
-
-
-
-        @Override
-        public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
-            Log.i("descriptor","written");
-        }
-    };
+//            else if (newState == BluetoothProfile.STATE_CONNECTING){
+//                Log.i("GATT DISCONNECTED", "GATT server is being connected");
+//            }
+//
+//            else if(newState == BluetoothProfile.STATE_DISCONNECTING){
+//                Log.i("GATT DISCONNECTING","Gatt server disconnecting");
+//            }
+//            else if (newState == BluetoothProfile.STATE_DISCONNECTED){
+//                Log.i("GATT DISCONNECTED", "Gatt server disconnected");
+//            }
+//
+//            super.onConnectionStateChange(gatt, status, newState);
+//        }
+//
+//        @Override
+//        public void onServicesDiscovered(BluetoothGatt gatt, int status) {
+//            if(status==BluetoothGatt.GATT_SUCCESS){
+//                mCharacteristic = gatt.getService(battery_service1_uuid).getCharacteristic(battery_level_battery_service_characteristic_uuid);
+//                Log.i("Check",mCharacteristic.getUuid().toString());
+//                firmware_characteristic = gatt.getService(device_info_service1_uuid).getCharacteristic(firmware_version_characteristic_uuid);
+//                Log.i("Check",firmware_characteristic.getUuid().toString());
+//                serial_characteristic = gatt.getService(device_info_service1_uuid).getCharacteristic(serial_number_characteristic);
+//                Log.i("Check",serial_characteristic.getUuid().toString());
+//                devicename_characteristic = gatt.getService(device_info_service1_uuid).getCharacteristic(device_name_characteristic);
+//                gatt.setCharacteristicNotification(mCharacteristic,true);
+//
+//
+//
+//                arrayList.add(firmware_characteristic);
+//                arrayList.add(serial_characteristic);
+//                arrayList.add(devicename_characteristic);
+//                arrayList.add(mCharacteristic);
+//
+//
+//                Message message = new Message();
+//                message.obj = "setvalues";
+//                bleStatusHandler.sendMessage(message);
+//
+//
+//
+//            }
+//        }
+//
+//        @Override
+//        public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, final int status) {
+//            super.onCharacteristicRead(gatt, characteristic, status);
+//            byte b[] = characteristic.getValue();
+//            final String str;
+//            str = new String(b, StandardCharsets.UTF_8);
+//
+//            if(characteristic.getUuid().equals(firmware_version_characteristic_uuid)){
+//                runOnUiThread(new Runnable() {
+//
+//                    @Override
+//                    public void run() {
+//                        tv_firmware_version.setText(str);
+//                        // Stuff that updates the UI
+//
+//                    }
+//                });
+//            }
+//            else if(characteristic.getUuid().equals(serial_number_characteristic)){
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        tv_serial_id.setText(str);
+//                        // Stuff that updates the UI
+//
+//                    }
+//                });
+//            }
+//            else if(characteristic.getUuid().equals(device_name_characteristic)){
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        tv_device_name.setText(str);
+//                        // Stuff that updates the UI
+//                    }
+//                });
+//            }
+//            else if(characteristic.getUuid().equals(battery_level_battery_service_characteristic_uuid)){
+//                final int battery  = b[0];
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//
+//                        tv_battery_level.setText(String.valueOf(battery).concat("%"));
+////                        mBluetoothGattDescriptor = mCharacteristic.getDescriptor(descriptor_characteristic1_service1_uuid);
+////                        mBluetoothGattDescriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+////                        bluetoothGatt.writeDescriptor(mBluetoothGattDescriptor);
+//                    }
+//                });
+//            }
+//
+//            arrayList.remove(0);
+//            if(arrayList.size()>0){
+//                bluetoothGatt.readCharacteristic(arrayList.get(0));
+//            }
+//
+//
+//        }
+//        @Override
+//        public void onCharacteristicChanged(final BluetoothGatt gatt, final BluetoothGattCharacteristic characteristic) {
+////            if(characteristic.getUuid().equals(battery_level_battery_service_characteristic_uuid)){
+////                byte b[] = characteristic.getValue();
+////                final int battery  = b[0];
+////                Log.i("battery",battery+"");
+////                Message message = new Message();
+////                message.obj = battery+"";
+////                batteryStatus.sendMessage(message);
+////            }
+//        }
+//
+//        @Override
+//        public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+//            super.onCharacteristicWrite(gatt, characteristic, status);
+//        }
+//
+//        @Override
+//        public void onDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
+//            Log.i("hello","READ");
+//        }
+//
+//
+//
+//        @Override
+//        public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
+//            Log.i("descriptor","written");
+//        }
+//    };
 
     @SuppressLint("HandlerLeak")
     public final Handler bleStatusHandler = new Handler() {

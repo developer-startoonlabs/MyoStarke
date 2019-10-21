@@ -24,7 +24,6 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 
 import com.startoonlabs.apps.pheezee.R;
-import com.startoonlabs.apps.pheezee.activities.PatientsView;
 import com.startoonlabs.apps.pheezee.pojos.PatientDetailsData;
 import com.startoonlabs.apps.pheezee.room.Entity.PhizioPatients;
 import com.startoonlabs.apps.pheezee.utils.DateOperations;

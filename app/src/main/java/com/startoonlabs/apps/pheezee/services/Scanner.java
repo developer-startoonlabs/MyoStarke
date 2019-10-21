@@ -4,19 +4,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.util.SparseArray;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.vision.barcode.Barcode;
 import com.startoonlabs.apps.pheezee.R;
-import com.startoonlabs.apps.pheezee.activities.PatientsView;
 import com.startoonlabs.apps.pheezee.utils.RegexOperations;
 
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import info.androidhive.barcode.BarcodeReader;
 

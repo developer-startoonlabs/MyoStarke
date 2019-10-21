@@ -46,8 +46,9 @@ public class MuscleOperation {
 
             {"Select Exercise*", "Flexion", "Extension", "Radial deviation", "Ulnar deviation", "Isometric"},  //Wrist
 
-            {"Select Exercise*", "Flexion", "Extension", "Abduction", "Adduction", "Protraction", "Retraction", "Elevation",
-                    "Depression", "Isometric"},   //Shoulder
+            {"Select Exercise*", "Flexion", "Extension", "Abduction", "Adduction",
+//                    "Protraction", "Retraction", "Elevation", "Depression",
+                    "Isometric"},   //Shoulder
             {"Select Exercise*","Others"}
     };
 

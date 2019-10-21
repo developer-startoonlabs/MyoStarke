@@ -1,8 +1,6 @@
 package com.startoonlabs.apps.pheezee.adapters;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
@@ -11,11 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.startoonlabs.apps.pheezee.activities.ScanDevicesActivity;
 import com.startoonlabs.apps.pheezee.classes.DeviceListClass;
-import com.startoonlabs.apps.pheezee.activities.PatientsView;
 import com.startoonlabs.apps.pheezee.R;
 
 import java.util.ArrayList;

@@ -22,7 +22,7 @@ import com.startoonlabs.apps.pheezee.classes.BodyPartWithMmtSelectionModel;
 
 import java.util.ArrayList;
 
-import static com.startoonlabs.apps.pheezee.activities.PatientsView.deviceState;
+
 import static com.startoonlabs.apps.pheezee.activities.PatientsView.isDeviceConnected;
 
 public class BodyPartSelection extends AppCompatActivity {
@@ -162,7 +162,7 @@ public class BodyPartSelection extends AppCompatActivity {
      * @param view
      */
     public void startMonitorSession(View view) {
-        if(isDeviceConnected) {
+        if(PatientsView.isDeviceConnected) {
             if (isValid()) {
                 Log.i("body part", str_body_part);
                 Log.i("body orientation", str_orientation);
