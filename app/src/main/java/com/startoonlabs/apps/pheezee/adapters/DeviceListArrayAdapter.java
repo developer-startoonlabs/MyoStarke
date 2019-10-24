@@ -67,23 +67,10 @@ public class DeviceListArrayAdapter extends ArrayAdapter<DeviceListClass> {
         btn_connectToDevice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Toast.makeText(context, macAddressOfTheSelectedDevice, Toast.LENGTH_SHORT).show();
 
                 if(connectPressed!=null){
                     connectPressed.onDeviceConnectPressed(mdeviceArrayList.get(position).getDeviceMacAddress());
                 }
-//                editor = preferences.edit();
-//                ScanDevicesActivity.selectedDeviceMacAddress = mdeviceArrayList.get(position).getDeviceMacAddress();
-//                editor.putString("deviceMacaddress", mdeviceArrayList.get(position).getDeviceMacAddress());
-//                editor.commit();
-//                Toast.makeText(context, "connecting....", Toast.LENGTH_SHORT).show();
-//                editor.putString("pressed","c");
-//                editor.commit();
-//                PatientsView.disconnectDevice();
-//                Intent i = new Intent(context, PatientsView.class);
-//                context.startActivity(i);
-//                PatientsView.deviceState=false;
-//                ((Activity)context).finish();
             }
         });
         return row;

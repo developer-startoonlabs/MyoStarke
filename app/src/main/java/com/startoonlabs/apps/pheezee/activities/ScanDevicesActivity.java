@@ -10,15 +10,24 @@ import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanFilter;
 import android.bluetooth.le.ScanResult;
 import android.bluetooth.le.ScanSettings;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Looper;
+import android.os.Message;
+import android.os.Messenger;
+import android.os.RemoteException;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -27,11 +36,16 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.transition.Transition;
+import androidx.transition.TransitionManager;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.adapters.DeviceListArrayAdapter;
 import com.startoonlabs.apps.pheezee.classes.BluetoothSingelton;
+import com.startoonlabs.apps.pheezee.classes.CircularRevealTransition;
 import com.startoonlabs.apps.pheezee.classes.DeviceListClass;
+import com.startoonlabs.apps.pheezee.services.PheezeeBleService;
 import com.startoonlabs.apps.pheezee.utils.RegexOperations;
 
 import java.util.ArrayList;
@@ -39,6 +53,12 @@ import java.util.List;
 import java.util.Objects;
 
 import static android.content.Context.BLUETOOTH_SERVICE;
+import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.battery_percent;
+import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.bluetooth_state;
+import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.device_state;
+import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.scan_state;
+import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.scanned_list;
+import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.usb_state;
 
 
 public class ScanDevicesActivity extends AppCompatActivity {
@@ -46,29 +66,21 @@ public class ScanDevicesActivity extends AppCompatActivity {
     private static final String TAG = "ScanDevicesActivity";
     ListView lv_scandevices;
     SwipeRefreshLayout swipeRefreshLayout;
-    public static ImageView iv_device_connected;
-    public static ImageView iv_device_disconnected;
-    public static ImageView iv_bluetooth_connected;
-    public static ImageView iv_bluetooth_disconnected;
-    private Handler scan_handler = new Handler();
 
-    private boolean mScanning = false;
     Handler handler;
+    private boolean mBluetoothState = true;
 
-    Handler mainHandler = new Handler();
     private static final int REQUEST_FINE_LOCATION = 1;
     TextView tv_stoScan;
     ArrayList<DeviceListClass> mScanResults;
     DeviceListArrayAdapter deviceListArrayAdapter;
-    private BtleScanCallback mScanCallback;
-    BluetoothLeScanner mBluetoothLeScanner;
     private static final int REQUEST_ENABLE_BT = 1;
     BluetoothAdapter madapter_scandevices;
-    public static String selectedDeviceMacAddress;
-    public static boolean connectPressed =false;
     ImageView iv_back_scan_devices;
-    ScanHandler start_scan_handler = new ScanHandler();
-    ScanStopHandler stop_handler = new ScanStopHandler();
+    LottieAnimationView view, scan_toolbar_anim;
+    //sercice and bind
+    PheezeeBleService mCustomService;
+    boolean isBound = false;
 
     @SuppressLint("ResourceAsColor")
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -85,12 +97,8 @@ public class ScanDevicesActivity extends AppCompatActivity {
         iv_back_scan_devices = findViewById(R.id.back_scan_devices);
         lv_scandevices =findViewById(R.id.lv_deviceList);
         swipeRefreshLayout = findViewById(R.id.scandevices_swiperefresh);
-
-//        iv_bluetooth_connected = findViewById(R.id.iv_bluetooth_connected);
-//        iv_bluetooth_disconnected = findViewById(R.id.iv_bluetooth_disconnected);
-//        iv_device_connected = findViewById(R.id.iv_device_connected);
-//        iv_device_disconnected = findViewById(R.id.iv_device_disconnected);
-
+        view = findViewById(R.id.scan_devices_anim);
+        scan_toolbar_anim = findViewById(R.id.scan_devices_toolbar);
 
         handler = new Handler();
         mScanResults = new ArrayList<>();
@@ -98,16 +106,20 @@ public class ScanDevicesActivity extends AppCompatActivity {
         deviceListArrayAdapter.setOnDeviceConnectPressed(new DeviceListArrayAdapter.onDeviceConnectPressed() {
             @Override
             public void onDeviceConnectPressed(String macAddress) {
-                Intent intent = new Intent();
-                if(RegexOperations.validate(macAddress)) {
+                if(mBluetoothState) {
+                    Intent intent = new Intent();
+                    if (RegexOperations.validate(macAddress)) {
 
-                    intent.putExtra("macAddress", macAddress);
-                    setResult(-1, intent);
+                        intent.putExtra("macAddress", macAddress);
+                        setResult(-1, intent);
+                    } else {
+                        intent.putExtra("macAddress", macAddress);
+                        setResult(2, intent);
+                    }
+                    finish();
                 }else {
-                    intent.putExtra("macAddress", macAddress);
-                    setResult(2, intent);
+                    startBleRequest();
                 }
-                finish();
             }
         });
 
@@ -115,8 +127,8 @@ public class ScanDevicesActivity extends AppCompatActivity {
         madapter_scandevices = BluetoothSingelton.getmInstance().getAdapter();
         madapter_scandevices = bluetoothManager.getAdapter();
         if(madapter_scandevices == null || !madapter_scandevices.isEnabled()){
-            Intent enable_bluetooth  = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enable_bluetooth, REQUEST_ENABLE_BT);
+            mBluetoothState = false;
+            startBleRequest();
         }
 
 
@@ -138,11 +150,11 @@ public class ScanDevicesActivity extends AppCompatActivity {
                 check_operation = tv_stoScan.getText().toString();
                 if(check_operation.equalsIgnoreCase("SCAN")){
                     tv_stoScan.setText(R.string.scandevices_stop);
-                    start_scan_handler.run();
+                    mCustomService.startScanInBackground(false);
                 }
                 else {
                     tv_stoScan.setText(R.string.scandevices_scan);
-                    stop_handler.run();
+                    mCustomService.stopScaninBackground();
                 }
             }
         });
@@ -151,7 +163,8 @@ public class ScanDevicesActivity extends AppCompatActivity {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                start_scan_handler.run();
+                mCustomService.stopScaninBackground();
+                mCustomService.startScanInBackground(false);
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -163,8 +176,43 @@ public class ScanDevicesActivity extends AppCompatActivity {
 
         lv_scandevices.setAdapter(deviceListArrayAdapter);
 
-        start_scan_handler.run();
+//        start_scan_handler.run();
+
+        Intent mIntent = new Intent(this, PheezeeBleService.class);
+        bindService(mIntent,mConnection,BIND_AUTO_CREATE);
+
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(device_state);
+        intentFilter.addAction(bluetooth_state);
+        intentFilter.addAction(scanned_list);
+        intentFilter.addAction(scan_state);
+        registerReceiver(receiver,intentFilter);
     }
+
+    private void startBleRequest(){
+        Intent enable_bluetooth  = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+        startActivityForResult(enable_bluetooth, REQUEST_ENABLE_BT);
+    }
+
+
+    private ServiceConnection mConnection = new ServiceConnection() {
+        public void onServiceConnected(ComponentName className,
+                                       IBinder service) {
+            isBound = true;
+            PheezeeBleService.LocalBinder mLocalBinder = (PheezeeBleService.LocalBinder)service;
+            mCustomService = mLocalBinder.getServiceInstance();
+            if(mBluetoothState) {
+                mCustomService.stopScaninBackground();
+                mCustomService.startScanInBackground(false);
+            }
+        }
+
+        public void onServiceDisconnected(ComponentName className) {
+            mCustomService = null;
+            isBound = false;
+        }
+    };
+
     public Context getContext(){
         return this;
     }
@@ -182,71 +230,10 @@ public class ScanDevicesActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        stop_handler.run();
-    }
-
-    /**
-     * Start bluetooth device scan
-     */
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    private void startScan() {
-        if(Build.VERSION.SDK_INT>22) {
-            if (!hasPermissions() || mScanning) {
-                return;
-            }
+        if(isBound){
+            unbindService(mConnection);
         }
-
-        tv_stoScan.setText(R.string.scandevices_stop);
-        List<ScanFilter> filters = new ArrayList<>();
-        ScanSettings settings = new ScanSettings.Builder()
-                .setScanMode(ScanSettings.SCAN_MODE_LOW_POWER)
-                .build();
-
-
-        mScanResults = new ArrayList<>();
-        mScanCallback = new BtleScanCallback(mScanResults, deviceListArrayAdapter);
-        mBluetoothLeScanner = madapter_scandevices.getBluetoothLeScanner();
-        mBluetoothLeScanner.startScan(filters, settings, mScanCallback);
-        mScanning = true;
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if(mScanning)
-                    stopScan();
-            }
-
-        }, 100000);
-        // TODO start the scan
-    }
-
-    /**
-     * stop bluetooth device callback
-     */
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    private void stopScan() {
-        if (mScanning && madapter_scandevices != null && madapter_scandevices.isEnabled() && mBluetoothLeScanner != null) {
-            mBluetoothLeScanner.stopScan(mScanCallback);
-            scanComplete();
-        }
-        tv_stoScan.setText(R.string.scandevices_scan);
-        mScanCallback = null;
-        mScanning = false;
-    }
-
-    /**
-     * scan complete, updates the list view
-     */
-    private void scanComplete() {
-        if (mScanResults.isEmpty()) {
-            return;
-        }
-
-        for (int i=0;i<mScanResults.size();i++) {
-
-            Log.d(TAG,"found device:"+mScanResults.get(i).getDeviceMacAddress()+ "DEvice Name "+ mScanResults.get(i).getDeviceName());
-
-        }
-        deviceListArrayAdapter.updateList(mScanResults);
+        unregisterReceiver(receiver);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -267,7 +254,6 @@ public class ScanDevicesActivity extends AppCompatActivity {
     private void requestBluetoothEnable() {
         Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
         startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
-        //Log.d(TAG, "Requested user enables Bluetooth. Try starting the scan again.");
     }
 
 
@@ -282,117 +268,85 @@ public class ScanDevicesActivity extends AppCompatActivity {
     }
 
 
-//    public static void setBleStatus(String str){
-//        if(tv_bleStatus!=null){
-//            tv_bleStatus.setText(str);
-//        }
-//    }
-
-    class ScanHandler implements Runnable{
-
-        @RequiresApi(api = Build.VERSION_CODES.M)
-        @Override
-        public void run() {
-            startScan();
-        }
-    }
-
-    class ScanStopHandler implements Runnable{
-
-        @Override
-        public void run() {
-            stopScan();
-        }
-    }
-
-}
 
 
-/**
- * Bluetooth scan callback
- */
-@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-class BtleScanCallback extends ScanCallback {
-    private ArrayList<DeviceListClass> mScanResults;
-    private DeviceListArrayAdapter deviceListArrayAdapter;
-
-    BtleScanCallback(ArrayList<DeviceListClass> mScanResults, DeviceListArrayAdapter deviceListArrayAdapter) {
-        this.mScanResults = mScanResults;
-        this.deviceListArrayAdapter = deviceListArrayAdapter;
-    }
-
-    @Override
-    public void onScanResult(int callbackType, ScanResult result) {
-        addScanResult(result);
-    }
-
-    @Override
-    public void onBatchScanResults(List<ScanResult> results) {
-        for (ScanResult result : results) {
-            addScanResult(result);
-        }
-    }
-
-    @Override
-    public void onScanFailed(int errorCode) {
-        //Log.e(TAG, "BLE Scan Failed with code " + errorCode);
-    }
-
-    private void addScanResult(ScanResult result) {
-
-        String setDeviceBondState;
-
-        BluetoothDevice device = result.getDevice();
-        String deviceAddress = device.getAddress();
-        String deviceName = device.getName();
-
-        if(deviceName==null)
-            deviceName = "UNKNOWN DEVICE";
-        int deviceRssi = result.getRssi();
-        int deviceBondState = device.getBondState();
-
-        //Just to update the bondstate if needed to
-        if(deviceBondState == 0)
-            setDeviceBondState = "BONDED";
-        else
-            setDeviceBondState = "NOT BONDED";
-
-        //
-
-        boolean flag = false;
-        for (int i = 0; i < mScanResults.size(); i++) {
-            if (mScanResults.get(i).getDeviceMacAddress().equals(deviceAddress)) {
-                if(!Objects.equals(mScanResults.get(i).getDeviceBondState(), setDeviceBondState)){
-                    mScanResults.get(i).setDeviceBondState(setDeviceBondState);
-                }
-
-                if (Integer.parseInt(mScanResults.get(i).getDeviceRssi())!= deviceRssi){
-                    mScanResults.get(i).setDeviceRssi(""+deviceRssi);
-                }
-                flag = true;
+    private void updateList(ArrayList<DeviceListClass> listClasses){
+        if(mScanResults.size()>0) {
+            if(view.getVisibility()==View.VISIBLE) {
+                view.setVisibility(View.GONE);
+            }
+            mScanResults = listClasses;
+            deviceListArrayAdapter.updateList(mScanResults);
+        }else {
+            if(view.getVisibility()==View.GONE) {
+                view.setVisibility(View.VISIBLE);
             }
         }
+    }
 
+    BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if(action.equalsIgnoreCase(device_state)){
+                boolean device_status = intent.getBooleanExtra(device_state,false);
+                if(device_status){
+                }else {
+                }
+            }else if(action.equalsIgnoreCase(bluetooth_state)){
+                boolean ble_state = intent.getBooleanExtra(bluetooth_state,false);
+                if(ble_state){
+                    mBluetoothState = true;
+                    mCustomService.stopScaninBackground();
+                    mCustomService.startScanInBackground(false);
+                }else {
+                    startBleRequest();
+                    mBluetoothState = false;
+                    setAnimationHidden();
+//                    mCustomService.stopScaninBackground();
+                }
+            }else if(action.equalsIgnoreCase(scanned_list)){
+                if(mCustomService!=null){
+                    Log.i("here","hellow");
+                    mScanResults =  mCustomService.getScannedList();
+                    updateList(mScanResults);
+                    Log.i("list",mScanResults.get(0).getDeviceMacAddress());
+                }
 
+            }else if(action.equalsIgnoreCase(scan_state)){
 
-        if (!flag) {
-            Log.i("device name",deviceName);
-            String str = "pheezee";
-            if(deviceName.toLowerCase().contains(str)) {
-                DeviceListClass deviceListClass = new DeviceListClass();
-                deviceListClass.setDeviceName(deviceName);
-                deviceListClass.setDeviceMacAddress(deviceAddress);
-                deviceListClass.setDeviceRssi("" + deviceRssi);
-                if (deviceBondState == 0)
-                    deviceListClass.setDeviceBondState("BONDED");
-                else
-                    deviceListClass.setDeviceBondState("NOT BONDED");
-
-                mScanResults.add(deviceListClass);
+                boolean scanning_state = intent.getBooleanExtra(scan_state,false);
+                Log.i("here", String.valueOf(scanning_state));
+                if(scanning_state){
+                    setAnimVisible();
+                }else {
+                    setAnimationHidden();
+                }
             }
-
-
         }
-        deviceListArrayAdapter.updateList(mScanResults);
+    };
+
+    public void setAnimVisible(){
+        if(scan_toolbar_anim.getVisibility()==View.GONE){
+            scan_toolbar_anim.setVisibility(View.VISIBLE);
+        }
+
+        if(mScanResults.size()==0) {
+            if(view.getVisibility()==View.GONE){
+                view.setVisibility(View.VISIBLE);
+                Log.i("here","hereanim");
+            }
+        }
+        view.playAnimation();
+        scan_toolbar_anim.playAnimation();
+    }
+
+    public void setAnimationHidden(){
+        if(view.getVisibility()==View.VISIBLE){
+            view.setVisibility(View.GONE);
+        }
+        if(scan_toolbar_anim.getVisibility()==View.VISIBLE){
+            scan_toolbar_anim.setVisibility(View.GONE);
+        }
     }
 }

@@ -21,6 +21,7 @@ public class App extends Application {
                     "Bluetooth Service Channel",
                     NotificationManager.IMPORTANCE_DEFAULT
             );
+            ble_service_channel.setSound(null,null);
             NotificationManager manager = getSystemService(NotificationManager.class);
             manager.createNotificationChannel(ble_service_channel);
         }

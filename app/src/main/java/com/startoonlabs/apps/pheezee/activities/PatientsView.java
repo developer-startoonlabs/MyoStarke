@@ -5,10 +5,12 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -20,6 +22,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
@@ -74,6 +77,7 @@ import com.startoonlabs.apps.pheezee.services.Scanner;
 import com.startoonlabs.apps.pheezee.utils.BatteryOperation;
 import com.startoonlabs.apps.pheezee.utils.BitmapOperations;
 import com.startoonlabs.apps.pheezee.utils.NetworkOperations;
+import com.startoonlabs.apps.pheezee.utils.RegexOperations;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -92,11 +96,12 @@ import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.usb_state
 public class PatientsView extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         PatientsRecyclerViewAdapter.onItemClickListner, MqttSyncRepository.onServerResponse{
-    public static boolean insideMonitor = false;
-    public static boolean sessionStarted = false;
-    public static boolean isDeviceConnected = false;
+    PheezeeBleService mService;
+    private boolean mDeviceState = false;
+    boolean isBound =  false;
     int REQUEST_ENABLE_BT = 1;
-    public static int deviceBatteryPercent = -1, firmware_version = -1;
+    public static int deviceBatteryPercent = -1;
+    private int firmware_version = -1;
     View patientLayoutView;
     MyBottomSheetDialog myBottomSheetDialog;
     ProgressDialog connecting_device_dialog;
@@ -118,6 +123,7 @@ public class PatientsView extends AppCompatActivity
     AlertDialog.Builder builder;
     LinearLayout patientTabLayout;
     ImageView iv_addPatient;
+    private String deviceMacc = "";
     LinearLayout ll_add_bluetooth, ll_add_device;
     RelativeLayout rl_cap_view;
     RelativeLayout rl_battery_usb_state;
@@ -127,6 +133,7 @@ public class PatientsView extends AppCompatActivity
     MqttSyncRepository repository ;
     String json_phizioemail = "";
     ConstraintLayout cl_phizioProfileNavigation;
+    TextView tv_connect_to_pheezee;
 
     //bluetooth and device connection state
     ImageView iv_bluetooth_connected, iv_bluetooth_disconnected, iv_device_connected, iv_device_disconnected, iv_sync_data,  iv_sync_not_available;
@@ -137,6 +144,7 @@ public class PatientsView extends AppCompatActivity
         setContentView(R.layout.activity_patients_view);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         repository = new MqttSyncRepository(getApplication());
+        repository.setOnServerResponseListner(this);
 
         editor = sharedPref.edit();
         iv_addPatient = findViewById(R.id.home_iv_addPatients);
@@ -173,10 +181,16 @@ public class PatientsView extends AppCompatActivity
         rl_battery_usb_state = findViewById(R.id.rl_battery_usb_state);
         iv_sync_data = findViewById(R.id.iv_sync_data);
         iv_sync_not_available = findViewById(R.id.iv_sync_data_disabled);
-
+        tv_connect_to_pheezee = findViewById(R.id.tv_connect_to_pheezee);
 
         //connecting dialog
         connecting_device_dialog = new ProgressDialog(this);
+
+        //device mac
+        if(!sharedPref.getString("deviceMacaddress", "").equalsIgnoreCase("")){
+            deviceMacc = sharedPref.getString("deviceMacaddress", "");
+            tv_connect_to_pheezee.setText(R.string.turn_on_device);
+        }
 
         iv_sync_data.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -213,7 +227,6 @@ public class PatientsView extends AppCompatActivity
         //Getting previous patient data
         try {
             json_phizio = new JSONObject(sharedPref.getString("phiziodetails", ""));
-
             json_phizioemail = json_phizio.getString("phizioemail");
         } catch (JSONException e) {
             e.printStackTrace();
@@ -362,6 +375,10 @@ public class PatientsView extends AppCompatActivity
         registerReceiver(patient_view_broadcast_receiver,intentFilter);
 
         ContextCompat.startForegroundService(this,new Intent(this,PheezeeBleService.class));
+
+
+        Intent mIntent = new Intent(this,PheezeeBleService.class);
+        bindService(mIntent, mConnection, BIND_AUTO_CREATE);
     }
 
     @Override
@@ -379,6 +396,10 @@ public class PatientsView extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        if(isBound){
+            unbindService(mConnection);
+        }
         unregisterReceiver(patient_view_broadcast_receiver);
         stopService(new Intent(this,PheezeeBleService.class));
     }
@@ -455,8 +476,6 @@ public class PatientsView extends AppCompatActivity
             editor.commit();
             repository.clearDatabase();
             repository.deleteAllSync();
-            //Youn need to disconnect the device
-//            disconnectDevice();
             startActivity(new Intent(this, LoginActivity.class));
             finish();
         }
@@ -522,28 +541,26 @@ public class PatientsView extends AppCompatActivity
 
 
     public void addPheezeeDevice(View view){
-        builder = new AlertDialog.Builder(PatientsView.this);
-        builder.setTitle("Add Pheezee Device!");
-        builder.setItems(peezee_items, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int item) {
-                if (peezee_items[item].equals("Scan Nearby Devices")) {
-                    to_scan_devices_activity = new Intent(PatientsView.this, ScanDevicesActivity.class);
-//                    if (bluetoothAdapter==null || !bluetoothAdapter.isEnabled()) {
-//                        Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-//                        startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT_SCAN);
-//                    }
-//                    else
-                        startActivityForResult(to_scan_devices_activity,12);
-                }  else if (peezee_items[item].equals("Qrcode Scan")) {
-                    startActivityForResult(new Intent(PatientsView.this, Scanner.class),12);
+        if(deviceMacc.equalsIgnoreCase("")) {
+            builder = new AlertDialog.Builder(PatientsView.this);
+            builder.setTitle("Add Pheezee Device!");
+            builder.setItems(peezee_items, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int item) {
+                    if (peezee_items[item].equals("Scan Nearby Devices")) {
+                        to_scan_devices_activity = new Intent(PatientsView.this, ScanDevicesActivity.class);
+                        startActivityForResult(to_scan_devices_activity, 12);
+                    } else if (peezee_items[item].equals("Qrcode Scan")) {
+                        startActivityForResult(new Intent(PatientsView.this, Scanner.class), 12);
+                    } else {
+                        dialog.dismiss();
+                    }
                 }
-                else{
-                    dialog.dismiss();
-                }
-            }
-        });
-        builder.show();
+            });
+            builder.show();
+        }else {
+            showToast("Please forget the current device to scan for new");
+        }
     }
 
 
@@ -844,33 +861,42 @@ public class PatientsView extends AppCompatActivity
                     NetworkOperations.networkError(this);
             }
         }
-//        else if(requestCode==12){
-//            if(resultCode==RESULT_OK){
-//                String macAddress = data.getStringExtra("macAddress");
-//                if(RegexOperations.validate(macAddress)){
-//                }
-//            }
-//            else if(resultCode == 2) {
-//                showToast("Not a mac address");
-//            }
-//        }
-//
-//        else if(requestCode==13){
-//            if(resultCode==13){
-//            }
-//        }
-//
-//        else{
-//            if(!Objects.requireNonNull(sharedPref.getString("deviceMacaddress", "")).equals("")) {
-//
-//            }
-//        }
+        else if(requestCode==12){
+            if(resultCode==RESULT_OK){
+                String macAddress = data.getStringExtra("macAddress");
+                if(RegexOperations.validate(macAddress)){
+                    if(mService!=null){
+                        mService.updatePheezeeMac(macAddress);
+                        mService.connectDevice(macAddress);
+                        deviceMacc = macAddress;
+                        editor = sharedPref.edit();
+                        editor.putString("deviceMacaddress",macAddress);
+                        editor.apply();
+                        tv_connect_to_pheezee.setText(R.string.turn_on_device);
+                    }
+                }
+            }
+            else if(resultCode == 2) {
+                showToast("Not a mac address");
+            }
+        }
+
+        else if(requestCode==13){
+            if(resultCode==13){
+                enableScanningTheDevices();
+            }
+        }
 
         if(requestCode==2){
             if(resultCode!=0){
                 startActivity(new Intent(this,ScanDevicesActivity.class));
             }
         }
+    }
+
+    private void enableScanningTheDevices() {
+        tv_connect_to_pheezee.setText(R.string.click_to_connect);
+        deviceMacc="";
     }
 
     private void startBluetoothRequest() {
@@ -919,6 +945,7 @@ public class PatientsView extends AppCompatActivity
 
     @Override
     public void onUpdatePatientStatusResponse(boolean response) {
+        Log.i("here","patientdetails updated");
         if(deletepatient_progress!=null)
             deletepatient_progress.dismiss();
         if(response){
@@ -990,8 +1017,10 @@ public class PatientsView extends AppCompatActivity
             if(action.equalsIgnoreCase(device_state)){
                 boolean device_status = intent.getBooleanExtra(device_state,false);
                 if(device_status){
+                    mDeviceState = true;
                     pheezeeConnected();
                 }else {
+                    mDeviceState = false;
                     pheezeeDisconnected();
                 }
             }else if(action.equalsIgnoreCase(bluetooth_state)){
@@ -1015,12 +1044,36 @@ public class PatientsView extends AppCompatActivity
                 String percent = intent.getStringExtra(battery_percent);
                 Message msg = new Message();
                 msg.obj = percent;
-                batteryStatus.sendMessage(msg);
+                if(mDeviceState)
+                    batteryStatus.sendMessage(msg);
             }else if(action.equalsIgnoreCase(PheezeeBleService.firmware_version)){
                 String firmwareVersion = intent.getStringExtra(PheezeeBleService.firmware_version);
                 firmwareVersion = firmwareVersion.replace(".","");
-                firmware_version = Integer.parseInt(firmwareVersion);
+                try {
+                    firmware_version = Integer.parseInt(firmwareVersion);
+                }catch (NumberFormatException e){
+                    firmware_version = -1;
+                }
+
             }
         }
     };
+
+    ServiceConnection mConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            isBound = true;
+            PheezeeBleService.LocalBinder mLocalBinder = (PheezeeBleService.LocalBinder)service;
+            mService = mLocalBinder.getServiceInstance();
+            mService.updatePheezeeMac(deviceMacc);
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            isBound = false;
+            mService = null;
+        }
+    };
+
+
 }

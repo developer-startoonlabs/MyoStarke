@@ -13,7 +13,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 app:elevation="5dp"
-                android:elevation="5dp"
                 android:background="@color/white_opaque">
 
                 <LinearLayout
@@ -25,7 +24,7 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="0.4"
+                        android:layout_weight="0.6"
                         android:layout_gravity="center"
                         >
                         <ImageView
@@ -45,82 +44,33 @@
                             android:layout_marginStart="25dp"
                             />
                     </LinearLayout>
-                    <!--<FrameLayout-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="match_parent">-->
-                        <!--<ImageView-->
-                            <!--android:layout_width="22dp"-->
-                            <!--android:layout_height="22dp"-->
-                            <!--android:layout_gravity="center"-->
-                            <!--android:id="@+id/iv_bluetooth_connected"-->
-                            <!--android:visibility="gone"-->
-                            <!--android:src="@drawable/bluetooth_connected_icon"-->
-                            <!--android:contentDescription="@string/cd_bluetooth_connected" />-->
-                        <!--<ImageView-->
-                            <!--android:layout_width="22dp"-->
-                            <!--android:layout_height="22dp"-->
-                            <!--android:id="@+id/iv_bluetooth_disconnected"-->
-                            <!--android:layout_gravity="center"-->
-                            <!--android:src="@drawable/bluetooth_disconnected_icon"-->
-                            <!--android:contentDescription="@string/cd_bluetooth_disconnected" />-->
-                    <!--</FrameLayout>-->
 
-                    <!--<FrameLayout-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="match_parent"-->
-                        <!--android:layout_marginStart="10dp">-->
-                        <!--<RelativeLayout-->
-                            <!--android:layout_width="5dp"-->
-                            <!--android:layout_height="5dp"-->
-                            <!--android:layout_gravity="top|center"-->
-                            <!--android:layout_marginVertical="17dp"-->
-                            <!--android:background="#AAA"/>-->
-                        <!--<ProgressBar-->
-                            <!--style="@android:style/Widget.ProgressBar.Horizontal"-->
-                            <!--android:layout_width="16dp"-->
-                            <!--android:id="@+id/progress_battery_bar"-->
-                            <!--android:layout_height="22dp"-->
-                            <!--android:max="100"-->
-                            <!--android:progress="0"-->
-                            <!--android:layout_gravity="center"-->
-                            <!--android:progressDrawable="@drawable/drawable_progress_battery" />-->
-                        <!--<TextView-->
-                            <!--android:layout_width="wrap_content"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:textSize="10sp"-->
-                            <!--android:id="@+id/tv_battery_percent"-->
-                            <!--android:layout_gravity="center"-->
-                            <!--android:text="@string/battery_zero"/>-->
-                    <!--</FrameLayout>-->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center|right"
+                        android:layout_weight="0.2"
+                        android:gravity="center">
 
-                    <!--<FrameLayout-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="match_parent"-->
-                        <!--android:layout_marginStart="10dp"-->
-                        <!--android:layout_marginEnd="10dp">-->
-                        <!--<ImageView-->
-                            <!--android:layout_width="22dp"-->
-                            <!--android:layout_height="22dp"-->
-                            <!--android:id="@+id/iv_device_disconnected"-->
-                            <!--android:src="@drawable/device_disconnected_icon"-->
-                            <!--android:layout_gravity="center"-->
-                            <!--android:contentDescription="@string/cd_device_disconnected" />-->
-                        <!--<ImageView-->
-                            <!--android:layout_width="22dp"-->
-                            <!--android:layout_height="22dp"-->
-                            <!--android:id="@+id/iv_device_connected"-->
-                            <!--android:src="@drawable/device_connected_icon"-->
-                            <!--android:visibility="gone"-->
-                            <!--android:layout_gravity="center"-->
-                            <!--android:contentDescription="@string/cd_device_connected" />-->
-                    <!--</FrameLayout>-->
+                        <com.airbnb.lottie.LottieAnimationView
+                            android:id="@+id/scan_devices_toolbar"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:lottie_loop="true"
+                            android:visibility="gone"
+                            app:lottie_fileName="scanning_devices.json"
+                            app:lottie_autoPlay="false"
+                            />
+
+
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
-                        android:layout_weight="0.1"
-                        android:gravity="center|right">
+                        android:layout_weight="0.2"
+                        android:gravity="center">
 
                         <TextView
                             android:id="@+id/tv_stopscan"
@@ -132,15 +82,6 @@
                             android:textSize="16sp"
                             android:textColor="@color/good_green"/>
 
-                        <!--<android.support.design.widget.FloatingActionButton-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:src="@drawable/ic_add_circle_white_24dp"-->
-                        <!--app:background="@drawable/fab_background"-->
-                        <!--app:fabCustomSize="40dp"-->
-                        <!--app:maxImageSize="39dp"-->
-                        <!--app:backgroundTint="#4b7080"/>-->
-
                     </LinearLayout>
 
                 </LinearLayout>
@@ -151,10 +92,8 @@
 
 
 
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    android:layout_width="match_parent"
 android:layout_height="match_parent"
 tools:context="com.startoonlabs.apps.pheezee.activities.ScanDevicesActivity">
     <include layout="@layout/content_scan_devices" />

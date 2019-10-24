@@ -183,43 +183,45 @@ public class ValueBasedColorOperations {
         return max_values[bodypart][exercisename];
     }
 
-    public static byte[] getParticularDataToPheeze(String string, int body_orientation){
+    public static String getParticularDataToPheeze(String string, int body_orientation){
 
         switch (string.toLowerCase()){
 
             case "elbow":{
 //                byte[] b = ByteToArrayOperations.hexStringToByteArray("A1"+body_orientation+"3");
-                return ByteToArrayOperations.hexStringToByteArray("AA03");
+                return "AA03";
             }
 
             case "knee":{
 //                byte[] b = ByteToArrayOperations.hexStringToByteArray("A1"+body_orientation+"4");
-                return ByteToArrayOperations.hexStringToByteArray("AA04");
+                return "AA04";
             }
 
             case "ankle":{
 //                byte[] b = ByteToArrayOperations.hexStringToByteArray("A1"+body_orientation+"5");
-                return ByteToArrayOperations.hexStringToByteArray("AA05");
+                return "AA05";
             }
             case "hip":{
 //                byte[] b = ByteToArrayOperations.hexStringToByteArray("A1"+body_orientation+"6");
-                return ByteToArrayOperations.hexStringToByteArray("AA06");
+                return "AA06";
             }
 
             case "wrist":{
 //                byte[] b = ByteToArrayOperations.hexStringToByteArray("A1"+body_orientation+"7");
-                return ByteToArrayOperations.hexStringToByteArray("AA07");
+                return "AA07";
             }
 
             case "shoulder":{
 //                byte[] b = ByteToArrayOperations.hexStringToByteArray("A1"+body_orientation+"8");
-                return ByteToArrayOperations.hexStringToByteArray("AA08");
+                return "AA08";
             }
 
             case "others":{
-                return ByteToArrayOperations.hexStringToByteArray("AA04");
+                return "AA04";
             }
         }
-        return ByteToArrayOperations.hexStringToByteArray("AA04");
+        return "AA04";
     }
+
+
 }
