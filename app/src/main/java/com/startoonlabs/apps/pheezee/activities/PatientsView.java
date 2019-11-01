@@ -105,7 +105,7 @@ public class PatientsView extends AppCompatActivity
     boolean isBound =  false;
     int REQUEST_ENABLE_BT = 1;
     public static int deviceBatteryPercent = -1;
-    private int firmware_version = -1;
+    private int[] firmware_version = {-1,-1,-1};
     View patientLayoutView;
     MyBottomSheetDialog myBottomSheetDialog;
     ProgressDialog connecting_device_dialog;
@@ -665,7 +665,18 @@ public class PatientsView extends AppCompatActivity
                 builder.show();
             }
             else {
-                if(firmware_version<1911){
+                boolean flag = true;
+                if(firmware_version[0]<1){
+                       flag = false;
+                }else if(firmware_version[1]<9){
+                    if(firmware_version[2]<11){
+                        flag = false;
+                    }
+                }else {
+                    flag = true;
+                }
+
+                if(!flag){
                     NetworkOperations.firmwareVirsionNotCompatible(this);
                 }else {
                     Log.i("timestamp2", String.valueOf(Calendar.getInstance().getTimeInMillis()));
@@ -879,6 +890,7 @@ public class PatientsView extends AppCompatActivity
                         editor.putString("deviceMacaddress",macAddress);
                         editor.apply();
                         tv_connect_to_pheezee.setText(R.string.turn_on_device);
+                        showToast("Connecting, please wait..");
                     }
                 }
             }
@@ -1031,6 +1043,7 @@ public class PatientsView extends AppCompatActivity
                 }else {
                     mDeviceState = false;
                     pheezeeDisconnected();
+                    battery_bar.setProgress(0);
                 }
             }else if(action.equalsIgnoreCase(bluetooth_state)){
                 boolean ble_state = intent.getBooleanExtra(bluetooth_state,false);
@@ -1057,13 +1070,17 @@ public class PatientsView extends AppCompatActivity
                     batteryStatus.sendMessage(msg);
             }else if(action.equalsIgnoreCase(PheezeeBleService.firmware_version)){
                 String firmwareVersion = intent.getStringExtra(PheezeeBleService.firmware_version);
-                firmwareVersion = firmwareVersion.replace(".","");
+                firmwareVersion = firmwareVersion.replace(".",",");
                 try {
-                    firmware_version = Integer.parseInt(firmwareVersion);
+                    String[] firmware_split = firmwareVersion.split(",");
+                    firmware_version[0] = Integer.parseInt(firmware_split[0]);
+                    firmware_version[1] = Integer.parseInt(firmware_split[1]);
+                    firmware_version[2] = Integer.parseInt(firmware_split[2]);
                 }catch (NumberFormatException e){
-                    firmware_version = -1;
+                    firmware_version[0] = -1;firmware_version[1] = -1;firmware_version[2] = -1;
+                }catch (ArrayIndexOutOfBoundsException e){
+                    firmware_version[0] = -1;firmware_version[1] = -1;firmware_version[2] = -1;
                 }
-
             }
         }
     };
@@ -1074,7 +1091,8 @@ public class PatientsView extends AppCompatActivity
             isBound = true;
             PheezeeBleService.LocalBinder mLocalBinder = (PheezeeBleService.LocalBinder)service;
             mService = mLocalBinder.getServiceInstance();
-            mService.updatePheezeeMac(deviceMacc);
+            if(!deviceMacc.equalsIgnoreCase(""))
+                mService.updatePheezeeMac(deviceMacc);
         }
 
         @Override

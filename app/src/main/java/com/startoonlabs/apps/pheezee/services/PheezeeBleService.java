@@ -29,8 +29,6 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
 import android.os.Messenger;
-import android.os.ParcelUuid;
-import android.os.PatternMatcher;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -41,7 +39,6 @@ import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.activities.PatientsView;
 import com.startoonlabs.apps.pheezee.classes.DeviceListClass;
 import com.startoonlabs.apps.pheezee.utils.ByteToArrayOperations;
-import com.startoonlabs.apps.pheezee.utils.RegexOperations;
 import com.startoonlabs.apps.pheezee.utils.ValueBasedColorOperations;
 
 import java.lang.reflect.Method;
@@ -50,8 +47,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.UUID;
 
 import static com.startoonlabs.apps.pheezee.App.CHANNEL_ID;
@@ -116,7 +111,7 @@ public class PheezeeBleService extends Service {
     //Characteristic read list
     ArrayList<BluetoothGattCharacteristic> mCharacteristicReadList;
 
-    private Boolean mDeviceState = false, mBluetoothState = false, mUsbState = false, isPreviousDevicePresent = false;
+    private Boolean mDeviceState = false, mBluetoothState = false, mUsbState = false;
     private int mBatteryPercent = 0;
     private String mFirmwareVersion = "", mSerialId = "", mManufacturerName = "";
     private boolean mScanning = false;
@@ -132,8 +127,7 @@ public class PheezeeBleService extends Service {
 
     BluetoothGattDescriptor mBatteryDescriptor, mDfuDescriptor, mCustomCharacteristicDescriptor;
 
-    public static final int MESSENGER = 1;
-    Messenger messageActivity;
+
     private String mCharacteristicWrittenValue = "";
 
 
@@ -154,12 +148,12 @@ public class PheezeeBleService extends Service {
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         if(!Objects.requireNonNull(preferences.getString("deviceMacaddress", "")).equalsIgnoreCase(""))
             deviceMacc = preferences.getString("deviceMacaddress","");
+        Log.i("deviceMacc",deviceMacc+" updated");
     }
 
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        String str = intent.getStringExtra("inputExtra");
         showNotification(device_disconnected_notif);
         BluetoothManager bluetoothManager = (BluetoothManager) getSystemService(BLUETOOTH_SERVICE);
         bluetoothAdapter = bluetoothManager.getAdapter();
@@ -650,10 +644,12 @@ public class PheezeeBleService extends Service {
         public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
             super.onCharacteristicRead(gatt, characteristic, status);
             if(characteristic.getUuid().equals(custom_characteristic_uuid)){
-                byte info_packet[] = characteristic.getValue();
+                byte[] info_packet = characteristic.getValue();
                 int battery = info_packet[11] & 0xFF;
                 int device_status = info_packet[12] & 0xFF;
                 int device_usb_state = info_packet[13] & 0xFF;
+                //Remove later
+                Log.i("Battery,status,usb",battery+" "+device_status+" "+device_usb_state);
                 if(device_usb_state==1) {
                     mUsbState = true;
                     sendUsbStateBroadcast();
@@ -667,46 +663,24 @@ public class PheezeeBleService extends Service {
                 Log.i("battery percent2", String.valueOf(battery));
                 mBatteryPercent = battery;
                 sendBatteryLevelBroadCast();
-                bluetoothGatt.readCharacteristic(mBatteryCharacteristic);
-
-            }else if (characteristic.getUuid().equals(battery_level_characteristic_uuid)){
-                byte b[] = characteristic.getValue();
-                int battery  = b[0];
-                int usb_state = b[1];
-                if(usb_state==1) {
-                    mUsbState = true;
-                    sendUsbStateBroadcast();
-                    showNotification(device_charging);
-                }
-                else if(usb_state==0) {
-                    mUsbState = false;
-                    sendUsbStateBroadcast();
-                    showNotification(device_connected_notif);
-                }
-                Log.i("battery percent1", String.valueOf(battery));
-                mBatteryPercent = battery;
-                sendBatteryLevelBroadCast();
                 gatt.setCharacteristicNotification(mBatteryCharacteristic, true);
                 mBatteryDescriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
                 bluetoothGatt.writeDescriptor(mBatteryDescriptor);
 
-            }else if(characteristic.getUuid().equals(firmware_version_characteristic_uuid)){
-                byte b[] = characteristic.getValue();
-                String str = new String(b, StandardCharsets.UTF_8);
-                mFirmwareVersion = str;
+            } else if(characteristic.getUuid().equals(firmware_version_characteristic_uuid)){
+                byte[] b = characteristic.getValue();
+                mFirmwareVersion = new String(b, StandardCharsets.UTF_8);
                 sendFirmwareVersion();
                 mCharacteristicReadList.add(mSerialIdCharacteristic);
                 mCharacteristicReadList.add(mManufacturerNameCharacteristic);
             }else if(characteristic.getUuid().equals(serial_number_characteristic_uuid)){
-                byte b[] = characteristic.getValue();
-                String str = new String(b, StandardCharsets.UTF_8);
-                mSerialId = str;
+                byte[] b = characteristic.getValue();
+                mSerialId = new String(b, StandardCharsets.UTF_8);
                 sendSerialNumberBroadcast();
                 mCharacteristicReadList.remove(0);
             }else if(characteristic.getUuid().equals(manufacturer_name_characteristic_uuid)){
-                byte b[] = characteristic.getValue();
-                String str = new String(b, StandardCharsets.UTF_8);
-                mManufacturerName = str;
+                byte[] b = characteristic.getValue();
+                mManufacturerName = new String(b, StandardCharsets.UTF_8);
                 sendManufacturerName();
                 mCharacteristicReadList.remove(0);
             }
