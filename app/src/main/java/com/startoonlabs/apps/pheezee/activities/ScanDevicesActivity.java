@@ -3,16 +3,11 @@ package com.startoonlabs.apps.pheezee.activities;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
-import android.bluetooth.le.BluetoothLeScanner;
-import android.bluetooth.le.ScanCallback;
-import android.bluetooth.le.ScanFilter;
-import android.bluetooth.le.ScanResult;
-import android.bluetooth.le.ScanSettings;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
@@ -21,49 +16,40 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-import android.os.Looper;
-import android.os.Message;
-import android.os.Messenger;
-import android.os.RemoteException;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.transition.Transition;
-import androidx.transition.TransitionManager;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.adapters.DeviceListArrayAdapter;
 import com.startoonlabs.apps.pheezee.classes.BluetoothSingelton;
-import com.startoonlabs.apps.pheezee.classes.CircularRevealTransition;
 import com.startoonlabs.apps.pheezee.classes.DeviceListClass;
 import com.startoonlabs.apps.pheezee.services.PheezeeBleService;
 import com.startoonlabs.apps.pheezee.utils.RegexOperations;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.Calendar;
 
-import static android.content.Context.BLUETOOTH_SERVICE;
-import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.battery_percent;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.bluetooth_state;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.device_state;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.scan_state;
+import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.scan_too_frequent;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.scanned_list;
-import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.usb_state;
 
 
 public class ScanDevicesActivity extends AppCompatActivity {
-
-    private static final String TAG = "ScanDevicesActivity";
+    private boolean tooFrequentScan = false;
+    AlertDialog tooFrequentDialog;
     ListView lv_scandevices;
     SwipeRefreshLayout swipeRefreshLayout;
 
@@ -81,7 +67,8 @@ public class ScanDevicesActivity extends AppCompatActivity {
     //sercice and bind
     PheezeeBleService mCustomService;
     boolean isBound = false;
-
+    long first_started = 0;
+    int num_of_scan = 0;
     @SuppressLint("ResourceAsColor")
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -102,6 +89,7 @@ public class ScanDevicesActivity extends AppCompatActivity {
 
         handler = new Handler();
         mScanResults = new ArrayList<>();
+        hasPermissions();
         deviceListArrayAdapter = new DeviceListArrayAdapter(this, mScanResults);
         deviceListArrayAdapter.setOnDeviceConnectPressed(new DeviceListArrayAdapter.onDeviceConnectPressed() {
             @Override
@@ -144,18 +132,15 @@ public class ScanDevicesActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View view) {
-                String check_operation;
-
-
-                check_operation = tv_stoScan.getText().toString();
-                if(check_operation.equalsIgnoreCase("SCAN")){
-                    tv_stoScan.setText(R.string.scandevices_stop);
-                    mCustomService.startScanInBackground(false);
-                }
-                else {
-                    tv_stoScan.setText(R.string.scandevices_scan);
-                    mCustomService.stopScaninBackground();
-                }
+                    String check_operation;
+                    check_operation = tv_stoScan.getText().toString();
+                    if (check_operation.equalsIgnoreCase("SCAN")) {
+                        tv_stoScan.setText(R.string.scandevices_stop);
+                        mCustomService.startScanInBackground();
+                    } else {
+                        tv_stoScan.setText(R.string.scandevices_scan);
+                        mCustomService.stopScaninBackground();
+                    }
             }
         });
 
@@ -163,14 +148,18 @@ public class ScanDevicesActivity extends AppCompatActivity {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mCustomService.stopScaninBackground();
-                mCustomService.startScanInBackground(false);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
+                    mCustomService.stopScaninBackground();
+                    mCustomService.startScanInBackground();
+                    if(tooFrequentScan) {
                         swipeRefreshLayout.setRefreshing(false);
+                    }else {
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                swipeRefreshLayout.setRefreshing(false);
+                            }
+                        }, 2000);
                     }
-                },2000);
             }
         });
 
@@ -186,6 +175,7 @@ public class ScanDevicesActivity extends AppCompatActivity {
         intentFilter.addAction(bluetooth_state);
         intentFilter.addAction(scanned_list);
         intentFilter.addAction(scan_state);
+        intentFilter.addAction(scan_too_frequent);
         registerReceiver(receiver,intentFilter);
     }
 
@@ -203,7 +193,8 @@ public class ScanDevicesActivity extends AppCompatActivity {
             mCustomService = mLocalBinder.getServiceInstance();
             if(mBluetoothState) {
                 mCustomService.stopScaninBackground();
-                mCustomService.startScanInBackground(false);
+                mCustomService.startScanInBackground();
+                updateList(mCustomService.getScannedList());
             }
         }
 
@@ -271,7 +262,7 @@ public class ScanDevicesActivity extends AppCompatActivity {
 
 
     private void updateList(ArrayList<DeviceListClass> listClasses){
-        if(mScanResults.size()>0) {
+        if(listClasses!=null && listClasses.size()>0) {
             if(view.getVisibility()==View.VISIBLE) {
                 view.setVisibility(View.GONE);
             }
@@ -298,7 +289,7 @@ public class ScanDevicesActivity extends AppCompatActivity {
                 if(ble_state){
                     mBluetoothState = true;
                     mCustomService.stopScaninBackground();
-                    mCustomService.startScanInBackground(false);
+                    mCustomService.startScanInBackground();
                 }else {
                     startBleRequest();
                     mBluetoothState = false;
@@ -306,21 +297,42 @@ public class ScanDevicesActivity extends AppCompatActivity {
 //                    mCustomService.stopScaninBackground();
                 }
             }else if(action.equalsIgnoreCase(scanned_list)){
+                Log.i("here","herebroadcast");
                 if(mCustomService!=null){
-                    Log.i("here","hellow");
                     mScanResults =  mCustomService.getScannedList();
                     updateList(mScanResults);
-                    Log.i("list",mScanResults.get(0).getDeviceMacAddress());
                 }
 
             }else if(action.equalsIgnoreCase(scan_state)){
-
                 boolean scanning_state = intent.getBooleanExtra(scan_state,false);
                 Log.i("here", String.valueOf(scanning_state));
                 if(scanning_state){
                     setAnimVisible();
+                    tv_stoScan.setText(R.string.scandevices_stop);
                 }else {
                     setAnimationHidden();
+                    tv_stoScan.setText(R.string.scandevices_scan);
+                }
+            }else if(action.equalsIgnoreCase(scan_too_frequent)){
+                boolean scanning_frequence = intent.getBooleanExtra(scan_too_frequent,false);
+                if(scanning_frequence){
+                    setToolbarAnimVisible();
+                    tooFrequentScan = true;
+                    tv_stoScan.setText(R.string.scandevices_stop);
+                    tv_stoScan.setTextColor(getResources().getColor(R.color.red));
+                    if(tooFrequentDialog!=null){
+                        if(!tooFrequentDialog.isShowing()){
+                            tooFrequentScanningDialog();
+                        }
+                    }else {
+                        tooFrequentScanningDialog();
+                    }
+                }else {
+                    tooFrequentScan = false;
+                    tv_stoScan.setTextColor(getResources().getColor(R.color.background_green));
+                    if(tooFrequentDialog!=null){
+                        tooFrequentDialog.dismiss();
+                    }
                 }
             }
         }
@@ -341,6 +353,14 @@ public class ScanDevicesActivity extends AppCompatActivity {
         scan_toolbar_anim.playAnimation();
     }
 
+    public void setToolbarAnimVisible(){
+        if(scan_toolbar_anim.getVisibility()==View.GONE){
+            scan_toolbar_anim.setVisibility(View.VISIBLE);
+        }
+        scan_toolbar_anim.playAnimation();
+    }
+
+
     public void setAnimationHidden(){
         if(view.getVisibility()==View.VISIBLE){
             view.setVisibility(View.GONE);
@@ -348,5 +368,24 @@ public class ScanDevicesActivity extends AppCompatActivity {
         if(scan_toolbar_anim.getVisibility()==View.VISIBLE){
             scan_toolbar_anim.setVisibility(View.GONE);
         }
+    }
+
+    public void showToast(String message){
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    public void tooFrequentScanningDialog() {
+        String title = "Scanning in progress";
+        String message = "You are starting and stoping the scan very frequently, your scanning is running please wait.";
+        AlertDialog.Builder tooFrequentBuilder = new AlertDialog.Builder(this);
+        tooFrequentBuilder.setTitle(title);
+        tooFrequentBuilder.setMessage(message);
+        tooFrequentBuilder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        tooFrequentDialog = tooFrequentBuilder.create();
+        tooFrequentDialog.show();
     }
 }

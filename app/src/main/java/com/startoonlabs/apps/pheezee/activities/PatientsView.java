@@ -17,6 +17,9 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Network;
+import android.net.NetworkInfo;
+import android.net.NetworkRequest;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -96,6 +99,7 @@ import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.usb_state
 public class PatientsView extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         PatientsRecyclerViewAdapter.onItemClickListner, MqttSyncRepository.onServerResponse{
+    private static final int REQUEST_FINE_LOCATION = 14;
     PheezeeBleService mService;
     private boolean mDeviceState = false;
     boolean isBound =  false;
@@ -221,7 +225,9 @@ public class PatientsView extends AppCompatActivity
             if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
             }
+            hasPermissions();
         }
+
 
 
         //Getting previous patient data
@@ -886,6 +892,9 @@ public class PatientsView extends AppCompatActivity
                 enableScanningTheDevices();
             }
         }
+        else if(requestCode==REQUEST_FINE_LOCATION){
+            Log.i("resultcode123", String.valueOf(resultCode));
+        }
 
         if(requestCode==2){
             if(resultCode!=0){
@@ -1076,4 +1085,39 @@ public class PatientsView extends AppCompatActivity
     };
 
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private boolean hasPermissions() {
+        if (!hasLocationPermissions()) {
+            requestLocationPermission();
+            return false;
+        }
+        return true;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private boolean hasLocationPermissions() {
+        return checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void requestLocationPermission() {
+        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_FINE_LOCATION);
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode==REQUEST_FINE_LOCATION){
+            if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                Log.i("here","acess");
+                if(mService!=null){
+                    if(mService.isScanning() || !deviceMacc.equalsIgnoreCase("")){
+                        mService.stopScaninBackground();
+                        mService.startScanInBackground();
+                    }
+                }
+            }
+        }
+    }
 }

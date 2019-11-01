@@ -77,7 +77,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="10dp"
-                            android:text="STOP"
+                            android:text="SCAN"
                             android:padding="4dp"
                             android:textSize="16sp"
                             android:textColor="@color/good_green"/>

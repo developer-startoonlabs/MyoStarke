@@ -17,6 +17,7 @@ import android.media.AudioManager;
 import android.media.MediaScannerConnection;
 import android.media.ToneGenerator;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -322,7 +323,7 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
         arcViewInside.setMinAngle(0);
         arcViewInside.setMaxAngle(0);
 
-        creatGraphView();
+
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -345,10 +346,10 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
                             if(deviceState && !usbState)
                                 startSession();
                             else {
-                                if(usbState)
-                                    usbConnectedDialog(false);
-                                else
+                                if(!deviceState)
                                     deviceDisconnectedPopup(false);
+                                else
+                                    usbConnectedDialog(false);
                             }
                         }
                     });
@@ -362,10 +363,10 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
                     if(deviceState && !usbState)
                         startSession();
                     else {
-                        if(usbState)
-                            usbConnectedDialog(false);
-                        else
+                        if(!deviceState)
                             deviceDisconnectedPopup(false);
+                        else
+                            usbConnectedDialog(false);
                     }
                 }
 
@@ -502,8 +503,6 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
             startBleRequest();
         }
 
-
-
         iv_back_monitor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -521,6 +520,8 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
 
         Intent mIntent = new Intent(this, PheezeeBleService.class);
         bindService(mIntent,mConnection, BIND_AUTO_CREATE);
+
+        creatGraphView();
     }
 
 
@@ -711,157 +712,158 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
     @SuppressLint("HandlerLeak")
     public final Handler myHandler = new Handler() {
         public void handleMessage(Message message) {
-
-            int angleDetected = 0, num_of_reps = 0, hold_time_minutes, hold_time_seconds, active_time_minutes, active_time_seconds;
-            int emg_data;
-            byte[] sub_byte;
-            sub_byte = (byte[]) message.obj;
-            if (sub_byte != null) {
-                emg_data = ByteToArrayOperations.getAngleFromData(sub_byte[0], sub_byte[1]);
-                angleDetected = ByteToArrayOperations.getAngleFromData(sub_byte[2], sub_byte[3]);
-                if (ui_rate == 0) {
-                    minAngle = angleDetected;
-                    maxAngle = angleDetected;
-                }
-                num_of_reps = ByteToArrayOperations.getNumberOfReps(sub_byte[4], sub_byte[5]);
-                hold_time_minutes = sub_byte[6];
-                hold_time_seconds = sub_byte[7];
-                active_time_minutes = sub_byte[8];
-                active_time_seconds = sub_byte[9];
-                currentAngle = angleDetected;
-                String repetitionValue = "" + num_of_reps;
-                Repetitions.setText(repetitionValue);
-                String minutesValue = "" + hold_time_minutes, secondsValue = "" + hold_time_seconds;
-                if (hold_time_minutes < 10)
-                    minutesValue = "0" + hold_time_minutes;
-                if (hold_time_seconds < 10)
-                    secondsValue = "0" + hold_time_seconds;
-                holdTimeValue = minutesValue + "m: " + secondsValue + "s";
-                if (angleCorrected) {
-                    angleDetected += angleCorrection;
-                    arcViewInside.setMaxAngle(angleDetected);
-                } else {
-                    arcViewInside.setMaxAngle(angleDetected);
-                }
-                romJsonArray.put(angleDetected);
+            if(mSessionStarted) {
+                int angleDetected = 0, num_of_reps = 0, hold_time_minutes, hold_time_seconds, active_time_minutes, active_time_seconds;
+                int emg_data;
+                byte[] sub_byte;
+                sub_byte = (byte[]) message.obj;
+                if (sub_byte != null) {
+                    emg_data = ByteToArrayOperations.getAngleFromData(sub_byte[0], sub_byte[1]);
+                    angleDetected = ByteToArrayOperations.getAngleFromData(sub_byte[2], sub_byte[3]);
+                    if (ui_rate == 0) {
+                        minAngle = angleDetected;
+                        maxAngle = angleDetected;
+                    }
+                    num_of_reps = ByteToArrayOperations.getNumberOfReps(sub_byte[4], sub_byte[5]);
+                    hold_time_minutes = sub_byte[6];
+                    hold_time_seconds = sub_byte[7];
+                    active_time_minutes = sub_byte[8];
+                    active_time_seconds = sub_byte[9];
+                    currentAngle = angleDetected;
+                    String repetitionValue = "" + num_of_reps;
+                    Repetitions.setText(repetitionValue);
+                    String minutesValue = "" + hold_time_minutes, secondsValue = "" + hold_time_seconds;
+                    if (hold_time_minutes < 10)
+                        minutesValue = "0" + hold_time_minutes;
+                    if (hold_time_seconds < 10)
+                        secondsValue = "0" + hold_time_seconds;
+                    holdTimeValue = minutesValue + "m: " + secondsValue + "s";
+                    if (angleCorrected) {
+                        angleDetected += angleCorrection;
+                        arcViewInside.setMaxAngle(angleDetected);
+                    } else {
+                        arcViewInside.setMaxAngle(angleDetected);
+                    }
+                    romJsonArray.put(angleDetected);
 
 //            //Beep
-                if (!str_max_angle_selected.equals("")) {
-                    int x = Integer.parseInt(str_max_angle_selected);
-                    if (angleDetected < x && !can_beeep_max) {
-                        can_beeep_max = true;
+                    if (!str_max_angle_selected.equals("")) {
+                        int x = Integer.parseInt(str_max_angle_selected);
+                        if (angleDetected < x && !can_beeep_max) {
+                            can_beeep_max = true;
+                        }
                     }
-                }
 
-                if (!str_min_angle_selected.equals("")) {
-                    int x = Integer.parseInt(str_min_angle_selected);
-                    if (angleDetected > x && !can_beep_min) {
-                        can_beep_min = true;
+                    if (!str_min_angle_selected.equals("")) {
+                        int x = Integer.parseInt(str_min_angle_selected);
+                        if (angleDetected > x && !can_beep_min) {
+                            can_beep_min = true;
+                        }
                     }
-                }
-                try {
-                    outputStream_session_romdata = new FileOutputStream(file_session_romdata, true);
-                    outputStream_session_romdata.write(String.valueOf(angleDetected).getBytes());
-                    outputStream_session_romdata.write(",".getBytes());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    outputStream_session_romdata.flush();
-                    outputStream_session_romdata.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                LinearLayout.LayoutParams params;
-                params = (LinearLayout.LayoutParams) emgSignal.getLayoutParams();
-                ++ui_rate;
-                lineData.addEntry(new Entry((float) ui_rate / 50, emg_data), 0);
-                try {
-                    outputStream_session_emgdata = new FileOutputStream(file_session_emgdata, true);
-                    outputStream_session_emgdata.write(String.valueOf(emg_data).getBytes());
-                    outputStream_session_emgdata.write(",".getBytes());
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                emgJsonArray.put(emg_data);
-                try {
-                    outputStream_session_emgdata.flush();
-                    outputStream_session_emgdata.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                maxEmgValue = maxEmgValue < emg_data ? emg_data : maxEmgValue;
-                if (maxEmgValue == 0)
-                    maxEmgValue = 1;
-                tv_max_emg.setText(String.valueOf(maxEmgValue));
-                params.height = (int) (((View) emgSignal.getParent()).getMeasuredHeight() * emg_data / maxEmgValue);
-                EMG.setText(Integer.toString(emg_data).concat(getResources().getString(R.string.emg_unit)));
-                lineChart.notifyDataSetChanged();
-                lineChart.invalidate();
-                lineChart.getXAxis();
-                lineChart.getAxisLeft();
-                lineChart.getAxisLeft().setValueFormatter(new IAxisValueFormatter() {
-                    @Override
-                    public String getFormattedValue(float value, AxisBase axis) {
-                        return (int) value + getResources().getString(R.string.emg_unit);
+                    try {
+                        outputStream_session_romdata = new FileOutputStream(file_session_romdata, true);
+                        outputStream_session_romdata.write(String.valueOf(angleDetected).getBytes());
+                        outputStream_session_romdata.write(",".getBytes());
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                });
-                if (UpdateTime / 1000 > 3)
-                    lineChart.setVisibleXRangeMaximum(5f);
-                lineChart.moveViewToX((float) ui_rate / 50);
-
-
-                //Beep
-                if (!str_max_angle_selected.equals("")) {
-                    int x = Integer.parseInt(str_max_angle_selected);
-                    if (angleDetected > x && can_beeep_max) {
-                        new Handler().post(new Runnable() {
-                            @Override
-                            public void run() {
-                                ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
-                                //toneGen1.startTone(ToneGenerator.TONE_PROP_BEEP,150);
-                                toneGen1.startTone(ToneGenerator.TONE_PROP_ACK, 150);
-                            }
-                        });
-                        can_beeep_max = false;
+                    try {
+                        outputStream_session_romdata.flush();
+                        outputStream_session_romdata.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                }
-
-                if (!str_min_angle_selected.equals("")) {
-                    int x = Integer.parseInt(str_min_angle_selected);
-                    if (angleDetected < x && can_beep_min) {
-                        new Handler().post(new Runnable() {
-                            @Override
-                            public void run() {
-                                ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
-                                //toneGen1.startTone(ToneGenerator.TONE_PROP_BEEP,150);
-                                toneGen1.startTone(ToneGenerator.TONE_PROP_ACK, 150);
-                            }
-                        });
-                        can_beep_min = false;
+                    LinearLayout.LayoutParams params;
+                    params = (LinearLayout.LayoutParams) emgSignal.getLayoutParams();
+                    ++ui_rate;
+                    lineData.addEntry(new Entry((float) ui_rate / 50, emg_data), 0);
+                    try {
+                        outputStream_session_emgdata = new FileOutputStream(file_session_emgdata, true);
+                        outputStream_session_emgdata.write(String.valueOf(emg_data).getBytes());
+                        outputStream_session_emgdata.write(",".getBytes());
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                }
-                maxAngle = maxAngle < angleDetected ? angleDetected : maxAngle;
-                tv_max_angle.setText(String.valueOf(maxAngle));
-                minAngle = minAngle > angleDetected ? angleDetected : minAngle;
-                tv_min_angle.setText(String.valueOf(minAngle));
+                    emgJsonArray.put(emg_data);
+                    try {
+                        outputStream_session_emgdata.flush();
+                        outputStream_session_emgdata.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    maxEmgValue = maxEmgValue < emg_data ? emg_data : maxEmgValue;
+                    if (maxEmgValue == 0)
+                        maxEmgValue = 1;
+                    tv_max_emg.setText(String.valueOf(maxEmgValue));
+                    params.height = (int) (((View) emgSignal.getParent()).getMeasuredHeight() * emg_data / maxEmgValue);
+                    EMG.setText(Integer.toString(emg_data).concat(getResources().getString(R.string.emg_unit)));
+                    lineChart.notifyDataSetChanged();
+                    lineChart.invalidate();
+                    lineChart.getXAxis();
+                    lineChart.getAxisLeft();
+                    lineChart.getAxisLeft().setValueFormatter(new IAxisValueFormatter() {
+                        @Override
+                        public String getFormattedValue(float value, AxisBase axis) {
+                            return (int) value + getResources().getString(R.string.emg_unit);
+                        }
+                    });
+                    if (UpdateTime / 1000 > 3)
+                        lineChart.setVisibleXRangeMaximum(5f);
+                    lineChart.moveViewToX((float) ui_rate / 50);
+
+
+                    //Beep
+                    if (!str_max_angle_selected.equals("")) {
+                        int x = Integer.parseInt(str_max_angle_selected);
+                        if (angleDetected > x && can_beeep_max) {
+                            new Handler().post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
+                                    //toneGen1.startTone(ToneGenerator.TONE_PROP_BEEP,150);
+                                    toneGen1.startTone(ToneGenerator.TONE_PROP_ACK, 150);
+                                }
+                            });
+                            can_beeep_max = false;
+                        }
+                    }
+
+                    if (!str_min_angle_selected.equals("")) {
+                        int x = Integer.parseInt(str_min_angle_selected);
+                        if (angleDetected < x && can_beep_min) {
+                            new Handler().post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
+                                    //toneGen1.startTone(ToneGenerator.TONE_PROP_BEEP,150);
+                                    toneGen1.startTone(ToneGenerator.TONE_PROP_ACK, 150);
+                                }
+                            });
+                            can_beep_min = false;
+                        }
+                    }
+                    maxAngle = maxAngle < angleDetected ? angleDetected : maxAngle;
+                    tv_max_angle.setText(String.valueOf(maxAngle));
+                    minAngle = minAngle > angleDetected ? angleDetected : minAngle;
+                    tv_min_angle.setText(String.valueOf(minAngle));
 //            }
-                emgSignal.setLayoutParams(params);
-                holdTime.setText(holdTimeValue);
-                minutesValue = "" + active_time_minutes;
-                secondsValue = "" + active_time_seconds;
-                if (active_time_minutes < 10)
-                    minutesValue = "0" + active_time_minutes;
-                if (active_time_seconds < 10)
-                    secondsValue = "0" + active_time_seconds;
-                tv_action_time.setText(minutesValue + "m: " + secondsValue + "s");
+                    emgSignal.setLayoutParams(params);
+                    holdTime.setText(holdTimeValue);
+                    minutesValue = "" + active_time_minutes;
+                    secondsValue = "" + active_time_seconds;
+                    if (active_time_minutes < 10)
+                        minutesValue = "0" + active_time_minutes;
+                    if (active_time_seconds < 10)
+                        secondsValue = "0" + active_time_seconds;
+                    tv_action_time.setText(minutesValue + "m: " + secondsValue + "s");
 
-                if (num_of_reps >= repsselected && repsselected != 0 && !sessionCompleted) {
-                    sessionCompleted = true;
-                    openSuccessfullDialogAndCloseSession();
+                    if (num_of_reps >= repsselected && repsselected != 0 && !sessionCompleted) {
+                        sessionCompleted = true;
+                        openSuccessfullDialogAndCloseSession();
+                    }
                 }
             }
         }
@@ -944,10 +946,11 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
 //        romJsonArray = new JSONArray();
 
         SessionSummaryPopupWindow window = new SessionSummaryPopupWindow(this, maxEmgValue, sessionNo, maxAngle, minAngle, orientation, bodypart,
-                json_phizioemail, sessiontime, actiontime, holdTime.getText().toString(), Repetitions.getText().toString(), emgJsonArray, romJsonArray,
+                json_phizioemail, sessiontime, actiontime, holdTime.getText().toString(), Repetitions.getText().toString(),
                 angleCorrection, patientid, patientname, tsLong, bodyorientation, getIntent().getStringExtra("dateofjoin"), exercise_position,bodypart_position,
                 str_muscle_name,str_exercise_name,str_min_angle_selected,str_max_angle_selected,str_max_emg_selected,repsselected);
         window.showWindow();
+        window.storeLocalSessionDetails(emgJsonArray,romJsonArray);
         repository.getPatientSessionNo(patientid);
         window.setOnSessionDataResponse(new MqttSyncRepository.OnSessionDataResponse() {
             @Override
@@ -1020,13 +1023,19 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
                                 mService.sendBodypartDataToDevice(bodypart,body_orientation, patientname);
                             }
                             if(deviceDisconnectedDialog!=null) {
+                                Log.i("here","device connected");
                                 deviceDisconnectedDialog.dismiss();
                             }
                         }
                     },2000);
                 }else {
                     deviceState = false;
-                    deviceDisconnectedPopup(mSessionStarted);
+                    if(deviceDisconnectedDialog!=null) {
+                        if (!deviceDisconnectedDialog.isShowing())
+                            deviceDisconnectedPopup(mSessionStarted);
+                    }else {
+                        deviceDisconnectedPopup(mSessionStarted);
+                    }
                 }
             }else if(action.equalsIgnoreCase(bluetooth_state)){
                 boolean ble_state = intent.getBooleanExtra(bluetooth_state,false);

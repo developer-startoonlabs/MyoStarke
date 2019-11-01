@@ -133,7 +133,7 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
                 holder.cl_body_tv_and_image.bringToFront();
                 if(selected_position==position){
                     selected_position=-1;
-                    TransitionManager.beginDelayedTransition((ViewGroup)holder.cl_selection.getParent(), transition);
+//                    TransitionManager.beginDelayedTransition((ViewGroup)holder.cl_selection.getParent(), transition);
                     holder.cl_selection.setVisibility(View.GONE);
                     if(listner!=null){
                         listner.onBodyPartSelected(null);
@@ -151,7 +151,7 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
                     if(selected_position!=-1){
                         notifyItemChanged(selected_position);
                     }
-                    TransitionManager.beginDelayedTransition((ViewGroup)holder.cl_selection.getParent(), transition);
+//                    TransitionManager.beginDelayedTransition((ViewGroup)holder.cl_selection.getParent(), transition);
                     holder.cl_selection.setVisibility(View.VISIBLE);
                     selected_position = position;
                     if(listner!=null){

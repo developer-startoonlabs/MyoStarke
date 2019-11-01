@@ -26,8 +26,12 @@ import android.os.Binder;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.os.Message;
 import android.os.Messenger;
+import android.os.ParcelUuid;
+import android.os.PatternMatcher;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import androidx.annotation.RequiresApi;
@@ -37,11 +41,13 @@ import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.activities.PatientsView;
 import com.startoonlabs.apps.pheezee.classes.DeviceListClass;
 import com.startoonlabs.apps.pheezee.utils.ByteToArrayOperations;
+import com.startoonlabs.apps.pheezee.utils.RegexOperations;
 import com.startoonlabs.apps.pheezee.utils.ValueBasedColorOperations;
 
 import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 import java.util.Timer;
@@ -51,13 +57,14 @@ import java.util.UUID;
 import static com.startoonlabs.apps.pheezee.App.CHANNEL_ID;
 
 public class PheezeeBleService extends Service {
+    private long first_scan = 0;
+    private int num_of_scan = 0;
+    private boolean tooFrequentScan  =false;
+    SharedPreferences preferences;
     private final String device_connected_notif = "Device Connected";
     private final String device_disconnected_notif = "Device not connected";
     private final String device_charging = "Device Connected, charging";
-    private final String session_performing_notif = "Device Connected, Session is going on ";
-    //session related
-    private int sub_byte_size = 10;
-    private boolean sessionCompleted = false, first_packet = true;
+    private boolean first_packet = true;
     Message mMessage = new Message();
 
     boolean isConnectCommandGiven = false;
@@ -72,6 +79,7 @@ public class PheezeeBleService extends Service {
     public static String scanned_list = "scanned.list";
     public static String session_data = "session.data";
     public static String scan_state = "scan.state";
+    public static String scan_too_frequent = "scan.too.frequent";
 
 
 
@@ -111,7 +119,6 @@ public class PheezeeBleService extends Service {
     private Boolean mDeviceState = false, mBluetoothState = false, mUsbState = false, isPreviousDevicePresent = false;
     private int mBatteryPercent = 0;
     private String mFirmwareVersion = "", mSerialId = "", mManufacturerName = "";
-    private static final int REQUEST_ENABLE_BT = 1;
     private boolean mScanning = false;
     public String deviceMacc = "";
     ArrayList<DeviceListClass> mScanResults;
@@ -124,32 +131,14 @@ public class PheezeeBleService extends Service {
             mSerialIdCharacteristic, mManufacturerNameCharacteristic, mHardwareVersionCharacteristic, mDeviceNameCharacteristic;
 
     BluetoothGattDescriptor mBatteryDescriptor, mDfuDescriptor, mCustomCharacteristicDescriptor;
-    SharedPreferences preferences;
 
     public static final int MESSENGER = 1;
-    public static final int DEVICELIST = 2;
     Messenger messageActivity;
-    final Messenger mMessenger = new Messenger(new IncomingHandler());
     private String mCharacteristicWrittenValue = "";
 
-    public boolean getDeviceState() {
-        return mDeviceState;
-    }
 
-    public boolean getUsbState(){
-        return mUsbState;
-    }
 
-    class IncomingHandler extends Handler {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case MESSENGER:
-                    messageActivity = msg.replyTo;
-                    break;
-            }
-        }
-    }
+
     public PheezeeBleService() {
     }
 
@@ -162,6 +151,9 @@ public class PheezeeBleService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if(!Objects.requireNonNull(preferences.getString("deviceMacaddress", "")).equalsIgnoreCase(""))
+            deviceMacc = preferences.getString("deviceMacaddress","");
     }
 
 
@@ -176,7 +168,7 @@ public class PheezeeBleService extends Service {
             mBluetoothState = true;
             bluetoothStateBroadcast();
             if(!deviceMacc.equalsIgnoreCase(""))
-                startScanInBackground(true);
+                startScanInBackground();
         }
         IntentFilter filter = new IntentFilter();
         filter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);
@@ -199,33 +191,61 @@ public class PheezeeBleService extends Service {
         stopSelf();
     }
 
-    public void startScanInBackground(final boolean devicePresent){
-        Log.i("Scan starter","scan started");
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                startScan(devicePresent);
-            }
-        });
-        new Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-                if(mScanning){
-                    stopScaninBackground();
-                    startScanInBackground(devicePresent);
+    public void startScanInBackground(){
+        if(!tooFrequentScan) {
+            AsyncTask.execute(new Runnable() {
+                @Override
+                public void run() {
+                    startScan();
                 }
-            }
-        },60000);
+            });
+        }else {
+            sendTooFrequentScanBroadCast();
+        }
     }
 
     public void stopScaninBackground(){
-        Log.i("Scan starter","scan stoped");
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                stopScan();
-            }
-        });
+        if(!tooFrequentScan) {
+            AsyncTask.execute(new Runnable() {
+                @Override
+                public void run() {
+                    long current_scan_time = Calendar.getInstance().getTimeInMillis();
+                    int scan_difference = 0;
+                    if (first_scan == 0) {
+                        first_scan = Calendar.getInstance().getTimeInMillis();
+                    } else {
+                        scan_difference = (int) ((current_scan_time - first_scan) / 1000);
+                        Log.i("scan_diff", String.valueOf(scan_difference));
+                    }
+                    if (num_of_scan > 3 && scan_difference != 0 && scan_difference <= 30) {
+
+                        Log.i("here","here1");
+                        tooFrequentScan = true;
+                        sendTooFrequentScanBroadCast();
+                        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                first_scan = 0;
+                                num_of_scan = 0;
+                                tooFrequentScan = false;
+                                sendTooFrequentScanBroadCast();
+                            }
+                        }, 30000);
+                    } else {
+                        if(scan_difference>30){
+                            scan_difference = 0;
+                            first_scan = 0;
+                            num_of_scan = 0;
+                            tooFrequentScan = false;
+                        }
+                        stopScan();
+                        num_of_scan++;
+                    }
+                }
+            });
+        }else {
+            sendTooFrequentScanBroadCast();
+        }
     }
 
     public void showNotification(String deviceState){
@@ -234,28 +254,51 @@ public class PheezeeBleService extends Service {
         Notification builder = new NotificationCompat.Builder(this,CHANNEL_ID)
                 .setContentTitle("Pheezee")
                 .setContentText(deviceState)
-                .setSmallIcon(R.mipmap.pheezee_logos_final_square)
+                .setSmallIcon(R.mipmap.pheezee_logos_final_square_round)
+                .setColor(getResources().getColor(R.color.default_blue_light))
 //                .setContentIntent(pendingIntent)
                 .build();
         startForeground(1,builder);
     }
 
 
-    private void startScan(boolean localDevicePresent) {
+    private void startScan() {
         List<ScanFilter> filters = new ArrayList<>();
         ScanSettings settings = new ScanSettings.Builder()
-                .setScanMode(ScanSettings.SCAN_MODE_LOW_POWER)
+                .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)
                 .build();
+        if(!deviceMacc.equalsIgnoreCase("")){
+            ScanFilter mFilter = new ScanFilter.Builder().setDeviceAddress(deviceMacc).build();
+            filters.add(mFilter);
+        }
 
-
-        if(!mScanning) {
+        if(!mScanning && mBluetoothState) {
             mScanResults = new ArrayList<>();
-            mScanCallback = new BtleScanCallback(mScanResults, localDevicePresent);
+            mScanCallback = new BtleScanCallback(mScanResults);
             mBluetoothLeScanner = bluetoothAdapter.getBluetoothLeScanner();
             mBluetoothLeScanner.startScan(filters, settings, mScanCallback);
             mScanning = true;
             sendScanStateBroadcast();
         }
+    }
+
+    public boolean isScanning(){
+        return mScanning;
+    }
+
+    //Body part selection
+    public boolean getDeviceState() {
+        return mDeviceState;
+    }
+
+    public boolean getUsbState(){
+        return mUsbState;
+    }
+
+    public void sendTooFrequentScanBroadCast(){
+        Intent i = new Intent(scan_too_frequent);
+        i.putExtra(scan_too_frequent,tooFrequentScan);
+        sendBroadcast(i);
     }
 
     public void deviceStateBroadcast(){
@@ -267,7 +310,7 @@ public class PheezeeBleService extends Service {
     public void updatePheezeeMac(String macaddress){
         this.deviceMacc = macaddress;
         if(mBluetoothState)
-            startScanInBackground(true);
+            startScanInBackground();
     }
 
     public void forgetPheezee(){
@@ -289,7 +332,6 @@ public class PheezeeBleService extends Service {
 
     public void sendBatteryLevelBroadCast(){
         Intent i = new Intent(battery_percent);
-        Log.i("battery percent", String.valueOf(mBatteryPercent));
         i.putExtra(battery_percent,String.valueOf(mBatteryPercent));
         sendBroadcast(i);
     }
@@ -369,8 +411,8 @@ public class PheezeeBleService extends Service {
     }
 
     public void sendBodypartDataToDevice(String exerciseType, int body_orientation, String patientName){
-        Log.i("exercisetype",exerciseType);
-        showNotification(session_performing_notif+patientName);
+        String session_performing_notif = "Device Connected, Session is going on ";
+        showNotification(session_performing_notif +patientName);
         writeCharacteristic(mCustomCharacteristic, ValueBasedColorOperations.getParticularDataToPheeze(exerciseType,body_orientation));
     }
 
@@ -391,14 +433,11 @@ public class PheezeeBleService extends Service {
             BluetoothDevice remoteDevice = bluetoothAdapter.getRemoteDevice(deviceMacc);
             this.remoteDevice = remoteDevice;
             bluetoothGatt = remoteDevice.connectGatt(this, false, callback);
-            Log.i("connect device","connect");
         }
     }
 
     public void disconnectDevice() {
-        Log.i("here","disconnect");
         if(bluetoothGatt==null){
-            Log.i("Gatt","Null");
             return;
         }
         bluetoothGatt.disconnect();
@@ -409,20 +448,16 @@ public class PheezeeBleService extends Service {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     class BtleScanCallback extends ScanCallback {
         private ArrayList<DeviceListClass> mScanResults;
-        boolean localDevicePresent;
 
-        BtleScanCallback(ArrayList<DeviceListClass> mScanResults, boolean localDeviePresent) {
+        BtleScanCallback(ArrayList<DeviceListClass> mScanResults) {
             this.mScanResults = mScanResults;
-            this.localDevicePresent = localDeviePresent;
         }
 
         @Override
         public void onScanResult(int callbackType, ScanResult result) {
-            Log.i("device1",result.getDevice().getAddress());
-            if(localDevicePresent && !mDeviceState){
+            if(!deviceMacc.equalsIgnoreCase("") && !mDeviceState){
                 BluetoothDevice device = result.getDevice();
                 String deviceAddress = device.getAddress();
-                String deviceName = device.getName();
                 if(deviceAddress.equalsIgnoreCase(deviceMacc)){
                     connectDevice(deviceMacc);
                 }
@@ -434,8 +469,8 @@ public class PheezeeBleService extends Service {
         @Override
         public void onBatchScanResults(List<ScanResult> results) {
             for (ScanResult result : results) {
-                Log.i("device1",results.get(0).getDevice().getAddress());
-                if(localDevicePresent && !mDeviceState){
+//                Log.i("device0",results.get(0).getDevice().getAddress());
+                if(!deviceMacc.equalsIgnoreCase("") && !mDeviceState){
                     BluetoothDevice device = result.getDevice();
                     String deviceAddress = device.getAddress();
                     String deviceName = device.getName();
@@ -454,9 +489,7 @@ public class PheezeeBleService extends Service {
         }
 
         private void addScanResult(ScanResult result) {
-
             String setDeviceBondState;
-
             BluetoothDevice device = result.getDevice();
             String deviceAddress = device.getAddress();
             String deviceName = device.getName();
@@ -465,7 +498,6 @@ public class PheezeeBleService extends Service {
                 deviceName = "UNKNOWN DEVICE";
             int deviceRssi = result.getRssi();
             int deviceBondState = device.getBondState();
-
             //Just to update the bondstate if needed to
             if(deviceBondState == 0)
                 setDeviceBondState = "BONDED";
@@ -509,6 +541,8 @@ public class PheezeeBleService extends Service {
 
                     sendScannedListBroadcast();
                 }
+            }else {
+//                sendScannedListBroadcast();
             }
         }
     }
@@ -585,6 +619,8 @@ public class PheezeeBleService extends Service {
                 temp_byte = characteristic.getValue();
                 byte header_main = temp_byte[0];
                 byte header_sub = temp_byte[1];
+                //session related
+                int sub_byte_size = 10;
                 byte[] sub_byte = new byte[sub_byte_size];
                 if (ByteToArrayOperations.byteToStringHexadecimal(header_main).equals("AA")) {
                     if (ByteToArrayOperations.byteToStringHexadecimal(header_sub).equals("01")) {
@@ -594,6 +630,7 @@ public class PheezeeBleService extends Service {
                         }
                         mMessage = Message.obtain();
                         mMessage.obj = sub_byte;
+                        boolean sessionCompleted = false;
                         if (!sessionCompleted && !first_packet) {
                             sendSessionDataBroadcast();
                         } else {
@@ -613,42 +650,42 @@ public class PheezeeBleService extends Service {
         public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
             super.onCharacteristicRead(gatt, characteristic, status);
             if(characteristic.getUuid().equals(custom_characteristic_uuid)){
-                        byte info_packet[] = characteristic.getValue();
-                        int battery = info_packet[11] & 0xFF;
-                        int device_status = info_packet[12] & 0xFF;
-                        int device_usb_state = info_packet[13] & 0xFF;
-                        if(device_usb_state==1) {
-                            mUsbState = true;
-                            sendUsbStateBroadcast();
-                            showNotification(device_charging);
-                        }
-                        else if(device_status==0) {
-                            mUsbState = false;
-                            sendUsbStateBroadcast();
-                            showNotification(device_connected_notif);
-                        }
-                        Log.i("battery percent2", String.valueOf(battery));
-                        mBatteryPercent = battery;
-                        sendBatteryLevelBroadCast();
-                        bluetoothGatt.readCharacteristic(mBatteryCharacteristic);
+                byte info_packet[] = characteristic.getValue();
+                int battery = info_packet[11] & 0xFF;
+                int device_status = info_packet[12] & 0xFF;
+                int device_usb_state = info_packet[13] & 0xFF;
+                if(device_usb_state==1) {
+                    mUsbState = true;
+                    sendUsbStateBroadcast();
+                    showNotification(device_charging);
+                }
+                else if(device_status==0) {
+                    mUsbState = false;
+                    sendUsbStateBroadcast();
+                    showNotification(device_connected_notif);
+                }
+                Log.i("battery percent2", String.valueOf(battery));
+                mBatteryPercent = battery;
+                sendBatteryLevelBroadCast();
+                bluetoothGatt.readCharacteristic(mBatteryCharacteristic);
 
             }else if (characteristic.getUuid().equals(battery_level_characteristic_uuid)){
-                        byte b[] = characteristic.getValue();
-                        int battery  = b[0];
-                        int usb_state = b[1];
-                        if(usb_state==1) {
-                            mUsbState = true;
-                            sendUsbStateBroadcast();
-                            showNotification(device_charging);
-                        }
-                        else if(usb_state==0) {
-                            mUsbState = false;
-                            sendUsbStateBroadcast();
-                            showNotification(device_connected_notif);
-                        }
-                        Log.i("battery percent1", String.valueOf(battery));
-                        mBatteryPercent = battery;
-                        sendBatteryLevelBroadCast();
+                byte b[] = characteristic.getValue();
+                int battery  = b[0];
+                int usb_state = b[1];
+                if(usb_state==1) {
+                    mUsbState = true;
+                    sendUsbStateBroadcast();
+                    showNotification(device_charging);
+                }
+                else if(usb_state==0) {
+                    mUsbState = false;
+                    sendUsbStateBroadcast();
+                    showNotification(device_connected_notif);
+                }
+                Log.i("battery percent1", String.valueOf(battery));
+                mBatteryPercent = battery;
+                sendBatteryLevelBroadCast();
                 gatt.setCharacteristicNotification(mBatteryCharacteristic, true);
                 mBatteryDescriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
                 bluetoothGatt.writeDescriptor(mBatteryDescriptor);
@@ -688,7 +725,6 @@ public class PheezeeBleService extends Service {
             }
             else{
                 if(mCharacteristicWrittenValue.contains("AA")) {
-                    Log.i("notification", "enabled");
                     bluetoothGatt.setCharacteristicNotification(mCustomCharacteristic, true);
                     mCustomCharacteristicDescriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
                     bluetoothGatt.writeDescriptor(mCustomCharacteristicDescriptor);
@@ -732,12 +768,14 @@ public class PheezeeBleService extends Service {
             if(BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)){
                 isConnectCommandGiven=false;
                 mDeviceState = false;mFirmwareVersion="Null"; mSerialId="NULL";mBatteryPercent = 0;mManufacturerName="Null";
-                bluetoothGatt.disconnect();
-                bluetoothGatt.close();
+                if(bluetoothGatt!=null) {
+                    bluetoothGatt.disconnect();
+                    bluetoothGatt.close();
+                }
                 showNotification(device_disconnected_notif);
                 gerDeviceInfo();
                 if(!deviceMacc.equalsIgnoreCase(""))
-                    startScanInBackground(true);
+                    startScanInBackground();
             }
             if (BluetoothAdapter.ACTION_STATE_CHANGED.equals(action)) {
                 if (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1) == BluetoothAdapter.STATE_ON) {
@@ -747,7 +785,7 @@ public class PheezeeBleService extends Service {
                         @Override
                         public void run() {
                             if(!deviceMacc.equalsIgnoreCase(""))
-                                startScanInBackground(true);
+                                startScanInBackground();
                             bluetoothStateBroadcast();
                         }
                     });
