@@ -2,7 +2,6 @@ package com.startoonlabs.apps.pheezee.popup;
 
 import android.Manifest;
 import android.app.Activity;
-import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,10 +11,6 @@ import android.provider.MediaStore;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
-import com.startoonlabs.apps.pheezee.activities.PatientsView;
-import com.startoonlabs.apps.pheezee.activities.ScanDevicesActivity;
-import com.startoonlabs.apps.pheezee.services.Scanner;
 
 public class UploadImageDialog {
 

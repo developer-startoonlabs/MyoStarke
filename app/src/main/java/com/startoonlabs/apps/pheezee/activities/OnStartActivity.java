@@ -43,7 +43,7 @@ public class OnStartActivity extends AppCompatActivity {
                 try {
                     Thread.sleep(1000);
                     if(isLoggedIn)
-                        startActivity(new Intent(OnStartActivity.this,PatientsView.class));
+                        startActivity(new Intent(OnStartActivity.this, PatientsView.class));
                     else
                         startActivity(new Intent(OnStartActivity.this,LoginActivity.class));
                     finish();

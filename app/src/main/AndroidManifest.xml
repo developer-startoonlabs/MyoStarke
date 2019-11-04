@@ -14,25 +14,32 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
-
-
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
     <uses-feature
         android:name="android.hardware.bluetooth_le"
         android:required="true" />
 
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:icon="@mipmap/pheezee_logos_final_square"
-        android:roundIcon="@mipmap/pheezee_logos_final_square_round"
         android:label="@string/app_name"
         android:largeHeap="true"
+        android:roundIcon="@mipmap/pheezee_logos_final_square_round"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <service
+            android:name=".services.PheezeeBleService"
+            android:enabled="true"
+            android:exported="true"></service>
 
-        <uses-library android:name="org.apache.http.legacy" android:required="false"/>
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
         <provider
             android:name=".classes.GenericFileProvider"
             android:authorities="${applicationId}.my.package.name.provider"
@@ -43,8 +50,7 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <meta-data android:name="firebase_analytics_collection_deactivated" android:value="true" />
-
+        <meta-data android:name="firebase_analytics_collection_enabled" android:value="false" />
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -65,7 +71,6 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".services.Scanner"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -75,8 +80,8 @@
             android:theme="@style/AppTheme.NoActionBarLogin" />
         <activity
             android:name=".activities.PatientsView"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <receiver android:name=".services.BluetoothReceiver">
             <intent-filter>
@@ -130,20 +135,22 @@
         <activity
             android:name=".activities.BodyPartSelection"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
+
         <activity
             android:name=".activities.MonitorActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:screenOrientation="portrait"
             android:hardwareAccelerated="true"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.SessionReportActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activities.AppInfo"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".activities.AppInfo"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

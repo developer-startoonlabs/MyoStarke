@@ -15,6 +15,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -44,6 +45,7 @@ import com.startoonlabs.apps.pheezee.utils.RegexOperations;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -435,8 +437,6 @@ public class PhizioProfile extends AppCompatActivity implements MqttSyncReposito
                 if(resultCode == RESULT_OK){
                     Bitmap photo = (Bitmap) imageReturnedIntent.getExtras().get("data");
                     photo = BitmapOperations.getResizedBitmap(photo,128);
-                    iv_phizio_profilepic.setImageBitmap(photo);
-                    ivBasicImage.setImageBitmap(photo);
                     repository.updatePhizioClinicLogoPic(et_phizio_email.getText().toString(),photo);
                     dialog.setMessage("Uploading image, please wait");
                     dialog.show();
@@ -445,15 +445,16 @@ public class PhizioProfile extends AppCompatActivity implements MqttSyncReposito
             case 8:
                 if(resultCode == RESULT_OK){
                     Uri selectedImage = imageReturnedIntent.getData();
-                    iv_phizio_profilepic.setImageURI(selectedImage);
-                    ivBasicImage.setImageURI(selectedImage);
-                    iv_phizio_profilepic.invalidate();
-                    BitmapDrawable drawable = (BitmapDrawable) iv_phizio_profilepic.getDrawable();
-                    Bitmap photo = drawable.getBitmap();
-                    photo = BitmapOperations.getResizedBitmap(photo,128);
-                    repository.updatePhizioClinicLogoPic(et_phizio_email.getText().toString(),photo);
-                    dialog.setMessage("Uploading image, please wait");
-                    dialog.show();
+                    try {
+                        Bitmap photo = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                        photo = BitmapOperations.getResizedBitmap(photo,128);
+                        repository.updatePhizioClinicLogoPic(et_phizio_email.getText().toString(),photo);
+                        dialog.setMessage("Uploading image, please wait");
+                        dialog.show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
                 }
                 break;
         }

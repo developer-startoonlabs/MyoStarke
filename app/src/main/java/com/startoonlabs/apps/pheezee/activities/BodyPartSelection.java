@@ -1,12 +1,14 @@
 package com.startoonlabs.apps.pheezee.activities;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -19,11 +21,9 @@ import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.adapters.BodyPartSelectionRecyclerViewAdapter;
 import com.startoonlabs.apps.pheezee.classes.BodyPartSelectionModel;
 import com.startoonlabs.apps.pheezee.classes.BodyPartWithMmtSelectionModel;
+import com.startoonlabs.apps.pheezee.services.PheezeeBleService;
 
 import java.util.ArrayList;
-
-import static com.startoonlabs.apps.pheezee.activities.PatientsView.deviceState;
-import static com.startoonlabs.apps.pheezee.activities.PatientsView.isDeviceConnected;
 
 public class BodyPartSelection extends AppCompatActivity {
     //Drawable arry for the body part selection
@@ -40,11 +40,13 @@ public class BodyPartSelection extends AppCompatActivity {
     ImageView iv_back_body_part_selection;
     String[] string;
     private String str_orientation, str_exercise_name, str_muscle_name, str_body_orientation, str_body_part, str_max_emg_selected="", min_angle_selected="", max_angle_selected="";
-    private int int_repsselected = 0, exercise_selected_postion=-1, body_part_selected_position=-1;
+    private int int_repsselected = 0, exercise_selected_postion=-1, body_part_selected_position=-1, muscle_selected_position=-1;
 
 //    GridLayoutManager manager;
     RecyclerView.LayoutManager manager;
     BodyPartSelectionRecyclerViewAdapter adapter;
+    boolean isBound = false;
+    PheezeeBleService mService;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -104,8 +106,9 @@ public class BodyPartSelection extends AppCompatActivity {
             }
 
             @Override
-            public void onMuscleNameSelected(String muscle_name) {
+            public void onMuscleNameSelected(String muscle_name, int position) {
                 str_muscle_name = muscle_name;
+                muscle_selected_position = position;
             }
 
             @Override
@@ -138,7 +141,26 @@ public class BodyPartSelection extends AppCompatActivity {
                 exercise_selected_postion = position;
             }
         });
+
+        Intent intent = new Intent(this, PheezeeBleService.class);
+        bindService(intent,mConnection,BIND_AUTO_CREATE);
     }
+
+
+    ServiceConnection mConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            isBound = true;
+            PheezeeBleService.LocalBinder mLocalBinder = (PheezeeBleService.LocalBinder)service;
+            mService = mLocalBinder.getServiceInstance();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            isBound = false;
+            mService = null;
+        }
+    };
 
     @Override
     protected void onResume() {
@@ -162,43 +184,58 @@ public class BodyPartSelection extends AppCompatActivity {
      * @param view
      */
     public void startMonitorSession(View view) {
-        if(isDeviceConnected) {
-            if (isValid()) {
-                Log.i("body part", str_body_part);
-                Log.i("body orientation", str_orientation);
-                Log.i("body part orientation", str_body_orientation);
-                Log.i("body exercise name", str_exercise_name);
-                Log.i("body str_muscle_name", str_muscle_name);
-                Log.i("body part", String.valueOf(int_repsselected));
-                Log.i("body str_max_emg", str_max_emg_selected);
-                Log.i("body min_angle_selected", min_angle_selected);
-                Log.i("body max_angle_selected", max_angle_selected);
-                int body_orientation = 0;
-                if (str_body_orientation.equalsIgnoreCase("sit")) body_orientation = 1;
-                else if (str_body_orientation.equalsIgnoreCase("stand")) body_orientation = 2;
-                else body_orientation = 3;
-                Intent intent = new Intent(BodyPartSelection.this, MonitorActivity.class);
-                //To be started here i need to putextras in the intents and send them to the moitor activity
-                intent.putExtra("deviceMacAddress", getIntent().getStringExtra("deviceMacAddress"));
-                intent.putExtra("patientId", getIntent().getStringExtra("patientId"));
-                intent.putExtra("patientName", getIntent().getStringExtra("patientName"));
-                intent.putExtra("exerciseType", str_body_part);
-                intent.putExtra("orientation", str_orientation);
-                intent.putExtra("bodyorientation", str_body_orientation);
-                intent.putExtra("body_orientation", body_orientation);
-                intent.putExtra("dateofjoin", getIntent().getStringExtra("dateofjoin"));
-                intent.putExtra("repsselected", int_repsselected);
-                intent.putExtra("exercisename", str_exercise_name);
-                intent.putExtra("musclename", str_muscle_name);
-                intent.putExtra("maxemgselected", str_max_emg_selected);
-                intent.putExtra("maxangleselected", max_angle_selected);
-                intent.putExtra("minangleselected", min_angle_selected);
-                intent.putExtra("exerciseposition", exercise_selected_postion);
-                intent.putExtra("bodypartposition", body_part_selected_position);
-                startActivity(intent);
+        if(mService!=null){
+            boolean device_state = mService.getDeviceState();
+            boolean usb_state = mService.getUsbState();
+            Log.i("USB state",String.valueOf(usb_state));
+            if(device_state && !usb_state) {
+                if (isValid()) {
+                    Log.i("body part", str_body_part);
+                    Log.i("body orientation", str_orientation);
+                    Log.i("body part orientation", str_body_orientation);
+                    Log.i("body exercise name", str_exercise_name);
+                    Log.i("body str_muscle_name", str_muscle_name);
+                    Log.i("body part", String.valueOf(int_repsselected));
+                    Log.i("body str_max_emg", str_max_emg_selected);
+                    Log.i("body min_angle_selected", min_angle_selected);
+                    Log.i("body max_angle_selected", max_angle_selected);
+                    int body_orientation = 0;
+                    if (str_body_orientation.equalsIgnoreCase("sit")) body_orientation = 1;
+                    else if (str_body_orientation.equalsIgnoreCase("stand")) body_orientation = 2;
+                    else body_orientation = 3;
+                    Intent intent = new Intent(BodyPartSelection.this, MonitorActivity.class);
+                    //To be started here i need to putextras in the intents and send them to the moitor activity
+                    intent.putExtra("deviceMacAddress", getIntent().getStringExtra("deviceMacAddress"));
+                    intent.putExtra("patientId", getIntent().getStringExtra("patientId"));
+                    intent.putExtra("patientName", getIntent().getStringExtra("patientName"));
+                    intent.putExtra("exerciseType", str_body_part);
+                    intent.putExtra("orientation", str_orientation);
+                    intent.putExtra("bodyorientation", str_body_orientation);
+                    intent.putExtra("body_orientation", body_orientation);
+                    intent.putExtra("dateofjoin", getIntent().getStringExtra("dateofjoin"));
+                    intent.putExtra("repsselected", int_repsselected);
+                    intent.putExtra("exercisename", str_exercise_name);
+                    intent.putExtra("musclename", str_muscle_name);
+                    intent.putExtra("maxemgselected", str_max_emg_selected);
+                    intent.putExtra("maxangleselected", max_angle_selected);
+                    intent.putExtra("minangleselected", min_angle_selected);
+                    intent.putExtra("exerciseposition", exercise_selected_postion);
+                    intent.putExtra("bodypartposition", body_part_selected_position);
+                    intent.putExtra("muscleposition", muscle_selected_position);
+                    startActivity(intent);
 
-            } else {
-                showToast(getInvalidMessage());
+                } else {
+                    showToast(getInvalidMessage());
+                }
+            }else {
+                if(usb_state){
+                    showToast("Please remove usb from device to continue..");
+                }else {
+                    showToast("Please connect device!");
+                    Intent i = new Intent(BodyPartSelection.this, PatientsView.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    startActivity(i);
+                }
             }
         }else {
             showToast("Please connect device!");
@@ -206,6 +243,7 @@ public class BodyPartSelection extends AppCompatActivity {
             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(i);
         }
+
     }
 
     public boolean isValid(){
@@ -240,6 +278,7 @@ public class BodyPartSelection extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        unbindService(mConnection);
     }
 
     /**

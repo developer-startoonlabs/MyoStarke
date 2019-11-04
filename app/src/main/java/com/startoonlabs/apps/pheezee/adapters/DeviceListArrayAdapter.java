@@ -1,8 +1,6 @@
 package com.startoonlabs.apps.pheezee.adapters;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
@@ -11,11 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.startoonlabs.apps.pheezee.activities.ScanDevicesActivity;
 import com.startoonlabs.apps.pheezee.classes.DeviceListClass;
-import com.startoonlabs.apps.pheezee.activities.PatientsView;
 import com.startoonlabs.apps.pheezee.R;
 
 import java.util.ArrayList;
@@ -71,23 +67,10 @@ public class DeviceListArrayAdapter extends ArrayAdapter<DeviceListClass> {
         btn_connectToDevice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Toast.makeText(context, macAddressOfTheSelectedDevice, Toast.LENGTH_SHORT).show();
 
                 if(connectPressed!=null){
                     connectPressed.onDeviceConnectPressed(mdeviceArrayList.get(position).getDeviceMacAddress());
                 }
-//                editor = preferences.edit();
-//                ScanDevicesActivity.selectedDeviceMacAddress = mdeviceArrayList.get(position).getDeviceMacAddress();
-//                editor.putString("deviceMacaddress", mdeviceArrayList.get(position).getDeviceMacAddress());
-//                editor.commit();
-//                Toast.makeText(context, "connecting....", Toast.LENGTH_SHORT).show();
-//                editor.putString("pressed","c");
-//                editor.commit();
-//                PatientsView.disconnectDevice();
-//                Intent i = new Intent(context, PatientsView.class);
-//                context.startActivity(i);
-//                PatientsView.deviceState=false;
-//                ((Activity)context).finish();
             }
         });
         return row;

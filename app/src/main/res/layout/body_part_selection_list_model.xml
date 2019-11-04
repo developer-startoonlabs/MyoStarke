@@ -123,6 +123,23 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/model_rg_body_orientation" />
 
+        <EditText
+            android:id="@+id/model_et_exercise_name"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:imeOptions="actionNext"
+            android:maxLines="1"
+            android:inputType="text"
+            android:hint="@string/please_enter_exercise"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@+id/model_rg_body_orientation"
+            />
+
         <Spinner
             android:id="@+id/model_sp_musclename_name"
             android:layout_width="match_parent"
@@ -139,6 +156,23 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/model_sp_exercise_name" />
+
+        <EditText
+            android:id="@+id/model_et_muscle_name"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:imeOptions="actionNext"
+            android:maxLines="1"
+            android:inputType="text"
+            android:hint="@string/please_enter_muscle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/model_sp_exercise_name"
+            android:visibility="gone"
+            />
 
         <Spinner
             android:id="@+id/model_sp_set_goal"
@@ -205,7 +239,7 @@
                 android:id="@+id/rb_supine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
+                android:layout_gravity="end"
                 android:layout_marginEnd="8dp"
                 android:text="@string/supine" />
         </RadioGroup>

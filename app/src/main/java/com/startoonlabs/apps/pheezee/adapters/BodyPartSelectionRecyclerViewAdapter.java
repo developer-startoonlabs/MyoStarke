@@ -6,6 +6,7 @@ import android.content.res.TypedArray;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -52,7 +53,7 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
         RadioGroup rg_orientation;
         RadioGroup rg_body_orientation;
         Spinner sp_exercise_name, sp_muscle_name, sp_goal;
-        EditText et_max_angle, et_min_angle, et_max_emg;
+        EditText et_max_angle, et_min_angle, et_max_emg, et_muscle_name, et_exercise_name;
         TextView tv_start, tv_end, tv_max_emg;
 
         ViewHolder(View view) {
@@ -77,6 +78,8 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
             et_max_angle = view.findViewById(R.id.model_et_max_angle);
             et_max_emg = view.findViewById(R.id.model_et_max_emg);
             et_min_angle = view.findViewById(R.id.model_et_min_angle);
+            et_muscle_name = view.findViewById(R.id.model_et_muscle_name);
+            et_exercise_name = view.findViewById(R.id.model_et_exercise_name);
 
             //TextView
             tv_start = view.findViewById(R.id.model_tv_start);
@@ -132,14 +135,14 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
                 holder.cl_body_tv_and_image.bringToFront();
                 if(selected_position==position){
                     selected_position=-1;
-                    TransitionManager.beginDelayedTransition((ViewGroup)holder.cl_selection.getParent(), transition);
+//                    TransitionManager.beginDelayedTransition((ViewGroup)holder.cl_selection.getParent(), transition);
                     holder.cl_selection.setVisibility(View.GONE);
                     if(listner!=null){
                         listner.onBodyPartSelected(null);
                         listner.onOrientationSelected(null);
                         listner.onBodyOrientationSelected(null);
                         listner.onExerciseNameSelected(null);
-                        listner.onMuscleNameSelected(null);
+                        listner.onMuscleNameSelected(null,0);
                         listner.onGoalSelected(0);
                         listner.onMaxEmgUpdated("");
                         listner.onMaxAngleUpdated("");
@@ -150,7 +153,7 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
                     if(selected_position!=-1){
                         notifyItemChanged(selected_position);
                     }
-                    TransitionManager.beginDelayedTransition((ViewGroup)holder.cl_selection.getParent(), transition);
+//                    TransitionManager.beginDelayedTransition((ViewGroup)holder.cl_selection.getParent(), transition);
                     holder.cl_selection.setVisibility(View.VISIBLE);
                     selected_position = position;
                     if(listner!=null){
@@ -169,6 +172,13 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
                     ArrayAdapter<String> array_exercise_names = new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item, MuscleOperation.getMusleNames(selected_position));
                     array_exercise_names.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
                     holder.sp_muscle_name.setAdapter(array_exercise_names);
+
+                    if(selected_position==6){
+                        holder.sp_exercise_name.setVisibility(View.INVISIBLE);
+                        holder.et_exercise_name.setVisibility(View.VISIBLE);
+                        holder.sp_muscle_name.setVisibility(View.INVISIBLE);
+                        holder.et_muscle_name.setVisibility(View.VISIBLE);
+                    }
                 }
             }
         });
@@ -249,12 +259,12 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
                 if(position!=0){
                     if(listner!=null){
                         String muscle_name = holder.sp_muscle_name.getSelectedItem().toString();
-                        listner.onMuscleNameSelected(muscle_name);
+                        listner.onMuscleNameSelected(muscle_name, position);
                     }
                 }
                 else {
                     if(listner!=null){
-                        listner.onMuscleNameSelected(null);
+                        listner.onMuscleNameSelected(null,0);
                     }
                 }
             }
@@ -286,6 +296,26 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
             }
         });
 
+
+        holder.sp_goal.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return false;
+            }
+        });
+        holder.sp_muscle_name.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return false;
+            }
+        });
+        holder.sp_exercise_name.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return false;
+            }
+        });
+
         holder.et_max_emg.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -302,6 +332,56 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
                 if(listner!=null){
                     String s1 = s.toString();
                     listner.onMaxEmgUpdated(s1);
+                }
+            }
+        });
+
+
+        holder.et_muscle_name.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(listner!=null){
+                    String s1 = s.toString();
+                    if(s1.length()>0)
+                        listner.onMuscleNameSelected(s1,1);
+                    else
+                        listner.onMuscleNameSelected(null,-1);
+                }
+            }
+        });
+
+        holder.et_exercise_name.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(listner!=null){
+                    String s1 = s.toString();
+                    if(s1.length()>0) {
+                        listner.onExerciseNameSelected(s1);
+                        listner.onExerciseSelectedPostion(1);
+                    }else {
+                        listner.onExerciseNameSelected(null);
+                        listner.onExerciseSelectedPostion(-1);
+                    }
                 }
             }
         });
@@ -369,7 +449,7 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
         void onOrientationSelected(String orientation);
         void onBodyOrientationSelected(String body_orientation);
         void onExerciseNameSelected(String exercise_name);
-        void onMuscleNameSelected(String muscle_name);
+        void onMuscleNameSelected(String muscle_name, int position);
         void onGoalSelected(int reps_selected);
         void onMaxEmgUpdated(String max_emg_updated);
         void onMaxAngleUpdated(String max_angle_updated);

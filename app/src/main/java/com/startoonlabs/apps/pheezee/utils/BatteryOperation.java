@@ -36,7 +36,7 @@ public class BatteryOperation {
             message = context.getResources().getString(R.string.battery_percent_lower_than_15);
         else if(percent>5 && percent<=10)
             message = context.getResources().getString(R.string.battery_percent_lower_than_10);
-        else if(percent<5)
+        else if(percent<=5)
             message = context.getResources().getString(R.string.battery_percent_lower_than_5);
         else
             message = "c";
