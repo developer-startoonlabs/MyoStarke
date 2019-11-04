@@ -40,7 +40,7 @@ public class BodyPartSelection extends AppCompatActivity {
     ImageView iv_back_body_part_selection;
     String[] string;
     private String str_orientation, str_exercise_name, str_muscle_name, str_body_orientation, str_body_part, str_max_emg_selected="", min_angle_selected="", max_angle_selected="";
-    private int int_repsselected = 0, exercise_selected_postion=-1, body_part_selected_position=-1;
+    private int int_repsselected = 0, exercise_selected_postion=-1, body_part_selected_position=-1, muscle_selected_position=-1;
 
 //    GridLayoutManager manager;
     RecyclerView.LayoutManager manager;
@@ -106,8 +106,9 @@ public class BodyPartSelection extends AppCompatActivity {
             }
 
             @Override
-            public void onMuscleNameSelected(String muscle_name) {
+            public void onMuscleNameSelected(String muscle_name, int position) {
                 str_muscle_name = muscle_name;
+                muscle_selected_position = position;
             }
 
             @Override
@@ -220,6 +221,7 @@ public class BodyPartSelection extends AppCompatActivity {
                     intent.putExtra("minangleselected", min_angle_selected);
                     intent.putExtra("exerciseposition", exercise_selected_postion);
                     intent.putExtra("bodypartposition", body_part_selected_position);
+                    intent.putExtra("muscleposition", muscle_selected_position);
                     startActivity(intent);
 
                 } else {

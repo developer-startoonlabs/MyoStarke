@@ -158,7 +158,7 @@
     <!--Appinfo related tags-->
     <string name="app_info">Application Info</string>
     <string name="app_version">Application Version</string>
-    <string name="application_version">2.11.1.h</string>
+    <string name="application_version">2.11.2.h</string>
 
     <!--phizio profile related tags-->
     <string name="your_profile">Your Profile</string>
@@ -354,4 +354,6 @@
 
     <string name="turn_on_device">Turn on device to connect to pheezee..</string>
     <string name="click_to_connect">Click to connect to pheezee</string>
+    <string name="please_enter_exercise">Please enter exercise name</string>
+    <string name="please_enter_muscle">Please enter muscle name</string>
 </resources>

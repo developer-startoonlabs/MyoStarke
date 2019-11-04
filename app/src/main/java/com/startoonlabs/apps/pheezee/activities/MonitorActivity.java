@@ -93,7 +93,7 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
     boolean angleCorrected = false, deviceState = true, usbState = false;
     String bodypart, orientation = "NO", timeText = "", holdTimeValue = "0:0", exerciseType;
     private String  str_exercise_name, str_muscle_name, str_max_emg_selected, str_min_angle_selected, str_max_angle_selected;
-    private int exercise_position, bodypart_position, repsselected;
+    private int exercise_position, bodypart_position, repsselected, muscle_position;
     SharedPreferences sharedPreferences;
     JSONObject json_phizio = new JSONObject();
     JSONArray emgJsonArray, romJsonArray;
@@ -305,6 +305,8 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
         exercise_position = getIntent().getIntExtra("exerciseposition",0);
         bodypart_position = getIntent().getIntExtra("bodypartposition",0);
         repsselected = getIntent().getIntExtra("repsselected",0);
+        muscle_position = getIntent().getIntExtra("muscleposition",0);
+
 
         //setting patient id and name
         patientId.setText(patientid);
@@ -627,7 +629,7 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
         new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    mService.sendBodypartDataToDevice(bodypart, body_orientation, patientname);
+                    mService.sendBodypartDataToDevice(bodypart, body_orientation, patientname, exercise_position, muscle_position, bodypart_position);
                 }
             }, 100);
             rawdata_timestamp = Calendar.getInstance().getTime();
@@ -1020,7 +1022,7 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
                         public void run() {
                             deviceState = true;
                             if(mSessionStarted) {
-                                mService.sendBodypartDataToDevice(bodypart,body_orientation, patientname);
+                                mService.sendBodypartDataToDevice(bodypart, body_orientation, patientname, exercise_position, muscle_position, bodypart_position);
                             }
                             if(deviceDisconnectedDialog!=null) {
                                 Log.i("here","device connected");
@@ -1064,7 +1066,7 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                    mService.sendBodypartDataToDevice(bodypart,body_orientation,patientname);
+                                mService.sendBodypartDataToDevice(bodypart, body_orientation, patientname, exercise_position, muscle_position, bodypart_position);
                             }
                         },500);
                     }

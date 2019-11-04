@@ -7,6 +7,8 @@ import androidx.core.content.ContextCompat;
 
 import com.startoonlabs.apps.pheezee.R;
 
+import java.math.BigInteger;
+
 public class ValueBasedColorOperations {
 
     /**
@@ -183,44 +185,29 @@ public class ValueBasedColorOperations {
         return max_values[bodypart][exercisename];
     }
 
-    public static String getParticularDataToPheeze(String string, int body_orientation){
+    public static byte[] getParticularDataToPheeze(int body_orientation, int muscle_index, int exercise_index, int bodypart_index){
 
-        switch (string.toLowerCase()){
-
-            case "elbow":{
-//                byte[] b = ByteToArrayOperations.hexStringToByteArray("A1"+body_orientation+"3");
-                return "AA03";
-            }
-
-            case "knee":{
-//                byte[] b = ByteToArrayOperations.hexStringToByteArray("A1"+body_orientation+"4");
-                return "AA04";
-            }
-
-            case "ankle":{
-//                byte[] b = ByteToArrayOperations.hexStringToByteArray("A1"+body_orientation+"5");
-                return "AA05";
-            }
-            case "hip":{
-//                byte[] b = ByteToArrayOperations.hexStringToByteArray("A1"+body_orientation+"6");
-                return "AA06";
-            }
-
-            case "wrist":{
-//                byte[] b = ByteToArrayOperations.hexStringToByteArray("A1"+body_orientation+"7");
-                return "AA07";
-            }
-
-            case "shoulder":{
-//                byte[] b = ByteToArrayOperations.hexStringToByteArray("A1"+body_orientation+"8");
-                return "AA08";
-            }
-
-            case "others":{
-                return "AA04";
-            }
+//        byte[] b = new byte[5];
+//        String ae = "AE";
+//        b[0] = Byte.parseByte(String.format("%040x", new BigInteger(1, ae.getBytes(/*YOUR_CHARSET?*/))));
+//        b[1] = (byte) bodypart_index;
+//        b[2] = (byte) exercise_index;
+//        b[3] = (byte) muscle_index;
+//        b[4] = (byte) body_orientation;
+//
+//        Log.i("byte", b.toString());
+//
+//
+        Log.i("bodypart", String.valueOf(bodypart_index));
+        byte[] b;
+        if(bodypart_index!=6) {
+            b = ByteToArrayOperations.hexStringToByteArray("AA0" + (bodypart_index + 3));
+            Log.i("value","AA0"+(bodypart_index+3));
         }
-        return "AA04";
+        else {
+            b = ByteToArrayOperations.hexStringToByteArray("AA04");
+        }
+        return b;
     }
 
 

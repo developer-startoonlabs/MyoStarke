@@ -397,17 +397,20 @@ public class PheezeeBleService extends Service {
     }
 
     public void increaseGain(){
-        writeCharacteristic(mCustomCharacteristic,"AD01");
+        byte[] b = ByteToArrayOperations.hexStringToByteArray("AD01");
+        writeCharacteristic(mCustomCharacteristic,b, "AD01");
     }
 
     public void decreaseGain(){
-        writeCharacteristic(mCustomCharacteristic,"AD02");
+        byte[] b = ByteToArrayOperations.hexStringToByteArray("AD02");
+        writeCharacteristic(mCustomCharacteristic,b,"AD02");
     }
 
-    public void sendBodypartDataToDevice(String exerciseType, int body_orientation, String patientName){
+    public void sendBodypartDataToDevice(String exerciseType, int body_orientation, String patientName, int exercise_position,
+                                         int muscle_position, int bodypart_position){
         String session_performing_notif = "Device Connected, Session is going on ";
         showNotification(session_performing_notif +patientName);
-        writeCharacteristic(mCustomCharacteristic, ValueBasedColorOperations.getParticularDataToPheeze(exerciseType,body_orientation));
+        writeCharacteristic(mCustomCharacteristic, ValueBasedColorOperations.getParticularDataToPheeze(body_orientation, muscle_position, exercise_position, bodypart_position),"AA03");
     }
 
     public void disableNotificationOfSession(){
@@ -581,7 +584,8 @@ public class PheezeeBleService extends Service {
             //Descriptors
             mCustomCharacteristicDescriptor = mCustomCharacteristic.getDescriptor(universal_descriptor);
             mBatteryDescriptor = mBatteryCharacteristic.getDescriptor(universal_descriptor);
-            writeCharacteristic(mCustomCharacteristic,"AA02");
+            byte[] b = ByteToArrayOperations.hexStringToByteArray("AA02");
+            writeCharacteristic(mCustomCharacteristic,b,"AA02");
         }
 
         @Override
@@ -699,6 +703,7 @@ public class PheezeeBleService extends Service {
             }
             else{
                 if(mCharacteristicWrittenValue.contains("AA")) {
+                    Log.i("here","here");
                     bluetoothGatt.setCharacteristicNotification(mCustomCharacteristic, true);
                     mCustomCharacteristicDescriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
                     bluetoothGatt.writeDescriptor(mCustomCharacteristicDescriptor);
@@ -707,8 +712,8 @@ public class PheezeeBleService extends Service {
         }
     };
 
-    private boolean writeCharacteristic(BluetoothGattCharacteristic characteristic, String value) {
-        byte[] b = ByteToArrayOperations.hexStringToByteArray(value);
+    private boolean writeCharacteristic(BluetoothGattCharacteristic characteristic, byte[] b, String value) {
+//        byte[] b = ByteToArrayOperations.hexStringToByteArray(value);
         if (bluetoothGatt == null ) {
             return false;
         }
