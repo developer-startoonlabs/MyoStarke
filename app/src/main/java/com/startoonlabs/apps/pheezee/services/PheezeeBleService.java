@@ -561,7 +561,11 @@ public class PheezeeBleService extends Service {
 
             for (int i=0;i<list.size();i++){
                 int a = list.get(i);
-                mScanResults.remove(a);
+                try {
+                    mScanResults.remove(a);
+                }catch (ArrayIndexOutOfBoundsException e){
+                    Log.i("Exception",e.getMessage());
+                }
             }
             if(toBeUpdated){
                 sendScannedListBroadcast();
