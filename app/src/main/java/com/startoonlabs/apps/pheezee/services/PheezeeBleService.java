@@ -600,14 +600,18 @@ public class PheezeeBleService extends Service {
                 int battery  = b[0];
                 int usb_state = b[1];
                 if(usb_state==1) {
-                    mUsbState = true;
-                    sendUsbStateBroadcast();
-                    showNotification(device_charging);
+                    if(!mUsbState) {
+                        mUsbState = true;
+                        sendUsbStateBroadcast();
+                        showNotification(device_charging);
+                    }
                 }
                 else if(usb_state==0) {
-                    mUsbState = false;
-                    sendUsbStateBroadcast();
-                    showNotification(device_connected_notif);
+                    if(mUsbState) {
+                        mUsbState = false;
+                        sendUsbStateBroadcast();
+                        showNotification(device_connected_notif);
+                    }
                 }
                 Log.i("battery percentN", String.valueOf(battery));
                 mBatteryPercent = battery;
