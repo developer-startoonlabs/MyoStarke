@@ -2,6 +2,15 @@ package com.startoonlabs.apps.pheezee.classes;
 
 public class DeviceListClass {
     String deviceName, deviceMacAddress, deviceBondState, deviceRssi;
+    long timeStampNano;
+
+    public long getTimeStampNano() {
+        return timeStampNano;
+    }
+
+    public void setTimeStampNano(long timeStampNano) {
+        this.timeStampNano = timeStampNano;
+    }
 
     public String getDeviceName() {
         return deviceName;

@@ -48,6 +48,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import static com.startoonlabs.apps.pheezee.App.CHANNEL_ID;
 
@@ -493,6 +494,8 @@ public class PheezeeBleService extends Service {
 
             if(deviceName==null)
                 deviceName = "UNKNOWN DEVICE";
+
+            long timeStamp = TimeUnit.MILLISECONDS.convert(result.getTimestampNanos(),TimeUnit.NANOSECONDS);
             int deviceRssi = result.getRssi();
             int deviceBondState = device.getBondState();
             //Just to update the bondstate if needed to
@@ -503,7 +506,8 @@ public class PheezeeBleService extends Service {
 
             //
 
-            boolean flag = false;
+            boolean flag = false, toBeUpdated = false;
+            ArrayList<Integer> list = new ArrayList();
             for (int i = 0; i < mScanResults.size(); i++) {
                 if (mScanResults.get(i).getDeviceMacAddress().equals(deviceAddress)) {
                     if(!Objects.equals(mScanResults.get(i).getDeviceBondState(), setDeviceBondState)){
@@ -513,7 +517,20 @@ public class PheezeeBleService extends Service {
                     if (Integer.parseInt(mScanResults.get(i).getDeviceRssi())!= deviceRssi){
                         mScanResults.get(i).setDeviceRssi(""+deviceRssi);
                     }
+
+                    long temp = timeStamp - mScanResults.get(i).getTimeStampNano();
+                    mScanResults.get(i).setTimeStampNano(timeStamp);
+                    Log.i("temp", String.valueOf(temp));
                     flag = true;
+                }else {
+                    long currentTimeStamp = TimeUnit.MILLISECONDS.convert(System.nanoTime(), TimeUnit.NANOSECONDS);
+                    long temp = currentTimeStamp - mScanResults.get(i).getTimeStampNano();
+                    Log.i("temp123",String.valueOf(currentTimeStamp)+" "+mScanResults.get(i).getTimeStampNano()+" "+temp);
+                    if(temp>2000){
+                        Log.i("timeStamp", String.valueOf(temp));
+                        list.add(i);
+                        toBeUpdated = true;
+                    }
                 }
             }
 
@@ -529,6 +546,7 @@ public class PheezeeBleService extends Service {
                     deviceListClass.setDeviceName(deviceName);
                     deviceListClass.setDeviceMacAddress(deviceAddress);
                     deviceListClass.setDeviceRssi("" + deviceRssi);
+                    deviceListClass.setTimeStampNano(timeStamp);
                     if (deviceBondState == 0)
                         deviceListClass.setDeviceBondState("BONDED");
                     else
@@ -537,9 +555,17 @@ public class PheezeeBleService extends Service {
                     mScanResults.add(deviceListClass);
 
                     sendScannedListBroadcast();
+                }else if(toBeUpdated){
+                    sendScannedListBroadcast();
                 }
-            }else {
-//                sendScannedListBroadcast();
+            }
+
+            for (int i=0;i<list.size();i++){
+                int a = list.get(i);
+                mScanResults.remove(a);
+            }
+            if(toBeUpdated){
+                sendScannedListBroadcast();
             }
         }
     }
