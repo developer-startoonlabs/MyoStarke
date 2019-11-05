@@ -29,6 +29,7 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
 import android.os.Messenger;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -495,7 +496,9 @@ public class PheezeeBleService extends Service {
             if(deviceName==null)
                 deviceName = "UNKNOWN DEVICE";
 
-            long timeStamp = TimeUnit.MILLISECONDS.convert(result.getTimestampNanos(),TimeUnit.NANOSECONDS);
+            long timeStamp = System.currentTimeMillis() -
+                    SystemClock.elapsedRealtime() +
+                    (result.getTimestampNanos() / 1000000);
             int deviceRssi = result.getRssi();
             int deviceBondState = device.getBondState();
             //Just to update the bondstate if needed to
@@ -523,11 +526,9 @@ public class PheezeeBleService extends Service {
                     Log.i("temp", String.valueOf(temp));
                     flag = true;
                 }else {
-                    long currentTimeStamp = TimeUnit.MILLISECONDS.convert(System.nanoTime(), TimeUnit.NANOSECONDS);
+                    long currentTimeStamp = System.currentTimeMillis();
                     long temp = currentTimeStamp - mScanResults.get(i).getTimeStampNano();
-                    Log.i("temp123",String.valueOf(currentTimeStamp)+" "+mScanResults.get(i).getTimeStampNano()+" "+temp);
                     if(temp>2000){
-                        Log.i("timeStamp", String.valueOf(temp));
                         list.add(i);
                         toBeUpdated = true;
                     }
@@ -554,8 +555,6 @@ public class PheezeeBleService extends Service {
 
                     mScanResults.add(deviceListClass);
 
-                    sendScannedListBroadcast();
-                }else if(toBeUpdated){
                     sendScannedListBroadcast();
                 }
             }

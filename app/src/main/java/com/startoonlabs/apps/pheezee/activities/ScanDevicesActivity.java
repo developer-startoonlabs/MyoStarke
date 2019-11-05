@@ -27,6 +27,8 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -70,7 +72,6 @@ public class ScanDevicesActivity extends AppCompatActivity {
     long first_started = 0;
     int num_of_scan = 0;
     @SuppressLint("ResourceAsColor")
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -227,7 +228,6 @@ public class ScanDevicesActivity extends AppCompatActivity {
         unregisterReceiver(receiver);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     private boolean hasPermissions() {
         if (madapter_scandevices == null || !madapter_scandevices.isEnabled()) {
             requestBluetoothEnable();
@@ -248,14 +248,12 @@ public class ScanDevicesActivity extends AppCompatActivity {
     }
 
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     private boolean hasLocationPermissions() {
-        return checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+        return ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     private void requestLocationPermission() {
-        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_FINE_LOCATION);
+        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_FINE_LOCATION);
     }
 
 
@@ -269,6 +267,10 @@ public class ScanDevicesActivity extends AppCompatActivity {
             mScanResults = listClasses;
             deviceListArrayAdapter.updateList(mScanResults);
         }else {
+            if(listClasses!=null){
+                mScanResults = listClasses;
+                deviceListArrayAdapter.updateList(mScanResults);
+            }
             if(view.getVisibility()==View.GONE) {
                 view.setVisibility(View.VISIBLE);
             }

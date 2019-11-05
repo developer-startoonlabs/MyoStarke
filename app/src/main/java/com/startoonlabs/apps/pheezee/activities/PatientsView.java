@@ -50,6 +50,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -548,22 +549,24 @@ public class PatientsView extends AppCompatActivity
 
     public void addPheezeeDevice(View view){
         if(deviceMacc.equalsIgnoreCase("")) {
-            builder = new AlertDialog.Builder(PatientsView.this);
-            builder.setTitle("Add Pheezee Device!");
-            builder.setItems(peezee_items, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int item) {
-                    if (peezee_items[item].equals("Scan Nearby Devices")) {
-                        to_scan_devices_activity = new Intent(PatientsView.this, ScanDevicesActivity.class);
-                        startActivityForResult(to_scan_devices_activity, 12);
-                    } else if (peezee_items[item].equals("Qrcode Scan")) {
-                        startActivityForResult(new Intent(PatientsView.this, Scanner.class), 12);
-                    } else {
-                        dialog.dismiss();
+            if(hasPermissions()) {
+                builder = new AlertDialog.Builder(PatientsView.this);
+                builder.setTitle("Add Pheezee Device!");
+                builder.setItems(peezee_items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int item) {
+                        if (peezee_items[item].equals("Scan Nearby Devices")) {
+                            to_scan_devices_activity = new Intent(PatientsView.this, ScanDevicesActivity.class);
+                            startActivityForResult(to_scan_devices_activity, 12);
+                        } else if (peezee_items[item].equals("Qrcode Scan")) {
+                            startActivityForResult(new Intent(PatientsView.this, Scanner.class), 12);
+                        } else {
+                            dialog.dismiss();
+                        }
                     }
-                }
-            });
-            builder.show();
+                });
+                builder.show();
+            }
         }else {
             showToast("Please forget the current device to scan for new");
         }
@@ -1103,7 +1106,7 @@ public class PatientsView extends AppCompatActivity
     };
 
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
+
     private boolean hasPermissions() {
         if (!hasLocationPermissions()) {
             requestLocationPermission();
@@ -1112,14 +1115,12 @@ public class PatientsView extends AppCompatActivity
         return true;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     private boolean hasLocationPermissions() {
-        return checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+        return ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     private void requestLocationPermission() {
-        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_FINE_LOCATION);
+        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_FINE_LOCATION);
     }
 
 
