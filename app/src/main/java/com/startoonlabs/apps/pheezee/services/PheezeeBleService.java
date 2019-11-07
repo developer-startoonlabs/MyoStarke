@@ -39,7 +39,9 @@ import androidx.core.app.NotificationCompat;
 import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.activities.PatientsView;
 import com.startoonlabs.apps.pheezee.classes.DeviceListClass;
+import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
 import com.startoonlabs.apps.pheezee.utils.ByteToArrayOperations;
+import com.startoonlabs.apps.pheezee.utils.NetworkOperations;
 import com.startoonlabs.apps.pheezee.utils.ValueBasedColorOperations;
 
 import java.lang.reflect.Method;
@@ -77,6 +79,7 @@ public class PheezeeBleService extends Service {
     public static String session_data = "session.data";
     public static String scan_state = "scan.state";
     public static String scan_too_frequent = "scan.too.frequent";
+    public static String firmware_log = "firmware.log";
 
 
 
@@ -132,7 +135,7 @@ public class PheezeeBleService extends Service {
 
     private String mCharacteristicWrittenValue = "";
 
-
+    private MqttSyncRepository repository;
 
 
     public PheezeeBleService() {
@@ -151,6 +154,7 @@ public class PheezeeBleService extends Service {
         if(!Objects.requireNonNull(preferences.getString("deviceMacaddress", "")).equalsIgnoreCase(""))
             deviceMacc = preferences.getString("deviceMacaddress","");
         Log.i("deviceMacc",deviceMacc+" updated");
+        repository = new MqttSyncRepository(this.getApplication());
     }
 
 
@@ -561,7 +565,11 @@ public class PheezeeBleService extends Service {
 
             for (int i=0;i<list.size();i++){
                 int a = list.get(i);
-                mScanResults.remove(a);
+                try {
+                    mScanResults.remove(a);
+                }catch (ArrayIndexOutOfBoundsException e){
+                    Log.i("Message",e.getMessage());
+                }
             }
             if(toBeUpdated){
                 sendScannedListBroadcast();
@@ -687,9 +695,9 @@ public class PheezeeBleService extends Service {
                         int device_status = info_packet[12] & 0xFF;
                         int device_usb_state = info_packet[13] & 0xFF;
                         int error = info_packet[9] & 0xFF;
-
                         if (error == 1) firmware_error = true;
                         else firmware_error = false;
+                        Log.i("FIRMWAREERROR", String.valueOf(firmware_error));
                         //Remove later
                         Log.i("Battery,status,usb", battery + " " + device_status + " " + device_usb_state);
                         if (device_usb_state == 1) {
@@ -709,21 +717,12 @@ public class PheezeeBleService extends Service {
                         bluetoothGatt.writeDescriptor(mBatteryDescriptor);
                     }
                 }else if(ByteToArrayOperations.byteToStringHexadecimal(header_main).equals("EE")){
-                    Byte b = new Byte(header_sub);
-                    int error_code = b.intValue();
-                    byte b2 = info_packet[2];
-                    String file_name = "";
-                    if(ByteToArrayOperations.byteToStringHexadecimal(b2).equals("E1")){
-                        for (int i=3;i<32;i++){
-                            if(ByteToArrayOperations.byteToStringHexadecimal(info_packet[i]).equals("E1")){
-
-                            }else {
-                                file_name.concat(String.valueOf(info_packet[i]));
-                            }
-                        }
-                    }
-                    Log.i("error code", String.valueOf(error_code));
-                    Log.i("file name", file_name);
+                   if(repository!=null){
+                       if(NetworkOperations.isNetworkAvailable(getApplicationContext()))
+                            repository.sendFirmwareLogToTheServer(info_packet, deviceMacc, mFirmwareVersion, mSerialId,true,getApplicationContext());
+                       else
+                           repository.sendFirmwareLogToTheServer(info_packet, deviceMacc, mFirmwareVersion, mSerialId,false,getApplicationContext());
+                   }
                 }
 
             } else if(characteristic.getUuid().equals(firmware_version_characteristic_uuid)){
@@ -744,7 +743,8 @@ public class PheezeeBleService extends Service {
                 mCharacteristicReadList.remove(0);
                 if(firmware_error){
                     byte[] error_code = ByteToArrayOperations.hexStringToByteArray("EE");
-                    writeCharacteristic(mBatteryCharacteristic,error_code,"EE");
+                    writeCharacteristic(mCustomCharacteristic,error_code,"EE");
+                    Log.i("EE","EE");
                 }
             }
 
