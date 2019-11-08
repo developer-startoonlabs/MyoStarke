@@ -152,6 +152,7 @@
     <string name="device_battery">Battery:</string>
     <string name="device_connection_state">Connection Status:</string>
     <string name="device_null">Null</string>
+    <string name="update_firmware">Update</string>
     <string name="device_not_connected">N/C</string>
 
 
