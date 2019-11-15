@@ -1,8 +1,12 @@
 package com.startoonlabs.apps.pheezee.services;
 
+import android.app.ActivityManager;
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
@@ -17,13 +21,16 @@ import android.bluetooth.le.ScanFilter;
 import android.bluetooth.le.ScanResult;
 import android.bluetooth.le.ScanSettings;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.Build;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
@@ -39,10 +46,22 @@ import androidx.core.app.NotificationCompat;
 import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.activities.PatientsView;
 import com.startoonlabs.apps.pheezee.classes.DeviceListClass;
+import com.startoonlabs.apps.pheezee.dfu.DfuActivity;
+import com.startoonlabs.apps.pheezee.dfu.DfuService;
+import com.startoonlabs.apps.pheezee.pojos.FirmwareUpdateCheckResponse;
+import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
 import com.startoonlabs.apps.pheezee.utils.ByteToArrayOperations;
+import com.startoonlabs.apps.pheezee.utils.NetworkOperations;
 import com.startoonlabs.apps.pheezee.utils.ValueBasedColorOperations;
+import com.startoonlabs.apps.pheezee.utils.ZipOperations;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.reflect.Method;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -50,13 +69,21 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+
+
+import no.nordicsemi.android.dfu.DfuProgressListener;
+import no.nordicsemi.android.dfu.DfuProgressListenerAdapter;
+import no.nordicsemi.android.dfu.DfuServiceInitiator;
+import no.nordicsemi.android.dfu.DfuServiceListenerHelper;
 
 import static com.startoonlabs.apps.pheezee.App.CHANNEL_ID;
 
 public class PheezeeBleService extends Service {
     private long first_scan = 0;
     private int num_of_scan = 0;
-    private boolean tooFrequentScan  =false;
+    private boolean tooFrequentScan  =false, firmware_error = false;
     SharedPreferences preferences;
     private final String device_connected_notif = "Device Connected";
     private final String device_disconnected_notif = "Device not connected";
@@ -77,6 +104,14 @@ public class PheezeeBleService extends Service {
     public static String session_data = "session.data";
     public static String scan_state = "scan.state";
     public static String scan_too_frequent = "scan.too.frequent";
+    public static String firmware_log = "firmware.log";
+    public static String dfu_start_initiated = "dfu.start.initiated";
+    public static String df_characteristic_written = "dfu.characteristic.written";
+    public static String firmware_update_available = "firmware.update.available";
+
+
+    public static int jobid_firmware_log = 0;
+    public static  int jobid_fimware_update = 1;
 
 
 
@@ -90,6 +125,8 @@ public class PheezeeBleService extends Service {
     public static final UUID custom_service_uuid = UUID.fromString("909a1400-9693-4920-96e6-893c0157fedd");
     public static final UUID battery_service_uuid = UUID.fromString("0000180f-0000-1000-8000-00805f9b34fb");
     public static final UUID device_info_service_uuid = UUID.fromString("0000180a-0000-1000-8000-00805f9b34fb");
+    public static final UUID dfu_service_uuid = UUID.fromString("0000fe59-0000-1000-8000-00805f9b34fb");
+
 
 
 
@@ -102,6 +139,7 @@ public class PheezeeBleService extends Service {
     public static final UUID serial_number_characteristic_uuid = UUID.fromString("00002a25-0000-1000-8000-00805f9b34fb");
     public static final UUID manufacturer_name_characteristic_uuid = UUID.fromString("00002a29-0000-1000-8000-00805f9b34fb");
     public static final UUID hardware_version_characteristic_uuid = UUID.fromString("00002a26-0000-1000-8000-00805f9b34fb");
+    public static final UUID dfu_characteristic_uuid = UUID.fromString("8ec90003-f315-4f60-9fb8-838830daea50");
 
     //descriptor
     public static final UUID universal_descriptor = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
@@ -125,14 +163,14 @@ public class PheezeeBleService extends Service {
     BluetoothDevice remoteDevice;
     BluetoothGatt bluetoothGatt;
     BluetoothGattCharacteristic mCustomCharacteristic, mBatteryCharacteristic, mFirmwareVersionCharacteristic,
-            mSerialIdCharacteristic, mManufacturerNameCharacteristic, mHardwareVersionCharacteristic, mDeviceNameCharacteristic;
+            mSerialIdCharacteristic, mManufacturerNameCharacteristic, mHardwareVersionCharacteristic, mDeviceNameCharacteristic, mDfuCharacteristic;
 
     BluetoothGattDescriptor mBatteryDescriptor, mDfuDescriptor, mCustomCharacteristicDescriptor;
 
 
     private String mCharacteristicWrittenValue = "";
 
-
+    private MqttSyncRepository repository;
 
 
     public PheezeeBleService() {
@@ -151,6 +189,7 @@ public class PheezeeBleService extends Service {
         if(!Objects.requireNonNull(preferences.getString("deviceMacaddress", "")).equalsIgnoreCase(""))
             deviceMacc = preferences.getString("deviceMacaddress","");
         Log.i("deviceMacc",deviceMacc+" updated");
+        repository = new MqttSyncRepository(this.getApplication());
     }
 
 
@@ -294,6 +333,12 @@ public class PheezeeBleService extends Service {
     public void sendTooFrequentScanBroadCast(){
         Intent i = new Intent(scan_too_frequent);
         i.putExtra(scan_too_frequent,tooFrequentScan);
+        sendBroadcast(i);
+    }
+
+    public void sendDfuStartInitiated(boolean flag){
+        Intent i = new Intent(dfu_start_initiated);
+        i.putExtra(dfu_start_initiated,flag);
         sendBroadcast(i);
     }
 
@@ -564,7 +609,9 @@ public class PheezeeBleService extends Service {
                 try {
                     mScanResults.remove(a);
                 }catch (ArrayIndexOutOfBoundsException e){
-                    Log.i("Exception",e.getMessage());
+                    Log.i("Message",e.getMessage());
+                }catch (IndexOutOfBoundsException e){
+                    e.printStackTrace();
                 }
             }
             if(toBeUpdated){
@@ -609,10 +656,12 @@ public class PheezeeBleService extends Service {
             mManufacturerNameCharacteristic = gatt.getService(device_info_service_uuid).getCharacteristic(manufacturer_name_characteristic_uuid);
             mHardwareVersionCharacteristic = gatt.getService(device_info_service_uuid).getCharacteristic(hardware_version_characteristic_uuid);
             mSerialIdCharacteristic = gatt.getService(device_info_service_uuid).getCharacteristic(serial_number_characteristic_uuid);
+            mDfuCharacteristic = gatt.getService(dfu_service_uuid).getCharacteristic(dfu_characteristic_uuid);
 
             //Descriptors
             mCustomCharacteristicDescriptor = mCustomCharacteristic.getDescriptor(universal_descriptor);
             mBatteryDescriptor = mBatteryCharacteristic.getDescriptor(universal_descriptor);
+            mDfuDescriptor = mDfuCharacteristic.getDescriptor(universal_descriptor);
             byte[] b = ByteToArrayOperations.hexStringToByteArray("AA02");
             writeCharacteristic(mCustomCharacteristic,b,"AA02");
         }
@@ -682,32 +731,54 @@ public class PheezeeBleService extends Service {
             super.onCharacteristicRead(gatt, characteristic, status);
             if(characteristic.getUuid().equals(custom_characteristic_uuid)){
                 byte[] info_packet = characteristic.getValue();
-                int battery = info_packet[11] & 0xFF;
-                int device_status = info_packet[12] & 0xFF;
-                int device_usb_state = info_packet[13] & 0xFF;
-                //Remove later
-                Log.i("Battery,status,usb",battery+" "+device_status+" "+device_usb_state);
-                if(device_usb_state==1) {
-                    mUsbState = true;
-                    sendUsbStateBroadcast();
-                    showNotification(device_charging);
+                byte header_main = info_packet[0];
+                byte header_sub = info_packet[1];
+
+                if(ByteToArrayOperations.byteToStringHexadecimal(header_main).equals("AA")) {
+                    if (ByteToArrayOperations.byteToStringHexadecimal(header_sub).equals("02")) {
+                        int battery = info_packet[11] & 0xFF;
+                        int device_status = info_packet[12] & 0xFF;
+                        int device_usb_state = info_packet[13] & 0xFF;
+                        int error = info_packet[9] & 0xFF;
+                        if (error == 1) firmware_error = true;
+                        else firmware_error = false;
+                        Log.i("FIRMWAREERROR", String.valueOf(firmware_error));
+                        //Remove later
+                        Log.i("Battery,status,usb", battery + " " + device_status + " " + device_usb_state);
+                        if (device_usb_state == 1) {
+                            mUsbState = true;
+                            sendUsbStateBroadcast();
+                            showNotification(device_charging);
+                        } else if (device_status == 0) {
+                            mUsbState = false;
+                            sendUsbStateBroadcast();
+                            showNotification(device_connected_notif);
+                        }
+                        Log.i("battery percent2", String.valueOf(battery));
+                        mBatteryPercent = battery;
+                        sendBatteryLevelBroadCast();
+                        gatt.setCharacteristicNotification(mBatteryCharacteristic, true);
+                        mBatteryDescriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+                        bluetoothGatt.writeDescriptor(mBatteryDescriptor);
+                    }
+                }else if(ByteToArrayOperations.byteToStringHexadecimal(header_main).equals("EE")){
+                   if(repository!=null){
+                       if(NetworkOperations.isNetworkAvailable(getApplicationContext()))
+                            repository.sendFirmwareLogToTheServer(info_packet, deviceMacc, mFirmwareVersion, mSerialId,true,getApplicationContext());
+                       else
+                           repository.sendFirmwareLogToTheServer(info_packet, deviceMacc, mFirmwareVersion, mSerialId,false,getApplicationContext());
+                   }
                 }
-                else if(device_status==0) {
-                    mUsbState = false;
-                    sendUsbStateBroadcast();
-                    showNotification(device_connected_notif);
-                }
-                Log.i("battery percent2", String.valueOf(battery));
-                mBatteryPercent = battery;
-                sendBatteryLevelBroadCast();
-                gatt.setCharacteristicNotification(mBatteryCharacteristic, true);
-                mBatteryDescriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
-                bluetoothGatt.writeDescriptor(mBatteryDescriptor);
 
             } else if(characteristic.getUuid().equals(firmware_version_characteristic_uuid)){
                 byte[] b = characteristic.getValue();
                 mFirmwareVersion = new String(b, StandardCharsets.UTF_8);
                 sendFirmwareVersion();
+                if(repository!=null){
+                    if(NetworkOperations.isNetworkAvailable(getApplicationContext()))
+                        repository.firmwareUpdateCheckAndGetLink(mFirmwareVersion,getApplicationContext());
+                    else scheduleFirmwareUpdateCheckJob();
+                }
                 mCharacteristicReadList.add(mSerialIdCharacteristic);
                 mCharacteristicReadList.add(mManufacturerNameCharacteristic);
             }else if(characteristic.getUuid().equals(serial_number_characteristic_uuid)){
@@ -720,6 +791,11 @@ public class PheezeeBleService extends Service {
                 mManufacturerName = new String(b, StandardCharsets.UTF_8);
                 sendManufacturerName();
                 mCharacteristicReadList.remove(0);
+                if(firmware_error){
+                    byte[] error_code = ByteToArrayOperations.hexStringToByteArray("EE");
+                    writeCharacteristic(mCustomCharacteristic,error_code,"EE");
+                    Log.i("EE","EE");
+                }
             }
 
             if(mCharacteristicReadList.size()>0){
@@ -740,10 +816,33 @@ public class PheezeeBleService extends Service {
                     bluetoothGatt.setCharacteristicNotification(mCustomCharacteristic, true);
                     mCustomCharacteristicDescriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
                     bluetoothGatt.writeDescriptor(mCustomCharacteristicDescriptor);
+                }else if(mCharacteristicWrittenValue.contains("EE")){
+                    bluetoothGatt.readCharacteristic(mCustomCharacteristic);
+                }else if(mCharacteristicWrittenValue.equalsIgnoreCase("1")){
+                    Log.i("characteristic","written");
+                    sendDfuCharacteristicWritten();
                 }
             }
         }
     };
+
+    private void scheduleFirmwareUpdateCheckJob() {
+        ComponentName componentName = new ComponentName(this, FirmwareUpdatePresentService.class);
+        JobInfo.Builder info = new JobInfo.Builder(jobid_fimware_update,componentName);
+        info.setMinimumLatency(1000);
+        info.setOverrideDeadline(3000);
+        info.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY);
+        info.setRequiresCharging(false);
+        JobScheduler jobScheduler = (JobScheduler)getSystemService(JOB_SCHEDULER_SERVICE);
+        jobScheduler.schedule(info.build());
+    }
+
+
+    public void writeToDfuCharacteristic(){
+        Log.i("here","here");
+        byte[] b = "1".getBytes();
+        writeCharacteristic(mDfuCharacteristic,b,"1");
+    }
 
     private boolean writeCharacteristic(BluetoothGattCharacteristic characteristic, byte[] b, String value) {
 //        byte[] b = ByteToArrayOperations.hexStringToByteArray(value);
@@ -818,4 +917,19 @@ public class PheezeeBleService extends Service {
             return PheezeeBleService.this;
         }
     }
+
+    private void sendDfuCharacteristicWritten(){
+        Intent i = new Intent(df_characteristic_written);
+        i.putExtra(df_characteristic_written,"");
+        sendBroadcast(i);
+    }
+
+    public String getMacAddress(){
+        return remoteDevice.getAddress();
+    }
+
+    public String getDeviceName(){
+        return remoteDevice.getName();
+    }
+
 }

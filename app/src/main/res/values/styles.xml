@@ -18,6 +18,14 @@
         <item name="colorAccent">@color/good_green</item>
     </style>
 
+    <style name="AppTheme.NoActionBar.home" parent="Theme.MaterialComponents.Light">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/good_green</item>
+        <item name="colorPrimaryDark">@color/good_green</item>
+        <item name="colorAccent">@color/good_green</item>
+    </style>
+
     <style name="PrimaryColoredButton" parent="Base.Widget.AppCompat.Button.Colored">
         <item name="colorButtonNormal">@color/light_blue_theme</item>
         <item name="colorControlHighlight">@color/white</item>
@@ -87,6 +95,11 @@
     <style name="Animation">
         <item name="android:windowEnterAnimation">@anim/left_to_right</item>
         <item name="android:windowExitAnimation">@anim/right_to_left</item>
+    </style>
+
+    <style name="Material_dialog" parent="Theme.MaterialComponents.Light">
+        <item name="alertDialogTheme">@color/good_green</item>
+        <item name="alertDialogStyle">@color/light_blue_theme</item>
     </style>
 
 </resources>

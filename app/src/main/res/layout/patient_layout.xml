@@ -94,7 +94,6 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.35"
-
                 android:background="@drawable/patient_item_layout"
                 android:gravity="center_vertical">
 
@@ -106,6 +105,7 @@
                     android:fontFamily="@font/ebrima"
                     android:text="Start Session"
                     android:textAllCaps="false"
+                    style="@style/AppTheme.NoActionBar"
                     android:textColor="@color/good_green"
                     android:textSize="12sp" />
 

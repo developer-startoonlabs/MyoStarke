@@ -2,6 +2,8 @@ package com.startoonlabs.apps.pheezee.repository;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
@@ -17,6 +19,9 @@ import com.startoonlabs.apps.pheezee.pojos.AddPatientData;
 import com.startoonlabs.apps.pheezee.pojos.CommentSessionUpdateData;
 import com.startoonlabs.apps.pheezee.pojos.DeletePatientData;
 import com.startoonlabs.apps.pheezee.pojos.DeleteSessionData;
+import com.startoonlabs.apps.pheezee.pojos.FirmwareData;
+import com.startoonlabs.apps.pheezee.pojos.FirmwareUpdateCheck;
+import com.startoonlabs.apps.pheezee.pojos.FirmwareUpdateCheckResponse;
 import com.startoonlabs.apps.pheezee.pojos.ForgotPassword;
 import com.startoonlabs.apps.pheezee.pojos.GetReportData;
 import com.startoonlabs.apps.pheezee.pojos.GetReportDataResponse;
@@ -39,6 +44,7 @@ import com.startoonlabs.apps.pheezee.room.Entity.MqttSync;
 import com.startoonlabs.apps.pheezee.room.Entity.PhizioPatients;
 import com.startoonlabs.apps.pheezee.room.PheezeeDatabase;
 import com.startoonlabs.apps.pheezee.utils.BitmapOperations;
+import com.startoonlabs.apps.pheezee.utils.ByteToArrayOperations;
 import com.startoonlabs.apps.pheezee.utils.OtpGeneration;
 import com.startoonlabs.apps.pheezee.utils.WriteResponseBodyToDisk;
 
@@ -53,6 +59,10 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.startoonlabs.apps.pheezee.activities.PatientsView.json_phizioemail;
+import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.firmware_log;
+import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.firmware_update_available;
 
 /**
  * That interacts with database
@@ -1085,6 +1095,121 @@ public class MqttSyncRepository {
         });
     }
 
+    public void sendFirmwareLogToTheServer(byte[] packet, String deviceMacc, String firmwareVersion
+            , String serialId, boolean isNetworkAvailable, Context context){
+        AsyncTask.execute(() -> {
+            Byte b = packet[1];
+            int error_code = b.intValue();
+            byte b2 = packet[2];
+            String file_name = "";
+            int line_number = 0;
+            if(ByteToArrayOperations.byteToStringHexadecimal(b2).equals("E1")){
+                for (int i=3;i<32;i++){
+                    if(ByteToArrayOperations.byteToStringHexadecimal(packet[i]).equals("E2")){
+                        Log.i("Value", "here"+i);
+                        line_number = ByteToArrayOperations.getAngleFromData(packet[i+1], packet[i+2]);
+                        break;
+                    }else {
+                        Byte temp_byte = new Byte(packet[i]);
+                        Log.i("Value", String.valueOf((char)Integer.parseInt(temp_byte.toString())));
+                        file_name = file_name.concat(String.valueOf((char)Integer.parseInt(temp_byte.toString())));
+                    }
+                }
+            }
+            String final_string = sharedPref.getString("firmware_log","")+"\n\n\n\n"+
+                    "Phizio Email: "+json_phizioemail+"\n"+ "Device Macc: "+deviceMacc+"\n"+ "Firmware Version: "+firmwareVersion+"\n"+
+                            "Serial Id: "+serialId+"\n"+
+                            "Firmware Log: "+"\n"+
+                            "\tError Code: "+error_code+"\n"+
+                            "\tFile Name: "+file_name+"\n"+
+                            "\tLine Number: "+line_number;
+            Log.i("final",final_string);
+
+            editor = sharedPref.edit();
+            editor.putString("firmware_log",final_string);
+            editor.apply();
+            if(isNetworkAvailable) {
+                FirmwareData data = new FirmwareData(sharedPref.getString("firmware_log", ""));
+                Log.i("LOG", data.getLog());
+                Call<Boolean> comment_data = getDataService.sendFirmwareLog(data);
+                comment_data.enqueue(new Callback<Boolean>() {
+                    @Override
+                    public void onResponse(@NonNull Call<Boolean> call, @NonNull Response<Boolean> response) {
+                        if (response.code() == 200) {
+                            Boolean res = response.body();
+                            if (res != null && res) {
+                                editor = sharedPref.edit();
+                                editor.putString("firmware_log", "");
+                                editor.apply();
+                                sendFirmwareLogBroadcast(true,context);
+                            } else {
+                                sendFirmwareLogBroadcast(false,context);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<Boolean> call, @NonNull Throwable t) {
+                        sendFirmwareLogBroadcast(false,context);
+                    }
+                });
+            }else {
+                sendFirmwareLogBroadcast(false,context);
+            }
+        });
+    }
+
+    public void firmwareUpdateCheckAndGetLink(String firmware_version, Context context){
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                FirmwareUpdateCheck check = new FirmwareUpdateCheck(firmware_version);
+                Call<FirmwareUpdateCheckResponse> data = getDataService.checkFirmwareUpdateAndGetLink(check);
+                data.enqueue(new Callback<FirmwareUpdateCheckResponse>() {
+                    @Override
+                    public void onResponse(@NonNull Call<FirmwareUpdateCheckResponse> call, @NonNull Response<FirmwareUpdateCheckResponse> response) {
+                        if(response.code()==200){
+                            FirmwareUpdateCheckResponse check1 = response.body();
+                            if(check1!=null) {
+                                if (check1.isFirmware_available()) {
+                                    editor = sharedPref.edit();
+                                    editor.putString("firmware_update", check1.getLatest_firmware_link());
+                                    editor.putString("firmware_version", check1.getFirmware_version());
+                                    editor.apply();
+                                    sendFirmwareUpdateAvailable(true,context);
+                                }else {
+                                    Log.i("Firmware Available", String.valueOf(check1.isFirmware_available()));
+                                    editor = sharedPref.edit();
+                                    editor.putString("firmware_update", "");
+                                    editor.putString("firmware_version", "");
+                                    editor.apply();
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<FirmwareUpdateCheckResponse> call, @NonNull Throwable t) {
+
+                    }
+                });
+            }
+        });
+    }
+
+
+    private void sendFirmwareLogBroadcast(boolean response, Context context){
+        Intent i = new Intent(firmware_log);
+        i.putExtra(firmware_log,response);
+        context.sendBroadcast(i);
+    }
+
+    private void sendFirmwareUpdateAvailable(boolean response, Context context){
+        Intent i = new Intent(firmware_update_available);
+        i.putExtra(firmware_update_available,response);
+        context.sendBroadcast(i);
+    }
+
     public void updateCommentData(CommentSessionUpdateData data){
         Call<String> comment_data = getDataService.updateCommentData(data);
         comment_data.enqueue(new Callback<String>() {
@@ -1201,6 +1326,10 @@ public class MqttSyncRepository {
         void onSyncComplete(boolean response, String message);
     }
 
+//    public interface FirmwareUpdatedListner{
+//        void firmwareUpdated(boolean flag);
+//    }
+
     public void setOnPhizioDetailsResponseListner(OnPhizioDetailsResponseListner phizioDetailsResponseListner){
         this.phizioDetailsResponseListner = phizioDetailsResponseListner;
     }
@@ -1233,4 +1362,5 @@ public class MqttSyncRepository {
     public void disableReportDataListner(){
         this.reportDataResponseListner = null;
     }
+
 }

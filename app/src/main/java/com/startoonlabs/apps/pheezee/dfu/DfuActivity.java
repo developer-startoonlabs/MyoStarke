@@ -465,7 +465,6 @@ public class DfuActivity extends AppCompatActivity implements LoaderManager.Load
 
     protected void onResume() {
         super.onResume();
-
         DfuServiceListenerHelper.registerProgressListener(this, mDfuProgressListener);
     }
 

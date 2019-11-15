@@ -4,6 +4,9 @@ import com.startoonlabs.apps.pheezee.pojos.AddPatientData;
 import com.startoonlabs.apps.pheezee.pojos.CommentSessionUpdateData;
 import com.startoonlabs.apps.pheezee.pojos.DeletePatientData;
 import com.startoonlabs.apps.pheezee.pojos.DeleteSessionData;
+import com.startoonlabs.apps.pheezee.pojos.FirmwareData;
+import com.startoonlabs.apps.pheezee.pojos.FirmwareUpdateCheck;
+import com.startoonlabs.apps.pheezee.pojos.FirmwareUpdateCheckResponse;
 import com.startoonlabs.apps.pheezee.pojos.ForgotPassword;
 import com.startoonlabs.apps.pheezee.pojos.GetReportData;
 import com.startoonlabs.apps.pheezee.pojos.GetReportDataResponse;
@@ -19,9 +22,6 @@ import com.startoonlabs.apps.pheezee.pojos.ResponseData;
 import com.startoonlabs.apps.pheezee.pojos.SessionData;
 import com.startoonlabs.apps.pheezee.pojos.SignUpData;
 import com.startoonlabs.apps.pheezee.room.Entity.MqttSync;
-import com.startoonlabs.apps.pheezee.room.Entity.PhizioPatients;
-
-import org.json.JSONArray;
 
 import java.util.List;
 
@@ -97,5 +97,11 @@ public interface GetDataService {
 
     @POST("/api/sync/data")
     Call<List<Integer>> syncDataToServer(@Body List<MqttSync> sync);
+
+    @POST("/api/firmware/log")
+    Call<Boolean> sendFirmwareLog(@Body FirmwareData log);
+
+    @POST("/api/firmware/update/check")
+    Call<FirmwareUpdateCheckResponse> checkFirmwareUpdateAndGetLink(@Body FirmwareUpdateCheck check);
 
 }

@@ -3,6 +3,8 @@ package com.startoonlabs.apps.pheezee.activities;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
 import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -17,9 +19,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.net.Network;
-import android.net.NetworkInfo;
-import android.net.NetworkRequest;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -60,7 +59,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.shreyaspatil.MaterialDialog.MaterialDialog;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -75,6 +79,7 @@ import com.startoonlabs.apps.pheezee.popup.EditPopUpWindow;
 import com.startoonlabs.apps.pheezee.popup.UploadImageDialog;
 import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
 import com.startoonlabs.apps.pheezee.room.Entity.PhizioPatients;
+import com.startoonlabs.apps.pheezee.services.FirmwareLogService;
 import com.startoonlabs.apps.pheezee.services.PheezeeBleService;
 import com.startoonlabs.apps.pheezee.services.PicassoCircleTransformation;
 import com.startoonlabs.apps.pheezee.services.Scanner;
@@ -95,6 +100,9 @@ import java.util.Objects;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.battery_percent;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.bluetooth_state;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.device_state;
+import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.firmware_log;
+import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.firmware_update_available;
+import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.jobid_firmware_log;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.usb_state;
 
 public class PatientsView extends AppCompatActivity
@@ -136,67 +144,97 @@ public class PatientsView extends AppCompatActivity
     ProgressDialog progress, deletepatient_progress;
     SearchView searchView;
     MqttSyncRepository repository ;
-    String json_phizioemail = "";
+    public static String json_phizioemail = "";
     ConstraintLayout cl_phizioProfileNavigation;
     TextView tv_connect_to_pheezee;
 
     //bluetooth and device connection state
     ImageView iv_bluetooth_connected, iv_bluetooth_disconnected, iv_device_connected, iv_device_disconnected, iv_sync_data,  iv_sync_not_available;
     LinearLayout ll_device_and_bluetooth;
+    MaterialDialog mDialog;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patients_view);
-        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        repository = new MqttSyncRepository(getApplication());
-        repository.setOnServerResponseListner(this);
+        initializeView();
+        getFirmwareIntentIfPresent();
+        getPhizioDetails();
+        setNavigation();
+        setInitialMaccIfPresent();
+        checkPermissionsRequired();
+        setAllListners();
+        setBluetoothInfoBroadcastReceiver();
+        startBluetoothService();
+        boundToBluetoothService();
+        chekFirmwareLogPresentAndSrartService();
+        registerFirmwareUpdateReceiver();
+        subscribeFirebaseFirmwareUpdateTopic();
+    }
 
-        editor = sharedPref.edit();
-        iv_addPatient = findViewById(R.id.home_iv_addPatients);
-        rl_cap_view = findViewById(R.id.rl_cap_view);
-        mRecyclerView = findViewById(R.id.patients_recycler_view);
-        mRecyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-
-        mAdapter = new PatientsRecyclerViewAdapter(this);
-        mRecyclerView.setAdapter(mAdapter);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
-        drawer = findViewById(R.id.drawer_layout);
-        final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.setDrawerIndicatorEnabled(false);
-        toggle.syncState();
-
-
-        //bluetooth and device status related
-        iv_bluetooth_connected = findViewById(R.id.iv_bluetooth_connected);
-        iv_bluetooth_disconnected = findViewById(R.id.iv_bluetooth_disconnected);
-        iv_device_connected = findViewById(R.id.iv_device_connected);
-        iv_device_disconnected = findViewById(R.id.iv_device_disconnected);
-        ll_add_bluetooth = findViewById(R.id.ll_add_bluetooth);
-        ll_add_device = findViewById(R.id.ll_add_device);
-        tv_battery_percentage = findViewById(R.id.tv_battery_percent);
-        battery_bar = findViewById(R.id.progress_battery_bar);
-        tv_patient_view_add_patient = findViewById(R.id.tv_patient_view_add_patient);
-        ll_device_and_bluetooth = findViewById(R.id.ll_device_and_bluetooth);
-        rl_battery_usb_state = findViewById(R.id.rl_battery_usb_state);
-        iv_sync_data = findViewById(R.id.iv_sync_data);
-        iv_sync_not_available = findViewById(R.id.iv_sync_data_disabled);
-        tv_connect_to_pheezee = findViewById(R.id.tv_connect_to_pheezee);
-
-        //connecting dialog
-        connecting_device_dialog = new ProgressDialog(this);
-
-        //device mac
-        if(!sharedPref.getString("deviceMacaddress", "").equalsIgnoreCase("")){
-            deviceMacc = sharedPref.getString("deviceMacaddress", "");
-            tv_connect_to_pheezee.setText(R.string.turn_on_device);
+    private void getFirmwareIntentIfPresent() {
+        if(getIntent().getExtras()!=null){
+            if(getIntent().getStringExtra("downloadlink")!=null
+                    && !getIntent().getStringExtra("downloadlink").equalsIgnoreCase("")){
+                editor = sharedPref.edit();
+                editor.putString("firmware_update",getIntent().getStringExtra("downloadlink"));
+                editor.apply();
+            }
         }
+    }
 
+    private void subscribeFirebaseFirmwareUpdateTopic() {
+        FirebaseMessaging.getInstance().subscribeToTopic("ota")
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        String msg = "subscribed";
+                        if (!task.isSuccessful()) {
+                            msg = "subscription failed";
+                        }
+                    }
+                });
+    }
+
+    private void chekFirmwareLogPresentAndSrartService() {
+        if(!Objects.requireNonNull(sharedPref.getString("firmware_log", "")).equalsIgnoreCase("")){
+            ComponentName componentName = new ComponentName(this, FirmwareLogService.class);
+            JobInfo.Builder info = new JobInfo.Builder(jobid_firmware_log,componentName);
+            info.setMinimumLatency(1000);
+            info.setOverrideDeadline(3000);
+            info.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY);
+            info.setRequiresCharging(false);
+            JobScheduler jobScheduler = (JobScheduler)getSystemService(JOB_SCHEDULER_SERVICE);
+            jobScheduler.schedule(info.build());
+        }
+    }
+
+    private void boundToBluetoothService() {
+        Intent mIntent = new Intent(this,PheezeeBleService.class);
+        bindService(mIntent, mConnection, BIND_AUTO_CREATE);
+    }
+
+    private void startBluetoothService() {
+        ContextCompat.startForegroundService(this,new Intent(this,PheezeeBleService.class));
+    }
+
+    private void setBluetoothInfoBroadcastReceiver() {
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(device_state);
+        intentFilter.addAction(bluetooth_state);
+        intentFilter.addAction(usb_state);
+        intentFilter.addAction(battery_percent);
+        intentFilter.addAction(PheezeeBleService.firmware_version);
+        intentFilter.addAction(PheezeeBleService.firmware_log);
+        registerReceiver(patient_view_broadcast_receiver,intentFilter);
+    }
+
+    private void registerFirmwareUpdateReceiver(){
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(firmware_update_available);
+        registerReceiver(firmware_update_receiver,intentFilter);
+    }
+
+    private void setAllListners() {
         iv_sync_data.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -215,61 +253,6 @@ public class PatientsView extends AppCompatActivity
                     NetworkOperations.networkError(PatientsView.this);
             }
         });
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.nav_header_patients_view, navigationView);
-
-
-        //external storage permission
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-            }
-            hasPermissions();
-        }
-
-
-
-        //Getting previous patient data
-        try {
-            json_phizio = new JSONObject(sharedPref.getString("phiziodetails", ""));
-            json_phizioemail = json_phizio.getString("phizioemail");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        searchView = findViewById(R.id.search_view);
-        ivBasicImage =  view.findViewById(R.id.imageViewdp);
-        email = view.findViewById(R.id.emailId);
-        Picasso.get().load(Environment.getExternalStoragePublicDirectory("profilePic"))
-                .placeholder(R.drawable.user_icon)
-                .error(R.drawable.user_icon)
-                .transform(new PicassoCircleTransformation())
-                .into(ivBasicImage);
-
-
-        try {
-            if(!json_phizio.getString("phizioprofilepicurl").equals("empty")){
-
-                String temp = json_phizio.getString("phizioprofilepicurl");
-                temp = temp.replaceFirst("@", "%40");
-                temp = "https://s3.ap-south-1.amazonaws.com/pheezee/"+temp;
-                Picasso.get().load(temp)
-                        .placeholder(R.drawable.user_icon)
-                        .error(R.drawable.user_icon)
-                        .networkPolicy(NetworkPolicy.NO_CACHE,NetworkPolicy.NO_STORE)
-                        .memoryPolicy(MemoryPolicy.NO_CACHE,MemoryPolicy.NO_STORE)
-                        .transform(new PicassoCircleTransformation())
-                        .into(ivBasicImage);
-
-            }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        fullName = view.findViewById(R.id.fullName);
-        cl_phizioProfileNavigation = view.findViewById(R.id.phizioProfileNavigation);
         cl_phizioProfileNavigation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -371,22 +354,18 @@ public class PatientsView extends AppCompatActivity
                 });
 
         mAdapter.setOnItemClickListner(this);
-
-
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(device_state);
-        intentFilter.addAction(bluetooth_state);
-        intentFilter.addAction(usb_state);
-        intentFilter.addAction(battery_percent);
-        intentFilter.addAction(PheezeeBleService.firmware_version);
-        registerReceiver(patient_view_broadcast_receiver,intentFilter);
-
-        ContextCompat.startForegroundService(this,new Intent(this,PheezeeBleService.class));
-
-
-        Intent mIntent = new Intent(this,PheezeeBleService.class);
-        bindService(mIntent, mConnection, BIND_AUTO_CREATE);
     }
+
+    private void getPhizioDetails() {
+        //Getting previous patient data
+        try {
+            json_phizio = new JSONObject(sharedPref.getString("phiziodetails", ""));
+            json_phizioemail = json_phizio.getString("phizioemail");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @Override
     protected void onResume() {
@@ -398,6 +377,7 @@ public class PatientsView extends AppCompatActivity
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        registerFirmwareUpdateReceiver();
     }
 
     @Override
@@ -462,6 +442,7 @@ public class PatientsView extends AppCompatActivity
         if (id==R.id.pheeze_device_info){
             Intent i = new Intent(PatientsView.this, DeviceInfoActivity.class);
             i.putExtra("deviceMacAddress", sharedPref.getString("deviceMacaddress", ""));
+            i.putExtra("start_update",false);
             startActivityForResult(i,13);
         }
 
@@ -479,10 +460,12 @@ public class PatientsView extends AppCompatActivity
             startActivity(new Intent(PatientsView.this,AppInfo.class));
         }
         else if (id == R.id.nav_logout) {
+            editor = sharedPref.edit();
             editor.clear();
             editor.commit();
             repository.clearDatabase();
             repository.deleteAllSync();
+            FirebaseMessaging.getInstance().unsubscribeFromTopic("ota");
             startActivity(new Intent(this, LoginActivity.class));
             finish();
         }
@@ -610,6 +593,7 @@ public class PatientsView extends AppCompatActivity
         battery_bar.setProgressDrawable(drawable);
         @SuppressLint("ResourceAsColor") Drawable drawable_cap = new ColorDrawable(R.color.battery_gray);
         rl_cap_view.setBackground(drawable_cap);
+        Log.i("Firmware_link",sharedPref.getString("firmware_update",""));
     }
 
     /**
@@ -1032,12 +1016,55 @@ public class PatientsView extends AppCompatActivity
     }
 
 
+    BroadcastReceiver firmware_update_receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            assert action != null;
+            if(action.equalsIgnoreCase(firmware_update_available)){
+                boolean firmware_update_status = intent.getBooleanExtra(firmware_update_available,false);
+                if(firmware_update_status && !Objects.requireNonNull(sharedPref.getString("firmware_update", "")).equalsIgnoreCase("")){
+                    showFirmwareUpdateAvailableDialog();
+                }
+            }
+        }
+    };
+
+    private void showFirmwareUpdateAvailableDialog() {
+        if(mDialog==null) {
+            mDialog = new MaterialDialog.Builder(this)
+                    .setTitle("Update?")
+                    .setMessage("There is a device update available, please update for better experience?")
+                    .setCancelable(false)
+                    .setPositiveButton("Update", R.drawable.ic_update_firmware, new MaterialDialog.OnClickListener() {
+                        @Override
+                        public void onClick(com.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
+                            dialogInterface.dismiss();
+                            Intent i = new Intent(PatientsView.this, DeviceInfoActivity.class);
+                            i.putExtra("start_update", true);
+                            i.putExtra("deviceMacAddress", sharedPref.getString("deviceMacaddress", ""));
+                            startActivity(i);
+                        }
+                    })
+                    .setNegativeButton("Cancel", R.drawable.ic_close, new MaterialDialog.OnClickListener() {
+                        @Override
+                        public void onClick(com.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
+                            dialogInterface.dismiss();
+                        }
+                    })
+                    .build();
+
+            // Show Dialog
+            mDialog.show();
+        }
+    }
 
 
     BroadcastReceiver patient_view_broadcast_receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
+            assert action != null;
             if(action.equalsIgnoreCase(device_state)){
                 boolean device_status = intent.getBooleanExtra(device_state,false);
                 if(device_status){
@@ -1073,6 +1100,15 @@ public class PatientsView extends AppCompatActivity
                     batteryStatus.sendMessage(msg);
             }else if(action.equalsIgnoreCase(PheezeeBleService.firmware_version)){
                 String firmwareVersion = intent.getStringExtra(PheezeeBleService.firmware_version);
+                if(!Objects.requireNonNull(sharedPref.getString("firmware_update", "")).equalsIgnoreCase("")
+                        && !sharedPref.getString("firmware_version","").equalsIgnoreCase(firmwareVersion)){
+                    showFirmwareUpdateAvailableDialog();
+                }else {
+                    editor = sharedPref.edit();
+                    editor.putString("firmware_update", "");
+                    editor.putString("firmware_version", "");
+                    editor.apply();
+                }
                 firmwareVersion = firmwareVersion.replace(".",",");
                 try {
                     String[] firmware_split = firmwareVersion.split(",");
@@ -1083,6 +1119,11 @@ public class PatientsView extends AppCompatActivity
                     firmware_version[0] = -1;firmware_version[1] = -1;firmware_version[2] = -1;
                 }catch (ArrayIndexOutOfBoundsException e){
                     firmware_version[0] = -1;firmware_version[1] = -1;firmware_version[2] = -1;
+                }
+            }else if(action.equalsIgnoreCase(PheezeeBleService.firmware_log)){
+                boolean firmware_log_status = intent.getBooleanExtra(firmware_log,false);
+                if(!firmware_log_status){
+                    chekFirmwareLogPresentAndSrartService();
                 }
             }
         }
@@ -1106,6 +1147,11 @@ public class PatientsView extends AppCompatActivity
     };
 
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(firmware_update_receiver);
+    }
 
     private boolean hasPermissions() {
         if (!hasLocationPermissions()) {
@@ -1137,6 +1183,110 @@ public class PatientsView extends AppCompatActivity
                     }
                 }
             }
+        }
+    }
+
+
+    private void initializeView(){
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        repository = new MqttSyncRepository(getApplication());
+        repository.setOnServerResponseListner(this);
+
+
+        iv_addPatient = findViewById(R.id.home_iv_addPatients);
+        rl_cap_view = findViewById(R.id.rl_cap_view);
+        mRecyclerView = findViewById(R.id.patients_recycler_view);
+        mRecyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        mAdapter = new PatientsRecyclerViewAdapter(this);
+        mRecyclerView.setAdapter(mAdapter);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
+        drawer = findViewById(R.id.drawer_layout);
+        final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.setDrawerIndicatorEnabled(false);
+        toggle.syncState();
+
+
+        //bluetooth and device status related
+        iv_bluetooth_connected = findViewById(R.id.iv_bluetooth_connected);
+        iv_bluetooth_disconnected = findViewById(R.id.iv_bluetooth_disconnected);
+        iv_device_connected = findViewById(R.id.iv_device_connected);
+        iv_device_disconnected = findViewById(R.id.iv_device_disconnected);
+        ll_add_bluetooth = findViewById(R.id.ll_add_bluetooth);
+        ll_add_device = findViewById(R.id.ll_add_device);
+        tv_battery_percentage = findViewById(R.id.tv_battery_percent);
+        battery_bar = findViewById(R.id.progress_battery_bar);
+        tv_patient_view_add_patient = findViewById(R.id.tv_patient_view_add_patient);
+        ll_device_and_bluetooth = findViewById(R.id.ll_device_and_bluetooth);
+        rl_battery_usb_state = findViewById(R.id.rl_battery_usb_state);
+        iv_sync_data = findViewById(R.id.iv_sync_data);
+        iv_sync_not_available = findViewById(R.id.iv_sync_data_disabled);
+        tv_connect_to_pheezee = findViewById(R.id.tv_connect_to_pheezee);
+
+        //connecting dialog
+        connecting_device_dialog = new ProgressDialog(this);
+    }
+
+    private void setInitialMaccIfPresent(){
+        //device mac
+        if(!sharedPref.getString("deviceMacaddress", "").equalsIgnoreCase("")){
+            deviceMacc = sharedPref.getString("deviceMacaddress", "");
+            tv_connect_to_pheezee.setText(R.string.turn_on_device);
+        }
+    }
+
+    private void setNavigation(){
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.nav_header_patients_view, navigationView);
+        searchView = findViewById(R.id.search_view);
+        ivBasicImage =  view.findViewById(R.id.imageViewdp);
+        email = view.findViewById(R.id.emailId);
+        Picasso.get().load(Environment.getExternalStoragePublicDirectory("profilePic"))
+                .placeholder(R.drawable.user_icon)
+                .error(R.drawable.user_icon)
+                .transform(new PicassoCircleTransformation())
+                .into(ivBasicImage);
+
+
+        try {
+            if(!json_phizio.getString("phizioprofilepicurl").equals("empty")){
+
+                String temp = json_phizio.getString("phizioprofilepicurl");
+                temp = temp.replaceFirst("@", "%40");
+                temp = "https://s3.ap-south-1.amazonaws.com/pheezee/"+temp;
+                Picasso.get().load(temp)
+                        .placeholder(R.drawable.user_icon)
+                        .error(R.drawable.user_icon)
+                        .networkPolicy(NetworkPolicy.NO_CACHE,NetworkPolicy.NO_STORE)
+                        .memoryPolicy(MemoryPolicy.NO_CACHE,MemoryPolicy.NO_STORE)
+                        .transform(new PicassoCircleTransformation())
+                        .into(ivBasicImage);
+
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        fullName = view.findViewById(R.id.fullName);
+        cl_phizioProfileNavigation = view.findViewById(R.id.phizioProfileNavigation);
+    }
+
+    private void checkPermissionsRequired() {
+        //external storage permission
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+            }
+            hasPermissions();
         }
     }
 }

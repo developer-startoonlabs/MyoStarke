@@ -141,7 +141,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/social/ic_person_add_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/navigation/ic_close_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -151,8 +151,8 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="00b386" />
-                            <entry key="outputName" value="ic_person_add_black_24dp" />
+                            <entry key="color" value="ffffff" />
+                            <entry key="outputName" value="ic_close" />
                             <entry key="overrideSize" value="true" />
                             <entry key="sourceFile" value="C:\Users\STARTOONLABS" />
                           </map>

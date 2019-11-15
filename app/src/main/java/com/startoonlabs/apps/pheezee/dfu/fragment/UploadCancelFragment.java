@@ -25,7 +25,7 @@ public class UploadCancelFragment extends DialogFragment {
     private CancelFragmentListener mListener;
 
     public interface CancelFragmentListener {
-        public void onCancelUpload();
+         void onCancelUpload();
     }
 
     public static UploadCancelFragment getInstance() {

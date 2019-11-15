@@ -4,10 +4,6 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
-        <!--<item
-            android:id="@+id/nav_settings"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Settings" />-->
         <item android:id="@+id/nav_home"
             android:title="@string/nav_home"/>
 
@@ -17,22 +13,16 @@
         <item android:id="@+id/nav_add_patient"
             android:title="@string/nav_add_patient"/>
 
-
         <item
             android:id="@+id/pheeze_device_info"
-            android:title="Device Info"/>
+            android:title="@string/nav_device_info"/>
 
         <item  android:id="@+id/nav_app_version"
             android:title="@string/nav_app_version"/>
 
         <item
             android:id="@+id/nav_logout"
-            android:title="Logout" />
-
-
-        <!--<item-->
-            <!--android:id="@+id/rawdatacollection"-->
-            <!--android:title="Raw Data"/>-->
+            android:title="@string/nav_log_out" />
     </group>
 
 </menu>

@@ -38,6 +38,28 @@
                     android:onClick="drawSideBar"
                     android:src="@drawable/burger_menu"
                     android:contentDescription="@string/cd_navigation_menu" />
+                <!--<FrameLayout-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="match_parent">-->
+
+                    <!--<ImageView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="match_parent"-->
+                        <!--android:layout_marginTop="12dp"-->
+                        <!--android:layout_marginStart="5dp"-->
+                        <!--android:id="@+id/down_sider_navigation"-->
+                        <!--android:onClick="drawSideBar"-->
+                        <!--android:src="@drawable/burger_menu"-->
+                        <!--android:contentDescription="@string/cd_navigation_menu" />-->
+                    <!--<ImageView-->
+                        <!--android:layout_width="8dp"-->
+                        <!--android:layout_height="8dp"-->
+                        <!--android:layout_marginTop="20dp"-->
+                        <!--android:layout_marginStart="5dp"-->
+                        <!--android:layout_gravity="end"-->
+                        <!--android:background="@drawable/round_notificagion_icon"/>-->
+                <!--</FrameLayout>-->
+
 
                 <TextView
                     android:layout_width="wrap_content"
