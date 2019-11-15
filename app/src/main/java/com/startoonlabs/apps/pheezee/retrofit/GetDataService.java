@@ -5,6 +5,8 @@ import com.startoonlabs.apps.pheezee.pojos.CommentSessionUpdateData;
 import com.startoonlabs.apps.pheezee.pojos.DeletePatientData;
 import com.startoonlabs.apps.pheezee.pojos.DeleteSessionData;
 import com.startoonlabs.apps.pheezee.pojos.FirmwareData;
+import com.startoonlabs.apps.pheezee.pojos.FirmwareUpdateCheck;
+import com.startoonlabs.apps.pheezee.pojos.FirmwareUpdateCheckResponse;
 import com.startoonlabs.apps.pheezee.pojos.ForgotPassword;
 import com.startoonlabs.apps.pheezee.pojos.GetReportData;
 import com.startoonlabs.apps.pheezee.pojos.GetReportDataResponse;
@@ -98,5 +100,8 @@ public interface GetDataService {
 
     @POST("/api/firmware/log")
     Call<Boolean> sendFirmwareLog(@Body FirmwareData log);
+
+    @POST("/api/firmware/update/check")
+    Call<FirmwareUpdateCheckResponse> checkFirmwareUpdateAndGetLink(@Body FirmwareUpdateCheck check);
 
 }

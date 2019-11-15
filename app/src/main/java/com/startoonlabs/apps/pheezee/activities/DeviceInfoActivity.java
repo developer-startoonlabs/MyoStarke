@@ -1,39 +1,28 @@
 package com.startoonlabs.apps.pheezee.activities;
 
-import android.annotation.SuppressLint;
-import android.app.LoaderManager;
+import android.app.ActivityManager;
+import android.app.NotificationManager;
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothGatt;
-import android.bluetooth.BluetoothGattCallback;
-import android.bluetooth.BluetoothGattCharacteristic;
-import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothManager;
-import android.bluetooth.BluetoothProfile;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.Loader;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
-import android.os.Looper;
-import android.os.Message;
 import android.preference.PreferenceManager;
-import android.provider.MediaStore;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,32 +30,32 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.startoonlabs.apps.pheezee.R;
-import com.startoonlabs.apps.pheezee.classes.BluetoothSingelton;
 import com.startoonlabs.apps.pheezee.dfu.DfuService;
 import com.startoonlabs.apps.pheezee.dfu.fragment.UploadCancelFragment;
-import com.startoonlabs.apps.pheezee.services.BluetoothReceiver;
 import com.startoonlabs.apps.pheezee.services.PheezeeBleService;
+import com.startoonlabs.apps.pheezee.utils.NetworkOperations;
+import com.startoonlabs.apps.pheezee.utils.ZipOperations;
 
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.UUID;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Objects;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
-import static com.google.android.gms.common.internal.Constants.EXTRA_URI;
+import no.nordicsemi.android.dfu.DfuController;
+import no.nordicsemi.android.dfu.DfuProgressListener;
+import no.nordicsemi.android.dfu.DfuProgressListenerAdapter;
+import no.nordicsemi.android.dfu.DfuServiceInitiator;
+import no.nordicsemi.android.dfu.DfuServiceListenerHelper;
+
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.battery_percent;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.bluetooth_state;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.device_state;
-import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.df_progress_current_parts;
-import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.dfu_aborted;
-import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.dfu_completed;
-import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.dfu_device_connecting;
-import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.dfu_enabling_mode;
-import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.dfu_error_message;
-import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.dfu_firmware_validating;
-import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.dfu_process_starting;
-import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.dfu_progress_changed;
-import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.dfu_progress_parts_total;
-import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.dfu_progress_percent;
-import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.dfu_start_initiated;
+import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.df_characteristic_written;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.manufacturer_name;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.serial_id;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.usb_state;
@@ -79,7 +68,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
     BluetoothAdapter bluetoothAdapter;
     BluetoothManager mBluetoothManager;
     PheezeeBleService mService;
-    boolean isBound = false;
+    private boolean isBound = false, start_update = false, mDeviceState = false;
 
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
@@ -88,8 +77,8 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
             tv_battery_level,tv_connection_status, tv_disconnect_forget, mTextUploading, mTextPercentage, tv_update_firmware;
     ImageView iv_back_device_info;
     private ProgressBar mProgressBar;
-    RelativeLayout rl_dfu;
-
+    LinearLayout ll_dfu;
+    DfuController controller;
 
 
     @Override
@@ -109,7 +98,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
         mTextUploading = findViewById(R.id.textviewUploading);
         mTextPercentage = findViewById(R.id.textviewProgress);
         tv_update_firmware = findViewById(R.id.update_firmware);
-        rl_dfu = findViewById(R.id.rl_dfu);
+        ll_dfu = findViewById(R.id.ll_dfu);
 
         iv_back_device_info.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,8 +146,11 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
         tv_update_firmware.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mService!=null){
-                    mService.writeToDfuCharacteristic();
+                if(NetworkOperations.isNetworkAvailable(DeviceInfoActivity.this)){
+                    Log.i("here","updating");
+                    startFirmwareUpdate();
+                }else {
+                    NetworkOperations.networkError(DeviceInfoActivity.this);
                 }
             }
         });
@@ -173,16 +165,34 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
         intentFilter.addAction(PheezeeBleService.firmware_version);
         intentFilter.addAction(serial_id);
         intentFilter.addAction(manufacturer_name);
-        intentFilter.addAction(dfu_start_initiated);
-        intentFilter.addAction(dfu_error_message);
-        intentFilter.addAction(dfu_progress_changed);
-        intentFilter.addAction(dfu_aborted);
-        intentFilter.addAction(dfu_completed);
-        intentFilter.addAction(dfu_device_connecting);
-        intentFilter.addAction(dfu_firmware_validating);
-        intentFilter.addAction(dfu_enabling_mode);
-        intentFilter.addAction(dfu_process_starting);
+        intentFilter.addAction(df_characteristic_written);
         registerReceiver(device_info_receiver,intentFilter);
+
+
+        if(getIntent().getBooleanExtra("start_update", false)){
+            tv_update_firmware.setVisibility(View.VISIBLE);
+            Log.i("here","hereinupdate");
+            start_update = true;
+        }
+    }
+
+    private void startFirmwareUpdate(){
+        if(mDeviceState) {
+            String str = tv_update_firmware.getText().toString();
+            if (str.equalsIgnoreCase("update")) {
+                if (mService != null) {
+                    mService.writeToDfuCharacteristic();
+                }
+            } else {
+                if (controller != null) {
+                    if (isDfuServiceRunning()) {
+                        showUploadCancelDialog();
+                    }
+                }
+            }
+        }else {
+            showToast("Please connect device");
+        }
     }
 
 
@@ -193,6 +203,10 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
             PheezeeBleService.LocalBinder mLocalBinder = (PheezeeBleService.LocalBinder)service;
             mService = mLocalBinder.getServiceInstance();
             mService.gerDeviceInfo();
+            mDeviceState = mService.getDeviceState();
+            if(start_update){
+                tv_update_firmware.performClick();
+            }
         }
 
         @Override
@@ -211,8 +225,23 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
         if(isBound){
             unbindService(mConnection);
         }
-
         unregisterReceiver(device_info_receiver);
+        if(controller!=null){
+            Log.i("here1","controller not null");
+            if(isDfuServiceRunning()){
+                Log.i("here2","DFU is running");
+                controller.abort();
+            }
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(!isDfuServiceRunning())
+            super.onBackPressed();
+        else {
+            showUploadCancelDialog();
+        }
     }
 
     /**
@@ -238,8 +267,11 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
                 boolean device_status = intent.getBooleanExtra(device_state,false);
                 if(device_status){
                     tv_connection_status.setText("Connected");
+                    mDeviceState = true;
                 }else {
+                    tv_update_firmware.setVisibility(View.GONE);
                     tv_connection_status.setText("Not Connected");
+                    mDeviceState = false;
                 }
             }else if(action.equalsIgnoreCase(bluetooth_state)){
                 boolean ble_state = intent.getBooleanExtra(bluetooth_state,false);
@@ -257,6 +289,10 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
                 tv_battery_level.setText(percent.concat("%"));
             }else if(action.equalsIgnoreCase(PheezeeBleService.firmware_version)){
                 String firmwareVersion = intent.getStringExtra(PheezeeBleService.firmware_version);
+                if(!Objects.requireNonNull(preferences.getString("firmware_update", "")).equalsIgnoreCase("")
+                        && !preferences.getString("firmware_version","").equalsIgnoreCase(firmwareVersion)){
+                    tv_update_firmware.setVisibility(View.VISIBLE);
+                }
                 tv_firmware_version.setText(firmwareVersion);
             }else if(action.equalsIgnoreCase(serial_id)){
                 String serial = intent.getStringExtra(serial_id);
@@ -264,56 +300,15 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
             }else if(action.equalsIgnoreCase(manufacturer_name)){
                 String manufacturer = intent.getStringExtra(manufacturer_name);
                 tv_device_name.setText(manufacturer);
-            }else if(action.equalsIgnoreCase(dfu_start_initiated)){
-                boolean start_initiated = intent.getBooleanExtra(dfu_start_initiated,false);
-                if(start_initiated){
-                    rl_dfu.setVisibility(View.VISIBLE);
-                    showProgressBar();
-                }else {
-                    dfuCanceledView();
-                }
-
-            }else if(action.equalsIgnoreCase(dfu_error_message)){
-                String message = intent.getStringExtra(dfu_error_message);
-                dfuCanceledView();
-                showToast("Upload failed "+message);
-            }else if(action.equalsIgnoreCase(dfu_progress_changed)){
-                int percent = intent.getIntExtra(dfu_progress_percent,0);
-                int totalPart = intent.getIntExtra(dfu_progress_parts_total,0);
-                int currentParts = intent.getIntExtra(df_progress_current_parts,0);
-                sendProgressUpdate(percent,totalPart,currentParts);
-            }else if(action.equalsIgnoreCase(dfu_aborted)){
-                mTextPercentage.setText(R.string.dfu_status_aborted);
-            }else if(action.equalsIgnoreCase(dfu_completed)){
-                mTextPercentage.setText(R.string.dfu_status_completed);
-            }else if(action.equalsIgnoreCase(dfu_device_connecting)){
-                mProgressBar.setIndeterminate(true);
-                mTextPercentage.setText(R.string.dfu_status_disconnecting);
-            }else if(action.equalsIgnoreCase(dfu_firmware_validating)){
-                mProgressBar.setIndeterminate(true);
-                mTextPercentage.setText(R.string.dfu_status_validating);
-            }else if(action.equalsIgnoreCase(dfu_enabling_mode)){
-                mProgressBar.setIndeterminate(true);
-                mTextPercentage.setText(R.string.dfu_status_switching_to_dfu);
-            }else if(action.equalsIgnoreCase(dfu_process_starting)){
-                mProgressBar.setIndeterminate(true);
-                mTextPercentage.setText(R.string.dfu_status_starting);
+            }else if(action.equalsIgnoreCase(df_characteristic_written)){
+                Log.i("here","here");
+                startDfuService();
             }
         }
     };
 
-    private void sendProgressUpdate(int percent, int totalPart, int currentParts) {
-        mProgressBar.setIndeterminate(false);
-        mProgressBar.setProgress(percent);
-        mTextPercentage.setText(getString(R.string.dfu_uploading_percentage, percent));
-        if (totalPart > 1)
-            mTextUploading.setText(getString(R.string.dfu_status_uploading_part, currentParts, totalPart));
-        else
-            mTextUploading.setText(R.string.dfu_status_uploading);
-    }
-
     private void dfuCanceledView() {
-        rl_dfu.setVisibility(View.GONE);
+        ll_dfu.setVisibility(View.GONE);
 //        mProgressBar.setVisibility(View.INVISIBLE);
 //        mTextPercentage.setVisibility(View.INVISIBLE);
 //        mTextUploading.setVisibility(View.INVISIBLE);
@@ -353,37 +348,215 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
     }
 
 
-//    @Override
-//    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-//        final Uri uri = args.getParcelable(EXTRA_URI);
-//        /*
-//         * Some apps, f.e. Google Drive allow to select file that is not on the device. There is no "_data" column handled by that provider. Let's try to obtain
-//         * all columns and than check which columns are present.
-//         */
-//        // final String[] projection = new String[] { MediaStore.MediaColumns.DISPLAY_NAME, MediaStore.MediaColumns.SIZE, MediaStore.MediaColumns.DATA };
-//        return new CursorLoader(this, uri, null /* all columns, instead of projection */, null, null, null);
-//    }
-//
-//    @Override
-//    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-//        if (data != null && data.moveToNext()) {
-//            /*
-//             * Here we have to check the column indexes by name as we have requested for all. The order may be different.
-//             */
-//            final String fileName = data.getString(data.getColumnIndex(MediaStore.MediaColumns.DISPLAY_NAME)/* 0 DISPLAY_NAME */);
-//            final int fileSize = data.getInt(data.getColumnIndex(MediaStore.MediaColumns.SIZE) /* 1 SIZE */);
-//            String filePath = null;
-//            final int dataIndex = data.getColumnIndex(MediaStore.MediaColumns.DATA);
-//            if (dataIndex != -1)
-//                filePath = data.getString(dataIndex /* 2 DATA */);
-//            if (!TextUtils.isEmpty(filePath))
-//                mFilePath = filePath;
-//
-//            updateFileInfo(fileName, fileSize, mFileType);
-//        }
-//    }
-//
-//    @Override
-//    public void onLoaderReset(Loader<Cursor> loader) {
-//    }
+    //DFU SERVICE LISTNER
+    private final DfuProgressListener mDfuProgressListener = new DfuProgressListenerAdapter() {
+        @Override
+        public void onDeviceConnecting(final String deviceAddress) {
+            mProgressBar.setIndeterminate(true);
+            mTextPercentage.setText(R.string.dfu_status_connecting);
+        }
+
+        @Override
+        public void onDfuProcessStarting(final String deviceAddress) {
+            tv_update_firmware.setVisibility(View.INVISIBLE);
+            mProgressBar.setIndeterminate(true);
+            mTextPercentage.setText(R.string.dfu_status_starting);
+        }
+
+        @Override
+        public void onEnablingDfuMode(final String deviceAddress) {
+            mProgressBar.setIndeterminate(true);
+            mTextPercentage.setText(R.string.dfu_status_switching_to_dfu);
+        }
+
+        @Override
+        public void onFirmwareValidating(final String deviceAddress) {
+            mProgressBar.setIndeterminate(true);
+            mTextPercentage.setText(R.string.dfu_status_validating);
+        }
+
+        @Override
+        public void onDeviceDisconnecting(final String deviceAddress) {
+            mProgressBar.setIndeterminate(true);
+            mTextPercentage.setText(R.string.dfu_status_disconnecting);
+        }
+
+        @Override
+        public void onDfuCompleted(final String deviceAddress) {
+            tv_update_firmware.setVisibility(View.GONE);
+            mTextPercentage.setText(R.string.dfu_status_completed);
+            editor = preferences.edit();
+            editor.putString("firmware_update","");
+            editor.putString("firmware_version", "");
+            editor.apply();
+            // let's wait a bit until we cancel the notification. When canceled immediately it will be recreated by service again.
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    dfuCanceledView();
+                    showToast(getResources().getString(R.string.firmware_updated));
+
+                    // if this activity is still open and upload process was completed, cancel the notification
+                    final NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                    manager.cancel(DfuService.NOTIFICATION_ID);
+                }
+            }, 200);
+        }
+
+        @Override
+        public void onDfuAborted(final String deviceAddress) {
+            tv_update_firmware.setText("Update");
+            tv_update_firmware.setVisibility(View.VISIBLE);
+            mTextPercentage.setText(R.string.dfu_status_aborted);
+            // let's wait a bit until we cancel the notification. When canceled immediately it will be recreated by service again.
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    dfuCanceledView();
+                    showToast(getResources().getString(R.string.dfu_aborted));
+
+                    // if this activity is still open and upload process was completed, cancel the notification
+                    final NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                    manager.cancel(DfuService.NOTIFICATION_ID);
+                }
+            }, 200);
+        }
+
+        @Override
+        public void onProgressChanged(final String deviceAddress, final int percent, final float speed, final float avgSpeed, final int currentPart, final int partsTotal) {
+            mProgressBar.setIndeterminate(false);
+            mProgressBar.setProgress(percent);
+            mTextPercentage.setText(getString(R.string.dfu_uploading_percentage, percent));
+            if (partsTotal > 1)
+                mTextUploading.setText(getString(R.string.dfu_status_uploading_part, currentPart, partsTotal));
+            else
+                mTextUploading.setText(R.string.dfu_status_uploading);
+        }
+
+        @Override
+        public void onError(final String deviceAddress, final int error, final int errorType, final String message) {
+            dfuCanceledView();
+            tv_update_firmware.setText("Update");
+            tv_update_firmware.setVisibility(View.VISIBLE);
+            showToast("Error :"+message);
+            // We have to wait a bit before canceling notification. This is called before DfuService creates the last notification.
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    // if this activity is still open and upload process was completed, cancel the notification
+                    final NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                    manager.cancel(DfuService.NOTIFICATION_ID);
+                }
+            }, 200);
+        }
+    };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        DfuServiceListenerHelper.registerProgressListener(this,mDfuProgressListener);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        DfuServiceListenerHelper.unregisterProgressListener(this, mDfuProgressListener);
+    }
+
+    private void startDfuService(){
+        Log.i("here1","here");
+        if(Build.VERSION.SDK_INT>=26)
+            DfuServiceInitiator.createDfuNotificationChannel(this);
+        if (isDfuServiceRunning()) {
+            showUploadCancelDialog();
+            return;
+        }
+        ll_dfu.setVisibility(View.VISIBLE);
+        showProgressBar();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String mFilePath = "";
+                Uri mFileStreamUri;
+
+                // Moves the current Thread into the background
+                android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND);
+
+                HttpURLConnection httpURLConnection = null;
+                byte[] buffer = new byte[2048];
+                try {
+                    //Your http connection
+                    httpURLConnection = (HttpURLConnection) new URL(preferences.getString("firmware_update","")).openConnection();
+
+                    //Change below path to Environment.getExternalStorageDirectory() or something of your
+                    // own by creating storage utils
+                    File zip = new File(Environment.getExternalStorageDirectory()+"/Pheezee/firmware/");
+                    if(!zip.exists())
+                        zip.mkdir();
+//                            File file = new File(zip, "latest.zip");
+//                            file.createNewFile();
+
+                    ZipInputStream zipInputStream = new ZipInputStream(new BufferedInputStream(httpURLConnection.getInputStream()));
+                    ZipEntry zipEntry = zipInputStream.getNextEntry();
+
+                    int readLength;
+
+                    while(zipEntry != null){
+                        File newFile = new File(zip, zipEntry.getName());
+
+                        if (!zipEntry.isDirectory()) {
+                            FileOutputStream fos = new FileOutputStream(newFile);
+                            while ((readLength = zipInputStream.read(buffer)) > 0) {
+                                fos.write(buffer, 0, readLength);
+                            }
+                            fos.close();
+                        } else {
+                            newFile.mkdirs();
+                        }
+
+                        Log.i("zip file path = ", newFile.getPath());
+                        zipInputStream.closeEntry();
+                        zipEntry = zipInputStream.getNextEntry();
+                    }
+                    // Close Stream and disconnect HTTP connection. Move to finally
+                    zipInputStream.closeEntry();
+                    zipInputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }catch (NullPointerException e){
+                    e.printStackTrace();
+                } finally {
+                    if (httpURLConnection != null) {
+                        httpURLConnection.disconnect();
+                        ZipOperations.zipFolder(new File(Environment.getExternalStorageDirectory()+"/Pheezee/firmware/"));
+                        File file = new File(Environment.getExternalStorageDirectory()+"/Pheezee/firmware.zip");
+                        if(file!=null) {
+                            mFilePath = Environment.getExternalStorageDirectory() + "/Pheezee/firmware.zip";
+                            mFileStreamUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/Pheezee/firmware.zip"));
+
+
+                            if(mService!=null) {
+                                final DfuServiceInitiator starter = new DfuServiceInitiator(mService.getMacAddress())
+                                        .setDeviceName(mService.getDeviceName())
+                                        .setKeepBond(false);
+                                starter.setZip(mFileStreamUri, mFilePath);
+                                controller = starter.start(getApplicationContext(), DfuService.class);
+                            }
+                        }
+                    }
+                }
+            }
+        }).start();
+    }
+
+
+    private boolean isDfuServiceRunning() {
+        ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (DfuService.class.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
