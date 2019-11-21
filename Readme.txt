@@ -1,5 +1,71 @@
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+###############
+Version:- 2.12.2.h
+Date:- 21-11-2019
+Responsible:- Ankush
+Firmware Version(Tested With):- 1.9.11
+server version:- 1.10.4
+Hardware Version MVP_3
+description:- Copyrights in the splash screen
+
+
+###############
+Version:- 2.12.1.h
+Date:- 15-11-2019
+Responsible:- Ankush
+Firmware Version(Tested With):- 1.9.11
+server version:- 1.10.4
+Hardware Version MVP_3
+description:- OTA
+              Firmware error logging
+
+
+
+###############
+Version:- 2.11.5.h
+Date:- 05-11-2019
+Responsible:- Ankush
+Firmware Version(Tested With):- 1.9.11
+server version:- 1.10.4
+Hardware Version MVP_3
+description:-
+     Handling index out of bound exception as it can occur while upating the list of devices.
+
+
+###############
+Version:- 2.11.4.h
+Date:- 05-11-2019
+Responsible:- Ankush
+Firmware Version(Tested With):- 1.9.11
+server version:- 1.10.4
+Hardware Version MVP_3
+description:-
+     This has the issue fix of the list not updating once device turned off in scan devices activity, also this has the location permission related
+     issue fix which was happening if the user goes in app management and disable the location permission to pheezee.
+
+
+###############
+Version:- 2.11.3.h
+Date:- 05-11-2019
+Responsible:- Ankush
+Firmware Version(Tested With):- 1.9.11
+server version:- 1.10.4
+Hardware Version MVP_3
+description:-
+     1) issue fix for multiple times bradcasting usb state even without actually checking it
+
+
+###############
+Version:- 2.11.2.h
+Date:- 04-11-2019
+Responsible:- Ankush
+Firmware Version(Tested With):- 1.9.11
+server version:- 1.10.4
+Hardware Version MVP_3
+description:-
+     1) Bluetooth  is implemented as service.
+     2) updated the "other" body part to have edit texts for muscle and exercise name
 
 ###############
 Version:- 2.10.1.h
