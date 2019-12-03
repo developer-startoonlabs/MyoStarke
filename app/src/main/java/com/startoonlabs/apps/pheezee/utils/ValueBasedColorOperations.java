@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat;
 
 import com.startoonlabs.apps.pheezee.R;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 
 public class ValueBasedColorOperations {
@@ -158,12 +159,13 @@ public class ValueBasedColorOperations {
         return max;
     }
     private final static int[][] min_values = {
-            {0,0,0,0,0,0,0,0},    //elbow
+            {0,0,0,0},    //elbow
             {0,0,0,0,0,0},          //knee
             {0,0,0,0,0,0},             //ankle
-            {0,0,0,0,0,0},  //Hip
+            {0,0,0,0,0,0,0,0},  //Hip
             {0,0,0,0,0,0},             //wrist
-            {0,0,0,0,0,0,0,0,0,0}, //shoulder
+            {0,0,0,0,0,0,0,0}, //shoulder
+            {0,0,0,0},
             {0,0}
             //elbow
     };
@@ -172,12 +174,13 @@ public class ValueBasedColorOperations {
     }
 
     private final static int[][] max_values = {
-            {0,160,145,90,90,90,90,0},    //elbow
-            {0,150,150,45,45,0},          //knee
-            {0,30,50,35,25,0},             //ankle
-            {0,125,115,45,45,0},  //Hip
-            {0,90,75,25,65,0},             //wrist
-            {0,180,60,184,140,30,30,30,30,0}, //shoulder
+            {0,145,145,0},    //elbow
+            {0,140,140,0},          //knee
+            {0,45,20,40,20,0},             //ankle
+            {0,125,10,10,45,45,45,0},  //Hip
+            {0,80,70,20,20,0},             //wrist
+            {0,180,180,180,45,70,90,0}, //shoulder
+            {0,90,90,0},
             {0,0}
     };
 
@@ -187,27 +190,39 @@ public class ValueBasedColorOperations {
 
     public static byte[] getParticularDataToPheeze(int body_orientation, int muscle_index, int exercise_index, int bodypart_index){
 
-//        byte[] b = new byte[5];
-//        String ae = "AE";
-//        b[0] = Byte.parseByte(String.format("%040x", new BigInteger(1, ae.getBytes(/*YOUR_CHARSET?*/))));
-//        b[1] = (byte) bodypart_index;
-//        b[2] = (byte) exercise_index;
-//        b[3] = (byte) muscle_index;
-//        b[4] = (byte) body_orientation;
-//
-//        Log.i("byte", b.toString());
-//
-//
-        Log.i("bodypart", String.valueOf(bodypart_index));
-        byte[] b;
-        if(bodypart_index!=6) {
-            b = ByteToArrayOperations.hexStringToByteArray("AA0" + (bodypart_index + 3));
-            Log.i("value","AA0"+(bodypart_index+3));
+        byte[] b = new byte[5];
+        if(bodypart_index==7){
+            bodypart_index = 1;
         }
-        else {
-            b = ByteToArrayOperations.hexStringToByteArray("AA04");
-        }
+        String ae = "AE";
+        byte[] b1 = ByteToArrayOperations.hexStringToByteArray("AE");
+//        try {
+//            b[0] = Byte.parseByte(String.format("%040x", new BigInteger(1, ae.getBytes("UTF-16"))));
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
+        b[0] = b1[0];
+        b[1] = (byte) bodypart_index;
+        b[2] = (byte) exercise_index;
+        b[3] = (byte) muscle_index;
+        b[4] = (byte) body_orientation;
+
+//        b = ByteToArrayOperations.hexStringToByteArray(ae);
+
+        Log.i("byte", b.toString());
         return b;
+//
+//
+//        Log.i("bodypart", String.valueOf(bodypart_index));
+//        byte[] b;
+//        if(bodypart_index!=6) {
+//            b = ByteToArrayOperations.hexStringToByteArray("AA0" + (bodypart_index + 3));
+//            Log.i("value","AA0"+(bodypart_index+3));
+//        }
+//        else {
+//            b = ByteToArrayOperations.hexStringToByteArray("AA04");
+//        }
+//        return b;
     }
 
 

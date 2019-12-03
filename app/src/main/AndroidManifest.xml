@@ -142,7 +142,7 @@
         <activity
             android:name=".activities.DeviceInfoActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar.home" />
         <activity
             android:name=".activities.BodyPartSelection"
             android:screenOrientation="portrait"

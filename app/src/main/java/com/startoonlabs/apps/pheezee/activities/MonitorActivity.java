@@ -671,7 +671,7 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
                 outputStream_session_sessiondetails.write("\n".getBytes());
                 outputStream_session_sessiondetails.write("Patient Id: ".concat(patientid).getBytes());
                 outputStream_session_sessiondetails.write("\n".getBytes());
-                outputStream_session_sessiondetails.write("Orientation-Bodypart-ExerciseName : ".concat(orientation + "-" + bodypart + "-" + str_exercise_name).getBytes());
+                outputStream_session_sessiondetails.write("Orientation-Bodypart-ExerciseName-MuscleName : ".concat(orientation + "-" + bodypart + "-" + str_exercise_name+"-"+str_muscle_name).getBytes());
                 outputStream_session_sessiondetails.write("\n".getBytes());
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -835,7 +835,7 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
 
                     if (!str_min_angle_selected.equals("")) {
                         int x = Integer.parseInt(str_min_angle_selected);
-                        if (angleDetected < x && can_beep_min) {
+                        if (angleDetected <= x && can_beep_min) {
                             new Handler().post(new Runnable() {
                                 @Override
                                 public void run() {

@@ -98,7 +98,9 @@ public class PheezeeBleService extends Service {
     public static String battery_percent = "battery.percent";
     public static String usb_state = "usb.state";
     public static String firmware_version = "firmware.version";
+    public static String atiny_version = "atiny.version";
     public static String manufacturer_name = "manufacturer.name";
+    public static String hardware_version = "hardware.version";
     public static String serial_id = "serial.id";
     public static String scanned_list = "scanned.list";
     public static String session_data = "session.data";
@@ -138,8 +140,9 @@ public class PheezeeBleService extends Service {
     public static final UUID firmware_version_characteristic_uuid = UUID.fromString("00002a26-0000-1000-8000-00805f9b34fb");
     public static final UUID serial_number_characteristic_uuid = UUID.fromString("00002a25-0000-1000-8000-00805f9b34fb");
     public static final UUID manufacturer_name_characteristic_uuid = UUID.fromString("00002a29-0000-1000-8000-00805f9b34fb");
-    public static final UUID hardware_version_characteristic_uuid = UUID.fromString("00002a26-0000-1000-8000-00805f9b34fb");
+    public static final UUID hardware_version_characteristic_uuid = UUID.fromString("00002a27-0000-1000-8000-00805f9b34fb");
     public static final UUID dfu_characteristic_uuid = UUID.fromString("8ec90003-f315-4f60-9fb8-838830daea50");
+
 
     //descriptor
     public static final UUID universal_descriptor = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
@@ -153,7 +156,7 @@ public class PheezeeBleService extends Service {
 
     private Boolean mDeviceState = false, mBluetoothState = false, mUsbState = false;
     private int mBatteryPercent = 0;
-    private String mFirmwareVersion = "", mSerialId = "", mManufacturerName = "";
+    private String mFirmwareVersion = "", mSerialId = "", mManufacturerName = "", mAtinyVersion = "", mHardwareVersion="";
     private boolean mScanning = false;
     public String deviceMacc = "";
     ArrayList<DeviceListClass> mScanResults;
@@ -326,6 +329,10 @@ public class PheezeeBleService extends Service {
         return mDeviceState;
     }
 
+    public int getDeviceBatteryLevel(){
+        return mBatteryPercent;
+    }
+
     public boolean getUsbState(){
         return mUsbState;
     }
@@ -386,6 +393,7 @@ public class PheezeeBleService extends Service {
     public void sendFirmwareVersion(){
         Intent i = new Intent(firmware_version);
         i.putExtra(firmware_version,mFirmwareVersion);
+        i.putExtra(atiny_version,mAtinyVersion);
         sendBroadcast(i);
     }
 
@@ -398,6 +406,12 @@ public class PheezeeBleService extends Service {
     public void sendManufacturerName(){
         Intent i = new Intent(manufacturer_name);
         i.putExtra(manufacturer_name,mManufacturerName);
+        sendBroadcast(i);
+    }
+
+    public void sendHardwareVersion(){
+        Intent i = new Intent(hardware_version);
+        i.putExtra(hardware_version,mHardwareVersion);
         sendBroadcast(i);
     }
 
@@ -441,6 +455,7 @@ public class PheezeeBleService extends Service {
         deviceStateBroadcast();
         sendSerialNumberBroadcast();
         sendManufacturerName();
+        sendHardwareVersion();
     }
 
     public void increaseGain(){
@@ -457,7 +472,7 @@ public class PheezeeBleService extends Service {
                                          int muscle_position, int bodypart_position){
         String session_performing_notif = "Device Connected, Session is going on ";
         showNotification(session_performing_notif +patientName);
-        writeCharacteristic(mCustomCharacteristic, ValueBasedColorOperations.getParticularDataToPheeze(body_orientation, muscle_position, exercise_position, bodypart_position),"AA03");
+        writeCharacteristic(mCustomCharacteristic, ValueBasedColorOperations.getParticularDataToPheeze(body_orientation, muscle_position, exercise_position, bodypart_position),"AE");
     }
 
     public void disableNotificationOfSession(){
@@ -473,10 +488,16 @@ public class PheezeeBleService extends Service {
     public void connectDevice(String deviceMacc){
         if(!isConnectCommandGiven) {
             isConnectCommandGiven = true;
-            bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+            final BluetoothManager mbluetoothManager=(BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
+            bluetoothAdapter = mbluetoothManager.getAdapter();
             BluetoothDevice remoteDevice = bluetoothAdapter.getRemoteDevice(deviceMacc);
             this.remoteDevice = remoteDevice;
-            bluetoothGatt = remoteDevice.connectGatt(this, false, callback);
+            new Handler(getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    bluetoothGatt = remoteDevice.connectGatt(getApplicationContext(), false, callback);
+                }
+            });
         }
     }
 
@@ -647,7 +668,7 @@ public class PheezeeBleService extends Service {
             }
         }
         @Override
-        public void onServicesDiscovered(BluetoothGatt gatt, int status) throws NullPointerException {
+        public void onServicesDiscovered(BluetoothGatt gatt, int status){
             bluetoothGatt = gatt;
 //            mDeviceNameCharacteristic = gatt.getService(generic_service_uuid).getCharacteristic(device_name_characteristic_uuid);
             mCustomCharacteristic = gatt.getService(custom_service_uuid).getCharacteristic(custom_characteristic_uuid);
@@ -656,12 +677,17 @@ public class PheezeeBleService extends Service {
             mManufacturerNameCharacteristic = gatt.getService(device_info_service_uuid).getCharacteristic(manufacturer_name_characteristic_uuid);
             mHardwareVersionCharacteristic = gatt.getService(device_info_service_uuid).getCharacteristic(hardware_version_characteristic_uuid);
             mSerialIdCharacteristic = gatt.getService(device_info_service_uuid).getCharacteristic(serial_number_characteristic_uuid);
-            mDfuCharacteristic = gatt.getService(dfu_service_uuid).getCharacteristic(dfu_characteristic_uuid);
+            try {
+                mDfuCharacteristic = gatt.getService(dfu_service_uuid).getCharacteristic(dfu_characteristic_uuid);
+            }catch (NullPointerException e){
+                e.printStackTrace();
+            }
 
             //Descriptors
             mCustomCharacteristicDescriptor = mCustomCharacteristic.getDescriptor(universal_descriptor);
             mBatteryDescriptor = mBatteryCharacteristic.getDescriptor(universal_descriptor);
-            mDfuDescriptor = mDfuCharacteristic.getDescriptor(universal_descriptor);
+            if(mDfuCharacteristic!=null)
+                mDfuDescriptor = mDfuCharacteristic.getDescriptor(universal_descriptor);
             byte[] b = ByteToArrayOperations.hexStringToByteArray("AA02");
             writeCharacteristic(mCustomCharacteristic,b,"AA02");
         }
@@ -674,7 +700,7 @@ public class PheezeeBleService extends Service {
         @Override
         public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
             if(characteristic.getUuid().equals(battery_level_characteristic_uuid)){
-                byte b[] = characteristic.getValue();
+                byte[] b = characteristic.getValue();
                 int battery  = b[0];
                 int usb_state = b[1];
                 if(usb_state==1) {
@@ -740,6 +766,7 @@ public class PheezeeBleService extends Service {
                         int device_status = info_packet[12] & 0xFF;
                         int device_usb_state = info_packet[13] & 0xFF;
                         int error = info_packet[9] & 0xFF;
+                        mAtinyVersion = String.valueOf(info_packet[10] & 0xFF);
                         if (error == 1) firmware_error = true;
                         else firmware_error = false;
                         Log.i("FIRMWAREERROR", String.valueOf(firmware_error));
@@ -781,6 +808,7 @@ public class PheezeeBleService extends Service {
                 }
                 mCharacteristicReadList.add(mSerialIdCharacteristic);
                 mCharacteristicReadList.add(mManufacturerNameCharacteristic);
+                mCharacteristicReadList.add(mHardwareVersionCharacteristic);
             }else if(characteristic.getUuid().equals(serial_number_characteristic_uuid)){
                 byte[] b = characteristic.getValue();
                 mSerialId = new String(b, StandardCharsets.UTF_8);
@@ -790,6 +818,12 @@ public class PheezeeBleService extends Service {
                 byte[] b = characteristic.getValue();
                 mManufacturerName = new String(b, StandardCharsets.UTF_8);
                 sendManufacturerName();
+                mCharacteristicReadList.remove(0);
+
+            }else if(characteristic.getUuid().equals(hardware_version_characteristic_uuid)){
+                byte[] b = characteristic.getValue();
+                mHardwareVersion = new String(b, StandardCharsets.UTF_8);
+                sendHardwareVersion();
                 mCharacteristicReadList.remove(0);
                 if(firmware_error){
                     byte[] error_code = ByteToArrayOperations.hexStringToByteArray("EE");
@@ -811,7 +845,7 @@ public class PheezeeBleService extends Service {
                 Log.i("here","battery read");
             }
             else{
-                if(mCharacteristicWrittenValue.contains("AA")) {
+                if(mCharacteristicWrittenValue.equals("AE")) {
                     Log.i("here","here");
                     bluetoothGatt.setCharacteristicNotification(mCustomCharacteristic, true);
                     mCustomCharacteristicDescriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
@@ -878,7 +912,8 @@ public class PheezeeBleService extends Service {
             String action = intent.getAction();
             if(BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)){
                 isConnectCommandGiven=false;
-                mDeviceState = false;mFirmwareVersion="Null"; mSerialId="NULL";mBatteryPercent = 0;mManufacturerName="Null";
+                mDeviceState = false;mFirmwareVersion="Null"; mSerialId="NULL";mBatteryPercent = 0;mManufacturerName="Null";mHardwareVersion="Null";
+                mAtinyVersion = "Null";
                 if(bluetoothGatt!=null) {
                     bluetoothGatt.disconnect();
                     bluetoothGatt.close();
@@ -904,6 +939,8 @@ public class PheezeeBleService extends Service {
                 if (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1) == BluetoothAdapter.STATE_OFF) {
                     isConnectCommandGiven = false;
                     mBluetoothState = false;mDeviceState = false;mFirmwareVersion="Null"; mSerialId="NULL";mBatteryPercent = 0;mManufacturerName="Null";
+                    mHardwareVersion="Null";
+                    mAtinyVersion = "Null";
                     gerDeviceInfo();
                 }
             }

@@ -2,6 +2,7 @@ package com.startoonlabs.apps.pheezee.activities;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
@@ -12,6 +13,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.IntentSender;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -19,6 +21,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,6 +31,7 @@ import android.os.IBinder;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -59,6 +63,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResolvableApiException;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.location.LocationSettingsResult;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
@@ -109,6 +125,8 @@ public class PatientsView extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         PatientsRecyclerViewAdapter.onItemClickListner, MqttSyncRepository.onServerResponse{
     private static final int REQUEST_FINE_LOCATION = 14;
+    public static final  int REQ_CAMERA = 17;
+    public static final  int REQ_GALLERY = 18;
     PheezeeBleService mService;
     private boolean mDeviceState = false;
     boolean isBound =  false;
@@ -162,6 +180,7 @@ public class PatientsView extends AppCompatActivity
         setNavigation();
         setInitialMaccIfPresent();
         checkPermissionsRequired();
+        checkLocationEnabled();
         setAllListners();
         setBluetoothInfoBroadcastReceiver();
         startBluetoothService();
@@ -169,6 +188,43 @@ public class PatientsView extends AppCompatActivity
         chekFirmwareLogPresentAndSrartService();
         registerFirmwareUpdateReceiver();
         subscribeFirebaseFirmwareUpdateTopic();
+    }
+
+    private boolean checkLocationEnabled() {
+        LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        boolean gps_enabled = false;
+
+        try {
+            gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        }
+
+        if(!gps_enabled){
+            mDialog = new MaterialDialog.Builder(this)
+                    .setTitle("Location is turned of")
+                    .setMessage("Please turn on location to scan and connect Pheezee")
+                    .setCancelable(false)
+                    .setPositiveButton("Setting",R.drawable.ic_location_on, new MaterialDialog.OnClickListener() {
+                        @Override
+                        public void onClick(com.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
+                            startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                            dialogInterface.dismiss();
+                        }
+                    })
+                    .setNegativeButton("Cancel", R.drawable.ic_close, new MaterialDialog.OnClickListener() {
+                        @Override
+                        public void onClick(com.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
+                            dialogInterface.dismiss();
+                        }
+                    })
+                    .build();
+
+            // Show Dialog
+            mDialog.show();
+
+        }
+        return gps_enabled;
     }
 
     private void getFirmwareIntentIfPresent() {
@@ -470,18 +526,6 @@ public class PatientsView extends AppCompatActivity
             finish();
         }
 
-//        else if(id == R.id.ota_device) {
-//            Intent intent;
-//            if (!bleStatusTextView.getText().toString().equals("C")) {
-//                Toast.makeText(context, "Please Connect to Pheeze.", Toast.LENGTH_SHORT).show();
-//            } else {
-//                intent = new Intent(this, DfuActivity.class);
-//                intent.putExtra("deviceMacAddress", sharedPref.getString("deviceMacaddress", ""));
-//                startActivity(intent);
-//            }
-//
-//        }
-
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -532,7 +576,7 @@ public class PatientsView extends AppCompatActivity
 
     public void addPheezeeDevice(View view){
         if(deviceMacc.equalsIgnoreCase("")) {
-            if(hasPermissions()) {
+            if(hasPermissions() && checkLocationEnabled()) {
                 builder = new AlertDialog.Builder(PatientsView.this);
                 builder.setTitle("Add Pheezee Device!");
                 builder.setItems(peezee_items, new DialogInterface.OnClickListener() {
@@ -655,10 +699,11 @@ public class PatientsView extends AppCompatActivity
                 boolean flag = true;
                 if(firmware_version[0]<1){
                        flag = false;
-                }else if(firmware_version[1]<9){
-                    if(firmware_version[2]<11){
-                        flag = false;
-                    }
+                }else if(firmware_version[1]<11){
+//                    if(firmware_version[2]<11){
+//                        flag = false;
+//                    }
+                    flag = false;
                 }else {
                     flag = true;
                 }
@@ -900,6 +945,19 @@ public class PatientsView extends AppCompatActivity
                 startActivity(new Intent(this,ScanDevicesActivity.class));
             }
         }
+//        if(requestCode==LocationRequest.PRIORITY_HIGH_ACCURACY) {
+//            switch (resultCode) {
+//                case Activity.RESULT_OK:
+//                    // All required changes were successfully made
+//                    break;
+//                case Activity.RESULT_CANCELED:
+//                    // The user was asked to change settings, but chose not to
+//                    break;
+//                default:
+//                    break;
+//            }
+//        }
+////        case LocationRequest.PRIORITY_HIGH_ACCURACY:
     }
 
     private void enableScanningTheDevices() {
@@ -1100,14 +1158,16 @@ public class PatientsView extends AppCompatActivity
                     batteryStatus.sendMessage(msg);
             }else if(action.equalsIgnoreCase(PheezeeBleService.firmware_version)){
                 String firmwareVersion = intent.getStringExtra(PheezeeBleService.firmware_version);
-                if(!Objects.requireNonNull(sharedPref.getString("firmware_update", "")).equalsIgnoreCase("")
-                        && !sharedPref.getString("firmware_version","").equalsIgnoreCase(firmwareVersion)){
-                    showFirmwareUpdateAvailableDialog();
-                }else {
-                    editor = sharedPref.edit();
-                    editor.putString("firmware_update", "");
-                    editor.putString("firmware_version", "");
-                    editor.apply();
+                if(mDeviceState) {
+                    if (!Objects.requireNonNull(sharedPref.getString("firmware_update", "")).equalsIgnoreCase("")
+                            && !sharedPref.getString("firmware_version", "").equalsIgnoreCase(firmwareVersion)) {
+                        showFirmwareUpdateAvailableDialog();
+                    } else {
+                        editor = sharedPref.edit();
+                        editor.putString("firmware_update", "");
+                        editor.putString("firmware_version", "");
+                        editor.apply();
+                    }
                 }
                 firmwareVersion = firmwareVersion.replace(".",",");
                 try {

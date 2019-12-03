@@ -5,7 +5,7 @@ Version:- 2.12.2.h
 Date:- 21-11-2019
 Responsible:- Ankush
 Firmware Version(Tested With):- 1.9.11
-server version:- 1.10.4
+server version:- 1.10.5
 Hardware Version MVP_3
 description:- Copyrights in the splash screen
 
@@ -15,7 +15,7 @@ Version:- 2.12.1.h
 Date:- 15-11-2019
 Responsible:- Ankush
 Firmware Version(Tested With):- 1.9.11
-server version:- 1.10.4
+server version:- 1.10.5
 Hardware Version MVP_3
 description:- OTA
               Firmware error logging

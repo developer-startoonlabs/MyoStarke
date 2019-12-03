@@ -12,6 +12,7 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -29,6 +30,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.shreyaspatil.MaterialDialog.MaterialDialog;
 import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.dfu.DfuService;
 import com.startoonlabs.apps.pheezee.dfu.fragment.UploadCancelFragment;
@@ -46,6 +48,7 @@ import java.util.Objects;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import no.nordicsemi.android.dfu.DfuBaseService;
 import no.nordicsemi.android.dfu.DfuController;
 import no.nordicsemi.android.dfu.DfuProgressListener;
 import no.nordicsemi.android.dfu.DfuProgressListenerAdapter;
@@ -56,6 +59,7 @@ import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.battery_p
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.bluetooth_state;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.device_state;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.df_characteristic_written;
+import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.hardware_version;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.manufacturer_name;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.serial_id;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.usb_state;
@@ -64,7 +68,9 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
 
     //Bluetooth related declarations
     public String TAG  = "DeviceInfoActivity";
+    private boolean inside_bootloader = false;
     private static final int REQUEST_ENABLE_BT = 1;
+    private int device_baterry_level=0;
     BluetoothAdapter bluetoothAdapter;
     BluetoothManager mBluetoothManager;
     PheezeeBleService mService;
@@ -73,12 +79,13 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
     //Declaring all the view items
-    TextView tv_device_name,tv_device_mamc, tv_firmware_version, tv_serial_id,
+    TextView tv_device_name,tv_device_mamc, tv_firmware_version, tv_serial_id, tv_hardware_version,
             tv_battery_level,tv_connection_status, tv_disconnect_forget, mTextUploading, mTextPercentage, tv_update_firmware;
     ImageView iv_back_device_info;
     private ProgressBar mProgressBar;
     LinearLayout ll_dfu;
     DfuController controller;
+    MaterialDialog mDialog, mDfuDialog;
 
 
     @Override
@@ -92,6 +99,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
         tv_battery_level = findViewById(R.id.tv_deviceinfo_device_battery);
         tv_connection_status = findViewById(R.id.tv_deviceinfo_device_connection_status);
         tv_serial_id = findViewById(R.id.tv_deviceinfo_device_serial);
+        tv_hardware_version = findViewById(R.id.tv_hardware_version);
         tv_firmware_version = findViewById(R.id.tv_deviceinfo_device_firmware);
         iv_back_device_info = findViewById(R.id.iv_back_device_info);
         mProgressBar = findViewById(R.id.progressbar_file);
@@ -166,6 +174,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
         intentFilter.addAction(serial_id);
         intentFilter.addAction(manufacturer_name);
         intentFilter.addAction(df_characteristic_written);
+        intentFilter.addAction(hardware_version);
         registerReceiver(device_info_receiver,intentFilter);
 
 
@@ -178,21 +187,57 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
 
     private void startFirmwareUpdate(){
         if(mDeviceState) {
-            String str = tv_update_firmware.getText().toString();
-            if (str.equalsIgnoreCase("update")) {
-                if (mService != null) {
-                    mService.writeToDfuCharacteristic();
-                }
-            } else {
-                if (controller != null) {
-                    if (isDfuServiceRunning()) {
-                        showUploadCancelDialog();
+        String message = getResources().getString(R.string.instructions_dfu);
+        if(mDfuDialog!=null){
+            mDfuDialog.dismiss();
+        }
+        mDfuDialog = new MaterialDialog.Builder(this)
+                .setTitle("Instructions")
+                .setMessage(message)
+                .setCancelable(true)
+                .setPositiveButton("Continue", new MaterialDialog.OnClickListener() {
+                    @Override
+                    public void onClick(com.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
+                            dialogInterface.dismiss();
+                            BatteryManager bm = (BatteryManager) getSystemService(BATTERY_SERVICE);
+                            int batLevel = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);
+                            if (batLevel < 30 && device_baterry_level < 30) {
+                                dfuStatusDialog("Battery Low","Please make sure that both the device and mobile have above 30% battery.");
+                            } else if (batLevel < 30) {
+                                dfuStatusDialog("Battery Low","Please make sure that mobile have above 30% battery.");
+                            } else if (device_baterry_level < 30) {
+                                dfuStatusDialog("Battery Low","Please make sure that the device have above 30% battery.");
+                            } else {
+                                String str = tv_update_firmware.getText().toString();
+                                if (str.equalsIgnoreCase("update")) {
+                                    if (mService != null) {
+                                        mService.writeToDfuCharacteristic();
+                                    }
+                                } else {
+                                    if (controller != null) {
+                                        if (isDfuServiceRunning()) {
+                                            showUploadCancelDialog();
+                                        }
+                                    }
+                                }
+                            }
+
                     }
-                }
-            }
-        }else {
+                })
+                .setNegativeButton("Cancel",new MaterialDialog.OnClickListener() {
+                    @Override
+                    public void onClick(com.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
+                        dialogInterface.dismiss();
+                    }
+                })
+                .build();
+
+        // Show Dialog
+        mDfuDialog.show();
+        }else{
             showToast("Please connect device");
         }
+
     }
 
 
@@ -203,6 +248,8 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
             PheezeeBleService.LocalBinder mLocalBinder = (PheezeeBleService.LocalBinder)service;
             mService = mLocalBinder.getServiceInstance();
             mService.gerDeviceInfo();
+            device_baterry_level = mService.getDeviceBatteryLevel();
+            Log.i("Battery", String.valueOf(device_baterry_level));
             mDeviceState = mService.getDeviceState();
             if(start_update){
                 tv_update_firmware.performClick();
@@ -255,6 +302,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
         tv_battery_level.setText(R.string.device_null);
         tv_connection_status.setText(R.string.device_not_connected);
         tv_disconnect_forget.setText("");
+        tv_hardware_version.setText(R.string.device_null);
     }
 
 
@@ -263,6 +311,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
+            assert action != null;
             if(action.equalsIgnoreCase(device_state)){
                 boolean device_status = intent.getBooleanExtra(device_state,false);
                 if(device_status){
@@ -277,6 +326,22 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
                 boolean ble_state = intent.getBooleanExtra(bluetooth_state,false);
                 if(ble_state){
                 }else {
+                    if(inside_bootloader){
+                        if(isDfuServiceRunning()){
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    dfuCanceledView();
+                                    controller.abort();
+                                    // if this activity is still open and upload process was completed, cancel the notification
+                                    final NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                                    manager.cancel(DfuService.NOTIFICATION_ID);
+                                }
+                            }, 200);
+
+                            dfuStatusDialog("Device update failed","Please turn on mobile bluetooth and try again.");
+                        }
+                    }
                     tv_connection_status.setText("Not Connected");
                 }
             }else if(action.equalsIgnoreCase(usb_state)){
@@ -285,6 +350,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
                 }else {
                 }
             }else if(action.equalsIgnoreCase(battery_percent)){
+                device_baterry_level = Integer.parseInt(intent.getStringExtra(battery_percent));
                 String percent = intent.getStringExtra(battery_percent);
                 tv_battery_level.setText(percent.concat("%"));
             }else if(action.equalsIgnoreCase(PheezeeBleService.firmware_version)){
@@ -293,7 +359,8 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
                         && !preferences.getString("firmware_version","").equalsIgnoreCase(firmwareVersion)){
                     tv_update_firmware.setVisibility(View.VISIBLE);
                 }
-                tv_firmware_version.setText(firmwareVersion);
+                String atiny_version = intent.getStringExtra(PheezeeBleService.atiny_version);
+                tv_firmware_version.setText(firmwareVersion.concat(";").concat(atiny_version));
             }else if(action.equalsIgnoreCase(serial_id)){
                 String serial = intent.getStringExtra(serial_id);
                 tv_serial_id.setText(serial);
@@ -303,6 +370,10 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
             }else if(action.equalsIgnoreCase(df_characteristic_written)){
                 Log.i("here","here");
                 startDfuService();
+            }else if(action.equalsIgnoreCase(hardware_version)){
+                String hardwareVersion = intent.getStringExtra(hardware_version);
+                Log.i("hardware version", hardwareVersion);
+                tv_hardware_version.setText(hardwareVersion);
             }
         }
     };
@@ -354,19 +425,55 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
         public void onDeviceConnecting(final String deviceAddress) {
             mProgressBar.setIndeterminate(true);
             mTextPercentage.setText(R.string.dfu_status_connecting);
+            inside_bootloader = false;
+
+        }
+
+        @Override
+        public void onDeviceConnected(String deviceAddress) {
+            mProgressBar.setIndeterminate(true);
+//            mTextPercentage.setText(R.string.dfu_device_connected);
+            Log.i("here","connected");
+            inside_bootloader = false;
+        }
+
+        @Override
+        public void onDfuProcessStarted(String deviceAddress) {
+            mProgressBar.setIndeterminate(true);
+//            mTextPercentage.setText(R.string.dfu_started);
+            Log.i("here","Ddu started");
+            inside_bootloader = false;
+
+        }
+
+
+        @Override
+        public void onDeviceDisconnected(String deviceAddress) {
+            mProgressBar.setIndeterminate(true);
+            mTextPercentage.setText(R.string.dfu_device_disconnected);
+            inside_bootloader = false;
+//            Log.i("here","Disconnected");
+            if(mService!=null){
+                mService.showNotification("Device Disconnected");
+            }
         }
 
         @Override
         public void onDfuProcessStarting(final String deviceAddress) {
             tv_update_firmware.setVisibility(View.INVISIBLE);
             mProgressBar.setIndeterminate(true);
-            mTextPercentage.setText(R.string.dfu_status_starting);
+            mTextPercentage.setText(R.string.dfu_switching_to_dfu);
+            inside_bootloader = false;
+            if(mService!=null){
+                mService.showNotification("Updating device");
+            }
         }
 
         @Override
         public void onEnablingDfuMode(final String deviceAddress) {
             mProgressBar.setIndeterminate(true);
-            mTextPercentage.setText(R.string.dfu_status_switching_to_dfu);
+            mTextPercentage.setText(R.string.starting_bootloader);
+            inside_bootloader = true;
         }
 
         @Override
@@ -379,12 +486,18 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
         public void onDeviceDisconnecting(final String deviceAddress) {
             mProgressBar.setIndeterminate(true);
             mTextPercentage.setText(R.string.dfu_status_disconnecting);
+            inside_bootloader = false;
+            if(mService!=null){
+                mService.showNotification("Device Disconnecting");
+            }
         }
 
         @Override
         public void onDfuCompleted(final String deviceAddress) {
+            inside_bootloader = false;
             tv_update_firmware.setVisibility(View.GONE);
             mTextPercentage.setText(R.string.dfu_status_completed);
+            dfuStatusDialog("Device Updated",getResources().getString(R.string.dfu_successfull)+" "+preferences.getString("firmware_version",""));
             editor = preferences.edit();
             editor.putString("firmware_update","");
             editor.putString("firmware_version", "");
@@ -401,29 +514,39 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
                     manager.cancel(DfuService.NOTIFICATION_ID);
                 }
             }, 200);
+            if(mService!=null){
+                mService.showNotification("Device updated");
+            }
         }
 
         @Override
         public void onDfuAborted(final String deviceAddress) {
+            inside_bootloader = false;
             tv_update_firmware.setText("Update");
             tv_update_firmware.setVisibility(View.VISIBLE);
             mTextPercentage.setText(R.string.dfu_status_aborted);
+            dfuStatusDialog("Device Update Aborted","The device update has been aborted, please try again later");
             // let's wait a bit until we cancel the notification. When canceled immediately it will be recreated by service again.
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     dfuCanceledView();
-                    showToast(getResources().getString(R.string.dfu_aborted));
+//                    showToast(getResources().getString(R.string.dfu_aborted));
 
                     // if this activity is still open and upload process was completed, cancel the notification
                     final NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                     manager.cancel(DfuService.NOTIFICATION_ID);
                 }
             }, 200);
+            if(mService!=null){
+                if(!mService.getDeviceState())
+                    mService.showNotification("Device update was aborted");
+            }
         }
 
         @Override
         public void onProgressChanged(final String deviceAddress, final int percent, final float speed, final float avgSpeed, final int currentPart, final int partsTotal) {
+            inside_bootloader = false;
             mProgressBar.setIndeterminate(false);
             mProgressBar.setProgress(percent);
             mTextPercentage.setText(getString(R.string.dfu_uploading_percentage, percent));
@@ -435,10 +558,20 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
 
         @Override
         public void onError(final String deviceAddress, final int error, final int errorType, final String message) {
+            inside_bootloader = false;
             dfuCanceledView();
+            Log.i(message, errorType +" "+error);
+            if(error== DfuBaseService.ERROR_BLUETOOTH_DISABLED){
+                dfuStatusDialog("Device update failed","Please turn on mobile bluetooth and try again.");
+            }
+            else if( error==DfuBaseService.ERROR_DEVICE_DISCONNECTED){
+                dfuStatusDialog("Device Update Failed","Please make sure the device is turned on and try again.");
+            }else if(errorType==2){
+                dfuStatusDialog("Device Update Failed","Please make sure the device is turned on and try again.");
+            }
             tv_update_firmware.setText("Update");
             tv_update_firmware.setVisibility(View.VISIBLE);
-            showToast("Error :"+message);
+//            showToast("Error :"+message);
             // We have to wait a bit before canceling notification. This is called before DfuService creates the last notification.
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -448,9 +581,32 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
                     manager.cancel(DfuService.NOTIFICATION_ID);
                 }
             }, 200);
+            if(mService!=null){
+                mService.showNotification("Device Not Connected");
+            }
         }
     };
 
+    private  void dfuStatusDialog(String title, String message){
+        if(mDialog!=null){
+            mDialog.dismiss();
+        }
+         mDialog = new MaterialDialog.Builder(this)
+                .setTitle(title)
+                .setMessage(message)
+                .setCancelable(true)
+                .setPositiveButton("Okay", new MaterialDialog.OnClickListener() {
+                    @Override
+                    public void onClick(com.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
+                        dialogInterface.dismiss();
+                    }
+                })
+                .build();
+
+        // Show Dialog
+
+        mDialog.show();
+    }
     @Override
     protected void onResume() {
         super.onResume();

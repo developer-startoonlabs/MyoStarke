@@ -26,6 +26,7 @@
         <item>Hip</item>
         <item>Wrist</item>
         <item>Shoulder</item>
+        <item>Forearm</item>
         <item>Others</item>
     </string-array>
 
@@ -152,18 +153,30 @@
     <string name="device_mac">Device Mac:</string>
     <string name="firmware_version">Firmware Version:</string>
     <string name="device_serial_id">Device Serial ID:</string>
+    <string name="device_harmware_version">Hardware Version:</string>
     <string name="device_battery">Battery:</string>
     <string name="device_connection_state">Connection Status:</string>
     <string name="device_null">Null</string>
     <string name="update_firmware">Update</string>
     <string name="firmware_updated">Firmware has been updated, reconnecting device please wait.</string>
     <string name="device_not_connected">N/C</string>
+    <string name="bluetooth_disabled">Bluetooth Diabled</string>
+    <string name="dfu_bluetooth_disabled">The device firmware has been aborted as bluetooth is turned of, please turn on and try again later.</string>
+    <string name="dfu_switching_to_dfu">Starting device update..</string>
+    <string name="starting_bootloader">Starting device bootloader..</string>
+    <string name="dfu_device_connected">Device Connected</string>
+    <string name="dfu_started">Dfu uploading started</string>
+    <string name="dfu_device_disconnected">Dfu device disconnected</string>
+    <string name="dfu_status_connecting_to_device">Connecting to device…</string>
+
+    <string name="dfu_successfull">The device firmware have been updated successfully to</string>
+    <string name="instructions_dfu">Please ensure the following steps during device update:\n \u2022 The phone is near the device.\n \u2022 The device must be turned on.\n \u2022 The mobile blue-tooth is on.</string>
 
 
     <!--Appinfo related tags-->
     <string name="app_info">Application Info</string>
     <string name="app_version">Application Version</string>
-    <string name="application_version">2.12.2.h</string>
+    <string name="application_version">2.12.4.h</string>
 
     <!--phizio profile related tags-->
     <string name="your_profile">Your Profile</string>

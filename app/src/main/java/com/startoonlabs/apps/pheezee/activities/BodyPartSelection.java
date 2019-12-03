@@ -200,8 +200,8 @@ public class BodyPartSelection extends AppCompatActivity {
                     Log.i("body min_angle_selected", min_angle_selected);
                     Log.i("body max_angle_selected", max_angle_selected);
                     int body_orientation = 0;
-                    if (str_body_orientation.equalsIgnoreCase("sit")) body_orientation = 1;
-                    else if (str_body_orientation.equalsIgnoreCase("stand")) body_orientation = 2;
+                    if (str_body_orientation.equalsIgnoreCase("sit")) body_orientation = 2;
+                    else if (str_body_orientation.equalsIgnoreCase("stand")) body_orientation = 1;
                     else body_orientation = 3;
                     Intent intent = new Intent(BodyPartSelection.this, MonitorActivity.class);
                     //To be started here i need to putextras in the intents and send them to the moitor activity

@@ -12,6 +12,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import static com.startoonlabs.apps.pheezee.activities.PatientsView.REQ_CAMERA;
+import static com.startoonlabs.apps.pheezee.activities.PatientsView.REQ_GALLERY;
+
 public class UploadImageDialog {
 
     Context context;
@@ -54,15 +57,25 @@ public class UploadImageDialog {
     }
 
     private void cameraIntent() {
-        Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        ((Activity)context).startActivityForResult(takePicture, result_code_camera);
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
+                == PackageManager.PERMISSION_GRANTED) {
+            Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            ((Activity) context).startActivityForResult(takePicture, result_code_camera);
+        }else {
+            ActivityCompat.requestPermissions(((Activity) context), new String[] {Manifest.permission.CAMERA}, REQ_CAMERA);
+        }
     }
 
     private void galleryIntent() {
-        Intent pickPhoto = new Intent(Intent.ACTION_PICK,
-                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED) {
+            Intent pickPhoto = new Intent(Intent.ACTION_PICK,
+                    android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 //        pickPhoto.putExtra("patientid",1);
-        ((Activity)context).startActivityForResult(pickPhoto , result_code_gallery);
+            ((Activity) context).startActivityForResult(pickPhoto, result_code_gallery);
+        }else {
+            ActivityCompat.requestPermissions(((Activity) context), new String[] {Manifest.permission.CAMERA}, REQ_GALLERY);
+        }
     }
 
 
