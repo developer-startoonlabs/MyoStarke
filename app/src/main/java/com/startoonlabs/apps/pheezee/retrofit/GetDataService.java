@@ -4,12 +4,15 @@ import com.startoonlabs.apps.pheezee.pojos.AddPatientData;
 import com.startoonlabs.apps.pheezee.pojos.CommentSessionUpdateData;
 import com.startoonlabs.apps.pheezee.pojos.DeletePatientData;
 import com.startoonlabs.apps.pheezee.pojos.DeleteSessionData;
+import com.startoonlabs.apps.pheezee.pojos.DeviceDetailsData;
+import com.startoonlabs.apps.pheezee.pojos.DeviceLocationStatus;
 import com.startoonlabs.apps.pheezee.pojos.FirmwareData;
 import com.startoonlabs.apps.pheezee.pojos.FirmwareUpdateCheck;
 import com.startoonlabs.apps.pheezee.pojos.FirmwareUpdateCheckResponse;
 import com.startoonlabs.apps.pheezee.pojos.ForgotPassword;
 import com.startoonlabs.apps.pheezee.pojos.GetReportData;
 import com.startoonlabs.apps.pheezee.pojos.GetReportDataResponse;
+import com.startoonlabs.apps.pheezee.pojos.HealthData;
 import com.startoonlabs.apps.pheezee.pojos.LoginData;
 import com.startoonlabs.apps.pheezee.pojos.LoginResult;
 import com.startoonlabs.apps.pheezee.pojos.MmtData;
@@ -18,6 +21,7 @@ import com.startoonlabs.apps.pheezee.pojos.PatientImageData;
 import com.startoonlabs.apps.pheezee.pojos.PatientImageUploadResponse;
 import com.startoonlabs.apps.pheezee.pojos.PatientStatusData;
 import com.startoonlabs.apps.pheezee.pojos.PhizioDetailsData;
+import com.startoonlabs.apps.pheezee.pojos.PhizioEmailData;
 import com.startoonlabs.apps.pheezee.pojos.ResponseData;
 import com.startoonlabs.apps.pheezee.pojos.SessionData;
 import com.startoonlabs.apps.pheezee.pojos.SignUpData;
@@ -103,5 +107,17 @@ public interface GetDataService {
 
     @POST("/api/firmware/update/check")
     Call<FirmwareUpdateCheckResponse> checkFirmwareUpdateAndGetLink(@Body FirmwareUpdateCheck check);
+
+    @POST("/api/insert/pheezee/health/status")
+    Call<Boolean> sendHealthStatusOfDevice(@Body HealthData data);
+
+    @POST("/api/update/device/location")
+    Call<Boolean> sendDeviceLocationUpdate(@Body DeviceLocationStatus data);
+
+    @POST("/api/insert/pheezee/device")
+    Call<Boolean> sendDeviceDetailsToTheServer(@Body DeviceDetailsData data);
+
+    @POST("/api/update/device/email/used")
+    Call<Boolean> sendEmailUsedWithDevice(@Body PhizioEmailData data);
 
 }

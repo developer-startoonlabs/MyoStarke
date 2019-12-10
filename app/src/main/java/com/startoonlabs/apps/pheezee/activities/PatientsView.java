@@ -21,6 +21,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
@@ -69,6 +70,7 @@ import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
@@ -76,6 +78,7 @@ import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -88,6 +91,7 @@ import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.adapters.PatientsRecyclerViewAdapter;
 import com.startoonlabs.apps.pheezee.classes.MyBottomSheetDialog;
 import com.startoonlabs.apps.pheezee.pojos.DeletePatientData;
+import com.startoonlabs.apps.pheezee.pojos.DeviceDetailsData;
 import com.startoonlabs.apps.pheezee.pojos.PatientDetailsData;
 import com.startoonlabs.apps.pheezee.pojos.PatientStatusData;
 import com.startoonlabs.apps.pheezee.popup.AddPatientPopUpWindow;
@@ -95,7 +99,11 @@ import com.startoonlabs.apps.pheezee.popup.EditPopUpWindow;
 import com.startoonlabs.apps.pheezee.popup.UploadImageDialog;
 import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
 import com.startoonlabs.apps.pheezee.room.Entity.PhizioPatients;
+import com.startoonlabs.apps.pheezee.services.DeviceDetailsService;
+import com.startoonlabs.apps.pheezee.services.DeviceEmailUpdateService;
+import com.startoonlabs.apps.pheezee.services.DeviceLocationStatusService;
 import com.startoonlabs.apps.pheezee.services.FirmwareLogService;
+import com.startoonlabs.apps.pheezee.services.HealthUpdatePresentService;
 import com.startoonlabs.apps.pheezee.services.PheezeeBleService;
 import com.startoonlabs.apps.pheezee.services.PicassoCircleTransformation;
 import com.startoonlabs.apps.pheezee.services.Scanner;
@@ -118,12 +126,17 @@ import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.bluetooth
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.device_state;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.firmware_log;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.firmware_update_available;
+import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.jobid_device_details_update;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.jobid_firmware_log;
+import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.jobid_health_data;
+import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.jobid_location_status;
+import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.jobid_user_connected_update;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.usb_state;
 
 public class PatientsView extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         PatientsRecyclerViewAdapter.onItemClickListner, MqttSyncRepository.onServerResponse{
+    private  double latitude = 0, longitude = 0;
     private static final int REQUEST_FINE_LOCATION = 14;
     public static final  int REQ_CAMERA = 17;
     public static final  int REQ_GALLERY = 18;
@@ -180,12 +193,14 @@ public class PatientsView extends AppCompatActivity
         setNavigation();
         setInitialMaccIfPresent();
         checkPermissionsRequired();
+        getLastLocationOfDevice();
         checkLocationEnabled();
         setAllListners();
         setBluetoothInfoBroadcastReceiver();
         startBluetoothService();
         boundToBluetoothService();
         chekFirmwareLogPresentAndSrartService();
+        chekHealthStatusLogPresentAndSrartService();
         registerFirmwareUpdateReceiver();
         subscribeFirebaseFirmwareUpdateTopic();
     }
@@ -264,6 +279,62 @@ public class PatientsView extends AppCompatActivity
         }
     }
 
+    private void chekHealthStatusLogPresentAndSrartService() {
+        if(!Objects.requireNonNull(sharedPref.getString("health_data", "")).equalsIgnoreCase("")){
+            Log.i("here","Here");
+            ComponentName componentName = new ComponentName(this, HealthUpdatePresentService.class);
+            JobInfo.Builder info = new JobInfo.Builder(jobid_health_data,componentName);
+            info.setMinimumLatency(1000);
+            info.setOverrideDeadline(3000);
+            info.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY);
+            info.setRequiresCharging(false);
+            JobScheduler jobScheduler = (JobScheduler)getSystemService(JOB_SCHEDULER_SERVICE);
+            jobScheduler.schedule(info.build());
+        }
+    }
+
+    private void chekDeviceLocationStatusLogPresentAndSrartService() {
+        if(!Objects.requireNonNull(sharedPref.getString("device_location_data", "")).equalsIgnoreCase("")){
+            Log.i("here","Here");
+            ComponentName componentName = new ComponentName(this, DeviceLocationStatusService.class);
+            JobInfo.Builder info = new JobInfo.Builder(jobid_location_status,componentName);
+            info.setMinimumLatency(1000);
+            info.setOverrideDeadline(3000);
+            info.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY);
+            info.setRequiresCharging(false);
+            JobScheduler jobScheduler = (JobScheduler)getSystemService(JOB_SCHEDULER_SERVICE);
+            jobScheduler.schedule(info.build());
+        }
+    }
+
+    private void chekDeviceDetailsStatusLogPresentAndSrartService() {
+        if(!Objects.requireNonNull(sharedPref.getString("device_details_data", "")).equalsIgnoreCase("")){
+            Log.i("here","Here");
+            ComponentName componentName = new ComponentName(this, DeviceDetailsService.class);
+            JobInfo.Builder info = new JobInfo.Builder(jobid_device_details_update,componentName);
+            info.setMinimumLatency(1000);
+            info.setOverrideDeadline(3000);
+            info.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY);
+            info.setRequiresCharging(false);
+            JobScheduler jobScheduler = (JobScheduler)getSystemService(JOB_SCHEDULER_SERVICE);
+            jobScheduler.schedule(info.build());
+        }
+    }
+
+    private void chekDeviceEmailDetailsStatusLogPresentAndSrartService() {
+        if(!Objects.requireNonNull(sharedPref.getString("device_email_data", "")).equalsIgnoreCase("")){
+            Log.i("here","Here");
+            ComponentName componentName = new ComponentName(this, DeviceEmailUpdateService.class);
+            JobInfo.Builder info = new JobInfo.Builder(jobid_user_connected_update,componentName);
+            info.setMinimumLatency(1000);
+            info.setOverrideDeadline(3000);
+            info.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY);
+            info.setRequiresCharging(false);
+            JobScheduler jobScheduler = (JobScheduler)getSystemService(JOB_SCHEDULER_SERVICE);
+            jobScheduler.schedule(info.build());
+        }
+    }
+
     private void boundToBluetoothService() {
         Intent mIntent = new Intent(this,PheezeeBleService.class);
         bindService(mIntent, mConnection, BIND_AUTO_CREATE);
@@ -281,6 +352,10 @@ public class PatientsView extends AppCompatActivity
         intentFilter.addAction(battery_percent);
         intentFilter.addAction(PheezeeBleService.firmware_version);
         intentFilter.addAction(PheezeeBleService.firmware_log);
+        intentFilter.addAction(PheezeeBleService.health_status);
+        intentFilter.addAction(PheezeeBleService.location_status);
+        intentFilter.addAction(PheezeeBleService.device_details_status);
+        intentFilter.addAction(PheezeeBleService.device_details_email);
         registerReceiver(patient_view_broadcast_receiver,intentFilter);
     }
 
@@ -1185,6 +1260,21 @@ public class PatientsView extends AppCompatActivity
                 if(!firmware_log_status){
                     chekFirmwareLogPresentAndSrartService();
                 }
+            }else if(action.equalsIgnoreCase(PheezeeBleService.health_status)){
+                Log.i("here","here");
+                chekHealthStatusLogPresentAndSrartService();
+            }
+            else if(action.equalsIgnoreCase(PheezeeBleService.location_status)){
+                Log.i("here","here");
+                chekDeviceLocationStatusLogPresentAndSrartService();
+            }
+            else if(action.equalsIgnoreCase(PheezeeBleService.device_details_status)){
+                Log.i("here","here");
+                chekDeviceDetailsStatusLogPresentAndSrartService();
+            }
+            else if(action.equalsIgnoreCase(PheezeeBleService.device_details_email)){
+                Log.i("here","here");
+                chekDeviceEmailDetailsStatusLogPresentAndSrartService();
             }
         }
     };
@@ -1197,6 +1287,7 @@ public class PatientsView extends AppCompatActivity
             mService = mLocalBinder.getServiceInstance();
             if(!deviceMacc.equalsIgnoreCase(""))
                 mService.updatePheezeeMac(deviceMacc);
+            mService.setLatitudeAndLongitude(latitude,longitude);
         }
 
         @Override
@@ -1235,6 +1326,7 @@ public class PatientsView extends AppCompatActivity
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(requestCode==REQUEST_FINE_LOCATION){
             if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                getLastLocationOfDevice();
                 Log.i("here","acess");
                 if(mService!=null){
                     if(mService.isScanning() || !deviceMacc.equalsIgnoreCase("")){
@@ -1348,5 +1440,23 @@ public class PatientsView extends AppCompatActivity
             }
             hasPermissions();
         }
+    }
+
+    public void getLastLocationOfDevice(){
+        FusedLocationProviderClient fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        fusedLocationProviderClient.getLastLocation()
+                .addOnSuccessListener(PatientsView.this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        // Got last known location. In some rare situations this can be null.
+                        if (location != null) {
+                            // Logic to handle location object
+                            Log.i("Latitude",location.getLatitude()+" "+location.getLongitude());
+                            latitude = location.getLatitude();
+                            longitude = location.getLongitude();
+
+                        }
+                    }
+                });
     }
 }

@@ -2,6 +2,12 @@ package com.startoonlabs.apps.pheezee.utils;
 
 import android.util.Log;
 
+import com.startoonlabs.apps.pheezee.pojos.HealthData;
+
+import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Main class with the packet structure emg
  */
@@ -83,5 +89,48 @@ public class ByteToArrayOperations {
 
     public static String byteToStringHexadecimal(byte b){
         return String.format("%02X",b);
+    }
+
+
+    public static String getDeviceUid(byte[] infor_packet){
+        StringBuilder uid = new StringBuilder();
+        int j=0;
+        for(int i=23;i<=38;i++,j++){
+            try {
+                int a = infor_packet[i] & 0xFF;
+                String s = Integer.toHexString(a);
+                uid.append(s);
+            }catch (ArrayIndexOutOfBoundsException e){
+                e.printStackTrace();
+            }catch (IndexOutOfBoundsException e){
+                e.printStackTrace();
+            }
+        }
+        return uid.toString();
+    }
+
+    public static HealthData getHealthData(byte[] info_packet){
+        HealthData data = null;
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateString = formatter.format(new Date());
+        String uid = ByteToArrayOperations.getDeviceUid(info_packet);
+        try {
+            data = new HealthData(dateString, uid, info_packet[2]&0xFF,info_packet[3]&0xFF,info_packet[4]&0xFF,info_packet[5]&0xFF,
+                    info_packet[6]&0xFF,info_packet[7]&0xFF,info_packet[8]&0xFF,info_packet[9]&0xFF,info_packet[10]&0xFF,
+                    info_packet[11]&0xFF,info_packet[12]&0xFF,info_packet[13]&0xFF,info_packet[14]&0xFF,info_packet[2]&0xFF,
+                    info_packet[15]&0xFF,info_packet[16]&0xFF,info_packet[17]&0xFF,info_packet[18]&0xFF,info_packet[46]&0xFF
+                    ,info_packet[47]&0xFF,info_packet[48]&0xFF,info_packet[49]&0xFF);
+        }catch (ArrayIndexOutOfBoundsException e){
+            e.printStackTrace();
+            data = new HealthData(dateString, uid, 0,0,0,0,0,0,0,
+                    0,0,0,0,0,0,0,0,
+                    0, 0,0,0,0,0,0);
+        }catch (IndexOutOfBoundsException e){
+            e.printStackTrace();
+            data = new HealthData(dateString, uid, 0,0,0,0,0,0,0,
+                    0,0,0,0,0,0,0,0,
+                    0, 0,0,0,0,0,0);
+        }
+        return data;
     }
 }

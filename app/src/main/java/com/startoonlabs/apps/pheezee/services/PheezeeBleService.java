@@ -81,6 +81,8 @@ import no.nordicsemi.android.dfu.DfuServiceListenerHelper;
 import static com.startoonlabs.apps.pheezee.App.CHANNEL_ID;
 
 public class PheezeeBleService extends Service {
+    private byte[] temp_info_packet = null;
+    private double latitude=0, longitude=0;
     private long first_scan = 0;
     private int num_of_scan = 0;
     private boolean tooFrequentScan  =false, firmware_error = false;
@@ -107,6 +109,10 @@ public class PheezeeBleService extends Service {
     public static String scan_state = "scan.state";
     public static String scan_too_frequent = "scan.too.frequent";
     public static String firmware_log = "firmware.log";
+    public static String health_status = "health.status";
+    public static String location_status = "location.status";
+    public static String device_details_status = "device.details.status";
+    public static String device_details_email = "device.details.email";
     public static String dfu_start_initiated = "dfu.start.initiated";
     public static String df_characteristic_written = "dfu.characteristic.written";
     public static String firmware_update_available = "firmware.update.available";
@@ -114,6 +120,10 @@ public class PheezeeBleService extends Service {
 
     public static int jobid_firmware_log = 0;
     public static  int jobid_fimware_update = 1;
+    public static int jobid_health_data = 2;
+    public static int jobid_location_status = 3;
+    public static int jobid_device_details_update = 4;
+    public static int jobid_user_connected_update = 5;
 
 
 
@@ -318,6 +328,11 @@ public class PheezeeBleService extends Service {
             mScanning = true;
             sendScanStateBroadcast();
         }
+    }
+
+    public void setLatitudeAndLongitude(double latitude, double longitude){
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public boolean isScanning(){
@@ -759,7 +774,7 @@ public class PheezeeBleService extends Service {
                 byte[] info_packet = characteristic.getValue();
                 byte header_main = info_packet[0];
                 byte header_sub = info_packet[1];
-
+                temp_info_packet = info_packet;
                 if(ByteToArrayOperations.byteToStringHexadecimal(header_main).equals("AA")) {
                     if (ByteToArrayOperations.byteToStringHexadecimal(header_sub).equals("02")) {
                         int battery = info_packet[11] & 0xFF;
@@ -825,10 +840,20 @@ public class PheezeeBleService extends Service {
                 mHardwareVersion = new String(b, StandardCharsets.UTF_8);
                 sendHardwareVersion();
                 mCharacteristicReadList.remove(0);
+//
                 if(firmware_error){
                     byte[] error_code = ByteToArrayOperations.hexStringToByteArray("EE");
                     writeCharacteristic(mCustomCharacteristic,error_code,"EE");
                     Log.i("EE","EE");
+                }
+                if(repository!=null){
+                    if(temp_info_packet!=null) {
+                        repository.sendDeviceDetailsToTheServer(temp_info_packet, getApplicationContext(), deviceMacc, mFirmwareVersion, mHardwareVersion,
+                                mSerialId, mAtinyVersion);
+                        repository.sendDeviceHealthStatusToTheServer(temp_info_packet, getApplicationContext());
+                        repository.sendDeviceLocationStatusToTheServer(temp_info_packet, getApplicationContext(), latitude, longitude);
+                        repository.sendPhizioEmailToTheServer(temp_info_packet, getApplicationContext());
+                    }
                 }
             }
 
