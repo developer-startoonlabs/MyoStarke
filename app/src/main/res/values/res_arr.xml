@@ -23,6 +23,7 @@
         <item>@drawable/wrist_part</item>
         <item>@drawable/shoulder_part</item>
         <item>@drawable/elbow_part</item>
+        <item>@drawable/shoulder_part</item>
         <item>@drawable/other_body_part</item>
     </array>
 

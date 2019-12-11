@@ -173,7 +173,7 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
                     array_exercise_names.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
                     holder.sp_muscle_name.setAdapter(array_exercise_names);
 
-                    if(selected_position==7){
+                    if(selected_position==8){
                         holder.sp_exercise_name.setVisibility(View.INVISIBLE);
                         holder.et_exercise_name.setVisibility(View.VISIBLE);
                         holder.sp_muscle_name.setVisibility(View.INVISIBLE);

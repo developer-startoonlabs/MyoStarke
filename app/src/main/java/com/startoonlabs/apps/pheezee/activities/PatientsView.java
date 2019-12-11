@@ -775,12 +775,11 @@ public class PatientsView extends AppCompatActivity
                 if(firmware_version[0]<1){
                        flag = false;
                 }else if(firmware_version[1]<11){
-//                    if(firmware_version[2]<11){
-//                        flag = false;
-//                    }
                     flag = false;
-                }else {
-                    flag = true;
+                }else if(firmware_version[2]<1) {
+                    flag = false;
+                }else{
+                        flag = true;
                 }
 
                 if(!flag){
@@ -959,7 +958,7 @@ public class PatientsView extends AppCompatActivity
                 imageView_patientpic.setImageBitmap(photo);
                 TextView tv_patientId = (TextView) patientTabLayout.getChildAt(1);
                 if(NetworkOperations.isNetworkAvailable(this))
-                    repository.uploadPatientImage(tv_patientId.getText().toString().substring(4).replaceAll("\\s+",""),json_phizioemail,photo);
+                    repository.uploadPatientImage(tv_patientId.getText().toString().substring(4),json_phizioemail,photo);
                 else
                     NetworkOperations.networkError(this);
             }
@@ -980,7 +979,7 @@ public class PatientsView extends AppCompatActivity
                     e.printStackTrace();
                 }
                 if(NetworkOperations.isNetworkAvailable(this))
-                    repository.uploadPatientImage(tv_patientId.getText().toString().substring(4).replaceAll("\\s+",""),json_phizioemail,photo);
+                    repository.uploadPatientImage(tv_patientId.getText().toString().substring(4),json_phizioemail,photo);
                 else
                     NetworkOperations.networkError(this);
             }

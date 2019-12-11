@@ -28,6 +28,7 @@ public class MuscleOperation {
                     "Coracobrachialis",  "Pectoralis Minor", "Serratus Anterior", "Infraspinatus", "Teres Minor", "Trapezius","Others"},   //Shoulder
 
             {"Select Muscle*","Bicep","Supinator (Deep)","Pronator Quadratus (Deep)", "Pronator Teres (Deep)"}, //forearm
+            {"Select Muscle*","Quadratus lumborum","Spinalis thoracis","Longissimus thoracis", "Iliocostalis thoracis","Iliocostalis lumborum"}, //Spine
             {"Select Muscle*","Others"}
     };
 
@@ -52,6 +53,7 @@ public class MuscleOperation {
 //                    "Protraction", "Retraction", "Elevation", "Depression",
                     "Isometric"},   //Shoulder
             {"Select Exercise*","Supination", "Pronation","Isometric"},//forearm
+            {"Select Exercise*","Flexion", "Extension","Lateral Flexion","Rotation","Isometric"},//Spine
             {"Select Exercise*","Others"}
     };
 

@@ -15,6 +15,7 @@ import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
 import com.startoonlabs.apps.pheezee.R;
+import com.startoonlabs.apps.pheezee.activities.SessionReportActivity;
 import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
 import com.startoonlabs.apps.pheezee.retrofit.GetDataService;
 import com.startoonlabs.apps.pheezee.retrofit.RetrofitClientInstance;
@@ -25,6 +26,7 @@ import org.json.JSONArray;
 import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -61,13 +63,20 @@ public class ReportOverall extends Fragment implements MqttSyncRepository.OnRepo
         repository = new MqttSyncRepository(getActivity().getApplication());
         repository.setOnReportDataResponseListener(this);
 
-
+        JSONArray array = ((SessionReportActivity)getActivity()).getSessions();
+        if(array==null || array.length()<=0){
+            tv_overall_report.setText("No sessions done");
+        }
         tv_overall_report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Calendar calendar = Calendar.getInstance();
-                String date = calenderToYYYMMDD(calendar);
-                getOverallReport(date);
+                if(array==null || array.length()<=0){
+                    Toast.makeText(getActivity(), "No sessions done", Toast.LENGTH_SHORT).show();
+                }else {
+                    Calendar calendar = Calendar.getInstance();
+                    String date = calenderToYYYMMDD(calendar);
+                    getOverallReport(date);
+                }
             }
         });
         return view;

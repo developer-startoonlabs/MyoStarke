@@ -51,7 +51,7 @@ public class NetworkOperations {
     public static void firmwareVirsionNotCompatible(Context context){
         final AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Firmware Version Not Compatible");
-        builder.setMessage("The firmware version is below 1.11.0 and will not work with the application, try after updating the firmware version.");
+        builder.setMessage("The pheezee device version is below 1.11.1 and will not work with the application, try after updating the device version.");
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

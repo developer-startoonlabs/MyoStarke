@@ -4,6 +4,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+
 public class TimeOperations {
     public String addTotalTime(JSONArray array){
         String temp_hours= "00:00";
@@ -90,6 +94,15 @@ public class TimeOperations {
         temp_hours = s_hours + "h:" + s_min + "m:" + s_sec + "s";
 
         return temp_hours;
+    }
+
+
+    public static String getUTCdatetimeAsString() {
+        final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        final String utcTime = sdf.format(new Date());
+
+        return utcTime;
     }
 
 }

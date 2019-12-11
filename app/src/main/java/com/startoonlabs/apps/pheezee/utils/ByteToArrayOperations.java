@@ -118,8 +118,8 @@ public class ByteToArrayOperations {
             data = new HealthData(dateString, uid, info_packet[2]&0xFF,info_packet[3]&0xFF,info_packet[4]&0xFF,info_packet[5]&0xFF,
                     info_packet[6]&0xFF,info_packet[7]&0xFF,info_packet[8]&0xFF,info_packet[9]&0xFF,info_packet[10]&0xFF,
                     info_packet[11]&0xFF,info_packet[12]&0xFF,info_packet[13]&0xFF,info_packet[14]&0xFF,info_packet[2]&0xFF,
-                    info_packet[15]&0xFF,info_packet[16]&0xFF,info_packet[17]&0xFF,info_packet[18]&0xFF,info_packet[46]&0xFF
-                    ,info_packet[47]&0xFF,info_packet[48]&0xFF,info_packet[49]&0xFF);
+                    info_packet[15]&0xFF,info_packet[16]&0xFF,info_packet[17]&0xFF,info_packet[18]&0xFF,info_packet[39]&0xFF
+                    ,info_packet[40]&0xFF,info_packet[41]&0xFF,info_packet[42]&0xFF);
         }catch (ArrayIndexOutOfBoundsException e){
             e.printStackTrace();
             data = new HealthData(dateString, uid, 0,0,0,0,0,0,0,

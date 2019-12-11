@@ -27,6 +27,10 @@ import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.pojos.PatientDetailsData;
 import com.startoonlabs.apps.pheezee.room.Entity.PhizioPatients;
 import com.startoonlabs.apps.pheezee.utils.DateOperations;
+import com.startoonlabs.apps.pheezee.utils.TimeOperations;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -74,13 +78,6 @@ public class AddPatientPopUpWindow {
 
 
         final EditText patientName = layout.findViewById(R.id.patientName);
-        final EditText patientId = layout.findViewById(R.id.patientId);
-        if(sharedPref.getInt("maxid",-1)!=-1){
-            int id = sharedPref.getInt("maxid",0);
-            id+=1;
-            patientId.setEnabled(false);
-            patientId.setText(String.valueOf(id));
-        }
         final EditText patientAge = layout.findViewById(R.id.patientAge);
         final EditText caseDescription = layout.findViewById(R.id.contentDescription);
         final RadioGroup radioGroup = layout.findViewById(R.id.patientGender);
@@ -127,12 +124,19 @@ public class AddPatientPopUpWindow {
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                int id = 0;
                 Log.i("pojo","pojo1");
                 RadioButton btn = layout.findViewById(radioGroup.getCheckedRadioButtonId());
                 if(caseDescription.getVisibility()==View.VISIBLE){
                     case_description[0] = caseDescription.getText().toString();
                 }
-                String patientid =  patientId.getText().toString();
+                if(sharedPref.getInt("maxid",-1)!=-1){
+                    id = sharedPref.getInt("maxid",0);
+                    id+=1;
+                }
+                String dateString = TimeOperations.getUTCdatetimeAsString();
+                String patientid =  String.valueOf(id).concat(" ").concat(dateString);
+                Log.i("ID",patientid);
                 String patientname = patientName.getText().toString();
                 String patientage = patientAge.getText().toString();
                 if ((!patientname.equals("")) && (!patientid.equals("")) && (!patientage.equals(""))&& (!case_description[0].equals("")) && btn!=null) {
@@ -143,7 +147,7 @@ public class AddPatientPopUpWindow {
                             todaysDate,patientage, btn.getText().toString(),case_description[0],"active", "", "empty");
 
                     if(sharedPref.getInt("maxid",-1)!=-1) {
-                        editor.putInt("maxid", Integer.parseInt(patientid));
+                        editor.putInt("maxid", id);
                         editor.apply();
                     }
                     listner.onAddPatientClickListner(patient,data,true);

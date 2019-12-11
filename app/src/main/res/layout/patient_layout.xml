@@ -8,7 +8,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="95dp"
+        android:layout_height="80dp"
         android:orientation="horizontal"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
@@ -85,6 +85,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/ebrima"
                     android:text="hai"
+                    android:visibility="invisible"
                     android:textColor="@color/pitch_black"
                     android:alpha="0.7"
                     android:textSize="14sp" />

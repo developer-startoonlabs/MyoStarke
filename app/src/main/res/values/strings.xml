@@ -27,6 +27,7 @@
         <item>Wrist</item>
         <item>Shoulder</item>
         <item>Forearm</item>
+        <item>Spine</item>
         <item>Others</item>
     </string-array>
 
@@ -82,7 +83,7 @@
     <string name="right_week">Go to next week</string>
 
     <string name="left_month">Go to previous month</string>
-    <string name="right_month">Go to to next month</string>
+    <string name="right_month">Go to next month</string>
 
 
     <string name="left_joint">Previous Joint</string>
@@ -176,7 +177,7 @@
     <!--Appinfo related tags-->
     <string name="app_info">Application Info</string>
     <string name="app_version">Application Version</string>
-    <string name="application_version">2.12.4.h</string>
+    <string name="application_version">2.13.0.h</string>
 
     <!--phizio profile related tags-->
     <string name="your_profile">Your Profile</string>

@@ -741,7 +741,7 @@ public class PheezeeBleService extends Service {
                 byte header_main = temp_byte[0];
                 byte header_sub = temp_byte[1];
                 //session related
-                int sub_byte_size = 10;
+                int sub_byte_size = 11;
                 byte[] sub_byte = new byte[sub_byte_size];
                 if (ByteToArrayOperations.byteToStringHexadecimal(header_main).equals("AA")) {
                     if (ByteToArrayOperations.byteToStringHexadecimal(header_sub).equals("01")) {
@@ -966,6 +966,7 @@ public class PheezeeBleService extends Service {
                     mBluetoothState = false;mDeviceState = false;mFirmwareVersion="Null"; mSerialId="NULL";mBatteryPercent = 0;mManufacturerName="Null";
                     mHardwareVersion="Null";
                     mAtinyVersion = "Null";
+                    showNotification(device_disconnected_notif);
                     gerDeviceInfo();
                 }
             }

@@ -35,6 +35,9 @@ public class LoginResult {
     @SerializedName("clinicname")
     @Expose
     private String clinicname;
+    @SerializedName("cliniclogo")
+    @Expose
+    private String cliniclogo;
     @SerializedName("degree")
     @Expose
     private String degree;
@@ -162,4 +165,11 @@ public class LoginResult {
         this.isvalid = isvalid;
     }
 
+    public String getCliniclogo() {
+        return cliniclogo;
+    }
+
+    public void setCliniclogo(String cliniclogo) {
+        this.cliniclogo = cliniclogo;
+    }
 }

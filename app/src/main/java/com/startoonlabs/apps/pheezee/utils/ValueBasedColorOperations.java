@@ -166,6 +166,7 @@ public class ValueBasedColorOperations {
             {0,0,0,0,0,0},             //wrist
             {0,0,0,0,0,0,0,0}, //shoulder
             {0,0,0,0},
+            {0,0,0,0,0,0},
             {0,0}
             //elbow
     };
@@ -181,6 +182,7 @@ public class ValueBasedColorOperations {
             {0,80,70,20,45,0},             //wrist
             {0,180,180,180,45,70,90,0}, //shoulder
             {0,90,90,0},
+            {0,0,0,0,0,0},
             {0,0}
     };
 
@@ -191,7 +193,7 @@ public class ValueBasedColorOperations {
     public static byte[] getParticularDataToPheeze(int body_orientation, int muscle_index, int exercise_index, int bodypart_index){
 
         byte[] b = new byte[5];
-        if(bodypart_index==7){
+        if(bodypart_index==8){
             bodypart_index = 1;
         }
         String ae = "AE";

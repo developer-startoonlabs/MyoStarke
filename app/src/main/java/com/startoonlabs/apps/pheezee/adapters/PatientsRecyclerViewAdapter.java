@@ -104,7 +104,7 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
         // - replace the contents of the view with that element
         PhizioPatients patientsList = updatedPatientList.get(position);
         holder.patientName.setText(patientsList.getPatientname());
-        holder.patientId.setText("Id : "+patientsList.getPatientid());
+        holder.patientId.setText("Id :"+patientsList.getPatientid());
         holder.patientNameContainer.setVisibility(View.GONE);
         holder.patientProfilepic.setImageResource(android.R.color.transparent);
 

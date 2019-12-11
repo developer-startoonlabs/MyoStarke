@@ -59,14 +59,17 @@ public class EditPopUpWindow {
         pw.setAnimationStyle(R.style.Animation);
         pw.showAtLocation(layout, Gravity.CENTER, 0, 0);
 
+        final TextView tv_patientId = layout.findViewById(R.id.tv_patient_id);
         final TextView patientName = layout.findViewById(R.id.patientName);
-        final TextView patientId = layout.findViewById(R.id.patientId);
         final TextView patientAge = layout.findViewById(R.id.patientAge);
         final TextView caseDescription = layout.findViewById(R.id.contentDescription);
         final RadioGroup radioGroup = layout.findViewById(R.id.patientGender);
         RadioButton btn_male = layout.findViewById(R.id.radioBtn_male);
         RadioButton btn_female = layout.findViewById(R.id.radioBtn_female);
         final Spinner sp_case_des = layout.findViewById(R.id.sp_case_des);
+
+        tv_patientId.setText("ID: "+patient.getPatientid());
+        tv_patientId.setVisibility(View.VISIBLE);
         //Adapter for spinner
         ArrayAdapter<String> array_exercise_names = new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item, context.getResources().getStringArray(R.array.case_description));
         array_exercise_names.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
@@ -102,7 +105,6 @@ public class EditPopUpWindow {
         });
         Button addBtn = layout.findViewById(R.id.addBtn);
         addBtn.setText("Update");
-        patientId.setVisibility(View.GONE);
         final Button cancelBtn = layout.findViewById(R.id.cancelBtn);
 
         patientName.setText(patient.getPatientname());

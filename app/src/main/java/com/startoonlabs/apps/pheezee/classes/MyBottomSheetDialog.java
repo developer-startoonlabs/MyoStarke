@@ -122,7 +122,12 @@ public class MyBottomSheetDialog extends BottomSheetDialogFragment {
         tv_patient_name_section.setText(patient.getPatientname());
         tv_date_of_join.setText( DateOperations.getDateInMonthAndDate(patient.getDateofjoin()));
         String s = tv_patient_id_section.getText().toString();
-        s=s+" "+patient.getPatientid();
+        if(patient.getPatientid().length()>3){
+            String temp = patient.getPatientid().substring(0,3);
+            s = s+temp+"xxx";
+        }else {
+            s = s + " " + patient.getPatientid();
+        }
         tv_patient_id_section.setText(s);
         if(bitmap!=null)
             iv_patient_profile_pic.setImageBitmap(bitmap);

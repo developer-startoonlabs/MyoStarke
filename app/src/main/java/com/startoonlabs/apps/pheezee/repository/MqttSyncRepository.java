@@ -727,6 +727,7 @@ public class MqttSyncRepository {
                             object.put("phizioprofilepicurl", results.get(0).getPhizioprofilepicurl());
                             object.put("address", results.get(0).getAddress());
                             object.put("clinicname", results.get(0).getClinicname());
+                            object.put("cliniclogo",results.get(0).getCliniclogo());
                             object.put("degree", results.get(0).getDegree());
                             object.put("experience", results.get(0).getExperience());
                             object.put("gender", results.get(0).getGender());
@@ -742,15 +743,28 @@ public class MqttSyncRepository {
 
                         if (phiziopatients.size() > 0 && sharedPref.getInt("maxid", -1) == -1) {
                             for (int i = 0; i < phiziopatients.size(); i++) {
+                                String patientId = phiziopatients.get(i).getPatientid();
                                 try {
-                                    int id = Integer.parseInt(phiziopatients.get(i).getPatientid());
+                                    int id = Integer.parseInt(patientId);
                                     if (id > maxid[0]) {
                                         maxid[0] = id;
                                     }
                                 } catch (NumberFormatException e) {
+                                    if(phiziopatients.get(i).getPatientid().contains(" ")){
+                                        String[] temp  = patientId.split(" ",2);
+                                        try {
+                                            int id = Integer.parseInt(temp[0]);
+                                            if(id>maxid[0]){
+                                                maxid[0] = id;
+                                            }
+                                        }catch (NumberFormatException e1){
+                                            e1.printStackTrace();
+                                        }
+                                    }
                                     Log.i("Exception", e.getMessage());
                                 }
                             }
+                            Log.i("Max id", String.valueOf(maxid[0]));
                             editor = sharedPref.edit();
                             editor.putInt("maxid", maxid[0]);
                             editor.apply();
