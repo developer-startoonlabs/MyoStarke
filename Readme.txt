@@ -1,6 +1,21 @@
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 ###############
+Version:- 2.13.0.h
+Date:- 11-12-2019
+Responsible:- Ankush
+Firmware Version(Tested With):- 1.11.1
+server version:- 1.12.0
+Hardware Version MVP_3
+description:- 1) Introduced health data, location, device details and phizio email used by a device
+              2) New muscles and writing part chaged to sending the exercise as well
+              3) Changed the otp dialog
+              4) Showing atiny and hardware version
+              5) Lower back muscle integration
+              6) Globally unique id of a patient with repect to a physioemail.
+
+
+###############
 Version:- 2.12.2.h
 Date:- 21-11-2019
 Responsible:- Ankush
