@@ -31,6 +31,7 @@
         android:roundIcon="@mipmap/pheezee_logos_final_square_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:resizeableActivity="false"
         android:usesCleartextTraffic="true">
         <service
             android:name=".services.PheezeeBleService"
