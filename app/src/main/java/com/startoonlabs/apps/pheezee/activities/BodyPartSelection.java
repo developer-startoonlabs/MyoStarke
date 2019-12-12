@@ -9,6 +9,8 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -54,6 +56,7 @@ public class BodyPartSelection extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_body_part_selection);
         iv_back_body_part_selection = findViewById(R.id.iv_back_body_part_selection);
+
         bodyPartRecyclerView = findViewById(R.id.bodyPartRecyclerView);
         bodyPartRecyclerView.setHasFixedSize(true);
 
@@ -79,6 +82,8 @@ public class BodyPartSelection extends AppCompatActivity {
         iv_back_body_part_selection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Animation aniFade = AnimationUtils.loadAnimation(BodyPartSelection.this,R.anim.fade_in);
+                iv_back_body_part_selection.setAnimation(aniFade);
                 finish();
             }
         });

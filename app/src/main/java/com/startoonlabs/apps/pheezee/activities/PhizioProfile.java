@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -56,8 +57,8 @@ public class PhizioProfile extends AppCompatActivity implements MqttSyncReposito
     EditText et_phizio_name, et_phizio_email, et_phizio_phone,et_address, et_clinic_name, et_dob, et_experience, et_specialization, et_degree, et_gender;
     Spinner spinner;
     MqttSyncRepository repository;
-    TextView tv_edit_profile_pic, tv_edit_profile_details, tv_upload_clinic_logo;
-    ImageView iv_phizio_profilepic;
+    TextView tv_edit_profile_pic, tv_edit_profile_details, tv_update_clinic_logo;
+    ImageView iv_phizio_profilepic, iv_phizio_clinic_logo;
 
     final Calendar myCalendar = Calendar.getInstance();
 
@@ -65,18 +66,21 @@ public class PhizioProfile extends AppCompatActivity implements MqttSyncReposito
 
     JSONObject json_phizio;
     SharedPreferences sharedPref;
-    SharedPreferences.Editor editor;
     ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_phizio_profile);
+        Configuration config = getResources().getConfiguration();
+        if (config.smallestScreenWidthDp >= 600) {
+            setContentView(R.layout.activity_phizio_profile_large);
+        } else {
+            setContentView(R.layout.activity_phizio_profile);
+        }
         repository = new MqttSyncRepository(getApplication());
         repository.setOnPhizioDetailsResponseListner(this);
         //Shared Preference
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        editor = sharedPref.edit();
         dialog = new ProgressDialog(this);
         dialog.setMessage("Updating details, please wait");
         try {
@@ -96,7 +100,6 @@ public class PhizioProfile extends AppCompatActivity implements MqttSyncReposito
         et_phizio_phone =  findViewById(R.id.et_phizio_phone);
         tv_edit_profile_details  = findViewById(R.id.edit_phizio_details);
         tv_edit_profile_pic = findViewById(R.id.change_profile_pic);
-        tv_upload_clinic_logo = findViewById(R.id.tv_upload_clinic_logo);
 
         et_address = findViewById(R.id.et_phizio_address);
         et_clinic_name = findViewById(R.id.et_phizio_clinic_name);
@@ -106,14 +109,29 @@ public class PhizioProfile extends AppCompatActivity implements MqttSyncReposito
         et_degree = findViewById(R.id.et_phizio_degree);
         et_gender = findViewById(R.id.et_phizio_gender);
         spinner = findViewById(R.id.spinner_gender);
+        tv_update_clinic_logo = findViewById(R.id.change_profile_cliniclogo);
+        iv_phizio_clinic_logo = findViewById(R.id.iv_phizio_cliniclogo);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.gender_array, R.layout.custom_green_spinner   );
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
         tv_edit_profile_details.setPaintFlags(tv_edit_profile_details.getPaintFlags()|Paint.UNDERLINE_TEXT_FLAG);
         tv_edit_profile_pic.setPaintFlags(tv_edit_profile_pic.getPaintFlags()|Paint.UNDERLINE_TEXT_FLAG);
+        tv_update_clinic_logo.setPaintFlags(tv_update_clinic_logo.getPaintFlags()|Paint.UNDERLINE_TEXT_FLAG);
 
 
+        tv_update_clinic_logo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(NetworkOperations.isNetworkAvailable(PhizioProfile.this)) {
+                    UploadImageDialog dialog1 = new UploadImageDialog(PhizioProfile.this, 7, 8);
+                    dialog1.showDialog();
+                }
+                else {
+                    NetworkOperations.networkError(PhizioProfile.this);
+                }
+            }
+        });
         iv_phizio_profilepic = (ImageView)findViewById(R.id.iv_phizio_profilepic);
         try {
             if(!json_phizio.getString("phizioprofilepicurl").equals("empty")) {
@@ -236,20 +254,6 @@ public class PhizioProfile extends AppCompatActivity implements MqttSyncReposito
         });
 
 
-        tv_upload_clinic_logo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(NetworkOperations.isNetworkAvailable(PhizioProfile.this)) {
-                    UploadImageDialog dialog1 = new UploadImageDialog(PhizioProfile.this, 7, 8);
-                    dialog1.showDialog();
-                }
-                else {
-                    NetworkOperations.networkError(PhizioProfile.this);
-                }
-            }
-        });
-
-
 
         et_dob.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -301,9 +305,21 @@ public class PhizioProfile extends AppCompatActivity implements MqttSyncReposito
                 et_address.setText("");
 
             if(json_phizio.has("cliniclogo") && !json_phizio.getString("cliniclogo").equalsIgnoreCase("/icons/clinic.png")) {
-                tv_upload_clinic_logo.setText("Update Clinic Logo");
-                Drawable drawable = getResources().getDrawable(R.drawable.round_same_buttons);
-                tv_upload_clinic_logo.setBackground(drawable);
+                tv_update_clinic_logo.setText("Update Clinic Logo");
+                String temp = null;
+                try {
+                    temp = json_phizio.getString("cliniclogo");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.i("inside check", temp);
+                Picasso.get().load(temp)
+                        .placeholder(R.drawable.user_icon)
+                        .error(R.drawable.user_icon)
+                        .networkPolicy(NetworkPolicy.NO_CACHE,NetworkPolicy.NO_STORE)
+                        .memoryPolicy(MemoryPolicy.NO_CACHE,MemoryPolicy.NO_STORE)
+                        .transform(new PicassoCircleTransformation())
+                        .into(iv_phizio_clinic_logo);
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -437,6 +453,7 @@ public class PhizioProfile extends AppCompatActivity implements MqttSyncReposito
                 if(resultCode == RESULT_OK){
                     Bitmap photo = (Bitmap) imageReturnedIntent.getExtras().get("data");
                     photo = BitmapOperations.getResizedBitmap(photo,128);
+                    iv_phizio_clinic_logo.setImageBitmap(photo);
                     repository.updatePhizioClinicLogoPic(et_phizio_email.getText().toString(),photo);
                     dialog.setMessage("Uploading image, please wait");
                     dialog.show();
@@ -445,6 +462,8 @@ public class PhizioProfile extends AppCompatActivity implements MqttSyncReposito
             case 8:
                 if(resultCode == RESULT_OK){
                     Uri selectedImage = imageReturnedIntent.getData();
+                    iv_phizio_clinic_logo.setImageURI(selectedImage);
+                    iv_phizio_clinic_logo.invalidate();
                     try {
                         Bitmap photo = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
                         photo = BitmapOperations.getResizedBitmap(photo,128);
@@ -500,10 +519,11 @@ public class PhizioProfile extends AppCompatActivity implements MqttSyncReposito
     @Override
     public void onClinicLogoUpdated(Boolean response) {
         dialog.dismiss();
-        if(tv_upload_clinic_logo!=null && response){
-            Drawable drawable = getResources().getDrawable(R.drawable.round_same_buttons);
-            tv_upload_clinic_logo.setBackground(drawable);
-            tv_upload_clinic_logo.setText("Update Clinic Logo");
+        if(response){
+            showToast("Updated Clinic Logo");
+            if(tv_update_clinic_logo!=null){
+                tv_update_clinic_logo.setText("Update Clinic Logo");
+            }
         }
     }
 }

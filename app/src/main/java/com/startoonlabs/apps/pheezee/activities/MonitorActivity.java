@@ -32,6 +32,8 @@ import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -514,6 +516,8 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
         iv_back_monitor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Animation aniFade = AnimationUtils.loadAnimation(MonitorActivity.this,R.anim.fade_in);
+                iv_back_monitor.setAnimation(aniFade);
                 finish();
             }
         });

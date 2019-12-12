@@ -709,7 +709,8 @@ public class PheezeeBleService extends Service {
 
         @Override
         public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
-            bluetoothGatt.readCharacteristic(mFirmwareVersionCharacteristic);
+//            if(descriptor.getCharacteristic().getUuid().equals(battery_level_characteristic_uuid))
+//                bluetoothGatt.readCharacteristic(mFirmwareVersionCharacteristic);
         }
 
         @Override
@@ -799,9 +800,10 @@ public class PheezeeBleService extends Service {
                         Log.i("battery percent2", String.valueOf(battery));
                         mBatteryPercent = battery;
                         sendBatteryLevelBroadCast();
-                        gatt.setCharacteristicNotification(mBatteryCharacteristic, true);
-                        mBatteryDescriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
-                        bluetoothGatt.writeDescriptor(mBatteryDescriptor);
+//                        gatt.setCharacteristicNotification(mBatteryCharacteristic, true);
+//                        mBatteryDescriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+//                        bluetoothGatt.writeDescriptor(mBatteryDescriptor);
+                        bluetoothGatt.readCharacteristic(mFirmwareVersionCharacteristic);
                     }
                 }else if(ByteToArrayOperations.byteToStringHexadecimal(header_main).equals("EE")){
                    if(repository!=null){
@@ -855,6 +857,10 @@ public class PheezeeBleService extends Service {
                         repository.sendPhizioEmailToTheServer(temp_info_packet, getApplicationContext());
                     }
                 }
+
+                gatt.setCharacteristicNotification(mBatteryCharacteristic, true);
+                mBatteryDescriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+                bluetoothGatt.writeDescriptor(mBatteryDescriptor);
             }
 
             if(mCharacteristicReadList.size()>0){

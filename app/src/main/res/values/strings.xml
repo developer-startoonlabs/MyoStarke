@@ -181,8 +181,9 @@
 
     <!--phizio profile related tags-->
     <string name="your_profile">Your Profile</string>
-    <string name="change_profile_pic">change profile pic</string>
-    <string name="edit">Edit</string>
+    <string name="change_profile_pic">Update profile pic</string>
+    <string name="change_clinic"><u>Upload clinic logo</u></string>
+    <string name="edit">Edit Details</string>
     <string name="name">Name:&#032;</string>
     <string name="email">Email: </string>
     <string name="phone">Phone:</string>

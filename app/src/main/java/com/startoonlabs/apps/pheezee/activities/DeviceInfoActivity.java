@@ -21,6 +21,8 @@ import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -111,6 +113,8 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
         iv_back_device_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Animation aniFade = AnimationUtils.loadAnimation(DeviceInfoActivity.this,R.anim.fade_in);
+                iv_back_device_info.setAnimation(aniFade);
                 finish();
             }
         });

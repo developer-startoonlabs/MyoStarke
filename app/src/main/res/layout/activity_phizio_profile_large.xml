@@ -32,8 +32,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_phizio_profilepic"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="24dp"
@@ -55,7 +55,7 @@
             android:gravity="center"
             android:text="@string/change_profile_pic"
             android:textColor="@color/good_green"
-            android:textSize="18sp"
+            android:textSize="22sp"
             app:layout_constraintEnd_toStartOf="@+id/guideline6"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iv_phizio_profilepic" />
@@ -72,7 +72,7 @@
             android:gravity="center"
             android:text="@string/edit"
             android:textColor="@color/good_green"
-            android:textSize="18sp"
+            android:textSize="22sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/change_profile_pic" />
 
@@ -504,8 +504,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_phizio_cliniclogo"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="24dp"
@@ -528,7 +528,7 @@
             android:gravity="center"
             android:text="@string/change_clinic"
             android:textColor="@color/good_green"
-            android:textSize="18sp"
+            android:textSize="22sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline6"
             app:layout_constraintTop_toBottomOf="@+id/iv_phizio_cliniclogo" />
