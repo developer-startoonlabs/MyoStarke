@@ -45,7 +45,6 @@ public class ForgotPasswordDialog {
 
                     @Override
                     public void onClick(View view) {
-                        Toast.makeText(context, ""+(!et_new_password.getText().toString().equalsIgnoreCase("") && et_new_password.getText().equals(et_new_password_confirm.getText())), Toast.LENGTH_SHORT).show();
                         if(!et_new_password.getText().toString().equalsIgnoreCase("") && et_new_password.getText().toString().equals(et_new_password_confirm.getText().toString())) {
                             if(listner!=null){
                                 listner.onUpdateClicked(true,et_new_password.getText().toString());

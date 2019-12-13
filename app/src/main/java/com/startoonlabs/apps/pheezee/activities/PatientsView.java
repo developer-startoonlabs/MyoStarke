@@ -182,7 +182,7 @@ public class PatientsView extends AppCompatActivity
     //bluetooth and device connection state
     ImageView iv_bluetooth_connected, iv_bluetooth_disconnected, iv_device_connected, iv_device_disconnected, iv_sync_data,  iv_sync_not_available;
     LinearLayout ll_device_and_bluetooth;
-    MaterialDialog mDialog;
+    AlertDialog mDialog;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -216,24 +216,36 @@ public class PatientsView extends AppCompatActivity
         }
 
         if(!gps_enabled){
-            mDialog = new MaterialDialog.Builder(this)
+            mDialog = new AlertDialog.Builder(this)
                     .setTitle("Location is turned of")
                     .setMessage("Please turn on location to scan and connect Pheezee")
                     .setCancelable(false)
-                    .setPositiveButton("Setting",R.drawable.ic_location_on, new MaterialDialog.OnClickListener() {
+                    .setPositiveButton("Setting", new DialogInterface.OnClickListener() {
                         @Override
-                        public void onClick(com.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
+                        public void onClick(DialogInterface dialog, int which) {
                             startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                            dialogInterface.dismiss();
+                            dialog.dismiss();
                         }
-                    })
-                    .setNegativeButton("Cancel", R.drawable.ic_close, new MaterialDialog.OnClickListener() {
+                    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
-                        public void onClick(com.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
-                            dialogInterface.dismiss();
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
                         }
-                    })
-                    .build();
+                    }).show();
+//                    .setPositiveButton("Setting",R.drawable.ic_location_on, new MaterialDialog.OnClickListener() {
+//                        @Override
+//                        public void onClick(com.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
+//                            startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+//                            dialogInterface.dismiss();
+//                        }
+//                    })
+//                    .setNegativeButton("Cancel", R.drawable.ic_close, new MaterialDialog.OnClickListener() {
+//                        @Override
+//                        public void onClick(com.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
+//                            dialogInterface.dismiss();
+//                        }
+//                    })
+//                    .build();
 
             // Show Dialog
             mDialog.show();
@@ -746,7 +758,7 @@ public class PatientsView extends AppCompatActivity
         intent.putExtra("patientId", patient.getPatientid());
         intent.putExtra("patientName", patient.getPatientname());
         intent.putExtra("dateofjoin",patient.getDateofjoin());
-        if (Objects.requireNonNull(sharedPref.getString("deviceMacaddress", "")).equals("")) {
+        if (Objects.requireNonNull(sharedPref.getString("deviceMacaddress", "")).equals("") && !mDeviceState) {
             Toast.makeText(this, "First add pheezee to your application", Toast.LENGTH_LONG).show();
         } else if (!(iv_device_connected.getVisibility()==View.VISIBLE)  ) {
             Toast.makeText(this, "Make sure that the pheezee is on", Toast.LENGTH_LONG).show();
@@ -994,7 +1006,7 @@ public class PatientsView extends AppCompatActivity
                         deviceMacc = macAddress;
                         editor = sharedPref.edit();
                         editor.putString("deviceMacaddress",macAddress);
-                        editor.apply();
+                        editor.commit();
                         tv_connect_to_pheezee.setText(R.string.turn_on_device);
                         showToast("Connecting, please wait..");
                     }
@@ -1164,27 +1176,42 @@ public class PatientsView extends AppCompatActivity
 
     private void showFirmwareUpdateAvailableDialog() {
         if(mDialog==null) {
-            mDialog = new MaterialDialog.Builder(this)
+            mDialog = new AlertDialog.Builder(this)
                     .setTitle("Update?")
                     .setMessage("There is a device update available, please update for better experience?")
                     .setCancelable(false)
-                    .setPositiveButton("Update", R.drawable.ic_update_firmware, new MaterialDialog.OnClickListener() {
+                    .setPositiveButton("Update", new DialogInterface.OnClickListener() {
                         @Override
-                        public void onClick(com.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
-                            dialogInterface.dismiss();
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
                             Intent i = new Intent(PatientsView.this, DeviceInfoActivity.class);
                             i.putExtra("start_update", true);
                             i.putExtra("deviceMacAddress", sharedPref.getString("deviceMacaddress", ""));
                             startActivity(i);
                         }
-                    })
-                    .setNegativeButton("Cancel", R.drawable.ic_close, new MaterialDialog.OnClickListener() {
+                    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
-                        public void onClick(com.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
-                            dialogInterface.dismiss();
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
                         }
-                    })
-                    .build();
+                    }).show();
+//                    .setPositiveButton("Update", R.drawable.ic_update_firmware, new MaterialDialog.OnClickListener() {
+//                        @Override
+//                        public void onClick(com.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
+//                            dialogInterface.dismiss();
+//                            Intent i = new Intent(PatientsView.this, DeviceInfoActivity.class);
+//                            i.putExtra("start_update", true);
+//                            i.putExtra("deviceMacAddress", sharedPref.getString("deviceMacaddress", ""));
+//                            startActivity(i);
+//                        }
+//                    })
+//                    .setNegativeButton("Cancel", R.drawable.ic_close, new MaterialDialog.OnClickListener() {
+//                        @Override
+//                        public void onClick(com.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
+//                            dialogInterface.dismiss();
+//                        }
+//                    })
+//                    .build();
 
             // Show Dialog
             mDialog.show();

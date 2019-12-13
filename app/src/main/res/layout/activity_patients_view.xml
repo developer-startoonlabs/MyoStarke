@@ -5,7 +5,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/NavigationView"
+    android:theme="@style/AppTheme.NoActionBar"
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
@@ -33,7 +33,7 @@
             android:gravity="end"/>
 
 
-    </com.google.android.material.navigation.NavigationView>
+    </com.google.android.material.navigation.NavigationView>>
 
 
 </androidx.drawerlayout.widget.DrawerLayout>

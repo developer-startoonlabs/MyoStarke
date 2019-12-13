@@ -304,6 +304,7 @@ public class PheezeeBleService extends Service {
                 .setContentText(deviceState)
                 .setSmallIcon(R.mipmap.pheezee_logos_final_square_round)
                 .setColor(getResources().getColor(R.color.default_blue_light))
+                .setDefaults(Notification.DEFAULT_ALL)
 //                .setContentIntent(pendingIntent)
                 .build();
         startForeground(1,builder);
@@ -669,6 +670,7 @@ public class PheezeeBleService extends Service {
                     refreshDeviceCache(gatt);
                     gatt.discoverServices();
                     deviceStateBroadcast();
+                    checkDeviceMacSavedOrNot();
                     showNotification(device_connected_notif);
                     stopScaninBackground();
                 } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
@@ -890,6 +892,18 @@ public class PheezeeBleService extends Service {
             }
         }
     };
+
+    private void checkDeviceMacSavedOrNot() {
+        if(preferences.getString("deviceMacaddress","").equalsIgnoreCase("")){
+            if(remoteDevice!=null){
+                if(!remoteDevice.getAddress().equalsIgnoreCase("")){
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString("deviceMacaddress",remoteDevice.getAddress());
+                    editor.commit();
+                }
+            }
+        }
+    }
 
     private void scheduleFirmwareUpdateCheckJob() {
         ComponentName componentName = new ComponentName(this, FirmwareUpdatePresentService.class);

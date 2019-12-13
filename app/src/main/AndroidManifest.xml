@@ -108,7 +108,7 @@
         <activity
             android:name=".activities.PatientsView"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar.home" />
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <receiver android:name=".services.BluetoothReceiver">
             <intent-filter>

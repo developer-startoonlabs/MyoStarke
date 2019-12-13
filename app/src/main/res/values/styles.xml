@@ -16,14 +16,17 @@
         <item name="colorPrimary">@color/good_green</item>
         <item name="colorPrimaryDark">@color/good_green</item>
         <item name="colorAccent">@color/good_green</item>
+        <item name="android:fontFamily">@font/ebrima</item>
     </style>
 
-    <style name="AppTheme.NoActionBar.home" parent="Theme.MaterialComponents.Light">
+    <style name="AppTheme.NoActionBar.home" parent="Theme.MaterialComponents.Light.NoActionBar.Bridge">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="colorPrimary">@color/good_green</item>
         <item name="colorPrimaryDark">@color/good_green</item>
         <item name="colorAccent">@color/good_green</item>
+        <item name="colorSecondary">@color/pitch_black</item>
+        <item name="android:fontFamily">@font/ebrima</item>
     </style>
 
     <style name="PrimaryColoredButton" parent="Base.Widget.AppCompat.Button.Colored">

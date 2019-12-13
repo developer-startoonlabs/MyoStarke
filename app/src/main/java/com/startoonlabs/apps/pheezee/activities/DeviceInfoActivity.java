@@ -136,6 +136,11 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
             tv_disconnect_forget.setText("Forget Device");
         }
 
+        if(!preferences.getString("deviceMacaddress","").equalsIgnoreCase("")){
+            tv_device_mamc.setText(preferences.getString("deviceMacaddress",""));
+            tv_disconnect_forget.setText("Forget Device");
+        }
+
 
         tv_disconnect_forget.setOnClickListener(new View.OnClickListener() {
             @Override
