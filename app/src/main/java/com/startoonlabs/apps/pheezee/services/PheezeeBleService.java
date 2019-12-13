@@ -808,12 +808,12 @@ public class PheezeeBleService extends Service {
                         bluetoothGatt.readCharacteristic(mFirmwareVersionCharacteristic);
                     }
                 }else if(ByteToArrayOperations.byteToStringHexadecimal(header_main).equals("EE")){
-                   if(repository!=null){
-                       if(NetworkOperations.isNetworkAvailable(getApplicationContext()))
+                    if(repository!=null){
+                        if(NetworkOperations.isNetworkAvailable(getApplicationContext()))
                             repository.sendFirmwareLogToTheServer(info_packet, deviceMacc, mFirmwareVersion, mSerialId,true,getApplicationContext());
-                       else
-                           repository.sendFirmwareLogToTheServer(info_packet, deviceMacc, mFirmwareVersion, mSerialId,false,getApplicationContext());
-                   }
+                        else
+                            repository.sendFirmwareLogToTheServer(info_packet, deviceMacc, mFirmwareVersion, mSerialId,false,getApplicationContext());
+                    }
                 }
 
             } else if(characteristic.getUuid().equals(firmware_version_characteristic_uuid)){
