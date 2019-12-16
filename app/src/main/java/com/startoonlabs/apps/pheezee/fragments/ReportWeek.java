@@ -83,7 +83,7 @@ public class ReportWeek extends Fragment implements MqttSyncRepository.OnReportD
         tv_report_week = view.findViewById(R.id.fragment_week_tv_report_date);
         tv_click_to_view_report = view.findViewById(R.id.fragment_week_generate_report);
         report_dialog = new ProgressDialog(getActivity());
-        report_dialog.setMessage("Generating day report please wait....");
+        report_dialog.setMessage("Generating weekly report please wait....");
         report_dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         report_dialog.setIndeterminate(true);
         repository = new MqttSyncRepository(getActivity().getApplication());
@@ -411,9 +411,9 @@ public class ReportWeek extends Fragment implements MqttSyncRepository.OnReportD
 
     private void getWeekReport(String date){
         String url = "/getreport/weekly/"+patientId+"/"+phizioemail+"/" + date;
-        report_dialog.setMessage("Generating day report for sessions held on "+date+", please wait....");
+        report_dialog.setMessage("Generating weekly report for sessions before "+date+", please wait....");
         report_dialog.show();
-        repository.getDayReport(url,patientName+"-overall");
+        repository.getDayReport(url,patientName+"-weekly");
     }
 
     @Override

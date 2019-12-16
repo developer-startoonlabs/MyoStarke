@@ -90,7 +90,7 @@ public class ReportMonth extends Fragment implements MqttSyncRepository.OnReport
         tv_report_month = view.findViewById(R.id.fragment_month_tv_report_date);
         tv_click_to_generate_report = view.findViewById(R.id.fragment_month_generate_report);
         report_dialog = new ProgressDialog(getActivity());
-        report_dialog.setMessage("Generating day report please wait....");
+        report_dialog.setMessage("Generating monthly report please wait....");
         report_dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         report_dialog.setIndeterminate(true);
         repository = new MqttSyncRepository(getActivity().getApplication());
@@ -392,7 +392,7 @@ public class ReportMonth extends Fragment implements MqttSyncRepository.OnReport
 
     private void getMonthReport(String date){
         String url = "/getreport/monthly/"+patientId+"/"+phizioemail+"/" + date;
-        report_dialog.setMessage("Generating day report for sessions held on "+date+", please wait....");
+        report_dialog.setMessage("Generating monthly report for sessions held before "+date+", please wait....");
         report_dialog.show();
         repository.getDayReport(url,patientName+"-monthly");
     }

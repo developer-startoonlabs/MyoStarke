@@ -56,7 +56,7 @@ public class ReportOverall extends Fragment implements MqttSyncRepository.OnRepo
         View view=  inflater.inflate(R.layout.fragment_overall_report, container, false);
 
         report_dialog = new ProgressDialog(getActivity());
-        report_dialog.setMessage("Generating day report please wait....");
+        report_dialog.setMessage("Generating overall report please wait....");
         report_dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         report_dialog.setIndeterminate(true);
         TextView tv_overall_report = view.findViewById(R.id.fragment_overall_generate_report);
@@ -94,7 +94,7 @@ public class ReportOverall extends Fragment implements MqttSyncRepository.OnRepo
 
     private void getOverallReport(String date){
         String url = "/getreport/overall/"+patientId+"/"+phizioemail+"/" + date;
-        report_dialog.setMessage("Generating day report for sessions held on "+date+", please wait....");
+        report_dialog.setMessage("Generating overall report for all the sessions held before "+date+", please wait....");
         report_dialog.show();
         repository.getDayReport(url,patientName+"-overall");
     }
