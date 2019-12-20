@@ -137,19 +137,31 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="right"
-                android:orientation="horizontal">
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tv_deviceinfo_device_mac"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_gravity="end"
                     android:layout_margin="5dp"
                     android:fontFamily="@font/ebrima"
                     android:text="@string/device_null"
                     android:textColor="@color/good_green"
                     android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tv_reactivate_device"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_margin="5dp"
+                    android:visibility="gone"
+                    android:fontFamily="@font/ebrima"
+                    android:text="@string/reactivate_device"
+                    android:textColor="@color/red"
+                    android:textSize="18sp"/>
             </LinearLayout>
         </LinearLayout>
 

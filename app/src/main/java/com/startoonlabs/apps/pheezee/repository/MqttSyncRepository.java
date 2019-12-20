@@ -15,10 +15,13 @@ import androidx.lifecycle.LiveData;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.startoonlabs.apps.pheezee.activities.DeviceInfoActivity;
 import com.startoonlabs.apps.pheezee.pojos.AddPatientData;
 import com.startoonlabs.apps.pheezee.pojos.CommentSessionUpdateData;
 import com.startoonlabs.apps.pheezee.pojos.DeletePatientData;
 import com.startoonlabs.apps.pheezee.pojos.DeleteSessionData;
+import com.startoonlabs.apps.pheezee.pojos.DeviceDeactivationStatus;
+import com.startoonlabs.apps.pheezee.pojos.DeviceDeactivationStatusResponse;
 import com.startoonlabs.apps.pheezee.pojos.DeviceDetailsData;
 import com.startoonlabs.apps.pheezee.pojos.DeviceLocationStatus;
 import com.startoonlabs.apps.pheezee.pojos.FirmwareData;
@@ -42,8 +45,10 @@ import com.startoonlabs.apps.pheezee.pojos.SessionData;
 import com.startoonlabs.apps.pheezee.pojos.SignUpData;
 import com.startoonlabs.apps.pheezee.retrofit.GetDataService;
 import com.startoonlabs.apps.pheezee.retrofit.RetrofitClientInstance;
+import com.startoonlabs.apps.pheezee.room.Dao.DeviceStatusDao;
 import com.startoonlabs.apps.pheezee.room.Dao.MqttSyncDao;
 import com.startoonlabs.apps.pheezee.room.Dao.PhizioPatientsDao;
+import com.startoonlabs.apps.pheezee.room.Entity.DeviceStatus;
 import com.startoonlabs.apps.pheezee.room.Entity.MqttSync;
 import com.startoonlabs.apps.pheezee.room.Entity.PhizioPatients;
 import com.startoonlabs.apps.pheezee.room.PheezeeDatabase;
@@ -62,24 +67,28 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import no.nordicsemi.android.dfu.internal.exception.DeviceDisconnectedException;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.startoonlabs.apps.pheezee.activities.PatientsView.json_phizioemail;
+import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.deactivate_device;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.device_details_email;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.device_details_status;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.firmware_log;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.firmware_update_available;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.health_status;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.location_status;
+import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.scedule_device_status_service;
 
 /**
  * That interacts with database
  */
 public class MqttSyncRepository {
     private MqttSyncDao mqttSyncDao;
+    private DeviceStatusDao deviceStatusDao;
     private PhizioPatientsDao phizioPatientsDao;
     private GetDataService getDataService;
     private onServerResponse listner;
@@ -89,6 +98,7 @@ public class MqttSyncRepository {
     private OnReportDataResponseListner reportDataResponseListner;
     private GetSessionNumberResponse response;
     private OnSessionDataResponse onSessionDataResponse;
+    private onDeviceStatusResponse onDeviceStatusResponse;
     /**
      * Live object returned to get the item count in the database to update the sync button view
      */
@@ -102,6 +112,7 @@ public class MqttSyncRepository {
         database = PheezeeDatabase.getInstance(application);
         mqttSyncDao = database.mqttSyncDao();
         phizioPatientsDao = database.phizioPatientsDao();
+        deviceStatusDao = database.deviceStatusDao();
         this.count = mqttSyncDao.getEntityCount();
         this.patients = phizioPatientsDao.getAllActivePatients();
         getDataService = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
@@ -1260,6 +1271,153 @@ public class MqttSyncRepository {
         });
     }
 
+
+    public void checkAndUpdateDeviceStatus(byte[] info_packet, Context context, int deviceCurrentState){
+        if(deviceCurrentState==0) {
+            if (NetworkOperations.isNetworkAvailable(context)) {
+                AsyncTask.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        String uid = ByteToArrayOperations.getDeviceUid(info_packet);
+                        DeviceDeactivationStatus status = new DeviceDeactivationStatus(uid);
+                        Gson gson = new GsonBuilder().create();
+                        String s = gson.toJson(status);
+                        editor = sharedPref.edit();
+                        editor.putString("uid_deactivation",s);
+                        editor.commit();
+                        Call<DeviceDeactivationStatusResponse> call = getDataService.getDeviceStatus(status);
+                        call.enqueue(new Callback<DeviceDeactivationStatusResponse>() {
+                            @Override
+                            public void onResponse(@NonNull Call<DeviceDeactivationStatusResponse> call, @NonNull Response<DeviceDeactivationStatusResponse> response) {
+                                if (response.code() == 200) {
+                                    DeviceDeactivationStatusResponse res_device_status = response.body();
+                                    if (!res_device_status.isStatus()) {
+                                        sendDeactivateDeviceBroadcast(context);
+                                    }else {
+                                        editor = sharedPref.edit();
+                                        editor.putString("uid_deactivation","");
+                                        editor.apply();
+                                        if(res_device_status.getUid()!=null)
+                                            deleteDeviceStatus(res_device_status.getUid());
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(@NonNull Call<DeviceDeactivationStatusResponse> call, @NonNull Throwable t) {
+                            }
+                        });
+                    }
+                });
+            } else {
+                AsyncTask.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        String uid = ByteToArrayOperations.getDeviceUid(info_packet);
+                        DeviceDeactivationStatus status = new DeviceDeactivationStatus(uid);
+                        Gson gson = new GsonBuilder().create();
+                        String s = gson.toJson(status);
+                        editor = sharedPref.edit();
+                        editor.putString("uid_deactivation",s);
+                        editor.commit();
+                        DeviceStatus device_present = deviceStatusDao.getDeviceStatus(uid);
+                        if (device_present != null) {
+                            Log.i("DeviceStatus", String.valueOf(device_present.getStatus()));
+                            sendDeactivateDeviceBroadcast(context);
+                        } else {
+                            Log.i("Sceduled123","TRUE");
+                            sendDeviceDeactivatedServiceScedule(context);
+                        }
+                        Log.i("Deleted","Deleted");
+                    }
+                });
+            }
+        }
+    }
+
+
+    public void getDeviceStatus(byte[] info_packet){
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                String uid = ByteToArrayOperations.getDeviceUid(info_packet);
+                DeviceDeactivationStatus status = new DeviceDeactivationStatus(uid);
+                Call<DeviceDeactivationStatusResponse> call = getDataService.getDeviceStatus(status);
+                call.enqueue(new Callback<DeviceDeactivationStatusResponse>() {
+                    @Override
+                    public void onResponse(@NonNull Call<DeviceDeactivationStatusResponse> call, @NonNull Response<DeviceDeactivationStatusResponse> response) {
+                        if (response.code() == 200) {
+                            DeviceDeactivationStatusResponse res_device_status = response.body();
+                            if (!res_device_status.isStatus()) {
+                                if(onDeviceStatusResponse!=null){
+                                    onDeviceStatusResponse.onDeviceStatusResponse(true,false);
+                                }
+                            }else {
+                                if(onDeviceStatusResponse!=null){
+                                    onDeviceStatusResponse.onDeviceStatusResponse(true,true);
+                                }
+                            }
+                        }else {
+                            if(onDeviceStatusResponse!=null){
+                                onDeviceStatusResponse.onDeviceStatusResponse(false,false);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<DeviceDeactivationStatusResponse> call, @NonNull Throwable t) {
+                        if(onDeviceStatusResponse!=null){
+                            onDeviceStatusResponse.onDeviceStatusResponse(false,false);
+                        }
+                    }
+                });
+            }
+        });
+
+    }
+
+
+    public void insertDeviceStatus(DeviceStatus status){
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                DeviceStatus device_present = deviceStatusDao.getDeviceStatus(status.getUid());
+                if(device_present==null)
+                    deviceStatusDao.insert(status);
+            }
+        });
+    }
+
+    public void deleteDeviceStatus(byte[] info_packet){
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                String uid = ByteToArrayOperations.getDeviceUid(info_packet);
+                deviceStatusDao.deleteDevice(uid);
+            }
+        });
+    }
+
+    public void deleteDeviceStatus(String uid){
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                deviceStatusDao.deleteDevice(uid);
+            }
+        });
+    }
+
+    private void sendDeviceDeactivatedServiceScedule(Context context){
+        Intent i = new Intent(scedule_device_status_service);
+        i.putExtra(scedule_device_status_service,"");
+        context.sendBroadcast(i);
+    }
+
+    private void sendDeactivateDeviceBroadcast(Context context){
+        Intent i = new Intent(deactivate_device);
+        i.putExtra(deactivate_device,"");
+        context.sendBroadcast(i);
+    }
     public void syncDataToServer() {
         Log.i("hello", "insidesync");
         new SyncDataAsync(mqttSyncDao).execute();
@@ -1553,6 +1711,10 @@ public class MqttSyncRepository {
         void onSyncComplete(boolean response, String message);
     }
 
+    public interface onDeviceStatusResponse{
+        void onDeviceStatusResponse(boolean response, boolean status);
+    }
+
 //    public interface FirmwareUpdatedListner{
 //        void firmwareUpdated(boolean flag);
 //    }
@@ -1588,6 +1750,10 @@ public class MqttSyncRepository {
 
     public void disableReportDataListner(){
         this.reportDataResponseListner = null;
+    }
+
+    public void setOnDeviceStatusResponse(onDeviceStatusResponse response){
+        this.onDeviceStatusResponse = response;
     }
 
 }

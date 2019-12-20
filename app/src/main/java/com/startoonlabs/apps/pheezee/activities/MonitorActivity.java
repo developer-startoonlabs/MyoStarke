@@ -77,6 +77,8 @@ import java.util.List;
 
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.battery_percent;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.bluetooth_state;
+import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.deactivate_device;
+import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.device_disconnected_firmware;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.device_state;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.session_data;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.usb_state;
@@ -528,6 +530,7 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
         intentFilter.addAction(usb_state);
         intentFilter.addAction(battery_percent);
         intentFilter.addAction(session_data);
+        intentFilter.addAction(device_disconnected_firmware);
         registerReceiver(session_data_receiver,intentFilter);
 
         Intent mIntent = new Intent(this, PheezeeBleService.class);
@@ -1116,6 +1119,15 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
                     Message message = new Message();
                     message.obj = mService.getSessionData().obj;
                     myHandler.sendMessage(message);
+                }
+            }else if(action.equalsIgnoreCase(device_disconnected_firmware)){
+                boolean device_disconnected_status = intent.getBooleanExtra(device_disconnected_firmware,false);
+                Log.i("Device Status", String.valueOf(device_disconnected_status));
+                if(device_disconnected_status){
+                    showToast("The device has been deactivated");
+                    Intent i = new Intent(MonitorActivity.this, PatientsView.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    startActivity(i);
                 }
             }
         }

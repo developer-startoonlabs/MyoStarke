@@ -192,8 +192,9 @@ public class BodyPartSelection extends AppCompatActivity {
         if(mService!=null){
             boolean device_state = mService.getDeviceState();
             boolean usb_state = mService.getUsbState();
+            int device_disconnected_status = mService.getDeviceDeactivationStatus();
             Log.i("USB state",String.valueOf(usb_state));
-            if(device_state && !usb_state) {
+            if(device_state && !usb_state && device_disconnected_status==0) {
                 if (isValid()) {
                     Log.i("body part", str_body_part);
                     Log.i("body orientation", str_orientation);
@@ -235,7 +236,13 @@ public class BodyPartSelection extends AppCompatActivity {
             }else {
                 if(usb_state){
                     showToast("Please remove usb from device to continue..");
-                }else {
+                }else if(device_disconnected_status==1){
+                    showToast("Device has been deactivated");
+                    Intent i = new Intent(BodyPartSelection.this, PatientsView.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    startActivity(i);
+                }
+                else {
                     showToast("Please connect device!");
                     Intent i = new Intent(BodyPartSelection.this, PatientsView.class);
                     i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);

@@ -2,11 +2,13 @@ package com.startoonlabs.apps.pheezee.activities;
 
 import android.app.ActivityManager;
 import android.app.NotificationManager;
+import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
@@ -29,6 +31,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
@@ -36,6 +39,8 @@ import com.shreyaspatil.MaterialDialog.MaterialDialog;
 import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.dfu.DfuService;
 import com.startoonlabs.apps.pheezee.dfu.fragment.UploadCancelFragment;
+import com.startoonlabs.apps.pheezee.pojos.DeviceDeactivationStatus;
+import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
 import com.startoonlabs.apps.pheezee.services.PheezeeBleService;
 import com.startoonlabs.apps.pheezee.utils.NetworkOperations;
 import com.startoonlabs.apps.pheezee.utils.ZipOperations;
@@ -59,6 +64,7 @@ import no.nordicsemi.android.dfu.DfuServiceListenerHelper;
 
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.battery_percent;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.bluetooth_state;
+import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.device_disconnected_firmware;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.device_state;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.df_characteristic_written;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.hardware_version;
@@ -70,7 +76,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
 
     //Bluetooth related declarations
     public String TAG  = "DeviceInfoActivity";
-    private boolean inside_bootloader = false;
+    private boolean inside_bootloader = false, mDeviceDeactivated = false, mActivateCommandGiven = false;
     private static final int REQUEST_ENABLE_BT = 1;
     private int device_baterry_level=0;
     BluetoothAdapter bluetoothAdapter;
@@ -82,18 +88,23 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
     SharedPreferences.Editor editor;
     //Declaring all the view items
     TextView tv_device_name,tv_device_mamc, tv_firmware_version, tv_serial_id, tv_hardware_version,
-            tv_battery_level,tv_connection_status, tv_disconnect_forget, mTextUploading, mTextPercentage, tv_update_firmware;
+            tv_battery_level,tv_connection_status, tv_disconnect_forget, mTextUploading, mTextPercentage, tv_update_firmware,
+            tv_reactivate_device;
     ImageView iv_back_device_info;
     private ProgressBar mProgressBar;
     LinearLayout ll_dfu;
     DfuController controller;
     MaterialDialog mDialog, mDfuDialog;
+    AlertDialog mDeactivatedDialog;
+    MqttSyncRepository repository;
+    ProgressDialog mCheckReactivationDialog;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device_info);
+        repository = new MqttSyncRepository(getApplication());
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         tv_disconnect_forget = findViewById(R.id.tv_disconnect_forget);
         tv_device_name = findViewById(R.id.tv_deviceinfo_device_name);
@@ -108,7 +119,9 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
         mTextUploading = findViewById(R.id.textviewUploading);
         mTextPercentage = findViewById(R.id.textviewProgress);
         tv_update_firmware = findViewById(R.id.update_firmware);
+        tv_reactivate_device = findViewById(R.id.tv_reactivate_device);
         ll_dfu = findViewById(R.id.ll_dfu);
+        mCheckReactivationDialog = new ProgressDialog(this);
 
         iv_back_device_info.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,6 +129,14 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
                 Animation aniFade = AnimationUtils.loadAnimation(DeviceInfoActivity.this,R.anim.fade_in);
                 iv_back_device_info.setAnimation(aniFade);
                 finish();
+            }
+        });
+
+
+        tv_reactivate_device.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reactivateDevice();
             }
         });
 
@@ -163,11 +184,16 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
         tv_update_firmware.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(NetworkOperations.isNetworkAvailable(DeviceInfoActivity.this)){
-                    Log.i("here","updating");
-                    startFirmwareUpdate();
+                int x = mService.getDeviceDeactivationStatus();
+                mDeviceDeactivated = x == 1;
+                if(!mDeviceDeactivated) {
+                    if (NetworkOperations.isNetworkAvailable(DeviceInfoActivity.this)) {
+                        startFirmwareUpdate();
+                    } else {
+                        NetworkOperations.networkError(DeviceInfoActivity.this);
+                    }
                 }else {
-                    NetworkOperations.networkError(DeviceInfoActivity.this);
+                    Toast.makeText(DeviceInfoActivity.this, "Device Deactivated", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -184,6 +210,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
         intentFilter.addAction(manufacturer_name);
         intentFilter.addAction(df_characteristic_written);
         intentFilter.addAction(hardware_version);
+        intentFilter.addAction(device_disconnected_firmware);
         registerReceiver(device_info_receiver,intentFilter);
 
 
@@ -191,6 +218,58 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
             tv_update_firmware.setVisibility(View.VISIBLE);
             Log.i("here","hereinupdate");
             start_update = true;
+        }
+
+        if(getIntent().getBooleanExtra("reactivate_device",false)){
+            mActivateCommandGiven = true;
+        }
+    }
+
+    private void reactivateDevice() {
+        if(NetworkOperations.isNetworkAvailable(this)) {
+            if (mDeviceState) {
+                if (mService != null) {
+                    byte[] info_packet = mService.getInfoPacket();
+                    if (info_packet != null) {
+                        if (repository != null) {
+                            mActivateCommandGiven = true;
+                            mCheckReactivationDialog.setMessage("Checking Device State from server");
+                            mCheckReactivationDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                            mCheckReactivationDialog.setIndeterminate(true);
+                            mCheckReactivationDialog.show();
+                            repository.getDeviceStatus(info_packet);
+                            repository.setOnDeviceStatusResponse(new MqttSyncRepository.onDeviceStatusResponse() {
+                                @Override
+                                public void onDeviceStatusResponse(boolean response, boolean status) {
+                                    if (response) {
+                                        if (status) {
+                                            if (mCheckReactivationDialog.isShowing() && mService != null) {
+                                                if (mDeviceState) {
+                                                    mCheckReactivationDialog.setMessage("Reactivating device, please wait..");
+                                                    mService.reactivateDevice();
+                                                } else {
+                                                    showToast("Device Not Connected");
+                                                }
+                                            }
+
+                                        } else {
+                                            mCheckReactivationDialog.dismiss();
+                                            showDeviceDeactivatedDialog("Device Deactivated", "The device is still deactivated, please contaact StartoonLabs.");
+                                        }
+                                    } else {
+                                        mCheckReactivationDialog.dismiss();
+                                        showToast("Please try again later");
+                                    }
+                                }
+                            });
+                        }
+                    }
+                }
+            } else {
+                showToast("Device Not Connected");
+            }
+        }else {
+            NetworkOperations.networkError(this);
         }
     }
 
@@ -262,6 +341,14 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
             mDeviceState = mService.getDeviceState();
             if(start_update){
                 tv_update_firmware.performClick();
+            }
+            if(mActivateCommandGiven){
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        reactivateDevice();
+                    }
+                },100);
             }
         }
 
@@ -383,15 +470,32 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
                 String hardwareVersion = intent.getStringExtra(hardware_version);
                 Log.i("hardware version", hardwareVersion);
                 tv_hardware_version.setText(hardwareVersion);
+            }else if(action.equalsIgnoreCase(device_disconnected_firmware)){
+                boolean device_disconnected_status = intent.getBooleanExtra(device_disconnected_firmware,false);
+                if(device_disconnected_status){
+                    mDeviceDeactivated = true;
+                    tv_reactivate_device.setVisibility(View.VISIBLE);
+                }else {
+                    mDeviceDeactivated = false;
+                    tv_reactivate_device.setVisibility(View.GONE);
+                    if(mCheckReactivationDialog!=null && mCheckReactivationDialog.isShowing()){
+                        mCheckReactivationDialog.dismiss();
+                    }
+                    if(mActivateCommandGiven) {
+                        showDeviceDeactivatedDialog("Device Activated", "Congratulations, the device has been reactivated.");
+                        mActivateCommandGiven = false;
+                    }
+                }
             }
+//            else if(action.equalsIgnoreCase(device_deactivated)){
+//                mDeviceDeactivated = true;
+//                tv_reactivate_device.setVisibility(View.VISIBLE);
+//            }
         }
     };
 
     private void dfuCanceledView() {
         ll_dfu.setVisibility(View.GONE);
-//        mProgressBar.setVisibility(View.INVISIBLE);
-//        mTextPercentage.setVisibility(View.INVISIBLE);
-//        mTextUploading.setVisibility(View.INVISIBLE);
         mTextPercentage.setText("");
         mTextUploading.setText("");
         mProgressBar.setProgress(0);
@@ -723,5 +827,14 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
             }
         }
         return false;
+    }
+
+    private void showDeviceDeactivatedDialog(String title, String  message) {
+        if(mDeactivatedDialog==null || !mDeactivatedDialog.isShowing()) {
+            mDeactivatedDialog = new AlertDialog.Builder(this)
+                    .setTitle(title)
+                    .setMessage(message)
+                    .show();
+        }
     }
 }

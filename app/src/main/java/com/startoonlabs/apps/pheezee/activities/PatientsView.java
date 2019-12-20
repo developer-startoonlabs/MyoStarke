@@ -2,7 +2,6 @@ package com.startoonlabs.apps.pheezee.activities;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
@@ -13,7 +12,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.IntentSender;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -64,26 +62,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.common.api.ResolvableApiException;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.LocationSettingsRequest;
-import com.google.android.gms.location.LocationSettingsResponse;
-import com.google.android.gms.location.LocationSettingsResult;
-import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.shreyaspatil.MaterialDialog.MaterialDialog;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -91,7 +76,6 @@ import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.adapters.PatientsRecyclerViewAdapter;
 import com.startoonlabs.apps.pheezee.classes.MyBottomSheetDialog;
 import com.startoonlabs.apps.pheezee.pojos.DeletePatientData;
-import com.startoonlabs.apps.pheezee.pojos.DeviceDetailsData;
 import com.startoonlabs.apps.pheezee.pojos.PatientDetailsData;
 import com.startoonlabs.apps.pheezee.pojos.PatientStatusData;
 import com.startoonlabs.apps.pheezee.popup.AddPatientPopUpWindow;
@@ -99,6 +83,7 @@ import com.startoonlabs.apps.pheezee.popup.EditPopUpWindow;
 import com.startoonlabs.apps.pheezee.popup.UploadImageDialog;
 import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
 import com.startoonlabs.apps.pheezee.room.Entity.PhizioPatients;
+import com.startoonlabs.apps.pheezee.services.DeviceDeactivationStatusService;
 import com.startoonlabs.apps.pheezee.services.DeviceDetailsService;
 import com.startoonlabs.apps.pheezee.services.DeviceEmailUpdateService;
 import com.startoonlabs.apps.pheezee.services.DeviceLocationStatusService;
@@ -123,14 +108,18 @@ import java.util.Objects;
 
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.battery_percent;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.bluetooth_state;
+import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.deactivate_device;
+import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.device_disconnected_firmware;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.device_state;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.firmware_log;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.firmware_update_available;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.jobid_device_details_update;
+import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.jobid_device_status;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.jobid_firmware_log;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.jobid_health_data;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.jobid_location_status;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.jobid_user_connected_update;
+import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.scedule_device_status_service;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.usb_state;
 
 public class PatientsView extends AppCompatActivity
@@ -141,7 +130,7 @@ public class PatientsView extends AppCompatActivity
     public static final  int REQ_CAMERA = 17;
     public static final  int REQ_GALLERY = 18;
     PheezeeBleService mService;
-    private boolean mDeviceState = false;
+    private boolean mDeviceState = false, mDeviceDeactivated = false, mInsideHome = true;
     boolean isBound =  false;
     int REQUEST_ENABLE_BT = 1;
     public static int deviceBatteryPercent = -1;
@@ -182,7 +171,7 @@ public class PatientsView extends AppCompatActivity
     //bluetooth and device connection state
     ImageView iv_bluetooth_connected, iv_bluetooth_disconnected, iv_device_connected, iv_device_disconnected, iv_sync_data,  iv_sync_not_available;
     LinearLayout ll_device_and_bluetooth;
-    AlertDialog mDialog;
+    AlertDialog mDialog, mDeactivatedDialog;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -347,6 +336,19 @@ public class PatientsView extends AppCompatActivity
         }
     }
 
+    private void chekDeviceStatusLogPresentAndSrartService() {
+        if(!Objects.requireNonNull(sharedPref.getString("uid_deactivation", "")).equalsIgnoreCase("")){
+            ComponentName componentName = new ComponentName(this, DeviceDeactivationStatusService.class);
+            JobInfo.Builder info = new JobInfo.Builder(jobid_device_status,componentName);
+            info.setMinimumLatency(1000);
+            info.setOverrideDeadline(3000);
+            info.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY);
+            info.setRequiresCharging(false);
+            JobScheduler jobScheduler = (JobScheduler)getSystemService(JOB_SCHEDULER_SERVICE);
+            jobScheduler.schedule(info.build());
+        }
+    }
+
     private void boundToBluetoothService() {
         Intent mIntent = new Intent(this,PheezeeBleService.class);
         bindService(mIntent, mConnection, BIND_AUTO_CREATE);
@@ -368,6 +370,10 @@ public class PatientsView extends AppCompatActivity
         intentFilter.addAction(PheezeeBleService.location_status);
         intentFilter.addAction(PheezeeBleService.device_details_status);
         intentFilter.addAction(PheezeeBleService.device_details_email);
+        intentFilter.addAction(device_disconnected_firmware);
+        intentFilter.addAction(scedule_device_status_service);
+        intentFilter.addAction(deactivate_device);
+//        intentFilter.addAction(device_deactivated);
         registerReceiver(patient_view_broadcast_receiver,intentFilter);
     }
 
@@ -513,6 +519,7 @@ public class PatientsView extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
+        mInsideHome = true;
         try {
             json_phizio = new JSONObject(sharedPref.getString("phiziodetails", ""));
             email.setText(json_phizioemail);
@@ -586,6 +593,7 @@ public class PatientsView extends AppCompatActivity
             Intent i = new Intent(PatientsView.this, DeviceInfoActivity.class);
             i.putExtra("deviceMacAddress", sharedPref.getString("deviceMacaddress", ""));
             i.putExtra("start_update",false);
+            i.putExtra("reactivate_device",false);
             startActivityForResult(i,13);
         }
 
@@ -788,7 +796,7 @@ public class PatientsView extends AppCompatActivity
                        flag = false;
                 }else if(firmware_version[1]<11){
                     flag = false;
-                }else if(firmware_version[2]<1) {
+                }else if(firmware_version[2]<4) {
                     flag = false;
                 }else{
                         flag = true;
@@ -798,7 +806,11 @@ public class PatientsView extends AppCompatActivity
                     NetworkOperations.firmwareVirsionNotCompatible(this);
                 }else {
                     Log.i("timestamp2", String.valueOf(Calendar.getInstance().getTimeInMillis()));
-                    startActivity(intent);
+                    if(!mDeviceDeactivated)
+                        startActivity(intent);
+                    else {
+                        showDeviceDeactivatedDialog();
+                    }
                 }
             }
         }
@@ -1175,7 +1187,7 @@ public class PatientsView extends AppCompatActivity
     };
 
     private void showFirmwareUpdateAvailableDialog() {
-        if(mDialog==null) {
+        if(mDialog==null && mDeactivatedDialog==null) {
             mDialog = new AlertDialog.Builder(this)
                     .setTitle("Update?")
                     .setMessage("There is a device update available, please update for better experience?")
@@ -1186,6 +1198,7 @@ public class PatientsView extends AppCompatActivity
                             dialog.dismiss();
                             Intent i = new Intent(PatientsView.this, DeviceInfoActivity.class);
                             i.putExtra("start_update", true);
+                            i.putExtra("reactivate_device",false);
                             i.putExtra("deviceMacAddress", sharedPref.getString("deviceMacaddress", ""));
                             startActivity(i);
                         }
@@ -1195,26 +1208,30 @@ public class PatientsView extends AppCompatActivity
                             dialog.dismiss();
                         }
                     }).show();
-//                    .setPositiveButton("Update", R.drawable.ic_update_firmware, new MaterialDialog.OnClickListener() {
-//                        @Override
-//                        public void onClick(com.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
-//                            dialogInterface.dismiss();
-//                            Intent i = new Intent(PatientsView.this, DeviceInfoActivity.class);
-//                            i.putExtra("start_update", true);
-//                            i.putExtra("deviceMacAddress", sharedPref.getString("deviceMacaddress", ""));
-//                            startActivity(i);
-//                        }
-//                    })
-//                    .setNegativeButton("Cancel", R.drawable.ic_close, new MaterialDialog.OnClickListener() {
-//                        @Override
-//                        public void onClick(com.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
-//                            dialogInterface.dismiss();
-//                        }
-//                    })
-//                    .build();
+        }
+    }
 
-            // Show Dialog
-            mDialog.show();
+    private void showDeviceDeactivatedDialog() {
+        if(mDeactivatedDialog==null || !mDeactivatedDialog.isShowing()) {
+            mDeactivatedDialog = new AlertDialog.Builder(this)
+                    .setTitle("Device Deactivated")
+                    .setMessage("The device has been deactivated, please contact StartoonLabs. If you have already contacted StartoonLabs, please click on check reactivation.")
+                    .setPositiveButton("Check Reactivation", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            Intent i = new Intent(PatientsView.this, DeviceInfoActivity.class);
+                            i.putExtra("start_update", false);
+                            i.putExtra("reactivate_device",true);
+                            i.putExtra("deviceMacAddress", sharedPref.getString("deviceMacaddress", ""));
+                            startActivity(i);
+                        }
+                    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).show();
         }
     }
 
@@ -1262,7 +1279,8 @@ public class PatientsView extends AppCompatActivity
                 if(mDeviceState) {
                     if (!Objects.requireNonNull(sharedPref.getString("firmware_update", "")).equalsIgnoreCase("")
                             && !sharedPref.getString("firmware_version", "").equalsIgnoreCase(firmwareVersion)) {
-                        showFirmwareUpdateAvailableDialog();
+                        if(!mDeviceDeactivated)
+                            showFirmwareUpdateAvailableDialog();
                     } else {
                         editor = sharedPref.edit();
                         editor.putString("firmware_update", "");
@@ -1301,9 +1319,42 @@ public class PatientsView extends AppCompatActivity
             else if(action.equalsIgnoreCase(PheezeeBleService.device_details_email)){
                 Log.i("here","here");
                 chekDeviceEmailDetailsStatusLogPresentAndSrartService();
+            }else if(action.equalsIgnoreCase(PheezeeBleService.device_disconnected_firmware)){
+                Log.i("Device Deactivated ","Broadcast");
+                boolean device_disconnected_status = intent.getBooleanExtra(device_disconnected_firmware,false);
+                if(device_disconnected_status){
+                    mDeviceDeactivated = true;
+                    if(mInsideHome)
+                        showDeviceDeactivatedDialog();
+                    cancelDeviceDeactivatedJob();
+                }else {
+                    mDeviceDeactivated = false;
+                    if(mDeactivatedDialog!=null && mDeactivatedDialog.isShowing()){
+                        mDeactivatedDialog.dismiss();
+                    }
+                }
+            }else if(action.equalsIgnoreCase(scedule_device_status_service)){
+                chekDeviceStatusLogPresentAndSrartService();
+            }else if(action.equalsIgnoreCase(deactivate_device)){
+                Log.i("Here","deactivate device");
+                deactivatePheezeeDevice();
             }
+//            else if(action.equalsIgnoreCase(device_deactivated)){
+//                mDeviceDeactivated = true;
+//                showDeviceDeactivatedDialog();
+//                cancelDeviceDeactivatedJob();
+//            }
         }
     };
+
+
+    private void deactivatePheezeeDevice(){
+        if(mService!=null){
+            if(mDeviceState){
+                mService.deactivateDevice();
+            }
+        }
+    }
 
     ServiceConnection mConnection = new ServiceConnection() {
         @Override
@@ -1327,6 +1378,7 @@ public class PatientsView extends AppCompatActivity
     @Override
     protected void onPause() {
         super.onPause();
+        mInsideHome = false;
         unregisterReceiver(firmware_update_receiver);
     }
 
@@ -1484,5 +1536,10 @@ public class PatientsView extends AppCompatActivity
                         }
                     }
                 });
+    }
+
+    private void cancelDeviceDeactivatedJob(){
+        JobScheduler jobScheduler = (JobScheduler)getSystemService(JOB_SCHEDULER_SERVICE);
+        jobScheduler.cancel(6);
     }
 }

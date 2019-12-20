@@ -84,7 +84,7 @@ public class PheezeeBleService extends Service {
     private byte[] temp_info_packet = null;
     private double latitude=0, longitude=0;
     private long first_scan = 0;
-    private int num_of_scan = 0;
+    private int num_of_scan = 0, mDeviceStatus=0;
     private boolean tooFrequentScan  =false, firmware_error = false;
     SharedPreferences preferences;
     private final String device_connected_notif = "Device Connected";
@@ -116,6 +116,9 @@ public class PheezeeBleService extends Service {
     public static String dfu_start_initiated = "dfu.start.initiated";
     public static String df_characteristic_written = "dfu.characteristic.written";
     public static String firmware_update_available = "firmware.update.available";
+    public static String device_disconnected_firmware = "device.disconnected.firmware";
+    public static String scedule_device_status_service = "scedule.device.status.service";
+    public static String deactivate_device = "deactivate.device";
 
 
     public static int jobid_firmware_log = 0;
@@ -124,6 +127,8 @@ public class PheezeeBleService extends Service {
     public static int jobid_location_status = 3;
     public static int jobid_device_details_update = 4;
     public static int jobid_user_connected_update = 5;
+    public static int jobid_device_status = 6;
+
 
 
 
@@ -406,6 +411,18 @@ public class PheezeeBleService extends Service {
         sendBroadcast(i);
     }
 
+    public void sendDeviceDisconnectedBroadcast(){
+        if(mDeviceStatus==1) {
+            Intent i = new Intent(device_disconnected_firmware);
+            i.putExtra(device_disconnected_firmware, true);
+            sendBroadcast(i);
+        }else {
+            Intent i = new Intent(device_disconnected_firmware);
+            i.putExtra(device_disconnected_firmware, false);
+            sendBroadcast(i);
+        }
+    }
+
     public void sendFirmwareVersion(){
         Intent i = new Intent(firmware_version);
         i.putExtra(firmware_version,mFirmwareVersion);
@@ -472,6 +489,7 @@ public class PheezeeBleService extends Service {
         sendSerialNumberBroadcast();
         sendManufacturerName();
         sendHardwareVersion();
+        sendDeviceDisconnectedBroadcast();
     }
 
     public void increaseGain(){
@@ -784,6 +802,15 @@ public class PheezeeBleService extends Service {
                         int device_status = info_packet[12] & 0xFF;
                         int device_usb_state = info_packet[13] & 0xFF;
                         int error = info_packet[9] & 0xFF;
+                        int device_disconnected = 0;
+                        try {
+                            device_disconnected = info_packet[43] & 0xFF;
+                        }catch (ArrayIndexOutOfBoundsException e){
+                            device_disconnected = 0;
+                        }
+                        mDeviceStatus = device_disconnected;
+                        sendDeviceDisconnectedBroadcast();
+                        Log.i("Device Status123", String.valueOf(device_disconnected));
                         mAtinyVersion = String.valueOf(info_packet[10] & 0xFF);
                         if (error == 1) firmware_error = true;
                         else firmware_error = false;
@@ -802,9 +829,6 @@ public class PheezeeBleService extends Service {
                         Log.i("battery percent2", String.valueOf(battery));
                         mBatteryPercent = battery;
                         sendBatteryLevelBroadCast();
-//                        gatt.setCharacteristicNotification(mBatteryCharacteristic, true);
-//                        mBatteryDescriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
-//                        bluetoothGatt.writeDescriptor(mBatteryDescriptor);
                         bluetoothGatt.readCharacteristic(mFirmwareVersionCharacteristic);
                     }
                 }else if(ByteToArrayOperations.byteToStringHexadecimal(header_main).equals("EE")){
@@ -857,6 +881,7 @@ public class PheezeeBleService extends Service {
                         repository.sendDeviceHealthStatusToTheServer(temp_info_packet, getApplicationContext());
                         repository.sendDeviceLocationStatusToTheServer(temp_info_packet, getApplicationContext(), latitude, longitude);
                         repository.sendPhizioEmailToTheServer(temp_info_packet, getApplicationContext());
+                        repository.checkAndUpdateDeviceStatus(temp_info_packet,getApplicationContext(),mDeviceStatus);
                     }
                 }
 
@@ -888,6 +913,16 @@ public class PheezeeBleService extends Service {
                 }else if(mCharacteristicWrittenValue.equalsIgnoreCase("1")){
                     Log.i("characteristic","written");
                     sendDfuCharacteristicWritten();
+                }else if(mCharacteristicWrittenValue.equalsIgnoreCase("D1")){
+                    mDeviceStatus = 1;
+                    Log.i("Here123","123");
+                    sendDeviceDisconnectedBroadcast();
+                    if(repository!=null){
+                        repository.deleteDeviceStatus(temp_info_packet);
+                    }
+                }else if(mCharacteristicWrittenValue.equalsIgnoreCase("D2")){
+                    mDeviceStatus = 0;
+                    sendDeviceDisconnectedBroadcast();
                 }
             }
         }
@@ -959,6 +994,7 @@ public class PheezeeBleService extends Service {
                 isConnectCommandGiven=false;
                 mDeviceState = false;mFirmwareVersion="Null"; mSerialId="NULL";mBatteryPercent = 0;mManufacturerName="Null";mHardwareVersion="Null";
                 mAtinyVersion = "Null";
+                mDeviceStatus=0;
                 if(bluetoothGatt!=null) {
                     bluetoothGatt.disconnect();
                     bluetoothGatt.close();
@@ -983,6 +1019,7 @@ public class PheezeeBleService extends Service {
                 }
                 if (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1) == BluetoothAdapter.STATE_OFF) {
                     isConnectCommandGiven = false;
+                    mDeviceStatus=0;
                     mBluetoothState = false;mDeviceState = false;mFirmwareVersion="Null"; mSerialId="NULL";mBatteryPercent = 0;mManufacturerName="Null";
                     mHardwareVersion="Null";
                     mAtinyVersion = "Null";
@@ -1015,4 +1052,27 @@ public class PheezeeBleService extends Service {
         return remoteDevice.getName();
     }
 
+    public int getDeviceDeactivationStatus(){
+        return mDeviceStatus;
+    }
+    public void deactivateDevice(){
+        Log.i("Here","INSIDE PHEEZEEBLE");
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                byte[] b = ByteToArrayOperations.hexStringToByteArray("D1");
+                writeCharacteristic(mCustomCharacteristic,b,"D1");
+            }
+        },2000);
+
+    }
+
+    public void reactivateDevice(){
+        byte[] b = ByteToArrayOperations.hexStringToByteArray("D2");
+        writeCharacteristic(mCustomCharacteristic,b,"D2");
+    }
+
+    public byte[] getInfoPacket(){
+        return temp_info_packet;
+    }
 }

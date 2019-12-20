@@ -159,6 +159,7 @@
     <string name="device_connection_state">Connection Status:</string>
     <string name="device_null">Null</string>
     <string name="update_firmware">Update</string>
+    <string name="reactivate_device">Reactivate Device</string>
     <string name="firmware_updated">Firmware has been updated, reconnecting device please wait.</string>
     <string name="device_not_connected">N/C</string>
     <string name="bluetooth_disabled">Bluetooth Diabled</string>

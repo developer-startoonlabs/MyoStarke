@@ -4,6 +4,8 @@ import com.startoonlabs.apps.pheezee.pojos.AddPatientData;
 import com.startoonlabs.apps.pheezee.pojos.CommentSessionUpdateData;
 import com.startoonlabs.apps.pheezee.pojos.DeletePatientData;
 import com.startoonlabs.apps.pheezee.pojos.DeleteSessionData;
+import com.startoonlabs.apps.pheezee.pojos.DeviceDeactivationStatus;
+import com.startoonlabs.apps.pheezee.pojos.DeviceDeactivationStatusResponse;
 import com.startoonlabs.apps.pheezee.pojos.DeviceDetailsData;
 import com.startoonlabs.apps.pheezee.pojos.DeviceLocationStatus;
 import com.startoonlabs.apps.pheezee.pojos.FirmwareData;
@@ -119,5 +121,8 @@ public interface GetDataService {
 
     @POST("/api/update/device/email/used")
     Call<Boolean> sendEmailUsedWithDevice(@Body PhizioEmailData data);
+
+    @POST("/api/get/device/status")
+    Call<DeviceDeactivationStatusResponse> getDeviceStatus(@Body DeviceDeactivationStatus status);
 
 }
