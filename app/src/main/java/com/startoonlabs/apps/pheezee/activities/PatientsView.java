@@ -527,6 +527,9 @@ public class PatientsView extends AppCompatActivity
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        if(mService!=null){
+            mService.gerDeviceInfo();
+        }
         registerFirmwareUpdateReceiver();
     }
 
