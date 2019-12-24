@@ -99,8 +99,6 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
     JSONObject json_phizio = new JSONObject();
     JSONArray emgJsonArray, romJsonArray;
     ImageView iv_back_monitor;
-    File file_session_emgdata, file_dir_session_emgdata, file_session_romdata, file_session_sessiondetails;
-    FileOutputStream outputStream_session_emgdata, outputStream_session_romdata, outputStream_session_sessiondetails;
     List<Entry> dataPoints;
     LineChart lineChart;
     LineDataSet lineDataSet;
@@ -410,7 +408,6 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
                     Minutes = 0;
                     timer.setText(R.string.timer_start);
                     tsLong = System.currentTimeMillis();
-                    insertValuesAndNotifyMediaStore();
                 }
             }
         });
@@ -445,7 +442,6 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
                 timer.setText(R.string.timer_start);
                 tsLong = System.currentTimeMillis();
                 initiatePopupWindowModified();
-                insertValuesAndNotifyMediaStore();
             }
         });
 
@@ -544,75 +540,6 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
     }
 
     /**
-     * Inserts the summary values in files and also tells the media to scan the files for visibility when connected to the laptop.
-     */
-    private void insertValuesAndNotifyMediaStore() {
-        new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-                try {
-
-
-                    outputStream_session_sessiondetails.write("Angle-Corrected : ".concat(String.valueOf(angleCorrection)).getBytes());
-
-                    outputStream_session_sessiondetails.write("\n\n\n".getBytes());
-                    outputStream_session_sessiondetails.write("Session Details".getBytes());
-                    outputStream_session_sessiondetails.write("\n".getBytes());
-                    outputStream_session_sessiondetails.write("Session Stop Pressed".getBytes());
-                    outputStream_session_sessiondetails.write("\n".getBytes());
-                    outputStream_session_sessiondetails.write("Max Angle:".concat(String.valueOf(maxAngle)).getBytes());
-                    outputStream_session_sessiondetails.write("\n".getBytes());
-                    outputStream_session_sessiondetails.write("Min Angle:".concat(String.valueOf(minAngle)).getBytes());
-                    outputStream_session_sessiondetails.write("\n".getBytes());
-                    outputStream_session_sessiondetails.write("Max Emg:".concat(String.valueOf(maxEmgValue)).getBytes());
-                    outputStream_session_sessiondetails.write("\n".getBytes());
-                    outputStream_session_sessiondetails.write("Hold Time:".concat(holdTimeValue).getBytes());
-                    outputStream_session_sessiondetails.write("\n".getBytes());
-                    outputStream_session_sessiondetails.write("Num of Reps:".concat(Repetitions.getText().toString()).getBytes());
-                    outputStream_session_sessiondetails.write("\n".getBytes());
-                    outputStream_session_sessiondetails.write("Session Time:".concat(time.getText().toString()).getBytes());
-                    outputStream_session_sessiondetails.write("\n".getBytes());
-                    outputStream_session_sessiondetails.write("Active Time:".concat(tv_action_time.getText().toString()).getBytes());
-                    outputStream_session_sessiondetails.write("\n".getBytes());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                MediaScannerConnection.scanFile(
-                        getApplicationContext(),
-                        new String[]{file_session_emgdata.getAbsolutePath()},
-                        null,
-                        new MediaScannerConnection.OnScanCompletedListener() {
-                            @Override
-                            public void onScanCompleted(String path, Uri uri) {
-                            }
-                        });
-                MediaScannerConnection.scanFile(
-                        getApplicationContext(),
-                        new String[]{file_session_romdata.getAbsolutePath()},
-                        null,
-                        new MediaScannerConnection.OnScanCompletedListener() {
-                            @Override
-                            public void onScanCompleted(String path, Uri uri) {
-                            }
-                        });
-                MediaScannerConnection.scanFile(
-                        getApplicationContext(),
-                        new String[]{file_session_sessiondetails.getAbsolutePath()},
-                        null,
-                        new MediaScannerConnection.OnScanCompletedListener() {
-                            @Override
-                            public void onScanCompleted(String path, Uri uri) {
-//                        Log.v("grokkingandroid",
-//                                "file " + path + " was scanned seccessfully: " + uri);
-                            }
-                        });
-            }
-        });
-
-    }
-
-    /**
      * Updates the view of gain to default
      */
     private void updateGainView() {
@@ -644,51 +571,6 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
                 }
             }, 100);
             rawdata_timestamp = Calendar.getInstance().getTime();
-            android.text.format.DateFormat df = new android.text.format.DateFormat();
-//            String s = rawdata_timestamp.toString().substring(0, 19);
-            String s = String.valueOf(DateFormat.format("yyyy-MM-dd hh-mm-ssa", rawdata_timestamp));
-            String child = patientname + patientid;
-            file_dir_session_emgdata = new File(Environment.getExternalStorageDirectory() + "/Pheezee/files/EmgData/" + child + "/sessiondata/", s);
-            if (!file_dir_session_emgdata.exists()) {
-                file_dir_session_emgdata.mkdirs();
-            }
-            file_session_emgdata = new File(file_dir_session_emgdata, "emg.txt");
-            file_session_romdata = new File(file_dir_session_emgdata, "rom.txt");
-            file_session_sessiondetails = new File(file_dir_session_emgdata, "sessiondetails.txt");
-            try {
-                file_session_emgdata.createNewFile();
-                file_session_romdata.createNewFile();
-                file_session_sessiondetails.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
-                outputStream_session_emgdata = new FileOutputStream(file_session_emgdata, true);
-                outputStream_session_romdata = new FileOutputStream(file_session_romdata, true);
-                outputStream_session_sessiondetails = new FileOutputStream(file_session_sessiondetails, true);
-
-                //emg file output stream
-                outputStream_session_emgdata.write("EMG".getBytes());
-                outputStream_session_emgdata.write("\n".getBytes());
-
-                //rom file output stream
-                outputStream_session_romdata.write("EMG".getBytes());
-                outputStream_session_romdata.write("\n".getBytes());
-
-
-                //sessiondetails file output stream
-                outputStream_session_sessiondetails.write("Patient Name : ".getBytes());
-                outputStream_session_sessiondetails.write(patientname.getBytes());
-                outputStream_session_sessiondetails.write("\n".getBytes());
-                outputStream_session_sessiondetails.write("Patient Id: ".concat(patientid).getBytes());
-                outputStream_session_sessiondetails.write("\n".getBytes());
-                outputStream_session_sessiondetails.write("Orientation-Bodypart-ExerciseName-MuscleName : ".concat(orientation + "-" + bodypart + "-" + str_exercise_name+"-"+str_muscle_name).getBytes());
-                outputStream_session_sessiondetails.write("\n".getBytes());
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
             StartTime = SystemClock.uptimeMillis();
             handler.postDelayed(runnable, 0);
     }
@@ -771,39 +653,13 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
                                     can_beep_min = true;
                                 }
                             }
-                            try {
-                                outputStream_session_romdata = new FileOutputStream(file_session_romdata, true);
-                                outputStream_session_romdata.write(String.valueOf(angleDetected).getBytes());
-                                outputStream_session_romdata.write(",".getBytes());
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            try {
-                                outputStream_session_romdata.flush();
-                                outputStream_session_romdata.close();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
                             LinearLayout.LayoutParams params;
                             params = (LinearLayout.LayoutParams) emgSignal.getLayoutParams();
                             ++ui_rate;
                             lineData.addEntry(new Entry((float) ui_rate / 50, emg_data), 0);
-                            try {
-                                outputStream_session_emgdata = new FileOutputStream(file_session_emgdata, true);
-                                outputStream_session_emgdata.write(String.valueOf(emg_data).getBytes());
-                                outputStream_session_emgdata.write(",".getBytes());
-                            } catch (FileNotFoundException e) {
-                                e.printStackTrace();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
+
                             emgJsonArray.put(emg_data);
-                            try {
-                                outputStream_session_emgdata.flush();
-                                outputStream_session_emgdata.close();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
+
 
                             maxEmgValue = maxEmgValue < emg_data ? emg_data : maxEmgValue;
                             if (maxEmgValue == 0)
