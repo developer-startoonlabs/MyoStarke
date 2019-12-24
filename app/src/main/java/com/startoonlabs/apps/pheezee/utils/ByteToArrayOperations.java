@@ -1,10 +1,7 @@
 package com.startoonlabs.apps.pheezee.utils;
 
-import android.util.Log;
-
 import com.startoonlabs.apps.pheezee.pojos.HealthData;
 
-import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 

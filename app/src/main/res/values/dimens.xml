@@ -11,4 +11,19 @@
     <dimen name="edittext_mail_left_height">18dp</dimen>
     <dimen name="edittext_pass_left_width">22dp</dimen>
     <dimen name="edittext_pass_left_height">22dp</dimen>
+    <dimen name="app_version_dp">18sp</dimen>
+    <dimen name="toolbar_dim_5">5dp</dimen>
+    <dimen name="bodypart_back_padding_top">2dp</dimen>
+    <dimen name="bodypart_back_padding_right">10dp</dimen>
+    <dimen name="bodypart_back_padding_bottom">2dp</dimen>
+    <dimen name="textsize_bodypart_toolbar">16sp</dimen>
+    <dimen name="marginstart_toolbarttext_bodypart">24dp</dimen>
+    <dimen name="bodypart_list_padding_bottom">100dp</dimen>
+    <dimen name="button_heigt_done">50dp</dimen>
+    <dimen name="textsize_deviceinfo_toolbar">20sp</dimen>
+    <dimen name="element_height_device_info">75dp</dimen>
+    <dimen name="margintop_everyelement_deviceinfo">8dp</dimen>
+    <dimen name="layoutmargin_text_everyelement">5dp</dimen>
+    <dimen name="textsize_device_info_elements">18sp</dimen>
+    <dimen name="toolbar_height_scandevices">60dp</dimen>
 </resources>

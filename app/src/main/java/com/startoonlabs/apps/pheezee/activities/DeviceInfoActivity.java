@@ -21,7 +21,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -216,7 +215,6 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
 
         if(getIntent().getBooleanExtra("start_update", false)){
             tv_update_firmware.setVisibility(View.VISIBLE);
-            Log.i("here","hereinupdate");
             start_update = true;
         }
 
@@ -337,7 +335,6 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
             mService = mLocalBinder.getServiceInstance();
             mService.gerDeviceInfo();
             device_baterry_level = mService.getDeviceBatteryLevel();
-            Log.i("Battery", String.valueOf(device_baterry_level));
             mDeviceState = mService.getDeviceState();
             if(start_update){
                 tv_update_firmware.performClick();
@@ -370,9 +367,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
         }
         unregisterReceiver(device_info_receiver);
         if(controller!=null){
-            Log.i("here1","controller not null");
             if(isDfuServiceRunning()){
-                Log.i("here2","DFU is running");
                 controller.abort();
             }
         }
@@ -464,11 +459,9 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
                 String manufacturer = intent.getStringExtra(manufacturer_name);
                 tv_device_name.setText(manufacturer);
             }else if(action.equalsIgnoreCase(df_characteristic_written)){
-                Log.i("here","here");
                 startDfuService();
             }else if(action.equalsIgnoreCase(hardware_version)){
                 String hardwareVersion = intent.getStringExtra(hardware_version);
-                Log.i("hardware version", hardwareVersion);
                 tv_hardware_version.setText(hardwareVersion);
             }else if(action.equalsIgnoreCase(device_disconnected_firmware)){
                 boolean device_disconnected_status = intent.getBooleanExtra(device_disconnected_firmware,false);
@@ -546,7 +539,6 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
         public void onDeviceConnected(String deviceAddress) {
             mProgressBar.setIndeterminate(true);
 //            mTextPercentage.setText(R.string.dfu_device_connected);
-            Log.i("here","connected");
             inside_bootloader = false;
         }
 
@@ -554,7 +546,6 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
         public void onDfuProcessStarted(String deviceAddress) {
             mProgressBar.setIndeterminate(true);
 //            mTextPercentage.setText(R.string.dfu_started);
-            Log.i("here","Ddu started");
             inside_bootloader = false;
 
         }
@@ -673,7 +664,6 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
         public void onError(final String deviceAddress, final int error, final int errorType, final String message) {
             inside_bootloader = false;
             dfuCanceledView();
-            Log.i(message, errorType +" "+error);
             if(error== DfuBaseService.ERROR_BLUETOOTH_DISABLED){
                 dfuStatusDialog("Device update failed","Please turn on mobile bluetooth and try again.");
             }
@@ -733,7 +723,6 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
     }
 
     private void startDfuService(){
-        Log.i("here1","here");
         if(Build.VERSION.SDK_INT>=26)
             DfuServiceInitiator.createDfuNotificationChannel(this);
         if (isDfuServiceRunning()) {
@@ -783,7 +772,6 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
                             newFile.mkdirs();
                         }
 
-                        Log.i("zip file path = ", newFile.getPath());
                         zipInputStream.closeEntry();
                         zipEntry = zipInputStream.getNextEntry();
                     }

@@ -24,7 +24,6 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.transition.Transition;
-import androidx.transition.TransitionManager;
 
 import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.classes.CircularRevealTransition;

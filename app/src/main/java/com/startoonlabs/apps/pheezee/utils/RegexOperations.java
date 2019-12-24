@@ -1,7 +1,6 @@
 package com.startoonlabs.apps.pheezee.utils;
 
 import android.util.Patterns;
-import android.widget.Toast;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

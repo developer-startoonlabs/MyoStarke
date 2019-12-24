@@ -1,31 +1,23 @@
 package com.startoonlabs.apps.pheezee.fragments;
 
-import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.ParseException;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 
 import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.activities.SessionReportActivity;
 import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
-import com.startoonlabs.apps.pheezee.retrofit.GetDataService;
-import com.startoonlabs.apps.pheezee.retrofit.RetrofitClientInstance;
 import com.startoonlabs.apps.pheezee.utils.DateOperations;
 import com.startoonlabs.apps.pheezee.utils.NetworkOperations;
 
@@ -34,10 +26,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -47,11 +35,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Locale;
-
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import static com.startoonlabs.apps.pheezee.activities.SessionReportActivity.patientId;
 import static com.startoonlabs.apps.pheezee.activities.SessionReportActivity.patientName;
@@ -188,7 +171,6 @@ public class FragmentReportDay extends Fragment implements MqttSyncRepository.On
         String myFormat = "yyyy-MM-dd"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
         dateSelected = sdf.format(myCalendar.getTime());
-        Log.i("date selected",dateSelected);
     }
 
     private HashSet<String> fetchAllDates() {
@@ -198,7 +180,6 @@ public class FragmentReportDay extends Fragment implements MqttSyncRepository.On
                 try {
                     JSONObject object = session_array.getJSONObject(i);
                     hashSet.add(object.getString("heldon").substring(0,10));
-                    Log.i("datespresent",object.getString("heldon").substring(0,10));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

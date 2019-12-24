@@ -2,7 +2,6 @@ package com.startoonlabs.apps.pheezee.utils;
 
 import android.graphics.Bitmap;
 import android.util.Base64;
-import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
 

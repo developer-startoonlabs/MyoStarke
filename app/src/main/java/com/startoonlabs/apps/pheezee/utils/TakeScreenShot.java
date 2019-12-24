@@ -7,7 +7,6 @@ import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Environment;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.View;
 import android.widget.PopupWindow;
 
@@ -75,8 +74,6 @@ public class TakeScreenShot {
                     new MediaScannerConnection.OnScanCompletedListener() {
                         @Override
                         public void onScanCompleted(String path, Uri uri) {
-                            Log.v("grokkingandroid",
-                                    "file " + path + " was scanned seccessfully: " + uri);
                         }
                     });
             //openScreenshot(imageFile);

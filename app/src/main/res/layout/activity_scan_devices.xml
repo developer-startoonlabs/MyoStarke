@@ -11,8 +11,8 @@
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar_scandevices"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                app:elevation="5dp"
+                android:layout_height="@dimen/toolbar_height_scandevices"
+                app:elevation="@dimen/toolbar_dim_5"
                 android:background="@color/white_opaque">
 
                 <LinearLayout
@@ -33,11 +33,11 @@
                             android:id="@+id/back_scan_devices"
                             android:src="@drawable/green_back_arrow"
                             android:layout_gravity="center"
-                            android:contentDescription="TODO" />
+                            android:contentDescription="@string/todo" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="SCAN DEVICES"
+                            android:text="@string/scan_devices"
                             android:textColor="@color/good_green"
                             android:textSize="16sp"
                             android:layout_gravity="center"
@@ -48,7 +48,7 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_gravity="center|right"
+                        android:layout_gravity="center|end"
                         android:layout_weight="0.2"
                         android:gravity="center">
 
@@ -77,7 +77,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="10dp"
-                            android:text="SCAN"
+                            android:text="@string/scan"
                             android:padding="4dp"
                             android:textSize="16sp"
                             android:textColor="@color/good_green"/>

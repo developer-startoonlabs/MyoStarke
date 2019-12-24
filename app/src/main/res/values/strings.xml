@@ -377,4 +377,13 @@
     <string name="click_to_connect">Click to connect to pheezee</string>
     <string name="please_enter_exercise">Please enter exercise name</string>
     <string name="please_enter_muscle">Please enter muscle name</string>
+    <string name="fimware_is_being_updated_please_do_not_close_the_application">Fimware is being updated, please do not close the application</string>
+    <string name="mythreyi_kondapi">Mythreyi Kondapi</string>
+    <string name="_1234">1234</string>
+    <string name="session_no">Session No:</string>
+    <string name="logo_of_pheezee">Logo of pheezee</string>
+    <string name="copy_rights_image">copy rights image</string>
+    <string name="scan_devices">SCAN DEVICES</string>
+    <string name="scan">SCAN</string>
+    <string name="todo">TODO</string>
 </resources>

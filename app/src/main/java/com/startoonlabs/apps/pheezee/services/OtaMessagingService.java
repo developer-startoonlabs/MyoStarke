@@ -9,20 +9,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.startoonlabs.apps.pheezee.R;
-import com.startoonlabs.apps.pheezee.activities.OnStartActivity;
 import com.startoonlabs.apps.pheezee.activities.PatientsView;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.Map;
 import java.util.Objects;
@@ -53,7 +47,6 @@ public class OtaMessagingService extends FirebaseMessagingService {
     public void showNotifications(String app, String message,String downloadLink, Context context){
             Intent intent = new Intent(context, PatientsView.class);
 //        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
-            Log.i("downloadLink1", downloadLink);
             intent.putExtra("downloadLink", downloadLink);
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
             stackBuilder.addNextIntentWithParentStack(intent);

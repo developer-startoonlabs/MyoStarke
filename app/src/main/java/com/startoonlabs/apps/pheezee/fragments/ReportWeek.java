@@ -6,7 +6,6 @@ import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +20,6 @@ import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.activities.SessionReportActivity;
 import com.startoonlabs.apps.pheezee.models.StartAndEndDate;
 import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
-import com.startoonlabs.apps.pheezee.retrofit.GetDataService;
-import com.startoonlabs.apps.pheezee.retrofit.RetrofitClientInstance;
-import com.startoonlabs.apps.pheezee.utils.WriteResponseBodyToDisk;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,11 +35,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Locale;
-
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import static com.startoonlabs.apps.pheezee.activities.SessionReportActivity.patientId;
 import static com.startoonlabs.apps.pheezee.activities.SessionReportActivity.patientName;
@@ -150,7 +141,6 @@ public class ReportWeek extends Fragment implements MqttSyncRepository.OnReportD
 
     private void setInitialweek() {
         global_date = getFirstDates();
-        Log.i("INITIAL DATE",calanderToString(global_date.getStart_date())+" - "+calanderToString(global_date.getEnd_date()) );
         tv_report_week.setText(calanderToString(global_date.getStart_date())+" - "+calanderToString(global_date.getEnd_date()));
         week_end_date = calenderToYYYMMDD(global_date.getEnd_date());
         str_part = new ArrayList<>();
@@ -274,13 +264,11 @@ public class ReportWeek extends Fragment implements MqttSyncRepository.OnReportD
             e.printStackTrace();
         }
 
-        Log.i("Date of join", first_date_join.toString());
         cal_first_date.setTime(first_date_join);
         Calendar first_date = global_date.getStart_date();
         Calendar end_date = global_date.getEnd_date();
         first_date.add(Calendar.DATE,-7);
         end_date.add(Calendar.DATE,-7);
-        Log.i("comparedates", String.valueOf(first_date.compareTo(cal_first_date)));
         if(end_date.compareTo(cal_first_date)>=0){
             global_date.setStart_date(first_date);
             global_date.setEnd_date(end_date);
@@ -301,7 +289,6 @@ public class ReportWeek extends Fragment implements MqttSyncRepository.OnReportD
         Calendar end_date = global_date.getEnd_date();
         first_date.add(Calendar.DATE,7);
         end_date.add(Calendar.DATE,7);
-        Log.i("comparedates", String.valueOf(first_date.compareTo(cal_end_date)));
         if(end_date.compareTo(cal_end_date)<=0){
             global_date.setStart_date(first_date);
             global_date.setEnd_date(end_date);
@@ -405,7 +392,6 @@ public class ReportWeek extends Fragment implements MqttSyncRepository.OnReportD
         Date date_cal = date.getTime();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String strDate = dateFormat.format(date_cal);
-        Log.i("Date sent", strDate);
         return strDate;
     }
 

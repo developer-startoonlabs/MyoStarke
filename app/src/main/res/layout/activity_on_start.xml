@@ -15,6 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/logo_of_pheezee"
         app:layout_constraintVertical_bias="0.49" />
 
 
@@ -47,7 +48,8 @@
             app:layout_constraintBottom_toBottomOf="@+id/textView24"
             app:layout_constraintEnd_toStartOf="@+id/textView24"
             app:layout_constraintTop_toTopOf="@+id/textView24"
-            app:srcCompat="@drawable/ic_copyright" />
+            app:srcCompat="@drawable/ic_copyright"
+            android:contentDescription="@string/copy_rights_image" />
 
         <TextView
             android:id="@+id/textView24"

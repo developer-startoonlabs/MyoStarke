@@ -8,10 +8,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import com.startoonlabs.apps.pheezee.pojos.FirmwareData;
-import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
 import com.startoonlabs.apps.pheezee.retrofit.GetDataService;
 import com.startoonlabs.apps.pheezee.retrofit.RetrofitClientInstance;
 
@@ -30,7 +28,6 @@ public class FirmwareLogService extends JobService {
 
     @Override
     public boolean onStartJob(JobParameters params) {
-        Log.i(TAG,"sceduled");
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         getDataService = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
         doInBackGround(params);
@@ -64,7 +61,6 @@ public class FirmwareLogService extends JobService {
                                         editor.putString("firmware_log","");
                                         editor.apply();
                                         jobFinished(params,false);
-                                        Log.i("herefinished","here");
                                     }else {
                                         jobFinished(params,true);
                                     }

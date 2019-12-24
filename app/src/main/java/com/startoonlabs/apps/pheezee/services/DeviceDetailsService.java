@@ -8,14 +8,12 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.startoonlabs.apps.pheezee.pojos.DeviceDetailsData;
-import com.startoonlabs.apps.pheezee.pojos.DeviceLocationStatus;
 import com.startoonlabs.apps.pheezee.retrofit.GetDataService;
 import com.startoonlabs.apps.pheezee.retrofit.RetrofitClientInstance;
 
@@ -33,7 +31,6 @@ public class DeviceDetailsService extends JobService {
 
     @Override
     public boolean onStartJob(JobParameters params) {
-        Log.i(TAG,"sceduledHealthUpdate");
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         getDataService = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
         doInBackGround(params);
@@ -56,9 +53,7 @@ public class DeviceDetailsService extends JobService {
                 if (isConnected || isWifiConnected ){
                     Gson gson = new GsonBuilder().create();
                     String health_Data = preferences.getString("device_details_data","");
-                    Log.i("device_details_data",health_Data);
                     if(!health_Data.equalsIgnoreCase("")){
-                        Log.i("device_details_data","Here");
                         DeviceDetailsData data = gson.fromJson(health_Data, DeviceDetailsData.class);
                         Call<Boolean> call = getDataService.sendDeviceDetailsToTheServer(data);
                         call.enqueue(new Callback<Boolean>() {

@@ -8,16 +8,17 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "phizio_patients")
 public class PhizioPatients {
     @PrimaryKey @NonNull
+    private
     String patientid;
-    String patientname;
-    String numofsessions;
-    String dateofjoin;
-    String patientage;
-    String patientgender;
-    String patientcasedes;
-    String status;
-    String patientphone;
-    String patientprofilepicurl;
+    private String patientname;
+    private String numofsessions;
+    private String dateofjoin;
+    private String patientage;
+    private String patientgender;
+    private String patientcasedes;
+    private String status;
+    private String patientphone;
+    private String patientprofilepicurl;
 
 
     public PhizioPatients(String patientid, String patientname, String numofsessions,

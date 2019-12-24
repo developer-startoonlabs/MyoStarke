@@ -31,7 +31,6 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -282,7 +281,6 @@ public class PatientsView extends AppCompatActivity
 
     private void chekHealthStatusLogPresentAndSrartService() {
         if(!Objects.requireNonNull(sharedPref.getString("health_data", "")).equalsIgnoreCase("")){
-            Log.i("here","Here");
             ComponentName componentName = new ComponentName(this, HealthUpdatePresentService.class);
             JobInfo.Builder info = new JobInfo.Builder(jobid_health_data,componentName);
             info.setMinimumLatency(1000);
@@ -296,7 +294,6 @@ public class PatientsView extends AppCompatActivity
 
     private void chekDeviceLocationStatusLogPresentAndSrartService() {
         if(!Objects.requireNonNull(sharedPref.getString("device_location_data", "")).equalsIgnoreCase("")){
-            Log.i("here","Here");
             ComponentName componentName = new ComponentName(this, DeviceLocationStatusService.class);
             JobInfo.Builder info = new JobInfo.Builder(jobid_location_status,componentName);
             info.setMinimumLatency(1000);
@@ -310,7 +307,6 @@ public class PatientsView extends AppCompatActivity
 
     private void chekDeviceDetailsStatusLogPresentAndSrartService() {
         if(!Objects.requireNonNull(sharedPref.getString("device_details_data", "")).equalsIgnoreCase("")){
-            Log.i("here","Here");
             ComponentName componentName = new ComponentName(this, DeviceDetailsService.class);
             JobInfo.Builder info = new JobInfo.Builder(jobid_device_details_update,componentName);
             info.setMinimumLatency(1000);
@@ -324,7 +320,6 @@ public class PatientsView extends AppCompatActivity
 
     private void chekDeviceEmailDetailsStatusLogPresentAndSrartService() {
         if(!Objects.requireNonNull(sharedPref.getString("device_email_data", "")).equalsIgnoreCase("")){
-            Log.i("here","Here");
             ComponentName componentName = new ComponentName(this, DeviceEmailUpdateService.class);
             JobInfo.Builder info = new JobInfo.Builder(jobid_user_connected_update,componentName);
             info.setMinimumLatency(1000);
@@ -528,7 +523,7 @@ public class PatientsView extends AppCompatActivity
             e.printStackTrace();
         }
         if(mService!=null){
-            mService.gerDeviceInfo();
+            mService.gerDeviceBasicInfo();
         }
         registerFirmwareUpdateReceiver();
     }
@@ -735,7 +730,6 @@ public class PatientsView extends AppCompatActivity
         battery_bar.setProgressDrawable(drawable);
         @SuppressLint("ResourceAsColor") Drawable drawable_cap = new ColorDrawable(R.color.battery_gray);
         rl_cap_view.setBackground(drawable_cap);
-        Log.i("Firmware_link",sharedPref.getString("firmware_update",""));
     }
 
     /**
@@ -763,7 +757,6 @@ public class PatientsView extends AppCompatActivity
      * @param patient
      */
     public void startSession(PhizioPatients patient) {
-        Log.i("timestamp1", String.valueOf(Calendar.getInstance().getTimeInMillis()));
         Intent intent = new Intent(PatientsView.this, BodyPartSelection.class);
         intent.putExtra("deviceMacAddress", sharedPref.getString("deviceMacaddress", ""));
         intent.putExtra("patientId", patient.getPatientid());
@@ -808,7 +801,6 @@ public class PatientsView extends AppCompatActivity
                 if(!flag){
                     NetworkOperations.firmwareVirsionNotCompatible(this);
                 }else {
-                    Log.i("timestamp2", String.valueOf(Calendar.getInstance().getTimeInMillis()));
                     if(!mDeviceDeactivated)
                         startActivity(intent);
                     else {
@@ -838,7 +830,6 @@ public class PatientsView extends AppCompatActivity
     @SuppressLint("ResourceType")
     public void openOpionsPopupWindow(View view, PhizioPatients patient){
         Bitmap patientpic_bitmap=null;
-        Log.i("inside","here");
         patientTabLayout= (LinearLayout) (view).getParent();
         LinearLayout iv_layout = (LinearLayout)patientTabLayout.getChildAt(0);
 
@@ -1037,9 +1028,6 @@ public class PatientsView extends AppCompatActivity
                 enableScanningTheDevices();
             }
         }
-        else if(requestCode==REQUEST_FINE_LOCATION){
-            Log.i("resultcode123", String.valueOf(resultCode));
-        }
 
         if(requestCode==2){
             if(resultCode!=0){
@@ -1112,7 +1100,6 @@ public class PatientsView extends AppCompatActivity
 
     @Override
     public void onUpdatePatientStatusResponse(boolean response) {
-        Log.i("here","patientdetails updated");
         if(deletepatient_progress!=null)
             deletepatient_progress.dismiss();
         if(response){
@@ -1308,22 +1295,17 @@ public class PatientsView extends AppCompatActivity
                     chekFirmwareLogPresentAndSrartService();
                 }
             }else if(action.equalsIgnoreCase(PheezeeBleService.health_status)){
-                Log.i("here","here");
                 chekHealthStatusLogPresentAndSrartService();
             }
             else if(action.equalsIgnoreCase(PheezeeBleService.location_status)){
-                Log.i("here","here");
                 chekDeviceLocationStatusLogPresentAndSrartService();
             }
             else if(action.equalsIgnoreCase(PheezeeBleService.device_details_status)){
-                Log.i("here","here");
                 chekDeviceDetailsStatusLogPresentAndSrartService();
             }
             else if(action.equalsIgnoreCase(PheezeeBleService.device_details_email)){
-                Log.i("here","here");
                 chekDeviceEmailDetailsStatusLogPresentAndSrartService();
             }else if(action.equalsIgnoreCase(PheezeeBleService.device_disconnected_firmware)){
-                Log.i("Device Deactivated ","Broadcast");
                 boolean device_disconnected_status = intent.getBooleanExtra(device_disconnected_firmware,false);
                 if(device_disconnected_status){
                     mDeviceDeactivated = true;
@@ -1339,7 +1321,6 @@ public class PatientsView extends AppCompatActivity
             }else if(action.equalsIgnoreCase(scedule_device_status_service)){
                 chekDeviceStatusLogPresentAndSrartService();
             }else if(action.equalsIgnoreCase(deactivate_device)){
-                Log.i("Here","deactivate device");
                 deactivatePheezeeDevice();
             }
 //            else if(action.equalsIgnoreCase(device_deactivated)){
@@ -1408,7 +1389,6 @@ public class PatientsView extends AppCompatActivity
         if(requestCode==REQUEST_FINE_LOCATION){
             if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
                 getLastLocationOfDevice();
-                Log.i("here","acess");
                 if(mService!=null){
                     if(mService.isScanning() || !deviceMacc.equalsIgnoreCase("")){
                         mService.stopScaninBackground();
@@ -1532,7 +1512,6 @@ public class PatientsView extends AppCompatActivity
                         // Got last known location. In some rare situations this can be null.
                         if (location != null) {
                             // Logic to handle location object
-                            Log.i("Latitude",location.getLatitude()+" "+location.getLongitude());
                             latitude = location.getLatitude();
                             longitude = location.getLongitude();
 

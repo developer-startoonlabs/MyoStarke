@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,7 +80,6 @@ public class ReportMonth extends Fragment implements MqttSyncRepository.OnReport
 
 
         session_array = ((SessionReportActivity)getActivity()).getSessions();
-        Log.i("month",session_array.toString());
 
         //defining all the view items
         ImageView iv_left = view.findViewById(R.id.fragment_month_iv_left);
@@ -107,7 +105,6 @@ public class ReportMonth extends Fragment implements MqttSyncRepository.OnReport
             @Override
             public void onClick(View v) {
                 global_date = getPreviousDates();
-                Log.i("globaldate", global_date.getStart_date().getTime().toString());
                 currentMonth1 = global_date.getStart_date().get(Calendar.MONTH);
                 currentMonth2 = global_date.getEnd_date().get(Calendar.MONTH);
                 String month_string = calanderToString(global_date.getStart_date())+" - "+calanderToString(global_date.getEnd_date());
@@ -236,7 +233,6 @@ public class ReportMonth extends Fragment implements MqttSyncRepository.OnReport
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        Log.i("Date of join", first_date.toString());
         cal_first_date.add(Calendar.DATE,-29);
 //        cal_end_month.setTime(first_date);
         date = new StartAndEndDate(cal_first_date, cal_end_month);
@@ -252,13 +248,11 @@ public class ReportMonth extends Fragment implements MqttSyncRepository.OnReport
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        Log.i("Date of join", first_date_join.toString());
         cal_first_date.setTime(first_date_join);
         Calendar first_date = global_date.getStart_date();
         Calendar end_date = global_date.getEnd_date();
         first_date.add(Calendar.DATE,-30);
         end_date.add(Calendar.DATE,-30);
-        Log.i("comparedates", String.valueOf(first_date.compareTo(cal_first_date)));
         if(end_date.compareTo(cal_first_date)>=0){
             global_date.setStart_date(first_date);
             global_date.setEnd_date(end_date);
@@ -279,7 +273,6 @@ public class ReportMonth extends Fragment implements MqttSyncRepository.OnReport
         Calendar end_date = global_date.getEnd_date();
         first_date.add(Calendar.DATE,30);
         end_date.add(Calendar.DATE,30);
-        Log.i("comparedates", String.valueOf(first_date.compareTo(cal_end_date)));
         if(end_date.compareTo(cal_end_date)<=0){
             global_date.setStart_date(first_date);
             global_date.setEnd_date(end_date);
@@ -385,7 +378,6 @@ public class ReportMonth extends Fragment implements MqttSyncRepository.OnReport
         Date date_cal = date.getTime();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String strDate = dateFormat.format(date_cal);
-        Log.i("Date sent", strDate);
         return strDate;
     }
 

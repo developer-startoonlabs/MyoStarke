@@ -7,7 +7,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -170,7 +169,6 @@ public class BodyPartSelection extends AppCompatActivity {
     @Override
     protected void onResume() {
         if(adapter!=null){
-            Log.i("called","called");
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -193,18 +191,8 @@ public class BodyPartSelection extends AppCompatActivity {
             boolean device_state = mService.getDeviceState();
             boolean usb_state = mService.getUsbState();
             int device_disconnected_status = mService.getDeviceDeactivationStatus();
-            Log.i("USB state",String.valueOf(usb_state));
             if(device_state && !usb_state && device_disconnected_status==0) {
                 if (isValid()) {
-                    Log.i("body part", str_body_part);
-                    Log.i("body orientation", str_orientation);
-                    Log.i("body part orientation", str_body_orientation);
-                    Log.i("body exercise name", str_exercise_name);
-                    Log.i("body str_muscle_name", str_muscle_name);
-                    Log.i("body part", String.valueOf(int_repsselected));
-                    Log.i("body str_max_emg", str_max_emg_selected);
-                    Log.i("body min_angle_selected", min_angle_selected);
-                    Log.i("body max_angle_selected", max_angle_selected);
                     int body_orientation = 0;
                     if (str_body_orientation.equalsIgnoreCase("sit")) body_orientation = 2;
                     else if (str_body_orientation.equalsIgnoreCase("stand")) body_orientation = 1;

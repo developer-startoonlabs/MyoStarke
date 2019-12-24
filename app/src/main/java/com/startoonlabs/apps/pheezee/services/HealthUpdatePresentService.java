@@ -8,14 +8,11 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.startoonlabs.apps.pheezee.pojos.FirmwareUpdateCheck;
-import com.startoonlabs.apps.pheezee.pojos.FirmwareUpdateCheckResponse;
 import com.startoonlabs.apps.pheezee.pojos.HealthData;
 import com.startoonlabs.apps.pheezee.retrofit.GetDataService;
 import com.startoonlabs.apps.pheezee.retrofit.RetrofitClientInstance;
@@ -33,7 +30,6 @@ public class HealthUpdatePresentService extends JobService {
 
     @Override
     public boolean onStartJob(JobParameters params) {
-        Log.i(TAG,"sceduledHealthUpdate");
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         getDataService = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
         doInBackGround(params);
@@ -56,11 +52,8 @@ public class HealthUpdatePresentService extends JobService {
                 if (isConnected || isWifiConnected ){
                     Gson gson = new GsonBuilder().create();
                     String health_Data = preferences.getString("health_data","");
-                    Log.i("health_data1",health_Data);
                     if(!health_Data.equalsIgnoreCase("")){
-                        Log.i("health_data2","Here");
                         HealthData data = gson.fromJson(health_Data,HealthData.class);
-                        Log.i("health_data2",data.getUid());
                         Call<Boolean> call = getDataService.sendHealthStatusOfDevice(data);
                         call.enqueue(new Callback<Boolean>() {
                             @Override

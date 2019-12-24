@@ -8,11 +8,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.startoonlabs.apps.pheezee.pojos.FirmwareData;
 import com.startoonlabs.apps.pheezee.pojos.FirmwareUpdateCheck;
 import com.startoonlabs.apps.pheezee.pojos.FirmwareUpdateCheckResponse;
 import com.startoonlabs.apps.pheezee.retrofit.GetDataService;
@@ -32,7 +30,6 @@ public class FirmwareUpdatePresentService extends JobService {
 
     @Override
     public boolean onStartJob(JobParameters params) {
-        Log.i(TAG,"sceduledFirmwareUpdate");
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         getDataService = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
         doInBackGround(params);
@@ -67,15 +64,12 @@ public class FirmwareUpdatePresentService extends JobService {
                                         editor.putString("firmware_version", check1.getFirmware_version());
                                         editor.apply();
                                         jobFinished(params,false);
-                                        Log.i("JOB","finished1");
                                     }else {
-                                        Log.i("Firmware Available", String.valueOf(check1.isFirmware_available()));
                                         editor = preferences.edit();
                                         editor.putString("firmware_update", "");
                                         editor.putString("firmware_version", "");
                                         editor.apply();
                                         jobFinished(params,false);
-                                        Log.i("JOB","finished");
                                     }
                                 }
                             }
@@ -84,7 +78,6 @@ public class FirmwareUpdatePresentService extends JobService {
                         @Override
                         public void onFailure(@NonNull Call<FirmwareUpdateCheckResponse> call, @NonNull Throwable t) {
                             jobFinished(params,false);
-                            Log.i("JOB","finished2");
                         }
                     });
                 }

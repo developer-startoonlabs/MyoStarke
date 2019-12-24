@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,23 +16,14 @@ import androidx.fragment.app.Fragment;
 import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.activities.SessionReportActivity;
 import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
-import com.startoonlabs.apps.pheezee.retrofit.GetDataService;
-import com.startoonlabs.apps.pheezee.retrofit.RetrofitClientInstance;
-import com.startoonlabs.apps.pheezee.utils.WriteResponseBodyToDisk;
 
 import org.json.JSONArray;
 
 import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import static com.startoonlabs.apps.pheezee.activities.SessionReportActivity.patientId;
 import static com.startoonlabs.apps.pheezee.activities.SessionReportActivity.patientName;
@@ -87,7 +77,6 @@ public class ReportOverall extends Fragment implements MqttSyncRepository.OnRepo
         Date date_cal = date.getTime();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String strDate = dateFormat.format(date_cal);
-        Log.i("Date sent", strDate);
         return strDate;
     }
 

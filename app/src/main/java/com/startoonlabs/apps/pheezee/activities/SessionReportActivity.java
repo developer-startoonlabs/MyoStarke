@@ -38,10 +38,6 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
 
     TextView tv_day, tv_week, tv_month, tv_overall_summary, tv_overall;
     MqttSyncRepository repository;
-
-
-
-
     ImageView iv_go_back;
 
 

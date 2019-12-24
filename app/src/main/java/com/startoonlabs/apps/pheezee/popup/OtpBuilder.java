@@ -3,7 +3,6 @@ package com.startoonlabs.apps.pheezee.popup;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -13,11 +12,6 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.alimuzaffar.lib.pin.PinEntryEditText;
 import com.startoonlabs.apps.pheezee.R;
-import com.startoonlabs.apps.pheezee.activities.LoginActivity;
-
-import java.util.logging.Handler;
-
-import retrofit2.http.POST;
 
 public class OtpBuilder {
     AlertDialog mdialog = null;

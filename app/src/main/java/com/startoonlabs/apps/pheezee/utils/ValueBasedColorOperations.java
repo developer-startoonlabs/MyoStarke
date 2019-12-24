@@ -1,7 +1,6 @@
 package com.startoonlabs.apps.pheezee.utils;
 
 import android.content.Context;
-import android.util.Log;
 
 import androidx.core.content.ContextCompat;
 
@@ -58,15 +57,12 @@ public class ValueBasedColorOperations {
         int maxStaticRange = getBodyPartMaxValue(bodypart,exercise);
         int range = max-min;
         if((range<(maxStaticRange/3))){
-            Log.i("inside", "less than 3");
             bodyPart = 2;
         }
         else if((range<((2*maxStaticRange)/3))){
-            Log.i("inside", "less than 2/3");
             bodyPart = 1;
         }
         else {
-            Log.i("inside", "else");
             bodyPart = 0;
         }
 
@@ -210,8 +206,6 @@ public class ValueBasedColorOperations {
         b[4] = (byte) body_orientation;
 
 //        b = ByteToArrayOperations.hexStringToByteArray(ae);
-
-        Log.i("byte", b.toString());
         return b;
 //
 //

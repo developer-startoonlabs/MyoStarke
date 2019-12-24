@@ -16,9 +16,10 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_alignParentStart="true"
-        app:elevation="5dp"
-        android:elevation="5dp"
-        android:background="@color/white_opaque">
+        app:elevation="@dimen/toolbar_dim_5"
+        android:elevation="@dimen/toolbar_dim_5"
+        android:background="@color/white_opaque"
+        tools:ignore="ObsoleteLayoutParam">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -27,18 +28,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:id="@+id/iv_back_device_info"
-                android:paddingTop="2dp"
-                android:paddingRight="10dp"
-                android:paddingBottom="2dp"
+                android:paddingTop="@dimen/bodypart_back_padding_top"
+                android:paddingRight="@dimen/bodypart_back_padding_right"
+                android:paddingBottom="@dimen/bodypart_back_padding_bottom"
                 android:src="@drawable/green_back_arrow"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/device_info"
-                android:textSize="20dp"
+                android:textSize="@dimen/textsize_deviceinfo_toolbar"
                 android:textColor="@color/good_green"
                 android:layout_gravity="center"
-                android:layout_marginStart="24dp"/>
+                android:layout_marginStart="@dimen/marginstart_toolbarttext_bodypart"/>
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
 <androidx.constraintlayout.widget.ConstraintLayout
@@ -49,8 +50,8 @@
     <LinearLayout
         android:id="@+id/ll_1"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="@dimen/element_height_device_info"
+        android:layout_marginTop="@dimen/margintop_everyelement_deviceinfo"
         android:background="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -71,12 +72,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-
-                    android:layout_margin="5dp"
+                    android:layout_margin="@dimen/layoutmargin_text_everyelement"
                     android:fontFamily="@font/ebrima"
                     android:text="@string/device_name"
                     android:textColor="@color/good_green"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/textsize_device_info_elements" />
             </LinearLayout>
 
             <LinearLayout
@@ -91,11 +91,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_margin="5dp"
+                    android:layout_margin="@dimen/layoutmargin_text_everyelement"
                     android:fontFamily="@font/ebrima"
                     android:text="@string/device_null"
                     android:textColor="@color/good_green"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/textsize_device_info_elements" />
             </LinearLayout>
         </LinearLayout>
 
@@ -105,10 +105,10 @@
     <LinearLayout
         android:id="@+id/ll_2"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
+        android:layout_height="@dimen/element_height_device_info"
         android:orientation="vertical"
         android:background="@color/white"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/margintop_everyelement_deviceinfo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ll_1">
@@ -126,11 +126,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_margin="5dp"
+                    android:layout_margin="@dimen/layoutmargin_text_everyelement"
                     android:fontFamily="@font/ebrima"
                     android:text="@string/device_mac"
                     android:textColor="@color/good_green"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/textsize_device_info_elements" />
             </LinearLayout>
 
             <LinearLayout
@@ -145,23 +145,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:layout_margin="5dp"
+                    android:layout_margin="@dimen/layoutmargin_text_everyelement"
                     android:fontFamily="@font/ebrima"
                     android:text="@string/device_null"
                     android:textColor="@color/good_green"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/textsize_device_info_elements" />
 
                 <TextView
                     android:id="@+id/tv_reactivate_device"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:layout_margin="5dp"
+                    android:layout_margin="@dimen/layoutmargin_text_everyelement"
                     android:visibility="gone"
                     android:fontFamily="@font/ebrima"
                     android:text="@string/reactivate_device"
                     android:textColor="@color/red"
-                    android:textSize="18sp"/>
+                    android:textSize="@dimen/textsize_device_info_elements"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -170,8 +170,8 @@
     <LinearLayout
         android:id="@+id/ll_8"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="@dimen/element_height_device_info"
+        android:layout_marginTop="@dimen/margintop_everyelement_deviceinfo"
         android:background="@color/white"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
@@ -191,18 +191,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_margin="5dp"
+                    android:layout_margin="@dimen/layoutmargin_text_everyelement"
                     android:fontFamily="@font/ebrima"
                     android:text="@string/device_harmware_version"
                     android:textColor="@color/good_green"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/textsize_device_info_elements" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="right"
+                android:gravity="end"
                 android:orientation="horizontal">
 
                 <TextView
@@ -210,11 +210,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_margin="5dp"
+                    android:layout_margin="@dimen/layoutmargin_text_everyelement"
                     android:fontFamily="@font/ebrima"
                     android:text="@string/device_null"
                     android:textColor="@color/good_green"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/textsize_device_info_elements" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
@@ -223,7 +223,7 @@
         android:id="@+id/ll_3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/margintop_everyelement_deviceinfo"
         android:background="@color/white"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
@@ -232,7 +232,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="75dp">
+            android:layout_height="@dimen/element_height_device_info">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -243,11 +243,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_margin="5dp"
+                    android:layout_margin="@dimen/layoutmargin_text_everyelement"
                     android:fontFamily="@font/ebrima"
                     android:text="@string/firmware_version"
                     android:textColor="@color/good_green"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/textsize_device_info_elements" />
             </LinearLayout>
 
             <LinearLayout
@@ -262,23 +262,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:layout_margin="5dp"
+                    android:layout_margin="@dimen/layoutmargin_text_everyelement"
                     android:fontFamily="@font/ebrima"
                     android:text="@string/device_null"
                     android:textColor="@color/good_green"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/textsize_device_info_elements" />
 
                 <TextView
                     android:id="@+id/update_firmware"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:layout_margin="5dp"
+                    android:layout_margin="@dimen/layoutmargin_text_everyelement"
                     android:visibility="gone"
                     android:fontFamily="@font/ebrima"
                     android:text="@string/update_firmware"
                     android:textColor="@color/red"
-                    android:textSize="18sp"/>
+                    android:textSize="@dimen/textsize_device_info_elements"/>
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
@@ -295,7 +295,7 @@
                 android:layout_height="wrap_content"
                 android:freezesText="true"
                 android:layout_marginTop="10dp"
-                android:text="Fimware is being updated, please do not close the application"
+                android:text="@string/fimware_is_being_updated_please_do_not_close_the_application"
                 android:visibility="visible" />
 
             <TextView
@@ -332,8 +332,8 @@
     <LinearLayout
         android:id="@+id/ll_4"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="@dimen/element_height_device_info"
+        android:layout_marginTop="@dimen/margintop_everyelement_deviceinfo"
         android:background="@color/white"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
@@ -342,7 +342,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:baselineAligned="false">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -353,18 +354,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_margin="5dp"
+                    android:layout_margin="@dimen/layoutmargin_text_everyelement"
                     android:fontFamily="@font/ebrima"
                     android:text="@string/device_serial_id"
                     android:textColor="@color/good_green"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/textsize_device_info_elements" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="right"
+                android:gravity="end"
                 android:orientation="horizontal">
 
                 <TextView
@@ -372,11 +373,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_margin="5dp"
+                    android:layout_margin="@dimen/layoutmargin_text_everyelement"
                     android:fontFamily="@font/ebrima"
                     android:text="@string/device_null"
                     android:textColor="@color/good_green"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/textsize_device_info_elements" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
@@ -384,8 +385,8 @@
     <LinearLayout
         android:id="@+id/ll_5"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="@dimen/element_height_device_info"
+        android:layout_marginTop="@dimen/margintop_everyelement_deviceinfo"
         android:background="@color/white"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
@@ -394,7 +395,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:baselineAligned="false">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -405,18 +407,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_margin="5dp"
+                    android:layout_margin="@dimen/layoutmargin_text_everyelement"
                     android:fontFamily="@font/ebrima"
                     android:text="@string/device_battery"
                     android:textColor="@color/good_green"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/textsize_device_info_elements" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="right"
+                android:gravity="end"
                 android:orientation="horizontal">
 
                 <TextView
@@ -424,11 +426,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_margin="5dp"
+                    android:layout_margin="@dimen/layoutmargin_text_everyelement"
                     android:fontFamily="@font/ebrima"
                     android:text="@string/device_null"
                     android:textColor="@color/good_green"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/textsize_device_info_elements" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
@@ -436,8 +438,8 @@
     <LinearLayout
         android:id="@+id/ll_6"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="@dimen/element_height_device_info"
+        android:layout_marginTop="@dimen/margintop_everyelement_deviceinfo"
         android:orientation="vertical"
         android:background="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
@@ -446,7 +448,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:baselineAligned="false">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -457,18 +460,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_margin="5dp"
+                    android:layout_margin="@dimen/layoutmargin_text_everyelement"
                     android:fontFamily="@font/ebrima"
                     android:text="@string/device_connection_state"
                     android:textColor="@color/good_green"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/textsize_device_info_elements" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="right"
+                android:gravity="end"
                 android:orientation="horizontal">
 
                 <TextView
@@ -476,11 +479,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_margin="5dp"
+                    android:layout_margin="@dimen/layoutmargin_text_everyelement"
                     android:fontFamily="@font/ebrima"
                     android:text="@string/device_null"
                     android:textColor="@color/good_green"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/textsize_device_info_elements" />
             </LinearLayout>
         </LinearLayout>
 

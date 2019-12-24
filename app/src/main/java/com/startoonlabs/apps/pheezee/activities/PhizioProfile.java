@@ -17,7 +17,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -138,13 +137,11 @@ public class PhizioProfile extends AppCompatActivity implements MqttSyncReposito
                 String temp = null;
                 try {
                     temp = json_phizio.getString("phizioprofilepicurl");
-                    Log.i("temp",temp);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 temp = temp.replaceFirst("@", "%40");
                 temp = "https://s3.ap-south-1.amazonaws.com/pheezee/" + temp;
-                Log.i("inside check", temp);
                 Picasso.get().load(temp)
                         .placeholder(R.drawable.user_icon)
                         .error(R.drawable.user_icon)
@@ -274,7 +271,6 @@ public class PhizioProfile extends AppCompatActivity implements MqttSyncReposito
             et_phizio_email.setText(json_phizio.getString("phizioemail"));
             et_phizio_phone.setText(json_phizio.getString("phiziophone"));
             if(json_phizio.has("clinicname")) {
-                Log.i("yes","has");
                 et_clinic_name.setText(json_phizio.getString("clinicname"));
             }
             else
@@ -312,7 +308,6 @@ public class PhizioProfile extends AppCompatActivity implements MqttSyncReposito
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                Log.i("inside check", temp);
                 Picasso.get().load(temp)
                         .placeholder(R.drawable.user_icon)
                         .error(R.drawable.user_icon)

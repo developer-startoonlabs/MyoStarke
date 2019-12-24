@@ -17,7 +17,6 @@ import android.media.AudioManager;
 import android.media.MediaScannerConnection;
 import android.media.ToneGenerator;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -29,7 +28,6 @@ import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -77,7 +75,6 @@ import java.util.List;
 
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.battery_percent;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.bluetooth_state;
-import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.deactivate_device;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.device_disconnected_firmware;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.device_state;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.session_data;
@@ -699,11 +696,6 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != 0) {
-
-        }else {
-            Log.i("Bluetooth"," turned of");
-        }
     }
 
     /**
@@ -1057,7 +1049,6 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
 
                 boolean device_status = intent.getBooleanExtra(device_state,false);
                 if(device_status){
-                    Log.i("here","device connected");
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -1066,7 +1057,6 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
                                 mService.sendBodypartDataToDevice(bodypart, body_orientation, patientname, exercise_position, muscle_position, bodypart_position);
                             }
                             if(deviceDisconnectedDialog!=null) {
-                                Log.i("here","device connected");
                                 deviceDisconnectedDialog.dismiss();
                             }
                         }
@@ -1122,7 +1112,6 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
                 }
             }else if(action.equalsIgnoreCase(device_disconnected_firmware)){
                 boolean device_disconnected_status = intent.getBooleanExtra(device_disconnected_firmware,false);
-                Log.i("Device Status", String.valueOf(device_disconnected_status));
                 if(device_disconnected_status){
                     showToast("The device has been deactivated");
                     Intent i = new Intent(MonitorActivity.this, PatientsView.class);

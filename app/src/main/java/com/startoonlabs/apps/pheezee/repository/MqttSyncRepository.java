@@ -8,14 +8,12 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.startoonlabs.apps.pheezee.activities.DeviceInfoActivity;
 import com.startoonlabs.apps.pheezee.pojos.AddPatientData;
 import com.startoonlabs.apps.pheezee.pojos.CommentSessionUpdateData;
 import com.startoonlabs.apps.pheezee.pojos.DeletePatientData;
@@ -67,7 +65,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import no.nordicsemi.android.dfu.internal.exception.DeviceDisconnectedException;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -173,7 +170,6 @@ public class MqttSyncRepository {
         protected Void doInBackground(Integer... integers) {
 
             mqttSyncDao.deleteParticular(integers[0]);
-            Log.i("deleted", String.valueOf(integers[0]));
             return null;
         }
     }
@@ -209,7 +205,6 @@ public class MqttSyncRepository {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            Log.i("deleted", "deleted");
         }
     }
 
@@ -433,7 +428,6 @@ public class MqttSyncRepository {
                     if (response.code() == 200) {
                         ResponseData responseData = response.body();
                         if (responseData != null) {
-                            Log.i("Response", responseData.getResponse());
                             if (responseData.getResponse().equalsIgnoreCase("inserted"))
                                 deleteParticular(responseData.getId());
                         }
@@ -442,7 +436,6 @@ public class MqttSyncRepository {
 
                 @Override
                 public void onFailure(@NonNull Call<ResponseData> call, @NonNull Throwable t) {
-                    Log.i("parseerror", t.getMessage());
                 }
             });
         }
@@ -458,7 +451,6 @@ public class MqttSyncRepository {
                     String response_delete = response.body();
                     if (response_delete != null) {
                         if (response_delete.equalsIgnoreCase("deleted")) {
-                            Log.i("response", response.body());
                             new DeletePatient(phizioPatientsDao).execute(patient);
                             if (listner != null) {
                                 listner.onDeletePateintResponse(true);
@@ -628,7 +620,6 @@ public class MqttSyncRepository {
             public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                 if (response.code() == 200) {
                     String res = response.body();
-                    Log.i("res", res);
                     if (res != null) {
                         if (res.equalsIgnoreCase("sent")) {
                             if (signUpResponse != null) {
@@ -772,10 +763,8 @@ public class MqttSyncRepository {
                                             e1.printStackTrace();
                                         }
                                     }
-                                    Log.i("Exception", e.getMessage());
                                 }
                             }
-                            Log.i("Max id", String.valueOf(maxid[0]));
                             editor = sharedPref.edit();
                             editor.putInt("maxid", maxid[0]);
                             editor.apply();
@@ -981,7 +970,6 @@ public class MqttSyncRepository {
                     String json = gson.toJson(res);
                     try {
                         JSONArray array = new JSONArray(json);
-                        Log.i("GSON", array.toString());
                         if (reportDataResponseListner != null) {
                             reportDataResponseListner.onReportDataReceived(array, true);
                         }
@@ -994,7 +982,6 @@ public class MqttSyncRepository {
 
             @Override
             public void onFailure(@NonNull Call<List<GetReportDataResponse>> call, @NonNull Throwable t) {
-                Log.i("res", t.getMessage());
                 if (reportDataResponseListner != null)
                     reportDataResponseListner.onReportDataReceived(new JSONArray(), false);
             }
@@ -1144,12 +1131,10 @@ public class MqttSyncRepository {
             if (ByteToArrayOperations.byteToStringHexadecimal(b2).equals("E1")) {
                 for (int i = 3; i < 32; i++) {
                     if (ByteToArrayOperations.byteToStringHexadecimal(packet[i]).equals("E2")) {
-                        Log.i("Value", "here" + i);
                         line_number = ByteToArrayOperations.getAngleFromData(packet[i + 1], packet[i + 2]);
                         break;
                     } else {
                         Byte temp_byte = new Byte(packet[i]);
-                        Log.i("Value", String.valueOf((char) Integer.parseInt(temp_byte.toString())));
                         file_name = file_name.concat(String.valueOf((char) Integer.parseInt(temp_byte.toString())));
                     }
                 }
@@ -1161,14 +1146,12 @@ public class MqttSyncRepository {
                     "\tError Code: " + error_code + "\n" +
                     "\tFile Name: " + file_name + "\n" +
                     "\tLine Number: " + line_number;
-            Log.i("final", final_string);
 
             editor = sharedPref.edit();
             editor.putString("firmware_log", final_string);
             editor.apply();
             if (isNetworkAvailable) {
                 FirmwareData data = new FirmwareData(sharedPref.getString("firmware_log", ""));
-                Log.i("LOG", data.getLog());
                 Call<Boolean> comment_data = getDataService.sendFirmwareLog(data);
                 comment_data.enqueue(new Callback<Boolean>() {
                     @Override
@@ -1216,7 +1199,6 @@ public class MqttSyncRepository {
                                     editor.apply();
                                     sendFirmwareUpdateAvailable(true, context);
                                 } else {
-                                    Log.i("Firmware Available", String.valueOf(check1.isFirmware_available()));
                                     editor = sharedPref.edit();
                                     editor.putString("firmware_update", "");
                                     editor.putString("firmware_version", "");
@@ -1322,13 +1304,10 @@ public class MqttSyncRepository {
                         editor.commit();
                         DeviceStatus device_present = deviceStatusDao.getDeviceStatus(uid);
                         if (device_present != null) {
-                            Log.i("DeviceStatus", String.valueOf(device_present.getStatus()));
                             sendDeactivateDeviceBroadcast(context);
                         } else {
-                            Log.i("Sceduled123","TRUE");
                             sendDeviceDeactivatedServiceScedule(context);
                         }
-                        Log.i("Deleted","Deleted");
                     }
                 });
             }
@@ -1419,7 +1398,6 @@ public class MqttSyncRepository {
         context.sendBroadcast(i);
     }
     public void syncDataToServer() {
-        Log.i("hello", "insidesync");
         new SyncDataAsync(mqttSyncDao).execute();
     }
 
@@ -1480,7 +1458,6 @@ public class MqttSyncRepository {
                 String s = gson.toJson(data);
                 editor.putString("health_data", s);
                 editor.apply();
-                Log.i("health_data", s);
                 if (NetworkOperations.isNetworkAvailable(context)) {
                     Call<Boolean> call = getDataService.sendHealthStatusOfDevice(data);
                     call.enqueue(new Callback<Boolean>() {
@@ -1514,7 +1491,6 @@ public class MqttSyncRepository {
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                Log.i("LATITUDE",latitude+" "+longitude);
                 if(latitude!=0 && longitude!=0){
                     String uid = ByteToArrayOperations.getDeviceUid(info_packet);
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -1525,7 +1501,6 @@ public class MqttSyncRepository {
                     String s = gson.toJson(status);
                     editor.putString("device_location_data", s);
                     editor.apply();
-                    Log.i("Device_location_data", sharedPref.getString("device_location_data",""));
                     if (NetworkOperations.isNetworkAvailable(context)) {
                         Call<Boolean> call = getDataService.sendDeviceLocationUpdate(status);
                         call.enqueue(new Callback<Boolean>() {

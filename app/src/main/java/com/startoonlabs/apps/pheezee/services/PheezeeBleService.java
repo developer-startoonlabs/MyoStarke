@@ -1,8 +1,6 @@
 package com.startoonlabs.apps.pheezee.services;
 
-import android.app.ActivityManager;
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.app.job.JobInfo;
@@ -26,19 +24,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.Build;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
-import android.os.Messenger;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
@@ -46,37 +40,19 @@ import androidx.core.app.NotificationCompat;
 import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.activities.PatientsView;
 import com.startoonlabs.apps.pheezee.classes.DeviceListClass;
-import com.startoonlabs.apps.pheezee.dfu.DfuActivity;
-import com.startoonlabs.apps.pheezee.dfu.DfuService;
-import com.startoonlabs.apps.pheezee.pojos.FirmwareUpdateCheckResponse;
 import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
 import com.startoonlabs.apps.pheezee.utils.ByteToArrayOperations;
 import com.startoonlabs.apps.pheezee.utils.NetworkOperations;
 import com.startoonlabs.apps.pheezee.utils.ValueBasedColorOperations;
-import com.startoonlabs.apps.pheezee.utils.ZipOperations;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.lang.reflect.Method;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
-
-import no.nordicsemi.android.dfu.DfuProgressListener;
-import no.nordicsemi.android.dfu.DfuProgressListenerAdapter;
-import no.nordicsemi.android.dfu.DfuServiceInitiator;
-import no.nordicsemi.android.dfu.DfuServiceListenerHelper;
 
 import static com.startoonlabs.apps.pheezee.App.CHANNEL_ID;
 
@@ -206,7 +182,6 @@ public class PheezeeBleService extends Service {
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         if(!Objects.requireNonNull(preferences.getString("deviceMacaddress", "")).equalsIgnoreCase(""))
             deviceMacc = preferences.getString("deviceMacaddress","");
-        Log.i("deviceMacc",deviceMacc+" updated");
         repository = new MqttSyncRepository(this.getApplication());
     }
 
@@ -268,11 +243,8 @@ public class PheezeeBleService extends Service {
                         first_scan = Calendar.getInstance().getTimeInMillis();
                     } else {
                         scan_difference = (int) ((current_scan_time - first_scan) / 1000);
-                        Log.i("scan_diff", String.valueOf(scan_difference));
                     }
                     if (num_of_scan > 3 && scan_difference != 0 && scan_difference <= 30) {
-
-                        Log.i("here","here1");
                         tooFrequentScan = true;
                         sendTooFrequentScanBroadCast();
                         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
@@ -302,15 +274,12 @@ public class PheezeeBleService extends Service {
     }
 
     public void showNotification(String deviceState){
-        Intent notificationintent = new Intent(this, PatientsView.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this,0, notificationintent,0);
         Notification builder = new NotificationCompat.Builder(this,CHANNEL_ID)
                 .setContentTitle("Pheezee")
                 .setContentText(deviceState)
                 .setSmallIcon(R.mipmap.pheezee_logos_final_square_round)
                 .setColor(getResources().getColor(R.color.default_blue_light))
                 .setDefaults(Notification.DEFAULT_ALL)
-//                .setContentIntent(pendingIntent)
                 .build();
         startForeground(1,builder);
     }
@@ -492,6 +461,17 @@ public class PheezeeBleService extends Service {
         sendDeviceDisconnectedBroadcast();
     }
 
+    public void gerDeviceBasicInfo(){
+        bluetoothStateBroadcast();
+        deviceStateBroadcast();
+        sendBatteryLevelBroadCast();
+        sendFirmwareVersion();
+        deviceStateBroadcast();
+        sendSerialNumberBroadcast();
+        sendManufacturerName();
+        sendHardwareVersion();
+    }
+
     public void increaseGain(){
         byte[] b = ByteToArrayOperations.hexStringToByteArray("AD01");
         writeCharacteristic(mCustomCharacteristic,b, "AD01");
@@ -623,7 +603,6 @@ public class PheezeeBleService extends Service {
 
                     long temp = timeStamp - mScanResults.get(i).getTimeStampNano();
                     mScanResults.get(i).setTimeStampNano(timeStamp);
-                    Log.i("temp", String.valueOf(temp));
                     flag = true;
                 }else {
                     long currentTimeStamp = System.currentTimeMillis();
@@ -664,7 +643,7 @@ public class PheezeeBleService extends Service {
                 try {
                     mScanResults.remove(a);
                 }catch (ArrayIndexOutOfBoundsException e){
-                    Log.i("Message",e.getMessage());
+                    e.printStackTrace();
                 }catch (IndexOutOfBoundsException e){
                     e.printStackTrace();
                 }
@@ -753,7 +732,6 @@ public class PheezeeBleService extends Service {
                         showNotification(device_connected_notif);
                     }
                 }
-                Log.i("battery percentN", String.valueOf(battery));
                 mBatteryPercent = battery;
                 sendBatteryLevelBroadCast();
             }else if(characteristic.getUuid().equals(custom_characteristic_uuid)){
@@ -810,13 +788,10 @@ public class PheezeeBleService extends Service {
                         }
                         mDeviceStatus = device_disconnected;
                         sendDeviceDisconnectedBroadcast();
-                        Log.i("Device Status123", String.valueOf(device_disconnected));
                         mAtinyVersion = String.valueOf(info_packet[10] & 0xFF);
                         if (error == 1) firmware_error = true;
                         else firmware_error = false;
-                        Log.i("FIRMWAREERROR", String.valueOf(firmware_error));
                         //Remove later
-                        Log.i("Battery,status,usb", battery + " " + device_status + " " + device_usb_state);
                         if (device_usb_state == 1) {
                             mUsbState = true;
                             sendUsbStateBroadcast();
@@ -826,7 +801,6 @@ public class PheezeeBleService extends Service {
                             sendUsbStateBroadcast();
                             showNotification(device_connected_notif);
                         }
-                        Log.i("battery percent2", String.valueOf(battery));
                         mBatteryPercent = battery;
                         sendBatteryLevelBroadCast();
                         bluetoothGatt.readCharacteristic(mFirmwareVersionCharacteristic);
@@ -872,7 +846,6 @@ public class PheezeeBleService extends Service {
                 if(firmware_error){
                     byte[] error_code = ByteToArrayOperations.hexStringToByteArray("EE");
                     writeCharacteristic(mCustomCharacteristic,error_code,"EE");
-                    Log.i("EE","EE");
                 }
                 if(repository!=null){
                     if(temp_info_packet!=null) {
@@ -900,22 +873,18 @@ public class PheezeeBleService extends Service {
             super.onCharacteristicWrite(gatt, characteristic, status);
             if(mCharacteristicWrittenValue.equalsIgnoreCase("AA02")) {
                 bluetoothGatt.readCharacteristic(mCustomCharacteristic);
-                Log.i("here","battery read");
             }
             else{
                 if(mCharacteristicWrittenValue.equals("AE")) {
-                    Log.i("here","here");
                     bluetoothGatt.setCharacteristicNotification(mCustomCharacteristic, true);
                     mCustomCharacteristicDescriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
                     bluetoothGatt.writeDescriptor(mCustomCharacteristicDescriptor);
                 }else if(mCharacteristicWrittenValue.contains("EE")){
                     bluetoothGatt.readCharacteristic(mCustomCharacteristic);
                 }else if(mCharacteristicWrittenValue.equalsIgnoreCase("1")){
-                    Log.i("characteristic","written");
                     sendDfuCharacteristicWritten();
                 }else if(mCharacteristicWrittenValue.equalsIgnoreCase("D1")){
                     mDeviceStatus = 1;
-                    Log.i("Here123","123");
                     sendDeviceDisconnectedBroadcast();
                     if(repository!=null){
                         repository.deleteDeviceStatus(temp_info_packet);
@@ -953,7 +922,6 @@ public class PheezeeBleService extends Service {
 
 
     public void writeToDfuCharacteristic(){
-        Log.i("here","here");
         byte[] b = "1".getBytes();
         writeCharacteristic(mDfuCharacteristic,b,"1");
     }
@@ -1056,7 +1024,6 @@ public class PheezeeBleService extends Service {
         return mDeviceStatus;
     }
     public void deactivateDevice(){
-        Log.i("Here","INSIDE PHEEZEEBLE");
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

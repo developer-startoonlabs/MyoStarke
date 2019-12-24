@@ -149,8 +149,6 @@
             android:label="@string/title_activity_scan_devices"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activities.RawDataCollection" />
-        <activity android:name=".dfu.DfuActivity" />
         <activity
             android:name=".activities.SignUpActivity"
             android:theme="@style/AppTheme.customDesign.noActionBar" />

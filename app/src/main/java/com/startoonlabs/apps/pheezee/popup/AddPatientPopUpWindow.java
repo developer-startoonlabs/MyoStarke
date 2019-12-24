@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.os.Build;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -28,9 +27,6 @@ import com.startoonlabs.apps.pheezee.pojos.PatientDetailsData;
 import com.startoonlabs.apps.pheezee.room.Entity.PhizioPatients;
 import com.startoonlabs.apps.pheezee.utils.DateOperations;
 import com.startoonlabs.apps.pheezee.utils.TimeOperations;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -112,7 +108,6 @@ public class AddPatientPopUpWindow {
                     case_description[0] = "";
                     caseDescription.setVisibility(View.VISIBLE);
                 }
-                Log.i("casedes",case_description[0]);
             }
 
             @Override
@@ -125,7 +120,6 @@ public class AddPatientPopUpWindow {
             @Override
             public void onClick(View view) {
                 int id = 0;
-                Log.i("pojo","pojo1");
                 RadioButton btn = layout.findViewById(radioGroup.getCheckedRadioButtonId());
                 if(caseDescription.getVisibility()==View.VISIBLE){
                     case_description[0] = caseDescription.getText().toString();
@@ -136,7 +130,6 @@ public class AddPatientPopUpWindow {
                 }
                 String dateString = TimeOperations.getUTCdatetimeAsString();
                 String patientid =  String.valueOf(id).concat(" ").concat(dateString);
-                Log.i("ID",patientid);
                 String patientname = patientName.getText().toString();
                 String patientage = patientAge.getText().toString();
                 if ((!patientname.equals("")) && (!patientid.equals("")) && (!patientage.equals(""))&& (!case_description[0].equals("")) && btn!=null) {

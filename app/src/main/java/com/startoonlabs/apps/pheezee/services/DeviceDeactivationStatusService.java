@@ -8,7 +8,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -16,7 +15,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.startoonlabs.apps.pheezee.pojos.DeviceDeactivationStatus;
 import com.startoonlabs.apps.pheezee.pojos.DeviceDeactivationStatusResponse;
-import com.startoonlabs.apps.pheezee.pojos.PhizioEmailData;
 import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
 import com.startoonlabs.apps.pheezee.retrofit.GetDataService;
 import com.startoonlabs.apps.pheezee.retrofit.RetrofitClientInstance;
@@ -70,7 +68,6 @@ public class DeviceDeactivationStatusService extends JobService {
                                         editor = preferences.edit();
                                         editor.putString("uid_deactivation","");
                                         editor.apply();
-                                        Log.i("Device Status", String.valueOf(res_deactivate.isStatus()));
                                         jobFinished(params,false);
                                     }else {
                                         if(repository!=null){

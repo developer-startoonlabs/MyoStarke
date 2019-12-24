@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -30,7 +29,6 @@ public class OnStartActivity extends AppCompatActivity {
             editor.apply();
             repository.clearDatabase();
             editor.putBoolean("mqtttohttp",true);
-            Log.i("here i am","here");
             editor.apply();
         }
         isLoggedIn = sharedPreferences.getBoolean("isLoggedIn",false);

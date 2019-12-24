@@ -17,17 +17,11 @@ import java.util.List;
 import info.androidhive.barcode.BarcodeReader;
 
 public class Scanner extends AppCompatActivity implements BarcodeReader.BarcodeReaderListener {
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scanner);
-
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        editor = sharedPreferences.edit();
-
     }
 
     @Override

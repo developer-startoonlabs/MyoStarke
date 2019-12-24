@@ -483,7 +483,6 @@ public class SessionSummaryPopupWindow {
             public void run() {
                 try {
                     JSONObject object = new JSONObject();
-                    //Log.i("datestring","2019-04-22 13:08:34");
                     object.put("heldon",dateString);
                     object.put("maxangle",maxAngle);
                     object.put("minangle",minAngle);

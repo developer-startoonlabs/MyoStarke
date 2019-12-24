@@ -14,7 +14,6 @@ import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.startoonlabs.apps.pheezee.pojos.DeviceDetailsData;
 import com.startoonlabs.apps.pheezee.pojos.PhizioEmailData;
 import com.startoonlabs.apps.pheezee.retrofit.GetDataService;
 import com.startoonlabs.apps.pheezee.retrofit.RetrofitClientInstance;

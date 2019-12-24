@@ -16,7 +16,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -299,7 +298,6 @@ public class ScanDevicesActivity extends AppCompatActivity {
 //                    mCustomService.stopScaninBackground();
                 }
             }else if(action.equalsIgnoreCase(scanned_list)){
-                Log.i("here","herebroadcast");
                 if(mCustomService!=null){
                     mScanResults =  mCustomService.getScannedList();
                     updateList(mScanResults);
@@ -307,7 +305,6 @@ public class ScanDevicesActivity extends AppCompatActivity {
 
             }else if(action.equalsIgnoreCase(scan_state)){
                 boolean scanning_state = intent.getBooleanExtra(scan_state,false);
-                Log.i("here", String.valueOf(scanning_state));
                 if(scanning_state){
                     setAnimVisible();
                     tv_stoScan.setText(R.string.scandevices_stop);
@@ -348,7 +345,6 @@ public class ScanDevicesActivity extends AppCompatActivity {
         if(mScanResults.size()==0) {
             if(view.getVisibility()==View.GONE){
                 view.setVisibility(View.VISIBLE);
-                Log.i("here","hereanim");
             }
         }
         view.playAnimation();

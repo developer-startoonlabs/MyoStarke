@@ -3,7 +3,6 @@ package com.startoonlabs.apps.pheezee.adapters;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -73,9 +71,7 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
             if(object!=null) {
                 if (object.has("phizioemail")) {
                     str_phizioemail = object.getString("phizioemail");
-                    Log.d("phizioemail", str_phizioemail);
                     str_phizioemail.replace("@", "%40");
-                    Log.i("phizioemail", str_phizioemail);
                 }
             }
         } catch (JSONException e) {
@@ -112,7 +108,6 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
         holder.ll_option_patient_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("here","inside adapter");
                 PhizioPatients temp = updatedPatientList.get(position);
                 PhizioPatients patients = new PhizioPatients(temp.getPatientid(),temp.getPatientname(),temp.getNumofsessions(),temp.getDateofjoin(),
                         temp.getPatientage(),temp.getPatientgender(),temp.getPatientcasedes(),temp.getStatus(),temp.getPatientphone(),temp.getPatientprofilepicurl());
