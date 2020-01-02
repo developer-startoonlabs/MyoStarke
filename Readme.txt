@@ -1,6 +1,56 @@
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 ###############
+Version:- 2.14.2.h
+Date:- 23-12-2019
+Responsible:- Ankush
+Firmware Version(Tested With):- 1.11.4
+server version:- 1.14.3
+Hardware Version MVP_3
+description:- Removed local file creation of emg and rom files.
+
+
+###############
+Version:- 2.14.1.h
+Date:- 23-12-2019
+Responsible:- Ankush
+Firmware Version(Tested With):- 1.11.5
+server version:- 1.14.3
+Hardware Version MVP_3
+description:- Removed all the log statements from the application.
+
+
+###############
+Version:- 2.14.0.h
+Date:- 23-12-2019
+Responsible:- Ankush
+Firmware Version(Tested With):- 1.11.5
+server version:- 1.14.0
+Hardware Version MVP_3
+description:- Final device deactivation test, updated to show this device does not work with firmware below 1.11.4.
+
+
+###############
+Version:- 2.13.2.h
+Date:- 16-12-2019
+Responsible:- Ankush
+Firmware Version(Tested With):- 1.11.4
+server version:- 1.14.0
+Hardware Version MVP_3
+description:- Bug fixes according to the list shared by sir.
+
+
+###############
+Version:- 2.13.1.h
+Date:- 12-12-2019
+Responsible:- Ankush
+Firmware Version(Tested With):- 1.11.4
+server version:- 1.14.0
+Hardware Version MVP_3
+description:- Device deactivation feature
+
+
+###############
 Version:- 2.13.0.h
 Date:- 11-12-2019
 Responsible:- Ankush
