@@ -510,6 +510,7 @@ public class PheezeeBleService extends Service {
                 @Override
                 public void run() {
                     bluetoothGatt = remoteDevice.connectGatt(getApplicationContext(), false, callback);
+                    refreshDeviceCache(bluetoothGatt);
                 }
             });
         }
@@ -664,7 +665,6 @@ public class PheezeeBleService extends Service {
                 if (newState == BluetoothProfile.STATE_CONNECTED) {
                     mCharacteristicReadList = new ArrayList<>();
                     mDeviceState = true;
-                    refreshDeviceCache(gatt);
                     gatt.discoverServices();
                     deviceStateBroadcast();
                     checkDeviceMacSavedOrNot();

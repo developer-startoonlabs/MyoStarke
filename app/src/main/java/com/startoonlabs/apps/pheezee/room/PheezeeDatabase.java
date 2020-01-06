@@ -36,7 +36,7 @@ public abstract class PheezeeDatabase extends RoomDatabase {
     static final Migration MIGRATION_2_3 = new Migration(2, 3) {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
-            database.execSQL("CREATE TABLE `DeviceStatus` (`uid` TEXT PRIMARY KEY NOT NULL, "
+            database.execSQL("CREATE TABLE IF NOT EXISTS `DeviceStatus` (`uid` TEXT PRIMARY KEY NOT NULL, "
                     + "`status` INTEGER NOT NULL)");
         }
     };
