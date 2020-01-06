@@ -220,22 +220,6 @@ public class PatientsView extends AppCompatActivity
                             dialog.dismiss();
                         }
                     }).show();
-//                    .setPositiveButton("Setting",R.drawable.ic_location_on, new MaterialDialog.OnClickListener() {
-//                        @Override
-//                        public void onClick(com.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
-//                            startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-//                            dialogInterface.dismiss();
-//                        }
-//                    })
-//                    .setNegativeButton("Cancel", R.drawable.ic_close, new MaterialDialog.OnClickListener() {
-//                        @Override
-//                        public void onClick(com.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
-//                            dialogInterface.dismiss();
-//                        }
-//                    })
-//                    .build();
-
-            // Show Dialog
             mDialog.show();
 
         }
@@ -368,7 +352,6 @@ public class PatientsView extends AppCompatActivity
         intentFilter.addAction(device_disconnected_firmware);
         intentFilter.addAction(scedule_device_status_service);
         intentFilter.addAction(deactivate_device);
-//        intentFilter.addAction(device_deactivated);
         registerReceiver(patient_view_broadcast_receiver,intentFilter);
     }
 
@@ -390,9 +373,7 @@ public class PatientsView extends AppCompatActivity
                     progress.setCancelable(false);
                     progress.show();
                     repository.syncDataToServer();
-//                    new SyncDataAsync().execute();
                 }
-
                 else
                     NetworkOperations.networkError(PatientsView.this);
             }

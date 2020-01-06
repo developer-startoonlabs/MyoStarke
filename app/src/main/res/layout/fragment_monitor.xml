@@ -156,9 +156,9 @@
 
                 <LinearLayout
                     android:id="@+id/sessionNoContainer"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.6"
+                    android:layout_weight="0.4"
                     android:gravity="left"
                     android:orientation="horizontal"
                     android:paddingEnd="10dp">
@@ -183,21 +183,20 @@
 
                 <LinearLayout
                     android:id="@+id/bodyPartContainer"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.4"
-                    android:gravity="right"
+                    android:layout_weight="0.6"
                     android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/bodyPart"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/ebrima"
                         android:gravity="right"
                         android:text="Body Part: "
                         android:textColor="@color/pitch_black"
-                        android:textSize="16sp" />
+                        android:textSize="14sp" />
                 </LinearLayout>
             </LinearLayout>
 

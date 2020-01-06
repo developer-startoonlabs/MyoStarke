@@ -761,27 +761,33 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
 
                     while(zipEntry != null){
                         File newFile = new File(zip, zipEntry.getName());
-
-                        if (!zipEntry.isDirectory()) {
-                            FileOutputStream fos = new FileOutputStream(newFile);
-                            while ((readLength = zipInputStream.read(buffer)) > 0) {
-                                fos.write(buffer, 0, readLength);
+                        String canonicalPath = newFile.getCanonicalPath();
+                        if(!canonicalPath.startsWith(zip.getAbsolutePath())){
+                            showToast("Please try again later");
+                            dfuCanceledView();
+                            return;
+                        }else {
+                            if (!zipEntry.isDirectory()) {
+                                FileOutputStream fos = new FileOutputStream(newFile);
+                                while ((readLength = zipInputStream.read(buffer)) > 0) {
+                                    fos.write(buffer, 0, readLength);
+                                }
+                                fos.close();
+                            } else {
+                                newFile.mkdirs();
                             }
-                            fos.close();
-                        } else {
-                            newFile.mkdirs();
-                        }
 
-                        zipInputStream.closeEntry();
-                        zipEntry = zipInputStream.getNextEntry();
+                            zipInputStream.closeEntry();
+                            zipEntry = zipInputStream.getNextEntry();
+                        }
                     }
                     // Close Stream and disconnect HTTP connection. Move to finally
                     zipInputStream.closeEntry();
                     zipInputStream.close();
-                } catch (IOException e) {
+                } catch (IOException | NullPointerException e) {
                     e.printStackTrace();
-                }catch (NullPointerException e){
-                    e.printStackTrace();
+                    dfuCanceledView();
+                    return;
                 } finally {
                     if (httpURLConnection != null) {
                         httpURLConnection.disconnect();

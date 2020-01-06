@@ -17,24 +17,18 @@ import com.startoonlabs.apps.pheezee.R;
 import java.util.ArrayList;
 
 public class DeviceListArrayAdapter extends ArrayAdapter<DeviceListClass> {
-    SharedPreferences preferences;
-    SharedPreferences.Editor editor;
-    ScanDevicesActivity scanDevicesActivity;
 
-    TextView tv_deviceName,tv_deviceMacAddress, tv_deviceBondState, tv_deviceRssi;
-    Button btn_connectToDevice;
+    private TextView tv_deviceName,tv_deviceMacAddress, tv_deviceBondState, tv_deviceRssi;
+    private Button btn_connectToDevice;
 
-    Context context;
-    ArrayList<DeviceListClass> mdeviceArrayList;
-    onDeviceConnectPressed connectPressed;
+    private Context context;
+    private ArrayList<DeviceListClass> mdeviceArrayList;
+    private onDeviceConnectPressed connectPressed;
 
     public  DeviceListArrayAdapter(Context context, ArrayList<DeviceListClass> mdeviceArrayList){
         super(context, R.layout.scanned_devices_listview_model, mdeviceArrayList);
         this.mdeviceArrayList=mdeviceArrayList;
         this.context = context;
-        scanDevicesActivity = new ScanDevicesActivity();
-        preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        editor = preferences.edit();
     }
 
 
@@ -46,7 +40,7 @@ public class DeviceListArrayAdapter extends ArrayAdapter<DeviceListClass> {
 
 
     public View getView(final int position, final View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View row = inflater.inflate(R.layout.scanned_devices_listview_model,parent,false);
 
         tv_deviceName = row.findViewById(R.id.tv_deviceName);

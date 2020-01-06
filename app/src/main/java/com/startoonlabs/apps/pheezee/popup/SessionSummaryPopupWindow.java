@@ -53,22 +53,22 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class SessionSummaryPopupWindow {
-    String mqtt_delete_pateint_session = "phizio/patient/deletepatient/sesssion";
-    String mqtt_publish_update_patient_mmt_grade = "phizio/patient/updateMmtGrade";
-    String mqtt_publish_add_patient_session_emg_data = "patient/entireEmgData";
+    private String mqtt_delete_pateint_session = "phizio/patient/deletepatient/sesssion";
+    private String mqtt_publish_update_patient_mmt_grade = "phizio/patient/updateMmtGrade";
+    private String mqtt_publish_add_patient_session_emg_data = "patient/entireEmgData";
 
-    boolean session_inserted_in_server = false;
+    private boolean session_inserted_in_server = false;
     private String dateString;
-    Context context;
-    PopupWindow report;
-    int maxEmgValue, maxAngle, minAngle, angleCorrection, exercise_selected_position, body_part_selected_position, repsselected;
+    private Context context;
+    private PopupWindow report;
+    private int maxEmgValue, maxAngle, minAngle, angleCorrection, exercise_selected_position, body_part_selected_position, repsselected;
     private String sessionNo, mmt_selected = "", orientation, bodypart, phizioemail, patientname, patientid, sessiontime, actiontime,
             holdtime, numofreps, body_orientation="", session_type="", dateofjoin, exercise_name, muscle_name, min_angle_selected,
             max_angle_selected, max_emg_selected;
-    String bodyOrientation="";
-    MqttSyncRepository repository;
-    MqttSyncRepository.OnSessionDataResponse response_data;
-    Long tsLong;
+    private String bodyOrientation="";
+    private MqttSyncRepository repository;
+    private MqttSyncRepository.OnSessionDataResponse response_data;
+    private Long tsLong;
     public SessionSummaryPopupWindow(Context context, int maxEmgValue, String sessionNo, int maxAngle, int minAngle,
                                      String orientation, String bodypart, String phizioemail, String sessiontime, String actiontime,
                                      String holdtime, String numofreps,  int angleCorrection,
@@ -141,7 +141,6 @@ public class SessionSummaryPopupWindow {
         TextView tv_session_num = layout.findViewById(R.id.tv_session_no);
         TextView tv_orientation_and_bodypart = layout.findViewById(R.id.tv_orientation_and_bodypart);
         TextView tv_musclename = layout.findViewById(R.id.tv_muscle_name);
-        TextView tv_exercise_name = layout.findViewById(R.id.tv_exercise_name);
         TextView tv_range = layout.findViewById(R.id.tv_range_min_max);
         TextView tv_delete_pateint_session = layout.findViewById(R.id.summary_tv_delete_session);
         final LinearLayout ll_mmt_confirm = layout.findViewById(R.id.bp_model_mmt_confirm);
@@ -162,8 +161,6 @@ public class SessionSummaryPopupWindow {
         //Emg Progress Bar
         ProgressBar pb_max_emg = layout.findViewById(R.id.progress_max_emg);
 
-        //Animation on confirm, delete and view report
-
 
 
 
@@ -173,14 +170,6 @@ public class SessionSummaryPopupWindow {
                 tv_confirm.setText("Confirm");
             }
         });
-
-
-//        et_remarks.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                tv_confirm.setText("Confirm");
-//            }
-//        });
 
 
         for (int i=0;i<ll_mmt_container.getChildCount();i++){
@@ -207,8 +196,7 @@ public class SessionSummaryPopupWindow {
         }
 
         tv_session_num.setText(sessionNo);
-        tv_exercise_name.setText(exercise_name);
-        tv_orientation_and_bodypart.setText(orientation+"-"+bodypart);
+        tv_orientation_and_bodypart.setText(orientation+"-"+bodypart+"-"+exercise_name);
         tv_musclename.setText(muscle_name);
 
         if(exercise_name.equalsIgnoreCase("Isometric")){
@@ -223,8 +211,8 @@ public class SessionSummaryPopupWindow {
                 ll_click_to_view_report.setAnimation(aniFade);
                 if(NetworkOperations.isNetworkAvailable(context)){
                     Intent mmt_intent = new Intent(context, SessionReportActivity.class);
-                    mmt_intent.putExtra("patientid", tv_patient_id.getText().toString());
-                    mmt_intent.putExtra("patientname", tv_patient_name.getText().toString());
+                    mmt_intent.putExtra("patientid", patientid);
+                    mmt_intent.putExtra("patientname", patientname);
                     mmt_intent.putExtra("phizioemail", phizioemail);
                     mmt_intent.putExtra("dateofjoin",dateofjoin);
                     ((Activity)context).startActivity(mmt_intent);
@@ -257,7 +245,12 @@ public class SessionSummaryPopupWindow {
             }
         });
 
-        tv_patient_id.setText(patientid);
+        if(patientid.length()>3){
+            String temp = patientid.substring(0,3)+"xxx";
+            tv_patient_id.setText(temp);
+        }else {
+            tv_patient_id.setText(patientid);
+        }
         tv_patient_name.setText(patientname);
 
         //for held on date

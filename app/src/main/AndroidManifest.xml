@@ -151,6 +151,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.SignUpActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.customDesign.noActionBar" />
         <activity
             android:name=".activities.PhizioProfile"

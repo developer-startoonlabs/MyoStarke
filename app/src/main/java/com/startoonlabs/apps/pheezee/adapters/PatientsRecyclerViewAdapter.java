@@ -38,7 +38,7 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
     private JSONObject object;
     private SharedPreferences preferences;
     private String str_phizioemail;
-    onItemClickListner listner;
+    private onItemClickListner listner;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView patientName, patientId,patientNameContainer;
