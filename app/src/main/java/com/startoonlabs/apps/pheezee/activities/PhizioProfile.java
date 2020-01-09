@@ -412,6 +412,9 @@ public class PhizioProfile extends AppCompatActivity implements MqttSyncReposito
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if(repository!=null){
+            repository.unregisterPhizioDetailsResponseListner();
+        }
     }
 
 

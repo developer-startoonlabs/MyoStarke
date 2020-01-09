@@ -949,6 +949,7 @@ public class PheezeeBleService extends Service {
             }
         }
         catch (Exception localException) {
+            localException.printStackTrace();
         }
         return false;
     }

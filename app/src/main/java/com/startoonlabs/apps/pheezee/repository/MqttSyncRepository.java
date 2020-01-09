@@ -1698,6 +1698,10 @@ public class MqttSyncRepository {
         this.phizioDetailsResponseListner = phizioDetailsResponseListner;
     }
 
+    public void unregisterPhizioDetailsResponseListner(){
+        this.phizioDetailsResponseListner = null;
+    }
+
     public void setOnLoginResponse(OnLoginResponse loginlistner){
         this.loginlistner = loginlistner;
     }

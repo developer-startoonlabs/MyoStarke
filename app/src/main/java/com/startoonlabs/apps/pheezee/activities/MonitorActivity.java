@@ -935,7 +935,6 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
                 }
             }else if(action.equalsIgnoreCase(usb_state)){
                 boolean usb_status = intent.getBooleanExtra(usb_state,false);
-                Message msg = new Message();
                 if(usb_status){
                     usbState = true;
                     if(usbPluggedInDialog!=null) {

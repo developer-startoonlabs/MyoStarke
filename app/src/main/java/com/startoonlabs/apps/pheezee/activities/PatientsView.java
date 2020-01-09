@@ -584,7 +584,7 @@ public class PatientsView extends AppCompatActivity
             addPheezeeDevice(item.getActionView());
         }
         else if(id==R.id.nav_add_patient){
-            iv_addPatient.performClick();
+            initiatePopupWindow();
         }
         else if(id==R.id.nav_app_version){
             startActivity(new Intent(PatientsView.this,AppInfo.class));
@@ -773,7 +773,7 @@ public class PatientsView extends AppCompatActivity
                        flag = false;
                 }else if(firmware_version[1]<11){
                     flag = false;
-                }else if(firmware_version[2]<4) {
+                }else if(firmware_version[2]<4 && firmware_version[1]<=11) {
                     flag = false;
                 }else{
                         flag = true;
@@ -1171,7 +1171,7 @@ public class PatientsView extends AppCompatActivity
                             i.putExtra("start_update", true);
                             i.putExtra("reactivate_device",false);
                             i.putExtra("deviceMacAddress", sharedPref.getString("deviceMacaddress", ""));
-                            startActivity(i);
+                            startActivityForResult(i,13);
                         }
                     }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
@@ -1195,7 +1195,7 @@ public class PatientsView extends AppCompatActivity
                             i.putExtra("start_update", false);
                             i.putExtra("reactivate_device",true);
                             i.putExtra("deviceMacAddress", sharedPref.getString("deviceMacaddress", ""));
-                            startActivity(i);
+                            startActivityForResult(i,13);
                         }
                     }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
@@ -1476,12 +1476,10 @@ public class PatientsView extends AppCompatActivity
 
     private void checkPermissionsRequired() {
         //external storage permission
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+            if (ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
             }
             hasPermissions();
-        }
     }
 
     public void getLastLocationOfDevice(){
