@@ -167,7 +167,7 @@ public class SessionSummaryPopupWindow {
         rg_session_type.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                tv_confirm.setText("Confirm");
+                tv_confirm.setText("Confirm Session");
             }
         });
 
@@ -177,7 +177,7 @@ public class SessionSummaryPopupWindow {
             view_nested.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    tv_confirm.setText("Confirm");
+                    tv_confirm.setText("Confirm Session");
                     LinearLayout ll_container = ((LinearLayout)v);
                     LinearLayout parent = (LinearLayout) ll_container.getParent();
                     for (int i=0;i<parent.getChildCount();i++){
@@ -318,7 +318,7 @@ public class SessionSummaryPopupWindow {
                 Animation aniFade = AnimationUtils.loadAnimation(context,R.anim.fade_in);
                 ll_mmt_confirm.setAnimation(aniFade);
                 String type = tv_confirm.getText().toString();
-                if(type.equalsIgnoreCase("Confirm")) {
+                if(type.equalsIgnoreCase("Confirm Session")) {
 
                     RadioButton rb_session_type = layout.findViewById(rg_session_type.getCheckedRadioButtonId());
                     if (rb_session_type != null) {
@@ -346,7 +346,7 @@ public class SessionSummaryPopupWindow {
                         showToast("Nothing Selected");
                     }
                 }else {
-                    tv_confirm.setText("Confirm");
+                    tv_confirm.setText("Confirm Session");
                     report.dismiss();
                     ((Activity)context).finish();
                 }

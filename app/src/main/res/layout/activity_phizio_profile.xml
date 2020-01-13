@@ -4,7 +4,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/my_toolbar_bodypart"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentStart="true"
+        app:elevation="@dimen/toolbar_dim_5"
+        android:elevation="@dimen/toolbar_dim_5"
+        android:background="@color/white_opaque"
+        tools:ignore="ObsoleteLayoutParam">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/iv_back_phizio_profile"
+                android:paddingTop="@dimen/bodypart_back_padding_top"
+                android:paddingRight="@dimen/bodypart_back_padding_right"
+                android:paddingBottom="@dimen/bodypart_back_padding_bottom"
+                android:src="@drawable/green_back_arrow"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/physio_profile"
+                android:textSize="@dimen/textsize_deviceinfo_toolbar"
+                android:textColor="@color/good_green"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/marginstart_toolbarttext_bodypart"/>
+        </LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -102,6 +136,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
+            android:inputType="textCapSentences"
             android:background="@android:color/transparent"
             android:fontFamily="@font/ebrima"
             android:gravity="start"
@@ -180,6 +215,7 @@
             android:layout_marginEnd="8dp"
             android:background="@android:color/transparent"
             android:fontFamily="@font/ebrima"
+            android:inputType="phone"
             android:gravity="start"
             android:imeOptions="actionNext"
             android:singleLine="true"
@@ -264,6 +300,7 @@
             android:layout_marginEnd="8dp"
             android:background="@android:color/transparent"
             android:fontFamily="@font/ebrima"
+            android:inputType="textCapSentences"
             android:imeOptions="actionNext"
             android:paddingStart="10dp"
             android:singleLine="true"
@@ -324,6 +361,7 @@
             android:layout_marginEnd="8dp"
             android:background="@android:color/transparent"
             android:fontFamily="@font/ebrima"
+            android:inputType="textCapSentences"
             android:imeOptions="actionNext"
             android:paddingStart="10dp"
             android:singleLine="true"
@@ -345,6 +383,7 @@
             android:layout_marginEnd="8dp"
             android:background="@android:color/transparent"
             android:fontFamily="@font/ebrima"
+            android:inputType="textCapSentences"
             android:imeOptions="actionNext"
             android:paddingStart="10dp"
             android:singleLine="true"
@@ -399,6 +438,7 @@
             android:layout_marginEnd="8dp"
             android:background="@android:color/transparent"
             android:fontFamily="@font/ebrima"
+            android:inputType="textCapSentences"
             android:imeOptions="actionDone"
             android:paddingStart="10dp"
             android:singleLine="true"
@@ -541,4 +581,5 @@
             app:layout_constraintGuide_percent="0.5" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </ScrollView>

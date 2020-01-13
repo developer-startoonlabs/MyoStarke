@@ -11,7 +11,7 @@
     <string name="add_patients_text">+ <u>Add patient</u></string>
     <string name="title_activity_scan_devices">ScanDevicesActivity</string>
     <string name="repetition"><b>Repetitions</b></string>
-    <string name="copy_rights">2019, Startoon Labs Pvt. Ltd.</string>
+    <string name="copy_rights">2020, Startoon Labs Pvt. Ltd.</string>
 
     <string name="yes">Yes</string>
     <string name="no">No</string>
@@ -44,20 +44,20 @@
     <string-array name="case_description">
         <item>Select Case</item>
         <item>GBS</item>
-        <item>Spinal Cord injury</item>
+        <item>Spinal Cord Injury</item>
         <item>Stroke</item>
         <item>Monoplegia</item>
-        <item>Paraplagia</item>
+        <item>Paraplegia</item>
         <item>Monoparesis</item>
         <item>Paraparesis</item>
-        <item>TkR</item>
+        <item>TKR</item>
         <item>Cervical Decompression</item>
-        <item>Hemiperasis</item>
-        <item>Quadriperasis</item>
+        <item>Hemiparesis</item>
+        <item>Quadriparesis</item>
         <item>Joint Pain</item>
         <item>Subdural Hygroma</item>
-        <item>Cardio embolic stroke</item>
-        <item>Hemeplegia</item>
+        <item>Cardioembolic  stroke</item>
+        <item>Hemiplegia</item>
         <item>Thalamic CG Bleed</item>
         <item>paralize</item>
         <item>Dyselectrolytemia</item>
@@ -107,13 +107,13 @@
 
 
     <string name="new_user">New user?</string>
-    <string name="have_account">Have an account?</string>
+    <string name="have_account">Already have an account?</string>
     <string name="login"><u>Log in</u></string>
     <string name="signup"><u>Sign up</u></string>
 
     <string name="continue_with">Continue with</string>
 
-    <string name="by_signing_in">By Signing up you agree with our terms and private policy</string>
+    <string name="by_signing_in">By signing up you agree with our terms and privacy policy</string>
     <string name="cd_facebook_icon">Facebook Log in</string>
     <string name="cd_google_icon">Google Log in</string>
     <string name="bluetooth_cd">Bluetooth icon</string>
@@ -150,6 +150,7 @@
 
     <!--device info related tags-->
     <string name="device_info">Device Info</string>
+    <string name="physio_profile">Profile</string>
     <string name="device_name">Device Name:</string>
     <string name="device_mac">Device Mac:</string>
     <string name="firmware_version">Firmware Version:</string>
@@ -178,7 +179,7 @@
     <!--Appinfo related tags-->
     <string name="app_info">Application Info</string>
     <string name="app_version">Application Version</string>
-    <string name="application_version">2.14.2.h</string>
+    <string name="application_version">2.14.3.h</string>
 
     <!--phizio profile related tags-->
     <string name="your_profile">Your Profile</string>
@@ -220,7 +221,7 @@
     <string name="four">4</string>
     <string name="four_p">4+</string>
     <string name="five">5</string>
-    <string name="confirm">Confirm</string>
+    <string name="confirm">Confirm Session</string>
     <string name="minus">-</string>
     <string name="plus">+</string>
     <string name="temp_body_part">Ankle</string>
@@ -251,8 +252,8 @@
     <string name="cd_device_connected">Device Connected</string>
     <string name="cd_device_disconnected">Device Disconnected</string>
     <string name="battery_zero">0%</string>
-    <string name="turn_on_bluetooth">Please ON Bluetooth</string>
-    <string name="connect_to_device">Click here to connect Pheezee device</string>
+    <string name="turn_on_bluetooth">Click here to turn on bluetooth</string>
+    <string name="connect_to_device">Click here to connect to Pheezee device</string>
     <string name="archive_patient">Archive Patients</string>
     <string name="what_is_pheezee">What is Pheezee with out Patients!</string>
     <string name="cd_floating">Add Patient icon</string>
@@ -283,7 +284,7 @@
     <string name="cd_selfreferance">Self Referance icon</string>
     <string name="report">Report</string>
     <string name="set_reference">Set Target</string>
-    <string name="delete">Delete</string>
+    <string name="delete">Delete Session</string>
 
     <!--Patient Layout-->
     <string name="start_session">Start Session</string>
@@ -331,7 +332,7 @@
     <string name="active">Active</string>
     <string name="passive">Passive</string>
     <string name="assistive">Assistive</string>
-    <string name="min_angle">Starting Angle</string>
+    <string name="min_angle">Start Angle</string>
     <string name="max_angle">End Angle</string>
     <string name="range_angle">Range Gained</string>
     <string name="max_emg">Max EMG</string>
@@ -386,4 +387,6 @@
     <string name="scan_devices">SCAN DEVICES</string>
     <string name="scan">SCAN</string>
     <string name="todo">TODO</string>
+    <string name="monitor_repetitions">Repetitions</string>
+    <string name="monitor_active_time">Active time</string>
 </resources>

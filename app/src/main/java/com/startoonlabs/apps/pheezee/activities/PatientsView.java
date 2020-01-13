@@ -138,7 +138,7 @@ public class PatientsView extends AppCompatActivity
     MyBottomSheetDialog myBottomSheetDialog;
     ProgressDialog connecting_device_dialog;
 
-    final CharSequence[] peezee_items = { "Scan Nearby Devices",
+    final CharSequence[] peezee_items = { "Scan for nearby Pheezee devices",
             "Qrcode Scan", "Cancel" };
     TextView email,fullName;
     public static ImageView ivBasicImage;
@@ -656,7 +656,7 @@ public class PatientsView extends AppCompatActivity
                 builder.setItems(peezee_items, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int item) {
-                        if (peezee_items[item].equals("Scan Nearby Devices")) {
+                        if (peezee_items[item].equals("Scan for nearby Pheezee devices")) {
                             to_scan_devices_activity = new Intent(PatientsView.this, ScanDevicesActivity.class);
                             startActivityForResult(to_scan_devices_activity, 12);
                         } else if (peezee_items[item].equals("Qrcode Scan")) {
@@ -669,8 +669,35 @@ public class PatientsView extends AppCompatActivity
                 builder.show();
             }
         }else {
-            showToast("Please forget the current device to scan for new");
+            showForgetDeviceDialog();
         }
+    }
+
+
+    public void showForgetDeviceDialog(){
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Forget Device");
+        builder.setMessage("Are you sure you want to forget the current device?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                editor = sharedPref.edit();
+                editor.putString("deviceMacaddress","");
+                editor.apply();
+                if(mService!=null){
+                    mService.forgetPheezee();
+                    mService.disconnectDevice();
+                }
+                enableScanningTheDevices();
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.show();
     }
 
 

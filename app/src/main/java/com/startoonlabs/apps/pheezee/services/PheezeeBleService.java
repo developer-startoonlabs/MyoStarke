@@ -857,7 +857,14 @@ public class PheezeeBleService extends Service {
                         repository.checkAndUpdateDeviceStatus(temp_info_packet,getApplicationContext(),mDeviceStatus);
                     }
                 }
-
+//                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+////                        gatt.setCharacteristicNotification(mBatteryCharacteristic, true);
+////                        mBatteryDescriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+////                        bluetoothGatt.writeDescriptor(mBatteryDescriptor);
+//                    }
+//                },200);
                 gatt.setCharacteristicNotification(mBatteryCharacteristic, true);
                 mBatteryDescriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
                 bluetoothGatt.writeDescriptor(mBatteryDescriptor);
@@ -926,17 +933,12 @@ public class PheezeeBleService extends Service {
         writeCharacteristic(mDfuCharacteristic,b,"1");
     }
 
-    private boolean writeCharacteristic(BluetoothGattCharacteristic characteristic, byte[] b, String value) {
-//        byte[] b = ByteToArrayOperations.hexStringToByteArray(value);
-        if (bluetoothGatt == null ) {
-            return false;
+    private void writeCharacteristic(BluetoothGattCharacteristic characteristic, byte[] b, String value) {
+        if(bluetoothGatt!=null && characteristic!=null) {
+            characteristic.setValue(b);
+            mCharacteristicWrittenValue = value;
+            bluetoothGatt.writeCharacteristic(characteristic);
         }
-        if (characteristic == null) {
-            return false;
-        }
-        characteristic.setValue(b);
-        mCharacteristicWrittenValue = value;
-        return bluetoothGatt.writeCharacteristic(characteristic);
     }
 
 

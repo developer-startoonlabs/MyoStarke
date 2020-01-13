@@ -7,6 +7,20 @@ Responsible:- Ankush
 Firmware Version(Tested With):- 1.11.4
 server version:- 1.14.3
 Hardware Version MVP_3
+description:- Bug fix:-
+                1) If the user goes to Device info screen view update the firmware dialog or via reactivate the device, if the clicks on forget the
+                    patient view screen still shows that the device is present locally in the view.
+
+                Updated session summary screen to have the exercise name not beside the share icon
+
+
+###############
+Version:- 2.14.2.h
+Date:- 23-12-2019
+Responsible:- Ankush
+Firmware Version(Tested With):- 1.11.4
+server version:- 1.14.3
+Hardware Version MVP_3
 description:- Removed local file creation of emg and rom files.
 
 

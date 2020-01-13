@@ -2,7 +2,7 @@ package com.startoonlabs.apps.pheezee.utils;
 
 public class MuscleOperation {
     private final static String[][] musle_names = {
-            {"Select Muscle*", "Bicep", "Brachialis (deep)","Brachioradialis", "Tricep", "Anconeus", "Others"},//elbow
+            {"Select Muscle*", "Biceps", "Brachialis (deep)","Brachioradialis", "Tricep", "Anconeus", "Others"},//elbow
 
             {"Select Muscle*", "Sartorius - Anterior", "Gracilis -Medial", "Biceps Femoris - Posterior", "Semimembranosus -Posterior",
                     "Semitendinosus -Posterior", "Popliteus(Posterior, deep)", "Gastrocnemius-Posterior", "Rectus Femoris - Anterior",
@@ -27,7 +27,7 @@ public class MuscleOperation {
             {"Select Muscle*", "Pectoralis Major", "Latissimus Dorsi", "Teres Major", "Subscapularis", "Deltoid",  "Biceps",
                     "Coracobrachialis",  "Pectoralis Minor", "Serratus Anterior", "Infraspinatus", "Teres Minor", "Trapezius","Others"},   //Shoulder
 
-            {"Select Muscle*","Bicep","Supinator (Deep)","Pronator Quadratus (Deep)", "Pronator Teres (Deep)"}, //forearm
+            {"Select Muscle*","Biceps","Supinator (Deep)","Pronator Quadratus (Deep)", "Pronator Teres (Deep)"}, //forearm
             {"Select Muscle*","Quadratus lumborum","Spinalis thoracis","Longissimus thoracis", "Iliocostalis thoracis","Iliocostalis lumborum"}, //Spine
             {"Select Muscle*","Others"}
     };

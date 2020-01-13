@@ -384,7 +384,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/ebrima"
-                    android:text="Repetition"
+                    android:text="@string/monitor_repetitions"
                     android:textColor="@color/pitch_black"
                     android:textSize="16sp" />
 
@@ -427,7 +427,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/ebrima"
-                    android:text="Active Time"
+                    android:text="@string/monitor_active_time"
                     android:textColor="@color/pitch_black"
                     android:textSize="16sp" />
 

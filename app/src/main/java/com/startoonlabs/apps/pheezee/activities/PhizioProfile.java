@@ -57,7 +57,7 @@ public class PhizioProfile extends AppCompatActivity implements MqttSyncReposito
     Spinner spinner;
     MqttSyncRepository repository;
     TextView tv_edit_profile_pic, tv_edit_profile_details, tv_update_clinic_logo;
-    ImageView iv_phizio_profilepic, iv_phizio_clinic_logo;
+    ImageView iv_phizio_profilepic, iv_phizio_clinic_logo, iv_back_button;
 
     final Calendar myCalendar = Calendar.getInstance();
 
@@ -110,6 +110,7 @@ public class PhizioProfile extends AppCompatActivity implements MqttSyncReposito
         spinner = findViewById(R.id.spinner_gender);
         tv_update_clinic_logo = findViewById(R.id.change_profile_cliniclogo);
         iv_phizio_clinic_logo = findViewById(R.id.iv_phizio_cliniclogo);
+        iv_back_button = findViewById(R.id.iv_back_phizio_profile);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.gender_array, R.layout.custom_green_spinner   );
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
@@ -118,6 +119,13 @@ public class PhizioProfile extends AppCompatActivity implements MqttSyncReposito
         tv_edit_profile_pic.setPaintFlags(tv_edit_profile_pic.getPaintFlags()|Paint.UNDERLINE_TEXT_FLAG);
         tv_update_clinic_logo.setPaintFlags(tv_update_clinic_logo.getPaintFlags()|Paint.UNDERLINE_TEXT_FLAG);
 
+
+        iv_back_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         tv_update_clinic_logo.setOnClickListener(new View.OnClickListener() {
             @Override

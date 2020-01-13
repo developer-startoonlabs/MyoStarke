@@ -455,7 +455,7 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
                 builder.setTitle("Correct Angle");
                 builder.setMessage("please enter the expected angle");
                 final EditText editText = new EditText(MonitorActivity.this);
-                editText.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.MATCH_PARENT);

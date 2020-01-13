@@ -288,11 +288,11 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
                             BatteryManager bm = (BatteryManager) getSystemService(BATTERY_SERVICE);
                             int batLevel = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);
                             if (batLevel < 30 && device_baterry_level < 30) {
-                                dfuStatusDialog("Battery Low","Please make sure that both the device and mobile have above 30% battery.");
+                                dfuStatusDialog("Battery Low: OTA FAILED ","Low battery level in both Pheezee and android device. Please charge both devices and try again.");
                             } else if (batLevel < 30) {
-                                dfuStatusDialog("Battery Low","Please make sure that mobile have above 30% battery.");
+                                dfuStatusDialog("Battery Low: OTA FAILED","Low battery level in android device. Please charge the android device and try again.");
                             } else if (device_baterry_level < 30) {
-                                dfuStatusDialog("Battery Low","Please make sure that the device have above 30% battery.");
+                                dfuStatusDialog("Battery Low: OTA FAILED","Low battery level in Pheezee device. Please charge the Pheezee device and try again.");
                             } else {
                                 String str = tv_update_firmware.getText().toString();
                                 if (str.equalsIgnoreCase("update")) {
@@ -443,7 +443,15 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
             }else if(action.equalsIgnoreCase(battery_percent)){
                 device_baterry_level = Integer.parseInt(intent.getStringExtra(battery_percent));
                 String percent = intent.getStringExtra(battery_percent);
-                tv_battery_level.setText(percent.concat("%"));
+                if(device_baterry_level==0){
+                    if(mDeviceState)
+                        tv_battery_level.setText(percent.concat("%"));
+                    else
+                        tv_battery_level.setText("Null");
+                }else {
+                    tv_battery_level.setText(percent.concat("%"));
+                }
+
             }else if(action.equalsIgnoreCase(PheezeeBleService.firmware_version)){
                 String firmwareVersion = intent.getStringExtra(PheezeeBleService.firmware_version);
                 if(!Objects.requireNonNull(preferences.getString("firmware_update", "")).equalsIgnoreCase("")

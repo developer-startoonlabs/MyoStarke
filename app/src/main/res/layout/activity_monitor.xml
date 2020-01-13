@@ -129,7 +129,7 @@
 
         <TextView
             android:id="@+id/sessionNoText"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
@@ -147,13 +147,14 @@
 
         <TextView
             android:id="@+id/tv_session_no"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:autoSizeTextType="uniform"
             android:fontFamily="@font/ebrima"
             android:text="0"
+            android:gravity="start"
             app:layout_constraintBottom_toBottomOf="@+id/sessionNoText"
             app:layout_constraintEnd_toStartOf="@+id/bodyPart"
             app:layout_constraintHorizontal_bias="0.5"
@@ -321,7 +322,7 @@
             android:layout_marginStart="8dp"
             android:autoSizeTextType="uniform"
             android:fontFamily="@font/ebrima"
-            android:text="Repetition"
+            android:text="@string/monitor_repetitions"
             android:textColor="@color/pitch_black"
             app:layout_constraintEnd_toStartOf="@+id/actionTimeText"
             app:layout_constraintHorizontal_bias="0.5"
@@ -365,7 +366,7 @@
             android:layout_marginBottom="8dp"
             android:autoSizeTextType="uniform"
             android:fontFamily="@font/ebrima"
-            android:text="Active Time"
+            android:text="@string/monitor_active_time"
             android:textColor="@color/pitch_black"
             app:layout_constraintBottom_toTopOf="@+id/tv_action_time"
             app:layout_constraintEnd_toStartOf="@+id/holdtimeText"
