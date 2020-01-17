@@ -1,6 +1,7 @@
 package com.startoonlabs.apps.pheezee.utils;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.core.content.ContextCompat;
 
@@ -186,9 +187,10 @@ public class ValueBasedColorOperations {
         return max_values[bodypart][exercisename];
     }
 
-    public static byte[] getParticularDataToPheeze(int body_orientation, int muscle_index, int exercise_index, int bodypart_index){
-
-        byte[] b = new byte[5];
+    public static byte[] getParticularDataToPheeze(int body_orientation, int muscle_index, int exercise_index, int bodypart_index,
+                                                   int orientation_position){
+        Log.i("VALUEORIENTATION", String.valueOf(orientation_position));
+        byte[] b = new byte[6];
         if(bodypart_index==8){
             bodypart_index = 1;
         }
@@ -204,6 +206,7 @@ public class ValueBasedColorOperations {
         b[2] = (byte) exercise_index;
         b[3] = (byte) muscle_index;
         b[4] = (byte) body_orientation;
+        b[5] = (byte) orientation_position;
 
 //        b = ByteToArrayOperations.hexStringToByteArray(ae);
         return b;

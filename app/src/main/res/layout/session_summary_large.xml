@@ -1199,6 +1199,7 @@
                             android:id="@+id/et_remarks"
                             android:maxLength="100"
                             android:maxLines="1"
+                            android:singleLine="true"
                             android:hint="Remarks?(if any)"/>
                     </LinearLayout>
 

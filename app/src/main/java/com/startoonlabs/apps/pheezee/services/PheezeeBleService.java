@@ -483,10 +483,10 @@ public class PheezeeBleService extends Service {
     }
 
     public void sendBodypartDataToDevice(String exerciseType, int body_orientation, String patientName, int exercise_position,
-                                         int muscle_position, int bodypart_position){
+                                         int muscle_position, int bodypart_position, int orientation_position){
         String session_performing_notif = "Device Connected, Session is going on ";
         showNotification(session_performing_notif +patientName);
-        writeCharacteristic(mCustomCharacteristic, ValueBasedColorOperations.getParticularDataToPheeze(body_orientation, muscle_position, exercise_position, bodypart_position),"AE");
+        writeCharacteristic(mCustomCharacteristic, ValueBasedColorOperations.getParticularDataToPheeze(body_orientation, muscle_position, exercise_position, bodypart_position, orientation_position),"AE");
     }
 
     public void disableNotificationOfSession(){

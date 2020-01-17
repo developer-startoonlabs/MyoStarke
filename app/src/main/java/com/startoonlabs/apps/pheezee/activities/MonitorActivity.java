@@ -89,7 +89,7 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
     TextView tv_max_angle, tv_min_angle, tv_max_emg, tv_snap, Repetitions, holdTime,
             tv_session_no, tv_body_part, tv_repsselected, EMG, time, patientId, patientName, tv_action_time;
     private int ui_rate = 0, gain_initial = 20, body_orientation = 0, angleCorrection = 0,
-            currentAngle = 0, Seconds, Minutes, maxAngle, minAngle, maxEmgValue;
+            currentAngle = 0, Seconds, Minutes, maxAngle, minAngle, maxEmgValue, orientation_position=0;
     int REQUEST_ENABLE_BT = 1;
     boolean angleCorrected = false, deviceState = true, usbState = false;
     String bodypart, orientation = "NO", timeText = "", holdTimeValue = "0:0", exerciseType;
@@ -118,7 +118,7 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
     BluetoothAdapter bluetoothAdapter;
     BluetoothManager mBluetoothManager;
     AlertDialog deviceDisconnectedDialog, usbPluggedInDialog, error_device_dialog;
-
+    ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
 
     public void deviceDisconnectedPopup(boolean operation) {
         String title = "Device Disconnected";
@@ -305,7 +305,10 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
         bodypart_position = getIntent().getIntExtra("bodypartposition",0);
         repsselected = getIntent().getIntExtra("repsselected",0);
         muscle_position = getIntent().getIntExtra("muscleposition",0);
-
+        if(orientation.equalsIgnoreCase("left"))
+            orientation_position=1;
+        else
+            orientation_position=2;
 
         //setting patient id and name
         if(patientid.length()>3){
@@ -567,7 +570,8 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
         new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    mService.sendBodypartDataToDevice(bodypart, body_orientation, patientname, exercise_position, muscle_position, bodypart_position);
+                    mService.sendBodypartDataToDevice(bodypart, body_orientation, patientname, exercise_position,
+                            muscle_position, bodypart_position, orientation_position);
                 }
             }, 100);
             rawdata_timestamp = Calendar.getInstance().getTime();
@@ -604,6 +608,8 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
         public void handleMessage(Message message) {
             try {
                 if (mSessionStarted) {
+
+//                    ToneGenerator toneGen2 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
                     int angleDetected = 0, num_of_reps = 0, hold_time_minutes, hold_time_seconds, active_time_minutes, active_time_seconds;
                     int emg_data, error_device = 0;
                     byte[] sub_byte;
@@ -689,8 +695,11 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
                                     new Handler().post(new Runnable() {
                                         @Override
                                         public void run() {
-                                            ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
+//                                            ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
                                             //toneGen1.startTone(ToneGenerator.TONE_PROP_BEEP,150);
+                                            if(toneGen1!=null){
+                                                toneGen1.stopTone();
+                                            }
                                             toneGen1.startTone(ToneGenerator.TONE_PROP_ACK, 150);
                                         }
                                     });
@@ -704,8 +713,11 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
                                     new Handler().post(new Runnable() {
                                         @Override
                                         public void run() {
-                                            ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
+//                                            ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
                                             //toneGen1.startTone(ToneGenerator.TONE_PROP_BEEP,150);
+                                            if(toneGen1!=null){
+                                                toneGen1.stopTone();
+                                            }
                                             toneGen1.startTone(ToneGenerator.TONE_PROP_ACK, 150);
                                         }
                                     });
@@ -910,7 +922,8 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
                         public void run() {
                             deviceState = true;
                             if(mSessionStarted) {
-                                mService.sendBodypartDataToDevice(bodypart, body_orientation, patientname, exercise_position, muscle_position, bodypart_position);
+                                mService.sendBodypartDataToDevice(bodypart, body_orientation, patientname, exercise_position,
+                                        muscle_position, bodypart_position, orientation_position);
                             }
                             if(deviceDisconnectedDialog!=null) {
                                 deviceDisconnectedDialog.dismiss();
@@ -952,7 +965,8 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                mService.sendBodypartDataToDevice(bodypart, body_orientation, patientname, exercise_position, muscle_position, bodypart_position);
+                                mService.sendBodypartDataToDevice(bodypart, body_orientation, patientname, exercise_position,
+                                        muscle_position, bodypart_position, orientation_position);
                             }
                         },500);
                     }
