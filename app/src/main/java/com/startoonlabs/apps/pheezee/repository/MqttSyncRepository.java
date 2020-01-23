@@ -716,73 +716,89 @@ public class MqttSyncRepository {
             @SuppressLint("ApplySharedPref")
             @Override
             public void onResponse(@NonNull Call<List<LoginResult>> call, @NonNull Response<List<LoginResult>> response) {
-                List<LoginResult> results = response.body();
-                if (results != null) {
-                    if (results.get(0).getIsvalid()) {
-                        editor = sharedPref.edit();
-                        editor.putBoolean("isLoggedIn", true);
-                        JSONObject object = new JSONObject();
-                        try {
-                            object.put("phizioname", results.get(0).getPhizioname());
-                            object.put("phizioemail", results.get(0).getPhizioemail());
-                            object.put("phiziophone", results.get(0).getPhiziophone());
-                            object.put("phizioprofilepicurl", results.get(0).getPhizioprofilepicurl());
-                            object.put("address", results.get(0).getAddress());
-                            object.put("clinicname", results.get(0).getClinicname());
-                            object.put("cliniclogo",results.get(0).getCliniclogo());
-                            object.put("degree", results.get(0).getDegree());
-                            object.put("experience", results.get(0).getExperience());
-                            object.put("gender", results.get(0).getGender());
-                            object.put("phiziodob", results.get(0).getPhiziodob());
-                            object.put("specialization", results.get(0).getSpecialization());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                        editor.putString("phiziodetails", object.toString());
-                        editor.commit();
-                        List<PhizioPatients> phiziopatients = results.get(0).getPhiziopatients();
-
-                        if (phiziopatients.size() > 0 && sharedPref.getInt("maxid", -1) == -1) {
-                            for (int i = 0; i < phiziopatients.size(); i++) {
-                                String patientId = phiziopatients.get(i).getPatientid();
+                AsyncTask.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        List<LoginResult> results = response.body();
+                        if (results != null) {
+                            if (results.get(0).getIsvalid()) {
+                                editor = sharedPref.edit();
+                                editor.putBoolean("isLoggedIn", true);
+                                JSONObject object = new JSONObject();
                                 try {
-                                    int id = Integer.parseInt(patientId);
-                                    if (id > maxid[0]) {
-                                        maxid[0] = id;
+                                    object.put("phizioname", results.get(0).getPhizioname());
+                                    object.put("phizioemail", results.get(0).getPhizioemail());
+                                    object.put("phiziophone", results.get(0).getPhiziophone());
+                                    object.put("phizioprofilepicurl", results.get(0).getPhizioprofilepicurl());
+                                    object.put("address", results.get(0).getAddress());
+                                    object.put("clinicname", results.get(0).getClinicname());
+                                    object.put("cliniclogo",results.get(0).getCliniclogo());
+                                    object.put("degree", results.get(0).getDegree());
+                                    object.put("experience", results.get(0).getExperience());
+                                    object.put("gender", results.get(0).getGender());
+                                    object.put("phiziodob", results.get(0).getPhiziodob());
+                                    object.put("specialization", results.get(0).getSpecialization());
+//                                    object.put("type", results.get(0).getType());
+//                                    object.put("packagetype", results.get(0).getPackagetype());
+                                    if(results.get(0).getType()>0){
+                                        object.put("type", results.get(0).getType());
+                                    }else{
+                                        object.put("type", 1);
                                     }
-                                } catch (NumberFormatException e) {
-                                    if(phiziopatients.get(i).getPatientid().contains(" ")){
-                                        String[] temp  = patientId.split(" ",2);
+                                    if(results.get(0).getPackagetype()>0){
+                                        object.put("packagetype", results.get(0).getPackagetype());
+                                    }else{
+                                        object.put("packagetype", 1);
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                                editor.putString("phiziodetails", object.toString());
+                                editor.commit();
+                                List<PhizioPatients> phiziopatients = results.get(0).getPhiziopatients();
+
+                                if (phiziopatients.size() > 0 && sharedPref.getInt("maxid", -1) == -1) {
+                                    for (int i = 0; i < phiziopatients.size(); i++) {
+                                        String patientId = phiziopatients.get(i).getPatientid();
                                         try {
-                                            int id = Integer.parseInt(temp[0]);
-                                            if(id>maxid[0]){
+                                            int id = Integer.parseInt(patientId);
+                                            if (id > maxid[0]) {
                                                 maxid[0] = id;
                                             }
-                                        }catch (NumberFormatException e1){
-                                            e1.printStackTrace();
+                                        } catch (NumberFormatException e) {
+                                            if(phiziopatients.get(i).getPatientid().contains(" ")){
+                                                String[] temp  = patientId.split(" ",2);
+                                                try {
+                                                    int id = Integer.parseInt(temp[0]);
+                                                    if(id>maxid[0]){
+                                                        maxid[0] = id;
+                                                    }
+                                                }catch (NumberFormatException e1){
+                                                    e1.printStackTrace();
+                                                }
+                                            }
                                         }
                                     }
+                                    editor = sharedPref.edit();
+                                    editor.putInt("maxid", maxid[0]);
+                                    editor.apply();
+                                } else {
+                                    editor = sharedPref.edit();
+                                    editor.putInt("maxid", maxid[0]);
+                                    editor.apply();
                                 }
+                                new InsertAllPatients(phizioPatientsDao).execute(phiziopatients);
+                            } else {
+                                if (loginlistner != null)
+                                    loginlistner.onLoginResponse(false, "Invalid Credentials");
                             }
-                            editor = sharedPref.edit();
-                            editor.putInt("maxid", maxid[0]);
-                            editor.apply();
                         } else {
-                            editor = sharedPref.edit();
-                            editor.putInt("maxid", maxid[0]);
-                            editor.apply();
+                            if (loginlistner != null)
+                                loginlistner.onLoginResponse(false, "Invalid Credentials");
                         }
-                        new InsertAllPatients(phizioPatientsDao).execute(phiziopatients);
-                    } else {
-                        if (loginlistner != null)
-                            loginlistner.onLoginResponse(false, "Invalid Credentials");
                     }
-                } else {
-                    if (loginlistner != null)
-                        loginlistner.onLoginResponse(false, "Invalid Credentials");
-                }
-
+                });
             }
 
             @Override

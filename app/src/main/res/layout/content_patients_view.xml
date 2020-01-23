@@ -101,7 +101,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_start_clinic_session"
                 app:layout_constraintVertical_bias="0.304" />
 
             <TextView
@@ -131,7 +131,6 @@
                 android:padding="5dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-
                 android:text="@string/add_patients_text"
                 android:textColor="@color/good_green"
                 android:textSize="24sp"
@@ -141,6 +140,25 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView6"
                 app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/tv_start_clinic_session"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/start_clinic_session_background"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="5dp"
+
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/start_clinic_session"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 

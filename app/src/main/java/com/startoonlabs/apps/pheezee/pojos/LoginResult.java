@@ -53,6 +53,28 @@ public class LoginResult {
     @SerializedName("specialization")
     @Expose
     private String specialization;
+    @SerializedName("type")
+    @Expose
+    private int type;
+    @SerializedName("packagetype")
+    @Expose
+    private int packagetype;
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public int getPackagetype() {
+        return packagetype;
+    }
+
+    public void setPackagetype(int packagetype) {
+        this.packagetype = packagetype;
+    }
 
     public String getPhizioname() {
         return phizioname;

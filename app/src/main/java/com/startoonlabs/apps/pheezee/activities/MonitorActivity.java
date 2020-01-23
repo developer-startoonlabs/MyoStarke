@@ -52,6 +52,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.popup.SessionSummaryPopupWindow;
+import com.startoonlabs.apps.pheezee.popup.SessionSummaryStandardPopupWindow;
 import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
 import com.startoonlabs.apps.pheezee.services.PheezeeBleService;
 import com.startoonlabs.apps.pheezee.utils.AngleOperations;
@@ -81,7 +82,7 @@ import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.session_d
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.usb_state;
 
 public class MonitorActivity extends AppCompatActivity implements MqttSyncRepository.GetSessionNumberResponse {
-
+    private int phizio_packagetype = 0;
     //session inserted on server
     private boolean sessionCompleted = false, can_beeep_max = true,can_beep_min = true;
     MqttSyncRepository repository;
@@ -283,6 +284,7 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
         try {
             json_phizio = new JSONObject(sharedPreferences.getString("phiziodetails", ""));
             json_phizioemail = json_phizio.getString("phizioemail");
+            phizio_packagetype = json_phizio.getInt("packagetype");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -321,7 +323,8 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
         patientName.setText(patientname);
 
         //setting session number
-        repository.getPatientSessionNo(patientid);
+        if(phizio_packagetype!=1)
+            repository.getPatientSessionNo(patientid);
 
         tv_body_part.setText(tv_body_part.getText().toString().concat(bodypart));
         tv_body_part.setText(orientation + "-" + bodypart + "-" + str_exercise_name);
@@ -444,7 +447,11 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
                 Minutes = 0;
                 timer.setText(R.string.timer_start);
                 tsLong = System.currentTimeMillis();
-                initiatePopupWindowModified();
+                if(phizio_packagetype!=1)
+                    initiatePopupWindowModified();
+                else
+                    initiatePopupWindowStandard();
+
             }
         });
 
@@ -854,7 +861,8 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
                 str_muscle_name,str_exercise_name,str_min_angle_selected,str_max_angle_selected,str_max_emg_selected,repsselected);
         window.showWindow();
         window.storeLocalSessionDetails(emgJsonArray,romJsonArray);
-        repository.getPatientSessionNo(patientid);
+        if(phizio_packagetype!=1)
+            repository.getPatientSessionNo(patientid);
         window.setOnSessionDataResponse(new MqttSyncRepository.OnSessionDataResponse() {
             @Override
             public void onInsertSessionData(Boolean response, String message) {
@@ -876,6 +884,22 @@ public class MonitorActivity extends AppCompatActivity implements MqttSyncReposi
             public void onCommentSessionUpdated(Boolean response) {
             }
         });
+    }
+
+    private void initiatePopupWindowStandard() {
+        String sessionNo = tv_session_no.getText().toString();
+        String sessiontime = time.getText().toString().substring(16);
+        String actiontime = tv_action_time.getText().toString();
+
+        //testing with empty emg and rom array
+//        emgJsonArray = new JSONArray();
+//        romJsonArray = new JSONArray();
+
+        SessionSummaryStandardPopupWindow window = new SessionSummaryStandardPopupWindow(this, maxEmgValue, sessionNo, maxAngle, minAngle, orientation, bodypart,
+                 sessiontime, actiontime, holdTime.getText().toString(), Repetitions.getText().toString(),
+                 patientid, patientname, tsLong, exercise_position,bodypart_position,
+                str_muscle_name,str_exercise_name,str_min_angle_selected,str_max_angle_selected,repsselected);
+        window.showWindow();
     }
 
     ServiceConnection mConnection = new ServiceConnection() {

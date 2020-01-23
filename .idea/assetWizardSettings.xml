@@ -63,12 +63,11 @@
                                   <option name="values">
                                     <map>
                                       <entry key="backgroundAssetType" value="COLOR" />
-                                      <entry key="backgroundColor" value="012e57" />
+                                      <entry key="backgroundColor" value="eaeaea" />
                                       <entry key="foregroundImage" value="C:\Users\STARTOONLABS\AndroidStudioProjects\pheezeeandroid\app\src\main\res\drawable\ic_person_add.xml" />
-                                      <entry key="foregroundLayerName" value="ic_add_patient_forground" />
-                                      <entry key="generateWebIcon" value="false" />
                                       <entry key="legacyIconShape" value="CIRCLE" />
-                                      <entry key="outputName" value="ic_add_patient" />
+                                      <entry key="outputName" value="ic_add_patient_grey" />
+                                      <entry key="webIconShape" value="CIRCLE" />
                                     </map>
                                   </option>
                                 </PersistentState>
