@@ -2,16 +2,16 @@ package com.startoonlabs.apps.pheezee.pojos;
 
 import com.startoonlabs.apps.pheezee.room.Entity.PhizioPatients;
 
-import org.json.JSONArray;
-
 import java.util.List;
 
-public class SignUpData {
+public class SignupDataResponse {
     String phizioname, phizioemail, phiziopassword, phiziophone, phizioprofilepicurl, packageid;
     List<PhizioPatients> patients;
+    boolean inserted;
+    int packagetype;
 
-    public SignUpData(String phizioname, String phizioemail, String phiziopassword, String phone,
-                      String phizioprofilepicurl, List<PhizioPatients> patients, String packageid) {
+    public SignupDataResponse(String phizioname, String phizioemail, String phiziopassword, String phone,
+                      String phizioprofilepicurl, List<PhizioPatients> patients, String packageid, boolean inserted, int packagetype) {
         this.phizioname = phizioname;
         this.phizioemail = phizioemail;
         this.phiziopassword = phiziopassword;
@@ -19,6 +19,8 @@ public class SignUpData {
         this.phizioprofilepicurl = phizioprofilepicurl;
         this.patients = patients;
         this.packageid = packageid;
+        this.inserted = inserted;
+        this.packagetype = packagetype;
     }
 
     public String getPhizioname() {
@@ -83,5 +85,21 @@ public class SignUpData {
 
     public void setPackageid(String packageid) {
         this.packageid = packageid;
+    }
+
+    public boolean isInserted() {
+        return inserted;
+    }
+
+    public void setInserted(boolean inserted) {
+        this.inserted = inserted;
+    }
+
+    public int getPackagetype() {
+        return packagetype;
+    }
+
+    public void setPackagetype(int packagetype) {
+        this.packagetype = packagetype;
     }
 }

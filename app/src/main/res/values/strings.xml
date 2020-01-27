@@ -143,6 +143,7 @@
     <string name="signup_password">Password</string>
     <string name="signup_email">Email</string>
     <string name="signup_phone">Phone</string>
+    <string name="signup_package_id">Package Id</string>
     <string name="signup_cancel">Cancel</string>
     <string name="signup_create">Create</string>
     <string name="cd_patient">Patient icon</string>

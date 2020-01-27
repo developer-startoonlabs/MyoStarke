@@ -2,6 +2,7 @@ package com.startoonlabs.apps.pheezee.retrofit;
 
 import com.startoonlabs.apps.pheezee.pojos.AddPatientData;
 import com.startoonlabs.apps.pheezee.pojos.CommentSessionUpdateData;
+import com.startoonlabs.apps.pheezee.pojos.ConfirmEmailAndPackageId;
 import com.startoonlabs.apps.pheezee.pojos.DeletePatientData;
 import com.startoonlabs.apps.pheezee.pojos.DeleteSessionData;
 import com.startoonlabs.apps.pheezee.pojos.DeviceDeactivationStatus;
@@ -27,6 +28,7 @@ import com.startoonlabs.apps.pheezee.pojos.PhizioEmailData;
 import com.startoonlabs.apps.pheezee.pojos.ResponseData;
 import com.startoonlabs.apps.pheezee.pojos.SessionData;
 import com.startoonlabs.apps.pheezee.pojos.SignUpData;
+import com.startoonlabs.apps.pheezee.pojos.SignupDataResponse;
 import com.startoonlabs.apps.pheezee.room.Entity.MqttSync;
 
 import java.util.List;
@@ -68,10 +70,10 @@ public interface GetDataService {
     Call<String> updatePassword(@Body LoginData data);
 
     @POST("/api/confirm/email")
-    Call<String> confirmEmail(@Body ForgotPassword object);
+    Call<String> confirmEmail(@Body ConfirmEmailAndPackageId object);
 
     @POST("/api/signup/phizio")
-    Call<String> signUp(@Body SignUpData data);
+    Call<SignupDataResponse> signUp(@Body SignUpData data);
 
     @POST("/api/phizio/update/patientProfilePic")
     Call<PatientImageUploadResponse> uploadPatientProfilePicture(@Body PatientImageData data);

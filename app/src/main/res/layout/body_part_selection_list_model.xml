@@ -56,7 +56,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline3">
@@ -174,22 +174,7 @@
             android:visibility="gone"
             />
 
-        <Spinner
-            android:id="@+id/model_sp_set_goal"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/spinner_background"
-            android:elevation="3dp"
-            android:gravity="center"
-            android:outlineProvider="background"
-            android:scaleType="fitXY"
-            android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/model_sp_musclename_name" />
+
 
 
         <TextView
@@ -244,6 +229,12 @@
                 android:text="@string/supine" />
         </RadioGroup>
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="127dp" />
         <TextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
@@ -326,8 +317,6 @@
             app:layout_constraintStart_toEndOf="@+id/model_et_min_angle"
             app:layout_constraintTop_toBottomOf="@+id/tv_max_emg"></androidx.constraintlayout.widget.ConstraintLayout>
 
-
-
         <TextView
             android:id="@+id/model_tv_start"
             android:layout_width="wrap_content"
@@ -354,13 +343,6 @@
             app:layout_constraintStart_toStartOf="@+id/model_et_max_angle"
             app:layout_constraintTop_toBottomOf="@+id/model_et_max_angle" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="127dp" />
-
         <TextView
             android:id="@+id/tv_max_emg"
             android:layout_width="wrap_content"
@@ -374,6 +356,22 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/model_et_max_emg"
             app:layout_constraintTop_toBottomOf="@+id/model_et_max_emg" />
+        <Spinner
+            android:id="@+id/model_sp_set_goal"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/spinner_background"
+            android:elevation="3dp"
+            android:gravity="center"
+            android:outlineProvider="background"
+            android:scaleType="fitXY"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/model_sp_musclename_name" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
