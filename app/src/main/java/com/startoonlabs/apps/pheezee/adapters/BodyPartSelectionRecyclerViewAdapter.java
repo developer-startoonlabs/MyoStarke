@@ -56,7 +56,7 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
         RadioGroup rg_body_orientation;
         Spinner sp_exercise_name, sp_muscle_name, sp_goal;
         EditText et_max_angle, et_min_angle, et_max_emg, et_muscle_name, et_exercise_name;
-        TextView tv_start, tv_end, tv_max_emg;
+        TextView tv_start, tv_end, tv_max_emg, tv_max_emg_text, tv_max_angle_text;
 
         ViewHolder(View view) {
             super(view);
@@ -89,6 +89,9 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
             tv_end = view.findViewById(R.id.model_tv_stop);
             tv_max_emg = view.findViewById(R.id.tv_max_emg);
 
+            tv_max_emg_text = view.findViewById(R.id.tv_max_emg_text);
+            tv_max_angle_text = view.findViewById(R.id.tv_max_angle_text);
+
             if(phizio_packagetype==1){
                 tv_end.setVisibility(View.GONE);
                 tv_start.setVisibility(View.GONE);
@@ -98,6 +101,8 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
                 et_max_emg.setVisibility(View.GONE);
                 sp_goal.setVisibility(View.GONE);
                 cl_dash.setVisibility(View.GONE);
+                tv_max_emg_text.setVisibility(View.GONE);
+                tv_max_angle_text.setVisibility(View.GONE);
             }
         }
     }

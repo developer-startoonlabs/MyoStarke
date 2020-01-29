@@ -25,7 +25,7 @@ public class MuscleOperation {
                     "Extensor Digitorum", "Extensor Carpi Ulnaris", "Extensor Digiti Minimi", "Others"},  //Wrist
 
             {"Select Muscle*", "Pectoralis Major", "Latissimus Dorsi", "Teres Major", "Subscapularis", "Deltoid",  "Biceps",
-                    "Coracobrachialis",  "Pectoralis Minor", "Serratus Anterior", "Infraspinatus", "Teres Minor", "Trapezius","Others"},   //Shoulder
+                    "Coracobrachialis",  "Pectoralis Minor", "Serratus Anterior", "Infraspinatus", "Teres Minor", "Trapezius","Supraspinatus","Others"},   //Shoulder
 
             {"Select Muscle*","Biceps","Supinator (Deep)","Pronator Quadratus (Deep)", "Pronator Teres (Deep)"}, //forearm
             {"Select Muscle*","Quadratus lumborum","Spinalis thoracis","Longissimus thoracis", "Iliocostalis thoracis","Iliocostalis lumborum"}, //Spine

@@ -56,7 +56,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline3">
@@ -147,15 +147,18 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             android:background="@drawable/spinner_background"
             android:elevation="3dp"
             android:gravity="center"
             android:outlineProvider="background"
             android:scaleType="fitXY"
             android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/model_sp_exercise_name" />
+            app:layout_constraintTop_toBottomOf="@+id/model_sp_exercise_name"
+            app:layout_constraintVertical_bias="0.01999998" />
 
         <EditText
             android:id="@+id/model_et_muscle_name"
@@ -236,7 +239,7 @@
             android:orientation="vertical"
             app:layout_constraintGuide_begin="127dp" />
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/tv_max_emg_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -263,7 +266,7 @@
             app:layout_constraintVertical_bias="1.0" />
 
         <TextView
-            android:id="@+id/textView26"
+            android:id="@+id/tv_max_angle_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -284,13 +287,13 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:background="@drawable/round_corners_textboxes_time"
-            app:layout_constraintBottom_toTopOf="@+id/textView26"
+            app:layout_constraintBottom_toTopOf="@+id/tv_max_angle_text"
             app:layout_constraintEnd_toEndOf="parent"
             android:inputType="number"
             android:imeOptions="actionNext"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/guideline4"
-            app:layout_constraintTop_toTopOf="@+id/textView3"
+            app:layout_constraintTop_toTopOf="@+id/tv_max_emg_text"
             app:layout_constraintVertical_bias="0.0" />
 
         <EditText
