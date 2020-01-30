@@ -1,10 +1,25 @@
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+
 ###############
-Version:- 2.14.2.h
-Date:- 23-12-2019
+Version:- 2.14.4.h
+Date:- 10-01-2020
 Responsible:- Ankush
-Firmware Version(Tested With):- 1.11.4
+Firmware Version(Tested With):- 1.12.1 best compatible:- 1.12.3
+server version:- 1.14.4
+Hardware Version MVP_3
+description:- Bug fix:-
+                1) All the view updates, spelling mistakes suggested by sir.
+                2) Bug fixes suggested by sir.
+                3) Writing left, right to the device
+                4) Making forget device inside the home screen.
+
+
+###############
+Version:- 2.14.3.h
+Date:- 09-01-2020
+Responsible:- Ankush
+Firmware Version(Tested With):- 1.11.5
 server version:- 1.14.3
 Hardware Version MVP_3
 description:- Bug fix:-
@@ -18,7 +33,7 @@ description:- Bug fix:-
 Version:- 2.14.2.h
 Date:- 23-12-2019
 Responsible:- Ankush
-Firmware Version(Tested With):- 1.11.4
+Firmware Version(Tested With):- 1.11.5
 server version:- 1.14.3
 Hardware Version MVP_3
 description:- Removed local file creation of emg and rom files.
@@ -39,7 +54,7 @@ Version:- 2.14.0.h
 Date:- 23-12-2019
 Responsible:- Ankush
 Firmware Version(Tested With):- 1.11.5
-server version:- 1.14.0
+server version:- 1.14.2
 Hardware Version MVP_3
 description:- Final device deactivation test, updated to show this device does not work with firmware below 1.11.4.
 
