@@ -1,7 +1,6 @@
 package com.startoonlabs.apps.pheezee.services;
 
 import android.app.Notification;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
@@ -38,7 +37,6 @@ import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
 import com.startoonlabs.apps.pheezee.R;
-import com.startoonlabs.apps.pheezee.activities.PatientsView;
 import com.startoonlabs.apps.pheezee.classes.DeviceListClass;
 import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
 import com.startoonlabs.apps.pheezee.utils.ByteToArrayOperations;
@@ -52,7 +50,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-
 
 import static com.startoonlabs.apps.pheezee.App.CHANNEL_ID;
 
@@ -470,6 +467,7 @@ public class PheezeeBleService extends Service {
         sendSerialNumberBroadcast();
         sendManufacturerName();
         sendHardwareVersion();
+        sendUsbStateBroadcast();
     }
 
     public void increaseGain(){
@@ -963,6 +961,7 @@ public class PheezeeBleService extends Service {
             String action = intent.getAction();
             if(BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)){
                 isConnectCommandGiven=false;
+                mUsbState = false;
                 mDeviceState = false;mFirmwareVersion="Null"; mSerialId="NULL";mBatteryPercent = 0;mManufacturerName="Null";mHardwareVersion="Null";
                 mAtinyVersion = "Null";
                 mDeviceStatus=0;
@@ -989,6 +988,7 @@ public class PheezeeBleService extends Service {
                     });
                 }
                 if (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1) == BluetoothAdapter.STATE_OFF) {
+                    mUsbState = false;
                     isConnectCommandGiven = false;
                     mDeviceStatus=0;
                     mBluetoothState = false;mDeviceState = false;mFirmwareVersion="Null"; mSerialId="NULL";mBatteryPercent = 0;mManufacturerName="Null";

@@ -31,6 +31,7 @@ import com.startoonlabs.apps.pheezee.utils.MuscleOperation;
 import com.startoonlabs.apps.pheezee.utils.ValueBasedColorOperations;
 
 import static com.startoonlabs.apps.pheezee.activities.PatientsView.phizio_packagetype;
+import static com.startoonlabs.apps.pheezee.utils.PackageTypes.STANDARD_PACKAGE;
 
 public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<BodyPartSelectionRecyclerViewAdapter.ViewHolder> {
     private int selected_position = -1;
@@ -92,7 +93,7 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
             tv_max_emg_text = view.findViewById(R.id.tv_max_emg_text);
             tv_max_angle_text = view.findViewById(R.id.tv_max_angle_text);
 
-            if(phizio_packagetype==1){
+            if(phizio_packagetype==STANDARD_PACKAGE){
                 tv_end.setVisibility(View.GONE);
                 tv_start.setVisibility(View.GONE);
                 tv_max_emg.setVisibility(View.GONE);

@@ -142,6 +142,8 @@ public class SignUpActivity extends AppCompatActivity implements MqttSyncReposit
 
     @Override
     public void onSignUp(boolean response) {
+        if(progressDialog!=null && progressDialog.isShowing())
+            progressDialog.dismiss();
         if(!response){
             showToast("Error, try again later");
         }

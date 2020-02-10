@@ -367,7 +367,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
-
     <!--Body part selection-->
     <string name="orientation">Select Side: </string>
     <string name="str_position">Select Position: </string>
@@ -391,4 +390,10 @@
     <string name="todo">TODO</string>
     <string name="monitor_repetitions">Repetitions</string>
     <string name="monitor_active_time">Active time</string>
+
+
+    <!--    Theme choser menu titles-->
+    <string name="normal_theme">Normal Theme</string>
+    <string name="smiley_theme">Smile Theme</string>
+    <string name="star_theme">Star Theme</string>
 </resources>

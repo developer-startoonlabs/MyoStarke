@@ -78,7 +78,6 @@ import com.startoonlabs.apps.pheezee.classes.MyBottomSheetDialog;
 import com.startoonlabs.apps.pheezee.pojos.DeletePatientData;
 import com.startoonlabs.apps.pheezee.pojos.PatientDetailsData;
 import com.startoonlabs.apps.pheezee.pojos.PatientStatusData;
-import com.startoonlabs.apps.pheezee.pojos.Phiziopatient;
 import com.startoonlabs.apps.pheezee.popup.AddPatientPopUpWindow;
 import com.startoonlabs.apps.pheezee.popup.EditPopUpWindow;
 import com.startoonlabs.apps.pheezee.popup.UploadImageDialog;
@@ -103,11 +102,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+import static com.startoonlabs.apps.pheezee.utils.PackageTypes.STANDARD_PACKAGE;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.battery_percent;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.bluetooth_state;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.deactivate_device;
@@ -407,7 +406,7 @@ public class PatientsView extends AppCompatActivity
             @Override
             public void onChanged(List<PhizioPatients> patients) {
                 if(patients.size()>0) {
-                    if(phizio_packagetype!=1) {
+                    if(phizio_packagetype!=STANDARD_PACKAGE) {
                         findViewById(R.id.noPatient).setVisibility(View.GONE);
                         findViewById(R.id.cl_recycler_view).setVisibility(View.VISIBLE);
                         tv_start_clinic_session.setVisibility(View.GONE);
@@ -422,7 +421,7 @@ public class PatientsView extends AppCompatActivity
                     }
                 }
                 else {
-                    if(phizio_packagetype!=1) {
+                    if(phizio_packagetype!=STANDARD_PACKAGE) {
                         findViewById(R.id.cl_recycler_view).setVisibility(View.GONE);
                         findViewById(R.id.noPatient).setVisibility(View.VISIBLE);
                         tv_start_clinic_session.setVisibility(View.GONE);
@@ -547,13 +546,14 @@ public class PatientsView extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
         if(isBound){
             unbindService(mConnection);
         }
         unregisterReceiver(patient_view_broadcast_receiver);
+        Log.i("STOPING SERVICE","SERVICE");
         stopService(new Intent(this,PheezeeBleService.class));
     }
+
 
 
     @Override
@@ -666,7 +666,7 @@ public class PatientsView extends AppCompatActivity
     }
 
     private void initiatePopupWindow() {
-        if(phizio_packagetype!=1) {
+        if(phizio_packagetype!=STANDARD_PACKAGE) {
             AddPatientPopUpWindow patientPopUpWindow = new AddPatientPopUpWindow(this, json_phizioemail);
             patientPopUpWindow.openAddPatientPopUpWindow();
             patientPopUpWindow.setOnClickListner(new AddPatientPopUpWindow.onClickListner() {

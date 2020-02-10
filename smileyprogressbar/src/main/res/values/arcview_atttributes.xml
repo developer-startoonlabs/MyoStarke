@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ArcView">
+        <attr name="arc_color" format="color"/>
+        <attr name="arc_radius" format="dimension"/>
+        <attr name="max_angle" format="integer"/>
+        <attr name="min_angle" format="integer"/>
+    </declare-styleable>
+</resources>

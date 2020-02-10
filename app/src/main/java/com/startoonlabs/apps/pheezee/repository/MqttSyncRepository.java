@@ -755,7 +755,7 @@ public class MqttSyncRepository {
                                     if(results.get(0).getPackagetype()>0){
                                         object.put("packagetype", results.get(0).getPackagetype());
                                     }else{
-                                        object.put("packagetype", 1);
+                                        object.put("packagetype", 2);
                                     }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
