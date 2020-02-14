@@ -8,572 +8,572 @@
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:layout_height="wrap_content">
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/my_toolbar_bodypart"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_alignParentStart="true"
-        app:elevation="@dimen/toolbar_dim_5"
-        android:elevation="@dimen/toolbar_dim_5"
-        android:background="@color/white_opaque"
-        tools:ignore="ObsoleteLayoutParam">
-        <LinearLayout
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/my_toolbar_bodypart"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="wrap_content"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_alignParentStart="true"
+            app:elevation="@dimen/toolbar_dim_5"
+            android:elevation="@dimen/toolbar_dim_5"
+            android:background="@color/white_opaque"
+            tools:ignore="ObsoleteLayoutParam">
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/iv_back_phizio_profile"
-                android:paddingTop="@dimen/bodypart_back_padding_top"
-                android:paddingRight="@dimen/bodypart_back_padding_right"
-                android:paddingBottom="@dimen/bodypart_back_padding_bottom"
-                android:src="@drawable/green_back_arrow"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/physio_profile"
-                android:textSize="@dimen/textsize_deviceinfo_toolbar"
-                android:textColor="@color/good_green"
-                android:layout_gravity="center"
-                android:layout_marginStart="@dimen/marginstart_toolbarttext_bodypart"/>
-        </LinearLayout>
-    </androidx.appcompat.widget.Toolbar>
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:context="com.startoonlabs.apps.pheezee.activities.PhizioProfile">
-
-
-        <TextView
-            android:id="@+id/tv_create_account"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/iv_back_phizio_profile"
+                    android:paddingTop="@dimen/bodypart_back_padding_top"
+                    android:paddingRight="@dimen/bodypart_back_padding_right"
+                    android:paddingBottom="@dimen/bodypart_back_padding_bottom"
+                    android:src="@drawable/green_back_arrow"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/physio_profile"
+                    android:textSize="@dimen/textsize_deviceinfo_toolbar"
+                    android:textColor="@color/good_green"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/marginstart_toolbarttext_bodypart"/>
+            </LinearLayout>
+        </androidx.appcompat.widget.Toolbar>
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:fontFamily="@font/ebrima"
-            android:gravity="center"
-            android:text="@string/your_profile"
-            android:textColor="@color/good_green"
-            android:textSize="27sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/iv_phizio_profilepic"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="24dp"
-            android:src="@drawable/user_icon"
-            app:civ_border_color="#FF000000"
-            app:civ_border_width="0.1dp"
-            app:layout_constraintEnd_toEndOf="@+id/change_profile_pic"
-            app:layout_constraintStart_toStartOf="@+id/change_profile_pic"
-            app:layout_constraintTop_toBottomOf="@+id/tv_create_account" />
-
-        <TextView
-            android:id="@+id/change_profile_pic"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="24dp"
-            android:fontFamily="@font/ebrima"
-            android:gravity="center"
-            android:text="@string/change_profile_pic"
-            android:textColor="@color/good_green"
-            android:textSize="22sp"
-            app:layout_constraintEnd_toStartOf="@+id/guideline6"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_phizio_profilepic" />
-
-        <TextView
-            android:id="@+id/edit_phizio_details"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="16dp"
-            android:fontFamily="@font/ebrima"
-            android:gravity="center"
-            android:text="@string/edit"
-            android:textColor="@color/good_green"
-            android:textSize="22sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/change_profile_pic" />
-
-        <TextView
-            android:id="@+id/phizio_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/ebrima"
-            android:gravity="center"
-            android:text="@string/name"
-            android:textColor="@color/good_green"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_phizio_details" />
+            tools:context="com.startoonlabs.apps.pheezee.activities.PhizioProfile">
 
 
-        <EditText
-            android:id="@+id/et_phizio_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:background="@android:color/transparent"
-            android:fontFamily="@font/ebrima"
-            android:gravity="left"
-            android:imeOptions="actionNext"
-            android:singleLine="true"
-            android:textColor="@color/good_green"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.026"
-            app:layout_constraintStart_toEndOf="@+id/phizio_name"
-            app:layout_constraintTop_toBottomOf="@+id/edit_phizio_details" />
+            <TextView
+                android:id="@+id/tv_create_account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:fontFamily="@font/ebrima"
+                android:gravity="center"
+                android:text="@string/your_profile"
+                android:textColor="@color/good_green"
+                android:textSize="27sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <!--Emial-->
-        <TextView
-            android:id="@+id/phizio_email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/ebrima"
-            android:gravity="center"
-            android:text="@string/email"
-            android:textColor="@color/good_green"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/phizio_name" />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iv_phizio_profilepic"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="24dp"
+                android:src="@drawable/user_icon"
+                app:civ_border_color="#FF000000"
+                app:civ_border_width="0.1dp"
+                app:layout_constraintEnd_toEndOf="@+id/change_profile_pic"
+                app:layout_constraintStart_toStartOf="@+id/change_profile_pic"
+                app:layout_constraintTop_toBottomOf="@+id/tv_create_account" />
 
-        <EditText
-            android:id="@+id/et_phizio_email"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_toEndOf="@+id/phizio_email"
-            android:background="@android:color/transparent"
-            android:editable="false"
-            android:fontFamily="@font/ebrima"
-            android:gravity="left"
-            android:textColor="@color/good_green"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.034"
-            app:layout_constraintStart_toEndOf="@+id/phizio_email"
-            app:layout_constraintTop_toBottomOf="@+id/et_phizio_name" />
-
-
-        <!--Phone-->
-        <TextView
-            android:id="@+id/phizio_phone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/ebrima"
-            android:gravity="center"
-            android:text="@string/phone"
-            android:textColor="@color/good_green"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/phizio_email" />
-
-        <EditText
-            android:id="@+id/et_phizio_phone"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:background="@android:color/transparent"
-            android:fontFamily="@font/ebrima"
-            android:gravity="left"
-            android:imeOptions="actionNext"
-            android:singleLine="true"
-            android:textColor="@color/good_green"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.031"
-            app:layout_constraintStart_toEndOf="@+id/phizio_phone"
-            app:layout_constraintTop_toBottomOf="@+id/et_phizio_email" />
-
-
-
-
-        <LinearLayout
-            android:id="@+id/linearLayout5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="16dp"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/et_phizio_address">
-
-            <Button
-                android:id="@+id/btn_update_details"
+            <TextView
+                android:id="@+id/change_profile_pic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/round_same_buttons"
-                android:clickable="false"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="24dp"
                 android:fontFamily="@font/ebrima"
-                android:text="@string/update"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:visibility="invisible" />
+                android:gravity="center"
+                android:text="@string/change_profile_pic"
+                android:textColor="@color/good_green"
+                android:textSize="22sp"
+                app:layout_constraintEnd_toStartOf="@+id/guideline6"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_phizio_profilepic" />
 
-            <Button
-                android:id="@+id/btn_cancel_update"
+            <TextView
+                android:id="@+id/edit_phizio_details"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/round_same_buttons"
-                android:clickable="false"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
                 android:fontFamily="@font/ebrima"
-                android:text="@string/cancel"
-                android:textColor="@color/white"
+                android:gravity="center"
+                android:text="@string/edit"
+                android:textColor="@color/good_green"
+                android:textSize="22sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/change_profile_pic" />
+
+            <TextView
+                android:id="@+id/phizio_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/ebrima"
+                android:gravity="center"
+                android:text="@string/name"
+                android:textColor="@color/good_green"
                 android:textSize="18sp"
-                android:visibility="invisible"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_phizio_details" />
+
+
+            <EditText
+                android:id="@+id/et_phizio_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:background="@android:color/transparent"
+                android:fontFamily="@font/ebrima"
+                android:gravity="left"
+                android:imeOptions="actionNext"
+                android:singleLine="true"
+                android:textColor="@color/good_green"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.026"
+                app:layout_constraintStart_toEndOf="@+id/phizio_name"
+                app:layout_constraintTop_toBottomOf="@+id/edit_phizio_details" />
+
+            <!--Emial-->
+            <TextView
+                android:id="@+id/phizio_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/ebrima"
+                android:gravity="center"
+                android:text="@string/email"
+                android:textColor="@color/good_green"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/phizio_name" />
+
+            <EditText
+                android:id="@+id/et_phizio_email"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_toEndOf="@+id/phizio_email"
+                android:background="@android:color/transparent"
+                android:editable="false"
+                android:fontFamily="@font/ebrima"
+                android:gravity="left"
+                android:textColor="@color/good_green"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.034"
+                app:layout_constraintStart_toEndOf="@+id/phizio_email"
+                app:layout_constraintTop_toBottomOf="@+id/et_phizio_name" />
+
+
+            <!--Phone-->
+            <TextView
+                android:id="@+id/phizio_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/ebrima"
+                android:gravity="center"
+                android:text="@string/phone"
+                android:textColor="@color/good_green"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/phizio_email" />
+
+            <EditText
+                android:id="@+id/et_phizio_phone"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:background="@android:color/transparent"
+                android:fontFamily="@font/ebrima"
+                android:gravity="left"
+                android:imeOptions="actionNext"
+                android:singleLine="true"
+                android:textColor="@color/good_green"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.031"
+                app:layout_constraintStart_toEndOf="@+id/phizio_phone"
+                app:layout_constraintTop_toBottomOf="@+id/et_phizio_email" />
+
+
+
+
+            <LinearLayout
+                android:id="@+id/linearLayout5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="16dp"
+                android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
-        </LinearLayout>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_phizio_address">
 
-        <TextView
-            android:id="@+id/textView9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/ebrima"
-            android:text="@string/clinic_name"
-            android:textColor="@color/good_green"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/phizio_phone" />
+                <Button
+                    android:id="@+id/btn_update_details"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/round_same_buttons"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:fontFamily="@font/ebrima"
+                    android:text="@string/update"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:visibility="invisible" />
 
-        <EditText
-            android:id="@+id/et_phizio_clinic_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:background="@android:color/transparent"
-            android:fontFamily="@font/ebrima"
-            android:imeOptions="actionNext"
-            android:paddingLeft="10dp"
-            android:singleLine="true"
-            android:textColor="@color/good_green"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/textView9"
-            app:layout_constraintTop_toBottomOf="@+id/et_phizio_phone" />
+                <Button
+                    android:id="@+id/btn_cancel_update"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/round_same_buttons"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:fontFamily="@font/ebrima"
+                    android:text="@string/cancel"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+            </LinearLayout>
 
-        <EditText
-            android:id="@+id/et_phizio_dob"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:background="@android:color/transparent"
-            android:fontFamily="@font/ebrima"
-            android:paddingLeft="10dp"
-            android:textColor="@color/good_green"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/textView12"
-            app:layout_constraintTop_toBottomOf="@+id/et_phizio_clinic_name" />
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/ebrima"
+                android:text="@string/clinic_name"
+                android:textColor="@color/good_green"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/phizio_phone" />
 
-        <EditText
-            android:id="@+id/et_phizio_experience"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:background="@android:color/transparent"
-            android:fontFamily="@font/ebrima"
-            android:imeOptions="actionNext"
-            android:paddingLeft="10dp"
-            android:singleLine="true"
-            android:textColor="@color/good_green"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView19"
-            app:layout_constraintTop_toBottomOf="@+id/et_phizio_dob" />
+            <EditText
+                android:id="@+id/et_phizio_clinic_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:background="@android:color/transparent"
+                android:fontFamily="@font/ebrima"
+                android:imeOptions="actionNext"
+                android:paddingLeft="10dp"
+                android:singleLine="true"
+                android:textColor="@color/good_green"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/textView9"
+                app:layout_constraintTop_toBottomOf="@+id/et_phizio_phone" />
 
-        <EditText
-            android:id="@+id/et_phizio_specialization"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:background="@android:color/transparent"
-            android:fontFamily="@font/ebrima"
-            android:imeOptions="actionNext"
-            android:paddingLeft="10dp"
-            android:singleLine="true"
-            android:textColor="@color/good_green"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/textView13"
-            app:layout_constraintTop_toBottomOf="@+id/et_phizio_experience" />
+            <EditText
+                android:id="@+id/et_phizio_dob"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:background="@android:color/transparent"
+                android:fontFamily="@font/ebrima"
+                android:paddingLeft="10dp"
+                android:textColor="@color/good_green"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/textView12"
+                app:layout_constraintTop_toBottomOf="@+id/et_phizio_clinic_name" />
 
-        <EditText
-            android:id="@+id/et_phizio_degree"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:background="@android:color/transparent"
-            android:fontFamily="@font/ebrima"
-            android:imeOptions="actionNext"
-            android:paddingLeft="10dp"
-            android:singleLine="true"
-            android:textColor="@color/good_green"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.04"
-            app:layout_constraintStart_toEndOf="@+id/textView16"
-            app:layout_constraintTop_toBottomOf="@+id/et_phizio_specialization" />
+            <EditText
+                android:id="@+id/et_phizio_experience"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:background="@android:color/transparent"
+                android:fontFamily="@font/ebrima"
+                android:imeOptions="actionNext"
+                android:paddingLeft="10dp"
+                android:singleLine="true"
+                android:textColor="@color/good_green"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView19"
+                app:layout_constraintTop_toBottomOf="@+id/et_phizio_dob" />
 
-        <EditText
-            android:id="@+id/et_phizio_gender"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:background="@android:color/transparent"
-            android:fontFamily="@font/ebrima"
-            android:imeOptions="actionNext"
-            android:paddingLeft="10dp"
-            android:singleLine="true"
-            android:textColor="@color/good_green"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.04"
-            app:layout_constraintStart_toEndOf="@+id/textView17"
-            app:layout_constraintTop_toBottomOf="@+id/et_phizio_degree" />
+            <EditText
+                android:id="@+id/et_phizio_specialization"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:background="@android:color/transparent"
+                android:fontFamily="@font/ebrima"
+                android:imeOptions="actionNext"
+                android:paddingLeft="10dp"
+                android:singleLine="true"
+                android:textColor="@color/good_green"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/textView13"
+                app:layout_constraintTop_toBottomOf="@+id/et_phizio_experience" />
 
-        <Spinner
-            android:id="@+id/spinner_gender"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="8dp"
-            android:backgroundTint="@color/pale_white"
-            android:visibility="gone"
-            app:layout_constraintStart_toEndOf="@+id/textView17"
-            app:layout_constraintTop_toBottomOf="@+id/et_phizio_degree"></Spinner>
+            <EditText
+                android:id="@+id/et_phizio_degree"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:background="@android:color/transparent"
+                android:fontFamily="@font/ebrima"
+                android:imeOptions="actionNext"
+                android:paddingLeft="10dp"
+                android:singleLine="true"
+                android:textColor="@color/good_green"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.04"
+                app:layout_constraintStart_toEndOf="@+id/textView16"
+                app:layout_constraintTop_toBottomOf="@+id/et_phizio_specialization" />
 
-        <EditText
-            android:id="@+id/et_phizio_address"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:background="@android:color/transparent"
-            android:fontFamily="@font/ebrima"
-            android:imeOptions="actionDone"
-            android:paddingLeft="10dp"
-            android:singleLine="true"
-            android:textColor="@color/good_green"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/textView18"
-            app:layout_constraintTop_toBottomOf="@+id/et_phizio_gender" />
+            <EditText
+                android:id="@+id/et_phizio_gender"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:background="@android:color/transparent"
+                android:fontFamily="@font/ebrima"
+                android:imeOptions="actionNext"
+                android:paddingLeft="10dp"
+                android:singleLine="true"
+                android:textColor="@color/good_green"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.04"
+                app:layout_constraintStart_toEndOf="@+id/textView17"
+                app:layout_constraintTop_toBottomOf="@+id/et_phizio_degree" />
 
-        <TextView
-            android:id="@+id/textView12"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/ebrima"
-            android:text="@string/dob"
-            android:textColor="@color/good_green"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView9" />
+            <Spinner
+                android:id="@+id/spinner_gender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="8dp"
+                android:backgroundTint="@color/pale_white"
+                android:visibility="gone"
+                app:layout_constraintStart_toEndOf="@+id/textView17"
+                app:layout_constraintTop_toBottomOf="@+id/et_phizio_degree"></Spinner>
 
-        <TextView
-            android:id="@+id/textView19"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/ebrima"
-            android:text="@string/experience"
-            android:textColor="@color/good_green"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView12" />
+            <EditText
+                android:id="@+id/et_phizio_address"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:background="@android:color/transparent"
+                android:fontFamily="@font/ebrima"
+                android:imeOptions="actionDone"
+                android:paddingLeft="10dp"
+                android:singleLine="true"
+                android:textColor="@color/good_green"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/textView18"
+                app:layout_constraintTop_toBottomOf="@+id/et_phizio_gender" />
 
-        <TextView
-            android:id="@+id/textView13"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/ebrima"
-            android:text="@string/specialization"
-            android:textColor="@color/good_green"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/et_phizio_experience" />
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/ebrima"
+                android:text="@string/dob"
+                android:textColor="@color/good_green"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
-        <TextView
-            android:id="@+id/textView16"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/ebrima"
-            android:text="@string/degree"
-            android:textColor="@color/good_green"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView13" />
+            <TextView
+                android:id="@+id/textView19"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/ebrima"
+                android:text="@string/experience"
+                android:textColor="@color/good_green"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
-        <TextView
-            android:id="@+id/textView17"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/ebrima"
-            android:text="@string/gender"
-            android:textColor="@color/good_green"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView16" />
+            <TextView
+                android:id="@+id/textView13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/ebrima"
+                android:text="@string/specialization"
+                android:textColor="@color/good_green"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_phizio_experience" />
 
-        <TextView
-            android:id="@+id/textView18"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/ebrima"
-            android:text="@string/address"
-            android:textColor="@color/good_green"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView17" />
+            <TextView
+                android:id="@+id/textView16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/ebrima"
+                android:text="@string/degree"
+                android:textColor="@color/good_green"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.24" />
+            <TextView
+                android:id="@+id/textView17"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/ebrima"
+                android:text="@string/gender"
+                android:textColor="@color/good_green"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.76" />
+            <TextView
+                android:id="@+id/textView18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/ebrima"
+                android:text="@string/address"
+                android:textColor="@color/good_green"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView17" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.24" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.76" />
 
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/iv_phizio_cliniclogo"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="16dp"
-            android:src="@drawable/user_icon"
-            app:civ_border_color="#FF000000"
-            app:civ_border_width="0.1dp"
-            app:layout_constraintEnd_toEndOf="@+id/change_profile_cliniclogo"
-            app:layout_constraintStart_toStartOf="@+id/change_profile_cliniclogo"
-            app:layout_constraintTop_toBottomOf="@+id/tv_create_account" />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iv_phizio_cliniclogo"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/user_icon"
+                app:civ_border_color="#FF000000"
+                app:civ_border_width="0.1dp"
+                app:layout_constraintEnd_toEndOf="@+id/change_profile_cliniclogo"
+                app:layout_constraintStart_toStartOf="@+id/change_profile_cliniclogo"
+                app:layout_constraintTop_toBottomOf="@+id/tv_create_account" />
 
-        <TextView
-            android:id="@+id/change_profile_cliniclogo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="24dp"
-            android:fontFamily="@font/ebrima"
-            android:gravity="center"
-            android:text="@string/change_clinic"
-            android:textColor="@color/good_green"
-            android:textSize="22sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/guideline6"
-            app:layout_constraintTop_toBottomOf="@+id/iv_phizio_cliniclogo" />
+            <TextView
+                android:id="@+id/change_profile_cliniclogo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/ebrima"
+                android:gravity="center"
+                android:text="@string/change_clinic"
+                android:textColor="@color/good_green"
+                android:textSize="22sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline6"
+                app:layout_constraintTop_toBottomOf="@+id/iv_phizio_cliniclogo" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.5" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 </ScrollView>

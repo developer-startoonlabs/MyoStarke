@@ -217,7 +217,6 @@ public class ScanDevicesActivity extends AppCompatActivity {
     }
 
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -383,7 +382,9 @@ public class ScanDevicesActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
             }
         });
-        tooFrequentDialog = tooFrequentBuilder.create();
-        tooFrequentDialog.show();
+        if(tooFrequentDialog!=null) {
+            tooFrequentDialog = tooFrequentBuilder.create();
+            tooFrequentDialog.show();
+        }
     }
 }

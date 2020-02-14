@@ -9,10 +9,11 @@
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="add_patients_text">+ <u>Add patient</u></string>
+    <string name="start_clinic_session">Start Clinic Session</string>
     <string name="title_activity_scan_devices">ScanDevicesActivity</string>
     <string name="repetition"><b>Repetitions</b></string>
     <string name="copy_rights">2020, Startoon Labs Pvt. Ltd.</string>
-
+    <string name="feature_not_available">This feature is not available in current package. Please upgrade to <b>Gold</b> or <b>Gold Plus</b> to avail this feature.</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
 
@@ -142,6 +143,7 @@
     <string name="signup_password">Password</string>
     <string name="signup_email">Email</string>
     <string name="signup_phone">Phone</string>
+    <string name="signup_package_id">Package Id</string>
     <string name="signup_cancel">Cancel</string>
     <string name="signup_create">Create</string>
     <string name="cd_patient">Patient icon</string>
@@ -179,7 +181,7 @@
     <!--Appinfo related tags-->
     <string name="app_info">Application Info</string>
     <string name="app_version">Application Version</string>
-    <string name="application_version">2.14.5.h</string>
+    <string name="application_version">2.15.0.h</string>
 
     <!--phizio profile related tags-->
     <string name="your_profile">Your Profile</string>
@@ -365,7 +367,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
-
     <!--Body part selection-->
     <string name="orientation">Select Side: </string>
     <string name="str_position">Select Position: </string>
@@ -389,4 +390,10 @@
     <string name="todo">TODO</string>
     <string name="monitor_repetitions">Repetitions</string>
     <string name="monitor_active_time">Active time</string>
+
+
+    <!--    Theme choser menu titles-->
+    <string name="normal_theme">Normal Theme</string>
+    <string name="smiley_theme">Smile Theme</string>
+    <string name="star_theme">Star Theme</string>
 </resources>

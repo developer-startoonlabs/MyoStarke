@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.view.KeyEvent;
 import android.view.View;
@@ -160,7 +161,12 @@ public class LoginActivity extends AppCompatActivity implements MqttSyncReposito
     }
 
     private void setWelcomeText(String str){
-        tv_welcome_message.setText(str);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                tv_welcome_message.setText(str);
+            }
+        });
     }
 
     private void enableWelcomeView() {
@@ -208,7 +214,7 @@ public class LoginActivity extends AppCompatActivity implements MqttSyncReposito
         }
         else {
             setWelcomeText(message);
-            new Handler().postDelayed(new Runnable() {
+            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     disableWelcomeView();

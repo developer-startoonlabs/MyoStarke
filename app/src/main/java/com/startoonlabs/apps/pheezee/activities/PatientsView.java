@@ -31,6 +31,7 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -93,18 +94,22 @@ import com.startoonlabs.apps.pheezee.services.PicassoCircleTransformation;
 import com.startoonlabs.apps.pheezee.services.Scanner;
 import com.startoonlabs.apps.pheezee.utils.BatteryOperation;
 import com.startoonlabs.apps.pheezee.utils.BitmapOperations;
+import com.startoonlabs.apps.pheezee.utils.DeviceErrorCodesAndDialogs;
 import com.startoonlabs.apps.pheezee.utils.NetworkOperations;
+import com.startoonlabs.apps.pheezee.utils.PackageOperations;
 import com.startoonlabs.apps.pheezee.utils.RegexOperations;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.health_error_present_in_device;
+import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.show_device_health_error;
+import static com.startoonlabs.apps.pheezee.utils.PackageTypes.STANDARD_PACKAGE;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.battery_percent;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.bluetooth_state;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.deactivate_device;
@@ -129,7 +134,7 @@ public class PatientsView extends AppCompatActivity
     public static final  int REQ_CAMERA = 17;
     public static final  int REQ_GALLERY = 18;
     PheezeeBleService mService;
-    private boolean mDeviceState = false, mDeviceDeactivated = false, mInsideHome = true;
+    private boolean mDeviceState = false, mDeviceDeactivated = false, mDeviceHealthError = false, mInsideHome = true;
     boolean isBound =  false;
     int REQUEST_ENABLE_BT = 1;
     public static int deviceBatteryPercent = -1;
@@ -140,7 +145,7 @@ public class PatientsView extends AppCompatActivity
 
     final CharSequence[] peezee_items = { "Scan for nearby Pheezee devices",
             "Qrcode Scan", "Cancel" };
-    TextView email,fullName;
+    TextView email,fullName, tv_start_clinic_session;
     public static ImageView ivBasicImage;
     //new
     JSONObject json_phizio = new JSONObject();
@@ -164,6 +169,7 @@ public class PatientsView extends AppCompatActivity
     SearchView searchView;
     MqttSyncRepository repository ;
     public static String json_phizioemail = "";
+    public static int phizio_packagetype=0;
     ConstraintLayout cl_phizioProfileNavigation;
     TextView tv_connect_to_pheezee;
 
@@ -352,6 +358,8 @@ public class PatientsView extends AppCompatActivity
         intentFilter.addAction(device_disconnected_firmware);
         intentFilter.addAction(scedule_device_status_service);
         intentFilter.addAction(deactivate_device);
+        intentFilter.addAction(show_device_health_error);
+        intentFilter.addAction(health_error_present_in_device);
         registerReceiver(patient_view_broadcast_receiver,intentFilter);
     }
 
@@ -403,12 +411,34 @@ public class PatientsView extends AppCompatActivity
             @Override
             public void onChanged(List<PhizioPatients> patients) {
                 if(patients.size()>0) {
-                    findViewById(R.id.noPatient).setVisibility(View.GONE);
-                    findViewById(R.id.cl_recycler_view).setVisibility(View.VISIBLE);
+                    if(phizio_packagetype!=STANDARD_PACKAGE) {
+                        findViewById(R.id.noPatient).setVisibility(View.GONE);
+                        findViewById(R.id.cl_recycler_view).setVisibility(View.VISIBLE);
+                        tv_start_clinic_session.setVisibility(View.GONE);
+                        iv_addPatient.setImageDrawable(getResources().getDrawable(R.mipmap.ic_add_patient));
+                        tv_patient_view_add_patient.setTextColor(getResources().getColor(R.color.good_green));
+                    }else{
+                        findViewById(R.id.cl_recycler_view).setVisibility(View.GONE);
+                        findViewById(R.id.noPatient).setVisibility(View.VISIBLE);
+                        tv_start_clinic_session.setVisibility(View.VISIBLE);
+                        iv_addPatient.setImageDrawable(getResources().getDrawable(R.mipmap.ic_add_patient_grey));
+                        tv_patient_view_add_patient.setTextColor(getResources().getColor(R.color.white));
+                    }
                 }
                 else {
-                    findViewById(R.id.cl_recycler_view).setVisibility(View.GONE);
-                    findViewById(R.id.noPatient).setVisibility(View.VISIBLE);
+                    if(phizio_packagetype!=STANDARD_PACKAGE) {
+                        findViewById(R.id.cl_recycler_view).setVisibility(View.GONE);
+                        findViewById(R.id.noPatient).setVisibility(View.VISIBLE);
+                        tv_start_clinic_session.setVisibility(View.GONE);
+                        iv_addPatient.setImageDrawable(getResources().getDrawable(R.mipmap.ic_add_patient));
+                        tv_patient_view_add_patient.setTextColor(getResources().getColor(R.color.good_green));
+                    }else {
+                        findViewById(R.id.cl_recycler_view).setVisibility(View.GONE);
+                        findViewById(R.id.noPatient).setVisibility(View.VISIBLE);
+                        tv_start_clinic_session.setVisibility(View.VISIBLE);
+                        iv_addPatient.setImageDrawable(getResources().getDrawable(R.mipmap.ic_add_patient_grey));
+                        tv_patient_view_add_patient.setTextColor(getResources().getColor(R.color.white));
+                    }
                 }
 
                 Collections.reverse(patients);
@@ -478,6 +508,14 @@ public class PatientsView extends AppCompatActivity
                     }
                 });
 
+
+        tv_start_clinic_session.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startSession("Null","Null","Null");
+            }
+        });
+
         mAdapter.setOnItemClickListner(this);
     }
 
@@ -486,6 +524,7 @@ public class PatientsView extends AppCompatActivity
         try {
             json_phizio = new JSONObject(sharedPref.getString("phiziodetails", ""));
             json_phizioemail = json_phizio.getString("phizioemail");
+            phizio_packagetype = json_phizio.getInt("packagetype");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -512,13 +551,14 @@ public class PatientsView extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
         if(isBound){
             unbindService(mConnection);
         }
         unregisterReceiver(patient_view_broadcast_receiver);
+        Log.i("STOPING SERVICE","SERVICE");
         stopService(new Intent(this,PheezeeBleService.class));
     }
+
 
 
     @Override
@@ -631,20 +671,27 @@ public class PatientsView extends AppCompatActivity
     }
 
     private void initiatePopupWindow() {
-        AddPatientPopUpWindow patientPopUpWindow = new AddPatientPopUpWindow(this,json_phizioemail);
-        patientPopUpWindow.openAddPatientPopUpWindow();
-        patientPopUpWindow.setOnClickListner(new AddPatientPopUpWindow.onClickListner() {
-            @Override
-            public void onAddPatientClickListner(PhizioPatients patient, PatientDetailsData data, boolean isvalid) {
-                if(isvalid){
-                    repository.insertPatient(patient,data);
-//                    new SendDataAsyncTask().execute(data);
+        if(phizio_packagetype!=STANDARD_PACKAGE) {
+            AddPatientPopUpWindow patientPopUpWindow = new AddPatientPopUpWindow(this, json_phizioemail);
+            patientPopUpWindow.openAddPatientPopUpWindow();
+            patientPopUpWindow.setOnClickListner(new AddPatientPopUpWindow.onClickListner() {
+                @Override
+                public void onAddPatientClickListner(PhizioPatients patient, PatientDetailsData data, boolean isvalid) {
+                    if (isvalid) {
+                        repository.insertPatient(patient, data);
+                    } else {
+                        showToast("Invalid Input!!");
+                    }
                 }
-                else {
-                    showToast("Invalid Input!!");
-                }
+            });
+        }else {
+            try {
+                PackageOperations.featureNotAvailable(this,json_phizioemail,phizio_packagetype,json_phizio.getString("phizioname"),json_phizio.getString("phiziophone"));
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        });
+
+        }
     }
 
 
@@ -762,14 +809,16 @@ public class PatientsView extends AppCompatActivity
 
     /**
      *
-     * @param patient
+     * @param patientid
+     * @param patientname
+     * @param dateofjoin
      */
-    public void startSession(PhizioPatients patient) {
+    public void startSession(String patientid, String patientname, String dateofjoin) {
         Intent intent = new Intent(PatientsView.this, BodyPartSelection.class);
         intent.putExtra("deviceMacAddress", sharedPref.getString("deviceMacaddress", ""));
-        intent.putExtra("patientId", patient.getPatientid());
-        intent.putExtra("patientName", patient.getPatientname());
-        intent.putExtra("dateofjoin",patient.getDateofjoin());
+        intent.putExtra("patientId", patientid);
+        intent.putExtra("patientName", patientname);
+        intent.putExtra("dateofjoin",dateofjoin);
         if (Objects.requireNonNull(sharedPref.getString("deviceMacaddress", "")).equals("") && !mDeviceState) {
             Toast.makeText(this, "First add pheezee to your application", Toast.LENGTH_LONG).show();
         } else if (!(iv_device_connected.getVisibility()==View.VISIBLE)  ) {
@@ -809,10 +858,16 @@ public class PatientsView extends AppCompatActivity
                 if(!flag){
                     NetworkOperations.firmwareVirsionNotCompatible(this);
                 }else {
-                    if(!mDeviceDeactivated)
+                    if(!mDeviceDeactivated && !mDeviceHealthError)
                         startActivity(intent);
                     else {
-                        showDeviceDeactivatedDialog();
+                        if(mDeviceDeactivated)
+                            showDeviceDeactivatedDialog();
+                        else {
+                            if(mService!=null) {
+                                DeviceErrorCodesAndDialogs.showDeviceErrorDialog(mService.getHealthErrorString(), this);
+                            }
+                        }
                     }
                 }
             }
@@ -1074,7 +1129,7 @@ public class PatientsView extends AppCompatActivity
 
     @Override
     public void onStartSessionClickListner(PhizioPatients patient) {
-        startSession(patient);
+        startSession(patient.getPatientid(),patient.getPatientname(),patient.getDateofjoin());
     }
 
     @Override
@@ -1330,6 +1385,16 @@ public class PatientsView extends AppCompatActivity
                 chekDeviceStatusLogPresentAndSrartService();
             }else if(action.equalsIgnoreCase(deactivate_device)){
                 deactivatePheezeeDevice();
+            }else if(action.equalsIgnoreCase(health_error_present_in_device)){
+                boolean ble_state = intent.getBooleanExtra(health_error_present_in_device,false);
+                if(ble_state){
+                    mDeviceHealthError = true;
+                }else {
+                    mDeviceHealthError = false;
+                }
+            }else if(action.equalsIgnoreCase(show_device_health_error)){
+                if(mService!=null)
+                    DeviceErrorCodesAndDialogs.showDeviceErrorDialog(mService.getHealthErrorString(),PatientsView.this);
             }
 //            else if(action.equalsIgnoreCase(device_deactivated)){
 //                mDeviceDeactivated = true;
@@ -1449,6 +1514,7 @@ public class PatientsView extends AppCompatActivity
         iv_sync_data = findViewById(R.id.iv_sync_data);
         iv_sync_not_available = findViewById(R.id.iv_sync_data_disabled);
         tv_connect_to_pheezee = findViewById(R.id.tv_connect_to_pheezee);
+        tv_start_clinic_session = findViewById(R.id.tv_start_clinic_session);
 
         //connecting dialog
         connecting_device_dialog = new ProgressDialog(this);

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <item
+        android:id="@+id/menu_normal_theme"
+        android:title="@string/normal_theme"/>
+
+    <item
+        android:id="@+id/menu_smiley_theme"
+        android:title="@string/smiley_theme"/>
+
+    <item
+        android:id="@+id/menu_star_theme"
+        android:title="@string/star_theme"/>
+</menu>

@@ -26,6 +26,9 @@ import com.startoonlabs.apps.pheezee.services.PheezeeBleService;
 
 import java.util.ArrayList;
 
+import static com.startoonlabs.apps.pheezee.activities.PatientsView.phizio_packagetype;
+import static com.startoonlabs.apps.pheezee.utils.PackageTypes.STANDARD_PACKAGE;
+
 public class BodyPartSelection extends AppCompatActivity {
     //Drawable arry for the body part selection
 
@@ -117,22 +120,26 @@ public class BodyPartSelection extends AppCompatActivity {
 
             @Override
             public void onGoalSelected(int reps) {
-                int_repsselected = reps;
+                if(phizio_packagetype!=STANDARD_PACKAGE)
+                    int_repsselected = reps;
             }
 
             @Override
             public void onMaxEmgUpdated(String max_emg_updated) {
-                str_max_emg_selected = max_emg_updated;
+                if(phizio_packagetype!=STANDARD_PACKAGE)
+                    str_max_emg_selected = max_emg_updated;
             }
 
             @Override
             public void onMaxAngleUpdated(String max_angle_updated) {
-                max_angle_selected = max_angle_updated;
+                if(phizio_packagetype!=STANDARD_PACKAGE)
+                    max_angle_selected = max_angle_updated;
             }
 
             @Override
             public void onMinAngleUpdated(String min_angle_updated) {
-                min_angle_selected = min_angle_updated;
+                if(phizio_packagetype!=STANDARD_PACKAGE)
+                    min_angle_selected = min_angle_updated;
             }
 
             @Override

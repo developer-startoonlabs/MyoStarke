@@ -23,12 +23,12 @@ public class OnStartActivity extends AppCompatActivity {
         repository = new MqttSyncRepository(getApplication());
         //isLoggedIn = accessToken != null && !accessToken.isExpired();
         sharedPreferences =PreferenceManager.getDefaultSharedPreferences(this);
-        if(!sharedPreferences.getBoolean("mqtttohttp",false)){
+        if(!sharedPreferences.getBoolean("version_2.14.5",false)){
             editor = sharedPreferences.edit();
             editor.clear();
-            editor.apply();
+            editor.commit();
             repository.clearDatabase();
-            editor.putBoolean("mqtttohttp",true);
+            editor.putBoolean("version_2.14.5",true);
             editor.apply();
         }
         isLoggedIn = sharedPreferences.getBoolean("isLoggedIn",false);

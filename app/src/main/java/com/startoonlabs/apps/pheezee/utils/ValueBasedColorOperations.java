@@ -11,7 +11,8 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 
 public class ValueBasedColorOperations {
-
+    public static final int MAX_NORMAL_EMG = 900;
+    public static final int SMILE_ARC_MAX_ANGLE = 180;
     /**
      *
      * @param bodypart

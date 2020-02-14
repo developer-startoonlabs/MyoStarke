@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
     tools:context="com.startoonlabs.apps.pheezee.activities.SignUpActivity">
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -58,10 +61,10 @@
                     android:backgroundTint="#eaeaea"
                     android:fontFamily="@font/ebrima"
                     android:hint="@string/signup_name"
-                    android:inputType="textEmailAddress"
+                    android:inputType="textPersonName"
                     android:paddingStart="5dp"
                     android:paddingEnd="5dp"
-                    android:theme="@style/AppTheme.custom.noActionBar" />
+                    android:theme="@style/AppTheme.NoActionBar" />
             </LinearLayout>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -99,7 +102,7 @@
                     android:inputType="textPassword"
                     android:paddingStart="5dp"
                     android:paddingEnd="5dp"
-                    android:theme="@style/AppTheme.custom.noActionBar" />
+                    android:theme="@style/AppTheme.NoActionBar" />
             </LinearLayout>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -136,7 +139,7 @@
                     android:inputType="textEmailAddress"
                     android:paddingStart="5dp"
                     android:paddingEnd="5dp"
-                    android:theme="@style/AppTheme.custom.noActionBar" />
+                    android:theme="@style/AppTheme.NoActionBar" />
             </LinearLayout>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -170,10 +173,48 @@
                     android:backgroundTint="#eaeaea"
                     android:fontFamily="@font/ebrima"
                     android:hint="@string/signup_phone"
-                    android:inputType="textEmailAddress"
+                    android:inputType="phone"
                     android:paddingStart="5dp"
                     android:paddingEnd="5dp"
-                    android:theme="@style/AppTheme.custom.noActionBar" />
+                    android:theme="@style/AppTheme.NoActionBar" />
+            </LinearLayout>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tv_package_id"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:padding="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="0.8"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_phone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="0dp"
+                android:background="@drawable/inputfield_background"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_package_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#eaeaea"
+                    android:backgroundTint="#eaeaea"
+                    android:fontFamily="@font/ebrima"
+                    android:hint="@string/signup_package_id"
+                    android:inputType="text"
+                    android:paddingStart="5dp"
+                    android:textIsSelectable="true"
+                    android:paddingEnd="5dp"
+                    android:theme="@style/AppTheme.NoActionBar" />
             </LinearLayout>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -197,7 +238,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.487"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_phone" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_package_id" />
 
         <TextView
             android:id="@+id/tv_cancel_signup"
@@ -221,3 +262,4 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

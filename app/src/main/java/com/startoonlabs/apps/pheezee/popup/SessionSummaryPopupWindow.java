@@ -216,6 +216,7 @@ public class SessionSummaryPopupWindow {
                     mmt_intent.putExtra("phizioemail", phizioemail);
                     mmt_intent.putExtra("dateofjoin",dateofjoin);
                     ((Activity)context).startActivity(mmt_intent);
+                    report.dismiss();
                 }
                 else {
                     NetworkOperations.networkError(context);

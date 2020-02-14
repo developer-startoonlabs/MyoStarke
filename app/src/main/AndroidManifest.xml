@@ -107,7 +107,8 @@
         <activity
             android:name=".activities.LoginActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBarLogin" />
+            android:theme="@style/AppTheme.NoActionBarLogin"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
         <activity
             android:name=".activities.PatientsView"
             android:screenOrientation="portrait"
@@ -153,7 +154,7 @@
             android:name=".activities.SignUpActivity"
             android:windowSoftInputMode="stateVisible|adjustResize"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.customDesign.noActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.PhizioProfile"
             android:screenOrientation="portrait"

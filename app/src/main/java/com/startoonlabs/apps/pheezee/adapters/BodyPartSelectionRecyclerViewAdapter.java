@@ -30,6 +30,9 @@ import com.startoonlabs.apps.pheezee.classes.CircularRevealTransition;
 import com.startoonlabs.apps.pheezee.utils.MuscleOperation;
 import com.startoonlabs.apps.pheezee.utils.ValueBasedColorOperations;
 
+import static com.startoonlabs.apps.pheezee.activities.PatientsView.phizio_packagetype;
+import static com.startoonlabs.apps.pheezee.utils.PackageTypes.STANDARD_PACKAGE;
+
 public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<BodyPartSelectionRecyclerViewAdapter.ViewHolder> {
     private int selected_position = -1;
     Context context;
@@ -49,16 +52,18 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
         ImageView iv_body_part_image;
         ConstraintLayout cl_body_tv_and_image;
         ConstraintLayout cl_selection;
+        ConstraintLayout cl_dash;
         RadioGroup rg_orientation;
         RadioGroup rg_body_orientation;
         Spinner sp_exercise_name, sp_muscle_name, sp_goal;
         EditText et_max_angle, et_min_angle, et_max_emg, et_muscle_name, et_exercise_name;
-        TextView tv_start, tv_end, tv_max_emg;
+        TextView tv_start, tv_end, tv_max_emg, tv_max_emg_text, tv_max_angle_text;
 
         ViewHolder(View view) {
             super(view);
             cl_body_tv_and_image = view.findViewById(R.id.model_cl_image_tv);
             cl_selection = view.findViewById(R.id.model_selection);
+            cl_dash = view.findViewById(R.id.constraintLayout2);
             rg_body_orientation = view.findViewById(R.id.model_rg_body_orientation);
             rg_orientation = view.findViewById(R.id.model_rg_orientation);
 
@@ -84,10 +89,22 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
             tv_start = view.findViewById(R.id.model_tv_start);
             tv_end = view.findViewById(R.id.model_tv_stop);
             tv_max_emg = view.findViewById(R.id.tv_max_emg);
-        }
 
-        public void bindView(int id, String body_part){
+            tv_max_emg_text = view.findViewById(R.id.tv_max_emg_text);
+            tv_max_angle_text = view.findViewById(R.id.tv_max_angle_text);
 
+            if(phizio_packagetype==STANDARD_PACKAGE){
+                tv_end.setVisibility(View.GONE);
+                tv_start.setVisibility(View.GONE);
+                tv_max_emg.setVisibility(View.GONE);
+                et_max_angle.setVisibility(View.GONE);
+                et_min_angle.setVisibility(View.GONE);
+                et_max_emg.setVisibility(View.GONE);
+                sp_goal.setVisibility(View.GONE);
+                cl_dash.setVisibility(View.GONE);
+                tv_max_emg_text.setVisibility(View.GONE);
+                tv_max_angle_text.setVisibility(View.GONE);
+            }
         }
     }
 
