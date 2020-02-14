@@ -32,6 +32,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
@@ -40,6 +41,7 @@ import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.classes.DeviceListClass;
 import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
 import com.startoonlabs.apps.pheezee.utils.ByteToArrayOperations;
+import com.startoonlabs.apps.pheezee.utils.DeviceErrorCodesAndDialogs;
 import com.startoonlabs.apps.pheezee.utils.NetworkOperations;
 import com.startoonlabs.apps.pheezee.utils.ValueBasedColorOperations;
 
@@ -55,6 +57,7 @@ import static com.startoonlabs.apps.pheezee.App.CHANNEL_ID;
 
 public class PheezeeBleService extends Service {
     private byte[] temp_info_packet = null;
+    private String mHealthErrorString = "";
     private double latitude=0, longitude=0;
     private long first_scan = 0;
     private int num_of_scan = 0, mDeviceStatus=0;
@@ -92,6 +95,8 @@ public class PheezeeBleService extends Service {
     public static String device_disconnected_firmware = "device.disconnected.firmware";
     public static String scedule_device_status_service = "scedule.device.status.service";
     public static String deactivate_device = "deactivate.device";
+    public static String show_device_health_error = "show.device.health.error";
+    public static String health_error_present_in_device = "health.error.present.in.device";
 
 
     public static int jobid_firmware_log = 0;
@@ -145,7 +150,7 @@ public class PheezeeBleService extends Service {
     private Boolean mDeviceState = false, mBluetoothState = false, mUsbState = false;
     private int mBatteryPercent = 0;
     private String mFirmwareVersion = "", mSerialId = "", mManufacturerName = "", mAtinyVersion = "", mHardwareVersion="";
-    private boolean mScanning = false;
+    private boolean mScanning = false, mDeviceHealthError = false;
     public String deviceMacc = "";
     ArrayList<DeviceListClass> mScanResults;
     private BtleScanCallback mScanCallback;
@@ -387,6 +392,18 @@ public class PheezeeBleService extends Service {
             i.putExtra(device_disconnected_firmware, false);
             sendBroadcast(i);
         }
+    }
+
+    public void sendErrorDeviceShowDialogBroadcast(){
+        Intent i = new Intent(show_device_health_error);
+        i.putExtra(show_device_health_error, "");
+        sendBroadcast(i);
+    }
+
+    public void sendErrorPresentInDeviceHealthToRestrictSession(){
+        Intent i = new Intent(health_error_present_in_device);
+        i.putExtra(health_error_present_in_device,mDeviceHealthError);
+        sendBroadcast(i);
     }
 
     public void sendFirmwareVersion(){
@@ -716,6 +733,7 @@ public class PheezeeBleService extends Service {
                 byte[] b = characteristic.getValue();
                 int battery  = b[0];
                 int usb_state = b[1];
+                Log.i("usb state", String.valueOf(usb_state));
                 if(usb_state==1) {
                     if(!mUsbState) {
                         mUsbState = true;
@@ -799,9 +817,23 @@ public class PheezeeBleService extends Service {
                             sendUsbStateBroadcast();
                             showNotification(device_connected_notif);
                         }
+                        boolean check_to_show_error_dialog = DeviceErrorCodesAndDialogs.doalogToShow(info_packet);
+                        if(check_to_show_error_dialog){
+                            mHealthErrorString = DeviceErrorCodesAndDialogs.getErrorCodeString(info_packet);
+                            sendErrorDeviceShowDialogBroadcast();
+                            boolean check_error_present = DeviceErrorCodesAndDialogs.isSessionRedirectionEnabled(info_packet);
+                            Log.i("ERROR", String.valueOf(check_error_present));
+                            if(check_error_present){
+                                mDeviceHealthError = true;
+                                sendErrorPresentInDeviceHealthToRestrictSession();
+                            }else {
+                                mDeviceHealthError = false;
+                                sendErrorPresentInDeviceHealthToRestrictSession();
+                            }
+                        }
                         mBatteryPercent = battery;
                         sendBatteryLevelBroadCast();
-                        bluetoothGatt.readCharacteristic(mFirmwareVersionCharacteristic);
+                        writeCharacteristic(mCustomCharacteristic, ByteToArrayOperations.hexStringToByteArray("AA03"),"AA03");
                     }
                 }else if(ByteToArrayOperations.byteToStringHexadecimal(header_main).equals("EE")){
                     if(repository!=null){
@@ -841,10 +873,7 @@ public class PheezeeBleService extends Service {
                 sendHardwareVersion();
                 mCharacteristicReadList.remove(0);
 //
-                if(firmware_error){
-                    byte[] error_code = ByteToArrayOperations.hexStringToByteArray("EE");
-                    writeCharacteristic(mCustomCharacteristic,error_code,"EE");
-                }
+
                 if(repository!=null){
                     if(temp_info_packet!=null) {
                         repository.sendDeviceDetailsToTheServer(temp_info_packet, getApplicationContext(), deviceMacc, mFirmwareVersion, mHardwareVersion,
@@ -866,6 +895,19 @@ public class PheezeeBleService extends Service {
                 gatt.setCharacteristicNotification(mBatteryCharacteristic, true);
                 mBatteryDescriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
                 bluetoothGatt.writeDescriptor(mBatteryDescriptor);
+                Log.i("Here1234","here");
+
+
+                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(firmware_error){
+                            byte[] error_code = ByteToArrayOperations.hexStringToByteArray("EE");
+                            writeCharacteristic(mCustomCharacteristic,error_code,"EE");
+                        }
+                    }
+                },500);
+
             }
 
             if(mCharacteristicReadList.size()>0){
@@ -897,6 +939,8 @@ public class PheezeeBleService extends Service {
                 }else if(mCharacteristicWrittenValue.equalsIgnoreCase("D2")){
                     mDeviceStatus = 0;
                     sendDeviceDisconnectedBroadcast();
+                }else if(mCharacteristicWrittenValue.equalsIgnoreCase("AA03")){
+                    bluetoothGatt.readCharacteristic(mFirmwareVersionCharacteristic);
                 }
             }
         }
@@ -923,6 +967,10 @@ public class PheezeeBleService extends Service {
         info.setRequiresCharging(false);
         JobScheduler jobScheduler = (JobScheduler)getSystemService(JOB_SCHEDULER_SERVICE);
         jobScheduler.schedule(info.build());
+    }
+
+    public String getHealthErrorString(){
+        return mHealthErrorString;
     }
 
 
@@ -960,7 +1008,8 @@ public class PheezeeBleService extends Service {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if(BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)){
-                isConnectCommandGiven=false;
+                isConnectCommandGiven=false;mDeviceHealthError = false;
+                mHealthErrorString = "";
                 mUsbState = false;
                 mDeviceState = false;mFirmwareVersion="Null"; mSerialId="NULL";mBatteryPercent = 0;mManufacturerName="Null";mHardwareVersion="Null";
                 mAtinyVersion = "Null";
@@ -988,7 +1037,7 @@ public class PheezeeBleService extends Service {
                     });
                 }
                 if (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1) == BluetoothAdapter.STATE_OFF) {
-                    mUsbState = false;
+                    mUsbState = false;mHealthErrorString = "";
                     isConnectCommandGiven = false;
                     mDeviceStatus=0;
                     mBluetoothState = false;mDeviceState = false;mFirmwareVersion="Null"; mSerialId="NULL";mBatteryPercent = 0;mManufacturerName="Null";

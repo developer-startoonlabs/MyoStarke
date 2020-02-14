@@ -94,6 +94,7 @@ import com.startoonlabs.apps.pheezee.services.PicassoCircleTransformation;
 import com.startoonlabs.apps.pheezee.services.Scanner;
 import com.startoonlabs.apps.pheezee.utils.BatteryOperation;
 import com.startoonlabs.apps.pheezee.utils.BitmapOperations;
+import com.startoonlabs.apps.pheezee.utils.DeviceErrorCodesAndDialogs;
 import com.startoonlabs.apps.pheezee.utils.NetworkOperations;
 import com.startoonlabs.apps.pheezee.utils.PackageOperations;
 import com.startoonlabs.apps.pheezee.utils.RegexOperations;
@@ -106,6 +107,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.health_error_present_in_device;
+import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.show_device_health_error;
 import static com.startoonlabs.apps.pheezee.utils.PackageTypes.STANDARD_PACKAGE;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.battery_percent;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.bluetooth_state;
@@ -131,7 +134,7 @@ public class PatientsView extends AppCompatActivity
     public static final  int REQ_CAMERA = 17;
     public static final  int REQ_GALLERY = 18;
     PheezeeBleService mService;
-    private boolean mDeviceState = false, mDeviceDeactivated = false, mInsideHome = true;
+    private boolean mDeviceState = false, mDeviceDeactivated = false, mDeviceHealthError = false, mInsideHome = true;
     boolean isBound =  false;
     int REQUEST_ENABLE_BT = 1;
     public static int deviceBatteryPercent = -1;
@@ -355,6 +358,8 @@ public class PatientsView extends AppCompatActivity
         intentFilter.addAction(device_disconnected_firmware);
         intentFilter.addAction(scedule_device_status_service);
         intentFilter.addAction(deactivate_device);
+        intentFilter.addAction(show_device_health_error);
+        intentFilter.addAction(health_error_present_in_device);
         registerReceiver(patient_view_broadcast_receiver,intentFilter);
     }
 
@@ -853,10 +858,16 @@ public class PatientsView extends AppCompatActivity
                 if(!flag){
                     NetworkOperations.firmwareVirsionNotCompatible(this);
                 }else {
-                    if(!mDeviceDeactivated)
+                    if(!mDeviceDeactivated && !mDeviceHealthError)
                         startActivity(intent);
                     else {
-                        showDeviceDeactivatedDialog();
+                        if(mDeviceDeactivated)
+                            showDeviceDeactivatedDialog();
+                        else {
+                            if(mService!=null) {
+                                DeviceErrorCodesAndDialogs.showDeviceErrorDialog(mService.getHealthErrorString(), this);
+                            }
+                        }
                     }
                 }
             }
@@ -1374,6 +1385,16 @@ public class PatientsView extends AppCompatActivity
                 chekDeviceStatusLogPresentAndSrartService();
             }else if(action.equalsIgnoreCase(deactivate_device)){
                 deactivatePheezeeDevice();
+            }else if(action.equalsIgnoreCase(health_error_present_in_device)){
+                boolean ble_state = intent.getBooleanExtra(health_error_present_in_device,false);
+                if(ble_state){
+                    mDeviceHealthError = true;
+                }else {
+                    mDeviceHealthError = false;
+                }
+            }else if(action.equalsIgnoreCase(show_device_health_error)){
+                if(mService!=null)
+                    DeviceErrorCodesAndDialogs.showDeviceErrorDialog(mService.getHealthErrorString(),PatientsView.this);
             }
 //            else if(action.equalsIgnoreCase(device_deactivated)){
 //                mDeviceDeactivated = true;
