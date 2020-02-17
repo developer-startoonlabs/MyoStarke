@@ -1,5 +1,27 @@
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+###############
+Version:- 2.15.0.h
+Date:- 14-02-2020
+Responsible:- Ankush
+Firmware Version(Tested With):- 1.12.4
+server version:- 1.15.5
+Hardware Version MVP_3
+description:- Bug fix:-
+                1) Package type based flow in the application.
+                2) Multiple Monitoring themes based on the package type of the user.
+                3) Information packet read acknowledgement.
+                4) Showing error popup window while any health error is occurred.
 
+
+###############
+Version:- 2.14.5.h
+Date:- 30-01-2020
+Responsible:- Ankush
+Firmware Version(Tested With):- 1.12.1 best compatible:- 1.12.3
+server version:- 1.14.4
+Hardware Version MVP_3
+description:- Bug fix:-
+                1) Bug fix physio profile screen for tablet layout.
 
 ###############
 Version:- 2.14.4.h
