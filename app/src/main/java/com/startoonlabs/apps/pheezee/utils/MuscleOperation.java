@@ -27,8 +27,10 @@ public class MuscleOperation {
             {"Select Muscle*", "Pectoralis Major", "Latissimus Dorsi", "Teres Major", "Subscapularis", "Deltoid",  "Biceps",
                     "Coracobrachialis",  "Pectoralis Minor", "Serratus Anterior", "Infraspinatus", "Teres Minor", "Trapezius","Supraspinatus","Others"},   //Shoulder
 
-            {"Select Muscle*","Biceps","Supinator (Deep)","Pronator Quadratus (Deep)", "Pronator Teres (Deep)"}, //forearm
-            {"Select Muscle*","Quadratus lumborum","Spinalis thoracis","Longissimus thoracis", "Iliocostalis thoracis","Iliocostalis lumborum"}, //Spine
+            {"Select Muscle*","Biceps","Supinator (Deep)","Pronator Quadratus (Deep)", "Pronator Teres (Deep)", "Others"}, //forearm
+            {"Select Muscle*","Quadratus lumborum","Rectus abdominis","External oblique","Spinalis thoracis","Spinalis capitis",
+                    "Spinalis cervicis","Longissimus thoracis","Longissimus cervicis","Longissimus capitis",
+                    "Iliocostalis cervicis", "Iliocostalis thoracis","Iliocostalis lumborum","Semispinalis","Multifidus","Rotatores","Others"}, //Spine
             {"Select Muscle*","Others"}
     };
 

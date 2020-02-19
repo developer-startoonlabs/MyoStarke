@@ -97,6 +97,8 @@ public class PheezeeBleService extends Service {
     public static String deactivate_device = "deactivate.device";
     public static String show_device_health_error = "show.device.health.error";
     public static String health_error_present_in_device = "health.error.present.in.device";
+    public static String calibration_state = "calibration.state";
+    public static String magnetometer_present = "magnetometer.present";
 
 
     public static int jobid_firmware_log = 0;
@@ -147,7 +149,7 @@ public class PheezeeBleService extends Service {
     //Characteristic read list
     ArrayList<BluetoothGattCharacteristic> mCharacteristicReadList;
 
-    private Boolean mDeviceState = false, mBluetoothState = false, mUsbState = false;
+    private Boolean mDeviceState = false, mBluetoothState = false, mUsbState = false, mMagnetometerPresent = false;
     private int mBatteryPercent = 0;
     private String mFirmwareVersion = "", mSerialId = "", mManufacturerName = "", mAtinyVersion = "", mHardwareVersion="";
     private boolean mScanning = false, mDeviceHealthError = false;
@@ -382,6 +384,12 @@ public class PheezeeBleService extends Service {
         sendBroadcast(i);
     }
 
+    public void sendMagnetometerPresentState(){
+        Intent i = new Intent(magnetometer_present);
+        i.putExtra(magnetometer_present,mMagnetometerPresent);
+        sendBroadcast(i);
+    }
+
     public void sendDeviceDisconnectedBroadcast(){
         if(mDeviceStatus==1) {
             Intent i = new Intent(device_disconnected_firmware);
@@ -473,6 +481,7 @@ public class PheezeeBleService extends Service {
         sendManufacturerName();
         sendHardwareVersion();
         sendDeviceDisconnectedBroadcast();
+        sendMagnetometerPresentState();
     }
 
     public void gerDeviceBasicInfo(){
@@ -773,6 +782,16 @@ public class PheezeeBleService extends Service {
                             first_packet = false;
                         }
                     }
+                }else if (ByteToArrayOperations.byteToStringHexadecimal(header_main).equalsIgnoreCase("CA")){
+                    int done = temp_byte[1] & 0xFF;
+                    int successful = temp_byte[2] & 0xFF;
+                    if(done==2){
+                        if(successful==1){
+                            sendCalibrationUpdate(true);
+                        }else if(successful==2){
+                            sendCalibrationUpdate(false);
+                        }
+                    }
                 }
                 if (ByteToArrayOperations.byteToStringHexadecimal(header_main).equals("AF")) {
 //                    software_gain = header_sub;
@@ -802,6 +821,8 @@ public class PheezeeBleService extends Service {
                         }catch (ArrayIndexOutOfBoundsException e){
                             device_disconnected = 0;
                         }
+                        mMagnetometerPresent = ByteToArrayOperations.getMagnetometerPresent(info_packet);
+                        sendMagnetometerPresentState();
                         mDeviceStatus = device_disconnected;
                         sendDeviceDisconnectedBroadcast();
                         mAtinyVersion = String.valueOf(info_packet[10] & 0xFF);
@@ -884,18 +905,9 @@ public class PheezeeBleService extends Service {
                         repository.checkAndUpdateDeviceStatus(temp_info_packet,getApplicationContext(),mDeviceStatus);
                     }
                 }
-//                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-////                        gatt.setCharacteristicNotification(mBatteryCharacteristic, true);
-////                        mBatteryDescriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
-////                        bluetoothGatt.writeDescriptor(mBatteryDescriptor);
-//                    }
-//                },200);
                 gatt.setCharacteristicNotification(mBatteryCharacteristic, true);
                 mBatteryDescriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
                 bluetoothGatt.writeDescriptor(mBatteryDescriptor);
-                Log.i("Here1234","here");
 
 
                 new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
@@ -941,10 +953,21 @@ public class PheezeeBleService extends Service {
                     sendDeviceDisconnectedBroadcast();
                 }else if(mCharacteristicWrittenValue.equalsIgnoreCase("AA03")){
                     bluetoothGatt.readCharacteristic(mFirmwareVersionCharacteristic);
+                }else if(mCharacteristicWrittenValue.equalsIgnoreCase("CA")){
+                    bluetoothGatt.setCharacteristicNotification(mCustomCharacteristic, true);
+                    mCustomCharacteristicDescriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+                    bluetoothGatt.writeDescriptor(mCustomCharacteristicDescriptor);
                 }
             }
         }
     };
+
+    private void sendCalibrationUpdate(boolean b) {
+        Intent i = new Intent(calibration_state);
+        i.putExtra(calibration_state,b);
+        sendBroadcast(i);
+    }
+
 
     private void checkDeviceMacSavedOrNot() {
         if(preferences.getString("deviceMacaddress","").equalsIgnoreCase("")){
@@ -1051,11 +1074,14 @@ public class PheezeeBleService extends Service {
         }
     };
 
-
     public class LocalBinder extends Binder {
         public PheezeeBleService getServiceInstance(){
             return PheezeeBleService.this;
         }
+    }
+
+    public void writeCalibrationToCustomCharacteristic(){
+        writeCharacteristic(mCustomCharacteristic, ByteToArrayOperations.hexStringToByteArray("CA"),"CA");
     }
 
     private void sendDfuCharacteristicWritten(){

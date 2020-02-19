@@ -202,19 +202,30 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="end"
-                android:orientation="horizontal">
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tv_hardware_version"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_gravity="end"
                     android:layout_margin="@dimen/layoutmargin_text_everyelement"
                     android:fontFamily="@font/ebrima"
                     android:text="@string/device_null"
                     android:textColor="@color/good_green"
                     android:textSize="@dimen/textsize_device_info_elements" />
+                <TextView
+                    android:id="@+id/tv_calibrate_device"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_margin="@dimen/layoutmargin_text_everyelement"
+                    android:visibility="gone"
+                    android:fontFamily="@font/ebrima"
+                    android:text="@string/calibrate_device"
+                    android:textColor="@color/good_green"
+                    android:textSize="@dimen/textsize_device_info_elements"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

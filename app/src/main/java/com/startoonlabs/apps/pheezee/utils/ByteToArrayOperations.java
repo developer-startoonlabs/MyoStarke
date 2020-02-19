@@ -1,5 +1,7 @@
 package com.startoonlabs.apps.pheezee.utils;
 
+import android.util.Log;
+
 import com.startoonlabs.apps.pheezee.pojos.HealthData;
 
 import java.text.SimpleDateFormat;
@@ -129,5 +131,22 @@ public class ByteToArrayOperations {
                     0, 0,0,0,0,0,0);
         }
         return data;
+    }
+
+    public static boolean getMagnetometerPresent(byte[] info_packet){
+        boolean magnetometer_status = false;
+        try{
+            int a = info_packet[39] & 0xFF;
+            int b = info_packet[40] & 0xFF;
+            Log.i("a,b",a+", "+b);
+            if(a==0 && b==0){
+                magnetometer_status = true;
+            }
+        }catch (ArrayIndexOutOfBoundsException e){
+            magnetometer_status = false;
+        }catch (IndexOutOfBoundsException e){
+            magnetometer_status = false;
+        }
+        return magnetometer_status;
     }
 }

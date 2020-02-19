@@ -21,9 +21,11 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -63,10 +65,12 @@ import no.nordicsemi.android.dfu.DfuServiceListenerHelper;
 
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.battery_percent;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.bluetooth_state;
+import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.calibration_state;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.device_disconnected_firmware;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.device_state;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.df_characteristic_written;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.hardware_version;
+import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.magnetometer_present;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.manufacturer_name;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.serial_id;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.usb_state;
@@ -88,16 +92,17 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
     //Declaring all the view items
     TextView tv_device_name,tv_device_mamc, tv_firmware_version, tv_serial_id, tv_hardware_version,
             tv_battery_level,tv_connection_status, tv_disconnect_forget, mTextUploading, mTextPercentage, tv_update_firmware,
-            tv_reactivate_device;
+            tv_reactivate_device, tv_calibrate_device, tv_status_calibrate;
     ImageView iv_back_device_info;
     private ProgressBar mProgressBar;
     LinearLayout ll_dfu;
     DfuController controller;
     MaterialDialog mDialog, mDfuDialog;
-    AlertDialog mDeactivatedDialog;
+    AlertDialog mDeactivatedDialog, dialog_calibrate;
     MqttSyncRepository repository;
     ProgressDialog mCheckReactivationDialog;
-
+    Handler calibration_handler  = new Handler();
+    Button btn_start_calibration, btn_cancel_calibration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +124,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
         mTextPercentage = findViewById(R.id.textviewProgress);
         tv_update_firmware = findViewById(R.id.update_firmware);
         tv_reactivate_device = findViewById(R.id.tv_reactivate_device);
+        tv_calibrate_device = findViewById(R.id.tv_calibrate_device);
         ll_dfu = findViewById(R.id.ll_dfu);
         mCheckReactivationDialog = new ProgressDialog(this);
 
@@ -131,6 +137,12 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
             }
         });
 
+        tv_calibrate_device.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                calibrateDeviceDialog();
+            }
+        });
 
         tv_reactivate_device.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -210,6 +222,8 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
         intentFilter.addAction(df_characteristic_written);
         intentFilter.addAction(hardware_version);
         intentFilter.addAction(device_disconnected_firmware);
+        intentFilter.addAction(calibration_state);
+        intentFilter.addAction(magnetometer_present);
         registerReceiver(device_info_receiver,intentFilter);
 
 
@@ -220,6 +234,51 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
 
         if(getIntent().getBooleanExtra("reactivate_device",false)){
             mActivateCommandGiven = true;
+        }
+    }
+
+    private void calibrateDeviceDialog(){
+        if(mDeviceState) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            LayoutInflater inflater = getLayoutInflater();
+            View dialogLayout = inflater.inflate(R.layout.dialog_calibrate_device, null);
+            btn_start_calibration = dialogLayout.findViewById(R.id.btn_start_calibration);
+            btn_cancel_calibration = dialogLayout.findViewById(R.id.btn_cancel_calibrate);
+            tv_status_calibrate = dialogLayout.findViewById(R.id.tv_status_calibrating);
+            builder.setView(dialogLayout);
+            builder.setCancelable(false);
+            dialog_calibrate = builder.create();
+            dialog_calibrate.setCancelable(true);
+            dialog_calibrate.show();
+            btn_cancel_calibration.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    cancelCalibrate();
+                    if (dialog_calibrate != null)
+                        dialog_calibrate.dismiss();
+                }
+            });
+            btn_start_calibration.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (btn_start_calibration.getText().toString().equalsIgnoreCase("start")) {
+                        tv_status_calibrate.setText("Calibrating...");
+                        tv_status_calibrate.setTextColor(getResources().getColor(R.color.good_green));
+                        tv_status_calibrate.setVisibility(View.VISIBLE);
+                        btn_start_calibration.setText("STOP");
+                        dialog_calibrate.setCancelable(false);
+                        calibrateDevice();
+                    } else {
+                        dialog_calibrate.setCancelable(true);
+                        tv_status_calibrate.setText("Calibration failed, try again later!");
+                        tv_status_calibrate.setTextColor(getResources().getColor(R.color.red));
+                        btn_start_calibration.setText("START");
+                        cancelCalibrate();
+                    }
+                }
+            });
+        }else {
+            showToast("Device Not Connected");
         }
     }
 
@@ -268,6 +327,49 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
             }
         }else {
             NetworkOperations.networkError(this);
+        }
+    }
+
+    Runnable calibration_time_runnable = new Runnable() {
+        @Override
+        public void run() {
+            if(mDeviceState){
+                if(mService!=null){
+                    mService.disableNotificationOfSession();
+                }
+            }
+            if(dialog_calibrate!=null && dialog_calibrate.isShowing()){
+                dialog_calibrate.setCancelable(true);
+                if(btn_start_calibration!=null){
+                    btn_start_calibration.setText("START");
+                }if(tv_status_calibrate!=null){
+                    if(tv_status_calibrate.getText().toString().contains("Calibrating")){
+                        tv_status_calibrate.setText("Calibration failed, try again later!");
+                        tv_status_calibrate.setTextColor(getResources().getColor(R.color.red));
+                    }
+                }
+            }
+        }
+    };
+
+
+    private void calibrateDevice(){
+        if(mDeviceState){
+            if(mService!=null){
+                mService.writeCalibrationToCustomCharacteristic();
+                calibration_handler.postDelayed(calibration_time_runnable,32000);
+            }
+        } else {
+            showToast("Device Not Connected");
+        }
+    }
+
+    private void cancelCalibrate(){
+        calibration_handler.removeCallbacks(calibration_time_runnable);
+        if(mDeviceState){
+            if(mService!=null){
+                mService.disableNotificationOfSession();
+            }
         }
     }
 
@@ -362,6 +464,10 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        calibration_handler.removeCallbacks(calibration_time_runnable);
+        if(mService!=null){
+            mService.disableNotificationOfSession();
+        }
         if(isBound){
             unbindService(mConnection);
         }
@@ -370,6 +476,10 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
             if(isDfuServiceRunning()){
                 controller.abort();
             }
+        }
+        if(dialog_calibrate!=null){
+            if(dialog_calibrate.isShowing())
+                dialog_calibrate.dismiss();
         }
     }
 
@@ -406,9 +516,14 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
             if(action.equalsIgnoreCase(device_state)){
                 boolean device_status = intent.getBooleanExtra(device_state,false);
                 if(device_status){
+                    tv_calibrate_device.setVisibility(View.VISIBLE);
                     tv_connection_status.setText("Connected");
                     mDeviceState = true;
                 }else {
+                    tv_calibrate_device.setVisibility(View.GONE);
+                    if(dialog_calibrate!=null && dialog_calibrate.isShowing()){
+                        dialog_calibrate.dismiss();
+                    }
                     tv_update_firmware.setVisibility(View.GONE);
                     tv_connection_status.setText("Not Connected");
                     mDeviceState = false;
@@ -486,6 +601,37 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
                         showDeviceDeactivatedDialog("Device Activated", "Congratulations, the device has been reactivated.");
                         mActivateCommandGiven = false;
                     }
+                }
+            }else if(action.equalsIgnoreCase(calibration_state)){
+                boolean calibration_status = intent.getBooleanExtra(calibration_state,false);
+                if(mService!=null){
+                    mService.disableNotificationOfSession();
+                    calibration_handler.removeCallbacks(calibration_time_runnable);
+                }
+                if(calibration_status){
+                    if(tv_status_calibrate!=null){
+                        tv_status_calibrate.setText("Calibration successfull!");
+                        tv_status_calibrate.setTextColor(getResources().getColor(R.color.background_green));
+                    }if (btn_start_calibration!=null){
+                        btn_start_calibration.setText("START");
+                    }
+                }else {
+                    if(tv_status_calibrate!=null){
+                        tv_status_calibrate.setText("Calibration failed, try again later!");
+                        tv_status_calibrate.setTextColor(getResources().getColor(R.color.red));
+                    }if (btn_start_calibration!=null){
+                        btn_start_calibration.setText("START");
+                    }
+                }
+                if(dialog_calibrate!=null && dialog_calibrate.isShowing()){
+                    dialog_calibrate.setCancelable(true);
+                }
+            }else if(action.equalsIgnoreCase(magnetometer_present)){
+                boolean magnetometer_status = intent.getBooleanExtra(magnetometer_present,false);
+                if(magnetometer_status){
+                    tv_calibrate_device.setVisibility(View.VISIBLE);
+                }else {
+                    tv_calibrate_device.setVisibility(View.GONE);
                 }
             }
 //            else if(action.equalsIgnoreCase(device_deactivated)){

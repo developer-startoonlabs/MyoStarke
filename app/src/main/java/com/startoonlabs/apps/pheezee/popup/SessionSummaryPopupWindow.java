@@ -357,18 +357,25 @@ public class SessionSummaryPopupWindow {
         tv_delete_pateint_session.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Animation aniFade = AnimationUtils.loadAnimation(context,R.anim.fade_in);
-                tv_delete_pateint_session.setAnimation(aniFade);
-                JSONObject object = new JSONObject();
-                try {
-                    object.put("phizioemail", phizioemail);
-                    object.put("patientid", patientid);
-                    object.put("heldon", dateString);
-                }catch (JSONException e) {
-                    e.printStackTrace();
+                String type = tv_delete_pateint_session.getText().toString();
+                if(type.toLowerCase().contains("delete")) {
+                    tv_delete_pateint_session.setText("New Session");
+                    Animation aniFade = AnimationUtils.loadAnimation(context, R.anim.fade_in);
+                    tv_delete_pateint_session.setAnimation(aniFade);
+                    JSONObject object = new JSONObject();
+                    try {
+                        object.put("phizioemail", phizioemail);
+                        object.put("patientid", patientid);
+                        object.put("heldon", dateString);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    MqttSync mqttSync = new MqttSync(mqtt_delete_pateint_session, object.toString());
+                    new StoreLocalDataAsync(mqttSync).execute();
+                }else {
+                    report.dismiss();
+                    ((Activity)context).finish();
                 }
-                MqttSync mqttSync = new MqttSync(mqtt_delete_pateint_session, object.toString());
-                new StoreLocalDataAsync(mqttSync).execute();
             }
         });
     }

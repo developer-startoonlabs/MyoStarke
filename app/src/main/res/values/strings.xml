@@ -163,6 +163,7 @@
     <string name="device_null">Null</string>
     <string name="update_firmware">Update</string>
     <string name="reactivate_device">Reactivate Device</string>
+    <string name="calibrate_device">Calibrate</string>
     <string name="firmware_updated">Firmware has been updated, reconnecting device please wait.</string>
     <string name="device_not_connected">N/C</string>
     <string name="bluetooth_disabled">Bluetooth Diabled</string>
@@ -181,7 +182,7 @@
     <!--Appinfo related tags-->
     <string name="app_info">Application Info</string>
     <string name="app_version">Application Version</string>
-    <string name="application_version">2.15.0.h</string>
+    <string name="application_version">2.16.0.h</string>
 
     <!--phizio profile related tags-->
     <string name="your_profile">Your Profile</string>
@@ -396,4 +397,9 @@
     <string name="normal_theme">Normal Theme</string>
     <string name="smiley_theme">Smile Theme</string>
     <string name="star_theme">Star Theme</string>
+    <string name="start_calibrate">Start</string>
+    <string name="calibrate_cancel">Cancel</string>
+    <string name="calibration_movement_instruction">Please move the Pheezee device as shown below.</string>
+    <string name="pheezee_calibration"><b>Pheezee Calibration</b></string>
+    <string name="clibrating_status">Clibrating...</string>
 </resources>

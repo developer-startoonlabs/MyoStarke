@@ -512,7 +512,7 @@ public class PatientsView extends AppCompatActivity
         tv_start_clinic_session.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startSession("Null","Null","Null");
+                startSession("-","-","-");
             }
         });
 
@@ -847,7 +847,7 @@ public class PatientsView extends AppCompatActivity
                 boolean flag = true;
                 if(firmware_version[0]<1){
                        flag = false;
-                }else if(firmware_version[1]<11){
+                }else if(firmware_version[1]<11 && firmware_version[0]<=1){
                     flag = false;
                 }else if(firmware_version[2]<4 && firmware_version[1]<=11) {
                     flag = false;

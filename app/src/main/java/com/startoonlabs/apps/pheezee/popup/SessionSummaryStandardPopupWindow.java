@@ -18,6 +18,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.FileProvider;
 
 import com.startoonlabs.apps.pheezee.R;
+import com.startoonlabs.apps.pheezee.activities.PatientsView;
+import com.startoonlabs.apps.pheezee.activities.SessionReportActivity;
 import com.startoonlabs.apps.pheezee.utils.TakeScreenShot;
 import com.startoonlabs.apps.pheezee.utils.ValueBasedColorOperations;
 import com.startoonlabs.apps.pheezee.views.ArcViewInside;
@@ -97,7 +99,7 @@ public class SessionSummaryStandardPopupWindow {
         TextView tv_orientation_and_bodypart = layout.findViewById(R.id.tv_orientation_and_bodypart);
         TextView tv_musclename = layout.findViewById(R.id.tv_muscle_name);
         TextView tv_range = layout.findViewById(R.id.tv_range_min_max);
-
+        TextView tv_back_to_home = layout.findViewById(R.id.tv_back_to_home);
 
         //Share and cancel image view
         ImageView summary_go_back = layout.findViewById(R.id.summary_go_back);
@@ -117,6 +119,15 @@ public class SessionSummaryStandardPopupWindow {
             maxAngle = 0;
             minAngle = 0;
         }
+
+        tv_back_to_home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(context, PatientsView.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                context.startActivity(i);
+            }
+        });
 
         summary_share.setOnClickListener(new View.OnClickListener() {
             @Override

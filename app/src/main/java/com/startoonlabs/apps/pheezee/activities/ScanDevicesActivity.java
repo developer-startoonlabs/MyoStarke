@@ -382,9 +382,7 @@ public class ScanDevicesActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
             }
         });
-        if(tooFrequentDialog!=null) {
-            tooFrequentDialog = tooFrequentBuilder.create();
-            tooFrequentDialog.show();
-        }
+        tooFrequentDialog = tooFrequentBuilder.create();
+        tooFrequentDialog.show();
     }
 }
