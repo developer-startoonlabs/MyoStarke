@@ -2,6 +2,8 @@ package com.startoonlabs.apps.pheezee.adapters;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -43,6 +46,7 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView patientName, patientId,patientNameContainer;
         private ImageView patientProfilepic;
+        private TextView iv_tripple_dot_red;
         private LinearLayout ll_option_patient_list;
         private Button btn_start_session;
 
@@ -54,6 +58,7 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
             ll_option_patient_list = view.findViewById(R.id.options_popup_window);
             patientNameContainer  = view.findViewById(R.id.iv_patient_name_container);
             btn_start_session = view.findViewById(R.id.btn_start_session);
+            iv_tripple_dot_red = view.findViewById(R.id.family_hub_tv_count);
 
         }
 
@@ -80,9 +85,21 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
     }
 
     public void setNotes(List<PhizioPatients> notes){
-        this.patientsListData = notes;
-        this.updatedPatientList = notes;
-        notifyDataSetChanged();
+        if (patientsListData != null && updatedPatientList!=null) {
+            PostDiffCallback postDiffCallback = new PostDiffCallback(patientsListData, notes);
+            DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(postDiffCallback);
+
+            patientsListData.clear();
+            updatedPatientList.clear();
+            patientsListData.addAll(notes);
+            patientsListData.addAll(notes);
+            diffResult.dispatchUpdatesTo(this);
+        } else {
+            // first initialization
+            this.patientsListData = notes;
+            this.updatedPatientList = notes;
+        }
+//        notifyDataSetChanged();
     }
 
     @NonNull
@@ -103,14 +120,18 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
         holder.patientId.setText("Id :"+patientsList.getPatientid());
         holder.patientNameContainer.setVisibility(View.GONE);
         holder.patientProfilepic.setImageResource(android.R.color.transparent);
-
+        if(patientsList.isSceduled()){
+            holder.iv_tripple_dot_red.setVisibility(View.VISIBLE);
+        }else {
+            holder.iv_tripple_dot_red.setVisibility(View.GONE);
+        }
         //listners
         holder.ll_option_patient_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 PhizioPatients temp = updatedPatientList.get(position);
                 PhizioPatients patients = new PhizioPatients(temp.getPatientid(),temp.getPatientname(),temp.getNumofsessions(),temp.getDateofjoin(),
-                        temp.getPatientage(),temp.getPatientgender(),temp.getPatientcasedes(),temp.getStatus(),temp.getPatientphone(),temp.getPatientprofilepicurl());
+                        temp.getPatientage(),temp.getPatientgender(),temp.getPatientcasedes(),temp.getStatus(),temp.getPatientphone(),temp.getPatientprofilepicurl(), temp.isSceduled());
                 if(listner!=null  && position != RecyclerView.NO_POSITION)
                     listner.onItemClick(patients, v);
             }
@@ -185,5 +206,36 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
 
     public void setOnItemClickListner(onItemClickListner listner){
         this.listner = listner;
+    }
+
+
+    class PostDiffCallback extends DiffUtil.Callback {
+
+        private final List<PhizioPatients> oldPosts, newPosts;
+
+        public PostDiffCallback(List<PhizioPatients> oldPosts, List<PhizioPatients> newPosts) {
+            this.oldPosts = oldPosts;
+            this.newPosts = newPosts;
+        }
+
+        @Override
+        public int getOldListSize() {
+            return oldPosts.size();
+        }
+
+        @Override
+        public int getNewListSize() {
+            return newPosts.size();
+        }
+
+        @Override
+        public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
+            return oldPosts.get(oldItemPosition).getPatientid() == newPosts.get(newItemPosition).getPatientid();
+        }
+
+        @Override
+        public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
+            return oldPosts.get(oldItemPosition).equals(newPosts.get(newItemPosition));
+        }
     }
 }

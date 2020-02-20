@@ -126,7 +126,7 @@ public class EditPopUpWindow {
                 String patientage = patientAge.getText().toString();
                 if ((!patientname.equals(""))  && (!patientage.equals(""))&& (!case_description[0].equals("")) && btn!=null) {
                     PhizioPatients patients = new PhizioPatients(patient.getPatientid(),patientname,patient.getNumofsessions(),patient.getDateofjoin()
-                                ,patientage,btn.getText().toString(),case_description[0],patient.getStatus(),patient.getPatientphone(),patient.getPatientprofilepicurl());
+                                ,patientage,btn.getText().toString(),case_description[0],patient.getStatus(),patient.getPatientphone(),patient.getPatientprofilepicurl(),patient.isSceduled());
                     patient.setPatientname(patientname);
                     patient.setPatientage(patientage);
                     patient.setPatientcasedes(case_description[0]);

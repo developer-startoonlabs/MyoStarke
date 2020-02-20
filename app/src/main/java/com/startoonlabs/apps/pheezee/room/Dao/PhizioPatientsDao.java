@@ -50,4 +50,10 @@ public interface PhizioPatientsDao {
             "WHERE patientid=:patientid")
     void updatePatientDetails(String patientname, String patientid, String patientage, String casedes, String pateintgender);
 
+    @Query("SELECT sceduled FROM phizio_patients WHERE patientid=:patientid")
+    boolean isSessionSceduled(String patientid);
+
+    @Query("UPDATE phizio_patients SET sceduled=:num WHERE patientid=:patientid")
+    void updateSceduledSessionStatus(String patientid, boolean num);
+
 }

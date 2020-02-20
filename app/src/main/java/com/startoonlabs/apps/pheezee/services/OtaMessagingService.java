@@ -7,8 +7,10 @@ import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
@@ -17,14 +19,20 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.activities.PatientsView;
+import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Map;
 import java.util.Objects;
 
 public class OtaMessagingService extends FirebaseMessagingService {
-    private static final String CHANNEL_ID = "1";
+    public static final String CHANNEL_ID = "1";
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
+    MqttSyncRepository repository;
 
     @Override
     public void onNewToken(@NonNull String s) {
@@ -34,36 +42,58 @@ public class OtaMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
+        repository = new MqttSyncRepository(getApplication());
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         editor = preferences.edit();
+        boolean isLoggedIn = preferences.getBoolean("isLoggedIn",false);
+        if(isLoggedIn) {
+            try {
+                JSONObject object_remote_message = new JSONObject(remoteMessage.getData());
+                if (object_remote_message.has("type") && object_remote_message.getString("type").equalsIgnoreCase("1")) {
+                    showNotifications(object_remote_message.getString("title"), remoteMessage.getData().get("patientid"), object_remote_message.getString("patientname"), this);
+                    insetTheSceduledSessionDetailsInBackground(object_remote_message);
+//                    JSONArray array = new JSONArray(object_remote_message.getString("body"));
+//                    for (int i = 0; i < array.length(); i++) {
+//                        JSONObject object = array.getJSONObject(i);
+//                    }
+                }
 
-        Map map = remoteMessage.getData();
-        editor.putString("firmware_update",Objects.requireNonNull(map.get("downloadlink")).toString());
-        editor.apply();
-        showNotifications(Objects.requireNonNull(remoteMessage.getNotification()).getTitle(), remoteMessage.getNotification().getBody(),Objects.requireNonNull(map.get("downloadlink")).toString(), this);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    private void insetTheSceduledSessionDetailsInBackground(JSONObject object) {
+        repository.insetTheSceduledSessionDetails(object);
     }
 
 
-    public void showNotifications(String app, String message,String downloadLink, Context context){
-            Intent intent = new Intent(context, PatientsView.class);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
-            intent.putExtra("downloadLink", downloadLink);
-            TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-            stackBuilder.addNextIntentWithParentStack(intent);
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, (int)System.currentTimeMillis(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                    .setSmallIcon(R.mipmap.pheezee_logos_final_square_round)
-                    .setContentTitle(app)
-                    .setContentText(message)
-                    .setStyle(new NotificationCompat.BigTextStyle()
-                            .bigText(message))
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-//                    .setAutoCancel(true)
-//                    .setContentIntent(pendingIntent);
-            createNotificationChannel(context);
-            NotificationManager notificationManager =
+    public void showNotifications(String app, String patientid, String patientname, Context context){
+        String  message = "Session Sceduled for "+patientname+" with id "+patientid;
+        Intent i = new Intent(context, PatientsView.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent intent = PendingIntent.getActivity(context, 0,
+                i, 0);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
+                .setSmallIcon(R.mipmap.pheezee_logos_final_square_round)
+                .setContentTitle(app)
+                .setContentText(message)
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText(message))
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentIntent(intent)
+                .setAutoCancel(true);
+
+        createNotificationChannel(context);
+        NotificationManager notificationManager =
                     (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-            notificationManager.notify('1', builder.build());
+        try {
+            notificationManager.notify(Integer.parseInt(patientid), builder.build());
+        }catch(NumberFormatException e){
+            notificationManager.notify(0, builder.build());
+        }
     }
 
     private void createNotificationChannel(Context context) {
@@ -72,7 +102,7 @@ public class OtaMessagingService extends FirebaseMessagingService {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = context.getString(R.string.app_name);
             String description = context.getString(R.string.app_name);
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
             channel.setDescription(description);
             // Register the channel with the system; you can't change the importance

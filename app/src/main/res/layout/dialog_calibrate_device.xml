@@ -19,7 +19,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView14"
         app:lottie_autoPlay="true"
-        app:lottie_fileName="scanning_devices.json"
+        app:lottie_fileName="calib.json"
         app:lottie_loop="true" />
 
     <Button

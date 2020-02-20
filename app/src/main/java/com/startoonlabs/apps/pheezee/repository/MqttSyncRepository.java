@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
@@ -48,9 +49,11 @@ import com.startoonlabs.apps.pheezee.retrofit.RetrofitClientInstance;
 import com.startoonlabs.apps.pheezee.room.Dao.DeviceStatusDao;
 import com.startoonlabs.apps.pheezee.room.Dao.MqttSyncDao;
 import com.startoonlabs.apps.pheezee.room.Dao.PhizioPatientsDao;
+import com.startoonlabs.apps.pheezee.room.Dao.SceduledSessionDao;
 import com.startoonlabs.apps.pheezee.room.Entity.DeviceStatus;
 import com.startoonlabs.apps.pheezee.room.Entity.MqttSync;
 import com.startoonlabs.apps.pheezee.room.Entity.PhizioPatients;
+import com.startoonlabs.apps.pheezee.room.Entity.SceduledSession;
 import com.startoonlabs.apps.pheezee.room.PheezeeDatabase;
 import com.startoonlabs.apps.pheezee.utils.BitmapOperations;
 import com.startoonlabs.apps.pheezee.utils.ByteToArrayOperations;
@@ -64,6 +67,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -86,6 +90,7 @@ import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.scedule_d
  * That interacts with database
  */
 public class MqttSyncRepository {
+    private SceduledSessionDao sceduledSessionDao;
     private MqttSyncDao mqttSyncDao;
     private DeviceStatusDao deviceStatusDao;
     private PhizioPatientsDao phizioPatientsDao;
@@ -112,6 +117,7 @@ public class MqttSyncRepository {
         mqttSyncDao = database.mqttSyncDao();
         phizioPatientsDao = database.phizioPatientsDao();
         deviceStatusDao = database.deviceStatusDao();
+        sceduledSessionDao = database.sceduledSessionDao();
         this.count = mqttSyncDao.getEntityCount();
         this.patients = phizioPatientsDao.getAllActivePatients();
         getDataService = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
@@ -441,6 +447,41 @@ public class MqttSyncRepository {
                 }
             });
         }
+    }
+
+    public void insetTheSceduledSessionDetails(JSONObject object){
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    ArrayList<SceduledSession> sceduledSessions = new ArrayList<>();
+                    String patientid = object.getString("patientid");
+                    boolean check_if_already_sceduled = phizioPatientsDao.isSessionSceduled(patientid);
+                    Log.i("SCEDULED1", String.valueOf(check_if_already_sceduled));
+                    Long count = sceduledSessionDao.getSessionPresent(patientid);
+                    Log.i("NUM OF Sessions", String.valueOf(count));
+                    if(count!=0){
+                        sceduledSessionDao.delteAllSessionOfAPatient(patientid);
+                    }
+                    phizioPatientsDao.updateSceduledSessionStatus(patientid,true);
+                    boolean check_if_sceduled = phizioPatientsDao.isSessionSceduled(patientid);
+                    Log.d("SCEDULED", String.valueOf(check_if_sceduled));
+                    if(check_if_sceduled) {
+                        JSONArray array = new JSONArray(object.getString("body"));
+                        for (int i = 0; i < array.length(); i++) {
+                            JSONObject object = array.getJSONObject(i);
+                            SceduledSession session = new SceduledSession(patientid, (i + 1), object.getString("bodypart"), object.getString("side"),
+                                    object.getString("position"), object.getString("exercise"), object.getString("muscle"), object.getString("reps"),
+                                    object.getString("emg"), object.getString("angleMin"), object.getString("angleMax"));
+                            sceduledSessions.add(session);
+                        }
+                        sceduledSessionDao.insertAllSceduledSessions(sceduledSessions);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     //Server related

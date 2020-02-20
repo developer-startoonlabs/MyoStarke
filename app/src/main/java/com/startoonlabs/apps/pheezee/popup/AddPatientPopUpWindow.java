@@ -134,7 +134,7 @@ public class AddPatientPopUpWindow {
                 String patientage = patientAge.getText().toString();
                 if ((!patientname.equals("")) && (!patientid.equals("")) && (!patientage.equals(""))&& (!case_description[0].equals("")) && btn!=null) {
                     PhizioPatients patient = new PhizioPatients(patientid,patientname,"0",todaysDate,patientage,btn.getText().toString(),
-                            case_description[0],"active","","empty");
+                            case_description[0],"active","","empty", false);
 
                     PatientDetailsData data = new PatientDetailsData(json_phizioemail,patientid, patientname, "0",
                             todaysDate,patientage, btn.getText().toString(),case_description[0],"active", "", "empty");

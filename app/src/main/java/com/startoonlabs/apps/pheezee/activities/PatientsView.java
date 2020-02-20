@@ -2,6 +2,7 @@ package com.startoonlabs.apps.pheezee.activities;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
@@ -107,6 +108,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+import static com.startoonlabs.apps.pheezee.services.OtaMessagingService.CHANNEL_ID;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.health_error_present_in_device;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.show_device_health_error;
 import static com.startoonlabs.apps.pheezee.utils.PackageTypes.STANDARD_PACKAGE;
@@ -637,6 +639,8 @@ public class PatientsView extends AppCompatActivity
             repository.deleteAllSync();
             FirebaseMessaging.getInstance().unsubscribeFromTopic("ota");
             startActivity(new Intent(this, LoginActivity.class));
+            NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.cancelAll();
             finish();
         }
 

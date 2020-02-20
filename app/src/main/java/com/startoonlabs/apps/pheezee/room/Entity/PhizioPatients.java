@@ -8,8 +8,7 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "phizio_patients")
 public class PhizioPatients {
     @PrimaryKey @NonNull
-    private
-    String patientid;
+    private String patientid;
     private String patientname;
     private String numofsessions;
     private String dateofjoin;
@@ -19,11 +18,11 @@ public class PhizioPatients {
     private String status;
     private String patientphone;
     private String patientprofilepicurl;
-
+    private boolean sceduled;
 
     public PhizioPatients(String patientid, String patientname, String numofsessions,
                           String dateofjoin, String patientage, String patientgender, String patientcasedes,
-                          String status, String patientphone, String patientprofilepicurl) {
+                          String status, String patientphone, String patientprofilepicurl, boolean sceduled) {
         this.patientid = patientid;
         this.patientname = patientname;
         this.numofsessions = numofsessions;
@@ -34,6 +33,7 @@ public class PhizioPatients {
         this.status = status;
         this.patientphone = patientphone;
         this.patientprofilepicurl = patientprofilepicurl;
+        this.sceduled = sceduled;
     }
 
 
@@ -115,5 +115,13 @@ public class PhizioPatients {
 
     public void setPatientprofilepicurl(String patientprofilepicurl) {
         this.patientprofilepicurl = patientprofilepicurl;
+    }
+
+    public boolean isSceduled() {
+        return sceduled;
+    }
+
+    public void setSceduled(boolean sceduled) {
+        this.sceduled = sceduled;
     }
 }
