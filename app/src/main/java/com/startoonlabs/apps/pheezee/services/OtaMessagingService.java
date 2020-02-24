@@ -28,10 +28,12 @@ import org.json.JSONObject;
 import java.util.Map;
 import java.util.Objects;
 
+import static com.startoonlabs.apps.pheezee.activities.MonitorActivity.IS_SCEDULED_SESSION;
+import static com.startoonlabs.apps.pheezee.activities.MonitorActivity.IS_SESSION_SCEDULED_ON;
+
 public class OtaMessagingService extends FirebaseMessagingService {
     public static final String CHANNEL_ID = "1";
     SharedPreferences preferences;
-    SharedPreferences.Editor editor;
     MqttSyncRepository repository;
 
     @Override
@@ -44,23 +46,20 @@ public class OtaMessagingService extends FirebaseMessagingService {
         super.onMessageReceived(remoteMessage);
         repository = new MqttSyncRepository(getApplication());
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        editor = preferences.edit();
         boolean isLoggedIn = preferences.getBoolean("isLoggedIn",false);
         if(isLoggedIn) {
-            try {
-                JSONObject object_remote_message = new JSONObject(remoteMessage.getData());
-                if (object_remote_message.has("type") && object_remote_message.getString("type").equalsIgnoreCase("1")) {
-                    showNotifications(object_remote_message.getString("title"), remoteMessage.getData().get("patientid"), object_remote_message.getString("patientname"), this);
-                    insetTheSceduledSessionDetailsInBackground(object_remote_message);
-//                    JSONArray array = new JSONArray(object_remote_message.getString("body"));
-//                    for (int i = 0; i < array.length(); i++) {
-//                        JSONObject object = array.getJSONObject(i);
-//                    }
-                }
+                try {
+                    JSONObject object_remote_message = new JSONObject(remoteMessage.getData());
+                    if (object_remote_message.has("type") && object_remote_message.getString("type").equalsIgnoreCase("1")) {
+                        if(!IS_SESSION_SCEDULED_ON.equalsIgnoreCase(remoteMessage.getData().get("patientid"))) {
+                            showNotifications(object_remote_message.getString("title"), remoteMessage.getData().get("patientid"), object_remote_message.getString("patientname"), this);
+                            insetTheSceduledSessionDetailsInBackground(object_remote_message);
+                        }
+                    }
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
         }
 
     }

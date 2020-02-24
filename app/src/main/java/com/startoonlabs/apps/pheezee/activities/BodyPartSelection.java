@@ -223,6 +223,7 @@ public class BodyPartSelection extends AppCompatActivity {
                     intent.putExtra("exerciseposition", exercise_selected_postion);
                     intent.putExtra("bodypartposition", body_part_selected_position);
                     intent.putExtra("muscleposition", muscle_selected_position);
+                    intent.putExtra("issceduled",false);
                     startActivity(intent);
 
                 } else {

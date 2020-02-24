@@ -45,7 +45,7 @@ public class MyBottomSheetDialog extends BottomSheetDialogFragment {
 
     PhizioPatients patient;
 
-    LinearLayout ll_report,ll_edit_patient_details,ll_delete_patient,ll_archive_patient;
+    LinearLayout ll_report,ll_edit_patient_details,ll_delete_patient,ll_archive_patient, ll_start_sceduled_session;
 
     @SuppressLint("ValidFragment")
     public MyBottomSheetDialog(Bitmap bitmap, PhizioPatients patient){
@@ -79,6 +79,13 @@ public class MyBottomSheetDialog extends BottomSheetDialogFragment {
         ll_edit_patient_details = layout.findViewById(R.id.ll_edit_patient_details);
         ll_delete_patient = layout.findViewById(R.id.ll_delete_patient);
         ll_archive_patient = layout.findViewById(R.id.ll_archive_patient);
+        ll_start_sceduled_session = layout.findViewById(R.id.ll_start_sceduled_session);
+
+        if(patient.isSceduled()){
+            ll_start_sceduled_session.setVisibility(View.VISIBLE);
+        }else {
+            ll_start_sceduled_session.setVisibility(View.GONE);
+        }
 
         /**
          * Calls update patient
@@ -117,6 +124,13 @@ public class MyBottomSheetDialog extends BottomSheetDialogFragment {
             @Override
             public void onClick(View v) {
                 ((PatientsView)getActivity()).deletePatient(patient);
+            }
+        });
+
+        ll_start_sceduled_session.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((PatientsView)getActivity()).startSceduledSession(patient);
             }
         });
         tv_patient_name_section.setText(patient.getPatientname());

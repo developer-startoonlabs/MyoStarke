@@ -56,4 +56,5 @@ public interface PhizioPatientsDao {
     @Query("UPDATE phizio_patients SET sceduled=:num WHERE patientid=:patientid")
     void updateSceduledSessionStatus(String patientid, boolean num);
 
+
 }

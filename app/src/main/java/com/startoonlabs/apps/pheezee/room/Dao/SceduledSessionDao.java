@@ -1,5 +1,6 @@
 package com.startoonlabs.apps.pheezee.room.Dao;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -29,4 +30,13 @@ public interface SceduledSessionDao {
 
     @Query("DELETE FROM sceduled_session WHERE patientid=:patientid")
     void delteAllSessionOfAPatient(String patientid);
+
+    @Query("SELECT * FROM sceduled_session WHERE patientid=:patientid")
+    LiveData<List<SceduledSession>> getAllSceduledSessionOfPatient(String patientid);
+
+    @Query("SELECT * FROM sceduled_session WHERE patientid=:patientid")
+    List<SceduledSession> getAllSceduledSession(String patientid);
+
+    @Query("DELETE FROM sceduled_session WHERE patientid=:patientid AND sessionno=:sessionno")
+    void removeSceduledSessionBasedOnSessionNo(String patientid, int sessionno);
 }

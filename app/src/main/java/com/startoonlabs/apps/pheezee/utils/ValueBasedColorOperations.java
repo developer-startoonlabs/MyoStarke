@@ -1,6 +1,7 @@
 package com.startoonlabs.apps.pheezee.utils;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import androidx.core.content.ContextCompat;
@@ -223,6 +224,47 @@ public class ValueBasedColorOperations {
 //            b = ByteToArrayOperations.hexStringToByteArray("AA04");
 //        }
 //        return b;
+    }
+
+
+    public static int getDrawableBasedOnBodyPart(String bodypart){
+        switch (bodypart.toLowerCase()){
+            case "elbow":{
+                return R.drawable.elbow_part;
+            }
+
+            case "knee":{
+                return R.drawable.knee_part;
+            }
+
+            case "ankle":{
+                return R.drawable.ankle_part;
+            }
+
+            case "hip":{
+                return R.drawable.hip_part;
+            }
+
+            case "wrist":{
+                return R.drawable.wrist_part;
+            }
+
+            case "shoulder":{
+                return R.drawable.shoulder_part;
+            }
+
+            case "forearm":{
+                return R.drawable.forearm_part;
+            }
+
+            case "spine":{
+                return R.drawable.spine_part;
+            }
+
+            default:{
+                return R.drawable.other_body_part;
+            }
+        }
     }
 
 

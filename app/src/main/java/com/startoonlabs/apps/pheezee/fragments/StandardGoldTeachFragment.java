@@ -49,9 +49,11 @@ import com.startoonlabs.apps.pheezee.activities.PatientsView;
 import com.startoonlabs.apps.pheezee.popup.SessionSummaryPopupWindow;
 import com.startoonlabs.apps.pheezee.popup.SessionSummaryStandardPopupWindow;
 import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
+import com.startoonlabs.apps.pheezee.room.Entity.SceduledSession;
 import com.startoonlabs.apps.pheezee.utils.AngleOperations;
 import com.startoonlabs.apps.pheezee.utils.BatteryOperation;
 import com.startoonlabs.apps.pheezee.utils.ByteToArrayOperations;
+import com.startoonlabs.apps.pheezee.utils.MuscleOperation;
 import com.startoonlabs.apps.pheezee.views.ArcViewInside;
 
 import org.json.JSONArray;
@@ -69,6 +71,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+import static com.startoonlabs.apps.pheezee.activities.MonitorActivity.IS_SCEDULED_SESSION;
+import static com.startoonlabs.apps.pheezee.activities.MonitorActivity.IS_SCEDULED_SESSIONS_COMPLETED;
+import static com.startoonlabs.apps.pheezee.activities.MonitorActivity.total_sceduled_size;
 import static com.startoonlabs.apps.pheezee.utils.PackageTypes.ACHEDAMIC_TEACH_PLUS;
 import static com.startoonlabs.apps.pheezee.utils.PackageTypes.STANDARD_PACKAGE;
 import static com.startoonlabs.apps.pheezee.utils.PackageTypes.TEACH_PACKAGE;
@@ -80,6 +85,7 @@ import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.session_d
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.usb_state;
 
 public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepository.GetSessionNumberResponse {
+    private int live_sceduled_size = 0;
     private int phizio_packagetype = 0;
     //session inserted on server
     private boolean sessionCompleted = false, can_beeep_max = true,can_beep_min = true;
@@ -219,6 +225,54 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
         repository = new MqttSyncRepository(getActivity().getApplication());
         repository.setOnSessionNumberResponse(this);
 
+
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        try {
+            json_phizio = new JSONObject(sharedPreferences.getString("phiziodetails", ""));
+            json_phizioemail = json_phizio.getString("phizioemail");
+            phizio_packagetype = json_phizio.getInt("packagetype");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        if(!IS_SCEDULED_SESSION)
+            updateInitialValues();
+        else {
+            boolean session_present = ((MonitorActivity)getActivity()).isSceduledSessionsCompleted();
+            if(!session_present){
+                updateInitialValues(((MonitorActivity)getActivity()).getSceduledSessionListFirstItem());
+            }
+        }
+        arcViewInside.setMinAngle(0);
+        arcViewInside.setMaxAngle(0);
+        setListnersOnViews();
+
+        MillisecondTime = 0L;
+        StartTime = 0L;
+        TimeBuff = 0L;
+        UpdateTime = 0L;
+        Seconds = 0;
+        Minutes = 0;
+        time.setText("Session time:   00 : 00");
+
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(device_state);
+        intentFilter.addAction(bluetooth_state);
+        intentFilter.addAction(usb_state);
+        intentFilter.addAction(battery_percent);
+        intentFilter.addAction(session_data);
+        intentFilter.addAction(device_disconnected_firmware);
+        getActivity().registerReceiver(session_data_receiver,intentFilter);
+
+        creatGraphView();
+
+        ((MonitorActivity)getActivity()).getBasicDeviceInfo();
+        return root;
+    }
+
+    private void setListnersOnViews() {
+
         btn_emg_increase_gain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -255,65 +309,6 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
                 }
             }
         });
-
-
-
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        try {
-            json_phizio = new JSONObject(sharedPreferences.getString("phiziodetails", ""));
-            json_phizioemail = json_phizio.getString("phizioemail");
-            phizio_packagetype = json_phizio.getInt("packagetype");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        //get intent values
-        patientid = getActivity().getIntent().getStringExtra("patientId");
-        patientname = getActivity().getIntent().getStringExtra("patientName");
-        bodyorientation = getActivity().getIntent().getStringExtra("bodyorientation");
-        body_orientation = getActivity().getIntent().getIntExtra("body_orientation", 0);
-        bodypart = getActivity().getIntent().getStringExtra("exerciseType");
-        orientation = getActivity().getIntent().getStringExtra("orientation");
-        str_body_orientation = getActivity().getIntent().getStringExtra("bodyorientation");
-        str_exercise_name = getActivity().getIntent().getStringExtra("exercisename");
-
-        str_muscle_name = getActivity().getIntent().getStringExtra("musclename");
-        str_max_emg_selected = getActivity().getIntent().getStringExtra("maxemgselected");
-        str_max_angle_selected = getActivity().getIntent().getStringExtra("maxangleselected");
-        str_min_angle_selected = getActivity().getIntent().getStringExtra("minangleselected");
-        exercise_position = getActivity().getIntent().getIntExtra("exerciseposition",0);
-        bodypart_position = getActivity().getIntent().getIntExtra("bodypartposition",0);
-        repsselected = getActivity().getIntent().getIntExtra("repsselected",0);
-        muscle_position = getActivity().getIntent().getIntExtra("muscleposition",0);
-        if(orientation.equalsIgnoreCase("left"))
-            orientation_position=1;
-        else
-            orientation_position=2;
-
-        //setting patient id and name
-        if(patientid.length()>3){
-            String temp = patientid.substring(0,3)+"xxx";
-            patientId.setText(temp);
-        }else {
-            patientId.setText(patientid);
-        }
-
-        patientName.setText(patientname);
-
-
-        //setting session number
-        if(phizio_packagetype!=STANDARD_PACKAGE)
-            repository.getPatientSessionNo(patientid);
-
-        tv_body_part.setText(tv_body_part.getText().toString().concat(bodypart));
-        tv_body_part.setText(orientation + "-" + bodypart + "-" + str_exercise_name);
-        if (repsselected!= 0) {
-            tv_repsselected.setText("/".concat(String.valueOf(repsselected)));
-        } else {
-            tv_repsselected.setVisibility(View.GONE);
-        }
-        arcViewInside.setMinAngle(0);
-        arcViewInside.setMaxAngle(0);
 
         timer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -420,6 +415,16 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
                 Minutes = 0;
                 timer.setText(R.string.timer_start);
                 tsLong = System.currentTimeMillis();
+                if(IS_SCEDULED_SESSION){
+                    ((MonitorActivity)getActivity()).removeFirstFromSceduledList();
+                    live_sceduled_size = ((MonitorActivity)getActivity()).getSceduledSize();
+                    if(live_sceduled_size !=0){
+                        updateInitialValues(((MonitorActivity)getActivity()).getSceduledSessionListFirstItem());
+                    }else {
+                        IS_SCEDULED_SESSIONS_COMPLETED = true;
+                        repository.removeAllSessionsForPataient(patientid);
+                    }
+                }
                 if(phizio_packagetype!=STANDARD_PACKAGE)
                     initiatePopupWindowModified();
                 else
@@ -427,6 +432,8 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
 
                 if(phizio_packagetype==TEACH_PACKAGE||phizio_packagetype==ACHEDAMIC_TEACH_PLUS)
                     insertValuesAndNotifyMediaStore("Stopped");
+
+
 
             }
         });
@@ -481,29 +488,109 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
                 }
             }
         });
+    }
+
+    private void updateInitialValues() {
+        //get intent values
+        patientid = getActivity().getIntent().getStringExtra("patientId");
+        patientname = getActivity().getIntent().getStringExtra("patientName");
+        bodyorientation = getActivity().getIntent().getStringExtra("bodyorientation");
+        body_orientation = getActivity().getIntent().getIntExtra("body_orientation", 0);
+        bodypart = getActivity().getIntent().getStringExtra("exerciseType");
+        orientation = getActivity().getIntent().getStringExtra("orientation");
+        str_body_orientation = getActivity().getIntent().getStringExtra("bodyorientation");
+        str_exercise_name = getActivity().getIntent().getStringExtra("exercisename");
+
+        str_muscle_name = getActivity().getIntent().getStringExtra("musclename");
+        str_max_emg_selected = getActivity().getIntent().getStringExtra("maxemgselected");
+        str_max_angle_selected = getActivity().getIntent().getStringExtra("maxangleselected");
+        str_min_angle_selected = getActivity().getIntent().getStringExtra("minangleselected");
+        exercise_position = getActivity().getIntent().getIntExtra("exerciseposition",0);
+        bodypart_position = getActivity().getIntent().getIntExtra("bodypartposition",0);
+        repsselected = getActivity().getIntent().getIntExtra("repsselected",0);
+        muscle_position = getActivity().getIntent().getIntExtra("muscleposition",0);
+        if(orientation.equalsIgnoreCase("left"))
+            orientation_position=1;
+        else
+            orientation_position=2;
+
+        //setting patient id and name
+        if(patientid.length()>3){
+            String temp = patientid.substring(0,3)+"xxx";
+            patientId.setText(temp);
+        }else {
+            patientId.setText(patientid);
+        }
+
+        patientName.setText(patientname);
 
 
-        MillisecondTime = 0L;
-        StartTime = 0L;
-        TimeBuff = 0L;
-        UpdateTime = 0L;
-        Seconds = 0;
-        Minutes = 0;
-        time.setText("Session time:   00 : 00");
+        //setting session number
+        if(phizio_packagetype!=STANDARD_PACKAGE)
+            repository.getPatientSessionNo(patientid);
 
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(device_state);
-        intentFilter.addAction(bluetooth_state);
-        intentFilter.addAction(usb_state);
-        intentFilter.addAction(battery_percent);
-        intentFilter.addAction(session_data);
-        intentFilter.addAction(device_disconnected_firmware);
-        getActivity().registerReceiver(session_data_receiver,intentFilter);
+        tv_body_part.setText(tv_body_part.getText().toString().concat(bodypart));
+        tv_body_part.setText(orientation + "-" + bodypart + "-" + str_exercise_name);
+        if (repsselected!= 0) {
+            tv_repsselected.setText("/".concat(String.valueOf(repsselected)));
+        } else {
+            tv_repsselected.setVisibility(View.GONE);
+        }
+    }
 
-        creatGraphView();
 
-        ((MonitorActivity)getActivity()).getBasicDeviceInfo();
-        return root;
+    private void updateInitialValues(SceduledSession session) {
+        //get intent values
+        live_sceduled_size = ((MonitorActivity)getActivity()).getSceduledSize();
+        patientid = getActivity().getIntent().getStringExtra("patientId");
+        patientname = getActivity().getIntent().getStringExtra("patientName");
+        bodyorientation = session.getPosition();
+
+        if (bodyorientation.equalsIgnoreCase("sit")) body_orientation = 2;
+        else if (bodyorientation.equalsIgnoreCase("stand")) body_orientation = 1;
+        else body_orientation = 3;
+
+
+        bodypart = session.getBodypart();
+
+        orientation = session.getSide();
+        str_exercise_name = session.getExercise();
+
+        str_muscle_name = session.getMuscle();
+        str_max_emg_selected = session.getEmg();
+        str_max_angle_selected = session.getAngleMax();
+        str_min_angle_selected = session.getAngleMin();
+
+        bodypart_position = MuscleOperation.getBodypartPosition(bodypart,getActivity());
+        exercise_position = MuscleOperation.getExercisePosition(str_exercise_name,bodypart_position);
+        try {
+            repsselected = Integer.parseInt(session.getReps());
+        }catch (NumberFormatException e){
+            repsselected = 0;
+            e.printStackTrace();
+        }
+        muscle_position = MuscleOperation.getMusclePosition(str_muscle_name,bodypart_position);
+        if(orientation.equalsIgnoreCase("left"))
+            orientation_position=1;
+        else
+            orientation_position=2;
+
+        //setting patient id and name
+        if(patientid.length()>3){
+            String temp = patientid.substring(0,3)+"xxx";
+            patientId.setText(temp);
+        }else {
+            patientId.setText(patientid);
+        }
+
+        patientName.setText(patientname);
+
+
+        //setting session number
+        if(phizio_packagetype!=STANDARD_PACKAGE)
+            repository.getPatientSessionNo(patientid);
+
+        tv_body_part.setText(session.getSessionno()+"/"+total_sceduled_size+":-"+orientation + "-" + bodypart + "-" + str_exercise_name);
     }
 
     /**

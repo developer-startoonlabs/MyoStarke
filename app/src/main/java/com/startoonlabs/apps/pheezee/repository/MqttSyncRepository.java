@@ -34,6 +34,7 @@ import com.startoonlabs.apps.pheezee.pojos.HealthData;
 import com.startoonlabs.apps.pheezee.pojos.LoginData;
 import com.startoonlabs.apps.pheezee.pojos.LoginResult;
 import com.startoonlabs.apps.pheezee.pojos.MmtData;
+import com.startoonlabs.apps.pheezee.pojos.MobileToken;
 import com.startoonlabs.apps.pheezee.pojos.PatientDetailsData;
 import com.startoonlabs.apps.pheezee.pojos.PatientImageData;
 import com.startoonlabs.apps.pheezee.pojos.PatientImageUploadResponse;
@@ -103,11 +104,13 @@ public class MqttSyncRepository {
     private GetSessionNumberResponse response;
     private OnSessionDataResponse onSessionDataResponse;
     private onDeviceStatusResponse onDeviceStatusResponse;
+    private onSceduledSesssionResponse onSceduledSessionResponse;
     /**
      * Live object returned to get the item count in the database to update the sync button view
      */
     private LiveData<Long> count;
     private LiveData<List<PhizioPatients>> patients;
+    private LiveData<List<SceduledSession>> sessions;
     private PheezeeDatabase database;
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor editor;
@@ -127,6 +130,42 @@ public class MqttSyncRepository {
     //Local database functions
     public LiveData<List<PhizioPatients>> getAllPatietns() {
         return patients;
+    }
+
+    public LiveData<List<SceduledSession>> getAllSceduledSessions(String patientid){
+        this.sessions = sceduledSessionDao.getAllSceduledSessionOfPatient(patientid);
+        return sessions;
+    }
+
+    public void removeSceduledSessionFromDatabase(String patientid, int sessionno){
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                sceduledSessionDao.removeSceduledSessionBasedOnSessionNo(patientid,sessionno);
+            }
+        });
+    }
+
+    public void removeAllSessionsForPataient(String patientid){
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                sceduledSessionDao.delteAllSessionOfAPatient(patientid);
+                phizioPatientsDao.updateSceduledSessionStatus(patientid, false);
+            }
+        });
+    }
+
+    public void getAllSceduledSessionsList(String patientid){
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                List<SceduledSession> sessions = sceduledSessionDao.getAllSceduledSession(patientid);
+                if(onSceduledSessionResponse!=null){
+                    onSceduledSessionResponse.onResponse(sessions);
+                }
+            }
+        });
     }
 
     public void clearDatabase() {
@@ -1678,6 +1717,34 @@ public class MqttSyncRepository {
         });
     }
 
+    public void sendFirebaseTopkenToTheServer(String phizioemail, String mobile_token){
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                MobileToken token = new MobileToken(phizioemail,mobile_token);
+                Call<Boolean> call = getDataService.sendMobileTokenToTheServer(token);
+                call.enqueue(new Callback<Boolean>() {
+                    @Override
+                    public void onResponse(@NonNull Call<Boolean> call, @NonNull Response<Boolean> response) {
+                        if (response.code() == 200) {
+                            boolean b = response.body();
+                            if (b) {
+                                Log.d("Token","Mobile token has been updated!");
+                            } else {
+                                Log.d("Token","Mobile token has not been updated!");
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<Boolean> call, @NonNull Throwable t) {
+                        Log.d("Token","Mobile token has not been updated!");
+                    }
+                });
+            }
+        });
+    }
+
     private void sendHealthStatusBroadcast(boolean response, Context context){
         Intent i = new Intent(health_status);
         i.putExtra(health_status,response);
@@ -1750,6 +1817,10 @@ public class MqttSyncRepository {
         void onSyncComplete(boolean response, String message);
     }
 
+    public interface onSceduledSesssionResponse{
+        void onResponse(List<SceduledSession> sessions);
+    }
+
     public interface onDeviceStatusResponse{
         void onDeviceStatusResponse(boolean response, boolean status);
     }
@@ -1797,6 +1868,10 @@ public class MqttSyncRepository {
 
     public void setOnDeviceStatusResponse(onDeviceStatusResponse response){
         this.onDeviceStatusResponse = response;
+    }
+
+    public void setOnSceduledSessionResponse(onSceduledSesssionResponse response){
+        this.onSceduledSessionResponse = response;
     }
 
 }

@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothManager;
 import android.content.ComponentName;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
@@ -26,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
@@ -36,18 +38,28 @@ import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.fragments.SmileyMonitoringFragment;
 import com.startoonlabs.apps.pheezee.fragments.StandardGoldTeachFragment;
 import com.startoonlabs.apps.pheezee.fragments.StarMonitorFragment;
+import com.startoonlabs.apps.pheezee.pojos.MobileToken;
+import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
+import com.startoonlabs.apps.pheezee.room.Entity.SceduledSession;
 import com.startoonlabs.apps.pheezee.services.PheezeeBleService;
 import com.startoonlabs.apps.pheezee.utils.TakeScreenShot;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+
 import static com.startoonlabs.apps.pheezee.utils.PackageTypes.ACHEDAMIC_TEACH_PLUS;
 import static com.startoonlabs.apps.pheezee.utils.PackageTypes.GOLD_PLUS_PACKAGE;
 import static com.startoonlabs.apps.pheezee.utils.PackageTypes.STANDARD_PACKAGE;
 
 public class MonitorActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
+    public static int total_sceduled_size = 0;
+    public static boolean IS_SCEDULED_SESSIONS_COMPLETED = false;
+    public static boolean IS_SCEDULED_SESSION = false;
+    public static String IS_SESSION_SCEDULED_ON = "";
     private int phizio_packagetype = 0;
+
     int selected_theme = 0;
     //session inserted on server
     ImageView iv_back_monitor, iv_theme_chooser;
@@ -56,7 +68,7 @@ public class MonitorActivity extends AppCompatActivity implements PopupMenu.OnMe
     int REQUEST_ENABLE_BT = 1;
     SharedPreferences sharedPreferences;
     JSONObject json_phizio = new JSONObject();
-
+    public List<SceduledSession> sessions;
     private boolean mSessionStarted = false, isBound = false;
     PheezeeBleService mService;
     String patientid, patientname;
@@ -65,12 +77,14 @@ public class MonitorActivity extends AppCompatActivity implements PopupMenu.OnMe
     Fragment fragment;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
+    MqttSyncRepository repository;
 
     @SuppressLint({"ClickableViewAccessibility", "SetTextI18n"})
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monitor_updated);
+        repository = new MqttSyncRepository(getApplication());
         fragmentManager = getSupportFragmentManager();
         iv_back_monitor = findViewById(R.id.iv_back_monitor);
         tv_snap = findViewById(R.id.snap_monitor);
@@ -85,7 +99,9 @@ public class MonitorActivity extends AppCompatActivity implements PopupMenu.OnMe
         }
         patientid = getIntent().getStringExtra("patientId");
         patientname = getIntent().getStringExtra("patientName");
-
+        IS_SCEDULED_SESSION = getIntent().getBooleanExtra("issceduled",false);
+        IS_SCEDULED_SESSIONS_COMPLETED = false;
+        IS_SESSION_SCEDULED_ON = patientid;
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -132,7 +148,30 @@ public class MonitorActivity extends AppCompatActivity implements PopupMenu.OnMe
         Intent mIntent = new Intent(this, PheezeeBleService.class);
         bindService(mIntent,mConnection, BIND_AUTO_CREATE);
 
-        standardGoldTeachFragment();
+        if(!IS_SCEDULED_SESSION)
+            standardGoldTeachFragment();
+        else {
+            repository.getAllSceduledSessionsList(patientid);
+            repository.setOnSceduledSessionResponse(new MqttSyncRepository.onSceduledSesssionResponse() {
+                @Override
+                public void onResponse(List<SceduledSession> session) {
+                    sessions = session;
+                    total_sceduled_size = session.get(session.size()-1).getSessionno();
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(session!=null && session.size()>0)
+                                standardGoldTeachFragment();
+                            else {
+                                Intent i = new Intent(MonitorActivity.this, PatientsView.class);
+                                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                                startActivity(i);
+                            }
+                        }
+                    });
+                }
+            });
+        }
 
     }
 
@@ -274,7 +313,9 @@ public class MonitorActivity extends AppCompatActivity implements PopupMenu.OnMe
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
+        IS_SCEDULED_SESSION = false;
+        IS_SCEDULED_SESSIONS_COMPLETED = false;
+        IS_SESSION_SCEDULED_ON = "";
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
@@ -285,6 +326,8 @@ public class MonitorActivity extends AppCompatActivity implements PopupMenu.OnMe
         if(isBound){
             unbindService(mConnection);
         }
+        repository.setOnSceduledSessionResponse(null);
+        super.onDestroy();
     }
 
     @Override
@@ -318,5 +361,74 @@ public class MonitorActivity extends AppCompatActivity implements PopupMenu.OnMe
         if(mService!=null){
             mService.gerDeviceBasicInfo();
         }
+    }
+
+    public boolean isSceduledSessionsCompleted(){
+        if(sessions!=null){
+            if(sessions.size()>0){
+                return false;
+            }else {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public SceduledSession getSceduledSessionListFirstItem(){
+        if(sessions!=null){
+            if(sessions.size()>0){
+                return sessions.get(0);
+            }else {
+                return null;
+            }
+        }
+        return null;
+    }
+
+    public int getSceduledSize() {
+        if(sessions!=null){
+            return sessions.size();
+        }
+        return 0;
+    }
+
+    public void removeFirstFromSceduledList() {
+        if(sessions!=null && sessions.size()>0){
+            repository.removeSceduledSessionFromDatabase(patientid,sessions.get(0).getSessionno());
+            sessions.remove(0);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(IS_SCEDULED_SESSION){
+            if(IS_SCEDULED_SESSIONS_COMPLETED){
+                Intent i = new Intent(MonitorActivity.this, PatientsView.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(i);
+            }
+        }
+        super.onBackPressed();
+    }
+
+    public void sceduledSessionsHasBeenCompletedDialog() {
+        AlertDialog.Builder sesssionsCompleted = new AlertDialog.Builder(this);
+        sesssionsCompleted.setTitle("Sessions Completed");
+        sesssionsCompleted.setMessage("All the sceduled sessions has been completed. Would you like to end or continue?");
+        sesssionsCompleted.setPositiveButton("End", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent i = new Intent(MonitorActivity.this, PatientsView.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(i);
+            }
+        });
+
+        sesssionsCompleted.setNegativeButton("Continue", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        sesssionsCompleted.show();
     }
 }

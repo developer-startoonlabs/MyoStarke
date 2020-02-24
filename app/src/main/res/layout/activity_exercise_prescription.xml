@@ -1,0 +1,69 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context="com.startoonlabs.apps.pheezee.activities.AppInfo">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/my_toolbar_bodypart"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentStart="true"
+        app:elevation="5dp"
+        android:elevation="5dp"
+        android:background="@color/white_opaque"
+        tools:ignore="ObsoleteLayoutParam">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="2dp"
+                android:id="@+id/iv_back_exercise_prescription"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                android:src="@drawable/green_back_arrow"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/exercise_prescription"
+                android:textSize="20dp"
+                android:textColor="@color/good_green"
+                android:layout_gravity="center"
+                android:paddingStart="25dp"/>
+        </LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:background="@color/progress_gray_trans"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/exercise_prescription_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:nestedScrollingEnabled="false"
+            android:paddingBottom="@dimen/bodypart_list_padding_bottom"
+            android:scrollbars="vertical"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btn_confirm_exercise_prescription"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_heigt_done"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="0dp"
+            android:background="@drawable/round_same_buttons"
+            android:text="@string/btn_confirm_exercise_prescription"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

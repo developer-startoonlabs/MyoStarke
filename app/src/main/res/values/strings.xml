@@ -402,4 +402,10 @@
     <string name="calibration_movement_instruction">Please move the Pheezee device as shown below.</string>
     <string name="pheezee_calibration"><b>Pheezee Calibration</b></string>
     <string name="clibrating_status">Clibrating...</string>
+
+<!--    Exercises Prescription Related-->
+    <string name="exercise_prescription">Exercise Prescription</string>
+    <string name="body_part_images">Body part images</string>
+    <string name="l_elbow_flexion_demo_exercise_prescription">L. Elbow Flexion</string>
+    <string name="btn_confirm_exercise_prescription">Confirm</string>
 </resources>

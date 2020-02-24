@@ -19,6 +19,7 @@ import com.startoonlabs.apps.pheezee.pojos.HealthData;
 import com.startoonlabs.apps.pheezee.pojos.LoginData;
 import com.startoonlabs.apps.pheezee.pojos.LoginResult;
 import com.startoonlabs.apps.pheezee.pojos.MmtData;
+import com.startoonlabs.apps.pheezee.pojos.MobileToken;
 import com.startoonlabs.apps.pheezee.pojos.PatientDetailsData;
 import com.startoonlabs.apps.pheezee.pojos.PatientImageData;
 import com.startoonlabs.apps.pheezee.pojos.PatientImageUploadResponse;
@@ -126,5 +127,8 @@ public interface GetDataService {
 
     @POST("/api/get/device/status")
     Call<DeviceDeactivationStatusResponse> getDeviceStatus(@Body DeviceDeactivationStatus status);
+
+    @POST("/api/phizio/device/mobileToken")
+    Call<Boolean> sendMobileTokenToTheServer(@Body MobileToken token);
 
 }

@@ -1,5 +1,9 @@
 package com.startoonlabs.apps.pheezee.utils;
 
+import android.content.Context;
+
+import com.startoonlabs.apps.pheezee.R;
+
 public class MuscleOperation {
     private final static String[][] musle_names = {
             {"Select Muscle*", "Biceps", "Brachialis (deep)","Brachioradialis", "Tricep", "Anconeus", "Others"},//elbow
@@ -61,6 +65,41 @@ public class MuscleOperation {
 
     public static String[] getExerciseNames(int postion){
         return exercise_names[postion];
+    }
+
+
+    public static int getMusclePosition(String musclename, int bodypart){
+        int muscle_index = 1;
+        for (int i=0;i<musle_names[bodypart].length;i++){
+            if(musclename.equalsIgnoreCase(musle_names[bodypart][i])){
+                muscle_index = i;
+                break;
+            }
+        }
+        return muscle_index;
+    }
+
+    public static int getExercisePosition(String exercisename, int bodypart){
+        int exercise_index = 1;
+        for (int i=0;i<exercise_names[bodypart].length;i++){
+            if(exercisename.equalsIgnoreCase(exercise_names[bodypart][i])){
+                exercise_index = i;
+                break;
+            }
+        }
+        return exercise_index;
+    }
+
+    public static int getBodypartPosition(String bodypart, Context context){
+        String string_array_bodypart[] = context.getResources().getStringArray(R.array.bodyPartName);
+        int body_part_position = string_array_bodypart.length-1;
+        for (int i=0;i<string_array_bodypart.length;i++){
+            if(bodypart.equalsIgnoreCase(string_array_bodypart[i])){
+                body_part_position = i;
+                break;
+            }
+        }
+        return body_part_position;
     }
 
 }

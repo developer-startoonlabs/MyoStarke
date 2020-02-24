@@ -30,6 +30,8 @@ import androidx.core.content.FileProvider;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.startoonlabs.apps.pheezee.R;
+import com.startoonlabs.apps.pheezee.activities.MonitorActivity;
+import com.startoonlabs.apps.pheezee.activities.PatientsView;
 import com.startoonlabs.apps.pheezee.activities.SessionReportActivity;
 import com.startoonlabs.apps.pheezee.pojos.DeleteSessionData;
 import com.startoonlabs.apps.pheezee.pojos.MmtData;
@@ -51,6 +53,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+
+import static com.startoonlabs.apps.pheezee.activities.MonitorActivity.IS_SCEDULED_SESSION;
+import static com.startoonlabs.apps.pheezee.activities.MonitorActivity.IS_SCEDULED_SESSIONS_COMPLETED;
 
 public class SessionSummaryPopupWindow {
     private String mqtt_delete_pateint_session = "phizio/patient/deletepatient/sesssion";
@@ -161,7 +166,11 @@ public class SessionSummaryPopupWindow {
         //Emg Progress Bar
         ProgressBar pb_max_emg = layout.findViewById(R.id.progress_max_emg);
 
-
+        if(IS_SCEDULED_SESSION && !IS_SCEDULED_SESSIONS_COMPLETED){
+            ll_click_to_view_report.setVisibility(View.GONE);
+        }else {
+            ll_click_to_view_report.setVisibility(View.VISIBLE);
+        }
 
 
         rg_session_type.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -349,6 +358,13 @@ public class SessionSummaryPopupWindow {
                 }else {
                     tv_confirm.setText("Confirm Session");
                     report.dismiss();
+                    if(IS_SCEDULED_SESSION){
+                        if(IS_SCEDULED_SESSIONS_COMPLETED){
+                            Intent i = new Intent(context, PatientsView.class);
+                            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                            context.startActivity(i);
+                        }
+                    }
                     ((Activity)context).finish();
                 }
             }
@@ -375,6 +391,16 @@ public class SessionSummaryPopupWindow {
                 }else {
                     report.dismiss();
                     ((Activity)context).finish();
+                }
+            }
+        });
+
+        report.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                if(IS_SCEDULED_SESSIONS_COMPLETED) {
+                    if(context!=null)
+                        ((MonitorActivity) context).sceduledSessionsHasBeenCompletedDialog();
                 }
             }
         });

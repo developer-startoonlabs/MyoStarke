@@ -69,6 +69,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
@@ -98,6 +99,7 @@ import com.startoonlabs.apps.pheezee.utils.BitmapOperations;
 import com.startoonlabs.apps.pheezee.utils.DeviceErrorCodesAndDialogs;
 import com.startoonlabs.apps.pheezee.utils.NetworkOperations;
 import com.startoonlabs.apps.pheezee.utils.PackageOperations;
+import com.startoonlabs.apps.pheezee.utils.PackageTypes;
 import com.startoonlabs.apps.pheezee.utils.RegexOperations;
 
 import org.json.JSONException;
@@ -111,6 +113,8 @@ import java.util.Objects;
 import static com.startoonlabs.apps.pheezee.services.OtaMessagingService.CHANNEL_ID;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.health_error_present_in_device;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.show_device_health_error;
+import static com.startoonlabs.apps.pheezee.utils.PackageTypes.GOLD_PACKAGE;
+import static com.startoonlabs.apps.pheezee.utils.PackageTypes.NUMBER_OF_PATIENTS_THAT_CAN_BE_ADDED;
 import static com.startoonlabs.apps.pheezee.utils.PackageTypes.STANDARD_PACKAGE;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.battery_percent;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.bluetooth_state;
@@ -127,6 +131,7 @@ import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.jobid_loc
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.jobid_user_connected_update;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.scedule_device_status_service;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.usb_state;
+import static com.startoonlabs.apps.pheezee.utils.PackageTypes.TEACH_PACKAGE;
 
 public class PatientsView extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -527,6 +532,10 @@ public class PatientsView extends AppCompatActivity
             json_phizio = new JSONObject(sharedPref.getString("phiziodetails", ""));
             json_phizioemail = json_phizio.getString("phizioemail");
             phizio_packagetype = json_phizio.getInt("packagetype");
+
+            if(NetworkOperations.isNetworkAvailable(this)){
+                repository.sendFirebaseTopkenToTheServer(json_phizioemail, FirebaseInstanceId.getInstance().getToken());
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -676,18 +685,22 @@ public class PatientsView extends AppCompatActivity
 
     private void initiatePopupWindow() {
         if(phizio_packagetype!=STANDARD_PACKAGE) {
-            AddPatientPopUpWindow patientPopUpWindow = new AddPatientPopUpWindow(this, json_phizioemail);
-            patientPopUpWindow.openAddPatientPopUpWindow();
-            patientPopUpWindow.setOnClickListner(new AddPatientPopUpWindow.onClickListner() {
-                @Override
-                public void onAddPatientClickListner(PhizioPatients patient, PatientDetailsData data, boolean isvalid) {
-                    if (isvalid) {
-                        repository.insertPatient(patient, data);
-                    } else {
-                        showToast("Invalid Input!!");
+            if(mAdapter.getItemCount()<=NUMBER_OF_PATIENTS_THAT_CAN_BE_ADDED|| phizio_packagetype==GOLD_PACKAGE || phizio_packagetype==TEACH_PACKAGE) {
+                AddPatientPopUpWindow patientPopUpWindow = new AddPatientPopUpWindow(this, json_phizioemail);
+                patientPopUpWindow.openAddPatientPopUpWindow();
+                patientPopUpWindow.setOnClickListner(new AddPatientPopUpWindow.onClickListner() {
+                    @Override
+                    public void onAddPatientClickListner(PhizioPatients patient, PatientDetailsData data, boolean isvalid) {
+                        if (isvalid) {
+                            repository.insertPatient(patient, data);
+                        } else {
+                            showToast("Invalid Input!!");
+                        }
                     }
-                }
-            });
+                });
+            }else {
+                PackageTypes.showPatientAddingReachedDialog(this);
+            }
         }else {
             try {
                 PackageOperations.featureNotAvailable(this,json_phizioemail,phizio_packagetype,json_phizio.getString("phizioname"),json_phizio.getString("phiziophone"));
@@ -1600,4 +1613,74 @@ public class PatientsView extends AppCompatActivity
         JobScheduler jobScheduler = (JobScheduler)getSystemService(JOB_SCHEDULER_SERVICE);
         jobScheduler.cancel(6);
     }
+
+
+    /**
+     *
+     * @param patient
+     */
+    public void startSceduledSession(PhizioPatients patient) {
+        myBottomSheetDialog.dismiss();
+        Intent intent = new Intent(PatientsView.this, ExercisePrescriptionActivity.class);
+        intent.putExtra("deviceMacAddress", sharedPref.getString("deviceMacaddress", ""));
+        intent.putExtra("patientId", patient.getPatientid());
+        intent.putExtra("patientName", patient.getPatientname());
+        intent.putExtra("dateofjoin",patient.getDateofjoin());
+        if (Objects.requireNonNull(sharedPref.getString("deviceMacaddress", "")).equals("") && !mDeviceState) {
+            Toast.makeText(this, "First add pheezee to your application", Toast.LENGTH_LONG).show();
+        } else if (!(iv_device_connected.getVisibility()==View.VISIBLE)  ) {
+            Toast.makeText(this, "Make sure that the pheezee is on", Toast.LENGTH_LONG).show();
+        }
+        else {
+            if(deviceBatteryPercent<15){
+                String message = BatteryOperation.getDialogMessageForLowBattery(deviceBatteryPercent,this);
+                final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Battery Low");
+                builder.setMessage(message);
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(intent);
+                    }
+                });
+                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which){
+                    }
+                });
+                builder.show();
+            }
+            else {
+                boolean flag = true;
+                if(firmware_version[0]<1){
+                    flag = false;
+                }else if(firmware_version[1]<11 && firmware_version[0]<=1){
+                    flag = false;
+                }else if(firmware_version[2]<4 && firmware_version[1]<=11) {
+                    flag = false;
+                }else{
+                    flag = true;
+                }
+
+                if(!flag){
+                    NetworkOperations.firmwareVirsionNotCompatible(this);
+                }else {
+                    if(!mDeviceDeactivated && !mDeviceHealthError)
+                        startActivity(intent);
+                    else {
+                        if(mDeviceDeactivated)
+                            showDeviceDeactivatedDialog();
+                        else {
+                            if(mService!=null) {
+                                DeviceErrorCodesAndDialogs.showDeviceErrorDialog(mService.getHealthErrorString(), this);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
+
 }

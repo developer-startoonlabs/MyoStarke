@@ -35,8 +35,8 @@ import java.util.List;
  */
 public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRecyclerViewAdapter.ViewHolder> {
 
-    private List<PhizioPatients> patientsListData;
-    private List<PhizioPatients> updatedPatientList;
+    private List<PhizioPatients> patientsListData = new ArrayList<>();
+    private List<PhizioPatients> updatedPatientList = new ArrayList<>();
     private Context context;
     private JSONObject object;
     private SharedPreferences preferences;
@@ -85,21 +85,20 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
     }
 
     public void setNotes(List<PhizioPatients> notes){
-        if (patientsListData != null && updatedPatientList!=null) {
-            PostDiffCallback postDiffCallback = new PostDiffCallback(patientsListData, notes);
-            DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(postDiffCallback);
-
-            patientsListData.clear();
-            updatedPatientList.clear();
-            patientsListData.addAll(notes);
-            patientsListData.addAll(notes);
-            diffResult.dispatchUpdatesTo(this);
-        } else {
-            // first initialization
-            this.patientsListData = notes;
+//        if(this.updatedPatientList.size()!=notes.size()){
             this.updatedPatientList = notes;
-        }
-//        notifyDataSetChanged();
+            this.patientsListData = notes;
+            notifyDataSetChanged();
+//        }else {
+//            PostDiffCallback postDiffCallback = new PostDiffCallback(this.updatedPatientList, notes);
+//            DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(postDiffCallback);
+//
+//            this.patientsListData.clear();
+//            this.updatedPatientList.clear();
+//            this.updatedPatientList.addAll(notes);
+//            this.patientsListData.addAll(notes);
+//            diffResult.dispatchUpdatesTo(this);
+//        }
     }
 
     @NonNull
@@ -196,7 +195,7 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return patientsListData==null?0:updatedPatientList.size();
+        return patientsListData==null?0:patientsListData.size();
     }
 
     public interface onItemClickListner{
@@ -230,12 +229,23 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
 
         @Override
         public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-            return oldPosts.get(oldItemPosition).getPatientid() == newPosts.get(newItemPosition).getPatientid();
+            return oldPosts.get(oldItemPosition).getPatientid().equals(newPosts.get(newItemPosition).getPatientid());
         }
 
         @Override
         public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-            return oldPosts.get(oldItemPosition).equals(newPosts.get(newItemPosition));
+            return (oldPosts.get(oldItemPosition).isSceduled()==newPosts.get(newItemPosition).isSceduled()) &&
+                    (oldPosts.get(oldItemPosition).getDateofjoin().equals(newPosts.get(newItemPosition).getDateofjoin())) &&
+                    (oldPosts.get(oldItemPosition).getPatientcasedes().equals(newPosts.get(newItemPosition).getPatientcasedes())) &&
+                    (oldPosts.get(oldItemPosition).getPatientage().equals(newPosts.get(newItemPosition).getPatientage())) &&
+                    (oldPosts.get(oldItemPosition).getPatientname().equals(newPosts.get(newItemPosition).getPatientname())) &&
+                    (oldPosts.get(oldItemPosition).getPatientgender().equals(newPosts.get(newItemPosition).getPatientgender()));
+        }
+
+        @Override
+        public Object getChangePayload(int oldItemPosition, int newItemPosition) {
+            // Implement method if you're going to use ItemAnimator
+            return super.getChangePayload(oldItemPosition, newItemPosition);
         }
     }
 }
