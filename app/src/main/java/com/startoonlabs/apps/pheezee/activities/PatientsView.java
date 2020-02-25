@@ -94,6 +94,7 @@ import com.startoonlabs.apps.pheezee.services.HealthUpdatePresentService;
 import com.startoonlabs.apps.pheezee.services.PheezeeBleService;
 import com.startoonlabs.apps.pheezee.services.PicassoCircleTransformation;
 import com.startoonlabs.apps.pheezee.services.Scanner;
+import com.startoonlabs.apps.pheezee.services.SyncDataToTheServerService;
 import com.startoonlabs.apps.pheezee.utils.BatteryOperation;
 import com.startoonlabs.apps.pheezee.utils.BitmapOperations;
 import com.startoonlabs.apps.pheezee.utils.DeviceErrorCodesAndDialogs;
@@ -112,6 +113,7 @@ import java.util.Objects;
 
 import static com.startoonlabs.apps.pheezee.services.OtaMessagingService.CHANNEL_ID;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.health_error_present_in_device;
+import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.jobid_sync_data_to_server;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.show_device_health_error;
 import static com.startoonlabs.apps.pheezee.utils.PackageTypes.GOLD_PACKAGE;
 import static com.startoonlabs.apps.pheezee.utils.PackageTypes.NUMBER_OF_PATIENTS_THAT_CAN_BE_ADDED;
@@ -204,6 +206,18 @@ public class PatientsView extends AppCompatActivity
         chekHealthStatusLogPresentAndSrartService();
         registerFirmwareUpdateReceiver();
         subscribeFirebaseFirmwareUpdateTopic();
+        checkAndSyncDataToTheServer();
+    }
+
+    private void checkAndSyncDataToTheServer() {
+        ComponentName componentName = new ComponentName(this, SyncDataToTheServerService.class);
+        JobInfo.Builder info = new JobInfo.Builder(jobid_sync_data_to_server,componentName);
+        info.setMinimumLatency(1000);
+        info.setOverrideDeadline(3000);
+        info.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY);
+        info.setRequiresCharging(false);
+        JobScheduler jobScheduler = (JobScheduler)getSystemService(JOB_SCHEDULER_SERVICE);
+        jobScheduler.schedule(info.build());
     }
 
     private boolean checkLocationEnabled() {
@@ -506,6 +520,7 @@ public class PatientsView extends AppCompatActivity
                             if (mqttSyncs != null && mqttSyncs > 0) {
                                 iv_sync_not_available.setVisibility(View.GONE);
                                 iv_sync_data.setVisibility(View.VISIBLE);
+                                checkAndSyncDataToTheServer();
                             } else {
                                 iv_sync_data.setVisibility(View.GONE);
                                 iv_sync_not_available.setVisibility(View.VISIBLE);
@@ -1317,6 +1332,8 @@ public class PatientsView extends AppCompatActivity
                     mDeviceState = true;
                     pheezeeConnected();
                 }else {
+                    mDeviceHealthError = false;
+                    mDeviceDeactivated = false;
                     mDeviceState = false;
                     pheezeeDisconnected();
                     battery_bar.setProgress(0);
@@ -1326,6 +1343,9 @@ public class PatientsView extends AppCompatActivity
                 if(ble_state){
                     bluetoothConnected();
                 }else {
+                    mDeviceHealthError = false;
+                    mDeviceDeactivated = false;
+                    mDeviceState = false;
                     bluetoothDisconnected();
                 }
             }else if(action.equalsIgnoreCase(usb_state)){

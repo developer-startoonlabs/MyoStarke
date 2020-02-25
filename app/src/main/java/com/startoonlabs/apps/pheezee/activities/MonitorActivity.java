@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,6 +17,8 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -48,6 +51,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
+import java.util.Locale;
 
 import static com.startoonlabs.apps.pheezee.utils.PackageTypes.ACHEDAMIC_TEACH_PLUS;
 import static com.startoonlabs.apps.pheezee.utils.PackageTypes.GOLD_PLUS_PACKAGE;
@@ -78,6 +82,7 @@ public class MonitorActivity extends AppCompatActivity implements PopupMenu.OnMe
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     MqttSyncRepository repository;
+    private TextToSpeech mTTS;
 
     @SuppressLint({"ClickableViewAccessibility", "SetTextI18n"})
     @Override
@@ -145,6 +150,26 @@ public class MonitorActivity extends AppCompatActivity implements PopupMenu.OnMe
             startBleRequest();
         }
 
+        mTTS = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status==TextToSpeech.SUCCESS){
+                    int result = mTTS.setLanguage(Locale.US);
+
+                    if(result==TextToSpeech.LANG_MISSING_DATA || result==TextToSpeech.LANG_NOT_SUPPORTED){
+                        mTTS = null;
+                    }else {
+                        try {
+                            mTTS.setPitch(Settings.Secure.getInt(getContentResolver(), Settings.Secure.TTS_DEFAULT_PITCH));
+                            mTTS.setSpeechRate(Settings.Secure.getInt(getContentResolver(), Settings.Secure.TTS_DEFAULT_RATE));
+                        } catch (Settings.SettingNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        });
+
         Intent mIntent = new Intent(this, PheezeeBleService.class);
         bindService(mIntent,mConnection, BIND_AUTO_CREATE);
 
@@ -166,6 +191,7 @@ public class MonitorActivity extends AppCompatActivity implements PopupMenu.OnMe
                                 Intent i = new Intent(MonitorActivity.this, PatientsView.class);
                                 i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                                 startActivity(i);
+                                repository.removeAllSessionsForPataient(patientid);
                             }
                         }
                     });
@@ -430,5 +456,11 @@ public class MonitorActivity extends AppCompatActivity implements PopupMenu.OnMe
             }
         });
         sesssionsCompleted.show();
+    }
+
+    public void textToSpeachVoice(String message){
+        if(mTTS!=null){
+            mTTS.speak(message,TextToSpeech.QUEUE_FLUSH,null);
+        }
     }
 }

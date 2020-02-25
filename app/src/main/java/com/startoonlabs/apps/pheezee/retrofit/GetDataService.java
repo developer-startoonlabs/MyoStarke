@@ -27,6 +27,7 @@ import com.startoonlabs.apps.pheezee.pojos.PatientStatusData;
 import com.startoonlabs.apps.pheezee.pojos.PhizioDetailsData;
 import com.startoonlabs.apps.pheezee.pojos.PhizioEmailData;
 import com.startoonlabs.apps.pheezee.pojos.ResponseData;
+import com.startoonlabs.apps.pheezee.pojos.SceduledSessionNotSaved;
 import com.startoonlabs.apps.pheezee.pojos.SessionData;
 import com.startoonlabs.apps.pheezee.pojos.SignUpData;
 import com.startoonlabs.apps.pheezee.pojos.SignupDataResponse;
@@ -130,5 +131,8 @@ public interface GetDataService {
 
     @POST("/api/phizio/device/mobileToken")
     Call<Boolean> sendMobileTokenToTheServer(@Body MobileToken token);
+
+    @POST("/api/sceduled/session/not/saved")
+    Call<Boolean> sendSceduledSessionNotSaved(@Body SceduledSessionNotSaved sceduledSessionNotSaved);
 
 }

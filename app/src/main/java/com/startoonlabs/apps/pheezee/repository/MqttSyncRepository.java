@@ -42,6 +42,7 @@ import com.startoonlabs.apps.pheezee.pojos.PatientStatusData;
 import com.startoonlabs.apps.pheezee.pojos.PhizioDetailsData;
 import com.startoonlabs.apps.pheezee.pojos.PhizioEmailData;
 import com.startoonlabs.apps.pheezee.pojos.ResponseData;
+import com.startoonlabs.apps.pheezee.pojos.SceduledSessionNotSaved;
 import com.startoonlabs.apps.pheezee.pojos.SessionData;
 import com.startoonlabs.apps.pheezee.pojos.SignUpData;
 import com.startoonlabs.apps.pheezee.pojos.SignupDataResponse;
@@ -1521,7 +1522,12 @@ public class MqttSyncRepository {
         @Override
         protected void onPostExecute(List<MqttSync> mqttSyncs) {
             super.onPostExecute(mqttSyncs);
-            startSync(mqttSyncs);
+            if(mqttSyncs.size()>0) {
+                startSync(mqttSyncs);
+                if(listner!=null){
+                    listner.onSyncComplete(true,"Already Upto date!");
+                }
+            }
         }
     }
 
@@ -1741,6 +1747,42 @@ public class MqttSyncRepository {
                         Log.d("Token","Mobile token has not been updated!");
                     }
                 });
+            }
+        });
+    }
+
+    public void sceduledSessionNotSaved( String patientid){
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                JSONObject json_phizio = null;
+                try {
+                    json_phizio = new JSONObject(sharedPref.getString("phiziodetails", ""));
+                    String json_phizioemail = json_phizio.getString("phizioemail");
+                    SceduledSessionNotSaved sceduledSessionNotSaved = new SceduledSessionNotSaved(json_phizioemail,patientid);
+                    Call<Boolean> call = getDataService.sendSceduledSessionNotSaved(sceduledSessionNotSaved);
+                    call.enqueue(new Callback<Boolean>() {
+                        @Override
+                        public void onResponse(@NonNull Call<Boolean> call, @NonNull Response<Boolean> response) {
+                            if (response.code() == 200) {
+                                boolean b = response.body();
+                                if (b) {
+                                    Log.d("Session","Not Saved");
+                                } else {
+                                    Log.d("Session","Error");
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(@NonNull Call<Boolean> call, @NonNull Throwable t) {
+                            Log.d("Session","Failure");
+                        }
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
             }
         });
     }

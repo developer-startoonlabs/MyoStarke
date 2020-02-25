@@ -41,6 +41,11 @@
         <service
             android:name=".services.FirmwareLogService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <service
+            android:name=".services.SyncDataToTheServerService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
         <service
             android:name=".services.FirmwareUpdatePresentService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
@@ -184,7 +189,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity android:name=".activities.ExercisePrescriptionActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

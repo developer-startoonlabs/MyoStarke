@@ -51,9 +51,11 @@ public class OtaMessagingService extends FirebaseMessagingService {
                 try {
                     JSONObject object_remote_message = new JSONObject(remoteMessage.getData());
                     if (object_remote_message.has("type") && object_remote_message.getString("type").equalsIgnoreCase("1")) {
-                        if(!IS_SESSION_SCEDULED_ON.equalsIgnoreCase(remoteMessage.getData().get("patientid"))) {
+                        if(object_remote_message.has("patientid") && !IS_SESSION_SCEDULED_ON.equalsIgnoreCase(remoteMessage.getData().get("patientid")) ) {
                             showNotifications(object_remote_message.getString("title"), remoteMessage.getData().get("patientid"), object_remote_message.getString("patientname"), this);
                             insetTheSceduledSessionDetailsInBackground(object_remote_message);
+                        }else {
+                            repository.sceduledSessionNotSaved(object_remote_message.getString("patientid"));
                         }
                     }
 

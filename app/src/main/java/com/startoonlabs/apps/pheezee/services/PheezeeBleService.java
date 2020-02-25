@@ -108,6 +108,7 @@ public class PheezeeBleService extends Service {
     public static int jobid_device_details_update = 4;
     public static int jobid_user_connected_update = 5;
     public static int jobid_device_status = 6;
+    public static int jobid_sync_data_to_server = 6;
 
 
 

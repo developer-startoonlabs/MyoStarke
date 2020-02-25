@@ -591,6 +591,11 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
             repository.getPatientSessionNo(patientid);
 
         tv_body_part.setText(session.getSessionno()+"/"+total_sceduled_size+":-"+orientation + "-" + bodypart + "-" + str_exercise_name);
+        if (repsselected!= 0) {
+            tv_repsselected.setText("/".concat(String.valueOf(repsselected)));
+        } else {
+            tv_repsselected.setVisibility(View.GONE);
+        }
     }
 
     /**
@@ -771,6 +776,9 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
             Seconds = Seconds % 60;
             timeText = "Session time:   " + String.format("%02d", Minutes) + " : " + String.format("%02d", Seconds);
             time.setText(timeText);
+            if(Seconds==59){
+                ((MonitorActivity)getActivity()).textToSpeachVoice("Good! Keep Going!");
+            }
             handler.postDelayed(this, 0);
         }
     };
