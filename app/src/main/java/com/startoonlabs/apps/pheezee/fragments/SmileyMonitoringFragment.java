@@ -52,6 +52,7 @@ import com.startoonlabs.apps.pheezee.utils.AngleOperations;
 import com.startoonlabs.apps.pheezee.utils.BatteryOperation;
 import com.startoonlabs.apps.pheezee.utils.ByteToArrayOperations;
 import com.startoonlabs.apps.pheezee.utils.MuscleOperation;
+import com.startoonlabs.apps.pheezee.utils.ValueBasedColorOperations;
 import com.startoonlabs.apps.smileyprogressbar.SmileyArcView;
 
 import org.json.JSONArray;
@@ -73,6 +74,7 @@ import static com.startoonlabs.apps.pheezee.activities.MonitorActivity.IS_SCEDUL
 import static com.startoonlabs.apps.pheezee.activities.MonitorActivity.IS_SCEDULED_SESSIONS_COMPLETED;
 import static com.startoonlabs.apps.pheezee.activities.MonitorActivity.total_sceduled_size;
 import static com.startoonlabs.apps.pheezee.utils.PackageTypes.ACHEDAMIC_TEACH_PLUS;
+import static com.startoonlabs.apps.pheezee.utils.PackageTypes.GOLD_PACKAGE;
 import static com.startoonlabs.apps.pheezee.utils.PackageTypes.GOLD_PLUS_PACKAGE;
 import static com.startoonlabs.apps.pheezee.utils.PackageTypes.PERCENTAGE_TEXT_TO_SPEACH_EMG_PEAK;
 import static com.startoonlabs.apps.pheezee.utils.PackageTypes.STANDARD_PACKAGE;
@@ -90,6 +92,7 @@ import static com.startoonlabs.apps.pheezee.utils.ValueBasedColorOperations.SMIL
  * A simple {@link Fragment} subclass.
  */
 public class SmileyMonitoringFragment extends Fragment implements MqttSyncRepository.GetSessionNumberResponse {
+    private boolean can_beep = false, can_voice = false;
     private int live_sceduled_size = 0;
     private int phizio_packagetype = 0;
     private int peakSpeachComdition = 0;
@@ -432,6 +435,18 @@ public class SmileyMonitoringFragment extends Fragment implements MqttSyncReposi
 
         tv_body_part.setText(tv_body_part.getText().toString().concat(bodypart));
         tv_body_part.setText(orientation + "-" + bodypart + "-" + str_exercise_name);
+        if(phizio_packagetype==STANDARD_PACKAGE || phizio_packagetype==GOLD_PACKAGE || phizio_packagetype==TEACH_PACKAGE){
+            can_beep = true;
+        }else {
+            if((Integer.parseInt(str_min_angle_selected)!=ValueBasedColorOperations.getBodyPartMinValue(bodypart_position,exercise_position))
+            ||(Integer.parseInt(str_max_angle_selected)!=ValueBasedColorOperations.getBodyPartMaxValue(bodypart_position,exercise_position))){
+                can_beep = true;
+                can_voice = false;
+            }else {
+                can_beep = false;
+                can_voice = true;
+            }
+        }
 
 //        Log.d("SEQUENCE",bodyorientation+" "+body_orientation+" "+bodypart+" "+orientation+" "+str_body_orientation+" "+str_exercise_name+" "+
 //                str_muscle_name+" "+str_max_emg_selected+" "+str_max_angle_selected+" "+str_min_angle_selected+" "+exercise_position+" "+bodypart_position+" "+
@@ -490,6 +505,19 @@ public class SmileyMonitoringFragment extends Fragment implements MqttSyncReposi
             repository.getPatientSessionNo(patientid);
 
         tv_body_part.setText(session.getSessionno()+"/"+ total_sceduled_size +":-"+orientation + "-" + bodypart + "-" + str_exercise_name);
+
+        if(phizio_packagetype==STANDARD_PACKAGE || phizio_packagetype==GOLD_PACKAGE || phizio_packagetype==TEACH_PACKAGE){
+            can_beep = true;
+        }else {
+            if((Integer.parseInt(str_min_angle_selected)!=ValueBasedColorOperations.getBodyPartMinValue(bodypart_position,exercise_position))
+                    ||(Integer.parseInt(str_max_angle_selected)!=ValueBasedColorOperations.getBodyPartMaxValue(bodypart_position,exercise_position))){
+                can_beep = true;
+                can_voice = false;
+            }else {
+                can_beep = false;
+                can_voice = true;
+            }
+        }
     }
 
     /**
@@ -664,7 +692,8 @@ public class SmileyMonitoringFragment extends Fragment implements MqttSyncReposi
             str_time = timeText;
             if(phizio_packagetype==GOLD_PLUS_PACKAGE || phizio_packagetype==ACHEDAMIC_TEACH_PLUS) {
                 if (Seconds == 59) {
-                    ((MonitorActivity) getActivity()).textToSpeachVoice("Good! Keep Going!");
+                    if(can_voice)
+                        ((MonitorActivity) getActivity()).textToSpeachVoice("Good! Keep Going!");
                 }
             }
             handler.postDelayed(this, 0);
@@ -721,7 +750,7 @@ public class SmileyMonitoringFragment extends Fragment implements MqttSyncReposi
                                 if (hold_time_seconds == 0 && hold_time_minutes == 0) {
                                     can_talk = true;
                                 } else if (hold_time_minutes > 0 || hold_time_seconds > 5) {
-                                    if (can_talk) {
+                                    if (can_talk && can_voice) {
                                         ((MonitorActivity) getActivity()).textToSpeachVoice("Good! You are able to hold!");
                                         can_talk = false;
                                     }
@@ -801,7 +830,7 @@ public class SmileyMonitoringFragment extends Fragment implements MqttSyncReposi
                             //Beep
                             if (!str_max_angle_selected.equals("")) {
                                 int x = Integer.parseInt(str_max_angle_selected);
-                                if (angleDetected > x && can_beeep_max) {
+                                if (angleDetected > x && can_beeep_max && can_beep) {
                                     new Handler().post(new Runnable() {
                                         @Override
                                         public void run() {
@@ -819,7 +848,7 @@ public class SmileyMonitoringFragment extends Fragment implements MqttSyncReposi
 
                             if (!str_min_angle_selected.equals("")) {
                                 int x = Integer.parseInt(str_min_angle_selected);
-                                if (angleDetected <= x && can_beep_min) {
+                                if (angleDetected <= x && can_beep_min && can_beep) {
                                     new Handler().post(new Runnable() {
                                         @Override
                                         public void run() {
@@ -1132,7 +1161,7 @@ public class SmileyMonitoringFragment extends Fragment implements MqttSyncReposi
                             if((emg-emgPeakList.get(current_emg_peak_index).getInitValue())<=10 || (emg-emgPeakList.get(current_emg_peak_index).getInitValue())>=10){
                                 emgPeakList.get(current_emg_peak_index).setFinal_value(emg);
                                 emgPeakList.get(current_emg_peak_index).setPeak_done(true);
-                                if(emgPeakList.get(current_emg_peak_index).getMax_emg_value()<peakSpeachComdition){
+                                if(emgPeakList.get(current_emg_peak_index).getMax_emg_value()<peakSpeachComdition && can_voice){
                                     ((MonitorActivity)getActivity()).textToSpeachVoice("You are trying hard! Keep trying!");
                                 }
                                 current_emg_peak_index++;
@@ -1150,7 +1179,7 @@ public class SmileyMonitoringFragment extends Fragment implements MqttSyncReposi
                         if((emg-emgPeakList.get(current_emg_peak_index).getInitValue())<=10 || (emg-emgPeakList.get(current_emg_peak_index).getInitValue())>=10){
                             emgPeakList.get(current_emg_peak_index).setFinal_value(emg);
                             emgPeakList.get(current_emg_peak_index).setPeak_done(true);
-                            if(emgPeakList.get(current_emg_peak_index).getMax_emg_value()<peakSpeachComdition){
+                            if(emgPeakList.get(current_emg_peak_index).getMax_emg_value()<peakSpeachComdition && can_voice){
                                 ((MonitorActivity)getActivity()).textToSpeachVoice("You are trying hard! Keep trying!");
                             }
                             current_emg_peak_index++;

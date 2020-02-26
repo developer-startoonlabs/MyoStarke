@@ -523,6 +523,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
                     tv_calibrate_device.setVisibility(View.GONE);
                     if(dialog_calibrate!=null && dialog_calibrate.isShowing()){
                         dialog_calibrate.dismiss();
+                        dfuStatusDialog("Device Disconnected","Calibration falied, please connect the device and try again.");
                     }
                     tv_update_firmware.setVisibility(View.GONE);
                     tv_connection_status.setText("Not Connected");

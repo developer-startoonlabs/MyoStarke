@@ -2,13 +2,9 @@ package com.startoonlabs.apps.pheezee.utils;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.util.Log;
 
 import androidx.appcompat.app.AlertDialog;
-
-import com.startoonlabs.apps.pheezee.activities.DeviceInfoActivity;
-import com.startoonlabs.apps.pheezee.activities.PatientsView;
 
 public class DeviceErrorCodesAndDialogs {
     public static long UPPER_LSM_INIT = 10;

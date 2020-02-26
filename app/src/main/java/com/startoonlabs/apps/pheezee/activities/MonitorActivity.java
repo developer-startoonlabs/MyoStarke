@@ -467,8 +467,10 @@ public class MonitorActivity extends AppCompatActivity implements PopupMenu.OnMe
     public void textToSpeachVoice(String message){
         if(mTTS!=null){
             if(!currentMessageForTextToSpeach.equalsIgnoreCase(message)) {
-                mTTS.speak(message, TextToSpeech.QUEUE_FLUSH, null);
-                currentMessageForTextToSpeach = message;
+                if(!mTTS.isSpeaking()){
+                    mTTS.speak(message, TextToSpeech.QUEUE_FLUSH, null);
+                    currentMessageForTextToSpeach = message;
+                }
             }else {
                 if(!mTTS.isSpeaking()){
                     mTTS.speak(message, TextToSpeech.QUEUE_FLUSH, null);
