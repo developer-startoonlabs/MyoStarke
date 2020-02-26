@@ -1,5 +1,19 @@
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 ###############
+Version:- 2.6.0.h
+Date:- 25-02-2020
+Responsible:- Ankush
+Firmware Version(Tested With):- 1.12.7
+server version:- 1.16.0
+Hardware Version MVP_3
+description:- Bug fix:-
+                1) Session sceduling using desktop application.
+                2) Voice alerts based on different cases inside the session.
+                3) Auto sync data to the server.
+                4) Magnetometer calibration.
+
+
+###############
 Version:- 2.15.0.h
 Date:- 14-02-2020
 Responsible:- Ankush
