@@ -714,7 +714,11 @@ public class PatientsView extends AppCompatActivity
                     }
                 });
             }else {
-                PackageTypes.showPatientAddingReachedDialog(this);
+                try {
+                    PackageTypes.showPatientAddingReachedDialog(this, json_phizioemail,phizio_packagetype,json_phizio.getString("phizioname"),json_phizio.getString("phiziophone"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }else {
             try {

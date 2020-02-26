@@ -63,6 +63,8 @@ public class MonitorActivity extends AppCompatActivity implements PopupMenu.OnMe
     public static boolean IS_SCEDULED_SESSION = false;
     public static String IS_SESSION_SCEDULED_ON = "";
     private int phizio_packagetype = 0;
+    private String currentMessageForTextToSpeach = "";
+    private boolean isAlreadySceduled = false;
 
     int selected_theme = 0;
     //session inserted on server
@@ -353,6 +355,10 @@ public class MonitorActivity extends AppCompatActivity implements PopupMenu.OnMe
             unbindService(mConnection);
         }
         repository.setOnSceduledSessionResponse(null);
+        if(mTTS!=null){
+            mTTS.stop();
+            mTTS.shutdown();
+        }
         super.onDestroy();
     }
 
@@ -460,7 +466,14 @@ public class MonitorActivity extends AppCompatActivity implements PopupMenu.OnMe
 
     public void textToSpeachVoice(String message){
         if(mTTS!=null){
-            mTTS.speak(message,TextToSpeech.QUEUE_FLUSH,null);
+            if(!currentMessageForTextToSpeach.equalsIgnoreCase(message)) {
+                mTTS.speak(message, TextToSpeech.QUEUE_FLUSH, null);
+                currentMessageForTextToSpeach = message;
+            }else {
+                if(!mTTS.isSpeaking()){
+                    mTTS.speak(message, TextToSpeech.QUEUE_FLUSH, null);
+                }
+            }
         }
     }
 }

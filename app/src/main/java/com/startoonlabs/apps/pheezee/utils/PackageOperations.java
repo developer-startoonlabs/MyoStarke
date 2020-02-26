@@ -9,6 +9,12 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.startoonlabs.apps.pheezee.R;
 
+import static com.startoonlabs.apps.pheezee.utils.PackageTypes.ACHEDAMIC_TEACH_PLUS;
+import static com.startoonlabs.apps.pheezee.utils.PackageTypes.GOLD_PACKAGE;
+import static com.startoonlabs.apps.pheezee.utils.PackageTypes.GOLD_PLUS_PACKAGE;
+import static com.startoonlabs.apps.pheezee.utils.PackageTypes.STANDARD_PACKAGE;
+import static com.startoonlabs.apps.pheezee.utils.PackageTypes.TEACH_PACKAGE;
+
 public class PackageOperations {
     public static void featureNotAvailable(Context context, String phizioemail, int package_type, String phizioname, String phone){
         if(context!=null) {
@@ -37,14 +43,18 @@ public class PackageOperations {
     }
 
     private static String getPackage(int package_type) {
-        if(package_type==1){
+        if(package_type==STANDARD_PACKAGE){
             return "Standard";
-        }else if(package_type==2){
+        }else if(package_type==GOLD_PACKAGE){
             return "Gold";
-        }else if(package_type==3){
+        }else if(package_type==TEACH_PACKAGE){
+            return "Teach Package";
+        }else if(package_type==GOLD_PLUS_PACKAGE){
             return "Gold Plus";
+        }else if(package_type==ACHEDAMIC_TEACH_PLUS){
+            return "Achedamic Teach Plus";
         }else {
-            return "No package";
+            return "No Package";
         }
     }
 }

@@ -43,6 +43,7 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.activities.MonitorActivity;
 import com.startoonlabs.apps.pheezee.activities.PatientsView;
+import com.startoonlabs.apps.pheezee.classes.EmgPeak;
 import com.startoonlabs.apps.pheezee.popup.SessionSummaryPopupWindow;
 import com.startoonlabs.apps.pheezee.popup.SessionSummaryStandardPopupWindow;
 import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
@@ -51,6 +52,7 @@ import com.startoonlabs.apps.pheezee.utils.AngleOperations;
 import com.startoonlabs.apps.pheezee.utils.BatteryOperation;
 import com.startoonlabs.apps.pheezee.utils.ByteToArrayOperations;
 import com.startoonlabs.apps.pheezee.utils.MuscleOperation;
+import com.startoonlabs.apps.pheezee.utils.PackageTypes;
 import com.startoonlabs.apps.smileyprogressbar.VerticalStarProgressView;
 
 import org.json.JSONArray;
@@ -72,9 +74,11 @@ import static com.startoonlabs.apps.pheezee.activities.MonitorActivity.IS_SCEDUL
 import static com.startoonlabs.apps.pheezee.activities.MonitorActivity.IS_SCEDULED_SESSIONS_COMPLETED;
 import static com.startoonlabs.apps.pheezee.activities.MonitorActivity.total_sceduled_size;
 import static com.startoonlabs.apps.pheezee.utils.PackageTypes.ACHEDAMIC_TEACH_PLUS;
+import static com.startoonlabs.apps.pheezee.utils.PackageTypes.GOLD_PLUS_PACKAGE;
 import static com.startoonlabs.apps.pheezee.utils.PackageTypes.NUMBER_OF_STARTS;
 import static com.startoonlabs.apps.pheezee.utils.PackageTypes.NUMBER_OF_VALUES_FOR_BASE_LINE;
 import static com.startoonlabs.apps.pheezee.utils.PackageTypes.ONE_STAR_VALUE;
+import static com.startoonlabs.apps.pheezee.utils.PackageTypes.PERCENTAGE_TEXT_TO_SPEACH_EMG_PEAK;
 import static com.startoonlabs.apps.pheezee.utils.PackageTypes.SECOND_TIME_FOR_STAR;
 import static com.startoonlabs.apps.pheezee.utils.PackageTypes.STANDARD_PACKAGE;
 import static com.startoonlabs.apps.pheezee.utils.PackageTypes.TEACH_PACKAGE;
@@ -89,8 +93,11 @@ import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.usb_state
  * A simple {@link Fragment} subclass.
  */
 public class StarMonitorFragment extends Fragment implements MqttSyncRepository.GetSessionNumberResponse {
-
+    private int peakSpeachComdition = 0;
+    ArrayList<EmgPeak> emgPeakList = new ArrayList<>();
+    private int current_emg_peak_index = 0, max_emg_peak_index = 0;
     private int live_sceduled_size = 0;
+    private boolean can_talk = false;
     //Star related
     private int one_star_value = ONE_STAR_VALUE;
     private int base_value_first_10 = 0, base_value=0;
@@ -564,6 +571,8 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
 
 
     public void startSession() {
+        current_emg_peak_index=0;max_emg_peak_index=0;
+        emgPeakList = new ArrayList<>();
         base_value=0;base_value_first_10=0;one_star_value=ONE_STAR_VALUE;
         one_star_calibrated =false;
         error_device_dialog=null;
@@ -676,6 +685,11 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
                     }
                 }
             }
+            if(phizio_packagetype==GOLD_PLUS_PACKAGE || phizio_packagetype==ACHEDAMIC_TEACH_PLUS) {
+                if (Seconds == 59) {
+                    ((MonitorActivity) getActivity()).textToSpeachVoice("Good! Keep Going!");
+                }
+            }
             handler.postDelayed(this, 0);
         }
     };
@@ -699,7 +713,8 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
                         error_device = sub_byte[10] & 0xFF;
                         if (error_device == 0) {
                             emg_data = ByteToArrayOperations.getAngleFromData(sub_byte[0], sub_byte[1]);
-                            Log.i("Calibration values",base_value+", "+one_star_value);
+                            if(phizio_packagetype==GOLD_PLUS_PACKAGE||phizio_packagetype==ACHEDAMIC_TEACH_PLUS)
+                                emgPeakDetectionAndVoiceAleart(emg_data);
                             if(ui_rate<=NUMBER_OF_VALUES_FOR_BASE_LINE){
                                 base_value_first_10+=emg_data;
                             }else {
@@ -734,7 +749,16 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
                                 secondsValue = "0" + hold_time_seconds;
                             holdTimeValue = minutesValue + "m: " + secondsValue + "s";
                             romJsonArray.put(angleDetected);
-
+                            if(phizio_packagetype==GOLD_PLUS_PACKAGE || phizio_packagetype==ACHEDAMIC_TEACH_PLUS) {
+                                if (hold_time_seconds == 0 && hold_time_minutes == 0) {
+                                    can_talk = true;
+                                } else if (hold_time_minutes > 0 || hold_time_seconds > 5) {
+                                    if (can_talk) {
+                                        ((MonitorActivity) getActivity()).textToSpeachVoice("Good! You are able to hold!");
+                                        can_talk = false;
+                                    }
+                                }
+                            }
 //            //Beep
                             if (!str_max_angle_selected.equals("")) {
                                 int x = Integer.parseInt(str_max_angle_selected);
@@ -1099,5 +1123,71 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
             }
         }
     };
+
+    public void emgPeakDetectionAndVoiceAleart(int emg){
+        if(ui_rate==0){
+            emgPeakList.add(new EmgPeak(emg,-1,-1,false));
+        }else {
+            if(current_emg_peak_index<3){
+                if(!emgPeakList.get(current_emg_peak_index).isPeak_done()){
+                    if((emg-emgPeakList.get(current_emg_peak_index).getInitValue())>=60){
+                        if(emgPeakList.get(current_emg_peak_index).getMax_emg_value()<emg)
+                            emgPeakList.get(current_emg_peak_index).setMax_emg_value(emg);
+                    }else if(emgPeakList.get(current_emg_peak_index).getMax_emg_value()!=-1){
+                        if((emg-emgPeakList.get(current_emg_peak_index).getInitValue())<=10 || (emg-emgPeakList.get(current_emg_peak_index).getInitValue())>=10){
+                            emgPeakList.get(current_emg_peak_index).setFinal_value(emg);
+                            emgPeakList.get(current_emg_peak_index).setPeak_done(true);
+                            current_emg_peak_index++;
+                            emgPeakList.add(current_emg_peak_index,new EmgPeak(emgPeakList.get(0).getInitValue(),-1,-1,false));
+                        }
+                    }
+                }
+            }else if(current_emg_peak_index==3){
+                if(emgPeakList.size()>3) {
+                    int maxValue = 0;
+                    for (int i = 0; i < 3; i++) {
+                        if(emgPeakList.get(i).getMax_emg_value()>maxValue){
+                            maxValue = emgPeakList.get(i).getMax_emg_value();
+                            max_emg_peak_index = i;
+                        }
+                    }
+                    peakSpeachComdition = (emgPeakList.get(max_emg_peak_index).getMax_emg_value()*PERCENTAGE_TEXT_TO_SPEACH_EMG_PEAK)/100;
+                    if(!emgPeakList.get(current_emg_peak_index).isPeak_done()){
+                        if((emg-emgPeakList.get(current_emg_peak_index).getInitValue())>=60){
+                            if(emgPeakList.get(current_emg_peak_index).getMax_emg_value()<emg)
+                                emgPeakList.get(current_emg_peak_index).setMax_emg_value(emg);
+                        }else if(emgPeakList.get(current_emg_peak_index).getMax_emg_value()!=-1){
+                            if((emg-emgPeakList.get(current_emg_peak_index).getInitValue())<=10 || (emg-emgPeakList.get(current_emg_peak_index).getInitValue())>=10){
+                                emgPeakList.get(current_emg_peak_index).setFinal_value(emg);
+                                emgPeakList.get(current_emg_peak_index).setPeak_done(true);
+                                if(emgPeakList.get(current_emg_peak_index).getMax_emg_value()<peakSpeachComdition){
+                                    ((MonitorActivity)getActivity()).textToSpeachVoice("You are trying hard! Keep trying!");
+                                }
+                                current_emg_peak_index++;
+                                emgPeakList.add(current_emg_peak_index,new EmgPeak(emgPeakList.get(0).getInitValue(),-1,-1,false));
+                            }
+                        }
+                    }
+                }
+            }else {
+                if(!emgPeakList.get(current_emg_peak_index).isPeak_done()){
+                    if((emg-emgPeakList.get(current_emg_peak_index).getInitValue())>=60){
+                        if(emgPeakList.get(current_emg_peak_index).getMax_emg_value()<emg)
+                            emgPeakList.get(current_emg_peak_index).setMax_emg_value(emg);
+                    }else if(emgPeakList.get(current_emg_peak_index).getMax_emg_value()!=-1){
+                        if((emg-emgPeakList.get(current_emg_peak_index).getInitValue())<=10 || (emg-emgPeakList.get(current_emg_peak_index).getInitValue())>=10){
+                            emgPeakList.get(current_emg_peak_index).setFinal_value(emg);
+                            emgPeakList.get(current_emg_peak_index).setPeak_done(true);
+                            if(emgPeakList.get(current_emg_peak_index).getMax_emg_value()<peakSpeachComdition){
+                                ((MonitorActivity)getActivity()).textToSpeachVoice("You are trying hard! Keep trying!");
+                            }
+                            current_emg_peak_index++;
+                            emgPeakList.add(current_emg_peak_index,new EmgPeak(emgPeakList.get(0).getInitValue(),-1,-1,false));
+                        }
+                    }
+                }
+            }
+        }
+    }
 
 }
