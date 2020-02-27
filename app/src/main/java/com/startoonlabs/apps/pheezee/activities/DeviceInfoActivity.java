@@ -516,7 +516,6 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
             if(action.equalsIgnoreCase(device_state)){
                 boolean device_status = intent.getBooleanExtra(device_state,false);
                 if(device_status){
-                    tv_calibrate_device.setVisibility(View.VISIBLE);
                     tv_connection_status.setText("Connected");
                     mDeviceState = true;
                 }else {

@@ -1032,7 +1032,7 @@ public class PheezeeBleService extends Service {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if(BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)){
-                isConnectCommandGiven=false;mDeviceHealthError = false;
+                isConnectCommandGiven=false;mDeviceHealthError = false;mMagnetometerPresent = false;
                 mHealthErrorString = "";
                 mUsbState = false;
                 mDeviceState = false;mFirmwareVersion="Null"; mSerialId="NULL";mBatteryPercent = 0;mManufacturerName="Null";mHardwareVersion="Null";
@@ -1061,7 +1061,7 @@ public class PheezeeBleService extends Service {
                     });
                 }
                 if (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1) == BluetoothAdapter.STATE_OFF) {
-                    mUsbState = false;mHealthErrorString = "";
+                    mUsbState = false;mHealthErrorString = "";mMagnetometerPresent = false;
                     isConnectCommandGiven = false;
                     mDeviceStatus=0;
                     mBluetoothState = false;mDeviceState = false;mFirmwareVersion="Null"; mSerialId="NULL";mBatteryPercent = 0;mManufacturerName="Null";
