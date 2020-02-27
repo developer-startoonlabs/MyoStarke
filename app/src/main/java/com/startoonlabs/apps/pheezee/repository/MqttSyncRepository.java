@@ -694,9 +694,9 @@ public class MqttSyncRepository {
         });
     }
 
-    public void confirmEmail(String email, String packageid) {
+    public void confirmEmail(String email) {
         final String otp = OtpGeneration.OTP(4);
-        ConfirmEmailAndPackageId password = new ConfirmEmailAndPackageId(email, otp, packageid);
+        ConfirmEmailAndPackageId password = new ConfirmEmailAndPackageId(email, otp);
         Call<String> confirm_email = getDataService.confirmEmail(password);
         confirm_email.enqueue(new Callback<String>() {
             @Override
@@ -743,23 +743,23 @@ public class MqttSyncRepository {
     }
 
     public void signUp(SignUpData data) {
-        Call<SignupDataResponse> sign_up = getDataService.signUp(data);
-        sign_up.enqueue(new Callback<SignupDataResponse>() {
+        Call<String> sign_up = getDataService.signUp(data);
+        sign_up.enqueue(new Callback<String>() {
             @Override
-            public void onResponse(@NonNull Call<SignupDataResponse> call, @NonNull Response<SignupDataResponse> response) {
+            public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                 if (response.code() == 200) {
-                    SignupDataResponse res = response.body();
+                    String res = response.body();
                     if (res != null) {
-                        if (res.isInserted()) {
+                        if (res.equalsIgnoreCase("inserted")) {
                             editor = sharedPref.edit();
                             editor.putBoolean("isLoggedIn", true);
                             JSONObject jsonObject = new JSONObject();
                             try {
-                                jsonObject.put("phizioname", res.getPhizioname());
-                                jsonObject.put("phizioemail", res.getPhizioemail());
-                                jsonObject.put("phiziophone", res.getPhiziophone());
-                                jsonObject.put("phizioprofilepicurl", res.getPhizioprofilepicurl());
-                                jsonObject.put("packagetype", res.getPackagetype());
+                                jsonObject.put("phizioname", data.getPhizioname());
+                                jsonObject.put("phizioemail", data.getPhizioemail());
+                                jsonObject.put("phiziophone", data.getPhiziophone());
+                                jsonObject.put("phizioprofilepicurl", data.getPhizioprofilepicurl());
+                                jsonObject.put("packagetype", 4);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -773,7 +773,7 @@ public class MqttSyncRepository {
                             if (signUpResponse != null) {
                                 signUpResponse.onSignUp(true);
                             }
-                        } else {
+                        } else if(res.equalsIgnoreCase("already")){
                             if (signUpResponse != null) {
                                 signUpResponse.onSignUp(false);
                             }
@@ -787,7 +787,7 @@ public class MqttSyncRepository {
             }
 
             @Override
-            public void onFailure(@NonNull Call<SignupDataResponse> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
                 if (signUpResponse != null) {
                     signUpResponse.onSignUp(false);
                 }

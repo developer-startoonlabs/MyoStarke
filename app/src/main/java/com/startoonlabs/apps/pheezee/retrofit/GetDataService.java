@@ -75,7 +75,7 @@ public interface GetDataService {
     Call<String> confirmEmail(@Body ConfirmEmailAndPackageId object);
 
     @POST("/api/signup/phizio")
-    Call<SignupDataResponse> signUp(@Body SignUpData data);
+    Call<String> signUp(@Body SignUpData data);
 
     @POST("/api/phizio/update/patientProfilePic")
     Call<PatientImageUploadResponse> uploadPatientProfilePicture(@Body PatientImageData data);

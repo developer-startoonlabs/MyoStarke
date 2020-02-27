@@ -7,18 +7,17 @@ import org.json.JSONArray;
 import java.util.List;
 
 public class SignUpData {
-    String phizioname, phizioemail, phiziopassword, phiziophone, phizioprofilepicurl, packageid;
+    String phizioname, phizioemail, phiziopassword, phiziophone, phizioprofilepicurl;
     List<PhizioPatients> patients;
 
     public SignUpData(String phizioname, String phizioemail, String phiziopassword, String phone,
-                      String phizioprofilepicurl, List<PhizioPatients> patients, String packageid) {
+                      String phizioprofilepicurl, List<PhizioPatients> patients) {
         this.phizioname = phizioname;
         this.phizioemail = phizioemail;
         this.phiziopassword = phiziopassword;
         this.phiziophone = phone;
         this.phizioprofilepicurl = phizioprofilepicurl;
         this.patients = patients;
-        this.packageid = packageid;
     }
 
     public String getPhizioname() {
@@ -75,13 +74,5 @@ public class SignUpData {
 
     public void setPhiziophone(String phiziophone) {
         this.phiziophone = phiziophone;
-    }
-
-    public String getPackageid() {
-        return packageid;
-    }
-
-    public void setPackageid(String packageid) {
-        this.packageid = packageid;
     }
 }

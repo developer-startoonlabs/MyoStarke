@@ -1,12 +1,11 @@
 package com.startoonlabs.apps.pheezee.pojos;
 
 public class ConfirmEmailAndPackageId {
-    String phizioemail, otp, packageid;
+    String phizioemail, otp;
 
-    public ConfirmEmailAndPackageId(String phizioemail, String otp, String packageid) {
+    public ConfirmEmailAndPackageId(String phizioemail, String otp) {
         this.phizioemail = phizioemail;
         this.otp = otp;
-        this.packageid = packageid;
     }
 
     public String getPhizioemail() {
@@ -23,13 +22,5 @@ public class ConfirmEmailAndPackageId {
 
     public void setOtp(String otp) {
         this.otp = otp;
-    }
-
-    public String getPackageid() {
-        return packageid;
-    }
-
-    public void setPackageid(String packageid) {
-        this.packageid = packageid;
     }
 }

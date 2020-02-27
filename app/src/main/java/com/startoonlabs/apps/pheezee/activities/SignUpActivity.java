@@ -27,10 +27,10 @@ public class SignUpActivity extends AppCompatActivity implements MqttSyncReposit
 
 
 
-    EditText et_signup_name, et_signup_password, et_signup_email, et_signup_phone, et_package_id;
+    EditText et_signup_name, et_signup_password, et_signup_email, et_signup_phone;
 
     //String to save edittexts
-    String str_signup_name, str_signup_password,str_signup_email,str_signup_phone, str_package_id;
+    String str_signup_name, str_signup_password,str_signup_email,str_signup_phone;
 
     Button btn_signup_create;
     TextView tv_signup_cancel;
@@ -56,7 +56,6 @@ public class SignUpActivity extends AppCompatActivity implements MqttSyncReposit
         et_signup_password = findViewById(R.id.et_signup_password);
         et_signup_email = findViewById(R.id.et_signup_email);
         et_signup_phone = findViewById(R.id.et_signup_phone);
-        et_package_id = findViewById(R.id.et_package_id);
 
         progressDialog = new ProgressDialog(this,R.style.greenprogress);
         progressDialog.setMessage("Please wait");
@@ -78,13 +77,12 @@ public class SignUpActivity extends AppCompatActivity implements MqttSyncReposit
                 str_signup_password = et_signup_password.getText().toString();
                 str_signup_email = et_signup_email.getText().toString();
                 str_signup_phone = et_signup_phone.getText().toString();
-                str_package_id = et_package_id.getText().toString();
-                if(RegexOperations.isSignupValid(str_signup_name,str_signup_email,str_signup_password,str_signup_phone,str_package_id)){
+                if(RegexOperations.isSignupValid(str_signup_name,str_signup_email,str_signup_password,str_signup_phone)){
                     progressDialog.show();
-                    repository.confirmEmail(str_signup_email,str_package_id);
+                    repository.confirmEmail(str_signup_email);
                 }
                 else {
-                    showToast(RegexOperations.getNonValidMessageSignup(str_signup_name,str_signup_email,str_signup_password,str_signup_phone, str_package_id));
+                    showToast(RegexOperations.getNonValidMessageSignup(str_signup_name,str_signup_email,str_signup_password,str_signup_phone));
                 }
             }
         });
@@ -118,7 +116,7 @@ public class SignUpActivity extends AppCompatActivity implements MqttSyncReposit
                 public void onResendClick() {
                     builder.dismiss();
                     progressDialog.show();
-                    repository.confirmEmail(str_signup_email,str_package_id);
+                    repository.confirmEmail(str_signup_email);
                 }
 
                 @Override
@@ -126,7 +124,7 @@ public class SignUpActivity extends AppCompatActivity implements MqttSyncReposit
                     if(pin){
                         progressDialog.show();
                         SignUpData data = new SignUpData(str_signup_name,str_signup_email,str_signup_password,
-                                str_signup_phone,"empty", new ArrayList<>(), str_package_id);
+                                str_signup_phone,"empty", new ArrayList<>());
                         repository.signUp(data);
                     }
                     else {

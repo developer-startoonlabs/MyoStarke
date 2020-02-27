@@ -52,8 +52,8 @@ public class RegexOperations {
             return "Invalid Email Address";
     }
 
-    public static boolean isSignupValid(String name, String email, String password, String phone, String packageid){
-        if(name.equals("")||password.equals("")||email.equals("")||phone.equals("")||packageid.equals(""))
+    public static boolean isSignupValid(String name, String email, String password, String phone){
+        if(name.equals("")||password.equals("")||email.equals("")||phone.equals(""))
             return false;
         else if(!isValidEmail(email)|| !isValidMobileNumber(phone.replaceAll("\\s","")))
             return false;
@@ -61,8 +61,8 @@ public class RegexOperations {
             return true;
     }
 
-    public static String getNonValidMessageSignup(String name, String email, String password, String phone, String packageid ){
-        if(name.equals("")||password.equals("")||email.equals("")||phone.equals("")||packageid.equals("")){
+    public static String getNonValidMessageSignup(String name, String email, String password, String phone){
+        if(name.equals("")||password.equals("")||email.equals("")||phone.equals("")){
             return "Please fill all the details";
         }
 
