@@ -633,7 +633,7 @@ public class PheezeeBleService extends Service {
                 }else {
                     long currentTimeStamp = System.currentTimeMillis();
                     long temp = currentTimeStamp - mScanResults.get(i).getTimeStampNano();
-                    if(temp>2000){
+                    if(temp>4000){
                         list.add(i);
                         toBeUpdated = true;
                     }
