@@ -230,6 +230,5 @@
     <orderEntry type="library" name="Gradle: io.fabric.sdk.android:fabric:1.4.8@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.shreyaspatil:MaterialDialog:1.0.0@aar" level="project" />
     <orderEntry type="module" module-name="smileyprogressbar" />
-    <orderEntry type="module" module-name="smileyprogressbar" />
   </component>
 </module>
