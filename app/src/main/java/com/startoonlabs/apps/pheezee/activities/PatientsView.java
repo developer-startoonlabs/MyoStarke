@@ -869,7 +869,32 @@ public class PatientsView extends AppCompatActivity
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        startActivity(intent);
+                        boolean flag = true;
+                        if(firmware_version[0]<1){
+                            flag = false;
+                        }else if(firmware_version[1]<11 && firmware_version[0]<=1){
+                            flag = false;
+                        }else if(firmware_version[2]<4 && firmware_version[1]<=11) {
+                            flag = false;
+                        }else{
+                            flag = true;
+                        }
+
+                        if(!flag){
+                            NetworkOperations.firmwareVirsionNotCompatible(PatientsView.this);
+                        }else {
+                            if(!mDeviceDeactivated && !mDeviceHealthError)
+                                startActivity(intent);
+                            else {
+                                if(mDeviceDeactivated)
+                                    showDeviceDeactivatedDialog();
+                                else {
+                                    if(mService!=null) {
+                                        DeviceErrorCodesAndDialogs.showDeviceErrorDialog(mService.getHealthErrorString(), PatientsView.this);
+                                    }
+                                }
+                            }
+                        }
                     }
                 });
                 builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -1599,7 +1624,6 @@ public class PatientsView extends AppCompatActivity
                         .into(ivBasicImage);
 
             }
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -1664,7 +1688,32 @@ public class PatientsView extends AppCompatActivity
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        startActivity(intent);
+                        boolean flag = true;
+                        if(firmware_version[0]<1){
+                            flag = false;
+                        }else if(firmware_version[1]<11 && firmware_version[0]<=1){
+                            flag = false;
+                        }else if(firmware_version[2]<4 && firmware_version[1]<=11) {
+                            flag = false;
+                        }else{
+                            flag = true;
+                        }
+
+                        if(!flag){
+                            NetworkOperations.firmwareVirsionNotCompatible(PatientsView.this);
+                        }else {
+                            if(!mDeviceDeactivated && !mDeviceHealthError)
+                                startActivity(intent);
+                            else {
+                                if(mDeviceDeactivated)
+                                    showDeviceDeactivatedDialog();
+                                else {
+                                    if(mService!=null) {
+                                        DeviceErrorCodesAndDialogs.showDeviceErrorDialog(mService.getHealthErrorString(), PatientsView.this);
+                                    }
+                                }
+                            }
+                        }
                     }
                 });
                 builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {

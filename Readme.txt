@@ -1,6 +1,51 @@
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 ###############
-Version:- 2.6.0.h
+Version:- 2.16.5.h
+Date:- 25-02-2020
+Responsible:- Ankush
+Firmware Version(Tested With):- 1.12.7
+server version:- 1.16.0
+Hardware Version MVP_3
+description:- Bug fix:-
+                1) Bug fix multiple devices at a time of scanning.
+
+###############
+Version:- 2.16.4.h
+Date:- 25-02-2020
+Responsible:- Ankush
+Firmware Version(Tested With):- 1.12.7
+server version:- 1.16.0
+Hardware Version MVP_3
+description:- Bug fix:-
+                1) Final application without package id.
+
+
+###############
+Version:- 2.16.3.h
+Date:- 25-02-2020
+Responsible:- Ankush
+Firmware Version(Tested With):- 1.12.7
+server version:- 1.16.0
+Hardware Version MVP_3
+description:- Bug fix:-
+                1) Final application with package id
+
+###############
+Version:- 2.16.1.h
+Date:- 25-02-2020
+Responsible:- Ankush
+Firmware Version(Tested With):- 1.12.7
+server version:- 1.16.0
+Hardware Version MVP_3
+description:- Bug fix:-
+                1) Voice and beep modification such that both do not sound at once.
+
+
+###############
+
+###############
+Version:- 2.16.0.h
 Date:- 25-02-2020
 Responsible:- Ankush
 Firmware Version(Tested With):- 1.12.7
