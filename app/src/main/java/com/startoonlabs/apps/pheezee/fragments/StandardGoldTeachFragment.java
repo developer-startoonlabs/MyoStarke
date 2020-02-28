@@ -79,6 +79,7 @@ import static com.startoonlabs.apps.pheezee.activities.MonitorActivity.total_sce
 import static com.startoonlabs.apps.pheezee.utils.PackageTypes.ACHEDAMIC_TEACH_PLUS;
 import static com.startoonlabs.apps.pheezee.utils.PackageTypes.GOLD_PACKAGE;
 import static com.startoonlabs.apps.pheezee.utils.PackageTypes.GOLD_PLUS_PACKAGE;
+import static com.startoonlabs.apps.pheezee.utils.PackageTypes.MIN_PEAK_DECIDED;
 import static com.startoonlabs.apps.pheezee.utils.PackageTypes.PERCENTAGE_TEXT_TO_SPEACH_EMG_PEAK;
 import static com.startoonlabs.apps.pheezee.utils.PackageTypes.STANDARD_PACKAGE;
 import static com.startoonlabs.apps.pheezee.utils.PackageTypes.TEACH_PACKAGE;
@@ -229,7 +230,7 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
         btn_emg_decrease_gain = root.findViewById(R.id.btn_emg_decrease_gain);
         btn_emg_increase_gain = root.findViewById(R.id.btn_emg_increase_gain);
 
-        handler = new Handler();
+        handler = new Handler(Looper.getMainLooper());
         emgJsonArray = new JSONArray();
         romJsonArray = new JSONArray();
         repository = new MqttSyncRepository(getActivity().getApplication());
@@ -428,11 +429,8 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
                 if(IS_SCEDULED_SESSION){
                     ((MonitorActivity)getActivity()).removeFirstFromSceduledList();
                     live_sceduled_size = ((MonitorActivity)getActivity()).getSceduledSize();
-                    if(live_sceduled_size !=0){
-                        updateInitialValues(((MonitorActivity)getActivity()).getSceduledSessionListFirstItem());
-                    }else {
+                    if(live_sceduled_size ==0){
                         IS_SCEDULED_SESSIONS_COMPLETED = true;
-                        repository.removeAllSessionsForPataient(patientid);
                     }
                 }
                 if(phizio_packagetype!=STANDARD_PACKAGE)
@@ -443,6 +441,15 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
                 if(phizio_packagetype==TEACH_PACKAGE||phizio_packagetype==ACHEDAMIC_TEACH_PLUS)
                     insertValuesAndNotifyMediaStore("Stopped");
 
+                if(IS_SCEDULED_SESSION){
+                    live_sceduled_size = ((MonitorActivity)getActivity()).getSceduledSize();
+                    if(live_sceduled_size !=0){
+                        updateInitialValues(((MonitorActivity)getActivity()).getSceduledSessionListFirstItem());
+                    }else {
+                        IS_SCEDULED_SESSIONS_COMPLETED = true;
+                        repository.removeAllSessionsForPataient(patientid);
+                    }
+                }
 
 
             }
@@ -750,6 +757,7 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
             initializeAndWriteInitialToFile();
         }
         StartTime = SystemClock.uptimeMillis();
+
         handler.postDelayed(runnable, 0);
     }
 
@@ -815,7 +823,8 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
             time.setText(timeText);
             if(phizio_packagetype==GOLD_PLUS_PACKAGE || phizio_packagetype==ACHEDAMIC_TEACH_PLUS) {
                 if (Seconds == 59 && can_voice) {
-                    ((MonitorActivity) getActivity()).textToSpeachVoice("Good! Keep Going!");
+                    if(((MonitorActivity)getActivity())!=null)
+                        ((MonitorActivity) getActivity()).textToSpeachVoice("Good! Keep Going!");
                 }
             }
             handler.postDelayed(this, 0);
@@ -1060,6 +1069,7 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
     public void onDestroy() {
         super.onDestroy();
         mSessionStarted=false;
+        handler.removeCallbacks(runnable);
         try {
             Objects.requireNonNull(getActivity()).unregisterReceiver(session_data_receiver);
         }catch (NullPointerException e){
@@ -1262,7 +1272,7 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
         }else {
             if(current_emg_peak_index<3){
                 if(!emgPeakList.get(current_emg_peak_index).isPeak_done()){
-                    if((emg-emgPeakList.get(current_emg_peak_index).getInitValue())>=60){
+                    if((emg-emgPeakList.get(current_emg_peak_index).getInitValue())>=MIN_PEAK_DECIDED){
                         if(emgPeakList.get(current_emg_peak_index).getMax_emg_value()<emg)
                             emgPeakList.get(current_emg_peak_index).setMax_emg_value(emg);
                     }else if(emgPeakList.get(current_emg_peak_index).getMax_emg_value()!=-1){
@@ -1285,7 +1295,7 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
                     }
                     peakSpeachComdition = (emgPeakList.get(max_emg_peak_index).getMax_emg_value()*PERCENTAGE_TEXT_TO_SPEACH_EMG_PEAK)/100;
                     if(!emgPeakList.get(current_emg_peak_index).isPeak_done()){
-                        if((emg-emgPeakList.get(current_emg_peak_index).getInitValue())>=60){
+                        if((emg-emgPeakList.get(current_emg_peak_index).getInitValue())>=MIN_PEAK_DECIDED){
                             if(emgPeakList.get(current_emg_peak_index).getMax_emg_value()<emg)
                                 emgPeakList.get(current_emg_peak_index).setMax_emg_value(emg);
                         }else if(emgPeakList.get(current_emg_peak_index).getMax_emg_value()!=-1){
@@ -1303,7 +1313,7 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
                 }
             }else {
                 if(!emgPeakList.get(current_emg_peak_index).isPeak_done()){
-                    if((emg-emgPeakList.get(current_emg_peak_index).getInitValue())>=60){
+                    if((emg-emgPeakList.get(current_emg_peak_index).getInitValue())>=MIN_PEAK_DECIDED){
                         if(emgPeakList.get(current_emg_peak_index).getMax_emg_value()<emg)
                             emgPeakList.get(current_emg_peak_index).setMax_emg_value(emg);
                     }else if(emgPeakList.get(current_emg_peak_index).getMax_emg_value()!=-1){

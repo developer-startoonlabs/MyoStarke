@@ -77,6 +77,7 @@ import static com.startoonlabs.apps.pheezee.activities.MonitorActivity.total_sce
 import static com.startoonlabs.apps.pheezee.utils.PackageTypes.ACHEDAMIC_TEACH_PLUS;
 import static com.startoonlabs.apps.pheezee.utils.PackageTypes.GOLD_PACKAGE;
 import static com.startoonlabs.apps.pheezee.utils.PackageTypes.GOLD_PLUS_PACKAGE;
+import static com.startoonlabs.apps.pheezee.utils.PackageTypes.MIN_PEAK_DECIDED;
 import static com.startoonlabs.apps.pheezee.utils.PackageTypes.NUMBER_OF_STARTS;
 import static com.startoonlabs.apps.pheezee.utils.PackageTypes.NUMBER_OF_VALUES_FOR_BASE_LINE;
 import static com.startoonlabs.apps.pheezee.utils.PackageTypes.ONE_STAR_VALUE;
@@ -222,7 +223,7 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
         verticalStarProgressView = root.findViewById(R.id.vertical_star_view);
 
 
-        handler = new Handler();
+        handler = new Handler(Looper.getMainLooper());
         emgJsonArray = new JSONArray();
         romJsonArray = new JSONArray();
         repository = new MqttSyncRepository(getActivity().getApplication());
@@ -381,11 +382,8 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
                 if(IS_SCEDULED_SESSION){
                     ((MonitorActivity)getActivity()).removeFirstFromSceduledList();
                     live_sceduled_size = ((MonitorActivity)getActivity()).getSceduledSize();
-                    if(live_sceduled_size !=0){
-                        updateInitialValues(((MonitorActivity)getActivity()).getSceduledSessionListFirstItem());
-                    }else {
+                    if(live_sceduled_size ==0){
                         IS_SCEDULED_SESSIONS_COMPLETED = true;
-                        repository.removeAllSessionsForPataient(patientid);
                     }
                 }
                 if(phizio_packagetype!=STANDARD_PACKAGE)
@@ -396,7 +394,15 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
                 if(phizio_packagetype==TEACH_PACKAGE||phizio_packagetype==ACHEDAMIC_TEACH_PLUS)
                     insertValuesAndNotifyMediaStore("Stopped");
 
-
+                if(IS_SCEDULED_SESSION){
+                    live_sceduled_size = ((MonitorActivity)getActivity()).getSceduledSize();
+                    if(live_sceduled_size !=0){
+                        updateInitialValues(((MonitorActivity)getActivity()).getSceduledSessionListFirstItem());
+                    }else {
+                        IS_SCEDULED_SESSIONS_COMPLETED = true;
+                        repository.removeAllSessionsForPataient(patientid);
+                    }
+                }
             }
         });
     }
@@ -692,29 +698,30 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
             timeText = "Session time:   " + String.format("%02d", Minutes) + " : " + String.format("%02d", Seconds);
             str_time = timeText;
 
-            if(!one_star_calibrated) {
-                if (Seconds == second_time) {
-                    if (ui_rate > 10) {
-                        Log.i("Here",Seconds+", "+second_time);
-                        if (maxEmgValue - base_value <= 60) {
-                            Log.i("MAX-BASE",Seconds+", "+second_time);
-                            second_time += SECOND_TIME_FOR_STAR;
-                            if (second_time == 60) {
-                                second_time = 0;
-                            }
-                        } else {
-                            if (maxEmgValue > 0) {
-                                one_star_value = maxEmgValue / NUMBER_OF_STARTS;
-                                one_star_calibrated = true;
-                                Log.i("CALIBRATED", String.valueOf(one_star_value));
-                            }
-                        }
-                    }
-                }
-            }
+//            if(!one_star_calibrated) {
+//                if (Seconds == second_time) {
+//                    if (ui_rate > 10) {
+//                        Log.i("Here",Seconds+", "+second_time);
+//                        if (maxEmgValue - base_value <= 60) {
+//                            Log.i("MAX-BASE",Seconds+", "+second_time);
+//                            second_time += SECOND_TIME_FOR_STAR;
+//                            if (second_time == 60) {
+//                                second_time = 0;
+//                            }
+//                        } else {
+//                            if (maxEmgValue > 0) {
+//                                one_star_value = maxEmgValue / NUMBER_OF_STARTS;
+//                                one_star_calibrated = true;
+//                                Log.i("CALIBRATED", String.valueOf(one_star_value));
+//                            }
+//                        }
+//                    }
+//                }
+//            }
             if(phizio_packagetype==GOLD_PLUS_PACKAGE || phizio_packagetype==ACHEDAMIC_TEACH_PLUS) {
                 if (Seconds == 59 && can_voice) {
-                    ((MonitorActivity) getActivity()).textToSpeachVoice("Good! Keep Going!");
+                    if(((MonitorActivity)getActivity())!=null)
+                        ((MonitorActivity) getActivity()).textToSpeachVoice("Good! Keep Going!");
                 }
             }
             handler.postDelayed(this, 0);
@@ -781,7 +788,8 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
                                     can_talk = true;
                                 } else if (hold_time_minutes > 0 || hold_time_seconds > 5) {
                                     if (can_talk && can_voice) {
-                                        ((MonitorActivity) getActivity()).textToSpeachVoice("Good! You are able to hold!");
+                                        if(((MonitorActivity)getActivity())!=null)
+                                            ((MonitorActivity) getActivity()).textToSpeachVoice("Good! You are able to hold!");
                                         can_talk = false;
                                     }
                                 }
@@ -959,6 +967,7 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
     public void onDestroy() {
         super.onDestroy();
         mSessionStarted=false;
+        handler.removeCallbacks(runnable);
         try {
             Objects.requireNonNull(getActivity()).unregisterReceiver(session_data_receiver);
         }catch (NullPointerException e){
@@ -1067,7 +1076,7 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
         tv_session_no.setText(sessionnumber);
     }
 
-    BroadcastReceiver session_data_receiver = new BroadcastReceiver() {
+    private BroadcastReceiver session_data_receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
@@ -1157,7 +1166,7 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
         }else {
             if(current_emg_peak_index<3){
                 if(!emgPeakList.get(current_emg_peak_index).isPeak_done()){
-                    if((emg-emgPeakList.get(current_emg_peak_index).getInitValue())>=60){
+                    if((emg-emgPeakList.get(current_emg_peak_index).getInitValue())>=MIN_PEAK_DECIDED){
                         if(emgPeakList.get(current_emg_peak_index).getMax_emg_value()<emg)
                             emgPeakList.get(current_emg_peak_index).setMax_emg_value(emg);
                     }else if(emgPeakList.get(current_emg_peak_index).getMax_emg_value()!=-1){
@@ -1179,8 +1188,9 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
                         }
                     }
                     peakSpeachComdition = (emgPeakList.get(max_emg_peak_index).getMax_emg_value()*PERCENTAGE_TEXT_TO_SPEACH_EMG_PEAK)/100;
+                    one_star_value = emgPeakList.get(max_emg_peak_index).getMax_emg_value()/NUMBER_OF_STARTS;
                     if(!emgPeakList.get(current_emg_peak_index).isPeak_done()){
-                        if((emg-emgPeakList.get(current_emg_peak_index).getInitValue())>=60){
+                        if((emg-emgPeakList.get(current_emg_peak_index).getInitValue())>=MIN_PEAK_DECIDED){
                             if(emgPeakList.get(current_emg_peak_index).getMax_emg_value()<emg)
                                 emgPeakList.get(current_emg_peak_index).setMax_emg_value(emg);
                         }else if(emgPeakList.get(current_emg_peak_index).getMax_emg_value()!=-1){
@@ -1188,7 +1198,8 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
                                 emgPeakList.get(current_emg_peak_index).setFinal_value(emg);
                                 emgPeakList.get(current_emg_peak_index).setPeak_done(true);
                                 if(emgPeakList.get(current_emg_peak_index).getMax_emg_value()<peakSpeachComdition && can_voice){
-                                    ((MonitorActivity)getActivity()).textToSpeachVoice("You are trying hard! Keep trying!");
+                                    if(((MonitorActivity)getActivity())!=null)
+                                        ((MonitorActivity)getActivity()).textToSpeachVoice("You are trying hard! Keep trying!");
                                 }
                                 current_emg_peak_index++;
                                 emgPeakList.add(current_emg_peak_index,new EmgPeak(emgPeakList.get(0).getInitValue(),-1,-1,false));
@@ -1198,7 +1209,7 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
                 }
             }else {
                 if(!emgPeakList.get(current_emg_peak_index).isPeak_done()){
-                    if((emg-emgPeakList.get(current_emg_peak_index).getInitValue())>=60){
+                    if((emg-emgPeakList.get(current_emg_peak_index).getInitValue())>=MIN_PEAK_DECIDED){
                         if(emgPeakList.get(current_emg_peak_index).getMax_emg_value()<emg)
                             emgPeakList.get(current_emg_peak_index).setMax_emg_value(emg);
                     }else if(emgPeakList.get(current_emg_peak_index).getMax_emg_value()!=-1){
@@ -1206,7 +1217,8 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
                             emgPeakList.get(current_emg_peak_index).setFinal_value(emg);
                             emgPeakList.get(current_emg_peak_index).setPeak_done(true);
                             if(emgPeakList.get(current_emg_peak_index).getMax_emg_value()<peakSpeachComdition && can_voice){
-                                ((MonitorActivity)getActivity()).textToSpeachVoice("You are trying hard! Keep trying!");
+                                if(((MonitorActivity)getActivity())!=null)
+                                    ((MonitorActivity)getActivity()).textToSpeachVoice("You are trying hard! Keep trying!");
                             }
                             current_emg_peak_index++;
                             emgPeakList.add(current_emg_peak_index,new EmgPeak(emgPeakList.get(0).getInitValue(),-1,-1,false));

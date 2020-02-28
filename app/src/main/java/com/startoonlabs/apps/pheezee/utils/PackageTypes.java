@@ -18,11 +18,12 @@ public class PackageTypes {
 
 
     public static final int NUMBER_OF_VALUES_FOR_BASE_LINE = 10;
-    public static final int ONE_STAR_VALUE = 100;
+    public static final int ONE_STAR_VALUE = 20;
     public static final int SECOND_TIME_FOR_STAR = 1;
     public static final int NUMBER_OF_STARTS = 5;
 
     public static final int PERCENTAGE_TEXT_TO_SPEACH_EMG_PEAK = 70;
+    public static final int MIN_PEAK_DECIDED = 30;
 
     public static final int NUMBER_OF_PATIENTS_THAT_CAN_BE_ADDED = 40;
 

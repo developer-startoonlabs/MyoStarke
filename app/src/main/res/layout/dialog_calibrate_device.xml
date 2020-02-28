@@ -8,7 +8,7 @@
     android:orientation="vertical">
 
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/scan_devices_anim"
+        android:id="@+id/calibration_anim"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_gravity="center"
@@ -18,7 +18,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView14"
-        app:lottie_autoPlay="true"
+        app:lottie_autoPlay="false"
         app:lottie_fileName="calib.json"
         app:lottie_loop="true" />
 
@@ -82,7 +82,7 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scan_devices_anim" />
+        app:layout_constraintTop_toBottomOf="@+id/calibration_anim" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

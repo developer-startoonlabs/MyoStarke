@@ -36,6 +36,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.shreyaspatil.MaterialDialog.MaterialDialog;
 import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.dfu.DfuService;
@@ -79,6 +80,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
 
     //Bluetooth related declarations
     public String TAG  = "DeviceInfoActivity";
+    LottieAnimationView calib_anim;
     private boolean inside_bootloader = false, mDeviceDeactivated = false, mActivateCommandGiven = false;
     private static final int REQUEST_ENABLE_BT = 1;
     private int device_baterry_level=0;
@@ -245,6 +247,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
             btn_start_calibration = dialogLayout.findViewById(R.id.btn_start_calibration);
             btn_cancel_calibration = dialogLayout.findViewById(R.id.btn_cancel_calibrate);
             tv_status_calibrate = dialogLayout.findViewById(R.id.tv_status_calibrating);
+            calib_anim = dialogLayout.findViewById(R.id.calibration_anim);
             builder.setView(dialogLayout);
             builder.setCancelable(false);
             dialog_calibrate = builder.create();
@@ -267,12 +270,16 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
                         tv_status_calibrate.setVisibility(View.VISIBLE);
                         btn_start_calibration.setText("STOP");
                         dialog_calibrate.setCancelable(false);
+                        calib_anim.playAnimation();
                         calibrateDevice();
                     } else {
                         dialog_calibrate.setCancelable(true);
                         tv_status_calibrate.setText("Calibration failed, try again later!");
                         tv_status_calibrate.setTextColor(getResources().getColor(R.color.red));
                         btn_start_calibration.setText("START");
+                        if(calib_anim.isAnimating()){
+                            calib_anim.cancelAnimation();
+                        }
                         cancelCalibrate();
                     }
                 }
@@ -311,7 +318,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
 
                                         } else {
                                             mCheckReactivationDialog.dismiss();
-                                            showDeviceDeactivatedDialog("Device Deactivated", "The device is still deactivated, please contaact StartoonLabs.");
+                                            showDeviceDeactivatedDialog("Device Deactivated", "The device is still deactivated, please contact StartoonLabs.");
                                         }
                                     } else {
                                         mCheckReactivationDialog.dismiss();
@@ -342,6 +349,9 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
                 dialog_calibrate.setCancelable(true);
                 if(btn_start_calibration!=null){
                     btn_start_calibration.setText("START");
+                    if(calib_anim!=null){
+                        calib_anim.cancelAnimation();
+                    }
                 }if(tv_status_calibrate!=null){
                     if(tv_status_calibrate.getText().toString().contains("Calibrating")){
                         tv_status_calibrate.setText("Calibration failed, try again later!");
@@ -614,6 +624,9 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
                         tv_status_calibrate.setTextColor(getResources().getColor(R.color.background_green));
                     }if (btn_start_calibration!=null){
                         btn_start_calibration.setText("START");
+                        if(calib_anim!=null){
+                            calib_anim.cancelAnimation();
+                        }
                     }
                 }else {
                     if(tv_status_calibrate!=null){
@@ -621,6 +634,9 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
                         tv_status_calibrate.setTextColor(getResources().getColor(R.color.red));
                     }if (btn_start_calibration!=null){
                         btn_start_calibration.setText("START");
+                        if(calib_anim!=null){
+                            calib_anim.cancelAnimation();
+                        }
                     }
                 }
                 if(dialog_calibrate!=null && dialog_calibrate.isShowing()){
