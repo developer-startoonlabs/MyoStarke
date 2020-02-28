@@ -35,8 +35,8 @@ import java.util.List;
  */
 public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRecyclerViewAdapter.ViewHolder> {
 
-    private List<PhizioPatients> patientsListData = new ArrayList<>();
-    private List<PhizioPatients> updatedPatientList = new ArrayList<>();
+    private List<PhizioPatients> patientsListData;
+    private List<PhizioPatients> updatedPatientList;
     private Context context;
     private JSONObject object;
     private SharedPreferences preferences;
@@ -85,20 +85,9 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
     }
 
     public void setNotes(List<PhizioPatients> notes){
-//        if(this.updatedPatientList.size()!=notes.size()){
             this.updatedPatientList = notes;
             this.patientsListData = notes;
             notifyDataSetChanged();
-//        }else {
-//            PostDiffCallback postDiffCallback = new PostDiffCallback(this.updatedPatientList, notes);
-//            DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(postDiffCallback);
-//
-//            this.patientsListData.clear();
-//            this.updatedPatientList.clear();
-//            this.updatedPatientList.addAll(notes);
-//            this.patientsListData.addAll(notes);
-//            diffResult.dispatchUpdatesTo(this);
-//        }
     }
 
     @NonNull
@@ -195,7 +184,7 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return patientsListData==null?0:patientsListData.size();
+        return updatedPatientList==null?0:updatedPatientList.size();
     }
 
     public interface onItemClickListner{
