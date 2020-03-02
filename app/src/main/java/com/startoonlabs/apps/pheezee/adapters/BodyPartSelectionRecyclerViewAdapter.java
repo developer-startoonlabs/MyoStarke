@@ -149,6 +149,8 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
                 Animation aniFade = AnimationUtils.loadAnimation(context,R.anim.fade_in);
                 holder.cl_body_tv_and_image.setAnimation(aniFade);
                 holder.cl_body_tv_and_image.bringToFront();
+                    holder.rg_body_orientation.clearCheck();
+                    holder.rg_orientation.clearCheck();
                 if(selected_position==position){
                     selected_position=-1;
 //                    TransitionManager.beginDelayedTransition((ViewGroup)holder.cl_selection.getParent(), transition);
@@ -203,9 +205,11 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 RadioButton btn = group.findViewById(checkedId);
-                String orientation = btn.getText().toString();
-                if (listner!=null){
-                    listner.onOrientationSelected(orientation);
+                if(btn!=null) {
+                    String orientation = btn.getText().toString();
+                    if (listner != null) {
+                        listner.onOrientationSelected(orientation);
+                    }
                 }
             }
         });
@@ -214,9 +218,11 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 RadioButton btn = group.findViewById(checkedId);
-                String body_orientation = btn.getText().toString();
-                if(listner!=null){
-                    listner.onBodyOrientationSelected(body_orientation);
+                if(btn!=null) {
+                    String body_orientation = btn.getText().toString();
+                    if (listner != null) {
+                        listner.onBodyOrientationSelected(body_orientation);
+                    }
                 }
             }
         });

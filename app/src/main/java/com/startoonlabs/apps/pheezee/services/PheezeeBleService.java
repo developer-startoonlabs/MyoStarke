@@ -33,6 +33,7 @@ import android.os.Message;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
@@ -304,9 +305,13 @@ public class PheezeeBleService extends Service {
             mScanResults = new ArrayList<>();
             mScanCallback = new BtleScanCallback(mScanResults);
             mBluetoothLeScanner = bluetoothAdapter.getBluetoothLeScanner();
-            mBluetoothLeScanner.startScan(filters, settings, mScanCallback);
-            mScanning = true;
-            sendScanStateBroadcast();
+            if(mBluetoothLeScanner!=null) {
+                mBluetoothLeScanner.startScan(filters, settings, mScanCallback);
+                mScanning = true;
+                sendScanStateBroadcast();
+            }else {
+                Toast.makeText(this, "Error: Restart the phone.", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

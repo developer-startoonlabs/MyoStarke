@@ -1,4 +1,15 @@
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+###############
+Version:- 2.16.10.h
+Date:- 02-03-2020
+Responsible:- Ankush
+Firmware Version(Tested With):- 1.12.7
+server version:- 1.16.0
+Hardware Version MVP_3
+description:- Bug fix:-
+                1) Bug fix body-part selection, as it keps toasting to select side.
+
 ###############
 Version:- 2.16.9.h
 Date:- 25-02-2020
