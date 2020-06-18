@@ -25,7 +25,7 @@ public class PackageTypes {
     public static final int PERCENTAGE_TEXT_TO_SPEACH_EMG_PEAK = 70;
     public static final int MIN_PEAK_DECIDED = 30;
 
-    public static final int NUMBER_OF_PATIENTS_THAT_CAN_BE_ADDED = 40;
+    public static final int NUMBER_OF_PATIENTS_THAT_CAN_BE_ADDED = 200;
 
     public static void showPatientAddingReachedDialog(Context context, String phizioemail, int package_type, String phizioname, String phone){
         if(context!=null) {
