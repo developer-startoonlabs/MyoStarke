@@ -38,29 +38,42 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_patient_id" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/patientGender">
+        app:layout_constraintTop_toBottomOf="@+id/patientGender"
+        android:paddingTop="20dp">
 
-        <Button
-            android:id="@+id/addBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="add"
-            android:layout_marginEnd="10dp"
-            android:layout_gravity="center" />
+
 
         <Button
             android:id="@+id/cancelBtn"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="cancel"
-            android:layout_marginStart="10dp"
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            android:text="Cancel"
+            android:background="@drawable/round_cancel_buttons"
+            android:textColor="@color/good_green"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            android:layout_gravity="center" />
+
+        <Button
+            android:id="@+id/addBtn"
+            android:layout_width="fill_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            android:text="Add"
+            android:background="@drawable/round_same_buttons"
+            android:textColor="@color/white"
             android:layout_gravity="center" />
     </LinearLayout>
 

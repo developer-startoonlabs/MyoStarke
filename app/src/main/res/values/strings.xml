@@ -60,7 +60,7 @@
         <item>Cardioembolic  stroke</item>
         <item>Hemiplegia</item>
         <item>Thalamic CG Bleed</item>
-        <item>paralize</item>
+        <item>Paralize</item>
         <item>Dyselectrolytemia</item>
         <item>Laminectomy</item>
         <item>Enter case description</item>
@@ -401,7 +401,7 @@
     <string name="calibrate_cancel">Cancel</string>
     <string name="calibration_movement_instruction">Please move the Pheezee device as shown below.</string>
     <string name="pheezee_calibration"><b>Pheezee Calibration</b></string>
-    <string name="clibrating_status">Clibrating...</string>
+    <string name="clibrating_status">Calibrating...</string>
 
 <!--    Exercises Prescription Related-->
     <string name="exercise_prescription">Exercise Prescription</string>

@@ -96,19 +96,23 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.35"
                 android:background="@drawable/patient_item_layout"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:paddingEnd="5dp"
+                android:paddingStart="5dp">
+
 
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/btn_start_session"
-                    android:backgroundTint="#eaeaea"
                     android:fontFamily="@font/ebrima"
+
                     android:text="Start Session"
                     android:textAllCaps="false"
+                    android:background="@drawable/round_cancel_buttons"
                     style="@style/AppTheme.NoActionBar"
                     android:textColor="@color/good_green"
-                    android:textSize="12sp" />
+                    android:textSize="13sp" />
 
             </LinearLayout>
 
