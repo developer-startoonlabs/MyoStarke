@@ -232,10 +232,10 @@ public class PatientsView extends AppCompatActivity
 
         if(!gps_enabled){
             mDialog = new AlertDialog.Builder(this)
-                    .setTitle("Location is turned of")
+                    .setTitle("Location is turned off")
                     .setMessage("Please turn on location to scan and connect Pheezee")
                     .setCancelable(false)
-                    .setPositiveButton("Setting", new DialogInterface.OnClickListener() {
+                    .setPositiveButton("Continue", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));

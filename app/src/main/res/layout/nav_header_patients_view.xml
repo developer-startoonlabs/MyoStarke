@@ -48,7 +48,7 @@
         android:layout_width="80dp"
         android:layout_height="50dp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="@drawable/drawable_nav_header_right"
+
         app:layout_constraintTop_toTopOf="parent">
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -57,7 +57,6 @@
         android:layout_width="20dp"
         android:layout_height="50dp"
         android:layout_marginBottom="56dp"
-        android:background="@drawable/drawable_nav_header_left"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 

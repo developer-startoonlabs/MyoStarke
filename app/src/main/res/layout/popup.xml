@@ -44,7 +44,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/patientGender"
-        android:paddingTop="20dp">
+        android:paddingTop="100dp">
 
 
 

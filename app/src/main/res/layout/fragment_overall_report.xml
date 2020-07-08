@@ -26,4 +26,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Spinner
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/spinner_bodypart"
+        android:layout_width="209dp"
+        android:layout_height="wrap_content"
+        android:entries="@array/bodyPartName"
+        android:gravity="center_horizontal"
+        tools:layout_editor_absoluteX="106dp"
+        tools:layout_editor_absoluteY="185dp"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

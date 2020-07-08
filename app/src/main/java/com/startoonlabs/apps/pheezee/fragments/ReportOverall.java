@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,9 +43,11 @@ public class ReportOverall extends Fragment implements MqttSyncRepository.OnRepo
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        final String[] record = {""};
 
         // Inflate the layout for this fragment
         View view=  inflater.inflate(R.layout.fragment_overall_report, container, false);
+        Spinner overall_spinner = (Spinner)view.findViewById(R.id.spinner_bodypart);
 
         report_dialog = new ProgressDialog(getActivity());
         report_dialog.setMessage("Generating overall report please wait....");
@@ -57,6 +61,57 @@ public class ReportOverall extends Fragment implements MqttSyncRepository.OnRepo
         if(array==null || array.length()<=0){
             tv_overall_report.setText("No sessions done");
         }
+
+        // Added by Haaris 30/6/2020
+        overall_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                //use postion value
+
+                switch (position)
+
+                {
+
+                    case 0:
+                        record[0] = "elbow";
+                        break;
+                    case 1:
+                        record[0] = "knee";
+                        break;
+                    case 2:
+                        record[0] = "ankle";
+                        break;
+                    case 3:
+                        record[0] = "hip";
+                        break;
+                    case 4:
+                        record[0] = "wrist";
+                        break;
+                    case 5:
+                        record[0] = "shoulder";
+                        break;
+                    case 6:
+                        record[0] = "forearm";
+                        break;
+                    case 7:
+                        record[0] = "spine";
+                        break;
+                }
+
+            }
+
+            @Override
+
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+
+        });
+
+
         tv_overall_report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,7 +120,7 @@ public class ReportOverall extends Fragment implements MqttSyncRepository.OnRepo
                 }else {
                     Calendar calendar = Calendar.getInstance();
                     String date = calenderToYYYMMDD(calendar);
-                    getOverallReport(date);
+                    getOverallReport(date,record[0]);
                 }
             }
         });
@@ -81,8 +136,8 @@ public class ReportOverall extends Fragment implements MqttSyncRepository.OnRepo
     }
 
 
-    private void getOverallReport(String date){
-        String url = "/getreport/overall/"+patientId+"/"+phizioemail+"/" + date;
+    private void getOverallReport(String date,String bodypart){
+        String url = "/getreport/overall/"+patientId+"/"+phizioemail+"/" + date+"/" + bodypart;
         report_dialog.setMessage("Generating overall report for all the sessions held before "+date+", please wait....");
         report_dialog.show();
         repository.getDayReport(url,patientName+"-overall");
