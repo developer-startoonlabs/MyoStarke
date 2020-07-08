@@ -58,7 +58,7 @@
             android:paddingTop="5dp"
             android:text="Session Summary"
             android:textColor="@color/good_green"
-            android:textSize="18sp"
+            android:textSize="20sp"
             app:layout_constraintStart_toEndOf="@+id/summary_go_back"
             app:layout_constraintTop_toTopOf="parent" />
 

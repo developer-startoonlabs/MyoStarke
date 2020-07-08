@@ -30,10 +30,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/exercise_prescription"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:textColor="@color/good_green"
                 android:layout_gravity="center"
-                android:paddingStart="25dp"/>
+                android:paddingStart="20dp"/>
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -58,7 +58,9 @@
             android:layout_gravity="bottom"
             android:layout_marginBottom="0dp"
             android:background="@drawable/round_same_buttons"
+            android:textAllCaps="false"
             android:text="@string/btn_confirm_exercise_prescription"
+            android:textSize="18dp"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

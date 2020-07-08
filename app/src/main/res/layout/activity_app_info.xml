@@ -32,10 +32,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/app_info"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:textColor="@color/good_green"
                 android:layout_gravity="center"
-                android:paddingStart="25dp"/>
+                android:paddingStart="20dp"/>
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
     <androidx.constraintlayout.widget.ConstraintLayout

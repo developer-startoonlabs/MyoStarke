@@ -36,6 +36,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
@@ -1082,6 +1083,9 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
      * Refreshes the line graph
      */
     private void creatGraphView() {
+        Legend l = lineChart.getLegend();
+        l.setEnabled(false);
+
         lineChart.setHardwareAccelerationEnabled(true);
         dataPoints = new ArrayList<>();
         dataPoints.add(new Entry(0, 0));

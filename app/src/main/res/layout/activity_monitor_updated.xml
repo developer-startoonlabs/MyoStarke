@@ -38,11 +38,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="14dp"
                 android:text="@string/monitor"
                 android:textColor="@color/good_green"
-                android:textSize="16sp"
+                android:textSize="20sp"
                 app:layout_constraintStart_toEndOf="@+id/iv_back_monitor"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -56,8 +56,9 @@
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
                 android:visibility="gone"
-                android:text="SNAP"
-                android:textSize="16sp"
+                android:textAllCaps="false"
+                android:text="Snap"
+                android:textSize="18dp"
                 app:layout_constraintEnd_toStartOf="@+id/theme_chooser"
                 app:layout_constraintTop_toTopOf="parent" />
 

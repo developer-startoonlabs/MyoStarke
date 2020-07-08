@@ -35,10 +35,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginStart="@dimen/marginstart_toolbarttext_bodypart"
+                android:layout_marginStart="15sp"
                 android:text="@string/body_part"
                 android:textColor="@color/good_green"
-                android:textSize="@dimen/textsize_bodypart_toolbar" />
+                android:textSize="20sp" />
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
 
@@ -69,6 +69,8 @@
             android:layout_marginBottom="0dp"
             android:background="@drawable/round_same_buttons"
             android:onClick="startMonitorSession"
+            android:textAllCaps="false"
+            android:textSize="18dp"
             android:text="Done"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"

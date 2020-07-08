@@ -131,7 +131,7 @@
     <string name="nav_device_info">Device Info</string>
     <string name="nav_log_out">Logout</string>
 
-    <string name="home_home">HOME</string>
+    <string name="home_home">Home</string>
 
     <string name="timer_start">Start</string>
 
@@ -387,7 +387,7 @@
     <string name="logo_of_pheezee">Logo of pheezee</string>
     <string name="copy_rights_image">copy rights image</string>
     <string name="scan_devices">SCAN DEVICES</string>
-    <string name="scan">SCAN</string>
+    <string name="scan">Scan</string>
     <string name="todo">TODO</string>
     <string name="monitor_repetitions">Repetitions</string>
     <string name="monitor_active_time">Active time</string>

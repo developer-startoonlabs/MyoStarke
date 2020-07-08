@@ -36,10 +36,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/device_info"
-                android:textSize="@dimen/textsize_deviceinfo_toolbar"
+                android:textSize="20sp"
                 android:textColor="@color/good_green"
                 android:layout_gravity="center"
-                android:layout_marginStart="@dimen/marginstart_toolbarttext_bodypart"/>
+                android:layout_marginStart="10sp"/>
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
 <androidx.constraintlayout.widget.ConstraintLayout
@@ -504,17 +504,19 @@
 
     </LinearLayout>
 
-    <TextView
+    <Button
         android:id="@+id/tv_disconnect_forget"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:text=""
-        android:textColor="@color/good_green"
-        android:padding="20dp"
-        android:textSize="16sp"
+        android:textAllCaps="false"
+        android:text="+ Add Pheezee"
+        android:textColor="@color/white"
+        android:background="@drawable/round_same_buttons"
+        android:padding="10dp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ll_6" />

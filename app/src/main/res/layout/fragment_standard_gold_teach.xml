@@ -42,6 +42,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/ebrima"
                 android:text="Mythreyi Kondapi"
+                android:textColor="@color/pitch_black"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -67,6 +68,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/ebrima"
                 android:text="1234"
+                android:textColor="@color/pitch_black"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -115,6 +117,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/ebrima"
+                    android:textColor="@color/pitch_black"
                     android:text="0"
                     android:textSize="16sp" />
             </LinearLayout>
@@ -134,7 +137,7 @@
                     android:gravity="right"
                     android:text="Body Part: "
                     android:textColor="@color/pitch_black"
-                    android:textSize="14sp" />
+                    android:textSize="16sp" />
             </LinearLayout>
         </LinearLayout>
 
@@ -232,8 +235,8 @@
                     android:layout_marginBottom="16dp"
                     android:fontFamily="@font/ebrima"
                     android:text="@string/min_angle"
-                    android:textColor="@color/good_green"
-                    android:textSize="12sp"
+                    android:textColor="@color/pitch_black"
+                    android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -247,8 +250,8 @@
                     android:layout_marginBottom="16dp"
                     android:fontFamily="@font/ebrima"
                     android:text="0"
-                    android:textColor="@color/good_green"
-                    android:textSize="12sp"
+                    android:textColor="@color/pitch_black"
+                    android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/testMinAngle" />
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -270,8 +273,8 @@
                     android:layout_marginBottom="16dp"
                     android:fontFamily="@font/ebrima"
                     android:text="@string/max_angle"
-                    android:textColor="@color/good_green"
-                    android:textSize="12sp"
+                    android:textColor="@color/pitch_black"
+                    android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -286,8 +289,8 @@
                     android:layout_marginBottom="16dp"
                     android:fontFamily="@font/ebrima"
                     android:text="0"
-                    android:textColor="@color/good_green"
-                    android:textSize="12sp"
+                    android:textColor="@color/pitch_black"
+                    android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/testMaxAngle" />
@@ -336,6 +339,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/ebrima"
+                    android:textColor="@color/pitch_black"
                     android:text="00"
                     android:textSize="16sp" />
 
@@ -374,6 +378,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/ebrima"
+                android:textColor="@color/pitch_black"
                 android:text="00 : 00"
                 android:textSize="16sp" />
         </LinearLayout>
@@ -402,6 +407,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/ebrima"
+                android:textColor="@color/pitch_black"
                 android:text="00 : 00"
                 android:textSize="16sp" />
         </LinearLayout>
@@ -420,6 +426,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintHorizontal_weight="0.0"
         app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="100dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.54" />
 
@@ -432,8 +439,8 @@
         android:layout_marginBottom="8dp"
         android:fontFamily="@font/ebrima"
         android:text="Max Emg: "
-        android:textColor="@color/good_green"
-        android:textSize="12sp"
+        android:textColor="@color/pitch_black"
+        android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/chart"
         app:layout_constraintEnd_toStartOf="@+id/tv_max_emg_show"
         app:layout_constraintTop_toBottomOf="@+id/repsAndHoldTime" />
@@ -446,8 +453,8 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:text="0"
-        android:textColor="@color/good_green"
-        android:textSize="12sp"
+        android:textColor="@color/pitch_black"
+        android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/chart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/repsAndHoldTime" />
@@ -464,7 +471,8 @@
         app:layout_constraintHorizontal_weight="0.2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.72">
+        app:layout_constraintVertical_bias="0.72"
+        android:layout_marginTop="150dp">
 
         <LinearLayout
             android:id="@+id/emg"
@@ -489,6 +497,7 @@
         app:layout_constraintHorizontal_weight="0.8"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="150dp"
         app:layout_constraintVertical_bias="0.77" />
 
     <!--<ProgressBar-->
@@ -535,6 +544,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/rounded_stop_button"
+        android:textAllCaps="false"
         android:text="Stop"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
@@ -555,6 +565,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/rounded_start_button"
+        android:textAllCaps="false"
         android:text="Start"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
@@ -575,7 +586,8 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/rounded_stop_button"
-        android:text="CANCEL"
+        android:textAllCaps="false"
+        android:text="Cancel"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         android:theme="@style/AppTheme.customDesign.noActionBar"

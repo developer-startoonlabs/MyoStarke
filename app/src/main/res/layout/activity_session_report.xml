@@ -33,10 +33,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/session_report"
-                android:textSize="16sp"
+                android:textSize="20sp"
                 android:textColor="@color/good_green"
                 android:layout_gravity="center"
-                android:paddingStart="30dp"/>
+                android:paddingStart="20dp"/>
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
 

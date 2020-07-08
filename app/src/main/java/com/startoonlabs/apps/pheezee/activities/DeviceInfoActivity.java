@@ -167,12 +167,12 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
 
         if(!getIntent().getStringExtra("deviceMacAddress").equals("")){
             tv_device_mamc.setText(getIntent().getStringExtra("deviceMacAddress"));
-            tv_disconnect_forget.setText("Forget Device");
+            tv_disconnect_forget.setText("+ Add Pheezee");
         }
 
         if(!preferences.getString("deviceMacaddress","").equalsIgnoreCase("")){
             tv_device_mamc.setText(preferences.getString("deviceMacaddress",""));
-            tv_disconnect_forget.setText("Forget Device");
+            tv_disconnect_forget.setText("+ Add Pheezee");
         }
 
 
