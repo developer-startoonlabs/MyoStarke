@@ -29,7 +29,7 @@ import com.startoonlabs.apps.pheezee.retrofit.RetrofitClientInstance;
 import com.startoonlabs.apps.pheezee.utils.NetworkOperations;
 import com.startoonlabs.apps.pheezee.utils.RegexOperations;
 import com.trncic.library.DottedProgressBar;
-
+import android.widget.Button;
 
 public class LoginActivity extends AppCompatActivity implements MqttSyncRepository.OnLoginResponse {
     SharedPreferences sharedPref;
@@ -38,7 +38,8 @@ public class LoginActivity extends AppCompatActivity implements MqttSyncReposito
     ProgressDialog progressDialog;
 
     TextView tv_login,tv_welcome_message,tv_login_welcome_user,tv_signup_screen;
-    LinearLayout ll_login,ll_signin_section,btn_login,tv_forgot_password,ll_signup_section,ll_welcome;
+    LinearLayout ll_login,ll_signin_section,tv_forgot_password,ll_signup_section,ll_welcome;
+    Button btn_login;
     RelativeLayout rl_login_section;
     EditText et_mail,et_password;
     GetDataService getDataService;
@@ -74,8 +75,7 @@ public class LoginActivity extends AppCompatActivity implements MqttSyncReposito
 
     private void initializeView() {
         final Animation animation_up = AnimationUtils.loadAnimation(LoginActivity.this, R.anim.slide_up_dialog);
-        tv_login = findViewById(R.id.btn_login_login);
-        ll_login = findViewById(R.id.ll_signup);
+//        tv_login = findViewById(R.id.btn_login_login);
         rl_login_section = findViewById(R.id.rl_login_section);
         ll_signin_section = findViewById(R.id.layout_signin);
         btn_login = findViewById(R.id.btn_login);
@@ -94,6 +94,12 @@ public class LoginActivity extends AppCompatActivity implements MqttSyncReposito
         progressDialog.setIndeterminate(true);
         progressDialog.setCanceledOnTouchOutside(false);
 
+        // Skipping the login flow - Haaris 10/7/2020
+        setTheme(R.style.AppTheme_NoActionBarLogin);
+        rl_login_section.startAnimation(animation_up);
+        ll_signin_section.setVisibility(View.VISIBLE);
+        ll_signin_section.startAnimation(animation_up);
+
         et_mail.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -108,16 +114,16 @@ public class LoginActivity extends AppCompatActivity implements MqttSyncReposito
             public void onClick(View v) { startActivity(new Intent(LoginActivity.this,SignUpActivity.class)); }
         });
 
-        tv_login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setTheme(R.style.AppTheme_NoActionBarLogin);
-                rl_login_section.startAnimation(animation_up);
-                ll_signin_section.setVisibility(View.VISIBLE);
-                ll_signin_section.startAnimation(animation_up);
-                ll_login.setVisibility(View.GONE);
-            }
-        });
+//        tv_login.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                setTheme(R.style.AppTheme_NoActionBarLogin);
+//                rl_login_section.startAnimation(animation_up);
+//                ll_signin_section.setVisibility(View.VISIBLE);
+//                ll_signin_section.startAnimation(animation_up);
+//                ll_login.setVisibility(View.GONE);
+//            }
+//        });
 
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,8 +138,8 @@ public class LoginActivity extends AppCompatActivity implements MqttSyncReposito
                         setWelcomeText("Logging in..");
                         dottedProgressBar.startProgress();
                     }
-                     else {
-                         showToast(RegexOperations.getNonValidMessageLogin(str_login_email,str_login_password));
+                    else {
+                        showToast(RegexOperations.getNonValidMessageLogin(str_login_email,str_login_password));
                     }
                 }
                 else { NetworkOperations.networkError(LoginActivity.this); }
@@ -182,7 +188,7 @@ public class LoginActivity extends AppCompatActivity implements MqttSyncReposito
 
     @SuppressLint("ResourceType")
     public void showToast(String message){
-         Toast.makeText(getApplicationContext(),message,Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(),message,Toast.LENGTH_LONG).show();
     }
 
     @Override

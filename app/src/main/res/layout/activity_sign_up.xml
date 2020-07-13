@@ -4,271 +4,271 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    tools:context="com.startoonlabs.apps.pheezee.activities.SignUpActivity">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/tv_create_account"
+        android:layout_gravity="center"
+        tools:context="com.startoonlabs.apps.pheezee.activities.SignUpActivity">
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:fontFamily="@font/ebrima"
-            android:gravity="center"
-            android:text="@string/create_account_header"
-            android:textColor="@color/good_green"
-            android:textSize="35sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tv_signup"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="16dp"
-            android:padding="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_weight="0.8"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_create_account">
+            <TextView
+                android:id="@+id/tv_create_account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="@font/ebrima"
+                android:gravity="center"
+                android:text="@string/create_account_header"
+                android:textColor="@color/good_green"
+                android:textSize="25sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tv_signup"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="80dp"
+                android:layout_marginEnd="16dp"
+                android:padding="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_weight="0.8"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_create_account">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="0dp"
+                    android:background="@drawable/inputfield_background"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_signup_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#eaeaea"
+                        android:backgroundTint="#eaeaea"
+                        android:fontFamily="@font/ebrima"
+                        android:hint="@string/signup_name"
+                        android:inputType="textPersonName"
+                        android:paddingStart="5dp"
+                        android:paddingEnd="5dp"
+                        android:theme="@style/AppTheme.NoActionBar" />
+                </LinearLayout>
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tv_password"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="16dp"
+                android:padding="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_weight="0.8"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_signup">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="0dp"
+                    android:background="@drawable/inputfield_background"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_signup_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#eaeaea"
+                        android:backgroundTint="#eaeaea"
+                        android:fontFamily="@font/ebrima"
+                        android:hint="@string/signup_password"
+                        android:inputType="textPassword"
+                        android:paddingStart="5dp"
+                        android:paddingEnd="5dp"
+                        android:theme="@style/AppTheme.NoActionBar" />
+                </LinearLayout>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tv_email"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="16dp"
+                android:padding="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_weight="0.8"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_password">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="0dp"
+                    android:background="@drawable/inputfield_background"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_signup_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#eaeaea"
+                        android:backgroundTint="#eaeaea"
+                        android:fontFamily="@font/ebrima"
+                        android:hint="@string/signup_email"
+                        android:inputType="textEmailAddress"
+                        android:paddingStart="5dp"
+                        android:paddingEnd="5dp"
+                        android:theme="@style/AppTheme.NoActionBar" />
+                </LinearLayout>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tv_phone"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="16dp"
+                android:padding="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_weight="0.8"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_email">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="0dp"
+                    android:background="@drawable/inputfield_background"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_signup_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#eaeaea"
+                        android:backgroundTint="#eaeaea"
+                        android:fontFamily="@font/ebrima"
+                        android:hint="@string/signup_phone"
+                        android:inputType="phone"
+                        android:paddingStart="5dp"
+                        android:paddingEnd="5dp"
+                        android:theme="@style/AppTheme.NoActionBar" />
+                </LinearLayout>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!--        <com.google.android.material.textfield.TextInputLayout-->
+            <!--            android:id="@+id/tv_package_id"-->
+            <!--            android:layout_width="0dp"-->
+            <!--            android:layout_height="48dp"-->
+            <!--            android:layout_marginStart="16dp"-->
+            <!--            android:layout_marginTop="8dp"-->
+            <!--            android:layout_marginEnd="16dp"-->
+            <!--            android:padding="0dp"-->
+            <!--            app:layout_constraintEnd_toEndOf="parent"-->
+            <!--            app:layout_constraintHorizontal_bias="0.5"-->
+            <!--            app:layout_constraintHorizontal_weight="0.8"-->
+            <!--            app:layout_constraintStart_toStartOf="parent"-->
+            <!--            app:layout_constraintTop_toBottomOf="@+id/tv_phone">-->
+
+            <!--            <LinearLayout-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="match_parent"-->
+            <!--                android:layout_margin="0dp"-->
+            <!--                android:background="@drawable/inputfield_background"-->
+            <!--                android:gravity="center_vertical"-->
+            <!--                android:orientation="horizontal">-->
+
+            <!--                <com.google.android.material.textfield.TextInputEditText-->
+            <!--                    android:id="@+id/et_package_id"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:background="#eaeaea"-->
+            <!--                    android:backgroundTint="#eaeaea"-->
+            <!--                    android:fontFamily="@font/ebrima"-->
+            <!--                    android:hint="@string/signup_package_id"-->
+            <!--                    android:inputType="text"-->
+            <!--                    android:paddingStart="5dp"-->
+            <!--                    android:textIsSelectable="true"-->
+            <!--                    android:paddingEnd="5dp"-->
+            <!--                    android:theme="@style/AppTheme.NoActionBar" />-->
+            <!--            </LinearLayout>-->
+            <!--        </com.google.android.material.textfield.TextInputLayout>-->
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="0dp"
-                android:background="@drawable/inputfield_background"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/tv_phone"
+                android:paddingTop="100dp">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_signup_name"
-                    android:layout_width="match_parent"
+                <Button
+                    android:id="@+id/tv_cancel_signup"
+                    android:layout_width="fill_parent"
+                    android:layout_weight="1"
+                    android:textAllCaps="false"
                     android:layout_height="wrap_content"
-                    android:background="#eaeaea"
-                    android:backgroundTint="#eaeaea"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginEnd="2dp"
+                    android:layout_marginTop="16dp"
                     android:fontFamily="@font/ebrima"
-                    android:hint="@string/signup_name"
-                    android:inputType="textPersonName"
-                    android:paddingStart="5dp"
-                    android:paddingEnd="5dp"
-                    android:theme="@style/AppTheme.NoActionBar" />
-            </LinearLayout>
-        </com.google.android.material.textfield.TextInputLayout>
+                    android:gravity="center"
+                    android:paddingStart="25dp"
+                    android:paddingTop="10dp"
+                    android:paddingEnd="25dp"
+                    android:paddingBottom="10dp"
+                    android:text="@string/signup_cancel"
+                    android:background="@drawable/round_cancel_buttons"
+                    android:textColor="@color/good_green"
+                    android:textSize="18sp"
+                    app:layout_constraintHorizontal_bias="0.493"/>
 
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tv_password"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:padding="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_weight="0.8"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_signup">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="0dp"
-                android:background="@drawable/inputfield_background"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_signup_password"
-                    android:layout_width="match_parent"
+                <Button
+                    android:id="@+id/btn_signup_create"
+                    android:layout_width="fill_parent"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:background="#eaeaea"
-                    android:backgroundTint="#eaeaea"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="2dp"
+                    android:width="120dp"
+                    android:background="@drawable/round_same_buttons"
                     android:fontFamily="@font/ebrima"
-                    android:hint="@string/signup_password"
-                    android:inputType="textPassword"
-                    android:paddingStart="5dp"
-                    android:paddingEnd="5dp"
-                    android:theme="@style/AppTheme.NoActionBar" />
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="Create"
+                    android:textColor="@color/white_opaque"
+                    android:textSize="18sp"
+                    android:theme="@style/AppTheme.customDesign.noActionBar"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.487"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_phone" />
+
             </LinearLayout>
-        </com.google.android.material.textfield.TextInputLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tv_email"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:padding="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_weight="0.8"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_password">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="0dp"
-                android:background="@drawable/inputfield_background"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_signup_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#eaeaea"
-                    android:backgroundTint="#eaeaea"
-                    android:fontFamily="@font/ebrima"
-                    android:hint="@string/signup_email"
-                    android:inputType="textEmailAddress"
-                    android:paddingStart="5dp"
-                    android:paddingEnd="5dp"
-                    android:theme="@style/AppTheme.NoActionBar" />
-            </LinearLayout>
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tv_phone"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:padding="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_weight="0.8"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_email">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="0dp"
-                android:background="@drawable/inputfield_background"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_signup_phone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#eaeaea"
-                    android:backgroundTint="#eaeaea"
-                    android:fontFamily="@font/ebrima"
-                    android:hint="@string/signup_phone"
-                    android:inputType="phone"
-                    android:paddingStart="5dp"
-                    android:paddingEnd="5dp"
-                    android:theme="@style/AppTheme.NoActionBar" />
-            </LinearLayout>
-        </com.google.android.material.textfield.TextInputLayout>
-
-<!--        <com.google.android.material.textfield.TextInputLayout-->
-<!--            android:id="@+id/tv_package_id"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="48dp"-->
-<!--            android:layout_marginStart="16dp"-->
-<!--            android:layout_marginTop="8dp"-->
-<!--            android:layout_marginEnd="16dp"-->
-<!--            android:padding="0dp"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintHorizontal_bias="0.5"-->
-<!--            app:layout_constraintHorizontal_weight="0.8"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/tv_phone">-->
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:layout_margin="0dp"-->
-<!--                android:background="@drawable/inputfield_background"-->
-<!--                android:gravity="center_vertical"-->
-<!--                android:orientation="horizontal">-->
-
-<!--                <com.google.android.material.textfield.TextInputEditText-->
-<!--                    android:id="@+id/et_package_id"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:background="#eaeaea"-->
-<!--                    android:backgroundTint="#eaeaea"-->
-<!--                    android:fontFamily="@font/ebrima"-->
-<!--                    android:hint="@string/signup_package_id"-->
-<!--                    android:inputType="text"-->
-<!--                    android:paddingStart="5dp"-->
-<!--                    android:textIsSelectable="true"-->
-<!--                    android:paddingEnd="5dp"-->
-<!--                    android:theme="@style/AppTheme.NoActionBar" />-->
-<!--            </LinearLayout>-->
-<!--        </com.google.android.material.textfield.TextInputLayout>-->
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/tv_phone"
-        android:paddingTop="100dp">
-
-        <Button
-            android:id="@+id/tv_cancel_signup"
-            android:layout_width="fill_parent"
-            android:layout_weight="1"
-            android:textAllCaps="false"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
-            android:layout_marginEnd="2dp"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/ebrima"
-            android:gravity="center"
-            android:paddingStart="25dp"
-            android:paddingTop="10dp"
-            android:paddingEnd="25dp"
-            android:paddingBottom="10dp"
-            android:text="@string/signup_cancel"
-            android:background="@drawable/round_cancel_buttons"
-            android:textColor="@color/good_green"
-            android:textSize="18sp"
-            app:layout_constraintHorizontal_bias="0.493"/>
-
-        <Button
-            android:id="@+id/btn_signup_create"
-            android:layout_width="fill_parent"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="2dp"
-            android:width="120dp"
-            android:background="@drawable/round_same_buttons"
-            android:fontFamily="@font/ebrima"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="Create"
-            android:textColor="@color/white_opaque"
-            android:textSize="18sp"
-            android:theme="@style/AppTheme.customDesign.noActionBar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.487"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_phone" />
-
-    </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

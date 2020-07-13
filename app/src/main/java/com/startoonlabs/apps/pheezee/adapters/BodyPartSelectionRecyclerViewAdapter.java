@@ -36,12 +36,12 @@ import static com.startoonlabs.apps.pheezee.utils.PackageTypes.STANDARD_PACKAGE;
 public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<BodyPartSelectionRecyclerViewAdapter.ViewHolder> {
     private int selected_position = -1;
     Context context;
-//    int[] myPartList = new int[]{R.drawable.elbow_part, R.drawable.knee_part,R.drawable.ankle_part,R.drawable.hip_part,
+    //    int[] myPartList = new int[]{R.drawable.elbow_part, R.drawable.knee_part,R.drawable.ankle_part,R.drawable.hip_part,
 //            R.drawable.wrist_part,R.drawable.shoulder_part,R.drawable.other_body_part};
     TypedArray myPartList;
     String[] string_array_bodypart;
     private String default_max_emg = "900";
-//    private List<BodyPartWithMmtSelectionModel> bodyPartsList;
+    //    private List<BodyPartWithMmtSelectionModel> bodyPartsList;
     private int color_after_selected , color_nothing_selected;
     private String str_start, str_end, str_max_emg;
     onBodyPartOptionsSelectedListner listner;
@@ -115,7 +115,7 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
         this.str_start = context.getResources().getString(R.string.start);
         this.str_end = context.getResources().getString(R.string.end);
         this.str_max_emg = context.getResources().getString(R.string.max_emg);
-        this.color_after_selected = context.getResources().getColor(R.color.background_green);
+        this.color_after_selected = context.getResources().getColor(R.color.pitch_black);
         this.color_nothing_selected = context.getResources().getColor(R.color.pitch_black);
     }
 
@@ -149,8 +149,8 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
                 Animation aniFade = AnimationUtils.loadAnimation(context,R.anim.fade_in);
                 holder.cl_body_tv_and_image.setAnimation(aniFade);
                 holder.cl_body_tv_and_image.bringToFront();
-                    holder.rg_body_orientation.clearCheck();
-                    holder.rg_orientation.clearCheck();
+                holder.rg_body_orientation.clearCheck();
+                holder.rg_orientation.clearCheck();
                 if(selected_position==position){
                     selected_position=-1;
 //                    TransitionManager.beginDelayedTransition((ViewGroup)holder.cl_selection.getParent(), transition);

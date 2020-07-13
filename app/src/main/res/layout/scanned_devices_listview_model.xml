@@ -66,7 +66,9 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="5dp"
             android:background="@drawable/round_same_buttons"
-            android:text="CONNECT"
+            android:textAllCaps="false"
+            android:text="Connect"
+            android:textSize="18sp"
             android:textColor="@color/white" />
     </RelativeLayout>
 

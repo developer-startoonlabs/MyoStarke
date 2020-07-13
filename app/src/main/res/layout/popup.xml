@@ -9,6 +9,22 @@
     app:layout_constraintCircleRadius="10dp">
 
     <TextView
+        android:id="@+id/tv_create_account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/ebrima"
+        android:gravity="center"
+        android:text="Add patient"
+        android:textColor="@color/good_green"
+        android:textSize="25sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
         android:id="@+id/tv_patient_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -27,7 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="80dp"
         android:layout_marginEnd="16dp"
         android:hint="Patient Name"
         android:inputType="text"
@@ -36,6 +52,18 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_patient_id" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:layout_marginLeft="4sp"
+        android:layout_marginRight="4sp"
+        android:layout_marginTop="10dp"
+        android:background="@color/ic_add_patient_grey_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/patientGender"
+        android:paddingTop="1dp"></LinearLayout>
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -140,7 +168,7 @@
 
     <RadioGroup
         android:id="@+id/patientGender"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
@@ -150,15 +178,17 @@
 
         <RadioButton
             android:id="@+id/radioBtn_male"
+            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="M" />
+            android:text="Male" />
 
         <RadioButton
             android:id="@+id/radioBtn_female"
+            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="F" />
+            android:text="Female" />
     </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

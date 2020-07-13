@@ -21,8 +21,8 @@
     <dimen name="bodypart_list_padding_bottom">100dp</dimen>
     <dimen name="button_heigt_done">50dp</dimen>
     <dimen name="textsize_deviceinfo_toolbar">20sp</dimen>
-    <dimen name="element_height_device_info">75dp</dimen>
-    <dimen name="margintop_everyelement_deviceinfo">8dp</dimen>
+    <dimen name="element_height_device_info">70dp</dimen>
+    <dimen name="margintop_everyelement_deviceinfo">2dp</dimen>
     <dimen name="layoutmargin_text_everyelement">5dp</dimen>
     <dimen name="textsize_device_info_elements">18sp</dimen>
     <dimen name="toolbar_height_scandevices">60dp</dimen>
