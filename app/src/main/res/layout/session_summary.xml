@@ -833,7 +833,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/ebrima"
-                            android:text="Electromayogram (EMG)"
+                            android:text="Electromyogram (EMG)"
                             android:layout_marginBottom="5dp"
                             android:textColor="@color/pitch_black"
                             android:textSize="16sp" />
