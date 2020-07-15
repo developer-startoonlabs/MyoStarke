@@ -21,6 +21,7 @@ public class DateOperations {
             String monthName = new SimpleDateFormat("MMMM").format(cal.getTime());
             String dayName = new SimpleDateFormat("EEEE").format(cal.getTime());
             String dat = new SimpleDateFormat("dd").format(cal.getTime());
+            dayName = dayName.substring(0,3);
             return (monthName.substring(0,3)+" "+dat+", "+dayName);
         }
 

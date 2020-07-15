@@ -230,39 +230,39 @@ public class ValueBasedColorOperations {
     public static int getDrawableBasedOnBodyPart(String bodypart){
         switch (bodypart.toLowerCase()){
             case "elbow":{
-                return R.drawable.elbow_part;
+                return R.drawable.elbow_part_new;
             }
 
             case "knee":{
-                return R.drawable.knee_part;
+                return R.drawable.knee_part_new;
             }
 
             case "ankle":{
-                return R.drawable.ankle_part;
+                return R.drawable.ankle_part_new;
             }
 
             case "hip":{
-                return R.drawable.hip_part;
+                return R.drawable.hip_part_new;
             }
 
             case "wrist":{
-                return R.drawable.wrist_part;
+                return R.drawable.wrist_part_new;
             }
 
             case "shoulder":{
-                return R.drawable.shoulder_part;
+                return R.drawable.shoulder_part_new;
             }
 
             case "forearm":{
-                return R.drawable.forearm_part;
+                return R.drawable.forearm_part_new;
             }
 
             case "spine":{
-                return R.drawable.spine_part;
+                return R.drawable.spine_part_new;
             }
 
             default:{
-                return R.drawable.other_body_part;
+                return R.drawable.other_part_new;
             }
         }
     }

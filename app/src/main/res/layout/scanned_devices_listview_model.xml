@@ -23,6 +23,7 @@
             android:textColor="@color/good_green"
             android:layout_marginStart="20dp"
             android:layout_marginTop="12dp"
+            android:textSize="18dp"
             android:text="TextView" />
 
         <TextView
@@ -32,6 +33,7 @@
             android:textColor="@color/good_green"
             android:layout_alignStart="@+id/tv_deviceName"
             android:layout_centerVertical="true"
+            android:textSize="13sp"
             android:text="TextView" />
 
         <TextView
@@ -43,6 +45,7 @@
             android:textColor="@color/good_green"
             android:layout_marginStart="1dp"
             android:layout_marginTop="11dp"
+            android:textSize="13sp"
             android:text="TextView" />
 
         <TextView
@@ -53,11 +56,12 @@
             android:layout_alignBottom="@+id/tv_deviceBondState"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="142dp"
+            android:textSize="13sp"
             android:text="TextView" />
 
         <Button
             android:id="@+id/btn_connectToDevice"
-            android:layout_width="wrap_content"
+            android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/tv_deviceMacAdress"
             android:layout_alignParentTop="true"

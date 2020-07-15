@@ -1,5 +1,6 @@
 package com.startoonlabs.apps.pheezee.activities;
 
+import android.Manifest;
 import android.app.ActivityManager;
 import android.app.NotificationManager;
 import android.app.ProgressDialog;
@@ -13,6 +14,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.BatteryManager;
 import android.os.Build;
@@ -21,6 +26,8 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
@@ -32,11 +39,19 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.shreyaspatil.MaterialDialog.MaterialDialog;
 import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.dfu.DfuService;
@@ -44,7 +59,10 @@ import com.startoonlabs.apps.pheezee.dfu.fragment.UploadCancelFragment;
 import com.startoonlabs.apps.pheezee.pojos.DeviceDeactivationStatus;
 import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
 import com.startoonlabs.apps.pheezee.services.PheezeeBleService;
+import com.startoonlabs.apps.pheezee.services.Scanner;
+import com.startoonlabs.apps.pheezee.utils.BitmapOperations;
 import com.startoonlabs.apps.pheezee.utils.NetworkOperations;
+import com.startoonlabs.apps.pheezee.utils.RegexOperations;
 import com.startoonlabs.apps.pheezee.utils.ZipOperations;
 
 import java.io.BufferedInputStream;
@@ -76,6 +94,11 @@ import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.manufactu
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.serial_id;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.usb_state;
 
+
+
+
+
+
 public class DeviceInfoActivity extends AppCompatActivity implements UploadCancelFragment.CancelFragmentListener {
 
     //Bluetooth related declarations
@@ -88,6 +111,14 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
     BluetoothManager mBluetoothManager;
     PheezeeBleService mService;
     private boolean isBound = false, start_update = false, mDeviceState = false;
+    private String deviceMacc = "";
+    private static final int REQUEST_FINE_LOCATION = 14;
+    AlertDialog mDialog_scan;
+    private  double latitude = 0, longitude = 0;
+    AlertDialog.Builder builder;
+    final CharSequence[] peezee_items = { "Scan for nearby Pheezee devices",
+            "Qrcode Scan", "Cancel" };
+    Intent to_scan_devices_activity;
 
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
@@ -168,29 +199,34 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
         if(!getIntent().getStringExtra("deviceMacAddress").equals("")){
             tv_device_mamc.setText(getIntent().getStringExtra("deviceMacAddress"));
             tv_disconnect_forget.setText("+ Add Pheezee");
+            deviceMacc = tv_device_mamc.getText().toString();
+
         }
 
         if(!preferences.getString("deviceMacaddress","").equalsIgnoreCase("")){
             tv_device_mamc.setText(preferences.getString("deviceMacaddress",""));
             tv_disconnect_forget.setText("+ Add Pheezee");
+            deviceMacc = tv_device_mamc.getText().toString();
         }
 
 
         tv_disconnect_forget.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    editor = preferences.edit();
-                    editor.putString("deviceMacaddress","");
-                    editor.apply();
-                    if(mService!=null){
-                        mService.forgetPheezee();
-                        mService.disconnectDevice();
-                    }
-                    refreshView();
-                    tv_disconnect_forget.setText("");
-                Intent intent = new Intent();
-                setResult(13, intent);
-                finish();
+//                editor = preferences.edit();
+//                editor.putString("deviceMacaddress","");
+//                editor.apply();
+//                if(mService!=null){
+//                    mService.forgetPheezee();
+//                    mService.disconnectDevice();
+//                }
+//                refreshView();
+//                tv_disconnect_forget.setText("");
+//                Intent to_scan_devices_activity;
+//                to_scan_devices_activity = new Intent(DeviceInfoActivity.this, ScanDevicesActivity.class);
+//                startActivityForResult(to_scan_devices_activity, 12);
+                addPheezeeDevice(v);
+//                finish();
             }
         });
 
@@ -238,6 +274,189 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
             mActivateCommandGiven = true;
         }
     }
+
+    private boolean checkLocationEnabled() {
+        LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        boolean gps_enabled = false;
+
+        try {
+            gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        }
+
+        if(!gps_enabled){
+            mDialog_scan = new AlertDialog.Builder(this)
+                    .setTitle("Location is turned off")
+                    .setMessage("Please turn on location to scan and connect Pheezee")
+                    .setCancelable(false)
+                    .setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                            dialog.dismiss();
+                        }
+                    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).show();
+            mDialog_scan.show();
+
+        }
+        return gps_enabled;
+    }
+
+
+    public void getLastLocationOfDevice(){
+        FusedLocationProviderClient fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        fusedLocationProviderClient.getLastLocation()
+                .addOnSuccessListener(DeviceInfoActivity.this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        // Got last known location. In some rare situations this can be null.
+                        if (location != null) {
+                            // Logic to handle location object
+                            latitude = location.getLatitude();
+                            longitude = location.getLongitude();
+
+                        }
+                    }
+                });
+    }
+
+    private boolean hasLocationPermissions() {
+        return ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestLocationPermission() {
+        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_FINE_LOCATION);
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode==REQUEST_FINE_LOCATION){
+            if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                getLastLocationOfDevice();
+                if(mService!=null){
+                    if(mService.isScanning() || !deviceMacc.equalsIgnoreCase("")){
+                        mService.stopScaninBackground();
+                        mService.startScanInBackground();
+                    }
+                }
+            }
+        }
+    }
+
+
+    private boolean hasPermissions() {
+        if (!hasLocationPermissions()) {
+            requestLocationPermission();
+            return false;
+        }
+        return true;
+    }
+
+    public void addPheezeeDevice(View view){
+        if(deviceMacc.equalsIgnoreCase("")) {
+            if(hasPermissions() && checkLocationEnabled()) {
+                builder = new AlertDialog.Builder(DeviceInfoActivity.this);
+                builder.setTitle("Add Pheezee Device!");
+                builder.setItems(peezee_items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int item) {
+                        if (peezee_items[item].equals("Scan for nearby Pheezee devices")) {
+                            to_scan_devices_activity = new Intent(DeviceInfoActivity.this, ScanDevicesActivity.class);
+                            startActivityForResult(to_scan_devices_activity, 12);
+//                            finish();
+                        } else if (peezee_items[item].equals("Qrcode Scan")) {
+                            startActivityForResult(new Intent(DeviceInfoActivity.this, Scanner.class), 12);
+                        } else {
+                            dialog.dismiss();
+                        }
+                    }
+                });
+                builder.show();
+            }
+        }else {
+            showForgetDeviceDialog();
+        }
+    }
+
+    /**
+     * For photo editing of patient
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // check if the request code is same as what is passed  here it is 1
+        if(requestCode==5){
+
+        }
+        else if(requestCode==12) {
+            if (resultCode == RESULT_OK) {
+                String macAddress = data.getStringExtra("macAddress");
+                if (RegexOperations.validate(macAddress)) {
+                    if (mService != null) {
+                        mService.updatePheezeeMac(macAddress);
+                        mService.connectDevice(macAddress);
+                        deviceMacc = macAddress;
+                        editor = preferences.edit();
+                        editor.putString("deviceMacaddress", macAddress);
+                        editor.commit();
+                        // tv_connect_to_pheezee.setText(R.string.turn_on_device);
+                        showToast("Connecting, please wait..");
+                    }
+                }
+            }
+            finish();
+        }
+
+
+    }
+
+
+    public void showForgetDeviceDialog(){
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Forget Device");
+        builder.setMessage("Are you sure you want to forget the current device?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                editor = preferences.edit();
+                editor.putString("deviceMacaddress","");
+                editor.apply();
+                if(mService!=null){
+                    mService.forgetPheezee();
+                    mService.disconnectDevice();
+//                                    editor = preferences.edit();
+//                editor.putString("deviceMacaddress","");
+//                editor.apply();
+//                if(mService!=null){
+//                    mService.forgetPheezee();
+//                    mService.disconnectDevice();
+//                }
+                refreshView();
+//                tv_disconnect_forget.setText("");
+                }
+                enableScanningTheDevices();
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.show();
+    }
+
 
     private void calibrateDeviceDialog(){
         if(mDeviceState) {
@@ -385,17 +604,17 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
 
     private void startFirmwareUpdate(){
         if(mDeviceState) {
-        String message = getResources().getString(R.string.instructions_dfu);
-        if(mDfuDialog!=null){
-            mDfuDialog.dismiss();
-        }
-        mDfuDialog = new MaterialDialog.Builder(this)
-                .setTitle("Instructions")
-                .setMessage(message)
-                .setCancelable(true)
-                .setPositiveButton("Continue", new MaterialDialog.OnClickListener() {
-                    @Override
-                    public void onClick(com.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
+            String message = getResources().getString(R.string.instructions_dfu);
+            if(mDfuDialog!=null){
+                mDfuDialog.dismiss();
+            }
+            mDfuDialog = new MaterialDialog.Builder(this)
+                    .setTitle("Instructions")
+                    .setMessage(message)
+                    .setCancelable(true)
+                    .setPositiveButton("Continue", new MaterialDialog.OnClickListener() {
+                        @Override
+                        public void onClick(com.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
                             dialogInterface.dismiss();
                             BatteryManager bm = (BatteryManager) getSystemService(BATTERY_SERVICE);
                             int batLevel = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);
@@ -420,18 +639,18 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
                                 }
                             }
 
-                    }
-                })
-                .setNegativeButton("Cancel",new MaterialDialog.OnClickListener() {
-                    @Override
-                    public void onClick(com.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
-                        dialogInterface.dismiss();
-                    }
-                })
-                .build();
+                        }
+                    })
+                    .setNegativeButton("Cancel",new MaterialDialog.OnClickListener() {
+                        @Override
+                        public void onClick(com.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
+                            dialogInterface.dismiss();
+                        }
+                    })
+                    .build();
 
-        // Show Dialog
-        mDfuDialog.show();
+            // Show Dialog
+            mDfuDialog.show();
         }else{
             showToast("Please connect device");
         }
@@ -512,7 +731,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
         tv_serial_id.setText(R.string.device_null);
         tv_battery_level.setText(R.string.device_null);
         tv_connection_status.setText(R.string.device_not_connected);
-        tv_disconnect_forget.setText("");
+//        tv_disconnect_forget.setText("");
         tv_hardware_version.setText(R.string.device_null);
     }
 
@@ -695,6 +914,12 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
     }
 
 
+    private void enableScanningTheDevices() {
+
+        deviceMacc="";
+    }
+
+
     //DFU SERVICE LISTNER
     private final DfuProgressListener mDfuProgressListener = new DfuProgressListenerAdapter() {
         @Override
@@ -864,7 +1089,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
         if(mDialog!=null){
             mDialog.dismiss();
         }
-         mDialog = new MaterialDialog.Builder(this)
+        mDialog = new MaterialDialog.Builder(this)
                 .setTitle(title)
                 .setMessage(message)
                 .setCancelable(true)

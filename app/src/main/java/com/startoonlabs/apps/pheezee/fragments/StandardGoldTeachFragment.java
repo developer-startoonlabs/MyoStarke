@@ -289,7 +289,7 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
             @Override
             public void onClick(View v) {
                 if (mSessionStarted) {
-                    btn_emg_decrease_gain.setBackgroundResource(R.drawable.monitor_gain_btn);
+                    btn_emg_decrease_gain.setBackgroundResource(R.drawable.round_cancel_buttons);
                     if (gain_initial < 120) {
                         gain_initial += 10;
                         lineChart.zoom(1.4f, 1.4f, ui_rate, ui_rate);
@@ -307,7 +307,7 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
             @Override
             public void onClick(View v) {
                 if (mSessionStarted) {
-                    btn_emg_increase_gain.setBackgroundResource(R.drawable.monitor_gain_btn);
+                    btn_emg_increase_gain.setBackgroundResource(R.drawable.round_cancel_buttons);
                     if (gain_initial > 10) {
                         gain_initial -= 10;
                         if (gain_initial == 10) {
@@ -720,8 +720,8 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
      * Updates the view of gain to default
      */
     private void updateGainView() {
-        btn_emg_decrease_gain.setBackgroundResource(R.drawable.monitor_gain_btn);
-        btn_emg_increase_gain.setBackgroundResource(R.drawable.monitor_gain_btn);
+        btn_emg_decrease_gain.setBackgroundResource(R.drawable.round_cancel_buttons);
+        btn_emg_increase_gain.setBackgroundResource(R.drawable.round_cancel_buttons);
     }
 
 

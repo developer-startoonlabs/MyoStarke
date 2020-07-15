@@ -35,21 +35,21 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
-                    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                        android:id="@+id/patientProfilePic"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:padding="0dp"
-                        android:src="@color/good_green" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:id="@+id/iv_patient_name_container"
-                        android:layout_height="wrap_content"
-                        android:visibility="gone"
-                        android:layout_gravity="center"
-                        android:text="hello"
-                        android:textColor="@color/white"/>
+                        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                            android:id="@+id/patientProfilePic"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:padding="0dp"
+                            android:src="@color/good_green" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:id="@+id/iv_patient_name_container"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:layout_gravity="center"
+                            android:text="hello"
+                            android:textColor="@color/white"/>
                     </FrameLayout>
 
 
@@ -70,6 +70,7 @@
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp">
 
+
                 <TextView
                     android:id="@+id/patientName"
                     android:layout_width="wrap_content"
@@ -78,6 +79,16 @@
                     android:text="sai"
                     android:textColor="@color/pitch_black"
                     android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tv_patient_joindate_section_pv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/ebrima"
+                    android:text="test"
+                    android:alpha="0.5"
+                    android:textColor="@color/pitch_black"
+                    android:textSize="13sp" />
 
                 <TextView
                     android:id="@+id/patientId"
@@ -89,6 +100,7 @@
                     android:textColor="@color/pitch_black"
                     android:alpha="0.7"
                     android:textSize="14sp" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -103,7 +115,7 @@
 
                 <Button
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:id="@+id/btn_start_session"
                     android:fontFamily="@font/ebrima"
 

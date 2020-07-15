@@ -170,18 +170,18 @@
     <!--        app:layout_constraintEnd_toStartOf="@+id/tv_max_emg_show"-->
     <!--        app:layout_constraintTop_toBottomOf="@+id/repsAndHoldTime" />-->
 
-<!--    <com.startoonlabs.apps.smileyprogressbar.SmileyArcView-->
-<!--        android:id="@+id/smileyArcView"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="0dp"-->
-<!--        android:layout_marginStart="8dp"-->
-<!--        android:layout_marginTop="8dp"-->
-<!--        android:layout_marginEnd="8dp"-->
-<!--        android:layout_marginBottom="8dp"-->
-<!--        app:layout_constraintBottom_toTopOf="@+id/guideline7"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/angleContainter" />-->
+    <!--    <com.startoonlabs.apps.smileyprogressbar.SmileyArcView-->
+    <!--        android:id="@+id/smileyArcView"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="0dp"-->
+    <!--        android:layout_marginStart="8dp"-->
+    <!--        android:layout_marginTop="8dp"-->
+    <!--        android:layout_marginEnd="8dp"-->
+    <!--        android:layout_marginBottom="8dp"-->
+    <!--        app:layout_constraintBottom_toTopOf="@+id/guideline7"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/angleContainter" />-->
 
     <FrameLayout
         android:id="@+id/vertical_star_view_container"
@@ -193,133 +193,136 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/angleContainter" >
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/background_star_view"
-                app:layout_constraintDimensionRatio="1:1" />
-            <com.startoonlabs.apps.smileyprogressbar.VerticalStarProgressView
-                android:id="@+id/vertical_star_view"
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/background_star_view"
+            app:layout_constraintDimensionRatio="1:1" />
+        <com.startoonlabs.apps.smileyprogressbar.VerticalStarProgressView
+            android:id="@+id/vertical_star_view"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center" />
     </FrameLayout>
 
 
-            <TextView
-                android:id="@+id/textMaxemg"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:fontFamily="@font/ebrima"
-                android:text="Max Emg: "
-                android:textColor="@color/good_green"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toStartOf="@+id/tv_max_emg_show"
-                app:layout_constraintTop_toBottomOf="@+id/vertical_star_view_container" />
+    <TextView
+        android:id="@+id/textMaxemg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="@font/ebrima"
+        android:text="Max Emg: "
+        android:textColor="@color/good_green"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@+id/tv_max_emg_show"
+        app:layout_constraintTop_toBottomOf="@+id/vertical_star_view_container" />
 
-            <TextView
-                android:id="@+id/tv_max_emg_show"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:text="0"
-                android:textColor="@color/good_green"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/textMaxemg"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textMaxemg" />
+    <TextView
+        android:id="@+id/tv_max_emg_show"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="0"
+        android:textColor="@color/good_green"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textMaxemg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textMaxemg" />
 
-            <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/chart"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="60dp"
-                app:layout_constraintBottom_toBottomOf="@+id/timer"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintHorizontal_weight="0.8"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textMaxemg" />
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/chart"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="60dp"
+        app:layout_constraintBottom_toBottomOf="@+id/timer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="0.8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textMaxemg" />
 
-            <Button
-                android:id="@+id/stopBtn"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/rounded_stop_button"
-                android:text="Stop"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"
-                android:theme="@style/AppTheme.customDesign.noActionBar"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/timer"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/cancel"
-                app:layout_constraintTop_toBottomOf="@+id/chart"
-                app:layout_constraintVertical_bias="1.0" />
+    <Button
+        android:id="@+id/stopBtn"
+        style="?android:attr/buttonBarButtonStyle"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:layout_margin="1dp"
+        android:background="@drawable/rounded_stop_button"
+        android:textAllCaps="false"
+        android:text="Stop"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:theme="@style/AppTheme.customDesign.noActionBar"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/timer"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/cancel"
+        app:layout_constraintTop_toBottomOf="@+id/chart"
+        app:layout_constraintVertical_bias="1.0" />
 
-            <Button
-                android:id="@+id/timer"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/rounded_start_button"
-                android:text="Start"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"
-                android:theme="@style/AppTheme.customDesign.noActionBar"
-                android:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="@+id/snackbar_action"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/stopBtn" />
+    <Button
+        android:id="@+id/timer"
+        style="?android:attr/buttonBarButtonStyle"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_margin="1dp"
+        android:background="@drawable/rounded_start_button"
+        android:textAllCaps="false"
+        android:text="Start"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:theme="@style/AppTheme.customDesign.noActionBar"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/snackbar_action"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/stopBtn" />
 
-            <Button
-                android:id="@+id/cancel"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/rounded_stop_button"
-                android:text="CANCEL"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"
-                android:theme="@style/AppTheme.customDesign.noActionBar"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/stopBtn"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/snackbar_action"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/chart"
-                app:layout_constraintVertical_bias="1.0" />
-
-
-            <TextView
-                android:id="@+id/snackbar_action"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline7"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.5" />
+    <Button
+        android:id="@+id/cancel"
+        style="?android:attr/buttonBarButtonStyle"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="1dp"
+        android:background="@drawable/rounded_stop_button"
+        android:textAllCaps="false"
+        android:text="Cancel"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:theme="@style/AppTheme.customDesign.noActionBar"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/stopBtn"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/snackbar_action"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chart"
+        app:layout_constraintVertical_bias="1.0" />
 
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/snackbar_action"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

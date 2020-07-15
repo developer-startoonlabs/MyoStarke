@@ -36,7 +36,7 @@
             android:fontFamily="@font/ebrima"
             android:text="TextView"
             android:textColor="@color/pitch_black"
-            android:textSize="20sp"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/model_iv_bodypart_image"
@@ -91,6 +91,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
+                android:textSize="16sp"
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
                 android:text="@string/left" />
@@ -101,6 +102,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="8dp"
+                android:textSize="16sp"
                 android:layout_weight="1"
                 android:text="@string/right" />
 
@@ -221,6 +223,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:layout_marginStart="8dp"
+                android:textSize="16sp"
                 android:layout_weight="1"
                 android:text="@string/sit" />
 
@@ -231,6 +234,7 @@
                 android:layout_gravity="center"
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
+                android:textSize="16sp"
                 android:text="@string/stand" />
 
             <RadioButton
@@ -239,6 +243,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_marginEnd="8dp"
+                android:textSize="16sp"
                 android:text="@string/supine" />
         </RadioGroup>
 
@@ -269,6 +274,7 @@
             android:layout_marginTop="8dp"
             android:background="@drawable/round_corners_textboxes_time"
             android:inputType="numberSigned"
+            android:paddingLeft="15dp"
             android:imeOptions="actionDone"
             app:layout_constraintBottom_toBottomOf="@+id/model_et_min_angle"
             app:layout_constraintStart_toEndOf="@+id/constraintLayout2"
@@ -300,6 +306,7 @@
             app:layout_constraintBottom_toTopOf="@+id/tv_max_angle_text"
             app:layout_constraintEnd_toEndOf="parent"
             android:inputType="number"
+            android:paddingLeft="15dp"
             android:imeOptions="actionNext"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/guideline4"
@@ -312,6 +319,7 @@
             android:layout_height="40dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:paddingLeft="15dp"
             android:imeOptions="actionNext"
             android:background="@drawable/round_corners_textboxes_time"
             android:inputType="numberSigned"
@@ -337,6 +345,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
+            android:textSize="16sp"
             android:text="@string/start"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/model_tv_stop"
@@ -350,6 +359,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
+            android:textSize="16sp"
             android:text="@string/end"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -364,6 +374,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:text="@string/max_emg"
+            android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/model_et_min_angle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"

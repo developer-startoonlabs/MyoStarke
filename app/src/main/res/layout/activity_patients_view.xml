@@ -20,7 +20,10 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
+        app:itemIconPadding="20dp"
+        app:itemIconSize="25dp"
         android:background="@color/white"
+        app:itemBackground="@drawable/nav_draw_background"
         style="@style/AppTheme.NoActionBar"
         app:headerLayout="@layout/nav_header_patients_view"
         app:menu="@menu/activity_patients_view_drawer">

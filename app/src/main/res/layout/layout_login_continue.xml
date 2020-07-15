@@ -187,7 +187,7 @@
                 android:textStyle="bold"
                 android:text="@string/signup"
                 android:textColor="@color/pitch_black"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 app:layout_constraintBottom_toTopOf="@+id/login_have_an_account"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"

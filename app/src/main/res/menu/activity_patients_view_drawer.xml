@@ -4,24 +4,25 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
-        <item android:id="@+id/nav_home"
-            android:title="@string/nav_home"/>
-
-        <item android:id="@+id/nav_add_device"
-                android:title="@string/nav_add_device"/>
-
-        <item android:id="@+id/nav_add_patient"
-            android:title="@string/nav_add_patient"/>
 
         <item
             android:id="@+id/pheeze_device_info"
+            android:icon="@drawable/ic_my_device_icon"
             android:title="@string/nav_device_info"/>
 
+        <item android:id="@+id/nav_add_patient"
+            android:title="@string/nav_add_patient"
+            android:icon="@drawable/ic_add_patient_icon_navdraw"/>
+
+
+
         <item  android:id="@+id/nav_app_version"
-            android:title="@string/nav_app_version"/>
+            android:title="@string/nav_app_version"
+            android:icon="@drawable/ic_app_version_icon"/>
 
         <item
             android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_logout_icon"
             android:title="@string/nav_log_out" />
     </group>
 

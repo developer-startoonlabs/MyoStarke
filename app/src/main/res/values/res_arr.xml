@@ -16,15 +16,15 @@
     </array>
 
     <array name="body_part">
-        <item>@drawable/elbow_part</item>
-        <item>@drawable/knee_part</item>
-        <item>@drawable/ankle_part</item>
-        <item>@drawable/hip_part</item>
-        <item>@drawable/wrist_part</item>
-        <item>@drawable/shoulder_part</item>
-        <item>@drawable/forearm_part</item>
-        <item>@drawable/spine_part</item>
-        <item>@drawable/other_body_part</item>
+        <item>@drawable/elbow_part_new</item>
+        <item>@drawable/knee_part_new</item>
+        <item>@drawable/ankle_part_new</item>
+        <item>@drawable/hip_part_new</item>
+        <item>@drawable/wrist_part_new</item>
+        <item>@drawable/shoulder_part_new</item>
+        <item>@drawable/forearm_part_new</item>
+        <item>@drawable/spine_part_new</item>
+        <item>@drawable/other_part_new</item>
     </array>
 
 </resources>

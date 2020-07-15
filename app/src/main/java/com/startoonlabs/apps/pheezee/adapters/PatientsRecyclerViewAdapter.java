@@ -23,6 +23,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.room.Entity.PhizioPatients;
+import com.startoonlabs.apps.pheezee.utils.DateOperations;
+
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,7 +46,7 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
     private onItemClickListner listner;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView patientName, patientId,patientNameContainer;
+        private TextView patientName, patientId,patientNameContainer,tv_date_of_join;
         private ImageView patientProfilepic;
         private TextView iv_tripple_dot_red;
         private LinearLayout ll_option_patient_list;
@@ -54,6 +56,7 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
             super(view);
             patientName =   view.findViewById(R.id.patientName);
             patientId   =   view.findViewById(R.id.patientId);
+            tv_date_of_join = view.findViewById(R.id.tv_patient_joindate_section_pv);
             patientProfilepic = view.findViewById(R.id.patientProfilePic);
             ll_option_patient_list = view.findViewById(R.id.options_popup_window);
             patientNameContainer  = view.findViewById(R.id.iv_patient_name_container);
@@ -85,9 +88,9 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
     }
 
     public void setNotes(List<PhizioPatients> notes){
-            this.updatedPatientList = notes;
-            this.patientsListData = notes;
-            notifyDataSetChanged();
+        this.updatedPatientList = notes;
+        this.patientsListData = notes;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -106,6 +109,7 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
         PhizioPatients patientsList = updatedPatientList.get(position);
         holder.patientName.setText(patientsList.getPatientname());
         holder.patientId.setText("Id :"+patientsList.getPatientid());
+        holder.tv_date_of_join.setText( "Last Session: "+DateOperations.getDateInMonthAndDate(patientsList.getDateofjoin()));
         holder.patientNameContainer.setVisibility(View.GONE);
         holder.patientProfilepic.setImageResource(android.R.color.transparent);
         if(patientsList.isSceduled()){
@@ -134,12 +138,12 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
 
         String patientUrl = patientsList.getPatientprofilepicurl();
         if(!patientUrl.trim().toLowerCase().equals("empty")) {
-                Glide.with(context)
-                        .load("https://s3.ap-south-1.amazonaws.com/pheezee/physiotherapist/" + str_phizioemail.replaceFirst("@", "%40") + "/patients/" + patientsList.getPatientid() + "/images/profilepic.png")
-                        .apply(new RequestOptions()
-                                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                                .skipMemoryCache(true))
-                        .into(holder.patientProfilepic);
+            Glide.with(context)
+                    .load("https://s3.ap-south-1.amazonaws.com/pheezee/physiotherapist/" + str_phizioemail.replaceFirst("@", "%40") + "/patients/" + patientsList.getPatientid() + "/images/profilepic.png")
+                    .apply(new RequestOptions()
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                            .skipMemoryCache(true))
+                    .into(holder.patientProfilepic);
         }
         else {
             holder.patientNameContainer.setVisibility(View.VISIBLE);
@@ -154,32 +158,32 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
 
 
     public Filter getFilter(){
-            return new Filter() {
-                @Override
-                protected FilterResults performFiltering(CharSequence constraint) {
-                    String patientString = constraint.toString();
-                    if(patientString.isEmpty()){
-                        updatedPatientList = patientsListData;
-                    }else {
-                        List<PhizioPatients> filterList = new ArrayList<>();
-                        for(PhizioPatients patientsList: patientsListData){
-                            if(patientsList.getPatientname().toLowerCase().contains(patientString)){
-                                filterList.add(patientsList);
-                            }
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                String patientString = constraint.toString();
+                if(patientString.isEmpty()){
+                    updatedPatientList = patientsListData;
+                }else {
+                    List<PhizioPatients> filterList = new ArrayList<>();
+                    for(PhizioPatients patientsList: patientsListData){
+                        if(patientsList.getPatientname().toLowerCase().contains(patientString)){
+                            filterList.add(patientsList);
                         }
-                        updatedPatientList =filterList;
                     }
-                    FilterResults filterResults = new FilterResults();
-                    filterResults.values = updatedPatientList;
-                    return filterResults;
+                    updatedPatientList =filterList;
                 }
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = updatedPatientList;
+                return filterResults;
+            }
 
-                @Override
-                protected void publishResults(CharSequence constraint, FilterResults results) {
-                    updatedPatientList = (ArrayList<PhizioPatients>)results.values;
-                    notifyDataSetChanged();
-                }
-            };
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                updatedPatientList = (ArrayList<PhizioPatients>)results.values;
+                notifyDataSetChanged();
+            }
+        };
     }
     // Return the size of your dataset (invoked by the layout manager)
     @Override
@@ -238,3 +242,4 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
         }
     }
 }
+

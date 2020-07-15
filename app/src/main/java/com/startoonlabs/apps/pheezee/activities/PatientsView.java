@@ -642,13 +642,6 @@ public class PatientsView extends AppCompatActivity
             startActivityForResult(i,13);
         }
 
-        else if(id==R.id.nav_home){
-
-        }
-
-        else if(id==R.id.nav_add_device){
-            addPheezeeDevice(item.getActionView());
-        }
         else if(id==R.id.nav_add_patient){
             initiatePopupWindow();
         }

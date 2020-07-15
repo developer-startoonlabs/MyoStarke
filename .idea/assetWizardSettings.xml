@@ -150,9 +150,10 @@
                         </option>
                         <option name="values">
                           <map>
+                            <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="ic_location_on" />
-                            <entry key="sourceFile" value="C:\Users\STARTOONLABS" />
+                            <entry key="outputName" value="ic_app_version_icon" />
+                            <entry key="sourceFile" value="C:\Users\STARTOONLABS\Desktop\Screens\7\Group 5354.svg" />
                           </map>
                         </option>
                       </PersistentState>
