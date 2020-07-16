@@ -8,58 +8,68 @@
     android:gravity="bottom"
     >
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/good_green">
+
+     <LinearLayout
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_gravity="center_horizontal"
+         android:layout_marginTop="60dp">
+
     <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/imageViewdp"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_marginStart="48dp"
-        app:civ_border_color="#FF000000"
+        app:civ_border_color="@color/white"
         app:civ_border_width="0.1dp"
         app:layout_constraintBottom_toTopOf="@+id/fullName"
         app:layout_constraintStart_toStartOf="parent" />
+     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
     <TextView
         android:id="@+id/fullName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
         android:fontFamily="@font/ebrima"
+        android:textStyle="bold"
+        android:textSize="18dp"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:text="@string/nav_header_title"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/pitch_black"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/emailId"
         app:layout_constraintStart_toStartOf="parent" />
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
     <TextView
         android:id="@+id/emailId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
-        android:layout_marginBottom="16dp"
         android:fontFamily="@font/ebrima"
-        android:textColor="@color/pitch_black"
-        android:alpha="0.9"
+        android:textColor="@color/browser_actions_bg_grey"
+        android:textSize="15dp"
+        android:alpha="0.5"
         android:text="@string/nav_header_subtitle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="80dp"
-        android:layout_height="50dp"
-        app:layout_constraintEnd_toEndOf="parent"
+    </LinearLayout>
+    </LinearLayout>
 
-        app:layout_constraintTop_toTopOf="parent">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="20dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="56dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

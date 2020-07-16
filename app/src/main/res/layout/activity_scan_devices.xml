@@ -6,14 +6,15 @@
     android:orientation="vertical"
     tools:context="com.startoonlabs.apps.pheezee.activities.ScanDevicesActivity"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/progress_gray_trans">
 
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar_scandevices"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/toolbar_height_scandevices"
-                app:elevation="@dimen/toolbar_dim_5"
+                app:elevation="5dp"
+                android:elevation="5dp"
                 android:background="@color/white_opaque">
 
                 <LinearLayout
@@ -98,6 +99,8 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     android:layout_width="match_parent"
 android:layout_height="match_parent"
+    android:background="@color/white"
+    android:layout_marginTop="2dp"
 tools:context="com.startoonlabs.apps.pheezee.activities.ScanDevicesActivity">
     <include layout="@layout/content_scan_devices" />
 

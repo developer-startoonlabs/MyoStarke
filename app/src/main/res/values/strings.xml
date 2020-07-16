@@ -126,8 +126,8 @@
 
     <string name="nav_home">Home</string>
     <string name="nav_add_device">Add device</string>
-    <string name="nav_add_patient">Add patient</string>
-    <string name="nav_app_version">App version</string>
+    <string name="nav_add_patient">Add Patient</string>
+    <string name="nav_app_version">App Info</string>
     <string name="nav_device_info">My Device</string>
     <string name="nav_log_out">Logout</string>
 

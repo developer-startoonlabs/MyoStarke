@@ -16,13 +16,15 @@
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
+        android:theme="@style/NavigationDrawerStyle"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:itemIconPadding="20dp"
-        app:itemIconSize="25dp"
+        app:itemIconSize="30dp"
         android:background="@color/white"
+        app:itemIconTint="@color/good_green"
         app:itemBackground="@drawable/nav_draw_background"
         style="@style/AppTheme.NoActionBar"
         app:headerLayout="@layout/nav_header_patients_view"
