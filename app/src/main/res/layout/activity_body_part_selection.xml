@@ -26,7 +26,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:paddingLeft="2dp"
-                android:id="@+id/iv_back_app_info"
+                android:id="@+id/iv_back_body_part_selection"
                 android:paddingTop="2dp"
                 android:paddingBottom="2dp"
                 android:src="@drawable/green_back_arrow"/>
