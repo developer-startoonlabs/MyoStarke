@@ -3,12 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        tools:context="com.startoonlabs.apps.pheezee.activities.SignUpActivity">
+        tools:context="com.startoonlabs.apps.pheezee.activities.SignUpActivity"
+        android:background="@color/white">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -223,9 +225,13 @@
             <!--        </com.google.android.material.textfield.TextInputLayout>-->
 
             <LinearLayout
+                android:id="@+id/layout_sign_up"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/tv_phone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_weight="0.8"
                 android:paddingTop="100dp">
 
                 <Button
@@ -262,7 +268,7 @@
                     android:fontFamily="@font/ebrima"
                     android:gravity="center"
                     android:padding="10dp"
-                    android:text="Create"
+                    android:text="Sign Up"
                     android:textColor="@color/white_opaque"
                     android:textSize="18sp"
                     android:theme="@style/AppTheme.customDesign.noActionBar"
@@ -271,6 +277,26 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_phone" />
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintTop_toBottomOf="@+id/layout_sign_up"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:id="@+id/textView15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/by_signing_in"
+                    android:textColor="@color/good_green"
+                    android:layout_marginTop="30dp"
+                    android:textSize="12sp" />
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -110,7 +110,7 @@
     <string name="new_user">New user?</string>
     <string name="have_account">Already have an account?</string>
     <string name="login"><u>Log in</u></string>
-    <string name="signup"><u>Sign up</u></string>
+    <string name="signup">Sign up</string>
 
     <string name="continue_with">Continue with</string>
 
@@ -138,7 +138,7 @@
 
     <!--sign-up related tags-->
 
-    <string name="create_account_header">Create account</string>
+    <string name="create_account_header">Sign Up</string>
     <string name="signup_name">Name</string>
     <string name="signup_password">Password</string>
     <string name="signup_email">Email</string>
@@ -151,7 +151,7 @@
 
 
     <!--device info related tags-->
-    <string name="device_info">Device Info</string>
+    <string name="device_info">My Device</string>
     <string name="physio_profile">Profile</string>
     <string name="device_name">Device Name:</string>
     <string name="device_mac">Device Mac:</string>
@@ -180,7 +180,7 @@
 
 
     <!--Appinfo related tags-->
-    <string name="app_info">Application Info</string>
+    <string name="app_info">App Info</string>
     <string name="app_version">Application Version</string>
     <string name="application_version">2.16.13.h</string>
 

@@ -63,10 +63,10 @@
                 android:singleLine="true"
                 android:drawableLeft="@drawable/drawable_mailid_icon"
                 android:drawablePadding="20dp"
-                android:hint="abc@startoonlabs.com"
+                android:hint="Email"
                 android:inputType="textEmailAddress"
                 android:textColor="@color/pale_white"
-                android:textSize="14sp" />
+                android:textSize="18sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -84,10 +84,10 @@
                 android:drawableLeft="@drawable/drawable_password_icon"
                 android:drawablePadding="20dp"
                 android:gravity="start"
-                android:hint="password"
+                android:hint="Password"
                 android:inputType="textPassword"
                 android:textColor="@color/pale_white"
-                android:textSize="14sp" />
+                android:textSize="18sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -117,7 +117,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
+                android:layout_marginTop="7dp"
                 android:alpha="0.7"
                 android:text="@string/forgot_password"
                 android:layout_marginRight="50dp"
@@ -161,16 +161,16 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="10sp">
+            android:layout_marginBottom="10sp"
+            android:gravity="center_horizontal">
 
             <TextView
                 android:id="@+id/textView10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="135dp"
                 android:text="@string/new_user"
                 android:textColor="@color/pitch_black"
-                android:textSize="15sp"
+                android:textSize="18sp"
                 app:layout_constraintBottom_toTopOf="@+id/login_have_an_account"
                 app:layout_constraintEnd_toStartOf="@+id/login_tv_signup"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -193,25 +193,7 @@
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent" />
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/textView15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="45dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
-                android:gravity="center"
-                android:text="@string/by_signing_in"
-                android:textColor="@color/good_green"
-                android:textSize="12sp" />
-        </LinearLayout>
     </LinearLayout>
 
 
