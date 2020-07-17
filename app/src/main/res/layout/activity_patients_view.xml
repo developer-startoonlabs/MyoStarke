@@ -21,7 +21,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:itemIconPadding="20dp"
+        app:itemIconPadding="30dp"
         app:itemIconSize="30dp"
         android:background="@color/white"
         app:itemIconTint="@color/good_green"
