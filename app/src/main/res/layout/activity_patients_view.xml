@@ -22,7 +22,7 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:itemIconPadding="30dp"
-        app:itemIconSize="30dp"
+        app:itemIconSize="25dp"
         android:background="@color/white"
         app:itemIconTint="@color/good_green"
         app:itemBackground="@drawable/nav_draw_background"

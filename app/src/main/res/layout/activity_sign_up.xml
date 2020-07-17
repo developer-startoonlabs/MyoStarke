@@ -294,9 +294,9 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="@string/by_signing_in"
-                    android:textColor="@color/good_green"
-                    android:layout_marginTop="30dp"
-                    android:textSize="12sp" />
+                    android:textColor="@color/pitch_black"
+                    android:layout_marginTop="50dp"
+                    android:textSize="13sp" />
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
