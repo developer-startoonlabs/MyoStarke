@@ -83,6 +83,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="0.6"
+                        android:layout_marginEnd="5dp"
                         android:gravity="right"
                         android:orientation="horizontal">
 
@@ -138,6 +139,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center"
+                        android:layout_marginEnd="5dp"
                         android:orientation="vertical">
 
                         <TextView
@@ -204,6 +206,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center"
+                        android:layout_marginEnd="5dp"
                         android:orientation="vertical">
 
                         <TextView
@@ -268,6 +271,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center"
+                        android:layout_marginEnd="5dp"
                         android:orientation="vertical">
 
                         <TextView
@@ -380,6 +384,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="end"
+                        android:layout_marginEnd="5dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -433,6 +438,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="end"
+                        android:layout_marginEnd="5dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -486,6 +492,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="end"
+                        android:layout_marginEnd="5dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -517,15 +524,15 @@
         android:layout_gravity="bottom"
         android:gravity="bottom"
         android:padding="2dp">
-    <Button
-        android:id="@+id/tv_disconnect_forget"
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:layout_gravity="bottom"
-        android:textAllCaps="false"
-        android:text="+ Add Pheezee"
-        android:textColor="@color/white"
-        android:background="@drawable/round_same_buttons"
-        android:textSize="18sp"/>
+        <Button
+            android:id="@+id/tv_disconnect_forget"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom"
+            android:textAllCaps="false"
+            android:text="+ Add Pheezee"
+            android:textColor="@color/white"
+            android:background="@drawable/round_same_buttons"
+            android:textSize="18sp"/>
     </LinearLayout>
 </LinearLayout>

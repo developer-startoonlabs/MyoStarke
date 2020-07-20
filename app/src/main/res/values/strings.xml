@@ -110,7 +110,7 @@
     <string name="new_user">New user?</string>
     <string name="have_account">Already have an account?</string>
     <string name="login"><u>Log in</u></string>
-    <string name="signup">Sign up</string>
+    <string name="signup"><u>Sign up</u></string>
 
     <string name="continue_with">Continue with</string>
 
@@ -182,7 +182,7 @@
     <!--Appinfo related tags-->
     <string name="app_info">App Info</string>
     <string name="app_version">Application Version</string>
-    <string name="application_version">2.16.13.h</string>
+    <string name="application_version">2.16.14.h</string>
 
     <!--phizio profile related tags-->
     <string name="your_profile">Your Profile</string>
