@@ -60,6 +60,7 @@ public class EditPopUpWindow {
         pw.showAtLocation(layout, Gravity.CENTER, 0, 0);
 
         final TextView tv_patientId = layout.findViewById(R.id.tv_patient_id);
+        final TextView tv_create_account = layout.findViewById(R.id.tv_create_account);
         final TextView patientName = layout.findViewById(R.id.patientName);
         final TextView patientAge = layout.findViewById(R.id.patientAge);
         final TextView caseDescription = layout.findViewById(R.id.contentDescription);
@@ -68,8 +69,9 @@ public class EditPopUpWindow {
         RadioButton btn_female = layout.findViewById(R.id.radioBtn_female);
         final Spinner sp_case_des = layout.findViewById(R.id.sp_case_des);
 
-        tv_patientId.setText("ID: "+patient.getPatientid());
+        tv_patientId.setText("Patient ID: "+patient.getPatientid());
         tv_patientId.setVisibility(View.VISIBLE);
+        tv_create_account.setText("Edit Patient");
         //Adapter for spinner
         ArrayAdapter<String> array_exercise_names = new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item, context.getResources().getStringArray(R.array.case_description));
         array_exercise_names.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);

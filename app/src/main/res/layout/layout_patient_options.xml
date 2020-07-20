@@ -84,15 +84,17 @@
                     android:textColor="@color/pitch_black"
                     android:textSize="18sp" />
 
-                <TextView
-                    android:id="@+id/tv_patient_joindate_section"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/ebrima"
-                    android:text=""
-                    android:alpha="0.5"
-                    android:textColor="@color/pitch_black"
-                    android:textSize="14sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tv_patient_id_section"
+                        android:fontFamily="@font/ebrima"
+                        android:alpha="0.5"
+                        android:text="Case"
+                        android:textColor="@color/pitch_black"
+                        android:textSize="18sp" />
+
+
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="0dp"
@@ -102,15 +104,28 @@
                     android:gravity="center_vertical"
                     android:layout_height="match_parent"
                     android:layout_weight="0.5">
+
                     <TextView
+                        android:id="@+id/tv_patient_joindate_header"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/tv_patient_id_section"
                         android:fontFamily="@font/ebrima"
-                        android:alpha="0.5"
-                        android:text="id :"
+                        android:layout_marginTop="10dp"
+                        android:text="Joining date"
                         android:textColor="@color/pitch_black"
                         android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/tv_patient_joindate_section"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/ebrima"
+                        android:text=""
+                        android:alpha="0.5"
+                        android:textColor="@color/pitch_black"
+                        android:textSize="18sp" />
+
+
 
                     <TextView
 
@@ -191,10 +206,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Report"
-                    android:alpha="0.65"
+
                     android:textColor="@color/pitch_black"
                     android:fontFamily="@font/ebrima"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:layout_margin="5dp"
                     android:layout_gravity="center"
                     />
@@ -232,8 +247,8 @@
 
                 android:textColor="@color/pitch_black"
                 android:fontFamily="@font/ebrima"
-                android:alpha="0.65"
-                android:textSize="20sp"
+
+                android:textSize="18sp"
                 android:layout_margin="5dp"
                 android:layout_gravity="center"
                 />
@@ -267,8 +282,8 @@
                 android:text="Delete"
                 android:textColor="@color/pitch_black"
                 android:fontFamily="@font/ebrima"
-                android:alpha="0.65"
-                android:textSize="20sp"
+
+                android:textSize="18sp"
                 android:layout_margin="5dp"
                 android:layout_gravity="center"
                 />
@@ -276,40 +291,40 @@
     </LinearLayout>
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:id="@+id/ll_archive_patient"
-        app:layout_constraintTop_toBottomOf="@+id/ll_delete_patient">
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:paddingLeft="0dp"
-            android:layout_weight="0.2">
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="15dp"
-                android:src="@drawable/delete_logo"/>
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:id="@+id/ll_archive_patient"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/ll_delete_patient">-->
+<!--        <LinearLayout-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:paddingLeft="0dp"-->
+<!--            android:layout_weight="0.2">-->
+<!--            <ImageView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:padding="15dp"-->
+<!--                android:src="@drawable/delete_logo"/>-->
 
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Archive"
-                android:textColor="@color/pitch_black"
-                android:fontFamily="@font/ebrima"
-                android:alpha="0.65"
-                android:textSize="20sp"
-                android:layout_margin="5dp"
-                android:layout_gravity="center"
-                />
-        </LinearLayout>
-    </LinearLayout>
+<!--        </LinearLayout>-->
+<!--        <LinearLayout-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_weight="1">-->
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Archive"-->
+<!--                android:textColor="@color/pitch_black"-->
+<!--                android:fontFamily="@font/ebrima"-->
+<!--                android:alpha="0.65"-->
+<!--                android:textSize="20sp"-->
+<!--                android:layout_margin="5dp"-->
+<!--                android:layout_gravity="center"-->
+<!--                />-->
+<!--        </LinearLayout>-->
+<!--    </LinearLayout>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

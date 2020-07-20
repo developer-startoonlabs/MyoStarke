@@ -78,7 +78,7 @@ public class MyBottomSheetDialog extends BottomSheetDialogFragment {
         ll_report = layout.findViewById(R.id.ll_report);
         ll_edit_patient_details = layout.findViewById(R.id.ll_edit_patient_details);
         ll_delete_patient = layout.findViewById(R.id.ll_delete_patient);
-        ll_archive_patient = layout.findViewById(R.id.ll_archive_patient);
+//        ll_archive_patient = layout.findViewById(R.id.ll_archive_patient);
         ll_start_sceduled_session = layout.findViewById(R.id.ll_start_sceduled_session);
 
         if(patient.isSceduled()){
@@ -90,12 +90,12 @@ public class MyBottomSheetDialog extends BottomSheetDialogFragment {
         /**
          * Calls update patient
          */
-        ll_archive_patient.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((PatientsView)getActivity()).updatePatientStatus(patient);
-            }
-        });
+//        ll_archive_patient.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                ((PatientsView)getActivity()).updatePatientStatus(patient);
+//            }
+//        });
 
         /**
          * calls openreport
@@ -142,7 +142,7 @@ public class MyBottomSheetDialog extends BottomSheetDialogFragment {
         }else {
             s = s + " " + patient.getPatientid();
         }
-        tv_patient_id_section.setText(s);
+        tv_patient_id_section.setText(patient.getPatientcasedes().toString());
         if(bitmap!=null)
             iv_patient_profile_pic.setImageBitmap(bitmap);
         else {
