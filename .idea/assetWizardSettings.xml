@@ -152,8 +152,8 @@
                           <map>
                             <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="ic_group_device_placement_test" />
-                            <entry key="sourceFile" value="C:\Users\STARTOONLABS\Desktop\Screens\device_placement\3\Group 3935.svg" />
+                            <entry key="outputName" value="ic_group_error_image" />
+                            <entry key="sourceFile" value="C:\Users\STARTOONLABS\Desktop\Screens\DevicePlacementImages\errorImages\Group 5972.svg" />
                           </map>
                         </option>
                       </PersistentState>

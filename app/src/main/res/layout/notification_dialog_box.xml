@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="260dp">
+
+    <LinearLayout
+        android:id="@+id/notification_title_layout"
+        android:layout_width="400dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="40dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal">
+        <TextView
+            android:text="Notification title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/pitch_black"
+            android:id="@+id/notification_box_title"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:layout_alignParentTop="true" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        app:layout_constraintTop_toBottomOf="@+id/notification_title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:textAlignment="center"
+            android:textColor="@color/pitch_black"
+            android:text="Please turn on location to scan and connect Pheezee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/notification_box_message"
+            android:textSize="18sp"
+            android:layout_alignParentTop="true" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:paddingBottom="5dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
+        >
+
+
+        <Button
+            android:id="@+id/notification_ButtonCancel"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:text="Cancel"
+            android:textColor="@color/good_green"
+            android:background="@drawable/round_cancel_buttons"
+            android:paddingRight="5dp"
+            android:layout_below="@+id/image"
+            android:layout_alignLeft="@+id/image"
+            android:layout_alignStart="@+id/image"
+            android:textSize="18sp"
+            style="@style/Widget.AppCompat.Button.Colored"
+            tools:ignore="RtlHardcoded,RtlSymmetry" />
+
+        <Button
+            android:id="@+id/notification_ButtonOK"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:text="Done"
+            android:textColor="@color/white"
+            android:background="@drawable/round_same_buttons"
+            android:paddingRight="5dp"
+            android:layout_below="@+id/image"
+            android:layout_alignLeft="@+id/image"
+            android:layout_alignStart="@+id/image"
+            android:textSize="18sp"
+            style="@style/Widget.AppCompat.Button.Colored"
+            tools:ignore="RtlHardcoded,RtlSymmetry" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

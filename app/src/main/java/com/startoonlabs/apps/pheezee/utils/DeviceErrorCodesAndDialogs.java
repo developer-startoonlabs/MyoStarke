@@ -1,8 +1,12 @@
 package com.startoonlabs.apps.pheezee.utils;
-
+import android.app.Dialog;
+import android.widget.Button;
+import android.widget.TextView;
+import com.startoonlabs.apps.pheezee.R;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.util.Log;
+import android.view.View;
 
 import androidx.appcompat.app.AlertDialog;
 
@@ -19,14 +23,43 @@ public class DeviceErrorCodesAndDialogs {
 
 
     public static void showDeviceErrorDialog(String error, Context context){
-        AlertDialog mDeactivatedDialog = new AlertDialog.Builder(context)
-                .setTitle("Device Error")
-                .setMessage(error)
-                .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                }).show();
+
+        //
+        // Custom notification added by Haaris
+        // custom dialog
+
+
+        final Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.notification_dialog_box_single_button);
+        dialog.setCancelable(false);
+        TextView notification_title = dialog.findViewById(R.id.notification_box_title);
+        TextView notification_message = dialog.findViewById(R.id.notification_box_message);
+
+        Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);
+
+        Notification_Button_ok.setText("Okay");
+
+        // Setting up the notification dialog
+        notification_title.setText("Pheezee Error");
+        notification_message.setText(error);
+
+        // On click on Continue
+        Notification_Button_ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                dialog.dismiss();
+
+
+            }
+        });
+
+
+        dialog.show();
+
+        // End
+
     }
 
     public static boolean doalogToShow(byte[] information_packet){
@@ -114,7 +147,7 @@ public class DeviceErrorCodesAndDialogs {
                 error = error.concat(String.valueOf(OVER_CURRENT_PROTECTION_STATUS))+", ";
                 Log.i("Error",error);
             }
-            error = error.concat("please restart the device.");
+            error = error.concat("Please restart the device.");
         }catch (ArrayIndexOutOfBoundsException e){
             error = "No Error";
             e.printStackTrace();

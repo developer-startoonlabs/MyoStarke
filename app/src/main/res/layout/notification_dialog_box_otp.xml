@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="500dp">
+
+    <LinearLayout
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="40dp">
+    <TextView
+        android:text="Please enter OTP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/pitch_black"
+        android:id="@+id/notification_box_title"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:layout_alignParentTop="true" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:textAlignment="center"
+            android:textColor="@color/pitch_black"
+            android:text="Please enter the 4 digit OTP sent to your registered email ID."
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/notification_box_message"
+            android:textSize="18sp"
+            android:layout_alignParentTop="true"/>
+
+
+
+    </LinearLayout>
+
+
+    <com.alimuzaffar.lib.pin.PinEntryEditText
+        android:id="@+id/txt_pin_entry_otp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:cursorVisible="false"
+        android:digits="1234567890"
+        android:inputType="number"
+        android:maxLength="4"
+        android:textIsSelectable="false"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:pinAnimationType="popIn"
+        app:pinLineColors="@color/good_green"
+        style="@style/AppTheme.NoActionBar"/>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:paddingBottom="5dp"
+        android:layout_marginTop="20dp"
+        >
+
+
+    <Button
+        android:id="@+id/notification_ButtonOK"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:text="Submit"
+        android:textColor="@color/white"
+        android:background="@drawable/round_same_buttons"
+        android:paddingRight="5dp"
+        android:layout_below="@+id/image"
+        android:layout_alignLeft="@+id/image"
+        android:layout_alignStart="@+id/image"
+        android:textSize="18sp"
+        style="@style/Widget.AppCompat.Button.Colored"
+        tools:ignore="RtlHardcoded,RtlSymmetry" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:paddingBottom="20dp"
+        android:layout_marginTop="110dp"
+
+        >
+
+
+        <TextView
+            android:layout_marginTop="1dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Didn't receive OTP?"
+            android:textColor="@color/pitch_black"
+            android:textSize="18sp"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+
+        <TextView
+            android:id="@+id/notification_otp_resend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:paddingStart="2dp"
+            android:paddingEnd="2dp"
+            android:textStyle="bold"
+            android:text="Resend"
+            android:textColor="@color/pitch_black"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/login_have_an_account"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -134,6 +134,8 @@ import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.jobid_use
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.scedule_device_status_service;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.usb_state;
 import static com.startoonlabs.apps.pheezee.utils.PackageTypes.TEACH_PACKAGE;
+import android.app.Dialog;
+import android.widget.Button;
 
 public class PatientsView extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -231,23 +233,47 @@ public class PatientsView extends AppCompatActivity
         }
 
         if(!gps_enabled){
-            mDialog = new AlertDialog.Builder(this)
-                    .setTitle("Location is turned off")
-                    .setMessage("Please turn on location to scan and connect Pheezee")
-                    .setCancelable(false)
-                    .setPositiveButton("Continue", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                            dialog.dismiss();
-                        }
-                    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    }).show();
-            mDialog.show();
+
+            // Custom notification added by Haaris
+            // custom dialog
+            final Dialog dialog = new Dialog(PatientsView.this);
+            dialog.setContentView(R.layout.notification_dialog_box);
+
+            TextView notification_title = dialog.findViewById(R.id.notification_box_title);
+            TextView notification_message = dialog.findViewById(R.id.notification_box_message);
+
+            Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);
+            Button Notification_Button_cancel = (Button) dialog.findViewById(R.id.notification_ButtonCancel);
+
+            Notification_Button_ok.setText("Settings");
+            Notification_Button_cancel.setText("Cancel");
+
+            // Setting up the notification dialog
+            notification_title.setText("Location is turned OFF");
+            notification_message.setText("Please turn on location to scan and connect Pheezee");
+
+            // On click on Continue
+            Notification_Button_ok.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                    dialog.dismiss();
+
+                }
+            });
+            // On click Cancel
+            Notification_Button_cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+
+                }
+            });
+
+            dialog.show();
+
+            // End
+
 
         }
         return gps_enabled;
@@ -751,12 +777,29 @@ public class PatientsView extends AppCompatActivity
 
 
     public void showForgetDeviceDialog(){
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Forget Device");
-        builder.setMessage("Are you sure you want to forget the current device?");
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+        // Custom notification added by Haaris
+        // custom dialog
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.notification_dialog_box);
+
+        TextView notification_title = dialog.findViewById(R.id.notification_box_title);
+        TextView notification_message = dialog.findViewById(R.id.notification_box_message);
+
+        Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);
+        Button Notification_Button_cancel = (Button) dialog.findViewById(R.id.notification_ButtonCancel);
+
+        Notification_Button_ok.setText("Yes");
+        Notification_Button_cancel.setText("No");
+
+        // Setting up the notification dialog
+        notification_title.setText("Forget Device");
+        notification_message.setText("Are you sure you want to forget the current device?");
+
+        // On click on Continue
+        Notification_Button_ok.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View v) {
                 editor = sharedPref.edit();
                 editor.putString("deviceMacaddress","");
                 editor.apply();
@@ -765,15 +808,24 @@ public class PatientsView extends AppCompatActivity
                     mService.disconnectDevice();
                 }
                 enableScanningTheDevices();
-            }
-        });
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
 
             }
         });
-        builder.show();
+        // On click Cancel
+        Notification_Button_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+
+            }
+        });
+
+        dialog.show();
+
+        // End
+
+
     }
 
 
@@ -855,48 +907,67 @@ public class PatientsView extends AppCompatActivity
         }
         else {
             if(deviceBatteryPercent<15){
-                String message = BatteryOperation.getDialogMessageForLowBattery(deviceBatteryPercent,this);
-                final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Battery Low");
-                builder.setMessage(message);
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        boolean flag = true;
-                        if(firmware_version[0]<1){
-                            flag = false;
-                        }else if(firmware_version[1]<11 && firmware_version[0]<=1){
-                            flag = false;
-                        }else if(firmware_version[2]<4 && firmware_version[1]<=11) {
-                            flag = false;
-                        }else{
-                            flag = true;
-                        }
 
-                        if(!flag){
-                            NetworkOperations.firmwareVirsionNotCompatible(PatientsView.this);
-                        }else {
-                            if(!mDeviceDeactivated && !mDeviceHealthError)
-                                startActivity(intent);
-                            else {
-                                if(mDeviceDeactivated)
-                                    showDeviceDeactivatedDialog();
+                // Custom notification added by Haaris
+                // custom dialog
+
+                String message = BatteryOperation.getDialogMessageForLowBattery(deviceBatteryPercent,this);
+
+                final Dialog dialog = new Dialog(PatientsView.this);
+                dialog.setContentView(R.layout.notification_dialog_box_single_button);
+                dialog.setCancelable(false);
+                TextView notification_title = dialog.findViewById(R.id.notification_box_title);
+                TextView notification_message = dialog.findViewById(R.id.notification_box_message);
+
+                Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);
+
+                Notification_Button_ok.setText("Okay");
+
+                // Setting up the notification dialog
+                notification_title.setText("Battery Low Alert");
+                notification_message.setText(message);
+
+                // On click on Continue
+                Notification_Button_ok.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+
+                            boolean flag = true;
+                            if(firmware_version[0]<1){
+                                flag = false;
+                            }else if(firmware_version[1]<11 && firmware_version[0]<=1){
+                                flag = false;
+                            }else if(firmware_version[2]<4 && firmware_version[1]<=11) {
+                                flag = false;
+                            }else{
+                                flag = true;
+                            }
+
+                            if(!flag){
+                                NetworkOperations.firmwareVirsionNotCompatible(PatientsView.this);
+                            }else {
+                                if(!mDeviceDeactivated && !mDeviceHealthError)
+                                    startActivity(intent);
                                 else {
-                                    if(mService!=null) {
-                                        DeviceErrorCodesAndDialogs.showDeviceErrorDialog(mService.getHealthErrorString(), PatientsView.this);
+                                    if(mDeviceDeactivated)
+                                        showDeviceDeactivatedDialog();
+                                    else {
+                                        if(mService!=null) {
+                                            DeviceErrorCodesAndDialogs.showDeviceErrorDialog(mService.getHealthErrorString(), PatientsView.this);
+                                        }
                                     }
                                 }
                             }
-                        }
+
+
                     }
                 });
-                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which){
-                    }
-                });
-                builder.show();
-            }
+
+
+                dialog.show();
+
+               }
             else {
                 boolean flag = true;
                 if(firmware_version[0]<1){
@@ -1043,12 +1114,29 @@ public class PatientsView extends AppCompatActivity
      */
     public void deletePatient(PhizioPatients patient){
         myBottomSheetDialog.dismiss();
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Delete Patient");
-        builder.setMessage("Are you sure you want to delete the patient?");
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+        // Custom notification added by Haaris
+        // custom dialog
+        final Dialog dialog = new Dialog(PatientsView.this);
+        dialog.setContentView(R.layout.notification_dialog_box);
+
+        TextView notification_title = dialog.findViewById(R.id.notification_box_title);
+        TextView notification_message = dialog.findViewById(R.id.notification_box_message);
+
+        Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);
+        Button Notification_Button_cancel = (Button) dialog.findViewById(R.id.notification_ButtonCancel);
+
+        Notification_Button_ok.setText("Yes");
+        Notification_Button_cancel.setText("No");
+
+        // Setting up the notification dialog
+        notification_title.setText("Delete Patient");
+        notification_message.setText("Are you sure you want to delete the patient?");
+
+        // On click on Continue
+        Notification_Button_ok.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View v) {
                 if(NetworkOperations.isNetworkAvailable(PatientsView.this)){
                     deletepatient_progress = new ProgressDialog(PatientsView.this);
                     deletepatient_progress.setTitle("Deleting patient, please wait");
@@ -1061,16 +1149,23 @@ public class PatientsView extends AppCompatActivity
                 else {
                     NetworkOperations.networkError(PatientsView.this);
                 }
+                dialog.dismiss();
             }
         });
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+        // On click Cancel
+        Notification_Button_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View v) {
+                dialog.dismiss();
 
             }
         });
-        builder.show();
-    }
+
+        dialog.show();
+
+        // End
+
+        }
 
 
     /**
@@ -1295,50 +1390,96 @@ public class PatientsView extends AppCompatActivity
 
     private void showFirmwareUpdateAvailableDialog() {
         if(mDialog==null && mDeactivatedDialog==null) {
-            mDialog = new AlertDialog.Builder(this)
-                    .setTitle("Update?")
-                    .setMessage("There is a device update available, please update for better experience?")
-                    .setCancelable(false)
-                    .setPositiveButton("Update", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            Intent i = new Intent(PatientsView.this, DeviceInfoActivity.class);
-                            i.putExtra("start_update", true);
-                            i.putExtra("reactivate_device",false);
-                            i.putExtra("deviceMacAddress", sharedPref.getString("deviceMacaddress", ""));
-                            startActivityForResult(i,13);
-                        }
-                    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    }).show();
+
+            // Custom notification added by Haaris
+            // custom dialog
+            final Dialog dialog = new Dialog(PatientsView.this);
+            dialog.setContentView(R.layout.notification_dialog_box_single_button);
+
+            TextView notification_title = dialog.findViewById(R.id.notification_box_title);
+            TextView notification_message = dialog.findViewById(R.id.notification_box_message);
+
+            Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);
+
+            Notification_Button_ok.setText("Okay");
+
+            // Setting up the notification dialog
+            notification_title.setText("Upgrade Pheezee");
+            notification_message.setText("Pheezee firmware update available.\nPlease update for better experience.");
+
+
+            // On click on Continue
+            Notification_Button_ok.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                    Intent i = new Intent(PatientsView.this, DeviceInfoActivity.class);
+                    i.putExtra("start_update", true);
+                    i.putExtra("reactivate_device",false);
+                    i.putExtra("deviceMacAddress", sharedPref.getString("deviceMacaddress", ""));
+                    startActivityForResult(i,13);
+
+                }
+            });
+
+            dialog.show();
+
+            // End
+
+
         }
     }
 
     private void showDeviceDeactivatedDialog() {
         if(mDeactivatedDialog==null || !mDeactivatedDialog.isShowing()) {
-            mDeactivatedDialog = new AlertDialog.Builder(this)
-                    .setTitle("Device Deactivated")
-                    .setMessage("The device has been deactivated, please contact StartoonLabs. If you have already contacted StartoonLabs, please click on check reactivation.")
-                    .setPositiveButton("Check Reactivation", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            Intent i = new Intent(PatientsView.this, DeviceInfoActivity.class);
-                            i.putExtra("start_update", false);
-                            i.putExtra("reactivate_device",true);
-                            i.putExtra("deviceMacAddress", sharedPref.getString("deviceMacaddress", ""));
-                            startActivityForResult(i,13);
-                        }
-                    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    }).show();
+
+            // Custom notification added by Haaris
+            // custom dialog
+            final Dialog dialog = new Dialog(PatientsView.this);
+            dialog.setContentView(R.layout.notification_dialog_box);
+
+            TextView notification_title = dialog.findViewById(R.id.notification_box_title);
+            TextView notification_message = dialog.findViewById(R.id.notification_box_message);
+
+            Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);
+            Button Notification_Button_cancel = (Button) dialog.findViewById(R.id.notification_ButtonCancel);
+
+            Notification_Button_ok.setText("Check Reactivation");
+
+            // Setting up the notification dialog
+            notification_title.setText("Device Deactivated");
+            notification_message.setText("The device has been deactivated, please contact StartoonLabs.\nIf you have already contacted StartoonLabs, please click on check reactivation.");
+
+
+            // On click on Continue
+            Notification_Button_ok.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                    Intent i = new Intent(PatientsView.this, DeviceInfoActivity.class);
+                    i.putExtra("start_update", false);
+                    i.putExtra("reactivate_device",true);
+                    i.putExtra("deviceMacAddress", sharedPref.getString("deviceMacaddress", ""));
+                    startActivityForResult(i,13);
+
+
+                }
+            });
+
+            // On click on Cancel
+            Notification_Button_cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+
+
+                }
+            });
+
+            dialog.show();
+
+            // End
+
         }
     }
 
@@ -1674,13 +1815,32 @@ public class PatientsView extends AppCompatActivity
         }
         else {
             if(deviceBatteryPercent<15){
+                //
+                // Custom notification added by Haaris
+                // custom dialog
+
                 String message = BatteryOperation.getDialogMessageForLowBattery(deviceBatteryPercent,this);
-                final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Battery Low");
-                builder.setMessage(message);
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+                final Dialog dialog = new Dialog(PatientsView.this);
+                dialog.setContentView(R.layout.notification_dialog_box_single_button);
+                dialog.setCancelable(false);
+                TextView notification_title = dialog.findViewById(R.id.notification_box_title);
+                TextView notification_message = dialog.findViewById(R.id.notification_box_message);
+
+                Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);
+
+                Notification_Button_ok.setText("Okay");
+
+                // Setting up the notification dialog
+                notification_title.setText("Battery Low Alert");
+                notification_message.setText(message);
+
+                // On click on Continue
+                Notification_Button_ok.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(View v) {
+                        dialog.dismiss();
+
                         boolean flag = true;
                         if(firmware_version[0]<1){
                             flag = false;
@@ -1707,14 +1867,15 @@ public class PatientsView extends AppCompatActivity
                                 }
                             }
                         }
+
+
                     }
                 });
-                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which){
-                    }
-                });
-                builder.show();
+
+
+                dialog.show();
+                // End
+
             }
             else {
                 boolean flag = true;

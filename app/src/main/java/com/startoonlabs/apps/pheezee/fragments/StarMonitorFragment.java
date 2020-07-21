@@ -2,6 +2,7 @@ package com.startoonlabs.apps.pheezee.fragments;
 
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -135,6 +136,7 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
     Long tsLong = 0L;
     AngleOperations angleOperations;
     private boolean mSessionStarted = false;
+    Context context;
 
     VerticalStarProgressView verticalStarProgressView;
     AlertDialog deviceDisconnectedDialog, usbPluggedInDialog, error_device_dialog;
@@ -144,63 +146,181 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
     FileOutputStream outputStream_session_emgdata, outputStream_session_romdata, outputStream_session_sessiondetails;
 
     private String str_active_time,  str_reps, str_time = "Session time:   00 : 00";
+
     public void deviceDisconnectedPopup(boolean operation) {
+
         String title = "Device Disconnected";
         String message;
+        //
+        // Custom notification added by Haaris
+        // custom dialog
+
         if(operation){
             message = "Please come in range to the device to continue the session";
-        }else {
-            message = "Please come in range to start session";
-        }
-        AlertDialog.Builder deviceDisconnected = new AlertDialog.Builder(getActivity());
-        deviceDisconnected.setTitle(title);
-        deviceDisconnected.setMessage(message);
-        deviceDisconnected.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-            }
-        });
 
-        if(operation) {
-            deviceDisconnected.setNegativeButton("End Session", new DialogInterface.OnClickListener() {
+            final Dialog dialog = new Dialog(getActivity());
+            dialog.setContentView(R.layout.notification_dialog_box);
+
+            TextView notification_title = dialog.findViewById(R.id.notification_box_title);
+            TextView notification_message = dialog.findViewById(R.id.notification_box_message);
+
+            Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);
+            Button Notification_Button_cancel = (Button) dialog.findViewById(R.id.notification_ButtonCancel);
+
+            Notification_Button_ok.setText("Okay");
+            Notification_Button_cancel.setText("End Session");
+
+            // Setting up the notification dialog
+            notification_title.setText(title);
+            notification_message.setText(message);
+
+            // On click on Continue
+            Notification_Button_ok.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    stopBtn.performClick();
+                public void onClick(View v) {
+
+                    dialog.dismiss();
+
+
                 }
             });
+
+            // On click on Cancel
+            Notification_Button_cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    stopBtn.performClick();
+                    dialog.dismiss();
+
+
+                }
+            });
+
+            dialog.show();
+
+        }else {
+            message = "Please come in range to start session";
+            final Dialog dialog = new Dialog(getActivity());
+            dialog.setContentView(R.layout.notification_dialog_box_single_button);
+
+            TextView notification_title = dialog.findViewById(R.id.notification_box_title);
+            TextView notification_message = dialog.findViewById(R.id.notification_box_message);
+
+            Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);
+
+            Notification_Button_ok.setText("Okay");
+
+            // Setting up the notification dialog
+            notification_title.setText(title);
+            notification_message.setText(message);
+
+            // On click on Continue
+            Notification_Button_ok.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    dialog.dismiss();
+
+
+                }
+            });
+
+
+            dialog.show();
+
+            // End
+
         }
-        deviceDisconnectedDialog = deviceDisconnected.create();
-        deviceDisconnectedDialog.show();
+
+
     }
 
 
     public void usbConnectedDialog(boolean operation) {
+
+
         String title = "Usb Connected";
         String message;
-        if(operation){
-            message = "Please disconnect usb to continue the session";
-        }else {
-            message = "Please disconnect usb to start session";
-        }
-        AlertDialog.Builder deviceDisconnected = new AlertDialog.Builder(getActivity());
-        deviceDisconnected.setTitle(title);
-        deviceDisconnected.setMessage(message);
-        deviceDisconnected.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-            }
-        });
+        //
+        // Custom notification added by Haaris
+        // custom dialog
 
-        if(operation) {
-            deviceDisconnected.setNegativeButton("End Session", new DialogInterface.OnClickListener() {
+        if(operation){
+            message = "Please disconnect USB to continue the session";
+
+            final Dialog dialog = new Dialog(getActivity());
+            dialog.setContentView(R.layout.notification_dialog_box);
+
+            TextView notification_title = dialog.findViewById(R.id.notification_box_title);
+            TextView notification_message = dialog.findViewById(R.id.notification_box_message);
+
+            Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);
+            Button Notification_Button_cancel = (Button) dialog.findViewById(R.id.notification_ButtonCancel);
+
+            Notification_Button_ok.setText("Okay");
+            Notification_Button_cancel.setText("End Session");
+
+            // Setting up the notification dialog
+            notification_title.setText(title);
+            notification_message.setText(message);
+
+            // On click on Continue
+            Notification_Button_ok.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    stopBtn.performClick();
+                public void onClick(View v) {
+
+                    dialog.dismiss();
+
+
                 }
             });
+
+            // On click on Cancel
+            Notification_Button_cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    stopBtn.performClick();
+                    dialog.dismiss();
+
+
+                }
+            });
+            dialog.show();
+
+        }else {
+            message = "Please disconnect USB to start session";
+            final Dialog dialog = new Dialog(getActivity());
+            dialog.setContentView(R.layout.notification_dialog_box_single_button);
+
+            TextView notification_title = dialog.findViewById(R.id.notification_box_title);
+            TextView notification_message = dialog.findViewById(R.id.notification_box_message);
+
+            Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);
+
+            Notification_Button_ok.setText("Okay");
+
+            // Setting up the notification dialog
+            notification_title.setText(title);
+            notification_message.setText(message);
+
+            // On click on Continue
+            Notification_Button_ok.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    dialog.dismiss();
+
+
+                }
+            });
+
+
+            dialog.show();
+
+            // End
+
         }
-        usbPluggedInDialog = deviceDisconnected.create();
-        usbPluggedInDialog.show();
+
     }
 
 
@@ -280,12 +400,30 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
 
                 String message = BatteryOperation.getDialogMessageForLowBattery(PatientsView.deviceBatteryPercent, getActivity());
                 if (!message.equalsIgnoreCase("c")) {
-                    final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    builder.setTitle("Battery Low");
-                    builder.setMessage(message);
-                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    //
+                    // Custom notification added by Haaris
+                    // custom dialog
+
+
+                    final Dialog dialog = new Dialog(getActivity());
+                    dialog.setContentView(R.layout.notification_dialog_box_single_button);
+                    dialog.setCancelable(false);
+                    TextView notification_title = dialog.findViewById(R.id.notification_box_title);
+                    TextView notification_message = dialog.findViewById(R.id.notification_box_message);
+
+                    Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);
+
+                    Notification_Button_ok.setText("Okay");
+
+                    // Setting up the notification dialog
+                    notification_title.setText("Battery Low Alert");
+                    notification_message.setText(message);
+
+                    // On click on Continue
+                    Notification_Button_ok.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                        public void onClick(View v) {
+
                             if(deviceState && !usbState)
                                 startSession();
                             else {
@@ -294,14 +432,16 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
                                 else
                                     usbConnectedDialog(false);
                             }
+                            dialog.dismiss();
+
+
                         }
                     });
-                    builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    });
-                    builder.show();
+
+
+                    dialog.show();
+
+                    // End
                 } else{
                     if(deviceState && !usbState)
                         startSession();
@@ -931,16 +1071,42 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
      * Close session in 2000ms once the session goal is reached
      */
     private void openSuccessfullDialogAndCloseSession() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Session Completed");
-        builder.setMessage("You have reached the goal.");
-        final AlertDialog alertDialog = builder.create();
-        alertDialog.show();
+        //
+        // Custom notification added by Haaris
+        // custom dialog
+
+
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.setContentView(R.layout.notification_dialog_box_session_complete);
+        dialog.setCancelable(false);
+        TextView notification_title = dialog.findViewById(R.id.notification_box_title);
+        TextView notification_message = dialog.findViewById(R.id.notification_box_message);
+
+        Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);
+
+        Notification_Button_ok.setText("View Summary");
+
+        // Setting up the notification dialog
+        notification_title.setText("Congratulations");
+        notification_message.setText("You have reached the goal");
+
+        // On click on Continue
+        Notification_Button_ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+
+        dialog.show();
+
+        // End
         stopBtn.performClick();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                alertDialog.cancel();
+//                dialog.cancel();
             }
         }, 2000);
     }

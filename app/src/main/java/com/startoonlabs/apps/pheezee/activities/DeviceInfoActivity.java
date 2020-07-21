@@ -94,7 +94,7 @@ import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.manufactu
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.serial_id;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.usb_state;
 
-
+import android.app.Dialog;import android.widget.Button;
 
 
 
@@ -286,23 +286,46 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
         }
 
         if(!gps_enabled){
-            mDialog_scan = new AlertDialog.Builder(this)
-                    .setTitle("Location is turned off")
-                    .setMessage("Please turn on location to scan and connect Pheezee")
-                    .setCancelable(false)
-                    .setPositiveButton("Continue", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                            dialog.dismiss();
-                        }
-                    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    }).show();
-            mDialog_scan.show();
+
+            // Custom notification added by Haaris
+            // custom dialog
+            final Dialog dialog = new Dialog(DeviceInfoActivity.this);
+            dialog.setContentView(R.layout.notification_dialog_box);
+
+            TextView notification_title = dialog.findViewById(R.id.notification_box_title);
+            TextView notification_message = dialog.findViewById(R.id.notification_box_message);
+
+            Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);
+            Button Notification_Button_cancel = (Button) dialog.findViewById(R.id.notification_ButtonCancel);
+
+            Notification_Button_ok.setText("Settings");
+            Notification_Button_cancel.setText("Cancel");
+
+            // Setting up the notification dialog
+            notification_title.setText("Location is turned OFF");
+            notification_message.setText("Please turn on location to scan and connect Pheezee");
+
+            // On click on Continue
+            Notification_Button_ok.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                    dialog.dismiss();
+
+                }
+            });
+            // On click Cancel
+            Notification_Button_cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+
+                }
+            });
+
+            dialog.show();
+
+            // End
 
         }
         return gps_enabled;
@@ -423,12 +446,29 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
 
 
     public void showForgetDeviceDialog(){
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Forget Device");
-        builder.setMessage("Are you sure you want to forget the current device?");
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+        // Custom notification added by Haaris
+        // custom dialog
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.notification_dialog_box);
+
+        TextView notification_title = dialog.findViewById(R.id.notification_box_title);
+        TextView notification_message = dialog.findViewById(R.id.notification_box_message);
+
+        Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);
+        Button Notification_Button_cancel = (Button) dialog.findViewById(R.id.notification_ButtonCancel);
+
+        Notification_Button_ok.setText("Yes");
+        Notification_Button_cancel.setText("No");
+
+        // Setting up the notification dialog
+        notification_title.setText("Forget Device");
+        notification_message.setText("Are you sure you want to forget the current device?");
+
+        // On click on Continue
+        Notification_Button_ok.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View v) {
                 editor = preferences.edit();
                 editor.putString("deviceMacaddress","");
                 editor.apply();
@@ -442,19 +482,27 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
 //                    mService.forgetPheezee();
 //                    mService.disconnectDevice();
 //                }
-                refreshView();
+                    refreshView();
 //                tv_disconnect_forget.setText("");
                 }
                 enableScanningTheDevices();
+                dialog.dismiss();
             }
         });
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+        // On click Cancel
+        Notification_Button_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View v) {
+                dialog.dismiss();
 
             }
         });
-        builder.show();
+
+        dialog.show();
+
+        // End
+
+
     }
 
 
@@ -484,18 +532,18 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
                 @Override
                 public void onClick(View v) {
                     if (btn_start_calibration.getText().toString().equalsIgnoreCase("start")) {
-                        tv_status_calibrate.setText("Calibrating...");
-                        tv_status_calibrate.setTextColor(getResources().getColor(R.color.good_green));
-                        tv_status_calibrate.setVisibility(View.VISIBLE);
-                        btn_start_calibration.setText("STOP");
+                        tv_status_calibrate.setText("Calibrating");
+                        tv_status_calibrate.setTextColor(getResources().getColor(R.color.pitch_black));
+
+                        btn_start_calibration.setText("Stop");
                         dialog_calibrate.setCancelable(false);
                         calib_anim.playAnimation();
                         calibrateDevice();
                     } else {
                         dialog_calibrate.setCancelable(true);
-                        tv_status_calibrate.setText("Calibration failed, try again later!");
+                        tv_status_calibrate.setText("Calibration Failed. Try Again.");
                         tv_status_calibrate.setTextColor(getResources().getColor(R.color.red));
-                        btn_start_calibration.setText("START");
+                        btn_start_calibration.setText("Start");
                         if(calib_anim.isAnimating()){
                             calib_anim.cancelAnimation();
                         }
@@ -567,7 +615,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
             if(dialog_calibrate!=null && dialog_calibrate.isShowing()){
                 dialog_calibrate.setCancelable(true);
                 if(btn_start_calibration!=null){
-                    btn_start_calibration.setText("START");
+                    btn_start_calibration.setText("Start");
                     if(calib_anim!=null){
                         calib_anim.cancelAnimation();
                     }
@@ -605,52 +653,76 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
     private void startFirmwareUpdate(){
         if(mDeviceState) {
             String message = getResources().getString(R.string.instructions_dfu);
+            String instruction = getResources().getString(R.string.instructions2_dfu);
             if(mDfuDialog!=null){
                 mDfuDialog.dismiss();
             }
-            mDfuDialog = new MaterialDialog.Builder(this)
-                    .setTitle("Instructions")
-                    .setMessage(message)
-                    .setCancelable(true)
-                    .setPositiveButton("Continue", new MaterialDialog.OnClickListener() {
-                        @Override
-                        public void onClick(com.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
-                            dialogInterface.dismiss();
-                            BatteryManager bm = (BatteryManager) getSystemService(BATTERY_SERVICE);
-                            int batLevel = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);
-                            if (batLevel < 30 && device_baterry_level < 30) {
-                                dfuStatusDialog("Battery Low: OTA FAILED ","Low battery level in both Pheezee and android device. Please charge both devices and try again.");
-                            } else if (batLevel < 30) {
-                                dfuStatusDialog("Battery Low: OTA FAILED","Low battery level in android device. Please charge the android device and try again.");
-                            } else if (device_baterry_level < 30) {
-                                dfuStatusDialog("Battery Low: OTA FAILED","Low battery level in Pheezee device. Please charge the Pheezee device and try again.");
+            // custom dialog
+            final Dialog dialog = new Dialog(DeviceInfoActivity.this);
+            dialog.setContentView(R.layout.notification_dialog_box_instruction);
+
+            TextView notification_title = dialog.findViewById(R.id.notification_box_title);
+            TextView notification_message = dialog.findViewById(R.id.notification_box_message);
+            TextView notification_instructions = dialog.findViewById(R.id.notification_box_instruction);
+
+
+            Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);
+            Button Notification_Button_cancel = (Button) dialog.findViewById(R.id.notification_ButtonCancel);
+
+            Notification_Button_ok.setText("Continue");
+            Notification_Button_cancel.setText("Cancel");
+
+            // Setting up the notification dialog
+            notification_title.setText("Instructions");
+            notification_message.setText(message);
+            notification_instructions.setText(instruction);
+
+
+            // On click on Continue
+            Notification_Button_ok.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                        dialog.dismiss();
+                        BatteryManager bm = (BatteryManager) getSystemService(BATTERY_SERVICE);
+                        int batLevel = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);
+                        if (batLevel < 30 && device_baterry_level < 30) {
+                            dfuStatusDialog("Pheezee Update Failed","Low battery identified.\n Please charge both your phone and Pheezee and try again.");
+                        } else if (batLevel < 30) {
+                            dfuStatusDialog("Pheezee Update Failed","Low battery identified.\n Please charge your phone and try again.");
+                        } else if (device_baterry_level < 30) {
+                            dfuStatusDialog("Pheezee Update Failed","Low battery identified.\n Please charge Pheezee and try again.");
+                        } else {
+                            String str = tv_update_firmware.getText().toString();
+                            if (str.equalsIgnoreCase("update")) {
+                                if (mService != null) {
+                                    mService.writeToDfuCharacteristic();
+                                }
                             } else {
-                                String str = tv_update_firmware.getText().toString();
-                                if (str.equalsIgnoreCase("update")) {
-                                    if (mService != null) {
-                                        mService.writeToDfuCharacteristic();
-                                    }
-                                } else {
-                                    if (controller != null) {
-                                        if (isDfuServiceRunning()) {
-                                            showUploadCancelDialog();
-                                        }
+                                if (controller != null) {
+                                    if (isDfuServiceRunning()) {
+                                        showUploadCancelDialog();
                                     }
                                 }
                             }
-
                         }
-                    })
-                    .setNegativeButton("Cancel",new MaterialDialog.OnClickListener() {
-                        @Override
-                        public void onClick(com.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
-                            dialogInterface.dismiss();
-                        }
-                    })
-                    .build();
 
-            // Show Dialog
-            mDfuDialog.show();
+                    }
+
+
+            });
+            // On click Cancel
+            Notification_Button_cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+
+                }
+            });
+
+            dialog.show();
+
+            // End
+
         }else{
             showToast("Please connect device");
         }
@@ -751,7 +823,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
                     tv_calibrate_device.setVisibility(View.GONE);
                     if(dialog_calibrate!=null && dialog_calibrate.isShowing()){
                         dialog_calibrate.dismiss();
-                        dfuStatusDialog("Device Disconnected","Calibration falied, please connect the device and try again.");
+                        dfuStatusDialog("Calibration Failed","Please connect Pheezee and try again.");
                     }
                     tv_update_firmware.setVisibility(View.GONE);
                     tv_connection_status.setText("Not Connected");
@@ -842,7 +914,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
                         tv_status_calibrate.setText("Calibration successfull!");
                         tv_status_calibrate.setTextColor(getResources().getColor(R.color.background_green));
                     }if (btn_start_calibration!=null){
-                        btn_start_calibration.setText("START");
+                        btn_start_calibration.setText("Start");
                         if(calib_anim!=null){
                             calib_anim.cancelAnimation();
                         }
@@ -852,7 +924,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
                         tv_status_calibrate.setText("Calibration failed, try again later!");
                         tv_status_calibrate.setTextColor(getResources().getColor(R.color.red));
                     }if (btn_start_calibration!=null){
-                        btn_start_calibration.setText("START");
+                        btn_start_calibration.setText("Start");
                         if(calib_anim!=null){
                             calib_anim.cancelAnimation();
                         }
@@ -1060,12 +1132,12 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
             inside_bootloader = false;
             dfuCanceledView();
             if(error== DfuBaseService.ERROR_BLUETOOTH_DISABLED){
-                dfuStatusDialog("Device update failed","Please turn on mobile bluetooth and try again.");
+                dfuStatusDialog("Device Update failed","Please turn on mobile bluetooth and try again.");
             }
             else if( error==DfuBaseService.ERROR_DEVICE_DISCONNECTED){
-                dfuStatusDialog("Device Update Failed","Please make sure the device is turned on and try again.");
+                dfuStatusDialog("Device Update Failed","Please make sure Pheezee is turned ON and try again.");
             }else if(errorType==2){
-                dfuStatusDialog("Device Update Failed","Please make sure the device is turned on and try again.");
+                dfuStatusDialog("Device Update Failed","Please make sure Pheezee is turned ON and try again.");
             }
             tv_update_firmware.setText("Update");
             tv_update_firmware.setVisibility(View.VISIBLE);
@@ -1089,21 +1161,38 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
         if(mDialog!=null){
             mDialog.dismiss();
         }
-        mDialog = new MaterialDialog.Builder(this)
-                .setTitle(title)
-                .setMessage(message)
-                .setCancelable(true)
-                .setPositiveButton("Okay", new MaterialDialog.OnClickListener() {
-                    @Override
-                    public void onClick(com.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
-                        dialogInterface.dismiss();
-                    }
-                })
-                .build();
 
-        // Show Dialog
+        // Custom notification added by Haaris
+        // custom dialog
+        final Dialog dialog = new Dialog(DeviceInfoActivity.this);
+        dialog.setContentView(R.layout.notification_dialog_box_single_button);
 
-        mDialog.show();
+        TextView notification_title = dialog.findViewById(R.id.notification_box_title);
+        TextView notification_message = dialog.findViewById(R.id.notification_box_message);
+
+        Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);
+
+        Notification_Button_ok.setText("Okay");
+
+        // Setting up the notification dialog
+        notification_title.setText(title);
+        notification_message.setText(message);
+
+        // On click on Continue
+        Notification_Button_ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+
+            }
+        });
+
+
+        dialog.show();
+
+        // End
+
+
     }
     @Override
     protected void onResume() {

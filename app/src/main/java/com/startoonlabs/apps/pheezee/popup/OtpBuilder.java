@@ -1,20 +1,25 @@
 package com.startoonlabs.apps.pheezee.popup;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 
 import com.alimuzaffar.lib.pin.PinEntryEditText;
 import com.startoonlabs.apps.pheezee.R;
+import com.startoonlabs.apps.pheezee.activities.LoginActivity;
+import com.startoonlabs.apps.pheezee.activities.SignUpActivity;
 
 public class OtpBuilder {
-    AlertDialog mdialog = null;
+    Dialog dialog;
     OtpResponseListner listner;
     Context context;
     String otp;
@@ -25,61 +30,54 @@ public class OtpBuilder {
     }
 
     public void showDialog(){
+        dialog= new Dialog(context);
+        // Custom notification added by Haaris
+        // custom dialog
 
-        final androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(context);
-        LayoutInflater inflater = ((Activity)context).getLayoutInflater();
-        builder.setTitle("Please enter otp");
-        builder.setMessage("Otp has been sent to the specified email, Please enter the otp.");
-        builder.setCancelable(false);
-        final View dialogLayout = inflater.inflate(R.layout.pop_otp, null);
-        final PinEntryEditText editText = dialogLayout.findViewById(R.id.txt_pin_entry);
-        builder.setPositiveButton("Continue",null);
-        builder.setNegativeButton("Cancel",null);
-        builder.setNeutralButton("Resend",null);
-        builder.setView(dialogLayout);
-        mdialog = builder.create();
-        mdialog.setOnShowListener(new DialogInterface.OnShowListener() {
+        dialog.setContentView(R.layout.notification_dialog_box_otp);
 
+
+        Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);
+        TextView notification_otp_resend = dialog.findViewById(R.id.notification_otp_resend);
+        final PinEntryEditText editText = dialog.findViewById(R.id.txt_pin_entry_otp);
+
+       // On click on Continue
+        Notification_Button_ok.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onShow(final DialogInterface dialog) {
-
-                Button p = mdialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE);
-                p.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View view) {
-                        if(editText.getText().toString().length()==4){
-                            if(editText.getText().toString().equals(otp)){
-                                mdialog.dismiss();
-                            }
-                            else {
-                                showToast("Invalid Otp");
-                            }
-                        }else {
-                            showToast("Invalid Otp");
-                        }
+            public void onClick(View v) {
+                if(editText.getText().toString().length()==4){
+                    if(editText.getText().toString().equals(otp)){
+                        dialog.dismiss();
                     }
-                });
-                Button n = mdialog.getButton(AlertDialog.BUTTON_NEGATIVE);
-                n.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mdialog.dismiss();
+                    else {
+                        showToast("Invalid OTP");
                     }
-                });
+                }else {
+                    showToast("Invalid OTP");
+                }
 
-                Button nu = mdialog.getButton(AlertDialog.BUTTON_NEUTRAL);
-                nu.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (listner!=null){
-                            listner.onResendClick();
-                        }
-                    }
-                });
 
             }
         });
+
+        // Resend on click
+        notification_otp_resend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listner!=null){
+                    listner.onResendClick();
+                }
+
+
+            }
+        });
+
+
+
+        // End
+
+
+
         editText.setOnPinEnteredListener(new PinEntryEditText.OnPinEnteredListener() {
             @Override
             public void onPinEntered(CharSequence str) {
@@ -95,11 +93,11 @@ public class OtpBuilder {
                 }
             }
         });
-        mdialog.show();
+        dialog.show();
     }
 
     public void dismiss(){
-        mdialog.dismiss();
+        dialog.dismiss();
     }
 
 

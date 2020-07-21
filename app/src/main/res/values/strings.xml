@@ -176,13 +176,15 @@
     <string name="dfu_status_connecting_to_device">Connecting to device…</string>
 
     <string name="dfu_successfull">The device firmware have been updated successfully to</string>
-    <string name="instructions_dfu">Please ensure the following steps during device update:\n \u2022 The phone is near the device.\n \u2022 The device must be turned on.\n \u2022 The mobile blue-tooth is on.</string>
+    <string name="instructions_dfu">Please ensure the following steps during Pheezee update: </string>
+    <string name="instructions2_dfu"> \u2022 The phone is near the Pheezee.\n \u2022 The device must be turned ON.\n \u2022 The mobile bluetooth is ON.\n</string>
+
 
 
     <!--Appinfo related tags-->
     <string name="app_info">App Info</string>
     <string name="app_version">Application Version</string>
-    <string name="application_version">2.16.14.h</string>
+    <string name="application_version">2.16.15.h</string>
 
     <!--phizio profile related tags-->
     <string name="your_profile">Your Profile</string>
@@ -260,9 +262,9 @@
     <string name="archive_patient">Archive Patients</string>
     <string name="what_is_pheezee">What is Pheezee with out Patients!</string>
     <string name="cd_floating">Add Patient icon</string>
-    <string name="battery_percent_lower_than_15">The pheezee device battery is lower than 15% are you sure you want to continue?</string>
-    <string name="battery_percent_lower_than_10">The pheezee device battery is lower than 10% are you sure you want to continue?</string>
-    <string name="battery_percent_lower_than_5">The pheezee device battery is lower than 5% there is a chance of data loss if you continue to do the session. Are you sure you want to continue?</string>
+    <string name="battery_percent_lower_than_15">Pheezee battery is less than 15%.\nContinuing session may lead to loss of data.\nPlease charge Pheezee.</string>
+    <string name="battery_percent_lower_than_10">Pheezee battery is less than 10%.\nContinuing session may lead to loss of data.\nPlease charge Pheezee.</string>
+    <string name="battery_percent_lower_than_5">Pheezee battery is less than 5%.\nContinuing session may lead to loss of data.\nPlease charge Pheezee.</string>
 
 
     <!--on start Activity related tags-->
