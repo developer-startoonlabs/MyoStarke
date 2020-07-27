@@ -724,7 +724,7 @@ public class PatientsView extends AppCompatActivity
                 patientPopUpWindow.openAddPatientPopUpWindow();
                 patientPopUpWindow.setOnClickListner(new AddPatientPopUpWindow.onClickListner() {
                     @Override
-                    public void onAddPatientClickListner(PhizioPatients patient, PatientDetailsData data, boolean isvalid) {
+                    public void onAddPatientClickListner(PhizioPatients patient, PatientDetailsData data, boolean isvalid,Bitmap photo) {
                         if (isvalid) {
                             repository.insertPatient(patient, data);
                         } else {
@@ -1178,6 +1178,70 @@ public class PatientsView extends AppCompatActivity
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // check if the request code is same as what is passed  here it is 1
+        if(requestCode==21){
+            if(resultCode == RESULT_OK){
+                Bitmap photo = (Bitmap) Objects.requireNonNull(data.getExtras()).get("data");
+                photo = BitmapOperations.getResizedBitmap(photo,128);
+//                imageView_patientpic.setImageBitmap(photo);
+                LayoutInflater inflater = getLayoutInflater();
+                View dialogLayout = inflater.inflate(R.layout.popup, null);
+                final TextView tv_create_account = dialogLayout.findViewById(R.id.tv_create_account);
+                AddPatientPopUpWindow patientPopUpWindow = new AddPatientPopUpWindow(this, json_phizioemail,photo);
+                patientPopUpWindow.openAddPatientPopUpWindow();
+                patientPopUpWindow.setOnClickListner(new AddPatientPopUpWindow.onClickListner() {
+                    @Override
+                    public void onAddPatientClickListner(PhizioPatients patient, PatientDetailsData data, boolean isvalid,Bitmap photo) {
+                        if (isvalid) {
+                            repository.insertPatient(patient, data);
+                            Log.d("upload",patient.getPatientid());
+                            repository.uploadPatientImage(patient.getPatientid(),json_phizioemail,photo);
+                        } else {
+                            showToast("Invalid Input!!");
+                        }
+                    }
+                });
+
+            }
+        }
+        if(requestCode==22){
+            if(resultCode == RESULT_OK){
+                if(data!=null) {
+                    Uri selectedImage = data.getData();
+                    Bitmap photo = null;
+                    try {
+                        photo = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                        photo = BitmapOperations.getResizedBitmap(photo,128);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    AddPatientPopUpWindow patientPopUpWindow = new AddPatientPopUpWindow(this, json_phizioemail,photo);
+                    patientPopUpWindow.openAddPatientPopUpWindow();
+                    patientPopUpWindow.setOnClickListner(new AddPatientPopUpWindow.onClickListner() {
+                        @Override
+                        public void onAddPatientClickListner(PhizioPatients patient, PatientDetailsData data, boolean isvalid,Bitmap photo) {
+                            if (isvalid) {
+                                repository.insertPatient(patient, data);
+                                Log.d("upload",patient.getPatientid());
+                                repository.uploadPatientImage(patient.getPatientid(),json_phizioemail,photo);
+                            } else {
+                                showToast("Invalid Input!!");
+                            }
+                        }
+                    });
+                }
+
+            }
+        }
+        if(requestCode==31){
+            if(resultCode == RESULT_OK){
+
+            }
+        }
+        if(requestCode==32){
+            if(resultCode == RESULT_OK){
+
+            }
+        }
         if(requestCode==5){
             if(resultCode == RESULT_OK){
                 ImageView imageView_patientpic = patientLayoutView.findViewById(R.id.patientProfilePic);

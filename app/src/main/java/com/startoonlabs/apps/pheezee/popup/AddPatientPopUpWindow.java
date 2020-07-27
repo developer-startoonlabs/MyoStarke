@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.Build;
 import android.preference.PreferenceManager;
@@ -21,6 +22,19 @@ import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.ImageView;
+import android.Manifest;
+import android.content.DialogInterface;
+import android.content.Intent;
+import androidx.appcompat.app.AlertDialog;
+import android.content.pm.PackageManager;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import static com.startoonlabs.apps.pheezee.activities.PatientsView.REQ_CAMERA;
+import static com.startoonlabs.apps.pheezee.activities.PatientsView.REQ_GALLERY;
+import android.provider.MediaStore;
+import android.view.ViewGroup;
 
 import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.pojos.PatientDetailsData;
@@ -36,12 +50,24 @@ public class AddPatientPopUpWindow {
     SharedPreferences.Editor editor;
     Context context;
     String json_phizioemail;
+    Bitmap profile;
+    AlertDialog.Builder builder = null;
+    final CharSequence[] items = { "Take Photo", "Choose from Library",
+            "Cancel" };
 
     public AddPatientPopUpWindow(Context context, String json_phizioemail){
         this.context = context;
         this.json_phizioemail = json_phizioemail;
         sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         editor = sharedPref.edit();
+    }
+
+    public AddPatientPopUpWindow(Context context, String json_phizioemail, Bitmap photo){
+        this.context = context;
+        this.json_phizioemail = json_phizioemail;
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        editor = sharedPref.edit();
+        this.profile = photo;
     }
 
     public void openAddPatientPopUpWindow(){
@@ -57,9 +83,8 @@ public class AddPatientPopUpWindow {
         assert inflater != null;
         @SuppressLint("InflateParams") final View layout = inflater.inflate(R.layout.popup, null);
 
-        pw = new PopupWindow(layout);
-        pw.setHeight(height - 400);
-        pw.setWidth(width - 100);
+
+        pw = new PopupWindow(layout, width - 100,ViewGroup.LayoutParams.WRAP_CONTENT,true);
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -78,6 +103,7 @@ public class AddPatientPopUpWindow {
         final EditText caseDescription = layout.findViewById(R.id.contentDescription);
         final RadioGroup radioGroup = layout.findViewById(R.id.patientGender);
         final Spinner sp_case_des = layout.findViewById(R.id.sp_case_des);
+        ImageView patient_profilepic = layout.findViewById(R.id.imageView4);
         //Adapter for spinner
         ArrayAdapter<String> array_exercise_names = new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item, context.getResources().getStringArray(R.array.case_description));
         array_exercise_names.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
@@ -94,6 +120,9 @@ public class AddPatientPopUpWindow {
         }) ;
         Button addBtn = layout.findViewById(R.id.addBtn);
         Button cancelBtn = layout.findViewById(R.id.cancelBtn);
+        if(this.profile!=null){
+            patient_profilepic.setImageBitmap(this.profile);
+        }
 
         sp_case_des.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -143,11 +172,11 @@ public class AddPatientPopUpWindow {
                         editor.putInt("maxid", id);
                         editor.apply();
                     }
-                    listner.onAddPatientClickListner(patient,data,true);
+                    listner.onAddPatientClickListner(patient,data,true,profile);
                     pw.dismiss();
                 }
                 else {
-                    listner.onAddPatientClickListner(null,null,false);
+                    listner.onAddPatientClickListner(null,null,false,null);
                 }
 
             }
@@ -158,12 +187,63 @@ public class AddPatientPopUpWindow {
                 pw.dismiss();
             }
         });
+
+
+        patient_profilepic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                builder = new AlertDialog.Builder(context);
+                builder.setTitle("Add Photo!");
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int item) {
+                        if (items[item].equals("Take Photo")) {
+                            pw.dismiss();
+                            if(ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
+                                    == PackageManager.PERMISSION_DENIED) {
+                                ActivityCompat.requestPermissions(((Activity)context), new String[]{Manifest.permission.CAMERA}, 5);
+                                cameraIntent();
+                            }
+                            else {
+                                cameraIntent();
+                            }
+                        } else if (items[item].equals("Choose from Library")) {
+                            pw.dismiss();
+                            galleryIntent();
+                        } else if (items[item].equals("Cancel")) {
+                            dialog.dismiss();
+                        }
+                    }
+                });
+                builder.show();
+            }
+        });
+    }
+    private void cameraIntent() {
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
+                == PackageManager.PERMISSION_GRANTED) {
+            Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            ((Activity) context).startActivityForResult(takePicture, 21);
+        }else {
+            ActivityCompat.requestPermissions(((Activity) context), new String[] {Manifest.permission.CAMERA}, REQ_CAMERA);
+        }
+    }
+    private void galleryIntent() {
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED) {
+            Intent pickPhoto = new Intent(Intent.ACTION_PICK,
+                    android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//        pickPhoto.putExtra("patientid",1);
+            ((Activity) context).startActivityForResult(pickPhoto, 22);
+        }else {
+            ActivityCompat.requestPermissions(((Activity) context), new String[] {Manifest.permission.CAMERA}, REQ_GALLERY);
+        }
     }
 
 
 
     public interface onClickListner{
-        void onAddPatientClickListner(PhizioPatients patient, PatientDetailsData data, boolean isvalid);
+        void onAddPatientClickListner(PhizioPatients patient, PatientDetailsData data, boolean isvalid,Bitmap photo);
     }
 
     public void setOnClickListner(onClickListner listner){

@@ -10,6 +10,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,6 +24,10 @@ import android.widget.TextView;
 import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.pojos.PatientDetailsData;
 import com.startoonlabs.apps.pheezee.room.Entity.PhizioPatients;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
+import android.widget.ImageView;
 
 public class EditPopUpWindow {
     Context context;
@@ -46,9 +51,9 @@ public class EditPopUpWindow {
         assert inflater != null;
         @SuppressLint("InflateParams") final View layout = inflater.inflate(R.layout.popup, null);
 
-        pw = new PopupWindow(layout);
-        pw.setHeight(height - 400);
-        pw.setWidth(width - 100);
+        pw = new PopupWindow(layout, width - 100, ViewGroup.LayoutParams.WRAP_CONTENT,true);
+
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             pw.setElevation(10);
         }
@@ -68,6 +73,13 @@ public class EditPopUpWindow {
         RadioButton btn_male = layout.findViewById(R.id.radioBtn_male);
         RadioButton btn_female = layout.findViewById(R.id.radioBtn_female);
         final Spinner sp_case_des = layout.findViewById(R.id.sp_case_des);
+        ImageView patient_profilepic = layout.findViewById(R.id.imageView4);
+        Glide.with(context)
+                .load("https://s3.ap-south-1.amazonaws.com/pheezee/physiotherapist/" + json_phizioemail.replaceFirst("@", "%40") + "/patients/" + patient.getPatientid() + "/images/profilepic.png")
+                .apply(new RequestOptions()
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true))
+                .into(patient_profilepic);
 
         tv_patientId.setText("Patient ID: "+patient.getPatientid());
         tv_patientId.setVisibility(View.VISIBLE);
@@ -148,6 +160,14 @@ public class EditPopUpWindow {
             @Override
             public void onClick(View v) {
                 pw.dismiss();
+            }
+        });
+
+        patient_profilepic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UploadImageDialog dialog = new UploadImageDialog(context, 31, 32);
+                dialog.showDialog();
             }
         });
     }
