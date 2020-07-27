@@ -1186,7 +1186,7 @@ public class PatientsView extends AppCompatActivity
                 Bitmap photo = (Bitmap) Objects.requireNonNull(data.getExtras()).get("data");
                 photo = BitmapOperations.getResizedBitmap(photo,128);
                 imageView_patientpic.setImageBitmap(photo);
-                TextView tv_patientId = (TextView) patientTabLayout.getChildAt(1);
+                TextView tv_patientId = (TextView) patientTabLayout.getChildAt(2);
                 if(NetworkOperations.isNetworkAvailable(this))
                     repository.uploadPatientImage(tv_patientId.getText().toString().substring(4),json_phizioemail,photo);
                 else

@@ -86,7 +86,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/ebrima"
-                    android:text="test"
+                    android:text="-"
                     android:alpha="0.5"
                     android:textColor="@color/pitch_black"
                     android:textSize="13sp" />

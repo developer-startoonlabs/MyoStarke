@@ -22,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.startoonlabs.apps.pheezee.R;
+import com.startoonlabs.apps.pheezee.retrofit.RetrofitClientInstance;
 import com.startoonlabs.apps.pheezee.room.Entity.PhizioPatients;
 import com.startoonlabs.apps.pheezee.utils.DateOperations;
 
@@ -31,7 +32,15 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.startoonlabs.apps.pheezee.pojos.PatientStatusData;
 
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import com.startoonlabs.apps.pheezee.retrofit.GetDataService;
+import android.util.Log;
 /**
  * Home patient list recycler view adapter
  */
@@ -44,6 +53,7 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
     private SharedPreferences preferences;
     private String str_phizioemail;
     private onItemClickListner listner;
+    GetDataService getDataService;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView patientName, patientId,patientNameContainer,tv_date_of_join;
@@ -70,6 +80,7 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
     public PatientsRecyclerViewAdapter( Context context){
         this.context = context;
         preferences = PreferenceManager.getDefaultSharedPreferences(this.context);
+        getDataService = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
         try {
             object = new JSONObject(preferences.getString("phiziodetails",""));
         } catch (JSONException e) {
@@ -104,12 +115,81 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
         PhizioPatients patientsList = updatedPatientList.get(position);
+         String[] res_string = new String[1];
+        // Haaris
+        PatientStatusData data = new PatientStatusData(str_phizioemail, patientsList.getPatientid(),patientsList.getPatientname());
+        Call<String> getHeldon_respone = getDataService.getHeldon(data);
+        getHeldon_respone.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
+                if (response.code() == 200) {
+                    res_string[0] = response.body();
+                    if (res_string[0] != null) {
+                        if(res_string[0].length()>5) {
+                            holder.tv_date_of_join.setText("Last Session: " + res_string[0].substring(1, 11));
+                        }else holder.tv_date_of_join.setText("Last Session: " + res_string[0].substring(1,2));
+                        holder.patientName.setText(patientsList.getPatientname());
+                        holder.patientId.setText("Id :"+patientsList.getPatientid());
+                        holder.patientNameContainer.setVisibility(View.GONE);
+                        holder.patientProfilepic.setImageResource(android.R.color.transparent);
+                        if(patientsList.isSceduled()){
+                            holder.iv_tripple_dot_red.setVisibility(View.VISIBLE);
+                        }else {
+                            holder.iv_tripple_dot_red.setVisibility(View.GONE);
+                        }
+                        //listners
+                        holder.ll_option_patient_list.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                PhizioPatients temp = updatedPatientList.get(position);
+                                PhizioPatients patients = new PhizioPatients(temp.getPatientid(),temp.getPatientname(),temp.getNumofsessions(),temp.getDateofjoin(),
+                                        temp.getPatientage(),temp.getPatientgender(),temp.getPatientcasedes(),temp.getStatus(),temp.getPatientphone(),temp.getPatientprofilepicurl(), temp.isSceduled());
+                                if(listner!=null  && position != RecyclerView.NO_POSITION)
+                                    listner.onItemClick(patients, v);
+                            }
+                        });
+                        holder.btn_start_session.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if(listner!=null  && position != RecyclerView.NO_POSITION)
+                                    listner.onStartSessionClickListner(updatedPatientList.get(position));
+                            }
+                        });
+
+                        String patientUrl = patientsList.getPatientprofilepicurl();
+                        if(!patientUrl.trim().toLowerCase().equals("empty")) {
+                            Glide.with(context)
+                                    .load("https://s3.ap-south-1.amazonaws.com/pheezee/physiotherapist/" + str_phizioemail.replaceFirst("@", "%40") + "/patients/" + patientsList.getPatientid() + "/images/profilepic.png")
+                                    .apply(new RequestOptions()
+                                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                            .skipMemoryCache(true))
+                                    .into(holder.patientProfilepic);
+
+
+                        }
+                        else {
+                            holder.patientNameContainer.setVisibility(View.VISIBLE);
+                            if(holder.patientName.getText().length()<2 || holder.patientName.getText().length()==2)
+                                holder.patientNameContainer.setText(holder.patientName.getText().toString().toUpperCase());
+                            else{
+                                holder.patientNameContainer.setText(holder.patientName.getText().toString().substring(0,2).toUpperCase());
+                            }
+
+                        }
+                        res_string[0] = "-";
+                    } else {
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
+
+            }
+        });
         holder.patientName.setText(patientsList.getPatientname());
         holder.patientId.setText("Id :"+patientsList.getPatientid());
-        holder.tv_date_of_join.setText( "Last Session: "+DateOperations.getDateInMonthAndDate(patientsList.getDateofjoin()));
         holder.patientNameContainer.setVisibility(View.GONE);
         holder.patientProfilepic.setImageResource(android.R.color.transparent);
         if(patientsList.isSceduled()){
@@ -144,6 +224,8 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
                             .diskCacheStrategy(DiskCacheStrategy.NONE)
                             .skipMemoryCache(true))
                     .into(holder.patientProfilepic);
+
+
         }
         else {
             holder.patientNameContainer.setVisibility(View.VISIBLE);
@@ -154,6 +236,13 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
             }
 
         }
+
+
+
+        // - get element from your dataset at this position
+        // - replace the contents of the view with that element
+
+
     }
 
 
@@ -242,4 +331,3 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
         }
     }
 }
-
