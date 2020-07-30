@@ -39,7 +39,7 @@
         <TextView
             android:textAlignment="center"
             android:textColor="@color/pitch_black"
-            android:text="Please turn on location to scan and connect Pheezee"
+            android:text="Text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/notification_box_message"
@@ -54,7 +54,7 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_width="match_parent"
         android:layout_height="230dp"
-        app:srcCompat="@drawable/ic_group_award"
+        app:srcCompat="@drawable/ic_session_complete_award"
         android:id="@+id/image_notification"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"

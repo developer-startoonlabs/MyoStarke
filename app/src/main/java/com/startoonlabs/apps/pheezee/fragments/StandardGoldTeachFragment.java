@@ -462,20 +462,23 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
 
                 device_placement.setImageResource(res);
 
+            TextView muscle_name = dialog.findViewById(R.id.muscle_title);
+            TextView exercise_name = dialog.findViewById(R.id.device_placement_title);
+
+            muscle_name.setText(getActivity().getIntent().getStringExtra("musclename"));
+            exercise_name.setText(getActivity().getIntent().getStringExtra("exerciseType") +" - "+  getActivity().getIntent().getStringExtra("exercisename"));
+            // if button is clicked, close the custom dialog
+
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.show();
+
         }else
         {
-            res = getResources().getIdentifier("other_part_new", "drawable",getActivity().getPackageName());
-            device_placement.setImageResource(res);
+            // Do not show anything.
         }
-        TextView muscle_name = dialog.findViewById(R.id.muscle_title);
-        TextView exercise_name = dialog.findViewById(R.id.device_placement_title);
 
-        muscle_name.setText(getActivity().getIntent().getStringExtra("musclename"));
-        exercise_name.setText(getActivity().getIntent().getStringExtra("exerciseType") +" - "+  getActivity().getIntent().getStringExtra("exercisename"));
-        // if button is clicked, close the custom dialog
 
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.show();
+
 
         return root;
     }
