@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.view.WindowManager;
 
 import androidx.appcompat.app.AlertDialog;
 
@@ -35,6 +36,13 @@ public class OtpBuilder {
         // custom dialog
 
         dialog.setContentView(R.layout.notification_dialog_box_otp);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        dialog.getWindow().setAttributes(lp);
 
 
         Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);

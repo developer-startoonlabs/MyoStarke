@@ -95,7 +95,7 @@ import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.serial_id
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.usb_state;
 
 import android.app.Dialog;import android.widget.Button;
-
+import android.view.WindowManager;
 
 
 
@@ -292,6 +292,11 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
             final Dialog dialog = new Dialog(DeviceInfoActivity.this);
             dialog.setContentView(R.layout.notification_dialog_box);
 
+            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+            lp.copyFrom(dialog.getWindow().getAttributes());
+            lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
             TextView notification_title = dialog.findViewById(R.id.notification_box_title);
             TextView notification_message = dialog.findViewById(R.id.notification_box_message);
 
@@ -324,6 +329,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
             });
 
             dialog.show();
+            dialog.getWindow().setAttributes(lp);
 
             // End
 
@@ -437,6 +443,11 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.notification_dialog_box);
 
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
         TextView notification_title = dialog.findViewById(R.id.notification_box_title);
         TextView notification_message = dialog.findViewById(R.id.notification_box_message);
 
@@ -487,6 +498,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
         });
 
         dialog.show();
+        dialog.getWindow().setAttributes(lp);
 
         // End
 
@@ -649,6 +661,11 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
             final Dialog dialog = new Dialog(DeviceInfoActivity.this);
             dialog.setContentView(R.layout.notification_dialog_box_instruction);
 
+            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+            lp.copyFrom(dialog.getWindow().getAttributes());
+            lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
             TextView notification_title = dialog.findViewById(R.id.notification_box_title);
             TextView notification_message = dialog.findViewById(R.id.notification_box_message);
             TextView notification_instructions = dialog.findViewById(R.id.notification_box_instruction);
@@ -708,6 +725,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
             });
 
             dialog.show();
+            dialog.getWindow().setAttributes(lp);
 
             // End
 
@@ -1155,6 +1173,12 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
         final Dialog dialog = new Dialog(DeviceInfoActivity.this);
         dialog.setContentView(R.layout.notification_dialog_box_single_button);
 
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
         TextView notification_title = dialog.findViewById(R.id.notification_box_title);
         TextView notification_message = dialog.findViewById(R.id.notification_box_message);
 
@@ -1177,6 +1201,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
 
 
         dialog.show();
+        dialog.getWindow().setAttributes(lp);
 
         // End
 

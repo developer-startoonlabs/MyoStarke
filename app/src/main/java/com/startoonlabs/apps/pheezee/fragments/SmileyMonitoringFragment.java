@@ -91,6 +91,8 @@ import static com.startoonlabs.apps.pheezee.utils.ValueBasedColorOperations.SMIL
 
 import android.app.Dialog;
 import android.widget.Button;
+import android.view.WindowManager;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -155,6 +157,13 @@ public class SmileyMonitoringFragment extends Fragment implements MqttSyncReposi
             final Dialog dialog = new Dialog(getActivity());
             dialog.setContentView(R.layout.notification_dialog_box);
 
+            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+            lp.copyFrom(dialog.getWindow().getAttributes());
+            lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+            dialog.getWindow().setAttributes(lp);
+
             TextView notification_title = dialog.findViewById(R.id.notification_box_title);
             TextView notification_message = dialog.findViewById(R.id.notification_box_message);
 
@@ -196,6 +205,13 @@ public class SmileyMonitoringFragment extends Fragment implements MqttSyncReposi
             message = "Please come in range to start session";
             final Dialog dialog = new Dialog(getActivity());
             dialog.setContentView(R.layout.notification_dialog_box_single_button);
+
+            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+            lp.copyFrom(dialog.getWindow().getAttributes());
+            lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+            dialog.getWindow().setAttributes(lp);
 
             TextView notification_title = dialog.findViewById(R.id.notification_box_title);
             TextView notification_message = dialog.findViewById(R.id.notification_box_message);
@@ -245,6 +261,13 @@ public class SmileyMonitoringFragment extends Fragment implements MqttSyncReposi
             final Dialog dialog = new Dialog(getActivity());
             dialog.setContentView(R.layout.notification_dialog_box);
 
+            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+            lp.copyFrom(dialog.getWindow().getAttributes());
+            lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+            dialog.getWindow().setAttributes(lp);
+
             TextView notification_title = dialog.findViewById(R.id.notification_box_title);
             TextView notification_message = dialog.findViewById(R.id.notification_box_message);
 
@@ -285,6 +308,13 @@ public class SmileyMonitoringFragment extends Fragment implements MqttSyncReposi
             message = "Please disconnect USB to start session";
             final Dialog dialog = new Dialog(getActivity());
             dialog.setContentView(R.layout.notification_dialog_box_single_button);
+
+            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+            lp.copyFrom(dialog.getWindow().getAttributes());
+            lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+            dialog.getWindow().setAttributes(lp);
 
             TextView notification_title = dialog.findViewById(R.id.notification_box_title);
             TextView notification_message = dialog.findViewById(R.id.notification_box_message);
@@ -404,6 +434,14 @@ public class SmileyMonitoringFragment extends Fragment implements MqttSyncReposi
                     final Dialog dialog = new Dialog(getActivity());
                     dialog.setContentView(R.layout.notification_dialog_box_single_button);
                     dialog.setCancelable(false);
+
+                    WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                    lp.copyFrom(dialog.getWindow().getAttributes());
+                    lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                    lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+                    dialog.getWindow().setAttributes(lp);
+
                     TextView notification_title = dialog.findViewById(R.id.notification_box_title);
                     TextView notification_message = dialog.findViewById(R.id.notification_box_message);
 
@@ -1055,6 +1093,14 @@ public class SmileyMonitoringFragment extends Fragment implements MqttSyncReposi
         final Dialog dialog = new Dialog(getActivity());
         dialog.setContentView(R.layout.notification_dialog_box_session_complete);
         dialog.setCancelable(false);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        dialog.getWindow().setAttributes(lp);
+
         TextView notification_title = dialog.findViewById(R.id.notification_box_title);
         TextView notification_message = dialog.findViewById(R.id.notification_box_message);
 

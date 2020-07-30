@@ -95,6 +95,7 @@ import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.device_di
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.device_state;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.session_data;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.usb_state;
+import android.view.WindowManager;
 
 public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepository.GetSessionNumberResponse {
     private boolean can_beep = false, can_voice = false;
@@ -156,6 +157,13 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
             final Dialog dialog = new Dialog(getActivity());
             dialog.setContentView(R.layout.notification_dialog_box);
 
+            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+            lp.copyFrom(dialog.getWindow().getAttributes());
+            lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+            dialog.getWindow().setAttributes(lp);
+
             TextView notification_title = dialog.findViewById(R.id.notification_box_title);
             TextView notification_message = dialog.findViewById(R.id.notification_box_message);
 
@@ -196,6 +204,13 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
             message = "Please come in range to start session";
             final Dialog dialog = new Dialog(getActivity());
             dialog.setContentView(R.layout.notification_dialog_box_single_button);
+
+            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+            lp.copyFrom(dialog.getWindow().getAttributes());
+            lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+            dialog.getWindow().setAttributes(lp);
 
             TextView notification_title = dialog.findViewById(R.id.notification_box_title);
             TextView notification_message = dialog.findViewById(R.id.notification_box_message);
@@ -245,6 +260,13 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
             final Dialog dialog = new Dialog(getActivity());
             dialog.setContentView(R.layout.notification_dialog_box);
 
+            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+            lp.copyFrom(dialog.getWindow().getAttributes());
+            lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+            dialog.getWindow().setAttributes(lp);
+
             TextView notification_title = dialog.findViewById(R.id.notification_box_title);
             TextView notification_message = dialog.findViewById(R.id.notification_box_message);
 
@@ -285,6 +307,13 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
             message = "Please disconnect USB to start session";
             final Dialog dialog = new Dialog(getActivity());
             dialog.setContentView(R.layout.notification_dialog_box_single_button);
+
+            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+            lp.copyFrom(dialog.getWindow().getAttributes());
+            lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+            dialog.getWindow().setAttributes(lp);
 
             TextView notification_title = dialog.findViewById(R.id.notification_box_title);
             TextView notification_message = dialog.findViewById(R.id.notification_box_message);
@@ -504,6 +533,14 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
                     final Dialog dialog = new Dialog(getActivity());
                     dialog.setContentView(R.layout.notification_dialog_box_single_button);
                     dialog.setCancelable(false);
+
+                    WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                    lp.copyFrom(dialog.getWindow().getAttributes());
+                    lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                    lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+                    dialog.getWindow().setAttributes(lp);
+
                     TextView notification_title = dialog.findViewById(R.id.notification_box_title);
                     TextView notification_message = dialog.findViewById(R.id.notification_box_message);
 
@@ -1231,6 +1268,14 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
         final Dialog dialog = new Dialog(getActivity());
         dialog.setContentView(R.layout.notification_dialog_box_session_complete);
         dialog.setCancelable(false);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        dialog.getWindow().setAttributes(lp);
+
         TextView notification_title = dialog.findViewById(R.id.notification_box_title);
         TextView notification_message = dialog.findViewById(R.id.notification_box_message);
 

@@ -15,6 +15,7 @@ import android.widget.Button;
 
 import android.app.Dialog;
 import android.widget.TextView;
+import android.view.WindowManager;
 
 
 public class ForgotPasswordDialog {
@@ -31,6 +32,13 @@ public class ForgotPasswordDialog {
         // custom dialog
         dialog = new Dialog(context);
         dialog.setContentView(R.layout.notification_dialog_forgot_password);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        dialog.getWindow().setAttributes(lp);
 
         TextView notification_title = dialog.findViewById(R.id.notification_box_title);
 

@@ -48,7 +48,7 @@ import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.device_st
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.scan_state;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.scan_too_frequent;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.scanned_list;
-
+import android.view.WindowManager;
 
 public class ScanDevicesActivity extends AppCompatActivity {
     private boolean tooFrequentScan = false;
@@ -380,6 +380,13 @@ public class ScanDevicesActivity extends AppCompatActivity {
         // custom dialog
         tooFrequentDialog = new Dialog(this);
         tooFrequentDialog.setContentView(R.layout.notification_dialog_box_single_button);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(tooFrequentDialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        tooFrequentDialog.getWindow().setAttributes(lp);
 
         TextView notification_title = tooFrequentDialog.findViewById(R.id.notification_box_title);
         TextView notification_message = tooFrequentDialog.findViewById(R.id.notification_box_message);

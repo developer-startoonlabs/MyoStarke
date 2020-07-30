@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 
 import androidx.appcompat.app.AlertDialog;
 
@@ -32,6 +33,14 @@ public class DeviceErrorCodesAndDialogs {
         final Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.notification_dialog_box_single_button);
         dialog.setCancelable(false);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        dialog.getWindow().setAttributes(lp);
+
         TextView notification_title = dialog.findViewById(R.id.notification_box_title);
         TextView notification_message = dialog.findViewById(R.id.notification_box_message);
 

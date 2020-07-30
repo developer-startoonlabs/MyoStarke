@@ -136,6 +136,7 @@ import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.usb_state
 import static com.startoonlabs.apps.pheezee.utils.PackageTypes.TEACH_PACKAGE;
 import android.app.Dialog;
 import android.widget.Button;
+import android.view.WindowManager;
 
 public class PatientsView extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -239,6 +240,13 @@ public class PatientsView extends AppCompatActivity
             // custom dialog
             final Dialog dialog = new Dialog(PatientsView.this);
             dialog.setContentView(R.layout.notification_dialog_box);
+
+            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+            lp.copyFrom(dialog.getWindow().getAttributes());
+            lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+            dialog.getWindow().setAttributes(lp);
 
             TextView notification_title = dialog.findViewById(R.id.notification_box_title);
             TextView notification_message = dialog.findViewById(R.id.notification_box_message);
@@ -784,6 +792,13 @@ public class PatientsView extends AppCompatActivity
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.notification_dialog_box);
 
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        dialog.getWindow().setAttributes(lp);
+
         TextView notification_title = dialog.findViewById(R.id.notification_box_title);
         TextView notification_message = dialog.findViewById(R.id.notification_box_message);
 
@@ -917,6 +932,14 @@ public class PatientsView extends AppCompatActivity
                 final Dialog dialog = new Dialog(PatientsView.this);
                 dialog.setContentView(R.layout.notification_dialog_box_single_button);
                 dialog.setCancelable(false);
+
+                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                lp.copyFrom(dialog.getWindow().getAttributes());
+                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+                dialog.getWindow().setAttributes(lp);
+
                 TextView notification_title = dialog.findViewById(R.id.notification_box_title);
                 TextView notification_message = dialog.findViewById(R.id.notification_box_message);
 
@@ -1120,6 +1143,13 @@ public class PatientsView extends AppCompatActivity
         // custom dialog
         final Dialog dialog = new Dialog(PatientsView.this);
         dialog.setContentView(R.layout.notification_dialog_box);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        dialog.getWindow().setAttributes(lp);
 
         TextView notification_title = dialog.findViewById(R.id.notification_box_title);
         TextView notification_message = dialog.findViewById(R.id.notification_box_message);
@@ -1461,6 +1491,13 @@ public class PatientsView extends AppCompatActivity
             dialog = new Dialog(PatientsView.this);
             dialog.setContentView(R.layout.notification_dialog_box_single_button);
 
+            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+            lp.copyFrom(dialog.getWindow().getAttributes());
+            lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+            dialog.getWindow().setAttributes(lp);
+
             TextView notification_title = dialog.findViewById(R.id.notification_box_title);
             TextView notification_message = dialog.findViewById(R.id.notification_box_message);
 
@@ -1502,6 +1539,13 @@ public class PatientsView extends AppCompatActivity
             // custom dialog
             final Dialog dialog = new Dialog(PatientsView.this);
             dialog.setContentView(R.layout.notification_dialog_box);
+
+            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+            lp.copyFrom(dialog.getWindow().getAttributes());
+            lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+            dialog.getWindow().setAttributes(lp);
 
             TextView notification_title = dialog.findViewById(R.id.notification_box_title);
             TextView notification_message = dialog.findViewById(R.id.notification_box_message);
@@ -1889,6 +1933,14 @@ public class PatientsView extends AppCompatActivity
                 final Dialog dialog = new Dialog(PatientsView.this);
                 dialog.setContentView(R.layout.notification_dialog_box_single_button);
                 dialog.setCancelable(false);
+
+                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                lp.copyFrom(dialog.getWindow().getAttributes());
+                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+                dialog.getWindow().setAttributes(lp);
+
                 TextView notification_title = dialog.findViewById(R.id.notification_box_title);
                 TextView notification_message = dialog.findViewById(R.id.notification_box_message);
 
