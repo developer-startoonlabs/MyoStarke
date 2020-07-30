@@ -72,7 +72,7 @@ public class MyBottomSheetDialog extends BottomSheetDialogFragment {
         tv_patient_name_section = layout.findViewById(R.id.tv_patient_name_section);
         tv_patient_id_section = layout.findViewById(R.id.tv_patient_id_section);
         iv_patient_profile_pic = layout.findViewById(R.id.patient_profilepic_section);
-        tv_date_of_join = layout.findViewById(R.id.tv_patient_joindate_section);
+//        tv_date_of_join = layout.findViewById(R.id.tv_patient_joindate_section);
         tv_Image_Container = layout.findViewById(R.id.tv_Image_container);
 
         ll_report = layout.findViewById(R.id.ll_report);
@@ -134,7 +134,7 @@ public class MyBottomSheetDialog extends BottomSheetDialogFragment {
             }
         });
         tv_patient_name_section.setText(patient.getPatientname());
-        tv_date_of_join.setText( DateOperations.getDateInMonthAndDate(patient.getDateofjoin()));
+//        tv_date_of_join.setText( DateOperations.getDateInMonthAndDate(patient.getDateofjoin()));
         String s = tv_patient_id_section.getText().toString();
         if(patient.getPatientid().length()>3){
             String temp = patient.getPatientid().substring(0,3);

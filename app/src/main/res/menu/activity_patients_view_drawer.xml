@@ -7,22 +7,22 @@
 
         <item
             android:id="@+id/pheeze_device_info"
-            android:icon="@drawable/test_my_device_2"
+            android:icon="@drawable/test_my_device_3"
             android:title="@string/nav_device_info"/>
 
         <item android:id="@+id/nav_add_patient"
             android:title="@string/nav_add_patient"
-            android:icon="@drawable/test_add_patient_2"/>
+            android:icon="@drawable/test_add_patient_3"/>
 
 
 
         <item  android:id="@+id/nav_app_version"
             android:title="@string/nav_app_version"
-            android:icon="@drawable/test_app_info_2"/>
+            android:icon="@drawable/test_app_info_3"/>
 
         <item
             android:id="@+id/nav_logout"
-            android:icon="@drawable/ic_log_out_png"
+            android:icon="@drawable/ic_log_out_png_3"
             android:title="@string/nav_log_out" />
     </group>
 

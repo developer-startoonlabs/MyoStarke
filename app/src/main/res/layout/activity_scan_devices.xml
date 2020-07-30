@@ -55,15 +55,7 @@
                         android:layout_weight="0.2"
                         android:gravity="center">
 
-                        <com.airbnb.lottie.LottieAnimationView
-                            android:id="@+id/scan_devices_toolbar"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            app:lottie_loop="true"
-                            android:visibility="gone"
-                            app:lottie_fileName="scanning_devices.json"
-                            app:lottie_autoPlay="false"
-                            />
+
 
 
                     </LinearLayout>
@@ -75,16 +67,15 @@
                         android:layout_weight="0.2"
                         android:gravity="center">
 
-                        <TextView
-                            android:id="@+id/tv_stopscan"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:textAllCaps="false"
-                            android:text="@string/scan"
-                            android:padding="4dp"
-                            android:textSize="20sp"
-                            android:textColor="@color/good_green"/>
+                        <com.airbnb.lottie.LottieAnimationView
+                            android:id="@+id/scan_devices_toolbar"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:lottie_loop="true"
+                            android:visibility="gone"
+                            app:lottie_fileName="scanning_devices.json"
+                            app:lottie_autoPlay="false"
+                            />
 
                     </LinearLayout>
 
@@ -103,6 +94,21 @@ android:layout_height="match_parent"
     android:layout_marginTop="2dp"
 tools:context="com.startoonlabs.apps.pheezee.activities.ScanDevicesActivity">
     <include layout="@layout/content_scan_devices" />
-
+    <Button
+        android:id="@+id/tv_stopscan"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_heigt_done"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="1sp"
+        android:layout_marginStart="6sp"
+        android:layout_marginEnd="6sp"
+        android:background="@drawable/round_same_buttons"
+        android:textAllCaps="false"
+        android:textSize="18dp"
+        android:text="Scan"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </LinearLayout>

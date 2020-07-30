@@ -386,23 +386,8 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
     public void addPheezeeDevice(View view){
         if(deviceMacc.equalsIgnoreCase("")) {
             if(hasPermissions() && checkLocationEnabled()) {
-                builder = new AlertDialog.Builder(DeviceInfoActivity.this);
-                builder.setTitle("Add Pheezee Device!");
-                builder.setItems(peezee_items, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int item) {
-                        if (peezee_items[item].equals("Scan for nearby Pheezee devices")) {
-                            to_scan_devices_activity = new Intent(DeviceInfoActivity.this, ScanDevicesActivity.class);
-                            startActivityForResult(to_scan_devices_activity, 12);
-//                            finish();
-                        } else if (peezee_items[item].equals("Qrcode Scan")) {
-                            startActivityForResult(new Intent(DeviceInfoActivity.this, Scanner.class), 12);
-                        } else {
-                            dialog.dismiss();
-                        }
-                    }
-                });
-                builder.show();
+                to_scan_devices_activity = new Intent(DeviceInfoActivity.this, ScanDevicesActivity.class);
+                startActivityForResult(to_scan_devices_activity, 12);
             }
         }else {
             showForgetDeviceDialog();
@@ -458,12 +443,12 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
         Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);
         Button Notification_Button_cancel = (Button) dialog.findViewById(R.id.notification_ButtonCancel);
 
-        Notification_Button_ok.setText("Yes");
-        Notification_Button_cancel.setText("No");
+        Notification_Button_ok.setText("Continue");
+        Notification_Button_cancel.setText("Cancel");
 
         // Setting up the notification dialog
-        notification_title.setText("Forget Device");
-        notification_message.setText("Are you sure you want to forget the current device?");
+        notification_title.setText("Add New Pheezee");
+        notification_message.setText("Adding new Pheezee will disconnect the existing device. Do you want to Continue?");
 
         // On click on Continue
         Notification_Button_ok.setOnClickListener(new View.OnClickListener() {
@@ -487,6 +472,9 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
                 }
                 enableScanningTheDevices();
                 dialog.dismiss();
+
+                to_scan_devices_activity = new Intent(DeviceInfoActivity.this, ScanDevicesActivity.class);
+                startActivityForResult(to_scan_devices_activity, 12);
             }
         });
         // On click Cancel

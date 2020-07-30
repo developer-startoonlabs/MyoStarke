@@ -86,7 +86,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/ebrima"
-                    android:text="-"
+                    android:text="Last Session: -"
                     android:alpha="0.5"
                     android:textColor="@color/pitch_black"
                     android:textSize="13sp" />
@@ -116,7 +116,7 @@
 
 
                 <Button
-                    android:layout_width="120dp"
+                    android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:id="@+id/btn_start_session"
                     android:fontFamily="@font/ebrima"

@@ -2,6 +2,7 @@ package com.startoonlabs.apps.pheezee.activities;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothManager;
 import android.content.BroadcastReceiver;
@@ -17,6 +18,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -50,7 +52,8 @@ import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.scanned_l
 
 public class ScanDevicesActivity extends AppCompatActivity {
     private boolean tooFrequentScan = false;
-    AlertDialog tooFrequentDialog;
+
+    Dialog tooFrequentDialog;
     ListView lv_scandevices;
     SwipeRefreshLayout swipeRefreshLayout;
 
@@ -134,7 +137,7 @@ public class ScanDevicesActivity extends AppCompatActivity {
             public void onClick(View view) {
                     String check_operation;
                     check_operation = tv_stoScan.getText().toString();
-                    if (check_operation.equalsIgnoreCase("SCAN")) {
+                    if (check_operation.equalsIgnoreCase("Scan")) {
                         tv_stoScan.setText(R.string.scandevices_stop);
                         mCustomService.startScanInBackground();
                     } else {
@@ -317,7 +320,7 @@ public class ScanDevicesActivity extends AppCompatActivity {
                     setToolbarAnimVisible();
                     tooFrequentScan = true;
                     tv_stoScan.setText(R.string.scandevices_stop);
-                    tv_stoScan.setTextColor(getResources().getColor(R.color.red));
+//                    tv_stoScan.setTextColor(getResources().getColor(R.color.red));
                     if(tooFrequentDialog!=null){
                         if(!tooFrequentDialog.isShowing()){
                             tooFrequentScanningDialog();
@@ -327,7 +330,7 @@ public class ScanDevicesActivity extends AppCompatActivity {
                     }
                 }else {
                     tooFrequentScan = false;
-                    tv_stoScan.setTextColor(getResources().getColor(R.color.background_green));
+//                    tv_stoScan.setTextColor(getResources().getColor(R.color.background_green));
                     if(tooFrequentDialog!=null){
                         tooFrequentDialog.dismiss();
                     }
@@ -372,17 +375,34 @@ public class ScanDevicesActivity extends AppCompatActivity {
     }
 
     public void tooFrequentScanningDialog() {
-        String title = "Scanning in progress";
-        String message = "You are starting and stoping the scan very frequently, your scanning is running please wait.";
-        AlertDialog.Builder tooFrequentBuilder = new AlertDialog.Builder(this);
-        tooFrequentBuilder.setTitle(title);
-        tooFrequentBuilder.setMessage(message);
-        tooFrequentBuilder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+
+        // Custom notification added by Haaris
+        // custom dialog
+        tooFrequentDialog = new Dialog(this);
+        tooFrequentDialog.setContentView(R.layout.notification_dialog_box_single_button);
+
+        TextView notification_title = tooFrequentDialog.findViewById(R.id.notification_box_title);
+        TextView notification_message = tooFrequentDialog.findViewById(R.id.notification_box_message);
+
+        Button Notification_Button_ok = (Button) tooFrequentDialog.findViewById(R.id.notification_ButtonOK);
+
+        Notification_Button_ok.setText("Okay");
+
+        // Setting up the notification dialog
+        notification_title.setText("Scanning in progress");
+        notification_message.setText("You are starting and stopping the scan very frequently, your scanning is running please wait.");
+
+        // On click on Continue
+        Notification_Button_ok.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View v) {
+                tooFrequentDialog.dismiss();
             }
         });
-        tooFrequentDialog = tooFrequentBuilder.create();
+
         tooFrequentDialog.show();
+
+        // End
+
     }
 }

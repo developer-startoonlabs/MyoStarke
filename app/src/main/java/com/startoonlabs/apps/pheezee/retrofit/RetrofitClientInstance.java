@@ -22,7 +22,7 @@ public class RetrofitClientInstance {
             .build();
     private static Retrofit retrofit;
       private static final String BASE_URL = "http://13.127.78.38:3000";
-//    private static final String BASE_URL = "http://192.168.43.102:3000";
+//    private static final String BASE_URL = "http://192.168.0.104:3000";
 
     public static Retrofit getRetrofitInstance() {
         if (retrofit == null) {

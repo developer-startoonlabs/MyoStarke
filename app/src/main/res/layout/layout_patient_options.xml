@@ -74,7 +74,7 @@
                     android:paddingEnd="10dp"
                     android:gravity="center_vertical"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.5">
+                    android:layout_weight="1">
                 <TextView
                     android:id="@+id/tv_patient_name_section"
                     android:layout_width="wrap_content"
@@ -96,48 +96,48 @@
 
 
                 </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:orientation="vertical"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
-                    android:gravity="center_vertical"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.5">
+<!--                <LinearLayout-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:orientation="vertical"-->
+<!--                    android:paddingStart="10dp"-->
+<!--                    android:paddingEnd="10dp"-->
+<!--                    android:gravity="center_vertical"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_weight="0.5">-->
 
-                    <TextView
-                        android:id="@+id/tv_patient_joindate_header"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/ebrima"
-                        android:layout_marginTop="10dp"
-                        android:text="Joining date"
-                        android:textColor="@color/pitch_black"
-                        android:textSize="18sp" />
+<!--                    <TextView-->
+<!--                        android:id="@+id/tv_patient_joindate_header"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:fontFamily="@font/ebrima"-->
+<!--                        android:layout_marginTop="10dp"-->
+<!--                        android:text="Joining date"-->
+<!--                        android:textColor="@color/pitch_black"-->
+<!--                        android:textSize="18sp" />-->
 
-                    <TextView
-                        android:id="@+id/tv_patient_joindate_section"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/ebrima"
-                        android:text=""
-                        android:alpha="0.5"
-                        android:textColor="@color/pitch_black"
-                        android:textSize="18sp" />
+<!--                    <TextView-->
+<!--                        android:id="@+id/tv_patient_joindate_section"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:fontFamily="@font/ebrima"-->
+<!--                        android:text=""-->
+<!--                        android:alpha="0.5"-->
+<!--                        android:textColor="@color/pitch_black"-->
+<!--                        android:textSize="18sp" />-->
 
 
 
-                    <TextView
+<!--                    <TextView-->
 
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/ebrima"
-                        android:text=""
-                        android:enabled="false"
-                        android:visibility="invisible"
-                        android:textColor="#808080"
-                        android:textSize="14sp" />
-                </LinearLayout>
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:fontFamily="@font/ebrima"-->
+<!--                        android:text=""-->
+<!--                        android:enabled="false"-->
+<!--                        android:visibility="invisible"-->
+<!--                        android:textColor="#808080"-->
+<!--                        android:textSize="14sp" />-->
+<!--                </LinearLayout>-->
             </LinearLayout>
 
         </LinearLayout>

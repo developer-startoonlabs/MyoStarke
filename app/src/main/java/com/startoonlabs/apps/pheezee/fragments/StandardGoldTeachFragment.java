@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
 import android.media.MediaScannerConnection;
 import android.media.ToneGenerator;
@@ -63,6 +65,7 @@ import com.startoonlabs.apps.pheezee.views.ArcViewInside;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -74,6 +77,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import android.util.Log;
 
 import static com.startoonlabs.apps.pheezee.activities.MonitorActivity.IS_SCEDULED_SESSION;
 import static com.startoonlabs.apps.pheezee.activities.MonitorActivity.IS_SCEDULED_SESSIONS_COMPLETED;
@@ -398,6 +402,52 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
         creatGraphView();
 
         ((MonitorActivity)getActivity()).getBasicDeviceInfo();
+        // custom dialog
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.setContentView(R.layout.custom_dialog_box);
+
+        ImageView device_placement = dialog.findViewById(R.id.image_device_placement);
+        String str_body_part = getActivity().getIntent().getStringExtra("exerciseType");
+        str_exercise_name = getActivity().getIntent().getStringExtra("exercisename");
+        str_muscle_name = getActivity().getIntent().getStringExtra("musclename");
+        String test = str_body_part+str_muscle_name;
+        test = "ic_dp_"+test;
+        test = test.replace(" - ","_");
+        test = test.replace(" ","_");
+        test = test.replace(")","");
+        test = test.replace("(","");
+        test = test.toLowerCase();
+
+
+        if(str_exercise_name.toLowerCase().contains("rotation"))
+        {
+            test = test+"_rotation";
+//            res = getResources().getIdentifier(test, "drawable",getActivity().getPackageName());
+//            device_placement.setImageResource(res);
+        }
+
+        int res = getResources().getIdentifier(test, "drawable",getActivity().getPackageName());
+
+        if(res !=0) {
+
+
+                device_placement.setImageResource(res);
+
+        }else
+        {
+            res = getResources().getIdentifier("other_part_new", "drawable",getActivity().getPackageName());
+            device_placement.setImageResource(res);
+        }
+        TextView muscle_name = dialog.findViewById(R.id.muscle_title);
+        TextView exercise_name = dialog.findViewById(R.id.device_placement_title);
+
+        muscle_name.setText(getActivity().getIntent().getStringExtra("musclename"));
+        exercise_name.setText(getActivity().getIntent().getStringExtra("exerciseType") +" - "+  getActivity().getIntent().getStringExtra("exercisename"));
+        // if button is clicked, close the custom dialog
+
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+
         return root;
     }
 

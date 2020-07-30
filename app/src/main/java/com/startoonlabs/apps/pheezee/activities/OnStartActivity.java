@@ -24,12 +24,12 @@ public class OnStartActivity extends AppCompatActivity {
         //isLoggedIn = accessToken != null && !accessToken.isExpired();
         sharedPreferences =PreferenceManager.getDefaultSharedPreferences(this);
         if(!sharedPreferences.getBoolean("version_2.14.5",false)){
-            editor = sharedPreferences.edit();
-            editor.clear();
-            editor.commit();
-            repository.clearDatabase();
-            editor.putBoolean("version_2.14.5",true);
-            editor.apply();
+//            editor = sharedPreferences.edit();
+//            editor.clear();
+//            editor.commit();
+//            repository.clearDatabase();
+//            editor.putBoolean("version_2.14.5",true);
+//            editor.apply();
         }
         isLoggedIn = sharedPreferences.getBoolean("isLoggedIn",false);
         /**

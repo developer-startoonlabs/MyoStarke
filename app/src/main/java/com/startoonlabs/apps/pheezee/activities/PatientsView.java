@@ -188,6 +188,7 @@ public class PatientsView extends AppCompatActivity
     ImageView iv_bluetooth_connected, iv_bluetooth_disconnected, iv_device_connected, iv_device_disconnected, iv_sync_data,  iv_sync_not_available;
     LinearLayout ll_device_and_bluetooth;
     AlertDialog mDialog, mDeactivatedDialog;
+    Dialog dialog;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -1453,11 +1454,11 @@ public class PatientsView extends AppCompatActivity
     };
 
     private void showFirmwareUpdateAvailableDialog() {
-        if(mDialog==null && mDeactivatedDialog==null) {
+        if(dialog==null && mDeactivatedDialog==null) {
 
             // Custom notification added by Haaris
             // custom dialog
-            final Dialog dialog = new Dialog(PatientsView.this);
+            dialog = new Dialog(PatientsView.this);
             dialog.setContentView(R.layout.notification_dialog_box_single_button);
 
             TextView notification_title = dialog.findViewById(R.id.notification_box_title);

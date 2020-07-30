@@ -61,7 +61,7 @@
 
         <Button
             android:id="@+id/btn_connectToDevice"
-            android:layout_width="150dp"
+            android:layout_width="140sp"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/tv_deviceMacAdress"
             android:layout_alignParentTop="true"
@@ -69,11 +69,11 @@
             android:layout_marginTop="7dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="5dp"
-            android:background="@drawable/round_same_buttons"
+            android:background="@drawable/round_cancel_buttons"
             android:textAllCaps="false"
             android:text="Connect"
             android:textSize="18sp"
-            android:textColor="@color/white" />
+            android:textColor="@color/good_green" />
     </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

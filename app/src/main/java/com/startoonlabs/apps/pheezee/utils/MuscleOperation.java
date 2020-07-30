@@ -22,10 +22,10 @@ public class MuscleOperation {
                     "Gluteus Medius and Gluteus Minimus - Gluteal", "Tensor Fasciae Latae - Gluteal", "Adductor Longus - Medial",
                     "Adductor Brevis - Medial","Adductor Magnus - Medial","Psoas Major","Iliacus","Gluteus Maximus - Gluteal","Biceps Femoris - Posterior",
                     "Semimembranosus - Posterior", "Semitendinosus - Posterior", "Gracilis - Medial","Piriformis (Deep)",
-                    "Superior Gemellus (Deep)", "Obturator Internus (Deep)","Inferior Gemellus (Deep)", "Quadratus Femoris Obturator Externus (Deep)", "Others"},  //Hip //from 4 to 8 i have taken as different muscles as specified in the excell sheet
+                    "Superior Gemellus (Deep)", "Obturator Internus (Deep)","Inferior Gemellus (Deep)", "Quadratus Femoris (Deep)","Obturator Externus (Deep)", "Others"},  //Hip //from 4 to 8 i have taken as different muscles as specified in the excell sheet
 
             {"Select Muscle*", "Flexor Carpi Radialis", "Palmaris Longus", "Flexor Carpi Ulnaris", "Flexor Pollicis Longus (Deep)",
-                    "Flexor Digitorum Superficialis (Intermediate)", "Flexor Digitorum  Profundus (Deep)", "Extensor Carpi Radialis Longus and Brevis",
+                    "Flexor Digitorum Superficialis (Intermediate)", "Flexor Digitorum Profundus (Deep)", "Extensor Carpi Radialis Longus and Brevis",
                     "Extensor Digitorum", "Extensor Carpi Ulnaris", "Extensor Digiti Minimi", "Others"},  //Wrist
 
             {"Select Muscle*", "Pectoralis Major", "Latissimus Dorsi", "Teres Major", "Subscapularis", "Deltoid",  "Biceps",
@@ -55,7 +55,7 @@ public class MuscleOperation {
 
             {"Select Exercise*", "Flexion", "Extension", "Radial deviation", "Ulnar deviation", "Isometric"},  //Wrist
 
-            {"Select Exercise*", "Adduction","Abduction", "Flexion", "Extension", "Medial rotation", "Lateral Rotation",
+            {"Select Exercise*", "Adduction","Abduction", "Flexion", "Extension", "Medial Rotation", "Lateral Rotation",
 //                    "Protraction", "Retraction", "Elevation", "Depression",
                     "Isometric"},   //Shoulder
             {"Select Exercise*","Supination", "Pronation","Isometric"},//forearm
