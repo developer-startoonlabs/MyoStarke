@@ -108,8 +108,8 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
     private boolean sessionCompleted = false, can_beeep_max = true,can_beep_min = true;
     MqttSyncRepository repository;
     private String str_body_orientation="",json_phizioemail = "", patientid = "", bodyorientation = "", patientname = "";
-    TextView tv_max_angle, tv_min_angle, tv_max_emg, Repetitions, holdTime,
-            tv_session_no, tv_body_part, tv_repsselected, EMG, time, patientId, patientName, tv_action_time;
+    TextView tv_max_angle, tv_min_angle, tv_max_emg, Repetitions, holdTime, btn_emg_decrease_gain, btn_emg_increase_gain,
+            tv_session_no, tv_body_part, monitor_muscle_name,tv_repsselected, EMG, time, patientId, patientName, tv_action_time;
     private int ui_rate = 0, gain_initial = 20, body_orientation = 0, angleCorrection = 0,
             currentAngle = 0, Seconds, Minutes, maxAngle, minAngle, maxEmgValue, orientation_position=0;
 
@@ -126,7 +126,7 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
     ArcViewInside arcViewInside;
     ImageView iv_angle_correction;
     LineData lineData, lineDataNew;
-    Button timer, btn_emg_decrease_gain, btn_emg_increase_gain, stopBtn, cancelBtn;
+    Button timer, stopBtn, cancelBtn;
     long MillisecondTime, StartTime, TimeBuff, UpdateTime = 0L;
     Handler handler;
     LinearLayout emgSignal;
@@ -372,6 +372,7 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
         emgSignal = root.findViewById(R.id.emg);
         tv_session_no = root.findViewById(R.id.tv_session_no);
         tv_body_part = root.findViewById(R.id.bodyPart);
+        monitor_muscle_name = root.findViewById(R.id.monitor_muscle_name);
         cancelBtn = root.findViewById(R.id.cancel);
         iv_angle_correction = root.findViewById(R.id.tv_angleCorrection);
         tv_action_time = root.findViewById(R.id.tv_action_time);
@@ -417,7 +418,7 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
         UpdateTime = 0L;
         Seconds = 0;
         Minutes = 0;
-        time.setText("Session time:   00 : 00");
+        time.setText("00 : 00");
 
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(device_state);
@@ -489,7 +490,7 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
             @Override
             public void onClick(View v) {
                 if (mSessionStarted) {
-                    btn_emg_decrease_gain.setBackgroundResource(R.drawable.round_cancel_buttons);
+                    btn_emg_decrease_gain.setBackgroundResource(R.drawable.nav_draw_background);
                     if (gain_initial < 120) {
                         gain_initial += 10;
                         lineChart.zoom(1.4f, 1.4f, ui_rate, ui_rate);
@@ -507,7 +508,7 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
             @Override
             public void onClick(View v) {
                 if (mSessionStarted) {
-                    btn_emg_increase_gain.setBackgroundResource(R.drawable.round_cancel_buttons);
+                    btn_emg_increase_gain.setBackgroundResource(R.drawable.nav_draw_background);
                     if (gain_initial > 10) {
                         gain_initial -= 10;
                         if (gain_initial == 10) {
@@ -776,7 +777,8 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
             repository.getPatientSessionNo(patientid);
 
         tv_body_part.setText(tv_body_part.getText().toString().concat(bodypart));
-        tv_body_part.setText(orientation + "-" + bodypart + "-" + str_exercise_name);
+        tv_body_part.setText(orientation + " " + bodypart + " " + str_exercise_name);
+        monitor_muscle_name.setText(str_muscle_name);
         if (repsselected!= 0) {
             tv_repsselected.setText("/".concat(String.valueOf(repsselected)));
         } else {
@@ -948,8 +950,8 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
      * Updates the view of gain to default
      */
     private void updateGainView() {
-        btn_emg_decrease_gain.setBackgroundResource(R.drawable.round_cancel_buttons);
-        btn_emg_increase_gain.setBackgroundResource(R.drawable.round_cancel_buttons);
+//        btn_emg_decrease_gain.setBackgroundResource(R.drawable.round_corner_layout);
+//        btn_emg_increase_gain.setBackgroundResource(R.drawable.round_corner_layout);
     }
 
 
