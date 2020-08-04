@@ -43,7 +43,7 @@ public class OnStartActivity extends AppCompatActivity {
                     if(isLoggedIn)
                         startActivity(new Intent(OnStartActivity.this, PatientsView.class));
                     else
-                        startActivity(new Intent(OnStartActivity.this,LoginActivity.class));
+                        startActivity(new Intent(OnStartActivity.this,OnBoardingActivity.class));
                     finish();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
