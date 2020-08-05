@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
-
+import android.util.Log;
 public class OnStartActivity extends AppCompatActivity {
 
     boolean isLoggedIn=false;
@@ -23,6 +23,9 @@ public class OnStartActivity extends AppCompatActivity {
         repository = new MqttSyncRepository(getApplication());
         //isLoggedIn = accessToken != null && !accessToken.isExpired();
         sharedPreferences =PreferenceManager.getDefaultSharedPreferences(this);
+
+        SharedPreferences sharedPreferences_ob=getSharedPreferences("OnBoarding",MODE_PRIVATE);
+        SharedPreferences.Editor sharedPreferences_ob_editor=sharedPreferences_ob.edit();
         if(!sharedPreferences.getBoolean("version_2.14.5",false)){
 //            editor = sharedPreferences.edit();
 //            editor.clear();
@@ -40,10 +43,17 @@ public class OnStartActivity extends AppCompatActivity {
             public void run() {
                 try {
                     Thread.sleep(1000);
-                    if(isLoggedIn)
+                    if(isLoggedIn) {
                         startActivity(new Intent(OnStartActivity.this, PatientsView.class));
-                    else
-                        startActivity(new Intent(OnStartActivity.this,OnBoardingActivity.class));
+                    }
+                    else {
+                        if(!sharedPreferences_ob.getBoolean("flag",false)){
+                            startActivity(new Intent(OnStartActivity.this, OnBoardingActivity.class));
+                        }
+                        else {
+                            startActivity(new Intent(OnStartActivity.this, LoginActivity.class));
+                        }
+                    }
                     finish();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
