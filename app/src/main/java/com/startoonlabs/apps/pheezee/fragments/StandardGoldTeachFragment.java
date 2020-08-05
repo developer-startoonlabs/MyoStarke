@@ -1051,7 +1051,7 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
             Minutes = Seconds / 60;
             Seconds = Seconds % 60;
             timeText = "Session time:   " + String.format("%02d", Minutes) + " : " + String.format("%02d", Seconds);
-            time.setText(timeText);
+            time.setText(String.format("%02d", Minutes) +"m"+ " : " + String.format("%02d", Seconds)+"s");
             if(phizio_packagetype==GOLD_PLUS_PACKAGE || phizio_packagetype==ACHEDAMIC_TEACH_PLUS) {
                 if (Seconds == 59 && can_voice) {
                     if(((MonitorActivity)getActivity())!=null)
@@ -1176,7 +1176,7 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
                             maxEmgValue = maxEmgValue < emg_data ? emg_data : maxEmgValue;
                             if (maxEmgValue == 0)
                                 maxEmgValue = 1;
-                            tv_max_emg.setText(String.valueOf(maxEmgValue));
+                            tv_max_emg.setText(String.valueOf(maxEmgValue)+"μV");
                             params.height = (int) (((View) emgSignal.getParent()).getMeasuredHeight() * emg_data / maxEmgValue);
                             EMG.setText(Integer.toString(emg_data).concat(getResources().getString(R.string.emg_unit)));
                             lineChart.notifyDataSetChanged();
@@ -1382,7 +1382,7 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
     @SuppressLint("ClickableViewAccessibility")
     private void initiatePopupWindowModified() {
         String sessionNo = tv_session_no.getText().toString();
-        String sessiontime = time.getText().toString().substring(16);
+        String sessiontime = timeText.substring(16);
         String actiontime = tv_action_time.getText().toString();
 
         //testing with empty emg and rom array
