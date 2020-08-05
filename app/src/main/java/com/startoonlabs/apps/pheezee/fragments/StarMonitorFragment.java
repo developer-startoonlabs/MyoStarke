@@ -140,7 +140,8 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
     Context context;
 
     VerticalStarProgressView verticalStarProgressView;
-    AlertDialog deviceDisconnectedDialog, usbPluggedInDialog, error_device_dialog;
+    AlertDialog  error_device_dialog;
+    Dialog deviceDisconnectedDialog, usbPluggedInDialog;
     ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
 
     File file_session_emgdata, file_dir_session_emgdata, file_session_romdata, file_session_sessiondetails;
@@ -159,21 +160,21 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
         if(operation){
             message = "Please come in range to the device to continue the session";
 
-            final Dialog dialog = new Dialog(getActivity());
-            dialog.setContentView(R.layout.notification_dialog_box);
+            deviceDisconnectedDialog = new Dialog(getActivity());
+            deviceDisconnectedDialog.setContentView(R.layout.notification_dialog_box);
 
             WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-            lp.copyFrom(dialog.getWindow().getAttributes());
+            lp.copyFrom(deviceDisconnectedDialog.getWindow().getAttributes());
             lp.width = WindowManager.LayoutParams.MATCH_PARENT;
             lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
-            dialog.getWindow().setAttributes(lp);
+            deviceDisconnectedDialog.getWindow().setAttributes(lp);
 
-            TextView notification_title = dialog.findViewById(R.id.notification_box_title);
-            TextView notification_message = dialog.findViewById(R.id.notification_box_message);
+            TextView notification_title = deviceDisconnectedDialog.findViewById(R.id.notification_box_title);
+            TextView notification_message = deviceDisconnectedDialog.findViewById(R.id.notification_box_message);
 
-            Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);
-            Button Notification_Button_cancel = (Button) dialog.findViewById(R.id.notification_ButtonCancel);
+            Button Notification_Button_ok = (Button) deviceDisconnectedDialog.findViewById(R.id.notification_ButtonOK);
+            Button Notification_Button_cancel = (Button) deviceDisconnectedDialog.findViewById(R.id.notification_ButtonCancel);
 
             Notification_Button_ok.setText("Okay");
             Notification_Button_cancel.setText("End Session");
@@ -187,7 +188,7 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
                 @Override
                 public void onClick(View v) {
 
-                    dialog.dismiss();
+                    deviceDisconnectedDialog.dismiss();
 
 
                 }
@@ -198,30 +199,30 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
                 @Override
                 public void onClick(View v) {
                     stopBtn.performClick();
-                    dialog.dismiss();
+                    deviceDisconnectedDialog.dismiss();
 
 
                 }
             });
 
-            dialog.show();
+            deviceDisconnectedDialog.show();
 
         }else {
             message = "Please come in range to start session";
-            final Dialog dialog = new Dialog(getActivity());
-            dialog.setContentView(R.layout.notification_dialog_box_single_button);
+            deviceDisconnectedDialog = new Dialog(getActivity());
+            deviceDisconnectedDialog.setContentView(R.layout.notification_dialog_box_single_button);
 
             WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-            lp.copyFrom(dialog.getWindow().getAttributes());
+            lp.copyFrom(deviceDisconnectedDialog.getWindow().getAttributes());
             lp.width = WindowManager.LayoutParams.MATCH_PARENT;
             lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
-            dialog.getWindow().setAttributes(lp);
+            deviceDisconnectedDialog.getWindow().setAttributes(lp);
 
-            TextView notification_title = dialog.findViewById(R.id.notification_box_title);
-            TextView notification_message = dialog.findViewById(R.id.notification_box_message);
+            TextView notification_title = deviceDisconnectedDialog.findViewById(R.id.notification_box_title);
+            TextView notification_message = deviceDisconnectedDialog.findViewById(R.id.notification_box_message);
 
-            Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);
+            Button Notification_Button_ok = (Button) deviceDisconnectedDialog.findViewById(R.id.notification_ButtonOK);
 
             Notification_Button_ok.setText("Okay");
 
@@ -234,14 +235,14 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
                 @Override
                 public void onClick(View v) {
 
-                    dialog.dismiss();
+                    deviceDisconnectedDialog.dismiss();
 
 
                 }
             });
 
 
-            dialog.show();
+            deviceDisconnectedDialog.show();
 
             // End
 
@@ -263,21 +264,21 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
         if(operation){
             message = "Please disconnect USB to continue the session";
 
-            final Dialog dialog = new Dialog(getActivity());
-            dialog.setContentView(R.layout.notification_dialog_box);
+            usbPluggedInDialog = new Dialog(getActivity());
+            usbPluggedInDialog.setContentView(R.layout.notification_dialog_box);
 
             WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-            lp.copyFrom(dialog.getWindow().getAttributes());
+            lp.copyFrom(usbPluggedInDialog.getWindow().getAttributes());
             lp.width = WindowManager.LayoutParams.MATCH_PARENT;
             lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
-            dialog.getWindow().setAttributes(lp);
+            usbPluggedInDialog.getWindow().setAttributes(lp);
 
-            TextView notification_title = dialog.findViewById(R.id.notification_box_title);
-            TextView notification_message = dialog.findViewById(R.id.notification_box_message);
+            TextView notification_title = usbPluggedInDialog.findViewById(R.id.notification_box_title);
+            TextView notification_message = usbPluggedInDialog.findViewById(R.id.notification_box_message);
 
-            Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);
-            Button Notification_Button_cancel = (Button) dialog.findViewById(R.id.notification_ButtonCancel);
+            Button Notification_Button_ok = (Button) usbPluggedInDialog.findViewById(R.id.notification_ButtonOK);
+            Button Notification_Button_cancel = (Button) usbPluggedInDialog.findViewById(R.id.notification_ButtonCancel);
 
             Notification_Button_ok.setText("Okay");
             Notification_Button_cancel.setText("End Session");
@@ -291,7 +292,7 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
                 @Override
                 public void onClick(View v) {
 
-                    dialog.dismiss();
+                    usbPluggedInDialog.dismiss();
 
 
                 }
@@ -302,29 +303,29 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
                 @Override
                 public void onClick(View v) {
                     stopBtn.performClick();
-                    dialog.dismiss();
+                    usbPluggedInDialog.dismiss();
 
 
                 }
             });
-            dialog.show();
+            usbPluggedInDialog.show();
 
         }else {
             message = "Please disconnect USB to start session";
-            final Dialog dialog = new Dialog(getActivity());
-            dialog.setContentView(R.layout.notification_dialog_box_single_button);
+            usbPluggedInDialog = new Dialog(getActivity());
+            usbPluggedInDialog.setContentView(R.layout.notification_dialog_box_single_button);
 
             WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-            lp.copyFrom(dialog.getWindow().getAttributes());
+            lp.copyFrom(usbPluggedInDialog.getWindow().getAttributes());
             lp.width = WindowManager.LayoutParams.MATCH_PARENT;
             lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
-            dialog.getWindow().setAttributes(lp);
+            usbPluggedInDialog.getWindow().setAttributes(lp);
 
-            TextView notification_title = dialog.findViewById(R.id.notification_box_title);
-            TextView notification_message = dialog.findViewById(R.id.notification_box_message);
+            TextView notification_title = usbPluggedInDialog.findViewById(R.id.notification_box_title);
+            TextView notification_message = usbPluggedInDialog.findViewById(R.id.notification_box_message);
 
-            Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);
+            Button Notification_Button_ok = (Button) usbPluggedInDialog.findViewById(R.id.notification_ButtonOK);
 
             Notification_Button_ok.setText("Okay");
 
@@ -337,14 +338,14 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
                 @Override
                 public void onClick(View v) {
 
-                    dialog.dismiss();
+                    usbPluggedInDialog.dismiss();
 
 
                 }
             });
 
 
-            dialog.show();
+            usbPluggedInDialog.show();
 
             // End
 
