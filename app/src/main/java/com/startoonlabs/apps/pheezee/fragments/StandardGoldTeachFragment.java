@@ -109,7 +109,7 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
     MqttSyncRepository repository;
     private String str_body_orientation="",json_phizioemail = "", patientid = "", bodyorientation = "", patientname = "";
     TextView tv_max_angle, tv_min_angle, tv_max_emg, Repetitions, holdTime, btn_emg_decrease_gain, btn_emg_increase_gain,
-            tv_session_no, tv_body_part, monitor_muscle_name,tv_repsselected, tv_repsselected_slash,EMG, time, patientId, patientName, tv_action_time;
+            tv_session_no, tv_body_part, monitor_muscle_name,tv_repsselected, tv_repsselected_slash,EMG, time, patientId, patientName, tv_action_time,tv_recording;
     private int ui_rate = 0, gain_initial = 20, body_orientation = 0, angleCorrection = 0,
             currentAngle = 0, Seconds, Minutes, maxAngle, minAngle, maxEmgValue, orientation_position=0;
 
@@ -124,7 +124,7 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
     LineChart lineChart;
     LineDataSet lineDataSet;
     ArcViewInside arcViewInside;
-    ImageView iv_angle_correction;
+    ImageView iv_angle_correction,iv_recording_icon;
     LineData lineData, lineDataNew;
     Button timer, stopBtn, cancelBtn;
     long MillisecondTime, StartTime, TimeBuff, UpdateTime = 0L;
@@ -376,11 +376,13 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
         monitor_muscle_name = root.findViewById(R.id.monitor_muscle_name);
         cancelBtn = root.findViewById(R.id.cancel);
         iv_angle_correction = root.findViewById(R.id.tv_angleCorrection);
+        iv_recording_icon = root.findViewById(R.id.recording_icon);
         tv_action_time = root.findViewById(R.id.tv_action_time);
         tv_max_angle = root.findViewById(R.id.tv_max_angle);
         tv_min_angle = root.findViewById(R.id.tv_min_angle);
         tv_max_emg = root.findViewById(R.id.tv_max_emg_show);
         tv_repsselected = root.findViewById(R.id.repsSelected);
+        tv_recording = root.findViewById(R.id.recording_text);
         tv_repsselected_slash = root.findViewById(R.id.tv_repsselected_slash);
         btn_emg_decrease_gain = root.findViewById(R.id.btn_emg_decrease_gain);
         btn_emg_increase_gain = root.findViewById(R.id.btn_emg_increase_gain);
@@ -492,7 +494,7 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
             @Override
             public void onClick(View v) {
                 if (mSessionStarted) {
-                    btn_emg_decrease_gain.setBackgroundResource(R.drawable.nav_draw_background);
+                    btn_emg_decrease_gain.setBackgroundResource(R.drawable.incr_decr_layout);
                     if (gain_initial < 120) {
                         gain_initial += 10;
                         lineChart.zoom(1.4f, 1.4f, ui_rate, ui_rate);
@@ -510,7 +512,7 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
             @Override
             public void onClick(View v) {
                 if (mSessionStarted) {
-                    btn_emg_increase_gain.setBackgroundResource(R.drawable.nav_draw_background);
+                    btn_emg_increase_gain.setBackgroundResource(R.drawable.incr_decr_layout);
                     if (gain_initial > 10) {
                         gain_initial -= 10;
                         if (gain_initial == 10) {
@@ -604,6 +606,8 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
                 if (timer.getVisibility() == View.GONE) {
                     sessionCompleted = true;
                     mSessionStarted = false;
+                    tv_recording.setText("");
+                    iv_recording_icon.setImageDrawable(getResources().getDrawable(R.drawable.bg_circle_red));
                     timer.setBackgroundResource(R.drawable.rounded_start_button);
                     stopBtn.setVisibility(View.GONE);
                     timer.setVisibility(View.VISIBLE);
@@ -637,6 +641,8 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
             public void onClick(View v) {
                 sessionCompleted = true;
                 mSessionStarted = false;
+                tv_recording.setText("");
+                iv_recording_icon.setImageDrawable(getResources().getDrawable(R.drawable.bg_circle_red));
                 cancelBtn.setVisibility(View.GONE);
                 timer.setBackgroundResource(R.drawable.rounded_start_button);
                 stopBtn.setVisibility(View.GONE);
@@ -971,6 +977,8 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
         emgJsonArray = new JSONArray();
         romJsonArray = new JSONArray();
         maxAngle = 0;minAngle = 360;maxEmgValue = 0;
+        tv_recording.setText("Recording");
+        iv_recording_icon.setImageDrawable(getResources().getDrawable(R.drawable.bg_square_red));
         can_beeep_max=true;can_beep_min=true;
         creatGraphView();
         timer.setVisibility(View.GONE);
