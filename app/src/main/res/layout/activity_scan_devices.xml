@@ -60,24 +60,7 @@
 
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_weight="0.2"
-                        android:gravity="center">
 
-                        <com.airbnb.lottie.LottieAnimationView
-                            android:id="@+id/scan_devices_toolbar"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            app:lottie_loop="true"
-                            android:visibility="gone"
-                            app:lottie_fileName="scanning_devices.json"
-                            app:lottie_autoPlay="false"
-                            />
-
-                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -94,6 +77,39 @@ android:layout_height="match_parent"
     android:layout_marginTop="2dp"
 tools:context="com.startoonlabs.apps.pheezee.activities.ScanDevicesActivity">
     <include layout="@layout/content_scan_devices" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="50dp"
+        app:layout_constraintBottom_toTopOf="@id/tv_stopscan"
+        app:layout_constraintEnd_toEndOf="@id/tv_stopscan"
+        app:layout_constraintStart_toStartOf="@id/tv_stopscan">
+
+    <LinearLayout
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:foregroundGravity="center"
+        >
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/scan_devices_toolbar"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_gravity="center"
+            android:foregroundGravity="center"
+            app:lottie_autoPlay="false"
+            app:lottie_fileName="scanning_devices.json"
+            app:lottie_loop="true" />
+    </LinearLayout>
+
+    </LinearLayout>
+
     <Button
         android:id="@+id/tv_stopscan"
         android:layout_width="match_parent"

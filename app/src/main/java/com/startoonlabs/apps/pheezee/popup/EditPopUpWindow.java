@@ -29,6 +29,11 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import android.widget.ImageView;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
 public class EditPopUpWindow {
     Context context;
     PhizioPatients patient;
@@ -88,6 +93,17 @@ public class EditPopUpWindow {
         ArrayAdapter<String> array_exercise_names = new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item, context.getResources().getStringArray(R.array.case_description));
         array_exercise_names.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         sp_case_des.setAdapter(array_exercise_names);
+
+        String[] cases_list = context.getResources().getStringArray(R.array.case_description);
+        ArrayList<String> arrayList = new ArrayList<>();
+        Collections.addAll(arrayList,cases_list);
+
+        if(arrayList.contains(patient.getPatientcasedes())) {
+            sp_case_des.setSelection(arrayList.indexOf(patient.getPatientcasedes()));
+        }else{
+            sp_case_des.setSelection(arrayList.size()-1);
+        }
+
 
         sp_case_des.setOnTouchListener(new View.OnTouchListener() {
 

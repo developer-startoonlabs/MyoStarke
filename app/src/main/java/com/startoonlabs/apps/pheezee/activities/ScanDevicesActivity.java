@@ -261,9 +261,10 @@ public class ScanDevicesActivity extends AppCompatActivity {
 
 
     private void updateList(ArrayList<DeviceListClass> listClasses){
-        if(listClasses!=null && listClasses.size()>0) {
+        if(listClasses!=null && listClasses.size()>1) {
             if(view.getVisibility()==View.VISIBLE) {
                 view.setVisibility(View.GONE);
+                scan_toolbar_anim.setVisibility(View.VISIBLE);
             }
             mScanResults = listClasses;
             deviceListArrayAdapter.updateList(mScanResults);
@@ -274,6 +275,10 @@ public class ScanDevicesActivity extends AppCompatActivity {
             }
             if(view.getVisibility()==View.GONE) {
                 view.setVisibility(View.VISIBLE);
+            }
+            if(scan_toolbar_anim.getVisibility()==View.VISIBLE)
+            {
+                scan_toolbar_anim.setVisibility(View.GONE);
             }
         }
     }
@@ -317,7 +322,6 @@ public class ScanDevicesActivity extends AppCompatActivity {
             }else if(action.equalsIgnoreCase(scan_too_frequent)){
                 boolean scanning_frequence = intent.getBooleanExtra(scan_too_frequent,false);
                 if(scanning_frequence){
-                    setToolbarAnimVisible();
                     tooFrequentScan = true;
                     tv_stoScan.setText(R.string.scandevices_stop);
 //                    tv_stoScan.setTextColor(getResources().getColor(R.color.red));
@@ -341,7 +345,7 @@ public class ScanDevicesActivity extends AppCompatActivity {
 
     public void setAnimVisible(){
         if(scan_toolbar_anim.getVisibility()==View.GONE){
-            scan_toolbar_anim.setVisibility(View.VISIBLE);
+//            scan_toolbar_anim.setVisibility(View.VISIBLE);
         }
 
         if(mScanResults.size()==0) {
@@ -353,12 +357,7 @@ public class ScanDevicesActivity extends AppCompatActivity {
         scan_toolbar_anim.playAnimation();
     }
 
-    public void setToolbarAnimVisible(){
-        if(scan_toolbar_anim.getVisibility()==View.GONE){
-            scan_toolbar_anim.setVisibility(View.VISIBLE);
-        }
-        scan_toolbar_anim.playAnimation();
-    }
+
 
 
     public void setAnimationHidden(){

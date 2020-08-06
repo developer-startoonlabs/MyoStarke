@@ -23,7 +23,7 @@ public class OnBoardingFragment extends Fragment {
 
     private static String ARG_POSITION = "ARG_POSITION";
 
-    private static String[] onBoardingTitles = {"Pheezee", "Live Monitoring based evidence", "Set targets", "Audio and Visual feedback"};
+    private static String[] onBoardingTitles = {"Pheezee", "Live monitoring based evidence", "Set targets", "Audio and Visual feedback"};
 
     private static String[] onBoardingDescriptions = {
             "India's first smart device that generates reports for all your physiotherapy sessions. It's session wise reports and the overall reports can be shared with the patients.",

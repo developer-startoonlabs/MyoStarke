@@ -61,7 +61,7 @@
 
         <Button
             android:id="@+id/btn_connectToDevice"
-            android:layout_width="140sp"
+            android:layout_width="115sp"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/tv_deviceMacAdress"
             android:layout_alignParentTop="true"

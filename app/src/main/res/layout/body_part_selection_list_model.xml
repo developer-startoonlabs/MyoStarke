@@ -70,7 +70,7 @@
             android:fontFamily="@font/ebrima"
             android:text="@string/orientation"
             android:textColor="@color/pitch_black"
-            android:textSize="16sp"
+            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -91,7 +91,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
                 android:text="@string/left" />
@@ -102,7 +102,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="8dp"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:layout_weight="1"
                 android:text="@string/right" />
 
@@ -118,6 +118,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:elevation="3dp"
+            android:textSize="14sp"
             android:gravity="center"
             android:background="@drawable/spinner_background"
             android:outlineProvider="background"
@@ -149,6 +150,7 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginStart="8dp"
+            android:textSize="14sp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
@@ -193,7 +195,7 @@
             android:fontFamily="@font/ebrima"
             android:text="@string/str_position"
             android:textColor="@color/pitch_black"
-            android:textSize="16sp"
+            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/model_rg_orientation" />
 
@@ -215,7 +217,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:layout_marginStart="8dp"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:layout_weight="1"
                 android:text="@string/sit" />
 
@@ -226,7 +228,7 @@
                 android:layout_gravity="center"
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:text="@string/stand" />
 
             <RadioButton
@@ -235,7 +237,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_marginEnd="8dp"
-                android:textSize="16sp"
+                android:layout_weight="1"
+                android:textSize="14sp"
                 android:text="@string/supine" />
         </RadioGroup>
 
@@ -254,7 +257,7 @@
             android:fontFamily="@font/ebrima"
             android:text="@string/set_max_emg"
             android:textColor="@color/pitch_black"
-            android:textSize="16sp"
+            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/model_sp_set_goal" />
 
@@ -264,6 +267,7 @@
             android:layout_height="40dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:textSize="14sp"
             android:background="@drawable/round_corners_textboxes_time"
             android:inputType="numberSigned"
             android:paddingLeft="15dp"
@@ -283,7 +287,7 @@
             android:fontFamily="@font/ebrima"
             android:text="@string/set_angle"
             android:textColor="@color/pitch_black"
-            android:textSize="16sp"
+            android:textSize="14sp"
             app:layout_constraintBottom_toTopOf="@+id/model_tv_start"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/model_et_min_angle"
@@ -293,6 +297,7 @@
             android:layout_width="60dp"
             android:layout_height="40dp"
             android:layout_marginStart="8dp"
+            android:textSize="14sp"
             android:layout_marginEnd="8dp"
             android:background="@drawable/round_corners_textboxes_time"
             app:layout_constraintBottom_toTopOf="@+id/tv_max_angle_text"
@@ -311,6 +316,7 @@
             android:layout_height="40dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:textSize="14sp"
             android:paddingLeft="15dp"
             android:imeOptions="actionNext"
             android:background="@drawable/round_corners_textboxes_time"
@@ -337,7 +343,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:text="@string/start"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/model_tv_stop"
@@ -351,7 +357,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:text="@string/end"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -366,7 +372,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:text="@string/max_emg"
-            android:textSize="16sp"
+            android:textSize="14sp"
             app:layout_constraintBottom_toTopOf="@+id/model_et_min_angle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -377,6 +383,7 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginStart="8dp"
+            android:textSize="14sp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:background="@drawable/spinner_background"
