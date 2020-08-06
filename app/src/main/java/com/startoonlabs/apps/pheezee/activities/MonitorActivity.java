@@ -68,7 +68,7 @@ public class MonitorActivity extends AppCompatActivity implements PopupMenu.OnMe
 
     int selected_theme = 0;
     //session inserted on server
-    ImageView iv_back_monitor, iv_theme_chooser;
+    ImageView iv_back_monitor, iv_theme_chooser,iv_smiley_icon;
     private String str_body_orientation="",json_phizioemail = "";
     TextView tv_snap;
     int REQUEST_ENABLE_BT = 1;
@@ -96,6 +96,7 @@ public class MonitorActivity extends AppCompatActivity implements PopupMenu.OnMe
         iv_back_monitor = findViewById(R.id.iv_back_monitor);
         tv_snap = findViewById(R.id.snap_monitor);
         iv_theme_chooser = findViewById(R.id.theme_chooser);
+        iv_smiley_icon = findViewById(R.id.theme_smiley);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         try {
             json_phizio = new JSONObject(sharedPreferences.getString("phiziodetails", ""));
@@ -145,6 +146,8 @@ public class MonitorActivity extends AppCompatActivity implements PopupMenu.OnMe
 
         visibilityChangesBasedOnPackageType();
         registerForContextMenu(iv_theme_chooser);
+        
+
 
         mBluetoothManager = (BluetoothManager)getSystemService(BLUETOOTH_SERVICE);
         bluetoothAdapter = mBluetoothManager.getAdapter();
@@ -205,10 +208,11 @@ public class MonitorActivity extends AppCompatActivity implements PopupMenu.OnMe
 
     private void visibilityChangesBasedOnPackageType() {
         if(phizio_packagetype!=STANDARD_PACKAGE){
-            tv_snap.setVisibility(View.VISIBLE);
+//            tv_snap.setVisibility(View.VISIBLE);
         }
         if(phizio_packagetype==GOLD_PLUS_PACKAGE || phizio_packagetype==ACHEDAMIC_TEACH_PLUS){
             iv_theme_chooser.setVisibility(View.VISIBLE);
+            iv_smiley_icon.setVisibility(View.VISIBLE);
         }
     }
 

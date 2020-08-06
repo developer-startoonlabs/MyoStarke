@@ -24,7 +24,10 @@
     <!--used in the home bluetooth, sunc device icons-->
     <color name="red">#CC2016</color>
     <!--Apps theme color-->
-    <color name="good_green">#012e57</color>
+    <color name="good_green">#062545</color>
+
+    <!--Apps theme color-->
+    <color name="good_green2">#50667C</color>
 
     <!--used in the session summary screen-->
     <color name="summary_green">#00B386</color>

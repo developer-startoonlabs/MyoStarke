@@ -29,6 +29,7 @@ import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.text.format.DateFormat;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.anychart.core.ui.Center;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -474,6 +476,29 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
             exercise_name.setText(getActivity().getIntent().getStringExtra("exerciseType") +" - "+  getActivity().getIntent().getStringExtra("exercisename"));
             // if button is clicked, close the custom dialog
 
+            Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);
+
+            Notification_Button_ok.setText("Start");
+
+            // On click on Continue
+            Notification_Button_ok.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    if(deviceState && !usbState)
+                        startSession();
+                    else {
+                        if(!deviceState)
+                            deviceDisconnectedPopup(false);
+                        else
+                            usbConnectedDialog(false);
+                    }
+                    dialog.dismiss();
+
+
+                }
+            });
+
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             dialog.show();
 
@@ -528,9 +553,10 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
         });
 
         timer.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
-
+                cancelBtn.setBackgroundResource(R.drawable.round_cancel_buttons_red);
                 String message = BatteryOperation.getDialogMessageForLowBattery(PatientsView.deviceBatteryPercent, getActivity());
                 if (!message.equalsIgnoreCase("c")) {
                     //
@@ -609,6 +635,7 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
                     tv_recording.setText("");
                     iv_recording_icon.setImageDrawable(getResources().getDrawable(R.drawable.bg_circle_red));
                     timer.setBackgroundResource(R.drawable.rounded_start_button);
+                    cancelBtn.setBackgroundResource(R.drawable.round_cancel_buttons_green);
                     stopBtn.setVisibility(View.GONE);
                     timer.setVisibility(View.VISIBLE);
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
@@ -792,6 +819,7 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
         } else {
             tv_repsselected.setVisibility(View.GONE);
             tv_repsselected_slash.setVisibility(View.GONE);
+            Repetitions.setGravity(Gravity.CENTER);
         }
 
         if(phizio_packagetype==STANDARD_PACKAGE || phizio_packagetype==GOLD_PACKAGE || phizio_packagetype==TEACH_PACKAGE){
@@ -978,7 +1006,7 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
         romJsonArray = new JSONArray();
         maxAngle = 0;minAngle = 360;maxEmgValue = 0;
         tv_recording.setText("Recording");
-        iv_recording_icon.setImageDrawable(getResources().getDrawable(R.drawable.bg_square_red));
+
         can_beeep_max=true;can_beep_min=true;
         creatGraphView();
         timer.setVisibility(View.GONE);
@@ -1062,7 +1090,14 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
             Minutes = Seconds / 60;
             Seconds = Seconds % 60;
             timeText = "Session time:   " + String.format("%02d", Minutes) + " : " + String.format("%02d", Seconds);
-            time.setText(String.format("%02d", Minutes) +"m"+ " : " + String.format("%02d", Seconds)+"s");
+            time.setText(String.format("%02d", Minutes) +"m"+ ":" + String.format("%02d", Seconds)+"s");
+
+            if(Seconds>30 && Minutes < 1)
+            {
+                iv_recording_icon.setImageDrawable(getResources().getDrawable(R.drawable.bg_square_red));
+                tv_recording.setText("30s");
+            }
+
             if(phizio_packagetype==GOLD_PLUS_PACKAGE || phizio_packagetype==ACHEDAMIC_TEACH_PLUS) {
                 if (Seconds == 59 && can_voice) {
                     if(((MonitorActivity)getActivity())!=null)
@@ -1241,9 +1276,9 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
                                 }
                             }
                             maxAngle = maxAngle < angleDetected ? angleDetected : maxAngle;
-                            tv_max_angle.setText(String.valueOf(maxAngle));
+                            tv_max_angle.setText(String.valueOf(maxAngle)+"°");
                             minAngle = minAngle > angleDetected ? angleDetected : minAngle;
-                            tv_min_angle.setText(String.valueOf(minAngle));
+                            tv_min_angle.setText(String.valueOf(minAngle)+"°");
 //            }
                             emgSignal.setLayoutParams(params);
                             holdTime.setText(holdTimeValue);

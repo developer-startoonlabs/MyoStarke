@@ -263,8 +263,8 @@
 
         <EditText
             android:id="@+id/model_et_max_angle"
-            android:layout_width="60dp"
-            android:layout_height="40dp"
+            android:layout_width="55dp"
+            android:layout_height="34dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:textSize="14sp"
@@ -294,8 +294,8 @@
             app:layout_constraintVertical_bias="0.0" />
         <EditText
             android:id="@+id/model_et_max_emg"
-            android:layout_width="60dp"
-            android:layout_height="40dp"
+            android:layout_width="55dp"
+            android:layout_height="34dp"
             android:layout_marginStart="8dp"
             android:textSize="14sp"
             android:layout_marginEnd="8dp"
@@ -312,8 +312,8 @@
 
         <EditText
             android:id="@+id/model_et_min_angle"
-            android:layout_width="60dp"
-            android:layout_height="40dp"
+            android:layout_width="55dp"
+            android:layout_height="34dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:textSize="14sp"

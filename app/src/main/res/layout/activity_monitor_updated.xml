@@ -63,18 +63,32 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
+                android:id="@+id/theme_smiley"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:visibility="gone"
+                android:paddingLeft="5dp"
+                android:paddingRight="0dp"
+                android:src="@drawable/theme_smiley"
+                android:textAllCaps="false"
+                app:layout_constraintEnd_toStartOf="@+id/theme_chooser"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
                 android:id="@+id/theme_chooser"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:layout_marginEnd="8dp"
-                android:paddingStart="5dp"
+                android:paddingStart="0dp"
                 android:paddingEnd="5dp"
                 android:visibility="gone"
                 android:onClick="showPopup"
-                android:src="@drawable/tripple_dot_option"
-                app:layout_constraintBottom_toBottomOf="@+id/snap_monitor"
+                android:src="@drawable/theme_chooser_svg"
+                app:layout_constraintBottom_toBottomOf="@+id/theme_smiley"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/snap_monitor" />
+                app:layout_constraintTop_toTopOf="@+id/theme_smiley" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.appcompat.widget.Toolbar>
