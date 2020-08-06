@@ -127,8 +127,18 @@ public class PatientsRecyclerViewAdapter extends RecyclerView.Adapter<PatientsRe
                     res_string[0] = response.body();
                     if (res_string[0] != null) {
                         if(res_string[0].length()>5) {
-                            holder.tv_date_of_join.setText("Last Session: " + res_string[0].substring(1, 11));
+                            String test = res_string[0].substring(1, 11);
+                            test=test.replace("-","/");
+                            String[] date_split = test.split("/");
+                            test = date_split[2]+"/"+date_split[1]+"/"+date_split[0];
+                            test = DateOperations.getDateInMonthAndDate(test);
+                            date_split = test.split(",");
+                            test = date_split[0];
+                            holder.tv_date_of_join.setText("Last Session: " + test);
+
                         }else holder.tv_date_of_join.setText("Last Session: " + res_string[0].substring(1,2));
+
+
                         holder.patientName.setText(patientsList.getPatientname());
                         holder.patientId.setText("Id :"+patientsList.getPatientid());
                         holder.patientNameContainer.setVisibility(View.GONE);

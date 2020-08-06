@@ -80,7 +80,7 @@
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
                         android:textColor="@color/good_green"
-                        android:textSize="14sp"
+                        android:textSize="13sp"
                         android:lineSpacingExtra="4dp"
 
                         tools:text="@tools:sample/lorem[20]" />

@@ -335,21 +335,34 @@
 
                                 <TextView
                                     android:id="@+id/Repetitions"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:paddingStart="15dp"
+                                    android:layout_weight="1"
+                                    android:textAlignment="center"
                                     android:fontFamily="@font/ebrima"
                                     android:textColor="@color/pitch_black"
                                     android:text="00"
                                     android:textSize="16sp" />
 
                                 <TextView
-                                    android:id="@+id/repsSelected"
-
-                                    android:layout_width="wrap_content"
+                                    android:id="@+id/tv_repsselected_slash"
+                                    android:layout_weight="1.6"
+                                    android:textAlignment="center"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/ebrima"
-                                    android:text="/00"
+                                    android:text="/"
+
+                                    android:textColor="@color/pitch_black"
+                                    android:textSize="16sp"/>
+                                <TextView
+                                    android:id="@+id/repsSelected"
+                                    android:textAlignment="center"
+                                    android:layout_weight="1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/ebrima"
+                                    android:text="00"
                                     android:textColor="@color/pitch_black"
                                     android:textSize="16sp" />
                             </LinearLayout>

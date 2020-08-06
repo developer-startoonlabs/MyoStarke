@@ -87,7 +87,6 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/ebrima"
                     android:text="Last Session: -"
-                    android:alpha="0.5"
                     android:textColor="@color/pitch_black"
                     android:textSize="13sp" />
 
@@ -108,11 +107,10 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.35"
+                android:layout_weight="0.27"
                 android:background="@drawable/patient_item_layout"
                 android:gravity="center_vertical"
-                android:paddingEnd="5dp"
-                android:paddingStart="20dp">
+                android:paddingEnd="5dp">
 
 
                 <Button

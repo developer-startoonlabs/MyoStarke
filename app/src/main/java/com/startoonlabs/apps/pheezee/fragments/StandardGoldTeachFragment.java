@@ -109,7 +109,7 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
     MqttSyncRepository repository;
     private String str_body_orientation="",json_phizioemail = "", patientid = "", bodyorientation = "", patientname = "";
     TextView tv_max_angle, tv_min_angle, tv_max_emg, Repetitions, holdTime, btn_emg_decrease_gain, btn_emg_increase_gain,
-            tv_session_no, tv_body_part, monitor_muscle_name,tv_repsselected, EMG, time, patientId, patientName, tv_action_time;
+            tv_session_no, tv_body_part, monitor_muscle_name,tv_repsselected, tv_repsselected_slash,EMG, time, patientId, patientName, tv_action_time;
     private int ui_rate = 0, gain_initial = 20, body_orientation = 0, angleCorrection = 0,
             currentAngle = 0, Seconds, Minutes, maxAngle, minAngle, maxEmgValue, orientation_position=0;
 
@@ -381,6 +381,7 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
         tv_min_angle = root.findViewById(R.id.tv_min_angle);
         tv_max_emg = root.findViewById(R.id.tv_max_emg_show);
         tv_repsselected = root.findViewById(R.id.repsSelected);
+        tv_repsselected_slash = root.findViewById(R.id.tv_repsselected_slash);
         btn_emg_decrease_gain = root.findViewById(R.id.btn_emg_decrease_gain);
         btn_emg_increase_gain = root.findViewById(R.id.btn_emg_increase_gain);
 
@@ -781,9 +782,10 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
         tv_body_part.setText(orientation + " " + bodypart + " " + str_exercise_name);
         monitor_muscle_name.setText(str_muscle_name);
         if (repsselected!= 0) {
-            tv_repsselected.setText("/".concat(String.valueOf(repsselected)));
+            tv_repsselected.setText(String.valueOf(repsselected));
         } else {
             tv_repsselected.setVisibility(View.GONE);
+            tv_repsselected_slash.setVisibility(View.GONE);
         }
 
         if(phizio_packagetype==STANDARD_PACKAGE || phizio_packagetype==GOLD_PACKAGE || phizio_packagetype==TEACH_PACKAGE){
