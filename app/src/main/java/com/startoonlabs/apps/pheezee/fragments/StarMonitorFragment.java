@@ -427,7 +427,7 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
         timer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                cancelBtn.setBackgroundResource(R.drawable.round_cancel_buttons_red);
                 String message = BatteryOperation.getDialogMessageForLowBattery(PatientsView.deviceBatteryPercent, getActivity());
                 if (!message.equalsIgnoreCase("c")) {
                     //
@@ -504,6 +504,7 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
                     sessionCompleted = true;
                     mSessionStarted = false;
                     timer.setBackgroundResource(R.drawable.rounded_start_button);
+                    cancelBtn.setBackgroundResource(R.drawable.round_cancel_buttons_green);
                     stopBtn.setVisibility(View.GONE);
                     timer.setVisibility(View.VISIBLE);
                     new Handler(Looper.getMainLooper()).post(new Runnable() {

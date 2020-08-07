@@ -271,7 +271,7 @@
         android:background="@drawable/rounded_stop_button"
         android:textAllCaps="false"
         android:text="Cancel"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/pitch_black"
         android:textSize="18sp"
         android:theme="@style/AppTheme.customDesign.noActionBar"
         android:visibility="gone"
