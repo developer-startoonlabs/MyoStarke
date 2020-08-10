@@ -118,7 +118,7 @@ public class ArcViewInside extends View {
         mPaint.setColor(Color.WHITE);
         mPaint.setTextSize(radius/2);
         Paint paint_angle = new Paint();
-        paint_angle.setTextSize(radius/5);
+        paint_angle.setTextSize(40);
         paint_angle.setColor(Color.WHITE);
         canvas.drawText(String.valueOf(max_angle).concat("°"),oval.centerX()-(radius/7),oval.centerY()+(radius/10),paint_angle);
         Point p = calculatePointOnArc(oval.centerX(),oval.centerY(),radius,-min_angle-(max_angle-min_angle));

@@ -128,12 +128,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         >
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:id="@+id/recording_text"
                             android:layout_marginTop="5dp"
-                            android:textSize="12sp"
+                            android:textSize="14sp"
                             android:textColor="@color/good_green"
                             android:paddingStart="5dp"
                             android:text=""></TextView>
@@ -212,7 +213,7 @@
                         android:gravity="center"
                         android:text="Body Part:"
                         android:textColor="@color/good_green2"
-                        android:textSize="12sp" />
+                        android:textSize="14sp" />
 
                     <LinearLayout
                         android:layout_alignParentEnd="true"
@@ -285,7 +286,7 @@
 
                                 app:layout_constraintEnd_toEndOf="parent"
                                 android:textColor="@color/pitch_black"
-                                android:textSize="12sp"
+                                android:textSize="14sp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
@@ -295,7 +296,7 @@
                                 android:id="@+id/tv_min_angle"
                                 android:layout_marginEnd="10dp"
                                 android:background="@drawable/round_background_black_stroke"
-                                android:layout_width="55dp"
+                                android:layout_width="62dp"
                                 android:textAlignment="center"
                                 android:layout_height="24sp"
                                 android:layout_alignParentBottom="true"
@@ -303,7 +304,7 @@
                                 android:fontFamily="@font/ebrima"
                                 android:text="0"
                                 android:textColor="@color/pitch_black"
-                                android:textSize="12sp"
+                                android:textSize="14sp"
                                 app:layout_constraintStart_toEndOf="@+id/testMinAngle" />
                         </LinearLayout>
 
@@ -324,7 +325,7 @@
                                 android:fontFamily="@font/ebrima"
                                 android:text="@string/max_angle"
                                 android:textColor="@color/pitch_black"
-                                android:textSize="12sp"
+                                android:textSize="14sp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
@@ -337,14 +338,14 @@
 
                                 android:layout_alignParentBottom="true"
                                 android:background="@drawable/round_background_black_stroke"
-                                android:layout_width="55dp"
+                                android:layout_width="62dp"
                                 android:textAlignment="center"
                                 android:paddingTop="2dp"
                                 android:layout_marginEnd="10dp"
                                 android:fontFamily="@font/ebrima"
                                 android:text="0"
                                 android:textColor="@color/pitch_black"
-                                android:textSize="12sp"
+                                android:textSize="14sp"
                                 app:layout_constraintEnd_toEndOf="parent" />
 
                         </LinearLayout>
@@ -365,14 +366,14 @@
                                 android:paddingEnd="8dp"
                                 android:text="@string/monitor_repetitions"
                                 android:textColor="@color/good_green"
-                                android:textSize="12sp" />
+                                android:textSize="14sp" />
 
                             <LinearLayout
                                 android:layout_height="24dp"
 
                                 android:layout_marginEnd="10dp"
                                 android:background="@drawable/round_cancel_buttons_less_stroke_width"
-                                android:layout_width="55dp"
+                                android:layout_width="62dp"
                                 android:textAlignment="center"
                                 android:orientation="horizontal">
 
@@ -386,7 +387,7 @@
                                     android:textColor="@color/pitch_black"
                                     android:text="00"
                                     android:paddingTop="2dp"
-                                    android:textSize="12sp" />
+                                    android:textSize="14sp" />
 
                                 <TextView
                                     android:id="@+id/tv_repsselected_slash"
@@ -399,7 +400,7 @@
                                     android:text="/"
 
                                     android:textColor="@color/pitch_black"
-                                    android:textSize="12sp"/>
+                                    android:textSize="14sp"/>
                                 <TextView
                                     android:id="@+id/repsSelected"
                                     android:layout_weight="1"
@@ -409,7 +410,7 @@
                                     android:text="00"
                                     android:paddingTop="2dp"
                                     android:textColor="@color/pitch_black"
-                                    android:textSize="12sp" />
+                                    android:textSize="14sp" />
                             </LinearLayout>
                         </LinearLayout>
 
@@ -431,20 +432,20 @@
                                 android:paddingEnd="18dp"
                                 android:text="Hold time"
                                 android:textColor="@color/good_green"
-                                android:textSize="12sp" />
+                                android:textSize="14sp" />
 
                             <TextView
                                 android:id="@+id/holdtime"
 
                                 android:background="@drawable/round_cancel_buttons_less_stroke_width"
-                                android:layout_width="55dp"
+                                android:layout_width="62dp"
                                 android:textAlignment="center"
                                 android:layout_height="24dp"
                                 android:fontFamily="@font/ebrima"
                                 android:paddingTop="2dp"
                                 android:textColor="@color/pitch_black"
                                 android:text="00:00"
-                                android:textSize="12sp" />
+                                android:textSize="14sp" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -555,7 +556,7 @@
                         android:gravity="center"
                         android:text="Body Part: "
                         android:textColor="@color/good_green2"
-                        android:textSize="12sp" />
+                        android:textSize="14sp" />
 
                     <LinearLayout
                         android:id="@+id/increase_decrease_button"
@@ -637,13 +638,13 @@
                                 android:fontFamily="@font/ebrima"
                                 android:text="Max Emg"
                                 android:textColor="@color/pitch_black"
-                                android:textSize="12sp"/>
+                                android:textSize="14sp"/>
 
                             <TextView
                                 android:id="@+id/tv_max_emg_show"
 
                                 android:layout_gravity="bottom"
-                                android:layout_width="55dp"
+                                android:layout_width="62dp"
                                 android:layout_height="24dp"
                                 android:background="@drawable/round_background_black_stroke"
                                 android:layout_marginEnd="20dp"
@@ -652,7 +653,7 @@
                                 android:layout_marginStart="10dp"
                                 android:text="0"
                                 android:textColor="@color/pitch_black"
-                                android:textSize="12sp"/>
+                                android:textSize="14sp"/>
                         </LinearLayout>
                     </LinearLayout>
 
@@ -683,7 +684,7 @@
                                 android:paddingTop="2dp"
                                 android:textAlignment="center"
                                 android:textColor="@color/pitch_black"
-                                android:textSize="12sp"
+                                android:textSize="13sp"
 
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"

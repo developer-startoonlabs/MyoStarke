@@ -33,6 +33,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -633,6 +635,7 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
                     sessionCompleted = true;
                     mSessionStarted = false;
                     tv_recording.setText("");
+                    tv_recording.clearAnimation();
                     iv_recording_icon.setImageDrawable(getResources().getDrawable(R.drawable.bg_circle_red));
                     timer.setBackgroundResource(R.drawable.rounded_start_button);
                     cancelBtn.setBackgroundResource(R.drawable.round_cancel_buttons_green);
@@ -669,6 +672,7 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
                 sessionCompleted = true;
                 mSessionStarted = false;
                 tv_recording.setText("");
+                tv_recording.clearAnimation();
                 iv_recording_icon.setImageDrawable(getResources().getDrawable(R.drawable.bg_circle_red));
                 cancelBtn.setVisibility(View.GONE);
                 timer.setBackgroundResource(R.drawable.rounded_start_button);
@@ -1006,6 +1010,12 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
         romJsonArray = new JSONArray();
         maxAngle = 0;minAngle = 360;maxEmgValue = 0;
         tv_recording.setText("Recording");
+        Animation anim = new AlphaAnimation(0.0f, 1.0f);
+        anim.setDuration(500); //You can manage the blinking time with this parameter
+        anim.setStartOffset(20);
+        anim.setRepeatMode(Animation.REVERSE);
+        anim.setRepeatCount(Animation.INFINITE);
+        tv_recording.startAnimation(anim);
 
         can_beeep_max=true;can_beep_min=true;
         creatGraphView();
@@ -1096,6 +1106,7 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
             {
                 iv_recording_icon.setImageDrawable(getResources().getDrawable(R.drawable.bg_square_red));
                 tv_recording.setText("30s");
+                tv_recording.clearAnimation();
             }
 
             if(phizio_packagetype==GOLD_PLUS_PACKAGE || phizio_packagetype==ACHEDAMIC_TEACH_PLUS) {
