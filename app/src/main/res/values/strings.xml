@@ -11,7 +11,7 @@
     <string name="add_patients_text">+ <u>Add patient</u></string>
     <string name="start_clinic_session">Start Clinic Session</string>
     <string name="title_activity_scan_devices">ScanDevicesActivity</string>
-    <string name="repetition"><b>Repetitions</b></string>
+    <string name="repetition">Repetitions</string>
     <string name="copy_rights">2020, Startoon Labs Pvt. Ltd.</string>
     <string name="feature_not_available">This feature is not available in current package. Please upgrade to <b>Gold</b> or <b>Gold Plus</b> to avail this feature.</string>
     <string name="yes">Yes</string>
@@ -215,7 +215,7 @@
     <string name="mmt_grade">Mmt Grade - </string>
     <string name="mmt_grade_dynamic">Mmt Grade -</string>
     <string name="select_mmt_grading">Select MMT Grading</string>
-    <string name="physio_remarks">Physio Remarks</string>
+    <string name="physio_remarks">Therapist Remarks</string>
     <string name="zero">0</string>
     <string name="one">1</string>
     <string name="one_p">1+</string>
@@ -260,7 +260,7 @@
     <string name="turn_on_bluetooth">Click here to turn on bluetooth</string>
     <string name="connect_to_device">Click here to connect to Pheezee device</string>
     <string name="archive_patient">Archive Patients</string>
-    <string name="what_is_pheezee">What is Pheezee with out Patients!</string>
+    <string name="what_is_pheezee">What is Pheezee without Patients!</string>
     <string name="cd_floating">Add Patient icon</string>
     <string name="battery_percent_lower_than_15">Pheezee battery is less than 15%.\nContinuing session may lead to loss of data.\nPlease charge Pheezee.</string>
     <string name="battery_percent_lower_than_10">Pheezee battery is less than 10%.\nContinuing session may lead to loss of data.\nPlease charge Pheezee.</string>

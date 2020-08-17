@@ -295,10 +295,10 @@
                             <TextView
                                 android:id="@+id/tv_min_angle"
                                 android:layout_marginEnd="10dp"
-                                android:background="@drawable/round_background_black_stroke"
-                                android:layout_width="62dp"
+                                android:background="@drawable/round_cancel_buttons_less_stroke_black_width"
+                                android:layout_width="70dp"
+                                android:layout_height="26sp"
                                 android:textAlignment="center"
-                                android:layout_height="24sp"
                                 android:layout_alignParentBottom="true"
                                 android:paddingTop="2dp"
                                 android:fontFamily="@font/ebrima"
@@ -334,12 +334,13 @@
 
                             <TextView
                                 android:id="@+id/tv_max_angle"
-                                android:layout_height="24dp"
+                                android:layout_width="70dp"
+                                android:layout_height="26sp"
+                                android:textAlignment="center"
 
                                 android:layout_alignParentBottom="true"
-                                android:background="@drawable/round_background_black_stroke"
-                                android:layout_width="62dp"
-                                android:textAlignment="center"
+                                android:background="@drawable/round_cancel_buttons_less_stroke_black_width"
+
                                 android:paddingTop="2dp"
                                 android:layout_marginEnd="10dp"
                                 android:fontFamily="@font/ebrima"
@@ -369,12 +370,13 @@
                                 android:textSize="14sp" />
 
                             <LinearLayout
-                                android:layout_height="24dp"
+                                android:layout_width="70dp"
+                                android:layout_height="26sp"
+                                android:textAlignment="center"
 
                                 android:layout_marginEnd="10dp"
                                 android:background="@drawable/round_cancel_buttons_less_stroke_width"
-                                android:layout_width="62dp"
-                                android:textAlignment="center"
+
                                 android:orientation="horizontal">
 
                                 <TextView
@@ -438,9 +440,9 @@
                                 android:id="@+id/holdtime"
 
                                 android:background="@drawable/round_cancel_buttons_less_stroke_width"
-                                android:layout_width="62dp"
+                                android:layout_width="70dp"
+                                android:layout_height="26sp"
                                 android:textAlignment="center"
-                                android:layout_height="24dp"
                                 android:fontFamily="@font/ebrima"
                                 android:paddingTop="2dp"
                                 android:textColor="@color/pitch_black"
@@ -644,11 +646,12 @@
                                 android:id="@+id/tv_max_emg_show"
 
                                 android:layout_gravity="bottom"
-                                android:layout_width="62dp"
-                                android:layout_height="24dp"
-                                android:background="@drawable/round_background_black_stroke"
-                                android:layout_marginEnd="20dp"
+                                android:layout_width="70dp"
+                                android:layout_height="26sp"
                                 android:textAlignment="center"
+                                android:background="@drawable/round_cancel_buttons_less_stroke_black_width"
+                                android:layout_marginEnd="20dp"
+
                                 android:paddingTop="2dp"
                                 android:layout_marginStart="10dp"
                                 android:text="0"

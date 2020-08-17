@@ -26,8 +26,8 @@ public class OnBoardingFragment extends Fragment {
     private static String[] onBoardingTitles = {"Pheezee", "Live monitoring based evidence", "Set targets", "Audio and Visual feedback"};
 
     private static String[] onBoardingDescriptions = {
-            "India's first smart device that generates reports for all your physiotherapy sessions. It's session wise reports and the overall reports can be shared with the patients.",
-            "Pheezee provides range of motion and EMG biofeedback for every session. It also tracks other parameters like hold time, repetitions active time, etc.",
+            "India's first smart device that generates reports for all your physiotherapy sessions. It's session-wise reports and the overall reports can be shared with the patients and referring doctors.",
+            "Pheezee provides range of motion and EMG biofeedback for every session. It also tracks other parameters like hold time, repetitions, active time etc.",
             "You can now set daily targets for your patients and allow them to push their limits for faster recovery.",
             "Our gamification themes will motivate your patients to complete their daily sessions. It also provides them engaging experience."
     };

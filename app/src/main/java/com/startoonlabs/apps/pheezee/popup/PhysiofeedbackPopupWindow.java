@@ -5,10 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
@@ -57,16 +60,13 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import static com.startoonlabs.apps.pheezee.activities.MonitorActivity.IS_SCEDULED_SESSION;
 import static com.startoonlabs.apps.pheezee.activities.MonitorActivity.IS_SCEDULED_SESSIONS_COMPLETED;
-import static com.startoonlabs.apps.pheezee.utils.PackageTypes.STANDARD_PACKAGE;
 
-public class SessionSummaryPopupWindow {
+public class PhysiofeedbackPopupWindow {
     private String mqtt_delete_pateint_session = "phizio/patient/deletepatient/sesssion";
     private String mqtt_publish_update_patient_mmt_grade = "phizio/patient/updateMmtGrade";
     private String mqtt_publish_add_patient_session_emg_data = "patient/entireEmgData";
 
     private boolean session_inserted_in_server = false;
-    JSONArray emgJsonArray, romJsonArray;
-    int phizio_packagetype;
     private String dateString;
     private Context context;
     private PopupWindow report;
@@ -78,12 +78,12 @@ public class SessionSummaryPopupWindow {
     private MqttSyncRepository repository;
     private MqttSyncRepository.OnSessionDataResponse response_data;
     private Long tsLong;
-    public SessionSummaryPopupWindow(Context context, int maxEmgValue, String sessionNo, int maxAngle, int minAngle,
+    public PhysiofeedbackPopupWindow(Context context, int maxEmgValue, String sessionNo, int maxAngle, int minAngle,
                                      String orientation, String bodypart, String phizioemail, String sessiontime, String actiontime,
-                                     String holdtime, String numofreps,  int angleCorrection,
+                                     String holdtime, String numofreps, int angleCorrection,
                                      String patientid, String patientname, Long tsLong, String bodyOrientation, String dateOfJoin,
                                      int exercise_selected_position, int body_part_selected_position, String muscle_name, String exercise_name,
-                                     String min_angle_selected, String max_angle_selected, String max_emg_selected, int repsselected,JSONArray emgJsonArray, JSONArray romJsonArray,int phizio_packagetype){
+                                     String min_angle_selected, String max_angle_selected, String max_emg_selected, int repsselected){
         this.context = context;
         this.maxEmgValue = maxEmgValue;
         this.sessionNo = sessionNo;
@@ -110,9 +110,6 @@ public class SessionSummaryPopupWindow {
         this.max_angle_selected = max_angle_selected;
         this.max_emg_selected = max_emg_selected;
         this.repsselected = repsselected;
-        this.emgJsonArray = emgJsonArray;
-        this.romJsonArray = romJsonArray;
-        this.phizio_packagetype=phizio_packagetype;
         repository = new MqttSyncRepository(((Activity)context).getApplication());
         repository.setOnSessionDataResponse(onSessionDataResponse);
     }
@@ -126,244 +123,185 @@ public class SessionSummaryPopupWindow {
         }
         else
         {
-            layout = ((Activity)context).getLayoutInflater().inflate(R.layout.session_summary, null);
+            layout = ((Activity)context).getLayoutInflater().inflate(R.layout.physiofeedback_popup, null);
         }
 
-        FrameLayout layout_MainMenu = (FrameLayout) layout.findViewById(R.id.session_summary_frame);
-        layout_MainMenu.getForeground().setAlpha(0);
+        Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
 
         int color = ValueBasedColorOperations.getCOlorBasedOnTheBodyPart(body_part_selected_position,
                 exercise_selected_position,maxAngle,minAngle,context);
 
         int emg_color = ValueBasedColorOperations.getEmgColor(400,maxEmgValue,context);
-        report = new PopupWindow(layout, ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT,true);
-        report.setWindowLayoutMode(ConstraintLayout.LayoutParams.MATCH_PARENT,ConstraintLayout.LayoutParams.MATCH_PARENT);
+        report = new PopupWindow(layout, width-100, ConstraintLayout.LayoutParams.WRAP_CONTENT,true);
+        report.setWindowLayoutMode(width-100,ConstraintLayout.LayoutParams.WRAP_CONTENT);
         report.setOutsideTouchable(true);
+
+
         report.showAtLocation(layout, Gravity.CENTER, 0, 0);
 
-        LinearLayout ll_min_max_arc = layout.findViewById(R.id.ll_min_max_arc);
-        final TextView tv_patient_name =layout.findViewById(R.id.tv_summary_patient_name);
-        final TextView tv_patient_id = layout.findViewById(R.id.tv_summary_patient_id);
-        TextView tv_held_on = layout.findViewById(R.id.session_held_on);
-        TextView tv_min_angle = layout.findViewById(R.id.tv_min_angle);
-        TextView tv_max_angle = layout.findViewById(R.id.tv_max_angle);
-        TextView tv_total_time = layout.findViewById(R.id.tv_total_time);
-        TextView tv_action_time_summary = layout.findViewById(R.id.tv_action_time);
-        TextView tv_hold_time = layout.findViewById(R.id.tv_hold_time);
-        TextView tv_num_of_reps = layout.findViewById(R.id.tv_num_of_reps);
-        TextView tv_max_emg = layout.findViewById(R.id.tv_max_emg);
-        TextView tv_session_num = layout.findViewById(R.id.tv_session_no);
-        TextView tv_orientation_and_bodypart = layout.findViewById(R.id.tv_orientation_and_bodypart);
-        TextView tv_musclename = layout.findViewById(R.id.tv_muscle_name);
-        TextView tv_range = layout.findViewById(R.id.tv_range_min_max);
-        TextView tv_delete_pateint_session = layout.findViewById(R.id.summary_tv_delete_session);
 
-//        final LinearLayout ll_click_to_view_report = layout.findViewById(R.id.ll_click_to_view_report);
-        final LinearLayout ll_click_to_next = layout.findViewById(R.id.ll_click_to_next);
+        final LinearLayout ll_mmt_confirm = layout.findViewById(R.id.bp_model_mmt_confirm);
+
+        LinearLayout ll_mmt_container = layout.findViewById(R.id.ll_mmt_grading);
+
+        final RadioGroup rg_session_type = layout.findViewById(R.id.rg_session_type);
+        final TextView ll_click_to_view_report = layout.findViewById(R.id.ll_click_to_view_report);
+
+        EditText et_remarks = layout.findViewById(R.id.et_remarks);
+        TextView tv_confirm = layout.findViewById(R.id.tv_confirm_ll_overall_summary);
+        ImageView image_exercise = layout.findViewById(R.id.image_exercise);
+
+        // Setting the proper image
 
 
-        //Share and cancel image view
-        ImageView summary_go_back = layout.findViewById(R.id.summary_go_back);
-        ImageView summary_share =  layout.findViewById(R.id.summary_share);
+        String test = orientation+"_"+bodypart+"_"+exercise_name;
+        test = "ic_fb_"+test;
+        test = test.replace(" - ","_");
+        test = test.replace(" ","_");
+        test = test.replace(")","");
+        test = test.replace("(","");
+        test = test.toLowerCase();
 
-        //Emg Progress Bar
-        ProgressBar pb_max_emg = layout.findViewById(R.id.progress_max_emg);
+//        Log.d("image",test);
+        int res = context.getResources().getIdentifier(test, "drawable",context.getPackageName());
 
-//        if(IS_SCEDULED_SESSION && !IS_SCEDULED_SESSIONS_COMPLETED){
-//            ll_click_to_view_report.setVisibility(View.GONE);
-//        }else {
-//            ll_click_to_view_report.setVisibility(View.VISIBLE);
-//        }
+        if(res !=0) {
+            image_exercise.setImageResource(res);
+        }
 
 
-        tv_session_num.setText(sessionNo);
-        tv_orientation_and_bodypart.setText(orientation+"-"+bodypart+"-"+exercise_name);
-        tv_musclename.setText(muscle_name);
+
+        rg_session_type.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                tv_confirm.setText("Confirm Session");
+            }
+        });
+
+
+        for (int i=0;i<ll_mmt_container.getChildCount();i++){
+            View view_nested = ll_mmt_container.getChildAt(i);
+            view_nested.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    tv_confirm.setText("Confirm Session");
+                    LinearLayout ll_container = ((LinearLayout)v);
+                    LinearLayout parent = (LinearLayout) ll_container.getParent();
+                    for (int i=0;i<parent.getChildCount();i++){
+                        LinearLayout ll_child = (LinearLayout) parent.getChildAt(i);
+                        TextView tv_childs = (TextView) ll_child.getChildAt(0);
+                        tv_childs.setBackgroundResource(R.drawable.grey_circle_feedback);
+                        tv_childs.setTextColor(ContextCompat.getColor(context,R.color.pitch_black));
+                    }
+                    TextView tv_selected = (TextView) ll_container.getChildAt(0);
+                    tv_selected.setBackgroundColor(Color.YELLOW);
+                    mmt_selected=tv_selected.getText().toString();
+                    tv_selected.setBackgroundResource(R.drawable.drawable_mmt_grade_selected);
+                    tv_selected.setTextColor(ContextCompat.getColor(context,R.color.white));
+                }
+            });
+        }
+
+
+        //for held on date
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        dateString = formatter.format(new Date(tsLong));
 
         if(exercise_name.equalsIgnoreCase("Isometric")){
             maxAngle = 0;
             minAngle = 0;
         }
 
-//        ll_click_to_view_report.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Animation aniFade = AnimationUtils.loadAnimation(context,R.anim.fade_in);
-//                ll_click_to_view_report.setAnimation(aniFade);
-//                if(NetworkOperations.isNetworkAvailable(context)){
-//                    Intent mmt_intent = new Intent(context, SessionReportActivity.class);
-//                    mmt_intent.putExtra("patientid", patientid);
-//                    mmt_intent.putExtra("patientname", patientname);
-//                    mmt_intent.putExtra("phizioemail", phizioemail);
-//                    mmt_intent.putExtra("dateofjoin",dateofjoin);
-//                    ((Activity)context).startActivity(mmt_intent);
-//                    report.dismiss();
-//                }
-//                else {
-//                    NetworkOperations.networkError(context);
-//                }
-//            }
-//        });
-
-        ll_click_to_next.setOnClickListener(new View.OnClickListener() {
+        ll_click_to_view_report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PhysiofeedbackPopupWindow feedback = new PhysiofeedbackPopupWindow(context,maxEmgValue, sessionNo, maxAngle, minAngle, orientation, bodypart,
-                        phizioemail, sessiontime, actiontime, holdtime, numofreps,
-                        angleCorrection, patientid, patientname, tsLong, bodyOrientation, dateofjoin, exercise_selected_position,body_part_selected_position,
-                        muscle_name,exercise_name,min_angle_selected,max_angle_selected,max_emg_selected,repsselected);
-                feedback.showWindow();
-                layout_MainMenu.getForeground().setAlpha(100);
-
-                feedback.storeLocalSessionDetails(emgJsonArray,romJsonArray);
-                if(phizio_packagetype!=STANDARD_PACKAGE)
-                    repository.getPatientSessionNo(patientid);
-                feedback.setOnSessionDataResponse(new MqttSyncRepository.OnSessionDataResponse() {
-                    @Override
-                    public void onInsertSessionData(Boolean response, String message) {
-                        if (response)
-                            showToast(message);
-                    }
-
-                    @Override
-                    public void onSessionDeleted(Boolean response, String message) {
-                        showToast(message);
-                    }
-
-                    @Override
-                    public void onMmtValuesUpdated(Boolean response, String message) {
-                        showToast(message);
-                    }
-
-                    @Override
-                    public void onCommentSessionUpdated(Boolean response) {
-                    }
-                });
-
-
-            }
-        });
-
-        summary_share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TakeScreenShot screenShot = new TakeScreenShot(context,patientname,patientid);
-                File file = screenShot.takeScreenshot(report);
-                Uri pdfURI = FileProvider.getUriForFile(context, ((Activity)context).getApplicationContext().getPackageName() + ".my.package.name.provider", file);
-
-                Intent i = new Intent();
-                i.setAction(Intent.ACTION_SEND);
-                i.putExtra(Intent.EXTRA_STREAM,pdfURI);
-                i.setType("application/jpg");
-                ((Activity)context).startActivity(Intent.createChooser(i, "share pdf"));
-            }
-        });
-
-        summary_go_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                report.dismiss();
-            }
-        });
-
-        if(patientid.length()>3){
-            String temp = patientid.substring(0,3)+"xxx";
-            tv_patient_id.setText(temp);
-        }else {
-            tv_patient_id.setText(patientid);
-        }
-        tv_patient_name.setText(patientname);
-
-        //for held on date
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        SimpleDateFormat formatter_date = new SimpleDateFormat("yyyy-MM-dd");
-        dateString = formatter.format(new Date(tsLong));
-        String dateString_date = formatter_date.format(new Date(tsLong));
-        tv_held_on.setText(dateString_date);
-        tv_min_angle.setText(String.valueOf(minAngle).concat("°"));
-//        tv_min_angle.setTextColor(color);
-        tv_max_angle.setText(String.valueOf(maxAngle).concat("°"));
-//        tv_max_angle.setTextColor(color);
-
-        //total session time
-        sessiontime = sessiontime.substring(0,2)+"m"+sessiontime.substring(3,7)+"s";
-        tv_total_time.setText(sessiontime);
-
-        tv_action_time_summary.setText(actiontime);
-        tv_hold_time.setText(holdtime);
-        tv_num_of_reps.setText(numofreps);
-        tv_max_emg.setText(String.valueOf(maxEmgValue).concat(((Activity)context).getResources().getString(R.string.emg_unit)));
-//        tv_max_emg.setTextColor(emg_color);
-
-        tv_range.setText(String.valueOf(maxAngle-minAngle).concat("°"));
-//        tv_range.setTextColor(color);
-
-        //Creating the arc
-        ArcViewInside arcView =layout.findViewById(R.id.session_summary_arcview);
-        arcView.setMaxAngle(maxAngle);
-        arcView.setMinAngle(minAngle);
-        arcView.setRangeColor(color);
-
-        if(!min_angle_selected.equals("") && !max_angle_selected.equals("")){
-            int reference_min_angle = Integer.parseInt(min_angle_selected);
-            int reference_max_angle = Integer.parseInt(max_angle_selected);
-            arcView.setEnableAndMinMax(reference_min_angle,reference_max_angle,true);
-        }
-
-        TextView tv_180 = layout.findViewById(R.id.tv_180);
-        if(((Activity)context).getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
-            tv_180.setPadding(5,1,170,1);
-        }
-
-        pb_max_emg.setMax(3000);
-        pb_max_emg.setProgress(maxEmgValue);
-        pb_max_emg.setEnabled(false);
-        LayerDrawable bgShape = (LayerDrawable) pb_max_emg.getProgressDrawable();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            bgShape.findDrawableByLayerId(bgShape.getId(1)).setTint(emg_color);
-        }
-
-
-//        AsyncTask.execute(new Runnable() {
-//            @Override
-//            public void run() {
-//                storeLocalSessionDetails(dateString,sessiontime);
-//            }
-//        });
-
-
-
-
-
-        tv_delete_pateint_session.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String type = tv_delete_pateint_session.getText().toString();
-                if(type.toLowerCase().contains("delete")) {
-                    tv_delete_pateint_session.setText("New Session");
-                    ll_click_to_next.setVisibility(View.GONE);
-                    Animation aniFade = AnimationUtils.loadAnimation(context, R.anim.fade_in);
-                    tv_delete_pateint_session.setAnimation(aniFade);
-                    JSONObject object = new JSONObject();
-                    try {
-                        object.put("phizioemail", phizioemail);
-                        object.put("patientid", patientid);
-                        object.put("heldon", dateString);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    MqttSync mqttSync = new MqttSync(mqtt_delete_pateint_session, object.toString());
-                    new StoreLocalDataAsync(mqttSync).execute();
-                }else {
+                Animation aniFade = AnimationUtils.loadAnimation(context,R.anim.fade_in);
+                ll_click_to_view_report.setAnimation(aniFade);
+                if(NetworkOperations.isNetworkAvailable(context)){
+                    Intent mmt_intent = new Intent(context, SessionReportActivity.class);
+                    mmt_intent.putExtra("patientid", patientid);
+                    mmt_intent.putExtra("patientname", patientname);
+                    mmt_intent.putExtra("phizioemail", phizioemail);
+                    mmt_intent.putExtra("dateofjoin",dateofjoin);
+                    ((Activity)context).startActivity(mmt_intent);
                     report.dismiss();
+                }
+                else {
+                    NetworkOperations.networkError(context);
+                }
+            }
+        });
+
+        ll_mmt_confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Animation aniFade = AnimationUtils.loadAnimation(context,R.anim.fade_in);
+                ll_mmt_confirm.setAnimation(aniFade);
+                String type = tv_confirm.getText().toString();
+                if(type.equalsIgnoreCase("Confirm Session")) {
+
+                    RadioButton rb_session_type = layout.findViewById(rg_session_type.getCheckedRadioButtonId());
+                    if (rb_session_type != null) {
+                        session_type = rb_session_type.getText().toString();
+                    }
+                    String check = mmt_selected.concat(session_type);
+                    String comment_session = et_remarks.getText().toString();
+                    if (!check.equalsIgnoreCase("")) {
+                        tv_confirm.setText("New Session");
+                        JSONObject object = new JSONObject();
+                        try {
+                            object.put("phizioemail", phizioemail);
+                            object.put("patientid", patientid);
+                            object.put("heldon", dateString);
+                            object.put("mmtgrade", mmt_selected);
+                            object.put("bodyorientation", bodyOrientation);
+                            object.put("sessiontype", session_type);
+                            object.put("commentsession", comment_session);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        MqttSync mqttSync = new MqttSync(mqtt_publish_update_patient_mmt_grade, object.toString());
+                        new StoreLocalDataAsync(mqttSync).execute();
+                    } else {
+                        showToast("Nothing Selected");
+                    }
+                }else {
+                    tv_confirm.setText("Confirm Session");
+                    report.dismiss();
+                    if(IS_SCEDULED_SESSION){
+                        if(IS_SCEDULED_SESSIONS_COMPLETED){
+                            Intent i = new Intent(context, PatientsView.class);
+                            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                            context.startActivity(i);
+                        }
+                    }
                     ((Activity)context).finish();
                 }
             }
         });
 
+
+
+
+
+
+
+
+
+
         report.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
+                View layout_dismiss = ((Activity) context).getLayoutInflater().inflate(R.layout.session_summary, null);
+                FrameLayout layout_MainMenu = (FrameLayout) layout_dismiss.findViewById(R.id.session_summary_frame);
+
+                layout_MainMenu.getForeground().setAlpha(40);
+
+                Log.d("test","closed");
+
                 if(IS_SCEDULED_SESSIONS_COMPLETED) {
                     if(context!=null)
                         ((MonitorActivity) context).sceduledSessionsHasBeenCompletedDialog();
@@ -394,6 +332,7 @@ public class SessionSummaryPopupWindow {
             tv_selected.setTextColor(ContextCompat.getColor(context,R.color.white));
         }
     };
+
 
     /**
      * Sending data to the server and storing locally
