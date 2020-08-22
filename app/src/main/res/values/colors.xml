@@ -26,6 +26,9 @@
     <!--Apps theme color-->
     <color name="good_green">#062545</color>
 
+    <!--Feedback theme color-->
+    <color name="fb_background">#e9e9e9</color>
+
     <!--Apps theme color-->
     <color name="good_green2">#50667C</color>
 

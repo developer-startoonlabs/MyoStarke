@@ -339,7 +339,7 @@
                     android:gravity="center"
                     android:textSize="18sp"
                     android:background="@drawable/round_cancel_buttons"
-                    android:text="Veiw Report"
+                    android:text="Veiw Exercise"
                     android:elevation="16dp"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/good_green" />

@@ -29,6 +29,7 @@ import com.startoonlabs.apps.pheezee.pojos.PhizioEmailData;
 import com.startoonlabs.apps.pheezee.pojos.ResponseData;
 import com.startoonlabs.apps.pheezee.pojos.SceduledSessionNotSaved;
 import com.startoonlabs.apps.pheezee.pojos.SessionData;
+import com.startoonlabs.apps.pheezee.pojos.SessionDetailsResult;
 import com.startoonlabs.apps.pheezee.pojos.SignUpData;
 import com.startoonlabs.apps.pheezee.pojos.SignupDataResponse;
 import com.startoonlabs.apps.pheezee.room.Entity.MqttSync;
@@ -37,6 +38,7 @@ import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -73,6 +75,9 @@ public interface GetDataService {
 
     @POST("/api/getheldon")
     Call<String> getHeldon(@Body PatientStatusData object);
+
+    @POST("/api/getsessiondetails")
+    Call <List<SessionDetailsResult>> getSessiondetails(@Body PatientStatusData object);
 
     @POST("/api/confirm/email")
     Call<String> confirmEmail(@Body ConfirmEmailAndPackageId object);

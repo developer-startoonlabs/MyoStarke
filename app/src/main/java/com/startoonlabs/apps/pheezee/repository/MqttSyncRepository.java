@@ -1130,7 +1130,7 @@ public class MqttSyncRepository {
                         if (res.getResponse().equalsIgnoreCase("inserted")) {
                             deleteParticular(res.getId());
                             if (onSessionDataResponse != null) {
-                                onSessionDataResponse.onInsertSessionData(true, res.getResponse().toUpperCase());
+                                onSessionDataResponse.onInsertSessionData(true, res.getResponse().substring(0,1).toUpperCase()+ res.getResponse().substring(1));
                             }
                         } else {
                             if (onSessionDataResponse != null) {
@@ -1165,7 +1165,7 @@ public class MqttSyncRepository {
                         if (res.getResponse().equalsIgnoreCase("deleted")) {
                             deleteParticular(res.getId());
                             if (onSessionDataResponse != null)
-                                onSessionDataResponse.onSessionDeleted(true, res.getResponse().toUpperCase());
+                                onSessionDataResponse.onSessionDeleted(true, res.getResponse().substring(0,1).toUpperCase()+ res.getResponse().substring(1));
                         } else {
                             if (onSessionDataResponse != null)
                                 onSessionDataResponse.onSessionDeleted(false, "");
@@ -1199,7 +1199,7 @@ public class MqttSyncRepository {
                         if (res.getResponse().equalsIgnoreCase("updated")) {
                             deleteParticular(res.getId());
                             if (onSessionDataResponse != null) {
-                                onSessionDataResponse.onMmtValuesUpdated(true, res.getResponse().toUpperCase());
+                                onSessionDataResponse.onMmtValuesUpdated(true, res.getResponse().substring(0,1).toUpperCase()+ res.getResponse().substring(1));
                             }
                         } else {
                             if (onSessionDataResponse != null) {

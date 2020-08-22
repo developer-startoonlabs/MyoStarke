@@ -131,10 +131,6 @@ public class PhysiofeedbackPopupWindow {
         display.getSize(size);
         int width = size.x;
 
-        int color = ValueBasedColorOperations.getCOlorBasedOnTheBodyPart(body_part_selected_position,
-                exercise_selected_position,maxAngle,minAngle,context);
-
-        int emg_color = ValueBasedColorOperations.getEmgColor(400,maxEmgValue,context);
         report = new PopupWindow(layout, width-100, ConstraintLayout.LayoutParams.WRAP_CONTENT,true);
         report.setWindowLayoutMode(width-100,ConstraintLayout.LayoutParams.WRAP_CONTENT);
         report.setOutsideTouchable(true);
@@ -157,16 +153,15 @@ public class PhysiofeedbackPopupWindow {
         // Setting the proper image
 
 
-        String test = orientation+"_"+bodypart+"_"+exercise_name;
-        test = "ic_fb_"+test;
-        test = test.replace(" - ","_");
-        test = test.replace(" ","_");
-        test = test.replace(")","");
-        test = test.replace("(","");
-        test = test.toLowerCase();
+        String feedback_image = orientation+"_"+bodypart+"_"+exercise_name;
+        feedback_image = "ic_fb_"+feedback_image;
+        feedback_image = feedback_image.replace(" - ","_");
+        feedback_image = feedback_image.replace(" ","_");
+        feedback_image = feedback_image.replace(")","");
+        feedback_image = feedback_image.replace("(","");
+        feedback_image = feedback_image.toLowerCase();
 
-//        Log.d("image",test);
-        int res = context.getResources().getIdentifier(test, "drawable",context.getPackageName());
+        int res = context.getResources().getIdentifier(feedback_image, "drawable",context.getPackageName());
 
         if(res !=0) {
             image_exercise.setImageResource(res);
@@ -220,18 +215,23 @@ public class PhysiofeedbackPopupWindow {
             public void onClick(View v) {
                 Animation aniFade = AnimationUtils.loadAnimation(context,R.anim.fade_in);
                 ll_click_to_view_report.setAnimation(aniFade);
-                if(NetworkOperations.isNetworkAvailable(context)){
-                    Intent mmt_intent = new Intent(context, SessionReportActivity.class);
-                    mmt_intent.putExtra("patientid", patientid);
-                    mmt_intent.putExtra("patientname", patientname);
-                    mmt_intent.putExtra("phizioemail", phizioemail);
-                    mmt_intent.putExtra("dateofjoin",dateofjoin);
-                    ((Activity)context).startActivity(mmt_intent);
-                    report.dismiss();
-                }
-                else {
-                    NetworkOperations.networkError(context);
-                }
+                ViewExercisePopupWindow feedback = new ViewExercisePopupWindow(context,maxEmgValue, sessionNo, maxAngle, minAngle, orientation, bodypart,
+                        phizioemail, sessiontime, actiontime, holdtime, numofreps,
+                        angleCorrection, patientid, patientname, tsLong, bodyOrientation, dateofjoin, exercise_selected_position,body_part_selected_position,
+                        muscle_name,exercise_name,min_angle_selected,max_angle_selected,max_emg_selected,repsselected);
+                feedback.showWindow();
+//                if(NetworkOperations.isNetworkAvailable(context)){
+//                    Intent mmt_intent = new Intent(context, SessionReportActivity.class);
+//                    mmt_intent.putExtra("patientid", patientid);
+//                    mmt_intent.putExtra("patientname", patientname);
+//                    mmt_intent.putExtra("phizioemail", phizioemail);
+//                    mmt_intent.putExtra("dateofjoin",dateofjoin);
+//                    ((Activity)context).startActivity(mmt_intent);
+//                    report.dismiss();
+//                }
+//                else {
+//                    NetworkOperations.networkError(context);
+//                }
             }
         });
 
@@ -266,7 +266,7 @@ public class PhysiofeedbackPopupWindow {
                         MqttSync mqttSync = new MqttSync(mqtt_publish_update_patient_mmt_grade, object.toString());
                         new StoreLocalDataAsync(mqttSync).execute();
                     } else {
-                        showToast("Nothing Selected");
+                        showToast("Nothing selected");
                     }
                 }else {
                     tv_confirm.setText("Confirm Session");

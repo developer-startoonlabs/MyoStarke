@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="100dp">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_marginStart="6dp"
+            android:id="@+id/image_exercise"
+            android:layout_height="match_parent"
+            android:src="@drawable/test_feedback"></ImageView>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_weight="0.22"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:id="@+id/rl_listmodel"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <TextView
+                android:id="@+id/tv_bodypart_exercise"
+                android:layout_marginStart="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:textColor="@color/good_green"
+                android:layout_marginTop="12dp"
+                android:textSize="16dp"
+                android:text="BodyPart - Exercise" />
+
+            <TextView
+                android:id="@+id/tv_muscle_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#707070"
+                android:layout_alignStart="@+id/tv_bodypart_exercise"
+                android:layout_marginTop="35dp"
+                android:textSize="14sp"
+                android:text="Muscle name" />
+
+            <TextView
+                android:id="@+id/tv_orientation_position"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_muscle_name"
+                android:layout_alignStart="@+id/tv_bodypart_exercise"
+                android:textColor="@color/pitch_black"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="11dp"
+                android:textStyle="bold"
+                android:textSize="12sp"
+
+                android:text="Left-Supine" />
+
+            <TextView
+                android:id="@+id/tv_session_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/pitch_black"
+                android:layout_alignBottom="@+id/tv_orientation_position"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="70dp"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                android:text="00m:01s" />
+
+            <CheckBox
+                android:id="@+id/checkBox1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:layout_alignBottom="@+id/tv_muscle_name"
+                android:layout_alignTop="@+id/tv_muscle_name"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="8dp"
+                android:textSize="18sp"
+                android:textColor="@color/good_green" />
+        </RelativeLayout>
+
+    </LinearLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
