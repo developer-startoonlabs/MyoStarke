@@ -1,5 +1,6 @@
 package com.startoonlabs.apps.pheezee.popup;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -206,6 +207,7 @@ public class SessionSummaryPopupWindow {
 //        });
 
         ll_click_to_next.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("Range")
             @Override
             public void onClick(View v) {
                 PhysiofeedbackPopupWindow feedback = new PhysiofeedbackPopupWindow(context,maxEmgValue, sessionNo, maxAngle, minAngle, orientation, bodypart,
@@ -213,7 +215,7 @@ public class SessionSummaryPopupWindow {
                         angleCorrection, patientid, patientname, tsLong, bodyOrientation, dateofjoin, exercise_selected_position,body_part_selected_position,
                         muscle_name,exercise_name,min_angle_selected,max_angle_selected,max_emg_selected,repsselected);
                 feedback.showWindow();
-                layout_MainMenu.getForeground().setAlpha(100);
+                layout_MainMenu.getForeground().setAlpha(150);
 
                 feedback.storeLocalSessionDetails(emgJsonArray,romJsonArray);
                 if(phizio_packagetype!=STANDARD_PACKAGE)

@@ -457,7 +457,7 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
         test = test.toLowerCase();
 
 
-        if(str_exercise_name.toLowerCase().contains("rotation"))
+        if(str_exercise_name.toLowerCase().contains("rotation") && str_body_part.toLowerCase().contains("shoulder"))
         {
             test = test+"_rotation";
 //            res = getResources().getIdentifier(test, "drawable",getActivity().getPackageName());
@@ -526,7 +526,8 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
                         gain_initial += 10;
                         lineChart.zoom(1.4f, 1.4f, ui_rate, ui_rate);
                         if (gain_initial == 120) {
-                            btn_emg_increase_gain.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.home_semi_red));
+                            btn_emg_increase_gain.setBackgroundResource(R.drawable.ic_emg_button_increase);
+
                         }
                     }
                     ((MonitorActivity)getActivity()).increaseGain();
@@ -543,7 +544,7 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
                     if (gain_initial > 10) {
                         gain_initial -= 10;
                         if (gain_initial == 10) {
-                            btn_emg_decrease_gain.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.home_semi_red));
+                            btn_emg_decrease_gain.setBackgroundResource(R.drawable.ic_emg_button_decrease);
                         }
                         lineChart.zoomOut();
                     }

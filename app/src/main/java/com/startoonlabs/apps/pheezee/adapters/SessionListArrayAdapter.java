@@ -59,6 +59,7 @@ public class SessionListArrayAdapter extends ArrayAdapter<SessionListClass> {
 
             holder = new ViewHolder();
             holder.name = (CheckBox) convertView.findViewById(R.id.checkBox1);
+            holder.name.setChecked(true);
             convertView.setTag(holder);
 
             holder.name.setOnClickListener( new View.OnClickListener() {
@@ -73,9 +74,9 @@ public class SessionListArrayAdapter extends ArrayAdapter<SessionListClass> {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        SessionListClass country = mSessionArrayList.get(position);
-        holder.name.setChecked(country.isSelected());
-        holder.name.setTag(country);
+        SessionListClass selected_item = mSessionArrayList.get(position);
+        holder.name.setChecked(selected_item.isSelected());
+        holder.name.setTag(selected_item);
 
         tv_bodypart_exercise = convertView.findViewById(R.id.tv_bodypart_exercise);
         tv_muscle_name = convertView.findViewById(R.id.tv_muscle_name);
@@ -104,10 +105,11 @@ public class SessionListArrayAdapter extends ArrayAdapter<SessionListClass> {
         if(res !=0) {
             image_exercise.setImageResource(res);
         }
+        CheckBox temp = (CheckBox) convertView.findViewById(R.id.checkBox1);
+        temp.setChecked(true);
+        selected_item.setSelected(temp.isChecked());
 
         return convertView;
 
     }
-
-
 }

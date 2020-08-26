@@ -78,6 +78,7 @@ public class PhysiofeedbackPopupWindow {
     private MqttSyncRepository repository;
     private MqttSyncRepository.OnSessionDataResponse response_data;
     private Long tsLong;
+    private boolean mmt_selected_flag = false;
     public PhysiofeedbackPopupWindow(Context context, int maxEmgValue, String sessionNo, int maxAngle, int minAngle,
                                      String orientation, String bodypart, String phizioemail, String sessiontime, String actiontime,
                                      String holdtime, String numofreps, int angleCorrection,
@@ -172,7 +173,7 @@ public class PhysiofeedbackPopupWindow {
         rg_session_type.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                tv_confirm.setText("Confirm Session");
+//                tv_confirm.setText("Confirm Session");
             }
         });
 
@@ -182,7 +183,8 @@ public class PhysiofeedbackPopupWindow {
             view_nested.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    tv_confirm.setText("Confirm Session");
+                    mmt_selected_flag = true;
+//                    tv_confirm.setText("Confirm Session");
                     LinearLayout ll_container = ((LinearLayout)v);
                     LinearLayout parent = (LinearLayout) ll_container.getParent();
                     for (int i=0;i<parent.getChildCount();i++){
@@ -213,13 +215,7 @@ public class PhysiofeedbackPopupWindow {
         ll_click_to_view_report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Animation aniFade = AnimationUtils.loadAnimation(context,R.anim.fade_in);
-                ll_click_to_view_report.setAnimation(aniFade);
-                ViewExercisePopupWindow feedback = new ViewExercisePopupWindow(context,maxEmgValue, sessionNo, maxAngle, minAngle, orientation, bodypart,
-                        phizioemail, sessiontime, actiontime, holdtime, numofreps,
-                        angleCorrection, patientid, patientname, tsLong, bodyOrientation, dateofjoin, exercise_selected_position,body_part_selected_position,
-                        muscle_name,exercise_name,min_angle_selected,max_angle_selected,max_emg_selected,repsselected);
-                feedback.showWindow();
+                report.dismiss();
 //                if(NetworkOperations.isNetworkAvailable(context)){
 //                    Intent mmt_intent = new Intent(context, SessionReportActivity.class);
 //                    mmt_intent.putExtra("patientid", patientid);
@@ -241,45 +237,56 @@ public class PhysiofeedbackPopupWindow {
                 Animation aniFade = AnimationUtils.loadAnimation(context,R.anim.fade_in);
                 ll_mmt_confirm.setAnimation(aniFade);
                 String type = tv_confirm.getText().toString();
-                if(type.equalsIgnoreCase("Confirm Session")) {
+                if(type.equalsIgnoreCase("Next")) {
 
                     RadioButton rb_session_type = layout.findViewById(rg_session_type.getCheckedRadioButtonId());
-                    if (rb_session_type != null) {
+                    if (rb_session_type != null && mmt_selected_flag == true) {
                         session_type = rb_session_type.getText().toString();
                     }
                     String check = mmt_selected.concat(session_type);
                     String comment_session = et_remarks.getText().toString();
-                    if (!check.equalsIgnoreCase("")) {
-                        tv_confirm.setText("New Session");
-                        JSONObject object = new JSONObject();
-                        try {
-                            object.put("phizioemail", phizioemail);
-                            object.put("patientid", patientid);
-                            object.put("heldon", dateString);
-                            object.put("mmtgrade", mmt_selected);
-                            object.put("bodyorientation", bodyOrientation);
-                            object.put("sessiontype", session_type);
-                            object.put("commentsession", comment_session);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                    if (rb_session_type != null && mmt_selected_flag == true) {
+                        if (!check.equalsIgnoreCase("Next")) {
+//                        tv_confirm.setText("Next Session");
+                            JSONObject object = new JSONObject();
+                            try {
+                                object.put("phizioemail", phizioemail);
+                                object.put("patientid", patientid);
+                                object.put("heldon", dateString);
+                                object.put("mmtgrade", mmt_selected);
+                                object.put("bodyorientation", bodyOrientation);
+                                object.put("sessiontype", session_type);
+                                object.put("commentsession", comment_session);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            MqttSync mqttSync = new MqttSync(mqtt_publish_update_patient_mmt_grade, object.toString());
+                            new StoreLocalDataAsync(mqttSync).execute();
+
+                            //Else
+                            ll_click_to_view_report.setAnimation(aniFade);
+                            ViewExercisePopupWindow feedback = new ViewExercisePopupWindow(context,maxEmgValue, sessionNo, maxAngle, minAngle, orientation, bodypart,
+                                    phizioemail, sessiontime, actiontime, holdtime, numofreps,
+                                    angleCorrection, patientid, patientname, tsLong, bodyOrientation, dateofjoin, exercise_selected_position,body_part_selected_position,
+                                    muscle_name,exercise_name,min_angle_selected,max_angle_selected,max_emg_selected,repsselected);
+                            feedback.showWindow();
+//                            report.dismiss();
+//                            if (IS_SCEDULED_SESSION) {
+//                                if (IS_SCEDULED_SESSIONS_COMPLETED) {
+//                                    Intent i = new Intent(context, PatientsView.class);
+//                                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//                                    context.startActivity(i);
+//                                }
+//                            }
+//                            ((Activity) context).finish();
+
                         }
-                        MqttSync mqttSync = new MqttSync(mqtt_publish_update_patient_mmt_grade, object.toString());
-                        new StoreLocalDataAsync(mqttSync).execute();
-                    } else {
-                        showToast("Nothing selected");
+                    }else {
+                        showToast("Please select MMT & Session type");
                     }
-                }else {
-                    tv_confirm.setText("Confirm Session");
-                    report.dismiss();
-                    if(IS_SCEDULED_SESSION){
-                        if(IS_SCEDULED_SESSIONS_COMPLETED){
-                            Intent i = new Intent(context, PatientsView.class);
-                            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                            context.startActivity(i);
-                        }
-                    }
-                    ((Activity)context).finish();
                 }
+
+
             }
         });
 

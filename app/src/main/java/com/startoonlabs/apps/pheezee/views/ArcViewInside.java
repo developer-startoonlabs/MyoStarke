@@ -90,7 +90,7 @@ public class ArcViewInside extends View {
         mX = getWidth()/2;
         mY = getHeight()/2;
         radius = Math.min(getWidth(), getHeight()) / 2;
-        radius-=60;
+        radius-=45;
 //        mY = radius+20;
         float left = mX-radius, top = mY-radius, right = mX+radius, bottom = mY+radius;
         oval = new RectF(left, top, right, bottom);
@@ -118,7 +118,7 @@ public class ArcViewInside extends View {
         mPaint.setColor(Color.WHITE);
         mPaint.setTextSize(radius/2);
         Paint paint_angle = new Paint();
-        paint_angle.setTextSize(40);
+        paint_angle.setTextSize(radius/4);
         paint_angle.setColor(Color.WHITE);
         canvas.drawText(String.valueOf(max_angle).concat("°"),oval.centerX()-(radius/7),oval.centerY()+(radius/10),paint_angle);
         Point p = calculatePointOnArc(oval.centerX(),oval.centerY(),radius,-min_angle-(max_angle-min_angle));
@@ -170,9 +170,9 @@ public class ArcViewInside extends View {
             else if(i==180)
                 canvas.drawText(String.valueOf(-90), stopX-(radius/6), stopY - (radius/12), paint);
             else if(i==225)
-                canvas.drawText(String.valueOf(-145), stopX-(radius/8), stopY - (radius/16), paint);
+                canvas.drawText(String.valueOf(-135), stopX-(radius/8), stopY - (radius/16), paint);
             else if(i==270)
-                canvas.drawText("\u00B1"+String.valueOf(180), stopX-(radius/12), stopY+(radius/12) , paint);
+                canvas.drawText(String.valueOf(180), stopX-(radius/12), stopY+(radius/12) , paint);
         }
         canvas.restore();
         invalidate();

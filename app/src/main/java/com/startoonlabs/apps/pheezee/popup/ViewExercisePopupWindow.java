@@ -1,6 +1,7 @@
 package com.startoonlabs.apps.pheezee.popup;
 
 import com.startoonlabs.apps.pheezee.activities.PatientsView;
+import com.startoonlabs.apps.pheezee.activities.SessionReportActivity;
 import com.startoonlabs.apps.pheezee.adapters.DeviceListArrayAdapter;
 import com.startoonlabs.apps.pheezee.adapters.SessionListArrayAdapter;
 import com.startoonlabs.apps.pheezee.classes.SessionListClass;
@@ -170,6 +171,9 @@ public class ViewExercisePopupWindow {
 
         mSessionListResults = new ArrayList<SessionListClass>();
 
+        TextView Session_heading = layout.findViewById(R.id.Session_heading);
+        Session_heading.setText("Session"+" "+sessionNo);
+
 
 
         getDataService = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
@@ -287,29 +291,14 @@ public class ViewExercisePopupWindow {
         ll_click_to_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                report.dismiss();
-                if(IS_SCEDULED_SESSION){
-                    if(IS_SCEDULED_SESSIONS_COMPLETED){
-                        Intent i = new Intent(context, PatientsView.class);
-                        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                        context.startActivity(i);
-                    }
-                }
-                ((Activity)context).finish();
-
-            }
-        });
-
-        tv_delete_pateint_session.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                //Start
                 String toast_response = "Nothing selected";
                 mSessionListResults = new ArrayList<SessionListClass>();
                 ArrayList<SessionListClass> session_list = sessionListArrayAdapter.mSessionArrayList;
                 for(int i=0;i<session_list.size();i++){
                     SessionListClass session_list_element = session_list.get(i);
-                    if(session_list_element.isSelected()){
-                        toast_response = "Deleted";
+                    if(!session_list_element.isSelected()){
+
                         JSONObject object = new JSONObject();
                         try {
                             object.put("phizioemail", phizioemail);
@@ -353,16 +342,45 @@ public class ViewExercisePopupWindow {
 
                     }
                     else{
-                        SessionListClass left_out_list = session_list.get(i);
-                        mSessionListResults.add(left_out_list);
+
                     }
                 }
-                sessionListArrayAdapter = new SessionListArrayAdapter(context, mSessionListResults);
 
-                lv_sessionlist.setAdapter(sessionListArrayAdapter);
 
-                Toast.makeText(context,
-                        toast_response, Toast.LENGTH_LONG).show();
+                // End
+
+
+
+                Animation aniFade = AnimationUtils.loadAnimation(context,R.anim.fade_in);
+                ll_click_to_next.setAnimation(aniFade);
+                if(NetworkOperations.isNetworkAvailable(context)){
+                    Intent mmt_intent = new Intent(context, SessionReportActivity.class);
+                    mmt_intent.putExtra("patientid", patientid);
+                    mmt_intent.putExtra("patientname", patientname);
+                    mmt_intent.putExtra("phizioemail", phizioemail);
+                    mmt_intent.putExtra("dateofjoin",dateofjoin);
+                    ((Activity)context).startActivity(mmt_intent);
+                    report.dismiss();
+                }
+                else {
+                    NetworkOperations.networkError(context);
+                }
+
+            }
+        });
+
+        tv_delete_pateint_session.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                report.dismiss();
+                if(IS_SCEDULED_SESSION){
+                    if(IS_SCEDULED_SESSIONS_COMPLETED){
+                        Intent i = new Intent(context, PatientsView.class);
+                        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        context.startActivity(i);
+                    }
+                }
+                ((Activity)context).finish();
 
 
 
