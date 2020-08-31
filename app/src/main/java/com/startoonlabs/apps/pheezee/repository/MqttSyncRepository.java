@@ -1086,8 +1086,13 @@ public class MqttSyncRepository {
 
             @Override
             public void onFailure(@NonNull Call<List<GetReportDataResponse>> call, @NonNull Throwable t) {
-                if (reportDataResponseListner != null)
-                    reportDataResponseListner.onReportDataReceived(new JSONArray(), false);
+                if (reportDataResponseListner != null) {
+                    try {
+                        reportDataResponseListner.onReportDataReceived(new JSONArray(), false);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
     }
@@ -1830,7 +1835,7 @@ public class MqttSyncRepository {
     }
 
     public interface OnReportDataResponseListner{
-        void onReportDataReceived(JSONArray array, boolean response);
+        void onReportDataReceived(JSONArray array, boolean response) throws JSONException;
         void onDayReportReceived(File file, String message, Boolean response);
     }
 

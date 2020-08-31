@@ -20,6 +20,7 @@ import com.startoonlabs.apps.pheezee.pojos.LoginData;
 import com.startoonlabs.apps.pheezee.pojos.LoginResult;
 import com.startoonlabs.apps.pheezee.pojos.MmtData;
 import com.startoonlabs.apps.pheezee.pojos.MobileToken;
+import com.startoonlabs.apps.pheezee.pojos.Overallresponse;
 import com.startoonlabs.apps.pheezee.pojos.PatientDetailsData;
 import com.startoonlabs.apps.pheezee.pojos.PatientImageData;
 import com.startoonlabs.apps.pheezee.pojos.PatientImageUploadResponse;
@@ -75,6 +76,9 @@ public interface GetDataService {
 
     @POST("/api/getheldon")
     Call<String> getHeldon(@Body PatientStatusData object);
+
+    @POST("/api/getoveralletails")
+    Call<Overallresponse> getOverall_list(@Body PatientStatusData object);
 
     @POST("/api/getsessiondetails")
     Call <List<SessionDetailsResult>> getSessiondetails(@Body PatientStatusData object);

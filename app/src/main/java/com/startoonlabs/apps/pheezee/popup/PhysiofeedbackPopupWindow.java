@@ -79,12 +79,13 @@ public class PhysiofeedbackPopupWindow {
     private MqttSyncRepository.OnSessionDataResponse response_data;
     private Long tsLong;
     private boolean mmt_selected_flag = false;
+    private View layout_d;
     public PhysiofeedbackPopupWindow(Context context, int maxEmgValue, String sessionNo, int maxAngle, int minAngle,
                                      String orientation, String bodypart, String phizioemail, String sessiontime, String actiontime,
                                      String holdtime, String numofreps, int angleCorrection,
                                      String patientid, String patientname, Long tsLong, String bodyOrientation, String dateOfJoin,
                                      int exercise_selected_position, int body_part_selected_position, String muscle_name, String exercise_name,
-                                     String min_angle_selected, String max_angle_selected, String max_emg_selected, int repsselected){
+                                     String min_angle_selected, String max_angle_selected, String max_emg_selected, int repsselected,View layout_d){
         this.context = context;
         this.maxEmgValue = maxEmgValue;
         this.sessionNo = sessionNo;
@@ -111,6 +112,7 @@ public class PhysiofeedbackPopupWindow {
         this.max_angle_selected = max_angle_selected;
         this.max_emg_selected = max_emg_selected;
         this.repsselected = repsselected;
+        this.layout_d = layout_d;
         repository = new MqttSyncRepository(((Activity)context).getApplication());
         repository.setOnSessionDataResponse(onSessionDataResponse);
     }
@@ -216,6 +218,14 @@ public class PhysiofeedbackPopupWindow {
             @Override
             public void onClick(View v) {
                 report.dismiss();
+//                if(IS_SCEDULED_SESSION){
+//                    if(IS_SCEDULED_SESSIONS_COMPLETED){
+//                        Intent i = new Intent(context, PatientsView.class);
+//                        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//                        context.startActivity(i);
+//                    }
+//                }
+//                ((Activity)context).finish();
 //                if(NetworkOperations.isNetworkAvailable(context)){
 //                    Intent mmt_intent = new Intent(context, SessionReportActivity.class);
 //                    mmt_intent.putExtra("patientid", patientid);
@@ -302,10 +312,10 @@ public class PhysiofeedbackPopupWindow {
         report.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                View layout_dismiss = ((Activity) context).getLayoutInflater().inflate(R.layout.session_summary, null);
-                FrameLayout layout_MainMenu = (FrameLayout) layout_dismiss.findViewById(R.id.session_summary_frame);
+//                View layout_dismiss = ((Activity) context).getLayoutInflater().inflate(R.layout.session_summary, null);
+                FrameLayout layout_MainMenu = (FrameLayout) layout_d.findViewById(R.id.session_summary_frame);
 
-                layout_MainMenu.getForeground().setAlpha(40);
+                layout_MainMenu.getForeground().setAlpha(0);
 
                 Log.d("test","closed");
 
