@@ -44,6 +44,7 @@ import com.startoonlabs.apps.pheezee.pojos.PhizioEmailData;
 import com.startoonlabs.apps.pheezee.pojos.ResponseData;
 import com.startoonlabs.apps.pheezee.pojos.SceduledSessionNotSaved;
 import com.startoonlabs.apps.pheezee.pojos.SessionData;
+import com.startoonlabs.apps.pheezee.pojos.SessionResult;
 import com.startoonlabs.apps.pheezee.pojos.SignUpData;
 import com.startoonlabs.apps.pheezee.pojos.SignupDataResponse;
 import com.startoonlabs.apps.pheezee.retrofit.GetDataService;
@@ -1064,34 +1065,28 @@ public class MqttSyncRepository {
     }
 
     public void getReportData(String email, String patientid) {
-        Call<List<GetReportDataResponse>> get_report = getDataService.getReportData(new GetReportData(email, patientid));
-        get_report.enqueue(new Callback<List<GetReportDataResponse>>() {
+        Call<GetReportDataResponse> get_report = getDataService.getReportData(new GetReportData(email, patientid));
+        get_report.enqueue(new Callback<GetReportDataResponse>() {
             @Override
-            public void onResponse(@NonNull Call<List<GetReportDataResponse>> call, @NonNull Response<List<GetReportDataResponse>> response) {
+            public void onResponse(@NonNull Call<GetReportDataResponse> call, @NonNull Response<GetReportDataResponse> response) {
                 if (response.code() == 200) {
-                    List<GetReportDataResponse> res = response.body();
-                    Gson gson = new GsonBuilder().create();
-                    String json = gson.toJson(res);
-                    try {
-                        JSONArray array = new JSONArray(json);
+                    GetReportDataResponse res = response.body();
+                    List<SessionResult> lel = res.getSessionResult();
+
+
                         if (reportDataResponseListner != null) {
-                            reportDataResponseListner.onReportDataReceived(array, true);
+                            reportDataResponseListner.onReportDataReceived(res, true);
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+
 
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<List<GetReportDataResponse>> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<GetReportDataResponse> call, @NonNull Throwable t) {
                 if (reportDataResponseListner != null) {
-                    try {
-                        reportDataResponseListner.onReportDataReceived(new JSONArray(), false);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                        reportDataResponseListner.onReportDataReceived(null, false);
+
                 }
             }
         });
@@ -1835,7 +1830,7 @@ public class MqttSyncRepository {
     }
 
     public interface OnReportDataResponseListner{
-        void onReportDataReceived(JSONArray array, boolean response) throws JSONException;
+        void onReportDataReceived(GetReportDataResponse array, boolean response);
         void onDayReportReceived(File file, String message, Boolean response);
     }
 

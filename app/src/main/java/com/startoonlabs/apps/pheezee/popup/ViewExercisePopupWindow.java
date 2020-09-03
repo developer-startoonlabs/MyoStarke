@@ -96,7 +96,7 @@ public class ViewExercisePopupWindow {
     private boolean session_inserted_in_server = false;
     JSONArray emgJsonArray, romJsonArray;
     int phizio_packagetype;
-    private String dateString;
+    private String dateString,heldon;
     private Context context;
     private PopupWindow report;
     private int maxEmgValue, maxAngle, minAngle, angleCorrection, exercise_selected_position, body_part_selected_position, repsselected;
@@ -148,6 +148,44 @@ public class ViewExercisePopupWindow {
 
     }
 
+    public ViewExercisePopupWindow(Context context, int maxEmgValue, String sessionNo, int maxAngle, int minAngle,
+                                   String orientation, String bodypart, String phizioemail, String sessiontime, String actiontime,
+                                   String holdtime, String numofreps, int angleCorrection,
+                                   String patientid, String patientname, Long tsLong, String bodyOrientation, String dateOfJoin,
+                                   int exercise_selected_position, int body_part_selected_position, String muscle_name, String exercise_name,
+                                   String min_angle_selected, String max_angle_selected, String max_emg_selected, int repsselected, String heldon){
+        this.context = context;
+        this.maxEmgValue = maxEmgValue;
+        this.sessionNo = sessionNo;
+        this.maxAngle = maxAngle;
+        this.minAngle = minAngle;
+        this.orientation = orientation;
+        this.bodypart = bodypart;
+        this.phizioemail = phizioemail;
+        this.sessiontime = sessiontime;
+        this.actiontime = actiontime;
+        this.holdtime = holdtime;
+        this.numofreps = numofreps;
+        this.angleCorrection = angleCorrection;
+        this.patientid = patientid;
+        this.patientname = patientname;
+        this.tsLong = tsLong;
+        this.bodyOrientation = bodyOrientation;
+        this.dateofjoin = dateOfJoin;
+        this.exercise_selected_position = exercise_selected_position;
+        this.body_part_selected_position = body_part_selected_position;
+        this.exercise_name = exercise_name;
+        this.muscle_name = muscle_name;
+        this.min_angle_selected = min_angle_selected;
+        this.max_angle_selected = max_angle_selected;
+        this.max_emg_selected = max_emg_selected;
+        this.repsselected = repsselected;
+        this.heldon = heldon;
+        repository = new MqttSyncRepository(((Activity)context).getApplication());
+        repository.setOnSessionDataResponse(onSessionDataResponse);
+
+    }
+
     private String calenderToYYYMMDD(Calendar date){
         Date date_cal = date.getTime();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -179,6 +217,15 @@ public class ViewExercisePopupWindow {
         getDataService = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
         Calendar calendar = Calendar.getInstance();
         String date = calenderToYYYMMDD(calendar);
+
+        if(heldon!=null)
+        {
+            date = heldon;
+            TextView tv_delete_pateint_session = layout.findViewById(R.id.summary_tv_delete_session);
+            TextView tv_back_session = layout.findViewById(R.id.tv_back_session);
+            tv_delete_pateint_session.setVisibility(View.GONE);
+            tv_back_session.setVisibility(View.VISIBLE);
+        }
         PatientStatusData data = new PatientStatusData(phizioemail, patientid,date,date);
 
         progress = new ProgressDialog(context);
@@ -263,6 +310,7 @@ public class ViewExercisePopupWindow {
 
 
         TextView tv_delete_pateint_session = layout.findViewById(R.id.summary_tv_delete_session);
+        TextView tv_back_session = layout.findViewById(R.id.tv_back_session);
 
 //        final LinearLayout ll_click_to_view_report = layout.findViewById(R.id.ll_click_to_view_report);
         final LinearLayout ll_click_to_next = layout.findViewById(R.id.ll_click_to_next);
@@ -387,6 +435,13 @@ public class ViewExercisePopupWindow {
             }
 
 
+        });
+
+        tv_back_session.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                report.dismiss();
+            }
         });
 
 

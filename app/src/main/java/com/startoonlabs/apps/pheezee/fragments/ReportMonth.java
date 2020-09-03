@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.activities.SessionReportActivity;
 import com.startoonlabs.apps.pheezee.models.StartAndEndDate;
+import com.startoonlabs.apps.pheezee.pojos.GetReportDataResponse;
 import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
 import com.startoonlabs.apps.pheezee.retrofit.GetDataService;
 import com.startoonlabs.apps.pheezee.retrofit.RetrofitClientInstance;
@@ -56,7 +57,7 @@ public class ReportMonth extends Fragment implements MqttSyncRepository.OnReport
     private TextView tv_report_month, tv_click_to_generate_report;
     private int currentMonth1, currentMonth2;
 
-    private JSONArray session_array;
+    private GetReportDataResponse session_array;
     private ArrayList<String> str_part;
     private Iterator iterator;
     private String month_end_date = "";
@@ -190,15 +191,15 @@ public class ReportMonth extends Fragment implements MqttSyncRepository.OnReport
 
     private JSONArray getCurrentMonthJson(boolean mTypeSelected) throws JSONException {
         JSONArray array = new JSONArray();
-        for (int i = 0; i < session_array.length(); i++) {
-            JSONObject object = session_array.getJSONObject(i);
-            String month = object.getString("heldon");
-            month = month.substring(5, 7);
-            int m = Integer.parseInt(month);
-            if (m == (currentMonth1 + 1) || m == (currentMonth2 + 1) ) {
-                array.put(object);
-            }
-        }
+//        for (int i = 0; i < session_array.length(); i++) {
+//            JSONObject object = session_array.getJSONObject(i);
+//            String month = object.getString("heldon");
+//            month = month.substring(5, 7);
+//            int m = Integer.parseInt(month);
+//            if (m == (currentMonth1 + 1) || m == (currentMonth2 + 1) ) {
+//                array.put(object);
+//            }
+//        }
         return array;
     }
 
@@ -390,7 +391,7 @@ public class ReportMonth extends Fragment implements MqttSyncRepository.OnReport
     }
 
     @Override
-    public void onReportDataReceived(JSONArray array, boolean response) {
+    public void onReportDataReceived(GetReportDataResponse array, boolean response) {
 
     }
 

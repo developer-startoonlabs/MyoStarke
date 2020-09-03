@@ -17,7 +17,7 @@
         <RelativeLayout
             android:id="@+id/rl_listmodel"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="100sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -27,9 +27,9 @@
                 android:id="@+id/image_exercise_layout"
                 android:layout_centerVertical="true"
 
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="8dp"
-                android:paddingBottom="8dp"
+                android:layout_marginTop="8sp"
+                android:layout_marginStart="8sp"
+                android:layout_marginBottom="8sp"
                 android:orientation="horizontal"
                 android:layout_height="match_parent">
 
@@ -41,15 +41,20 @@
             </LinearLayout>
 
 
-
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_alignTop="@+id/image_exercise_layout"
+                android:layout_toEndOf="@+id/image_exercise_layout"
+                android:orientation="vertical">
             <TextView
                 android:id="@+id/tv_exercise"
+
+                android:layout_alignTop="@+id/image_exercise_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/image_exercise_layout"
-                android:layout_marginStart="10dp"
                 android:textColor="@color/good_green"
-                android:layout_marginTop="10dp"
 
                 android:textSize="16sp"
                 android:text="11 Exercises" />
@@ -58,15 +63,28 @@
                 android:id="@+id/tv_exercise_no"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_toEndOf="@+id/image_exercise_layout"
+
 
                 android:textColor="#707070"
-                android:layout_marginTop="30dp"
                 android:textSize="14sp"
                 android:text="11 Exercises" />
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="bottom">
+                <TextView
+                    android:id="@+id/tv_download_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/good_green"
 
+                    android:textSize="12sp"
+                    android:text="11 Exercises" />
+                </LinearLayout>
+
+            </LinearLayout>
 
 
 
@@ -82,6 +100,7 @@
             android:layout_marginEnd="10dp"
             android:textSize="18sp"
             android:textAllCaps="false"
+            android:textStyle="bold"
             android:text="View"
             >
 

@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.activities.DeviceInfoActivity;
 import com.startoonlabs.apps.pheezee.activities.PatientsView;
 import com.startoonlabs.apps.pheezee.classes.SessionListClass;
+import com.startoonlabs.apps.pheezee.pojos.GetReportDataResponse;
 import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
 import com.startoonlabs.apps.pheezee.utils.DateOperations;
 import com.startoonlabs.apps.pheezee.utils.NetworkOperations;
@@ -30,6 +32,8 @@ import org.json.JSONArray;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 
 import static com.startoonlabs.apps.pheezee.activities.SessionReportActivity.patientId;
 import static com.startoonlabs.apps.pheezee.activities.SessionReportActivity.patientName;
@@ -38,7 +42,7 @@ import static com.startoonlabs.apps.pheezee.activities.SessionReportActivity.phi
 
 public class SessionReportListArrayAdapter extends ArrayAdapter<SessionListClass> implements MqttSyncRepository.OnReportDataResponseListner {
 
-    private TextView tv_s_no,tv_date, tv_exercise_no;
+    private TextView tv_s_no,tv_date, tv_exercise_no,tv_download_date;
     private Button view_button;
 
 
@@ -102,9 +106,10 @@ public class SessionReportListArrayAdapter extends ArrayAdapter<SessionListClass
         tv_s_no = convertView.findViewById(R.id.tv_s_no);
         tv_date = convertView.findViewById(R.id.tv_date);
         tv_exercise_no = convertView.findViewById(R.id.tv_exercise_no);
+        tv_download_date = convertView.findViewById(R.id.tv_download_date);
         view_button = convertView.findViewById(R.id.view_button);
 
-        tv_s_no.setText(String.valueOf(mSessionArrayList.size()-position));
+        tv_s_no.setText(String.valueOf(mSessionArrayList.size()-position)+".");
 
         //Date
         String test = mSessionArrayList.get(position).getHeldon();
@@ -119,6 +124,16 @@ public class SessionReportListArrayAdapter extends ArrayAdapter<SessionListClass
         // Exercise
         tv_exercise_no.setText(mSessionArrayList.get(position).getSession_time()+" Exercises");
 
+        // Downloaded date - Using muscle name data as a substitute
+        if(mSessionArrayList.get(position).getMuscle_name() != null) {
+            tv_download_date.setText("Downloaded on "+mSessionArrayList.get(position).getMuscle_name());
+            tv_download_date.setTextColor(context.getResources().getColor(R.color.background_green));
+        }else
+        {
+            tv_download_date.setText("View report by downloading");
+            tv_download_date.setTextColor(context.getResources().getColor(R.color.red));
+
+        }
         view_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -136,6 +151,13 @@ public class SessionReportListArrayAdapter extends ArrayAdapter<SessionListClass
 
         return convertView;
 
+    }
+
+    private String getDate(long time) {
+        Calendar cal = Calendar.getInstance(Locale.ENGLISH);
+//        cal.setTimeInMillis(time * 1000);
+        String date = DateFormat.format("dd-MM-yyyy", cal).toString();
+        return date;
     }
 
     /**
@@ -160,7 +182,7 @@ public class SessionReportListArrayAdapter extends ArrayAdapter<SessionListClass
     }
 
     @Override
-    public void onReportDataReceived(JSONArray array, boolean response) {
+    public void onReportDataReceived(GetReportDataResponse array, boolean response) {
 
     }
 

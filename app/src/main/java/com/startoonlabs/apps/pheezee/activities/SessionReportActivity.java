@@ -22,6 +22,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.adapters.SessionListArrayAdapter;
 import com.startoonlabs.apps.pheezee.adapters.SessionReportListArrayAdapter;
@@ -31,9 +33,15 @@ import com.startoonlabs.apps.pheezee.fragments.FragmentReportDay;
 import com.startoonlabs.apps.pheezee.fragments.ReportMonth;
 import com.startoonlabs.apps.pheezee.fragments.ReportOverall;
 import com.startoonlabs.apps.pheezee.fragments.ReportWeek;
+import com.startoonlabs.apps.pheezee.pojos.GetReportDataResponse;
+import com.startoonlabs.apps.pheezee.pojos.Overalldetail;
 import com.startoonlabs.apps.pheezee.pojos.Overallresponse;
 import com.startoonlabs.apps.pheezee.pojos.PatientStatusData;
 import com.startoonlabs.apps.pheezee.pojos.SessionDetailsResult;
+import com.startoonlabs.apps.pheezee.pojos.SessionList;
+import com.startoonlabs.apps.pheezee.pojos.SessionResult;
+import com.startoonlabs.apps.pheezee.pojos.Sessiondetail;
+import com.startoonlabs.apps.pheezee.popup.ViewExercisePopupWindow;
 import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
 
 import org.json.JSONArray;
@@ -61,8 +69,9 @@ import com.startoonlabs.apps.pheezee.retrofit.RetrofitClientInstance;
 
 public class SessionReportActivity extends AppCompatActivity implements MqttSyncRepository.OnReportDataResponseListner {
 
-    JSONArray session_arry;
+    GetReportDataResponse session_arry;
     boolean inside_report_activity = true;
+    boolean overall_selected = false;
     Fragment fragment;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
@@ -147,7 +156,13 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
         lv_sessionlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                SessionListClass temp = (SessionListClass) adapterView.getItemAtPosition(i);
 
+                ViewExercisePopupWindow feedback = new ViewExercisePopupWindow(SessionReportActivity.this,0, "-", 0, 0, "orientation", "bodypart",
+                        phizioemail, "sessiontime", "actiontime", "holdtime", "numofreps",
+                        0, temp.getPatientid(), "patientname", 0L, "bodyOrientation", dateofjoin, 0,0,
+                        "muscle_name","exercise_name","min_angle_selected","max_angle_selected","max_emg_selected",0,temp.getHeldon());
+                feedback.showWindow();
             }
         });
 
@@ -161,6 +176,7 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
                 String htmlString="<b><u>Session</u></b>";
                 tv_day.setText(Html.fromHtml(htmlString));
                 openDayFragment();
+                overall_selected=false;
 
             }
         });
@@ -195,7 +211,7 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
                 tv_overall.setAlpha(1);
                 String htmlString="<b><u>Overall</u></b>";
                 tv_overall.setText(Html.fromHtml(htmlString));
-
+                overall_selected = true;
                 openOverallFragment();
             }
         });
@@ -221,22 +237,34 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
     }
 
     public void openDayFragment() {
-        Log.d("session","checl");
-//
+
             if (session_arry != null) {
-//                fragmentTransaction = fragmentManager.beginTransaction();
-//                fragment = new FragmentReportDay();
-//                fragmentTransaction.replace(R.id.fragment_report_container, fragment);
-//                fragmentTransaction.commit();
-//                FragmentManager fm = getSupportFragmentManager();
-//                for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
-//                    fm.popBackStack();
-//                }
+
+
                 HashSet<String> hashSet = new HashSet<>();
-                if(session_arry.length()>0) {
-                    for (int i = 0; i < session_arry.length(); i++) {
+
+                List<SessionList> res = session_arry.getSessionList();
+                List<SessionResult> session_result_array = session_arry.getSessionResult();
+                List<Sessiondetail> download_date_array = null;
+                if(session_result_array.size()>0) {
+                    download_date_array = session_result_array.get(0).getSessiondetails();
+                }
+
+                JSONArray array=null;
+
+                Gson gson = new GsonBuilder().create();
+                String json = gson.toJson(res);
+                try {
+                    array = new JSONArray(json);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if(array.length()>0) {
+                    for (int i = 0; i < array.length(); i++) {
                         try {
-                            JSONObject object = session_arry.getJSONObject(i);
+                            JSONObject object = array.getJSONObject(i);
                             hashSet.add(object.getString("heldon").substring(0,10));
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -276,7 +304,6 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
                 mSessionListResults.clear();
                 for (int i = 0; i < dates_sessions.size(); i++) {
 
-                    Log.d("session","knside loop");
 
                         int counter=0;
                         SessionListClass temp= new SessionListClass();
@@ -284,12 +311,25 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
                         temp.setPatientid(patientId);
                         temp.setPatientemail(phizioemail);
 
-                         if(session_arry.length()>0) {
-                        for (int j = 0; j < session_arry.length(); j++) {
+                        //Adding download date
+                    if(download_date_array != null) {
+                        for (int k = 0; k < download_date_array.size(); k++) {
+
+                            if(download_date_array.get(k).getHeldon() != null) {
+                                if ((dates_sessions.get(i)).equals(download_date_array.get(k).getHeldon().toString())) {
+                                    // Storing the download date in musclename.
+                                    temp.setMuscle_name(download_date_array.get(k).getDate().toString());
+
+                                }
+                            }
+
+                        }
+                    }
+                         if(array.length()>0) {
+                        for (int j = 0; j < array.length(); j++) {
                             try {
-                                JSONObject object = session_arry.getJSONObject(j);
-                                Log.d("session",object.getString("heldon").substring(0,10));
-                                Log.d("session",dates_sessions.get(i));
+                                JSONObject object = array.getJSONObject(j);
+
                                 if(object.getString("heldon").substring(0,10).equals(dates_sessions.get(i))){
                                     counter=counter+1;
                                 }
@@ -362,6 +402,15 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
                         mOverallListResults.clear();
 
                         if (response.code() == 200) {
+
+
+                            List<SessionResult> session_result_array = session_arry.getSessionResult();
+                            List<Overalldetail> download_date_array = null;
+                            if(session_result_array.size()>0) {
+                                download_date_array = session_result_array.get(0).getOveralldetails();
+                            }
+
+
 //                            String response_s = response.body();
 
                             Overallresponse obj = response.body();
@@ -373,6 +422,17 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
                                 temp.setSession_time(String.valueOf(obj.getElbow()));
                                 temp.setPatientid(patientId);
                                 temp.setPatientemail(phizioemail);
+                                //Adding download date
+                                if(download_date_array != null) {
+                                    for (int k = 0; k < download_date_array.size(); k++) {
+                                        if(download_date_array.get(k).getBodypart() != null) {
+                                            if (("elbow").equals(download_date_array.get(k).getBodypart())) {
+                                                // Storing the download date in musclename.
+                                                temp.setMuscle_name(download_date_array.get(k).getDate());
+                                            }
+                                        }
+                                    }
+                                }
                                 mOverallListResults.add(temp);
 
                             }
@@ -383,6 +443,17 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
                                 temp.setSession_time(String.valueOf(obj.getKnee()));
                                 temp.setPatientid(patientId);
                                 temp.setPatientemail(phizioemail);
+                                //Adding download date
+                                if(download_date_array != null) {
+                                    for (int k = 0; k < download_date_array.size(); k++) {
+                                        if(download_date_array.get(k).getBodypart() != null) {
+                                            if (("knee").equals(download_date_array.get(k).getBodypart())) {
+                                                // Storing the download date in musclename.
+                                                temp.setMuscle_name(download_date_array.get(k).getDate());
+                                            }
+                                        }
+                                    }
+                                }
                                 mOverallListResults.add(temp);
 
                             }
@@ -393,6 +464,17 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
                                 temp.setSession_time(String.valueOf(obj.getAnkle()));
                                 temp.setPatientid(patientId);
                                 temp.setPatientemail(phizioemail);
+                                //Adding download date
+                                if(download_date_array != null) {
+                                    for (int k = 0; k < download_date_array.size(); k++) {
+                                        if(download_date_array.get(k).getBodypart() != null) {
+                                            if (("ankle").equals(download_date_array.get(k).getBodypart())) {
+                                                // Storing the download date in musclename.
+                                                temp.setMuscle_name(download_date_array.get(k).getDate());
+                                            }
+                                        }
+                                    }
+                                }
                                 mOverallListResults.add(temp);
 
                             }
@@ -403,6 +485,17 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
                                 temp.setSession_time(String.valueOf(obj.getHip()));
                                 temp.setPatientid(patientId);
                                 temp.setPatientemail(phizioemail);
+                                //Adding download date
+                                if(download_date_array != null) {
+                                    for (int k = 0; k < download_date_array.size(); k++) {
+                                        if(download_date_array.get(k).getBodypart() != null) {
+                                            if (("hip").equals(download_date_array.get(k).getBodypart())) {
+                                                // Storing the download date in musclename.
+                                                temp.setMuscle_name(download_date_array.get(k).getDate());
+                                            }
+                                        }
+                                    }
+                                }
                                 mOverallListResults.add(temp);
 
                             }
@@ -413,6 +506,17 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
                                 temp.setSession_time(String.valueOf(obj.getWrist()));
                                 temp.setPatientid(patientId);
                                 temp.setPatientemail(phizioemail);
+                                //Adding download date
+                                if(download_date_array != null) {
+                                    for (int k = 0; k < download_date_array.size(); k++) {
+                                        if(download_date_array.get(k).getBodypart() != null) {
+                                            if (("wrist").equals(download_date_array.get(k).getBodypart())) {
+                                                // Storing the download date in musclename.
+                                                temp.setMuscle_name(download_date_array.get(k).getDate());
+                                            }
+                                        }
+                                    }
+                                }
                                 mOverallListResults.add(temp);
 
                             }
@@ -423,6 +527,17 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
                                 temp.setSession_time(String.valueOf(obj.getShoulder()));
                                 temp.setPatientid(patientId);
                                 temp.setPatientemail(phizioemail);
+                                //Adding download date
+                                if(download_date_array != null) {
+                                    for (int k = 0; k < download_date_array.size(); k++) {
+                                        if(download_date_array.get(k).getBodypart() != null) {
+                                            if (("shoulder").equals(download_date_array.get(k).getBodypart())) {
+                                                // Storing the download date in musclename.
+                                                temp.setMuscle_name(download_date_array.get(k).getDate());
+                                            }
+                                        }
+                                    }
+                                }
                                 mOverallListResults.add(temp);
 
                             }
@@ -433,6 +548,17 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
                                 temp.setSession_time(String.valueOf(obj.getForearm()));
                                 temp.setPatientid(patientId);
                                 temp.setPatientemail(phizioemail);
+                                //Adding download date
+                                if(download_date_array != null) {
+                                    for (int k = 0; k < download_date_array.size(); k++) {
+                                        if(download_date_array.get(k).getBodypart() != null) {
+                                            if (("forearm").equals(download_date_array.get(k).getBodypart())) {
+                                                // Storing the download date in musclename.
+                                                temp.setMuscle_name(download_date_array.get(k).getDate());
+                                            }
+                                        }
+                                    }
+                                }
                                 mOverallListResults.add(temp);
 
                             }
@@ -443,6 +569,17 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
                                 temp.setSession_time(String.valueOf(obj.getSpine()));
                                 temp.setPatientid(patientId);
                                 temp.setPatientemail(phizioemail);
+                                //Adding download date
+                                if(download_date_array != null) {
+                                    for (int k = 0; k < download_date_array.size(); k++) {
+                                        if(download_date_array.get(k).getBodypart() != null) {
+                                            if (("spine").equals(download_date_array.get(k).getBodypart())) {
+                                                // Storing the download date in musclename.
+                                                temp.setMuscle_name(download_date_array.get(k).getDate());
+                                            }
+                                        }
+                                    }
+                                }
                                 mOverallListResults.add(temp);
 
                             }
@@ -453,10 +590,21 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
                                 temp.setSession_time(String.valueOf(obj.getOthers()));
                                 temp.setPatientid(patientId);
                                 temp.setPatientemail(phizioemail);
+                                //Adding download date
+                                if(download_date_array != null) {
+                                    for (int k = 0; k < download_date_array.size(); k++) {
+                                        if(download_date_array.get(k).getBodypart() != null) {
+                                            if (("others").equals(download_date_array.get(k).getBodypart())) {
+                                                // Storing the download date in musclename.
+                                                temp.setMuscle_name(download_date_array.get(k).getDate());
+                                            }
+                                        }
+                                    }
+                                }
                                 mOverallListResults.add(temp);
 
                             }
-                            
+
                             SessionListClass temp= new SessionListClass();
                             temp.setBodypart("-");
                             overallreport_adapter.add(temp);
@@ -511,7 +659,7 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
         startActivity(i);
     }
 
-    public JSONArray getSessions(){
+    public GetReportDataResponse getSessions(){
         return session_arry;
     }
 
@@ -520,17 +668,26 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
     }
 
     @Override
-    public void onReportDataReceived(JSONArray array, boolean response) throws JSONException {
+    public void onReportDataReceived(GetReportDataResponse array, boolean response) {
         progress.dismiss();
         if (response){
             session_arry = array;
             changeViewOfDayMonthWeek();
-            tv_day.setTypeface(null, Typeface.BOLD);
-            tv_day.setAlpha(1);
-            String htmlString="<b><u>Session</u></b>";
-            tv_day.setText(Html.fromHtml(htmlString));
 
-            openDayFragment();
+            if(overall_selected==false) {
+                tv_day.setTypeface(null, Typeface.BOLD);
+                tv_day.setAlpha(1);
+                String htmlString="<b><u>Session</u></b>";
+                tv_day.setText(Html.fromHtml(htmlString));
+                openDayFragment();
+            }else
+            {
+                tv_overall.setTypeface(null, Typeface.BOLD);
+                tv_overall.setAlpha(1);
+                String htmlString="<b><u>Overall</u></b>";
+                tv_overall.setText(Html.fromHtml(htmlString));
+                openOverallFragment();
+            }
         }
         else {
             showToast("Server busy, please try later!");
@@ -550,7 +707,17 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
     protected void onResume() {
 
         super.onResume();
+        if(inside_report_activity==false)
+        {
+//            startActivity(getIntent());
+            repository.getReportData(phizioemail,patientId);
+            progress.setMessage("Generating report");
+            progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progress.setIndeterminate(true);
+            progress.show();
+        }
         inside_report_activity = true;
+
     }
 
 }

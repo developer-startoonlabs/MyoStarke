@@ -26,7 +26,7 @@
         <RelativeLayout
             android:id="@+id/rl_listmodel"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="100sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -41,7 +41,7 @@
                 android:layout_alignParentTop="true"
                 android:textColor="@color/good_green"
                 android:layout_marginTop="12dp"
-                android:textSize="16dp"
+                android:textSize="16sp"
                 android:text="BodyPart - Exercise" />
 
             <TextView

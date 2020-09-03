@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.activities.SessionReportActivity;
 import com.startoonlabs.apps.pheezee.models.StartAndEndDate;
+import com.startoonlabs.apps.pheezee.pojos.GetReportDataResponse;
 import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
 
 import org.json.JSONArray;
@@ -47,7 +48,7 @@ public class ReportWeek extends Fragment implements MqttSyncRepository.OnReportD
     TextView tv_report_week, tv_click_to_view_report;
     String start_date, end_date;
 
-    JSONArray session_array;
+    GetReportDataResponse session_array;
     ArrayList<String> str_part;
     Iterator iterator;
     ProgressDialog report_dialog;
@@ -222,21 +223,21 @@ public class ReportWeek extends Fragment implements MqttSyncRepository.OnReportD
             e.printStackTrace();
         }
 
-        for (int i=0;i<session_array.length();i++){
-            JSONObject object = null;
-            try {
-                object = session_array.getJSONObject(i);
-                String heldon = object.getString("heldon").substring(0,10).trim();
-                Date date1 = simpleDateFormat.parse(heldon);
-                if(date1.compareTo(initial_date)>=0 && date1.compareTo(final_date)<=0){
-                    array.put(object);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
+//        for (int i=0;i<session_array.length();i++){
+//            JSONObject object = null;
+//            try {
+//                object = session_array.getJSONObject(i);
+//                String heldon = object.getString("heldon").substring(0,10).trim();
+//                Date date1 = simpleDateFormat.parse(heldon);
+//                if(date1.compareTo(initial_date)>=0 && date1.compareTo(final_date)<=0){
+//                    array.put(object);
+//                }
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
+//        }
         return array;
     }
 
@@ -403,7 +404,7 @@ public class ReportWeek extends Fragment implements MqttSyncRepository.OnReportD
     }
 
     @Override
-    public void onReportDataReceived(JSONArray array, boolean response) {
+    public void onReportDataReceived(GetReportDataResponse array, boolean response) {
 
     }
 

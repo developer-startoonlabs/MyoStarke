@@ -3,17 +3,22 @@ package com.startoonlabs.apps.pheezee.pojos;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Sessiondetail {
+import java.util.List;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+public class Overalldetail {
 
     @SerializedName("_id")
     @Expose
     private String id;
-    @SerializedName("heldon")
+    @SerializedName("bodypart")
     @Expose
-    private Object heldon;
+    private String bodypart;
     @SerializedName("date")
     @Expose
-    private Object date;
+    private String date;
 
     public String getId() {
         return id;
@@ -23,19 +28,19 @@ public class Sessiondetail {
         this.id = id;
     }
 
-    public Object getHeldon() {
-        return heldon;
+    public String getBodypart() {
+        return bodypart;
     }
 
-    public void setHeldon(Object heldon) {
-        this.heldon = heldon;
+    public void setBodypart(String bodypart) {
+        this.bodypart = bodypart;
     }
 
-    public Object getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Object date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

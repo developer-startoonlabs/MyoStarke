@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 
 import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.activities.SessionReportActivity;
+import com.startoonlabs.apps.pheezee.pojos.GetReportDataResponse;
 import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
 import com.startoonlabs.apps.pheezee.utils.DateOperations;
 import com.startoonlabs.apps.pheezee.utils.NetworkOperations;
@@ -47,7 +48,7 @@ public class FragmentReportDay extends Fragment implements MqttSyncRepository.On
     TextView tv_day_report, tv_report_date ;
     String dateSelected = null;
     final Calendar myCalendar = Calendar.getInstance();
-    JSONArray session_array;
+    GetReportDataResponse session_array;
     ArrayList<String> dates_sessions;
     Iterator iterator;
     ProgressDialog report_dialog;
@@ -175,17 +176,17 @@ public class FragmentReportDay extends Fragment implements MqttSyncRepository.On
 
     private HashSet<String> fetchAllDates() {
         HashSet<String> hashSet = new HashSet<>();
-        if(session_array.length()>0) {
-            for (int i = 0; i < session_array.length(); i++) {
-                try {
-                    JSONObject object = session_array.getJSONObject(i);
-                    hashSet.add(object.getString("heldon").substring(0,10));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }
+//        if(session_array.length()>0) {
+//            for (int i = 0; i < session_array.length(); i++) {
+//                try {
+//                    JSONObject object = session_array.getJSONObject(i);
+//                    hashSet.add(object.getString("heldon").substring(0,10));
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//
+//            }
+//        }
         return hashSet;
     }
 
@@ -198,7 +199,7 @@ public class FragmentReportDay extends Fragment implements MqttSyncRepository.On
     }
 
     @Override
-    public void onReportDataReceived(JSONArray array, boolean response) {
+    public void onReportDataReceived(GetReportDataResponse array, boolean response) {
 
     }
 

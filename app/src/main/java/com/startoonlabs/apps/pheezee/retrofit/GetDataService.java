@@ -102,7 +102,7 @@ public interface GetDataService {
     Call<PatientImageUploadResponse> updatePhizioClinicLogoPic(@Body PatientImageData data);
 
     @POST("/api/patient/generate/report")
-    Call<List<GetReportDataResponse>> getReportData(@Body GetReportData data);
+    Call<GetReportDataResponse> getReportData(@Body GetReportData data);
 
 
     @POST("/api/patient/entireEmgData")

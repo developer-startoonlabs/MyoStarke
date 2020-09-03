@@ -18,6 +18,7 @@ import androidx.core.content.FileProvider;
 
 import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.classes.SessionListClass;
+import com.startoonlabs.apps.pheezee.pojos.GetReportDataResponse;
 import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
 import com.startoonlabs.apps.pheezee.utils.NetworkOperations;
 
@@ -37,7 +38,7 @@ import static com.startoonlabs.apps.pheezee.activities.SessionReportActivity.phi
 
 public class OverallReportListArrayAdapter extends ArrayAdapter<SessionListClass> implements MqttSyncRepository.OnReportDataResponseListner {
 
-    private TextView tv_exercise, tv_exercise_no;
+    private TextView tv_exercise, tv_exercise_no,tv_download_date;
     private Button view_button;
     private ImageView bodypart_img;
 
@@ -100,6 +101,7 @@ public class OverallReportListArrayAdapter extends ArrayAdapter<SessionListClass
         tv_exercise_no = convertView.findViewById(R.id.tv_exercise_no);
         tv_exercise = convertView.findViewById(R.id.tv_exercise);
         view_button = convertView.findViewById(R.id.view_button);
+        tv_download_date = convertView.findViewById(R.id.tv_download_date);
         bodypart_img = convertView.findViewById(R.id.image_exercise);
 
         String feedback_image = mSessionArrayList.get(position).getBodypart().toLowerCase()+"_part_new";
@@ -112,6 +114,18 @@ public class OverallReportListArrayAdapter extends ArrayAdapter<SessionListClass
 //        // Exercise
         tv_exercise.setText(mSessionArrayList.get(position).getBodypart());
         tv_exercise_no.setText(mSessionArrayList.get(position).getSession_time()+" sessions");
+
+
+        // Downloaded date - Using muscle name data as a substitute
+        if(mSessionArrayList.get(position).getMuscle_name() != null) {
+            tv_download_date.setText("Downloaded on "+mSessionArrayList.get(position).getMuscle_name());
+            tv_download_date.setTextColor(context.getResources().getColor(R.color.background_green));
+        }else
+        {
+            tv_download_date.setText("View report by downloading");
+            tv_download_date.setTextColor(context.getResources().getColor(R.color.red));
+
+        }
 
         view_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,7 +179,7 @@ public class OverallReportListArrayAdapter extends ArrayAdapter<SessionListClass
     }
 
     @Override
-    public void onReportDataReceived(JSONArray array, boolean response) {
+    public void onReportDataReceived(GetReportDataResponse array, boolean response) {
 
     }
 

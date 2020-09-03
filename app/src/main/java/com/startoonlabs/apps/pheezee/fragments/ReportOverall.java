@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 
 import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.activities.SessionReportActivity;
+import com.startoonlabs.apps.pheezee.pojos.GetReportDataResponse;
 import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
 
 import org.json.JSONArray;
@@ -57,8 +58,8 @@ public class ReportOverall extends Fragment implements MqttSyncRepository.OnRepo
         repository = new MqttSyncRepository(getActivity().getApplication());
         repository.setOnReportDataResponseListener(this);
 
-        JSONArray array = ((SessionReportActivity)getActivity()).getSessions();
-        if(array==null || array.length()<=0){
+        GetReportDataResponse array = ((SessionReportActivity)getActivity()).getSessions();
+        if(array==null){
             tv_overall_report.setText("No sessions done");
         }
 
@@ -115,7 +116,7 @@ public class ReportOverall extends Fragment implements MqttSyncRepository.OnRepo
         tv_overall_report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(array==null || array.length()<=0){
+                if(array==null ){
                     Toast.makeText(getActivity(), "No sessions done", Toast.LENGTH_SHORT).show();
                 }else {
                     Calendar calendar = Calendar.getInstance();
@@ -144,7 +145,7 @@ public class ReportOverall extends Fragment implements MqttSyncRepository.OnRepo
     }
 
     @Override
-    public void onReportDataReceived(JSONArray array, boolean response) {
+    public void onReportDataReceived(GetReportDataResponse array, boolean response) {
 
     }
 
