@@ -81,7 +81,7 @@
             <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginRight="10dp">
+                android:layout_marginRight="5dp">
                 <ImageView
                     android:id="@+id/iv_sync_data"
                     android:layout_width="wrap_content"
@@ -122,7 +122,7 @@
             <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginStart="10dp">
+                android:layout_marginStart="5dp">
                 <RelativeLayout
                     android:layout_width="5dp"
                     android:id="@+id/rl_cap_view"
@@ -160,25 +160,61 @@
             <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp">
+
+                android:layout_marginStart="10dp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8sp"
+
+                android:layout_marginBottom="8sp"
+                android:layout_gravity="center"
+
+                android:background="@drawable/my_device_background">
+
                 <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
+                    android:layout_width="40dp"
+
+
+                    android:layout_height="30dp"
+                    android:id="@+id/iv_device"
+                    android:onClick="addPheezeeDevice"
+                    android:src="@drawable/ic_device"
+                    android:layout_gravity="start|center"
+                    android:contentDescription="@string/cd_device_disconnected" />
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:visibility="gone"
+
+                    android:layout_height="30dp"
                     android:id="@+id/iv_device_disconnected"
                     android:onClick="addPheezeeDevice"
                     android:src="@drawable/device_disconnected_icon"
-                    android:layout_gravity="center"
+                    android:layout_gravity="start|center"
                     android:contentDescription="@string/cd_device_disconnected" />
+
                 <ImageView
-                    android:layout_width="26dp"
+                    android:layout_width="40dp"
                     android:layout_height="30dp"
                     android:id="@+id/iv_device_connected"
+
                     android:onClick="addPheezeeDevice"
                     android:src="@drawable/ic_device_connected"
                     android:visibility="gone"
-                    android:layout_gravity="center"
+                    android:layout_gravity="start|center"
                     android:contentDescription="@string/cd_device_connected" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    android:layout_height="wrap_content"
+                    android:text="+ Add"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:layout_gravity="end|center"
+                    ></TextView>
+            </LinearLayout>
             </FrameLayout>
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>

@@ -80,9 +80,11 @@ import com.startoonlabs.apps.pheezee.classes.MyBottomSheetDialog;
 import com.startoonlabs.apps.pheezee.pojos.DeletePatientData;
 import com.startoonlabs.apps.pheezee.pojos.PatientDetailsData;
 import com.startoonlabs.apps.pheezee.pojos.PatientStatusData;
+import com.startoonlabs.apps.pheezee.popup.AddDevicePopupWindow;
 import com.startoonlabs.apps.pheezee.popup.AddPatientPopUpWindow;
 import com.startoonlabs.apps.pheezee.popup.EditPopUpWindow;
 import com.startoonlabs.apps.pheezee.popup.UploadImageDialog;
+import com.startoonlabs.apps.pheezee.popup.ViewExercisePopupWindow;
 import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
 import com.startoonlabs.apps.pheezee.room.Entity.PhizioPatients;
 import com.startoonlabs.apps.pheezee.services.DeviceDeactivationStatusService;
@@ -184,9 +186,10 @@ public class PatientsView extends AppCompatActivity
     public static int phizio_packagetype=0;
     ConstraintLayout cl_phizioProfileNavigation;
     TextView tv_connect_to_pheezee;
+    boolean connected_state;
 
     //bluetooth and device connection state
-    ImageView iv_bluetooth_connected, iv_bluetooth_disconnected, iv_device_connected, iv_device_disconnected, iv_sync_data,  iv_sync_not_available;
+    ImageView iv_bluetooth_connected, iv_bluetooth_disconnected, iv_device_connected, iv_device_disconnected,iv_device, iv_sync_data,  iv_sync_not_available;
     LinearLayout ll_device_and_bluetooth;
     AlertDialog mDialog, mDeactivatedDialog;
     Dialog dialog;
@@ -211,6 +214,19 @@ public class PatientsView extends AppCompatActivity
         registerFirmwareUpdateReceiver();
         subscribeFirebaseFirmwareUpdateTopic();
         checkAndSyncDataToTheServer();
+        deviceMacc = sharedPref.getString("deviceMacaddress", "");
+
+        iv_device_connected.setVisibility(View.GONE);
+
+        if(deviceMacc=="") {
+            iv_device_disconnected.setVisibility(View.GONE);
+            iv_device.setVisibility(View.VISIBLE);
+
+        }else {
+
+            iv_device_disconnected.setVisibility(View.VISIBLE);
+            iv_device.setVisibility(View.GONE);
+        }
     }
 
     private void checkAndSyncDataToTheServer() {
@@ -607,6 +623,7 @@ public class PatientsView extends AppCompatActivity
             mService.gerDeviceBasicInfo();
         }
         registerFirmwareUpdateReceiver();
+
     }
 
     @Override
@@ -760,27 +777,30 @@ public class PatientsView extends AppCompatActivity
 
 
     public void addPheezeeDevice(View view){
-        if(deviceMacc.equalsIgnoreCase("")) {
+//        if(deviceMacc.equalsIgnoreCase("")) {
             if(hasPermissions() && checkLocationEnabled()) {
-                builder = new AlertDialog.Builder(PatientsView.this);
-                builder.setTitle("Add Pheezee Device!");
-                builder.setItems(peezee_items, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int item) {
-                        if (peezee_items[item].equals("Scan for nearby Pheezee devices")) {
-                            to_scan_devices_activity = new Intent(PatientsView.this, ScanDevicesActivity.class);
-                            startActivityForResult(to_scan_devices_activity, 12);
-                        } else if (peezee_items[item].equals("Qrcode Scan")) {
-                            startActivityForResult(new Intent(PatientsView.this, Scanner.class), 12);
-                        } else {
-                            dialog.dismiss();
-                        }
-                    }
-                });
-                builder.show();
-            }
-        }else {
-            showForgetDeviceDialog();
+//                builder = new AlertDialog.Builder(PatientsView.this);
+//                builder.setTitle("Add Pheezee Device!");
+//                builder.setItems(peezee_items, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int item) {
+//                        if (peezee_items[item].equals("Scan for nearby Pheezee devices")) {
+//                            to_scan_devices_activity = new Intent(PatientsView.this, ScanDevicesActivity.class);
+//                            startActivityForResult(to_scan_devices_activity, 12);
+//                        } else if (peezee_items[item].equals("Qrcode Scan")) {
+//                            startActivityForResult(new Intent(PatientsView.this, Scanner.class), 12);
+//                        } else {
+//                            dialog.dismiss();
+//                        }
+//                    }
+//                });
+//                builder.show();
+                deviceMacc = sharedPref.getString("deviceMacaddress", "");
+                AddDevicePopupWindow feedback = new AddDevicePopupWindow(PatientsView.this,deviceMacc,connected_state,"Pheezee",sharedPref,mService);
+                feedback.showWindow();
+//            }
+//        }else {
+//            showForgetDeviceDialog();
         }
     }
 
@@ -823,6 +843,9 @@ public class PatientsView extends AppCompatActivity
                     mService.forgetPheezee();
                     mService.disconnectDevice();
                 }
+                iv_device_connected.setVisibility(View.GONE);
+                iv_device_disconnected.setVisibility(View.GONE);
+                iv_device.setVisibility(View.VISIBLE);
                 enableScanningTheDevices();
                 dialog.dismiss();
 
@@ -874,7 +897,9 @@ public class PatientsView extends AppCompatActivity
      * Called when device connects to update the view
      */
     private void pheezeeConnected() {
+        connected_state = true;
         iv_device_disconnected.setVisibility(View.GONE);
+        iv_device.setVisibility(View.GONE);
         iv_device_connected.setVisibility(View.VISIBLE);
         ll_add_device.setVisibility(View.GONE);
         ll_device_and_bluetooth.setVisibility(View.GONE);
@@ -888,8 +913,20 @@ public class PatientsView extends AppCompatActivity
      * called when device disconnected to update the view
      */
     private void pheezeeDisconnected() {
+        connected_state = false;
+        deviceMacc = sharedPref.getString("deviceMacaddress", "");
+
         iv_device_connected.setVisibility(View.GONE);
-        iv_device_disconnected.setVisibility(View.VISIBLE);
+
+        if(deviceMacc=="") {
+            iv_device_disconnected.setVisibility(View.GONE);
+            iv_device.setVisibility(View.VISIBLE);
+
+        }else {
+
+            iv_device_disconnected.setVisibility(View.VISIBLE);
+            iv_device.setVisibility(View.GONE);
+        }
         ll_add_device.setVisibility(View.VISIBLE);
         if(iv_bluetooth_connected.getVisibility()==View.VISIBLE)
             ll_device_and_bluetooth.setBackgroundResource(R.drawable.drawable_background_turn_on_device);
@@ -1813,6 +1850,7 @@ public class PatientsView extends AppCompatActivity
         iv_bluetooth_disconnected = findViewById(R.id.iv_bluetooth_disconnected);
         iv_device_connected = findViewById(R.id.iv_device_connected);
         iv_device_disconnected = findViewById(R.id.iv_device_disconnected);
+        iv_device = findViewById(R.id.iv_device);
         ll_add_bluetooth = findViewById(R.id.ll_add_bluetooth);
         ll_add_device = findViewById(R.id.ll_add_device);
         tv_battery_percentage = findViewById(R.id.tv_battery_percent);

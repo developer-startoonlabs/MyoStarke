@@ -1040,7 +1040,7 @@ public class PheezeeBleService extends Service {
                 isConnectCommandGiven=false;mDeviceHealthError = false;mMagnetometerPresent = false;
                 mHealthErrorString = "";
                 mUsbState = false;
-                mDeviceState = false;mFirmwareVersion="Null"; mSerialId="NULL";mBatteryPercent = 0;mManufacturerName="Null";mHardwareVersion="Null";
+                mDeviceState = false;mFirmwareVersion="Null"; mSerialId="Null";mBatteryPercent = 0;mManufacturerName="Null";mHardwareVersion="Null";
                 mAtinyVersion = "Null";
                 mDeviceStatus=0;
                 if(bluetoothGatt!=null) {

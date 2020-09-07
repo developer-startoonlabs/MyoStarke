@@ -197,15 +197,9 @@ public class ViewExercisePopupWindow {
     public void showWindow(){
         Configuration config = ((Activity)context).getResources().getConfiguration();
         final View layout;
-        if (config.smallestScreenWidthDp >= 600)
-        {
-            layout = ((Activity)context).getLayoutInflater().inflate(R.layout.session_summary_large, null);
-        }
-        else
-        {
-            layout = ((Activity)context).getLayoutInflater().inflate(R.layout.view_exercise_popup, null);
-        }
 
+            layout = ((Activity)context).getLayoutInflater().inflate(R.layout.view_exercise_popup, null);
+     
 
         mSessionListResults = new ArrayList<SessionListClass>();
 

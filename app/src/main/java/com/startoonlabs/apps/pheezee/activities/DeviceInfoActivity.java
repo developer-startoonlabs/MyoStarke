@@ -1,6 +1,7 @@
 package com.startoonlabs.apps.pheezee.activities;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.app.NotificationManager;
 import android.app.ProgressDialog;
@@ -57,6 +58,7 @@ import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.dfu.DfuService;
 import com.startoonlabs.apps.pheezee.dfu.fragment.UploadCancelFragment;
 import com.startoonlabs.apps.pheezee.pojos.DeviceDeactivationStatus;
+import com.startoonlabs.apps.pheezee.popup.AddDevicePopupWindow;
 import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
 import com.startoonlabs.apps.pheezee.services.PheezeeBleService;
 import com.startoonlabs.apps.pheezee.services.Scanner;
@@ -124,9 +126,9 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
     SharedPreferences.Editor editor;
     //Declaring all the view items
     TextView tv_device_name,tv_device_mamc, tv_firmware_version, tv_serial_id, tv_hardware_version,
-            tv_battery_level,tv_connection_status, tv_disconnect_forget, mTextUploading, mTextPercentage, tv_update_firmware,
+            tv_battery_level,tv_connection_status, tv_disconnect_forget, mTextUploading, mTextPercentage, tv_update_firmware,tv_deviceinfo_device_connected,tv_deviceinfo_device_disconnected,
             tv_reactivate_device, tv_calibrate_device, tv_status_calibrate;
-    ImageView iv_back_device_info;
+    ImageView iv_back_device_info,my_device_image;
     private ProgressBar mProgressBar;
     LinearLayout ll_dfu;
     DfuController controller;
@@ -148,10 +150,13 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
         tv_device_mamc = findViewById(R.id.tv_deviceinfo_device_mac);
         tv_battery_level = findViewById(R.id.tv_deviceinfo_device_battery);
         tv_connection_status = findViewById(R.id.tv_deviceinfo_device_connection_status);
+        tv_deviceinfo_device_connected = findViewById(R.id.tv_deviceinfo_device_connected);
+        tv_deviceinfo_device_disconnected = findViewById(R.id.tv_deviceinfo_device_disconnected);
         tv_serial_id = findViewById(R.id.tv_deviceinfo_device_serial);
         tv_hardware_version = findViewById(R.id.tv_hardware_version);
         tv_firmware_version = findViewById(R.id.tv_deviceinfo_device_firmware);
         iv_back_device_info = findViewById(R.id.iv_back_device_info);
+        my_device_image = findViewById(R.id.my_device_image);
         mProgressBar = findViewById(R.id.progressbar_file);
         mTextUploading = findViewById(R.id.textviewUploading);
         mTextPercentage = findViewById(R.id.textviewProgress);
@@ -186,6 +191,9 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
 
 
         tv_connection_status.setText("N/C");
+        if(deviceMacc.equals("")) {
+            my_device_image.setImageResource(R.drawable.my_device_pheezee);
+        }else my_device_image.setImageResource(R.drawable.my_device_image_disconnected);
 
         //checking bluetooth switched on and connecting gatt functions
         mBluetoothManager = (BluetoothManager)getSystemService(BLUETOOTH_SERVICE);
@@ -209,7 +217,19 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
             deviceMacc = tv_device_mamc.getText().toString();
         }
 
+        tv_deviceinfo_device_connected.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addPheezeeDevice(v);
+            }
+        });
 
+        tv_deviceinfo_device_disconnected.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addPheezeeDevice(v);
+            }
+        });
         tv_disconnect_forget.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -392,11 +412,11 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
     public void addPheezeeDevice(View view){
         if(deviceMacc.equalsIgnoreCase("")) {
             if(hasPermissions() && checkLocationEnabled()) {
-                to_scan_devices_activity = new Intent(DeviceInfoActivity.this, ScanDevicesActivity.class);
-                startActivityForResult(to_scan_devices_activity, 12);
+                AddDevicePopupWindow feedback = new AddDevicePopupWindow(DeviceInfoActivity.this,deviceMacc,false,"Pheezee",preferences,mService);
+                feedback.showWindow();
             }
         }else {
-            showForgetDeviceDialog();
+            showForgetDeviceDialog_common();
         }
     }
 
@@ -504,6 +524,72 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
 
 
     }
+
+
+    public void showForgetDeviceDialog_common(){
+
+        // Custom notification added by Haaris
+        // custom dialog
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.notification_dialog_box);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        dialog.getWindow().setAttributes(lp);
+
+        TextView notification_title = dialog.findViewById(R.id.notification_box_title);
+        TextView notification_message = dialog.findViewById(R.id.notification_box_message);
+
+        Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);
+        Button Notification_Button_cancel = (Button) dialog.findViewById(R.id.notification_ButtonCancel);
+
+        Notification_Button_ok.setText("Yes");
+        Notification_Button_cancel.setText("No");
+
+        // Setting up the notification dialog
+        notification_title.setText("Forget Device");
+        notification_message.setText("Are you sure you want to forget the current device?");
+
+        // On click on Continue
+        Notification_Button_ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editor = preferences.edit();
+                editor.putString("deviceMacaddress","");
+                editor.apply();
+                if(mService!=null){
+                    mService.forgetPheezee();
+                    mService.disconnectDevice();
+                }
+
+                enableScanningTheDevices();
+                dialog.dismiss();
+                deviceMacc="";
+                refreshView();
+                AddDevicePopupWindow feedback = new AddDevicePopupWindow(DeviceInfoActivity.this,deviceMacc,false,"Pheezee",preferences,mService);
+                feedback.showWindow();
+
+            }
+        });
+        // On click Cancel
+        Notification_Button_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+
+            }
+        });
+
+        dialog.show();
+
+        // End
+
+
+    }
+
 
 
     private void calibrateDeviceDialog(){
@@ -809,6 +895,9 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
         tv_serial_id.setText(R.string.device_null);
         tv_battery_level.setText(R.string.device_null);
         tv_connection_status.setText(R.string.device_not_connected);
+        if(deviceMacc.equals("")) {
+            my_device_image.setImageResource(R.drawable.my_device_pheezee);
+        }else my_device_image.setImageResource(R.drawable.my_device_image_disconnected);
 //        tv_disconnect_forget.setText("");
         tv_hardware_version.setText(R.string.device_null);
     }
@@ -816,6 +905,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
 
 
     BroadcastReceiver device_info_receiver = new BroadcastReceiver() {
+        @SuppressLint("ResourceAsColor")
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
@@ -824,6 +914,9 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
                 boolean device_status = intent.getBooleanExtra(device_state,false);
                 if(device_status){
                     tv_connection_status.setText("Connected");
+                    my_device_image.setImageResource(R.drawable.my_device_image_connected);
+                    tv_deviceinfo_device_connected.setVisibility(View.GONE);
+                    tv_deviceinfo_device_disconnected.setVisibility(View.VISIBLE);
                     mDeviceState = true;
                 }else {
                     tv_calibrate_device.setVisibility(View.GONE);
@@ -833,6 +926,11 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
                     }
                     tv_update_firmware.setVisibility(View.GONE);
                     tv_connection_status.setText("Not Connected");
+                    tv_deviceinfo_device_connected.setVisibility(View.VISIBLE);
+                    tv_deviceinfo_device_disconnected.setVisibility(View.GONE);
+                    if(deviceMacc.equals("")) {
+                        my_device_image.setImageResource(R.drawable.my_device_pheezee);
+                    }else my_device_image.setImageResource(R.drawable.my_device_image_disconnected);
                     mDeviceState = false;
                 }
             }else if(action.equalsIgnoreCase(bluetooth_state)){
@@ -856,6 +954,9 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
                         }
                     }
                     tv_connection_status.setText("Not Connected");
+                    if(deviceMacc.equals("")) {
+                        my_device_image.setImageResource(R.drawable.my_device_pheezee);
+                    }else my_device_image.setImageResource(R.drawable.my_device_image_disconnected);
                 }
             }else if(action.equalsIgnoreCase(usb_state)){
                 boolean usb_status = intent.getBooleanExtra(usb_state,false);
@@ -884,7 +985,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
                 tv_firmware_version.setText(firmwareVersion.concat(";").concat(atiny_version));
             }else if(action.equalsIgnoreCase(serial_id)){
                 String serial = intent.getStringExtra(serial_id);
-                tv_serial_id.setText(serial);
+                tv_serial_id.setText("Serial ID : "+serial);
             }else if(action.equalsIgnoreCase(manufacturer_name)){
                 String manufacturer = intent.getStringExtra(manufacturer_name);
                 tv_device_name.setText(manufacturer);
