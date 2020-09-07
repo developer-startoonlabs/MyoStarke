@@ -1,5 +1,7 @@
 package com.startoonlabs.apps.pheezee.popup;
 
+
+import androidx.appcompat.app.AlertDialog;
 import com.startoonlabs.apps.pheezee.activities.PatientsView;
 import com.startoonlabs.apps.pheezee.activities.SessionReportActivity;
 import com.startoonlabs.apps.pheezee.adapters.DeviceListArrayAdapter;
@@ -302,6 +304,13 @@ public class ViewExercisePopupWindow {
         report.setOutsideTouchable(true);
         report.showAtLocation(layout, Gravity.CENTER, 0, 0);
 
+        if(NetworkOperations.isNetworkAvailable(context)){
+        }
+        else {
+            progress.dismiss();
+            networkError_popup(context,report);
+        }
+
 
         TextView tv_delete_pateint_session = layout.findViewById(R.id.summary_tv_delete_session);
         TextView tv_back_session = layout.findViewById(R.id.tv_back_session);
@@ -405,7 +414,7 @@ public class ViewExercisePopupWindow {
                     report.dismiss();
                 }
                 else {
-                    NetworkOperations.networkError(context);
+                    networkError_popup(context,report);
                 }
 
             }
@@ -655,6 +664,19 @@ public class ViewExercisePopupWindow {
         }
     };
 
+    public static void networkError_popup(Context context, PopupWindow report){
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Network Error");
+        builder.setMessage("Please connect to internet and try again");
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                report.dismiss();
+                ((Activity)context).finish();
+            }
+        });
+        builder.show();
+    }
 
 
     public void setOnSessionDataResponse(MqttSyncRepository.OnSessionDataResponse response){
