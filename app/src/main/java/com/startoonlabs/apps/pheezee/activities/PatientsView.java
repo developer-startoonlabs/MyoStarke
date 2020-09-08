@@ -175,7 +175,7 @@ public class PatientsView extends AppCompatActivity
     LinearLayout patientTabLayout;
     ImageView iv_addPatient;
     private String deviceMacc = "";
-    LinearLayout ll_add_bluetooth, ll_add_device;
+    LinearLayout  add_device_bar;
     RelativeLayout rl_cap_view;
     RelativeLayout rl_battery_usb_state;
     RecyclerView mRecyclerView;
@@ -187,6 +187,8 @@ public class PatientsView extends AppCompatActivity
     ConstraintLayout cl_phizioProfileNavigation;
     TextView tv_connect_to_pheezee;
     boolean connected_state;
+    boolean ble_status_global;
+    AddDevicePopupWindow feedback=null;
 
     //bluetooth and device connection state
     ImageView iv_bluetooth_connected, iv_bluetooth_disconnected, iv_device_connected, iv_device_disconnected,iv_device, iv_sync_data,  iv_sync_not_available;
@@ -520,19 +522,13 @@ public class PatientsView extends AppCompatActivity
 
 
         //Add device and bluetooth turn on click events
-        ll_add_device.setOnClickListener(new View.OnClickListener() {
+        add_device_bar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addPheezeeDevice(v);
+                     addPheezeeDevice(v);
             }
         });
 
-        ll_add_bluetooth.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startBluetoothRequest();
-            }
-        });
 
         iv_addPatient.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -728,8 +724,6 @@ public class PatientsView extends AppCompatActivity
     private void bluetoothDisconnected() {
         iv_bluetooth_disconnected.setVisibility(View.VISIBLE);
         iv_bluetooth_connected.setVisibility(View.GONE);
-        ll_add_bluetooth.setVisibility(View.VISIBLE);
-        findViewById(R.id.ll_device_and_bluetooth).setVisibility(View.VISIBLE);
         findViewById(R.id.ll_device_and_bluetooth).setBackgroundResource(R.drawable.drawable_background_connect_to_pheezee);
     }
 
@@ -739,7 +733,6 @@ public class PatientsView extends AppCompatActivity
     private void bluetoothConnected() {
         iv_bluetooth_disconnected.setVisibility(View.GONE);
         iv_bluetooth_connected.setVisibility(View.VISIBLE);
-        ll_add_bluetooth.setVisibility(View.GONE);
         findViewById(R.id.ll_device_and_bluetooth).setBackgroundResource(R.drawable.drawable_background_turn_on_device);
     }
 
@@ -777,30 +770,23 @@ public class PatientsView extends AppCompatActivity
 
 
     public void addPheezeeDevice(View view){
-//        if(deviceMacc.equalsIgnoreCase("")) {
-            if(hasPermissions() && checkLocationEnabled()) {
-//                builder = new AlertDialog.Builder(PatientsView.this);
-//                builder.setTitle("Add Pheezee Device!");
-//                builder.setItems(peezee_items, new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int item) {
-//                        if (peezee_items[item].equals("Scan for nearby Pheezee devices")) {
-//                            to_scan_devices_activity = new Intent(PatientsView.this, ScanDevicesActivity.class);
-//                            startActivityForResult(to_scan_devices_activity, 12);
-//                        } else if (peezee_items[item].equals("Qrcode Scan")) {
-//                            startActivityForResult(new Intent(PatientsView.this, Scanner.class), 12);
-//                        } else {
-//                            dialog.dismiss();
-//                        }
-//                    }
-//                });
-//                builder.show();
+
+        if (!ble_status_global) {
+            startBluetoothRequest();
+
+        }
+
+        if (!hasLocationPermissions()) {
+            requestLocationPermission();
+
+        }
+
+            if(ble_status_global && hasLocationPermissions() && hasPermissions() && checkLocationEnabled()) {
+
                 deviceMacc = sharedPref.getString("deviceMacaddress", "");
-                AddDevicePopupWindow feedback = new AddDevicePopupWindow(PatientsView.this,deviceMacc,connected_state,"Pheezee",sharedPref,mService);
+                feedback = new AddDevicePopupWindow(PatientsView.this,deviceMacc,connected_state,"Pheezee",sharedPref,mService);
                 feedback.showWindow();
-//            }
-//        }else {
-//            showForgetDeviceDialog();
+
         }
     }
 
@@ -901,12 +887,17 @@ public class PatientsView extends AppCompatActivity
         iv_device_disconnected.setVisibility(View.GONE);
         iv_device.setVisibility(View.GONE);
         iv_device_connected.setVisibility(View.VISIBLE);
-        ll_add_device.setVisibility(View.GONE);
         ll_device_and_bluetooth.setVisibility(View.GONE);
         Drawable drawable = getResources().getDrawable(R.drawable.drawable_progress_battery);
         battery_bar.setProgressDrawable(drawable);
         @SuppressLint("ResourceAsColor") Drawable drawable_cap = new ColorDrawable(R.color.battery_gray);
         rl_cap_view.setBackground(drawable_cap);
+        if(feedback!=null && feedback.ispopupshowing())
+        {
+            feedback.UpdateWindow(PatientsView.this,deviceMacc,connected_state,"Pheezee",sharedPref,mService);
+            feedback.dissmiss_popup();
+            feedback.showWindow();
+        }
     }
 
     /**
@@ -927,17 +918,22 @@ public class PatientsView extends AppCompatActivity
             iv_device_disconnected.setVisibility(View.VISIBLE);
             iv_device.setVisibility(View.GONE);
         }
-        ll_add_device.setVisibility(View.VISIBLE);
         if(iv_bluetooth_connected.getVisibility()==View.VISIBLE)
             ll_device_and_bluetooth.setBackgroundResource(R.drawable.drawable_background_turn_on_device);
         else
             ll_device_and_bluetooth.setBackgroundResource(R.drawable.drawable_background_connect_to_pheezee);
-        ll_device_and_bluetooth.setVisibility(View.VISIBLE);
+
         Drawable drawable = getResources().getDrawable(R.drawable.drawable_progress_battery_disconnected);
         battery_bar.setProgressDrawable(drawable);
         @SuppressLint("ResourceAsColor") Drawable drawable_cap = new ColorDrawable(getResources().getColor(R.color.red));
         rl_cap_view.setBackground(drawable_cap);
         rl_battery_usb_state.setVisibility(View.GONE);
+        if(feedback!=null && feedback.ispopupshowing())
+        {
+            feedback.UpdateWindow(PatientsView.this,deviceMacc,connected_state,"Pheezee",sharedPref,mService);
+            feedback.dissmiss_popup();
+            feedback.showWindow();
+        }
     }
 
 
@@ -1649,12 +1645,15 @@ public class PatientsView extends AppCompatActivity
                 }
             }else if(action.equalsIgnoreCase(bluetooth_state)){
                 boolean ble_state = intent.getBooleanExtra(bluetooth_state,false);
+
                 if(ble_state){
                     bluetoothConnected();
+                    ble_status_global = true;
                 }else {
                     mDeviceHealthError = false;
                     mDeviceDeactivated = false;
                     mDeviceState = false;
+                    ble_status_global=false;
                     bluetoothDisconnected();
                 }
             }else if(action.equalsIgnoreCase(usb_state)){
@@ -1851,8 +1850,7 @@ public class PatientsView extends AppCompatActivity
         iv_device_connected = findViewById(R.id.iv_device_connected);
         iv_device_disconnected = findViewById(R.id.iv_device_disconnected);
         iv_device = findViewById(R.id.iv_device);
-        ll_add_bluetooth = findViewById(R.id.ll_add_bluetooth);
-        ll_add_device = findViewById(R.id.ll_add_device);
+        add_device_bar = findViewById(R.id.add_device_bar);
         tv_battery_percentage = findViewById(R.id.tv_battery_percent);
         battery_bar = findViewById(R.id.progress_battery_bar);
         tv_patient_view_add_patient = findViewById(R.id.tv_patient_view_add_patient);

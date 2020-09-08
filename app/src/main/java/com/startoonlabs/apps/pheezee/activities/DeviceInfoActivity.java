@@ -227,7 +227,20 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
         tv_deviceinfo_device_disconnected.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addPheezeeDevice(v);
+//                addPheezeeDevice(v);
+                editor = preferences.edit();
+                editor.putString("deviceMacaddress","");
+                editor.apply();
+                if(mService!=null){
+                    mService.forgetPheezee();
+                    mService.disconnectDevice();
+                }
+
+                enableScanningTheDevices();
+                deviceMacc="";
+                refreshView();
+                AddDevicePopupWindow feedback = new AddDevicePopupWindow(DeviceInfoActivity.this,deviceMacc,false,"Pheezee",preferences,mService);
+                feedback.showWindow();
             }
         });
         tv_disconnect_forget.setOnClickListener(new View.OnClickListener() {

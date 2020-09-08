@@ -4,81 +4,29 @@ import com.startoonlabs.apps.pheezee.services.Scanner;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.graphics.Color;
-import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.startoonlabs.apps.pheezee.R;
-import com.startoonlabs.apps.pheezee.activities.MonitorActivity;
-import com.startoonlabs.apps.pheezee.activities.PatientsView;
 import com.startoonlabs.apps.pheezee.activities.ScanDevicesActivity;
-import com.startoonlabs.apps.pheezee.activities.SessionReportActivity;
-import com.startoonlabs.apps.pheezee.adapters.SessionListArrayAdapter;
-import com.startoonlabs.apps.pheezee.classes.SessionListClass;
-import com.startoonlabs.apps.pheezee.pojos.DeleteSessionData;
-import com.startoonlabs.apps.pheezee.pojos.MmtData;
-import com.startoonlabs.apps.pheezee.pojos.PatientStatusData;
-import com.startoonlabs.apps.pheezee.pojos.ResponseData;
-import com.startoonlabs.apps.pheezee.pojos.SessionData;
-import com.startoonlabs.apps.pheezee.pojos.SessionDetailsResult;
-import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
-import com.startoonlabs.apps.pheezee.retrofit.GetDataService;
-import com.startoonlabs.apps.pheezee.retrofit.RetrofitClientInstance;
-import com.startoonlabs.apps.pheezee.room.Entity.MqttSync;
-import com.startoonlabs.apps.pheezee.room.PheezeeDatabase;
-import com.startoonlabs.apps.pheezee.utils.NetworkOperations;
-import com.startoonlabs.apps.pheezee.utils.ValueBasedColorOperations;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import static com.startoonlabs.apps.pheezee.activities.MonitorActivity.IS_SCEDULED_SESSION;
-import static com.startoonlabs.apps.pheezee.activities.MonitorActivity.IS_SCEDULED_SESSIONS_COMPLETED;
 
 public class AddDevicePopupWindow {
 
     private Context context;
-    private PopupWindow add_device_popup;
+    private PopupWindow add_device_popup=null;
     Intent to_scan_devices_activity;
     TextView tv_cancel;
     LinearLayout my_device_image_layout;
@@ -88,10 +36,22 @@ public class AddDevicePopupWindow {
     SharedPreferences.Editor editor;
     PheezeeBleService mService;
     ImageView iv_device_connected,iv_device_disconnected,iv_device;
+    public static boolean popup_state=false;
 
 
 
     public AddDevicePopupWindow(Context context, String macc_address, boolean connected_state, String device_name,SharedPreferences sharedPref, PheezeeBleService mService){
+        this.context = context;
+        this.macc_address = macc_address;
+        this.connected_state = connected_state;
+        this.device_name = device_name;
+        this.sharedPref = sharedPref;
+        this.mService = mService;
+
+
+    }
+
+    public void UpdateWindow(Context context, String macc_address, boolean connected_state, String device_name, SharedPreferences sharedPref, PheezeeBleService mService){
         this.context = context;
         this.macc_address = macc_address;
         this.connected_state = connected_state;
@@ -298,6 +258,20 @@ public class AddDevicePopupWindow {
         // End
 
 
+    }
+
+    public boolean ispopupshowing()
+    {
+        if(add_device_popup!=null) {
+            return add_device_popup.isShowing();
+        }else return false;
+    }
+
+    public void dissmiss_popup()
+    {
+        if(add_device_popup!=null) {
+            add_device_popup.dismiss();
+        }
     }
 
 

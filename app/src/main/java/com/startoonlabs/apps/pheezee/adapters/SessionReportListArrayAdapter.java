@@ -126,14 +126,15 @@ public class SessionReportListArrayAdapter extends ArrayAdapter<SessionListClass
 
         // Downloaded date - Using muscle name data as a substitute
         if(mSessionArrayList.get(position).getMuscle_name() != null) {
-            tv_download_date.setText("Last Viewed on "+mSessionArrayList.get(position).getMuscle_name());
-            tv_download_date.setTextColor(context.getResources().getColor(R.color.good_green));
+            tv_download_date.setText("Downloaded on "+mSessionArrayList.get(position).getMuscle_name());
+            tv_download_date.setTextColor(context.getResources().getColor(R.color.background_green));
         }else
         {
             tv_download_date.setText("View report by downloading");
-            tv_download_date.setTextColor(context.getResources().getColor(R.color.good_green));
+            tv_download_date.setTextColor(context.getResources().getColor(R.color.red));
 
         }
+
         view_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

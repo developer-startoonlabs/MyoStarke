@@ -11,7 +11,6 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_weight="0.22"
         android:layout_height="wrap_content"
         android:background="@color/white">
         <RelativeLayout
@@ -28,7 +27,6 @@
                 android:layout_centerVertical="true"
 
                 android:layout_marginTop="8sp"
-                android:layout_marginStart="8sp"
                 android:layout_marginBottom="8sp"
                 android:orientation="horizontal"
                 android:layout_height="match_parent">
@@ -44,7 +42,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="0sp"
                 android:layout_alignTop="@+id/image_exercise_layout"
                 android:layout_toEndOf="@+id/image_exercise_layout"
                 android:orientation="vertical">

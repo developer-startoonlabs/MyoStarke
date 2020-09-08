@@ -49,9 +49,9 @@
         android:background="@color/good_green"
         android:layout_height="wrap_content">
         <androidx.constraintlayout.widget.ConstraintLayout
-
+            android:id="@+id/layout_header"
             android:layout_width="match_parent"
-            android:padding="20dp"
+            android:layout_margin="20dp"
             android:focusableInTouchMode="true"
             android:layout_height="wrap_content">
 
@@ -170,8 +170,31 @@
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
 
+    </ScrollView>
+    <LinearLayout
+        android:id="@+id/ll_session_duration"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="15sp"
+        android:gravity="center">
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Session Duration: "
+            android:textColor="@color/good_green"
+            android:textSize="14sp"></TextView>
+        <TextView
+            android:id="@+id/tv_session_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/pitch_black"
+            android:textSize="14sp"
+            android:text="10 May - 28 June "></TextView>
+    </LinearLayout>
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

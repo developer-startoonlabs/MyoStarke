@@ -12,6 +12,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -66,6 +67,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import com.startoonlabs.apps.pheezee.retrofit.GetDataService;
 import com.startoonlabs.apps.pheezee.retrofit.RetrofitClientInstance;
+import com.startoonlabs.apps.pheezee.utils.DateOperations;
 
 public class SessionReportActivity extends AppCompatActivity implements MqttSyncRepository.OnReportDataResponseListner {
 
@@ -82,7 +84,8 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
     ArrayList<String> dates_sessions;
     Iterator iterator;
 
-    TextView tv_day, tv_week, tv_month, tv_overall_summary, tv_overall;
+    TextView tv_day, tv_week, tv_month, tv_overall_summary, tv_overall,tv_session_duration;
+    LinearLayout ll_session_duration;
     MqttSyncRepository repository;
     ImageView iv_go_back;
     ArrayList<SessionListClass> mSessionListResults,mOverallListResults;
@@ -135,9 +138,11 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
         tv_month = findViewById(R.id.tv_session_report_month);
         tv_week = findViewById(R.id.tv_session_report_week);
         tv_overall_summary = findViewById(R.id.tv_session_report_overall_report);
+        tv_session_duration = findViewById(R.id.tv_session_duration);
         tv_overall = findViewById(R.id.tv_session_report_overall);
         iv_go_back = findViewById(R.id.iv_back_session_report);
         lv_sessionlist =findViewById(R.id.report_listview);
+        ll_session_duration =findViewById(R.id.ll_session_duration);
         mSessionListResults = new ArrayList<SessionListClass>();
         mOverallListResults = new ArrayList<SessionListClass>();
 
@@ -175,6 +180,7 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
                 tv_day.setAlpha(1);
                 String htmlString="<b><u>Session</u></b>";
                 tv_day.setText(Html.fromHtml(htmlString));
+                ll_session_duration.setVisibility(View.GONE);
                 openDayFragment();
                 overall_selected=false;
 
@@ -211,6 +217,7 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
                 tv_overall.setAlpha(1);
                 String htmlString="<b><u>Overall</u></b>";
                 tv_overall.setText(Html.fromHtml(htmlString));
+                ll_session_duration.setVisibility(View.VISIBLE);
                 overall_selected = true;
                 openOverallFragment();
             }
@@ -299,6 +306,32 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
                     }
                 });
 
+                // Adding Session Duration
+                if(dates_sessions.size()>=1) {
+
+                    //Date
+                    String from_date = dates_sessions.get(0);
+                    from_date=from_date.replace("-","/");
+                    String[] from_date_split = from_date.split("/");
+                    from_date = from_date_split[2]+"/"+from_date_split[1]+"/"+from_date_split[0];
+                    from_date = DateOperations.getDateInMonthAndDate(from_date);
+                    String[] from_date_split_format = from_date.split(",");
+                    from_date = from_date_split_format[0];
+                    from_date = from_date + " " +from_date_split[0];
+                    //Date
+                    String to_date = dates_sessions.get(dates_sessions.size() - 1);
+                    to_date=to_date.replace("-","/");
+                    String[] to_date_split = to_date.split("/");
+                    to_date = to_date_split[2]+"/"+to_date_split[1]+"/"+to_date_split[0];
+                    to_date = DateOperations.getDateInMonthAndDate(to_date);
+                    String[] to_date_split_format = to_date.split(",");
+                    to_date = to_date_split_format[0];
+                    to_date = to_date +" "+ to_date_split[0];
+
+
+
+                    tv_session_duration.setText(from_date + " to " + to_date);
+                }
                 Collections.sort(dates_sessions,Collections.reverseOrder());
 
                 mSessionListResults.clear();
@@ -679,6 +712,7 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
                 tv_day.setAlpha(1);
                 String htmlString="<b><u>Session</u></b>";
                 tv_day.setText(Html.fromHtml(htmlString));
+                ll_session_duration.setVisibility(View.GONE);
                 openDayFragment();
             }else
             {
@@ -686,6 +720,7 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
                 tv_overall.setAlpha(1);
                 String htmlString="<b><u>Overall</u></b>";
                 tv_overall.setText(Html.fromHtml(htmlString));
+                ll_session_duration.setVisibility(View.VISIBLE);
                 openOverallFragment();
             }
         }
