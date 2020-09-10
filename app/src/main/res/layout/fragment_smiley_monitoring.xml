@@ -6,299 +6,619 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="10dp"
+    android:layout_marginEnd="5dp"
+    android:layout_marginStart="5dp"
     android:orientation="vertical"
-    android:paddingStart="5dp"
-    android:paddingEnd="5dp"
+    android:background="@color/ic_add_patient_grey_background"
     tools:context=".activities.MonitorActivity">
 
 
-    <LinearLayout
-        android:id="@+id/pIdAndPName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintHorizontal_bias="0.0"
-        tools:ignore="MissingConstraints">
-
-        <LinearLayout
-            android:id="@+id/patientNameContainter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:gravity="left">
-
-            <TextView
-                android:id="@+id/patientNameText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/ebrima"
-                android:text="Name: "
-                android:textColor="@color/pitch_black"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/patientName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/ebrima"
-                android:text="Mythreyi Kondapi"
-                android:textSize="16sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/patientIdContainter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:gravity="right">
-
-            <TextView
-                android:id="@+id/patientIdText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/ebrima"
-                android:text="Id: "
-                android:textColor="@color/pitch_black"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/patientId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/ebrima"
-                android:text="1234"
-                android:textSize="16sp" />
-        </LinearLayout>
-
-
-    </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/angleContainter"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:gravity="center_horizontal"
+        android:layout_height="match_parent"
+        android:id="@+id/main_container"
         android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pIdAndPName">
+        android:layout_margin="2dp"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:layout_weight="1.2"
+            android:orientation="vertical"
+            android:id="@+id/part1">
 
             <LinearLayout
-                android:id="@+id/sessionNoContainer"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.4"
-                android:gravity="left"
-                android:orientation="horizontal"
-                android:paddingEnd="10dp">
-
-                <TextView
-                    android:id="@+id/sessionNoText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/ebrima"
-                    android:text="Session No: "
-                    android:textColor="@color/pitch_black"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/tv_session_no"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/ebrima"
-                    android:text="0"
-                    android:textSize="16sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/bodyPartContainer"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.6"
+                android:visibility="gone"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/bodyPart"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:id="@+id/sessionNoContainer"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/ebrima"
-                    android:gravity="right"
-                    android:text="Body Part: "
-                    android:textColor="@color/pitch_black"
-                    android:textSize="14sp" />
+                    android:layout_weight="0.4"
+                    android:gravity="left"
+                    android:orientation="horizontal"
+                    android:paddingEnd="10dp">
+
+                    <TextView
+                        android:id="@+id/sessionNoText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/ebrima"
+                        android:text="Session No: "
+                        android:textColor="@color/pitch_black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tv_session_no"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/ebrima"
+                        android:text="0"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/bodyPartContainer"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.6"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/bodyPart"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/ebrima"
+                        android:gravity="right"
+                        android:text="Body Part: "
+                        android:textColor="@color/pitch_black"
+                        android:textSize="14sp" />
+                </LinearLayout>
             </LinearLayout>
+
+
+
+            <LinearLayout
+                android:id="@+id/pIdAndPName"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintHorizontal_bias="0.0"
+                tools:ignore="MissingConstraints">
+
+                <LinearLayout
+                    android:id="@+id/patientNameContainter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:gravity="left">
+
+                    <TextView
+                        android:id="@+id/patientNameText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/ebrima"
+                        android:text="Name: "
+                        android:textColor="@color/pitch_black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/patientName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/ebrima"
+                        android:text="Mythreyi Kondapi"
+                        android:textColor="@color/pitch_black"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/patientIdContainter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:gravity="right">
+
+                    <TextView
+                        android:id="@+id/patientIdText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/ebrima"
+                        android:text="Id: "
+                        android:textColor="@color/pitch_black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/patientId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/ebrima"
+                        android:text="1234"
+                        android:textColor="@color/pitch_black"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/monitor_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:orientation="horizontal"
+                app:layout_constraintHorizontal_bias="0.0"
+                android:background="@drawable/round_corner_layout"
+                tools:ignore="MissingConstraints"
+                android:gravity="right">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    >
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_height="wrap_content"
+                        android:padding="6dp"
+                        android:layout_marginStart="20dp"
+                        android:background="@drawable/recording_border"
+                        >
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:id="@+id/recording_icon"
+                            android:src="@drawable/bg_circle_red"></ImageView>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:id="@+id/recording_text"
+                            android:layout_marginTop="5dp"
+                            android:textSize="14sp"
+                            android:textColor="@color/good_green"
+                            android:paddingStart="5dp"
+                            android:text=""></TextView>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+
+                <TextView
+                    android:id="@+id/displayTime"
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:fontFamily="@font/ebrima"
+                    android:text="00:00"
+                    android:textColor="@color/good_green"
+                    android:layout_marginEnd="20dp"
+
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/angleContainter"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="5sp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/monitor_title"
+                app:layout_constraintVertical_bias="0.09"
+                android:background="@drawable/round_corner_layout">
+
+                <FrameLayout
+                    android:id="@+id/vertical_star_view_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintBottom_toTopOf="@+id/guideline7"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="50sp"
+                    android:layout_marginBottom="50sp">
+                    <com.startoonlabs.apps.smileyprogressbar.SmileyArcView
+                        android:id="@+id/smileyArcView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp"
+                        app:layout_constraintBottom_toTopOf="@+id/guideline7"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/angleContainter" />
+                </FrameLayout>
+
+
+
+
+
+
+
+
+
+
+            </LinearLayout>
+
+
+
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/displayTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginVertical="5dp"
-            android:fontFamily="@font/ebrima"
-            android:text="EMG"
-            android:textColor="@color/pitch_black"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.49" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5"
+            android:orientation="vertical"
+            android:id="@+id/part2">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.25"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/emg_container"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/round_corner_layout"
+                    android:orientation="vertical"
+                    app:layout_constraintTop_toBottomOf="@+id/angleContainter">
+
+                    <RelativeLayout
+                        android:id="@+id/emg_title_layout"
+                        android:visibility="gone"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.7"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/EMG_title"
+                            android:layout_width="match_parent"
+                            android:layout_marginTop="5dp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/ebrima"
+                            android:gravity="center"
+                            android:text="Electromyogram (EMG)"
+                            android:textColor="@color/good_green"
+                            android:textSize="16sp"/>
+
+                        <TextView
+                            android:id="@+id/monitor_muscle_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/EMG_title"
+
+                            android:fontFamily="@font/ebrima"
+                            android:gravity="center"
+                            android:text="Body Part: "
+                            android:textColor="@color/good_green2"
+                            android:textSize="14sp" />
+
+                        <LinearLayout
+                            android:id="@+id/increase_decrease_button"
+                            android:layout_width="24dp"
+                            android:layout_height="45dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:background="@drawable/round_cancel_buttons_less_stroke_width"
+                            android:orientation="vertical"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0">
+
+
+                            <TextView
+                                android:id="@+id/btn_emg_increase_gain"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="0dp"
+                                android:buttonStyle="@style/PrimaryColoredButton"
+                                android:text="+"
+                                android:textAlignment="center"
+                                android:textColor="@color/pitch_black"
+                                android:textSize="15sp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toEndOf="@+id/btn_emg_decrease_gain"
+                                app:layout_constraintTop_toTopOf="parent" />
+                            <TextView
+                                android:id="@+id/btn_emg_decrease_gain"
+                                android:layout_width="match_parent"
+                                android:layout_height="20dp"
+                                android:buttonStyle="@style/PrimaryColoredButton"
+                                android:maxHeight="0dp"
+                                android:minHeight="0dp"
+                                android:text="-"
+                                android:textAlignment="center"
+                                android:textColor="@color/pitch_black"
+                                android:textSize="15sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="gone"
+                        android:layout_weight="0.8"
+                        android:orientation="horizontal">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="6">
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.9"
+
+                            android:gravity="right"
+
+
+                            android:paddingTop="0dp"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:id="@+id/textMaxemg"
+                                android:layout_gravity="bottom"
+                                android:paddingTop="2dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="8dp"
+                                android:fontFamily="@font/ebrima"
+                                android:text="Max Emg"
+                                android:textColor="@color/pitch_black"
+                                android:textSize="14sp"/>
+
+                            <TextView
+                                android:id="@+id/tv_max_emg_show"
+
+                                android:layout_gravity="bottom"
+                                android:layout_width="70dp"
+                                android:layout_height="26sp"
+                                android:textAlignment="center"
+                                android:background="@drawable/round_cancel_buttons_less_stroke_black_width"
+                                android:layout_marginEnd="20dp"
+
+                                android:paddingTop="2dp"
+                                android:layout_marginStart="10dp"
+                                android:text="0"
+                                android:textColor="@color/pitch_black"
+                                android:textSize="14sp"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10sp"
+                        android:layout_weight="0.3"
+                        android:orientation="horizontal">
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:id="@+id/emg_bar"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="5dp"
+                            android:layout_weight="0.741"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/emgValue"
+
+                                android:layout_gravity="bottom"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/ebrima"
+                                android:text="00"
+                                android:paddingTop="2dp"
+                                android:textAlignment="center"
+                                android:textColor="@color/pitch_black"
+                                android:textSize="13sp"
+
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <LinearLayout
+                                android:id="@+id/emgBarContainer"
+                                android:layout_marginStart="6sp"
+                                android:layout_marginEnd="6sp"
+                                android:layout_marginTop="4sp"
+                                android:layout_marginBottom="2sp"
+
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="0.2"
+                                android:background="@drawable/listitemlayout"
+                                android:gravity="bottom"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.0"
+                                app:layout_constraintHorizontal_weight="0.2"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent">
+
+                                <LinearLayout
+                                    android:id="@+id/emg"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="10dp"
+                                    android:background="@drawable/emg_background"
+                                    android:orientation="vertical">
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.1"
+                            android:orientation="vertical">
+
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+                                <com.github.mikephil.charting.charts.LineChart
+                                    android:id="@+id/chart"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"/>
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_weight="1.1">
+
+                <Button
+                    android:id="@+id/cancel"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_margin="1dp"
+                    android:background="@drawable/round_cancel_buttons_red"
+                    android:textAllCaps="false"
+                    android:text="Cancel"
+                    android:textColor="@color/pitch_black"
+                    android:textSize="18sp"
+                    android:theme="@style/AppTheme.customDesign.noActionBar"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/stopBtn"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/snackbar_action"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/emg_container"
+                    app:layout_constraintVertical_bias="1.0" />
+
+
+
+                <Button
+                    android:id="@+id/timer"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_margin="1dp"
+                    android:background="@drawable/rounded_start_button"
+                    android:textAllCaps="false"
+                    android:text="Start"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:theme="@style/AppTheme.customDesign.noActionBar"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="@+id/snackbar_action"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/stopBtn"
+                    app:layout_constraintTop_toBottomOf="@+id/emg_container"
+                    app:layout_constraintVertical_bias="1.0" />
+
+
+                <Button
+                    android:id="@+id/stopBtn"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_margin="1dp"
+                    android:background="@drawable/rounded_stop_button"
+                    android:textAllCaps="false"
+                    android:text="Stop"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:theme="@style/AppTheme.customDesign.noActionBar"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/timer"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/cancel"
+                    app:layout_constraintTop_toBottomOf="@+id/emg_container"
+                    app:layout_constraintVertical_bias="1.0" />
+
+
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
     </LinearLayout>
 
-
-    <!--    <TextView-->
-    <!--        android:id="@+id/textMaxemg"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginTop="8dp"-->
-    <!--        android:layout_marginEnd="8dp"-->
-    <!--        android:layout_marginBottom="8dp"-->
-    <!--        android:fontFamily="@font/ebrima"-->
-    <!--        android:text="Max Emg: "-->
-    <!--        android:textColor="@color/good_green"-->
-    <!--        android:textSize="12sp"-->
-    <!--        app:layout_constraintBottom_toTopOf="@+id/chart"-->
-    <!--        app:layout_constraintEnd_toStartOf="@+id/tv_max_emg_show"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/repsAndHoldTime" />-->
-
-    <com.startoonlabs.apps.smileyprogressbar.SmileyArcView
-        android:id="@+id/smileyArcView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline7"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/angleContainter" />
-
-    <TextView
-        android:id="@+id/textMaxemg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:fontFamily="@font/ebrima"
-        android:text="Max Emg: "
-        android:textColor="@color/good_green"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toStartOf="@+id/tv_max_emg_show"
-        app:layout_constraintTop_toBottomOf="@+id/smileyArcView" />
-
-    <TextView
-        android:id="@+id/tv_max_emg_show"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text="0"
-        android:textColor="@color/good_green"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/textMaxemg"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textMaxemg" />
-
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/chart"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="60dp"
-        app:layout_constraintBottom_toBottomOf="@+id/timer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_weight="0.8"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textMaxemg" />
-
-    <Button
-        android:id="@+id/stopBtn"
-        style="?android:attr/buttonBarButtonStyle"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="8dp"
-        android:layout_margin="1dp"
-        android:background="@drawable/rounded_stop_button"
-        android:textAllCaps="false"
-        android:text="Stop"
-        android:textColor="#FFFFFF"
-        android:textSize="18sp"
-        android:theme="@style/AppTheme.customDesign.noActionBar"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/timer"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/cancel"
-        app:layout_constraintTop_toBottomOf="@+id/chart"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <Button
-        android:id="@+id/timer"
-        style="?android:attr/buttonBarButtonStyle"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_margin="1dp"
-        android:background="@drawable/rounded_start_button"
-        android:textAllCaps="false"
-        android:text="Start"
-        android:textColor="#FFFFFF"
-        android:textSize="18sp"
-        android:theme="@style/AppTheme.customDesign.noActionBar"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@+id/snackbar_action"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/stopBtn" />
-
-    <Button
-        android:id="@+id/cancel"
-        style="?android:attr/buttonBarButtonStyle"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_margin="1dp"
-        android:background="@drawable/rounded_stop_button"
-        android:textAllCaps="false"
-        android:text="Cancel"
-        android:textColor="@color/pitch_black"
-        android:textSize="18sp"
-        android:theme="@style/AppTheme.customDesign.noActionBar"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/stopBtn"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/snackbar_action"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chart"
-        app:layout_constraintVertical_bias="1.0" />
-
-
-    <TextView
-        android:id="@+id/snackbar_action"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

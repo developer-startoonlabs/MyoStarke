@@ -797,7 +797,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
                             dfuStatusDialog("Pheezee Update Failed","Low battery identified.\n Please charge Pheezee and try again.");
                         } else {
                             String str = tv_update_firmware.getText().toString();
-                            if (str.equalsIgnoreCase("update")) {
+                            if (str.equalsIgnoreCase("Update available")) {
                                 if (mService != null) {
                                     mService.writeToDfuCharacteristic();
                                 }

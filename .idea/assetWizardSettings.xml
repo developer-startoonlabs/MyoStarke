@@ -152,8 +152,8 @@
                           <map>
                             <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="my_device_qr_code" />
-                            <entry key="sourceFile" value="C:\Users\STARTOONLABS\Desktop\DeviceConnectionScreens\Device 4 – 3\svg\qr-code.svg" />
+                            <entry key="outputName" value="ic_profile_clinic_logo" />
+                            <entry key="sourceFile" value="C:\Users\STARTOONLABS\Desktop\PhysioPRofile\SVG\Image 7.svg" />
                           </map>
                         </option>
                       </PersistentState>

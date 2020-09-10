@@ -133,6 +133,20 @@
                         android:textSize="14sp"
                         android:text="Hi there !"
                         android:textColor="@color/good_green"></TextView>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="14sp"
+                            android:textColor="@color/good_green"
+                            android:text="14%"></TextView>
+                    </LinearLayout>
+
                 </LinearLayout>
 
                 <LinearLayout

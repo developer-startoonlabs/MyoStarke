@@ -29,13 +29,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
@@ -115,7 +119,7 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
     private boolean sessionCompleted = false, can_beeep_max = true,can_beep_min = true;
     MqttSyncRepository repository;
     private String str_body_orientation="",json_phizioemail = "", patientid = "", bodyorientation = "", patientname = "";
-    TextView tv_session_no, tv_max_emg, tv_body_part, patientId, patientName;
+    TextView tv_session_no, tv_max_emg, tv_body_part, patientId, patientName,EMG,time,tv_recording;
     private int ui_rate = 0, gain_initial = 20, body_orientation = 0, angleCorrection = 0,
             currentAngle = 0, Seconds, Minutes, maxAngle, minAngle, maxEmgValue, orientation_position=0;
 
@@ -136,8 +140,10 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
     Date rawdata_timestamp;
     Long tsLong = 0L;
     AngleOperations angleOperations;
+    LinearLayout emgSignal;
     private boolean mSessionStarted = false;
     Context context;
+    ImageView iv_recording_icon;
 
     VerticalStarProgressView verticalStarProgressView;
     AlertDialog  error_device_dialog;
@@ -371,6 +377,11 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
         cancelBtn = root.findViewById(R.id.cancel);
         tv_max_emg = root.findViewById(R.id.tv_max_emg_show);
         verticalStarProgressView = root.findViewById(R.id.vertical_star_view);
+        emgSignal = root.findViewById(R.id.emg);
+        EMG = root.findViewById(R.id.emgValue);
+        time = root.findViewById(R.id.displayTime);
+        iv_recording_icon = root.findViewById(R.id.recording_icon);
+        tv_recording = root.findViewById(R.id.recording_text);
 
 
         handler = new Handler(Looper.getMainLooper());
@@ -503,6 +514,9 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
                 if (timer.getVisibility() == View.GONE) {
                     sessionCompleted = true;
                     mSessionStarted = false;
+                    tv_recording.setText("");
+                    tv_recording.clearAnimation();
+                    iv_recording_icon.setImageDrawable(getResources().getDrawable(R.drawable.bg_circle_red));
                     timer.setBackgroundResource(R.drawable.rounded_start_button);
                     cancelBtn.setBackgroundResource(R.drawable.round_cancel_buttons_green);
                     stopBtn.setVisibility(View.GONE);
@@ -537,6 +551,9 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
             public void onClick(View v) {
                 sessionCompleted = true;
                 mSessionStarted = false;
+                tv_recording.setText("");
+                tv_recording.clearAnimation();
+                iv_recording_icon.setImageDrawable(getResources().getDrawable(R.drawable.bg_circle_red));
                 cancelBtn.setVisibility(View.GONE);
                 timer.setBackgroundResource(R.drawable.rounded_start_button);
                 stopBtn.setVisibility(View.GONE);
@@ -800,6 +817,14 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
         emgJsonArray = new JSONArray();
         romJsonArray = new JSONArray();
         maxAngle = 0;minAngle = 360;maxEmgValue = 0;
+        tv_recording.setText("Recording");
+        Animation anim = new AlphaAnimation(0.0f, 1.0f);
+        anim.setDuration(500); //You can manage the blinking time with this parameter
+        anim.setStartOffset(20);
+        anim.setRepeatMode(Animation.REVERSE);
+        anim.setRepeatCount(Animation.INFINITE);
+        tv_recording.startAnimation(anim);
+
         can_beeep_max=true;can_beep_min=true;
         creatGraphView();
         timer.setVisibility(View.GONE);
@@ -879,7 +904,15 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
             Minutes = Seconds / 60;
             Seconds = Seconds % 60;
             timeText = "Session time:   " + String.format("%02d", Minutes) + " : " + String.format("%02d", Seconds);
+            time.setText(String.format("%02d", Minutes) +"m"+ ":" + String.format("%02d", Seconds)+"s");
             str_time = timeText;
+
+            if(Seconds>30 && Minutes < 1)
+            {
+                iv_recording_icon.setImageDrawable(getResources().getDrawable(R.drawable.bg_square_red));
+                tv_recording.setText("30s");
+                tv_recording.clearAnimation();
+            }
 
 //            if(!one_star_calibrated) {
 //                if (Seconds == second_time) {
@@ -1008,6 +1041,7 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
                                 }
                             }
                             LinearLayout.LayoutParams params;
+                            params = (LinearLayout.LayoutParams) emgSignal.getLayoutParams();
                             ++ui_rate;
                             lineData.addEntry(new Entry((float) ui_rate / 50, emg_data), 0);
 
@@ -1033,7 +1067,10 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
                             maxEmgValue = maxEmgValue < emg_data ? emg_data : maxEmgValue;
                             if (maxEmgValue == 0)
                                 maxEmgValue = 1;
-                            tv_max_emg.setText(String.valueOf(maxEmgValue));
+                            tv_max_emg.setText(String.valueOf(maxEmgValue)+"μV");
+                            params.height = (int) (((View) emgSignal.getParent()).getMeasuredHeight() * emg_data / maxEmgValue);
+                            EMG.setText(Integer.toString(emg_data).concat(getResources().getString(R.string.emg_unit)));
+
                             lineChart.notifyDataSetChanged();
                             lineChart.invalidate();
                             lineChart.getXAxis();
@@ -1086,6 +1123,7 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
                             }
                             maxAngle = maxAngle < angleDetected ? angleDetected : maxAngle;
                             minAngle = minAngle > angleDetected ? angleDetected : minAngle;
+                            emgSignal.setLayoutParams(params);
                             minutesValue = "" + active_time_minutes;
                             secondsValue = "" + active_time_seconds;
                             if (active_time_minutes < 10)
@@ -1197,6 +1235,9 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
      * Refreshes the line graph
      */
     private void creatGraphView() {
+        Legend l = lineChart.getLegend();
+        l.setEnabled(false);
+
         lineChart.setHardwareAccelerationEnabled(true);
         dataPoints = new ArrayList<>();
         dataPoints.add(new Entry(0, 0));

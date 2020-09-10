@@ -27,6 +27,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.text.InputType;
 import android.text.format.DateFormat;
 import android.view.Gravity;
@@ -52,6 +53,7 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.startoonlabs.apps.pheezee.R;
+import com.startoonlabs.apps.pheezee.activities.DeviceInfoActivity;
 import com.startoonlabs.apps.pheezee.activities.MonitorActivity;
 import com.startoonlabs.apps.pheezee.activities.PatientsView;
 import com.startoonlabs.apps.pheezee.classes.EmgPeak;
@@ -735,19 +737,42 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
         iv_angle_correction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("Correct Angle");
-                builder.setMessage("please enter the expected angle");
-                final EditText editText = new EditText(getActivity());
+
+
+                final Dialog dialog = new Dialog(getActivity());
+                dialog.setContentView(R.layout.angle_correction_dialog_box);
+
+
+
+                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                lp.copyFrom(dialog.getWindow().getAttributes());
+                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+                TextView notification_title = dialog.findViewById(R.id.notification_box_title);
+                TextView notification_message = dialog.findViewById(R.id.notification_box_message);
+                final EditText editText = dialog.findViewById(R.id.et_corrected_angle);
                 editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
-                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT);
-                editText.setLayoutParams(lp);
-                builder.setView(editText);
-                builder.setPositiveButton("Set", new DialogInterface.OnClickListener() {
+
+                Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);
+                Button Notification_Button_cancel = (Button) dialog.findViewById(R.id.notification_ButtonCancel);
+
+                Notification_Button_ok.setText("Set");
+                Notification_Button_cancel.setText("Cancel");
+
+                editText.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(View view) {
+                        editText.setAlpha(1);
+                        editText.setText("");
+                    }
+                });
+
+
+                // On click on Continue
+                Notification_Button_ok.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
                         if (!editText.getText().toString().equals("")) {
                             try {
                                 if (mSessionStarted) {
@@ -764,19 +789,73 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
 
                             }
                         }
+                        dialog.dismiss();
+
+                    }
+                });
+                // On click Cancel
+                Notification_Button_cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+
                     }
                 });
 
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                });
+
+
                 if (mSessionStarted) {
-                    builder.show();
+                    dialog.show();
+                    dialog.getWindow().setAttributes(lp);
                 } else {
                     showToast("Please start session!");
                 }
+
+//                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+//                builder.setTitle("Correct Angle");
+//                builder.setMessage("please enter the expected angle");
+//                final EditText editText = new EditText(getActivity());
+//                editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
+//                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+//                        LinearLayout.LayoutParams.MATCH_PARENT,
+//                        LinearLayout.LayoutParams.MATCH_PARENT);
+//                editText.setLayoutParams(lp);
+//                builder.setView(editText);
+//                builder.setPositiveButton("Set", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        if (!editText.getText().toString().equals("")) {
+//                            try {
+//                                if (mSessionStarted) {
+//                                    angleCorrection = Integer.parseInt(editText.getText().toString());
+//                                    angleCorrected = true;
+//                                    maxAngle = angleCorrection;
+//                                    minAngle = angleCorrection;
+//                                    angleCorrection -= currentAngle;
+//                                    currentAngle += angleCorrection;
+//
+//
+//                                }
+//                            } catch (NumberFormatException e) {
+//
+//                            }
+//                        }
+//                    }
+//                });
+//
+//                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                    }
+//                });
+//                if (mSessionStarted) {
+//                    builder.show();
+//                } else {
+//                    showToast("Please start session!");
+//                }
+
+            // END
+
             }
         });
     }

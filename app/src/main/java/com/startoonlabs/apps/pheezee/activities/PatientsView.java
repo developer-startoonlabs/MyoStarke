@@ -189,6 +189,7 @@ public class PatientsView extends AppCompatActivity
     boolean connected_state;
     boolean ble_status_global;
     AddDevicePopupWindow feedback=null;
+    public static int patientsize;
 
     //bluetooth and device connection state
     ImageView iv_bluetooth_connected, iv_bluetooth_disconnected, iv_device_connected, iv_device_disconnected,iv_device, iv_sync_data,  iv_sync_not_available;
@@ -516,6 +517,7 @@ public class PatientsView extends AppCompatActivity
                 }
 
                 Collections.reverse(patients);
+                patientsize = patients.size();
                 mAdapter.setNotes(patients);
             }
         });

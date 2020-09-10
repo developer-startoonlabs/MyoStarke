@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +42,7 @@ import com.startoonlabs.apps.pheezee.services.PicassoCircleTransformation;
 import com.startoonlabs.apps.pheezee.utils.BitmapOperations;
 import com.startoonlabs.apps.pheezee.utils.NetworkOperations;
 import com.startoonlabs.apps.pheezee.utils.RegexOperations;
+import static com.startoonlabs.apps.pheezee.activities.PatientsView.patientsize;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -56,9 +58,9 @@ public class PhizioProfile extends AppCompatActivity implements MqttSyncReposito
     EditText et_phizio_name, et_phizio_email, et_phizio_phone,et_address, et_clinic_name, et_dob, et_experience, et_specialization, et_degree, et_gender;
     Spinner spinner;
     MqttSyncRepository repository;
-    TextView tv_edit_profile_pic, tv_edit_profile_details, tv_update_clinic_logo;
-    ImageView iv_phizio_profilepic, iv_phizio_clinic_logo, iv_back_button;
-
+    TextView tv_profile_patient_number;
+    ImageView iv_phizio_profilepic, iv_phizio_clinic_logo, iv_back_button,tv_edit_profile_details;
+    LinearLayout tv_update_clinic_logo,tv_edit_profile_pic;
     final Calendar myCalendar = Calendar.getInstance();
 
     Button btn_update, btn_cancel_update;
@@ -99,6 +101,7 @@ public class PhizioProfile extends AppCompatActivity implements MqttSyncReposito
         et_phizio_phone =  findViewById(R.id.et_phizio_phone);
         tv_edit_profile_details  = findViewById(R.id.edit_phizio_details);
         tv_edit_profile_pic = findViewById(R.id.change_profile_pic);
+        tv_profile_patient_number = findViewById(R.id.profile_patient_number);
 
         et_address = findViewById(R.id.et_phizio_address);
         et_clinic_name = findViewById(R.id.et_phizio_clinic_name);
@@ -115,9 +118,9 @@ public class PhizioProfile extends AppCompatActivity implements MqttSyncReposito
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
-        tv_edit_profile_details.setPaintFlags(tv_edit_profile_details.getPaintFlags()|Paint.UNDERLINE_TEXT_FLAG);
-        tv_edit_profile_pic.setPaintFlags(tv_edit_profile_pic.getPaintFlags()|Paint.UNDERLINE_TEXT_FLAG);
-        tv_update_clinic_logo.setPaintFlags(tv_update_clinic_logo.getPaintFlags()|Paint.UNDERLINE_TEXT_FLAG);
+//        tv_edit_profile_pic.setPaintFlags(tv_edit_profile_pic.getPaintFlags()|Paint.UNDERLINE_TEXT_FLAG);
+//        tv_update_clinic_logo.setPaintFlags(tv_update_clinic_logo.getPaintFlags()|Paint.UNDERLINE_TEXT_FLAG);
+        tv_profile_patient_number.setText(String.valueOf(patientsize));
 
 
         iv_back_button.setOnClickListener(new View.OnClickListener() {
@@ -296,7 +299,7 @@ public class PhizioProfile extends AppCompatActivity implements MqttSyncReposito
             else
                 et_specialization.setText("");
             if(json_phizio.has("degree"))
-                et_degree.setText(json_phizio.getString("degree"));
+                et_degree.setText(json_phizio.getString("degree")+",");
             else
                 et_degree.setText("");
             if(json_phizio.has("gender"))
@@ -309,7 +312,7 @@ public class PhizioProfile extends AppCompatActivity implements MqttSyncReposito
                 et_address.setText("");
 
             if(json_phizio.has("cliniclogo") && !json_phizio.getString("cliniclogo").equalsIgnoreCase("/icons/clinic.png")) {
-                tv_update_clinic_logo.setText("Update Clinic Logo");
+//                tv_update_clinic_logo.setText("Update Clinic Logo");
                 String temp = null;
                 try {
                     temp = json_phizio.getString("cliniclogo");
@@ -391,10 +394,10 @@ public class PhizioProfile extends AppCompatActivity implements MqttSyncReposito
 
         if(b){
             et_gender.setVisibility(View.INVISIBLE);
-            spinner.setVisibility(View.VISIBLE);
+//            spinner.setVisibility(View.VISIBLE);
         }
         else {
-            et_gender.setVisibility(View.VISIBLE);
+//            et_gender.setVisibility(View.VISIBLE);
             spinner.setVisibility(View.GONE);
         }
     }
@@ -528,7 +531,7 @@ public class PhizioProfile extends AppCompatActivity implements MqttSyncReposito
         if(response){
             showToast("Updated Clinic Logo");
             if(tv_update_clinic_logo!=null){
-                tv_update_clinic_logo.setText("Update Clinic Logo");
+//                tv_update_clinic_logo.setText("Update Clinic Logo");
             }
         }
     }

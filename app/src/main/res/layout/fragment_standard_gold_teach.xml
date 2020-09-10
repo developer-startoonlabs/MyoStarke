@@ -173,7 +173,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_horizontal"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="5sp"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -227,7 +227,8 @@
                             android:id="@+id/tv_angleCorrection"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
-                            android:src="@drawable/angle_correction"
+                            android:layout_marginEnd="2sp"
+                            android:src="@drawable/knob"
                             android:textColor="@color/pitch_black" />
 
                     </LinearLayout>
@@ -575,6 +576,19 @@
 
 
                         <TextView
+                            android:id="@+id/btn_emg_increase_gain"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="0dp"
+                            android:buttonStyle="@style/PrimaryColoredButton"
+                            android:text="+"
+                            android:textAlignment="center"
+                            android:textColor="@color/pitch_black"
+                            android:textSize="15sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/btn_emg_decrease_gain"
+                            app:layout_constraintTop_toTopOf="parent" />
+                        <TextView
                             android:id="@+id/btn_emg_decrease_gain"
                             android:layout_width="match_parent"
                             android:layout_height="20dp"
@@ -589,19 +603,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                        <TextView
-                            android:id="@+id/btn_emg_increase_gain"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="0dp"
-                            android:buttonStyle="@style/PrimaryColoredButton"
-                            android:text="+"
-                            android:textAlignment="center"
-                            android:textColor="@color/pitch_black"
-                            android:textSize="15sp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@+id/btn_emg_decrease_gain"
-                            app:layout_constraintTop_toTopOf="parent" />
+
 
                     </LinearLayout>
 
@@ -673,7 +675,7 @@
                             android:id="@+id/emg_bar"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="5dp"
-                            android:layout_weight="0.9"
+                            android:layout_weight="0.741"
                             android:orientation="vertical">
 
                             <TextView
@@ -683,7 +685,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/ebrima"
-                                android:text="00"
+                                android:text="1100uV"
                                 android:paddingTop="2dp"
                                 android:textAlignment="center"
                                 android:textColor="@color/pitch_black"
@@ -696,7 +698,10 @@
 
                             <LinearLayout
                                 android:id="@+id/emgBarContainer"
-                                android:layout_margin="4dp"
+                                android:layout_marginStart="6sp"
+                                android:layout_marginEnd="6sp"
+                                android:layout_marginTop="4sp"
+                                android:layout_marginBottom="2sp"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="0.2"
