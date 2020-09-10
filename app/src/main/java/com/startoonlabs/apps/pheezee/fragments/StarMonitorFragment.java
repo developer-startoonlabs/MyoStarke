@@ -1276,7 +1276,7 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
                 angleCorrection, patientid, patientname, tsLong, bodyorientation, getActivity().getIntent().getStringExtra("dateofjoin"), exercise_position,bodypart_position,
                 str_muscle_name,str_exercise_name,str_min_angle_selected,str_max_angle_selected,str_max_emg_selected,repsselected,emgJsonArray,romJsonArray,phizio_packagetype);
         window.showWindow();
-        window.storeLocalSessionDetails(emgJsonArray,romJsonArray);
+//        window.storeLocalSessionDetails(emgJsonArray,romJsonArray);
         if(phizio_packagetype!=STANDARD_PACKAGE)
             repository.getPatientSessionNo(patientid);
         window.setOnSessionDataResponse(new MqttSyncRepository.OnSessionDataResponse() {

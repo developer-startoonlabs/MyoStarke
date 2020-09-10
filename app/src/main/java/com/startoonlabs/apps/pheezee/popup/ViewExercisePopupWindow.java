@@ -9,6 +9,7 @@ import com.startoonlabs.apps.pheezee.adapters.SessionListArrayAdapter;
 import com.startoonlabs.apps.pheezee.classes.SessionListClass;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -23,10 +24,12 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -250,25 +253,49 @@ public class ViewExercisePopupWindow {
 
                     if (response.code() == 200) {
 
+                        if(bodypart.length()>0) {
+                            // Adding current exercise
+                            SessionListClass first_exercise = new SessionListClass();
+                            first_exercise.setBodypart(bodypart);
+                            first_exercise.setOrientation(bodyOrientation);
+
+                            first_exercise.setPosition(orientation);
+                            first_exercise.setExercise(exercise_name);
+                            first_exercise.setMuscle_name(muscle_name);
+                            first_exercise.setSession_time(sessiontime);
+
+
+                            first_exercise.setHeldon(heldon);
+
+                            first_exercise.setPatientemail(phizioemail);
+                            first_exercise.setPatientid(patientid);
+                            first_exercise.setPatientname(patientname);
+                            mSessionListResults.add(first_exercise);
+                        }
+
                         for (int i = 0; i < response.body().size(); i++) {
-                            SessionDetailsResult sesstionelement= response.body().get(i);
-                            SessionListClass temp= new SessionListClass();
-                            temp.setBodypart(sesstionelement.getBodypart());
-                            temp.setOrientation(sesstionelement.getBodyorientation());
 
-                            temp.setPosition(sesstionelement.getOrientation());
-                            temp.setExercise(sesstionelement.getExercisename());
-                            temp.setMuscle_name(sesstionelement.getMusclename());
-                            temp.setSession_time(sesstionelement.getSessiontime());
+                                SessionDetailsResult sesstionelement = response.body().get(i);
+                            if(!dateString.equalsIgnoreCase(sesstionelement.getHeldon())) {
 
 
-                            temp.setHeldon(sesstionelement.getHeldon());
+                                SessionListClass temp = new SessionListClass();
+                                temp.setBodypart(sesstionelement.getBodypart());
+                                temp.setOrientation(sesstionelement.getBodyorientation());
 
-                            temp.setPatientemail(phizioemail);
-                            temp.setPatientid(patientid);
-                            temp.setPatientname(patientname);
-                            mSessionListResults.add(temp);
+                                temp.setPosition(sesstionelement.getOrientation());
+                                temp.setExercise(sesstionelement.getExercisename());
+                                temp.setMuscle_name(sesstionelement.getMusclename());
+                                temp.setSession_time(sesstionelement.getSessiontime());
 
+
+                                temp.setHeldon(sesstionelement.getHeldon());
+
+                                temp.setPatientemail(phizioemail);
+                                temp.setPatientid(patientid);
+                                temp.setPatientname(patientname);
+                                mSessionListResults.add(temp);
+                            }
 
                         }
                         sessionListArrayAdapter = new SessionListArrayAdapter(context, mSessionListResults);
@@ -343,78 +370,156 @@ public class ViewExercisePopupWindow {
             @Override
             public void onClick(View v) {
                 //Start
-                String toast_response = "Nothing selected";
-                mSessionListResults = new ArrayList<SessionListClass>();
                 ArrayList<SessionListClass> session_list = sessionListArrayAdapter.mSessionArrayList;
-                for(int i=0;i<session_list.size();i++){
-                    SessionListClass session_list_element = session_list.get(i);
-                    if(!session_list_element.isSelected()){
 
-                        JSONObject object = new JSONObject();
-                        try {
-                            object.put("phizioemail", phizioemail);
-                            object.put("patientid", patientid);
-                            object.put("heldon", session_list_element.getHeldon());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                //Check for the condition if anything is not checked
+                boolean item_unchecked=false;
+                for(int i=0;i<session_list.size();i++){
+                    SessionListClass session_list_element_alert = session_list.get(i);
+                    if(!session_list_element_alert.isSelected()){
+                        item_unchecked=true;
+
+                    }
+                }
+
+                if(item_unchecked){
+
+                    //Alert Dialog
+                    // Custom notification added by Haaris
+                    // custom dialog
+                    final Dialog dialog = new Dialog(context);
+                    dialog.setContentView(R.layout.notification_dialog_box);
+
+                    WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                    lp.copyFrom(dialog.getWindow().getAttributes());
+                    lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                    lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+                    TextView notification_title = dialog.findViewById(R.id.notification_box_title);
+                    TextView notification_message = dialog.findViewById(R.id.notification_box_message);
+
+                    Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);
+                    Button Notification_Button_cancel = (Button) dialog.findViewById(R.id.notification_ButtonCancel);
+
+                    Notification_Button_ok.setText("Confirm");
+                    Notification_Button_cancel.setText("Cancel");
+
+                    // Setting up the notification dialog
+                    notification_title.setText("Deleting a session");
+                    notification_message.setText("Are you sure you want to delete the \n session from the list. Please Confirm");
+
+                    // On click on Cancel
+                    Notification_Button_cancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+
                         }
-                        DeleteSessionData test = new DeleteSessionData(phizioemail,patientid,session_list_element.getHeldon(),String.valueOf(i));
-                        Call<ResponseData> dataCall = getDataService.deletePatientSession(test);
-                        dataCall.enqueue(new Callback<ResponseData>() {
-                            @Override
-                            public void onResponse(@NonNull Call<ResponseData> call, @NonNull Response<ResponseData> response) {
-                                if (response.code() == 200) {
-                                    ResponseData res = response.body();
-                                    if (res != null) {
-                                        if (res.getResponse().equalsIgnoreCase("deleted")) {
+                    });
+                    // On click Continue
+                    Notification_Button_ok.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+
+
+
+                            for(int i=0;i<session_list.size();i++){
+                                SessionListClass session_list_element = session_list.get(i);
+                                if(!session_list_element.isSelected()){
+
+                                    JSONObject object = new JSONObject();
+                                    try {
+                                        object.put("phizioemail", phizioemail);
+                                        object.put("patientid", patientid);
+                                        object.put("heldon", session_list_element.getHeldon());
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                    DeleteSessionData test = new DeleteSessionData(phizioemail,patientid,session_list_element.getHeldon(),String.valueOf(i));
+                                    Call<ResponseData> dataCall = getDataService.deletePatientSession(test);
+                                    dataCall.enqueue(new Callback<ResponseData>() {
+                                        @Override
+                                        public void onResponse(@NonNull Call<ResponseData> call, @NonNull Response<ResponseData> response) {
+                                            if (response.code() == 200) {
+                                                ResponseData res = response.body();
+                                                if (res != null) {
+                                                    if (res.getResponse().equalsIgnoreCase("deleted")) {
 //                                            deleteParticular(res.getId());Animation aniFade = AnimationUtils.loadAnimation(context, R.anim.fade_in);
-                                            if (onSessionDataResponse != null)
-                                                onSessionDataResponse.onSessionDeleted(true, res.getResponse().toUpperCase());
-                                        } else {
+                                                        if (onSessionDataResponse != null)
+                                                            onSessionDataResponse.onSessionDeleted(true, res.getResponse().toUpperCase());
+                                                    } else {
+                                                        if (onSessionDataResponse != null)
+                                                            onSessionDataResponse.onSessionDeleted(false, "");
+                                                    }
+                                                } else {
+                                                    if (onSessionDataResponse != null)
+                                                        onSessionDataResponse.onSessionDeleted(false, "");
+                                                }
+                                            } else {
+                                                if (onSessionDataResponse != null)
+                                                    onSessionDataResponse.onSessionDeleted(false, "");
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onFailure(@NonNull Call<ResponseData> call, @NonNull Throwable t) {
                                             if (onSessionDataResponse != null)
                                                 onSessionDataResponse.onSessionDeleted(false, "");
                                         }
-                                    } else {
-                                        if (onSessionDataResponse != null)
-                                            onSessionDataResponse.onSessionDeleted(false, "");
-                                    }
-                                } else {
-                                    if (onSessionDataResponse != null)
-                                        onSessionDataResponse.onSessionDeleted(false, "");
+                                    });
+
+                                }
+                                else{
+
                                 }
                             }
 
-                            @Override
-                            public void onFailure(@NonNull Call<ResponseData> call, @NonNull Throwable t) {
-                                if (onSessionDataResponse != null)
-                                    onSessionDataResponse.onSessionDeleted(false, "");
+
+                            // End
+
+
+
+                            Animation aniFade = AnimationUtils.loadAnimation(context,R.anim.fade_in);
+                            ll_click_to_next.setAnimation(aniFade);
+                            if(NetworkOperations.isNetworkAvailable(context)){
+                                Intent mmt_intent = new Intent(context, SessionReportActivity.class);
+                                mmt_intent.putExtra("patientid", patientid);
+                                mmt_intent.putExtra("patientname", patientname);
+                                mmt_intent.putExtra("phizioemail", phizioemail);
+                                mmt_intent.putExtra("dateofjoin",dateofjoin);
+                                ((Activity)context).startActivity(mmt_intent);
+                                report.dismiss();
                             }
-                        });
+                            else {
+                                networkError_popup(context,report);
+                            }
+                            dialog.dismiss();
 
+                        }
+                    });
+
+                    dialog.show();
+                    dialog.getWindow().setAttributes(lp);
+
+                    // End
+                }else{
+
+                    Animation aniFade = AnimationUtils.loadAnimation(context,R.anim.fade_in);
+                    ll_click_to_next.setAnimation(aniFade);
+                    if(NetworkOperations.isNetworkAvailable(context)){
+                        Intent mmt_intent = new Intent(context, SessionReportActivity.class);
+                        mmt_intent.putExtra("patientid", patientid);
+                        mmt_intent.putExtra("patientname", patientname);
+                        mmt_intent.putExtra("phizioemail", phizioemail);
+                        mmt_intent.putExtra("dateofjoin",dateofjoin);
+                        ((Activity)context).startActivity(mmt_intent);
+                        report.dismiss();
                     }
-                    else{
-
+                    else {
+                        networkError_popup(context,report);
                     }
-                }
 
-
-                // End
-
-
-
-                Animation aniFade = AnimationUtils.loadAnimation(context,R.anim.fade_in);
-                ll_click_to_next.setAnimation(aniFade);
-                if(NetworkOperations.isNetworkAvailable(context)){
-                    Intent mmt_intent = new Intent(context, SessionReportActivity.class);
-                    mmt_intent.putExtra("patientid", patientid);
-                    mmt_intent.putExtra("patientname", patientname);
-                    mmt_intent.putExtra("phizioemail", phizioemail);
-                    mmt_intent.putExtra("dateofjoin",dateofjoin);
-                    ((Activity)context).startActivity(mmt_intent);
-                    report.dismiss();
-                }
-                else {
-                    networkError_popup(context,report);
                 }
 
             }

@@ -60,6 +60,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import static com.startoonlabs.apps.pheezee.activities.MonitorActivity.IS_SCEDULED_SESSION;
 import static com.startoonlabs.apps.pheezee.activities.MonitorActivity.IS_SCEDULED_SESSIONS_COMPLETED;
+import static com.startoonlabs.apps.pheezee.utils.PackageTypes.STANDARD_PACKAGE;
 
 public class PhysiofeedbackPopupWindow {
     private String mqtt_delete_pateint_session = "phizio/patient/deletepatient/sesssion";
@@ -80,12 +81,14 @@ public class PhysiofeedbackPopupWindow {
     private Long tsLong;
     private boolean mmt_selected_flag = false;
     private View layout_d;
+    JSONArray emgJsonArray, romJsonArray;
+    int phizio_packagetype;
     public PhysiofeedbackPopupWindow(Context context, int maxEmgValue, String sessionNo, int maxAngle, int minAngle,
                                      String orientation, String bodypart, String phizioemail, String sessiontime, String actiontime,
                                      String holdtime, String numofreps, int angleCorrection,
                                      String patientid, String patientname, Long tsLong, String bodyOrientation, String dateOfJoin,
                                      int exercise_selected_position, int body_part_selected_position, String muscle_name, String exercise_name,
-                                     String min_angle_selected, String max_angle_selected, String max_emg_selected, int repsselected,View layout_d){
+                                     String min_angle_selected, String max_angle_selected, String max_emg_selected, int repsselected,View layout_d,JSONArray emgJsonArray, JSONArray romJsonArray,int phizio_packagetype){
         this.context = context;
         this.maxEmgValue = maxEmgValue;
         this.sessionNo = sessionNo;
@@ -113,6 +116,9 @@ public class PhysiofeedbackPopupWindow {
         this.max_emg_selected = max_emg_selected;
         this.repsselected = repsselected;
         this.layout_d = layout_d;
+        this.emgJsonArray = emgJsonArray;
+        this.romJsonArray = romJsonArray;
+        this.phizio_packagetype=phizio_packagetype;
         repository = new MqttSyncRepository(((Activity)context).getApplication());
         repository.setOnSessionDataResponse(onSessionDataResponse);
     }
@@ -280,6 +286,31 @@ public class PhysiofeedbackPopupWindow {
                                     angleCorrection, patientid, patientname, tsLong, bodyOrientation, dateofjoin, exercise_selected_position,body_part_selected_position,
                                     muscle_name,exercise_name,min_angle_selected,max_angle_selected,max_emg_selected,repsselected);
                             feedback.showWindow();
+                            feedback.storeLocalSessionDetails(emgJsonArray,romJsonArray);
+                            if(phizio_packagetype!=STANDARD_PACKAGE)
+                                repository.getPatientSessionNo(patientid);
+                            feedback.setOnSessionDataResponse(new MqttSyncRepository.OnSessionDataResponse() {
+                                @Override
+                                public void onInsertSessionData(Boolean response, String message) {
+                                    if (response)
+                                        showToast(message.substring(0,1).toUpperCase()+ message.substring(1).toLowerCase());
+
+                                }
+
+                                @Override
+                                public void onSessionDeleted(Boolean response, String message) {
+                                    showToast(message.substring(0,1).toUpperCase()+ message.substring(1).toLowerCase());
+                                }
+
+                                @Override
+                                public void onMmtValuesUpdated(Boolean response, String message) {
+                                    showToast(message.substring(0,1).toUpperCase()+ message.substring(1).toLowerCase());
+                                }
+
+                                @Override
+                                public void onCommentSessionUpdated(Boolean response) {
+                                }
+                            });
 //                            report.dismiss();
 //                            if (IS_SCEDULED_SESSION) {
 //                                if (IS_SCEDULED_SESSIONS_COMPLETED) {

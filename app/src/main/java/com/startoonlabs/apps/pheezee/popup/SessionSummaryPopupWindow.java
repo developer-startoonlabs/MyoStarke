@@ -213,11 +213,11 @@ public class SessionSummaryPopupWindow {
                 PhysiofeedbackPopupWindow feedback = new PhysiofeedbackPopupWindow(context,maxEmgValue, sessionNo, maxAngle, minAngle, orientation, bodypart,
                         phizioemail, sessiontime, actiontime, holdtime, numofreps,
                         angleCorrection, patientid, patientname, tsLong, bodyOrientation, dateofjoin, exercise_selected_position,body_part_selected_position,
-                        muscle_name,exercise_name,min_angle_selected,max_angle_selected,max_emg_selected,repsselected,layout);
+                        muscle_name,exercise_name,min_angle_selected,max_angle_selected,max_emg_selected,repsselected,layout,emgJsonArray,romJsonArray,phizio_packagetype);
                 feedback.showWindow();
                 layout_MainMenu.getForeground().setAlpha(160);
 
-                feedback.storeLocalSessionDetails(emgJsonArray,romJsonArray);
+                //feedback.storeLocalSessionDetails(emgJsonArray,romJsonArray);
                 if(phizio_packagetype!=STANDARD_PACKAGE)
                     repository.getPatientSessionNo(patientid);
                 feedback.setOnSessionDataResponse(new MqttSyncRepository.OnSessionDataResponse() {

@@ -1165,7 +1165,7 @@ public class MqttSyncRepository {
                         if (res.getResponse().equalsIgnoreCase("deleted")) {
                             deleteParticular(res.getId());
                             if (onSessionDataResponse != null)
-                                onSessionDataResponse.onSessionDeleted(true, res.getResponse().substring(0,1).toUpperCase()+ res.getResponse().substring(1));
+                                onSessionDataResponse.onSessionDeleted(true, res.getResponse().substring(0,1).toUpperCase()+ res.getResponse().substring(1).toLowerCase());
                         } else {
                             if (onSessionDataResponse != null)
                                 onSessionDataResponse.onSessionDeleted(false, "");
