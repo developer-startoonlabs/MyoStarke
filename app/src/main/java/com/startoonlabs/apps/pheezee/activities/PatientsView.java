@@ -190,10 +190,11 @@ public class PatientsView extends AppCompatActivity
     boolean ble_status_global;
     AddDevicePopupWindow feedback=null;
     public static int patientsize;
+    boolean usb_state_var=false;
 
     //bluetooth and device connection state
     ImageView iv_bluetooth_connected, iv_bluetooth_disconnected, iv_device_connected, iv_device_disconnected,iv_device, iv_sync_data,  iv_sync_not_available;
-    LinearLayout ll_device_and_bluetooth;
+
     AlertDialog mDialog, mDeactivatedDialog;
     Dialog dialog;
     @Override
@@ -726,7 +727,6 @@ public class PatientsView extends AppCompatActivity
     private void bluetoothDisconnected() {
         iv_bluetooth_disconnected.setVisibility(View.VISIBLE);
         iv_bluetooth_connected.setVisibility(View.GONE);
-        findViewById(R.id.ll_device_and_bluetooth).setBackgroundResource(R.drawable.drawable_background_connect_to_pheezee);
     }
 
     /**
@@ -735,7 +735,6 @@ public class PatientsView extends AppCompatActivity
     private void bluetoothConnected() {
         iv_bluetooth_disconnected.setVisibility(View.GONE);
         iv_bluetooth_connected.setVisibility(View.VISIBLE);
-        findViewById(R.id.ll_device_and_bluetooth).setBackgroundResource(R.drawable.drawable_background_turn_on_device);
     }
 
     private void initiatePopupWindow() {
@@ -786,7 +785,7 @@ public class PatientsView extends AppCompatActivity
             if(ble_status_global && hasLocationPermissions() && hasPermissions() && checkLocationEnabled()) {
 
                 deviceMacc = sharedPref.getString("deviceMacaddress", "");
-                feedback = new AddDevicePopupWindow(PatientsView.this,deviceMacc,connected_state,"Pheezee",sharedPref,mService);
+                feedback = new AddDevicePopupWindow(PatientsView.this,deviceMacc,connected_state,"Pheezee",sharedPref,mService,usb_state_var);
                 feedback.showWindow();
 
         }
@@ -889,7 +888,6 @@ public class PatientsView extends AppCompatActivity
         iv_device_disconnected.setVisibility(View.GONE);
         iv_device.setVisibility(View.GONE);
         iv_device_connected.setVisibility(View.VISIBLE);
-        ll_device_and_bluetooth.setVisibility(View.GONE);
         Drawable drawable = getResources().getDrawable(R.drawable.drawable_progress_battery);
         battery_bar.setProgressDrawable(drawable);
         @SuppressLint("ResourceAsColor") Drawable drawable_cap = new ColorDrawable(R.color.battery_gray);
@@ -897,8 +895,8 @@ public class PatientsView extends AppCompatActivity
         if(feedback!=null && feedback.ispopupshowing())
         {
             feedback.UpdateWindow(PatientsView.this,deviceMacc,connected_state,"Pheezee",sharedPref,mService);
-            feedback.dissmiss_popup();
-            feedback.showWindow();
+            feedback.refreshwindow();
+
         }
     }
 
@@ -920,10 +918,7 @@ public class PatientsView extends AppCompatActivity
             iv_device_disconnected.setVisibility(View.VISIBLE);
             iv_device.setVisibility(View.GONE);
         }
-        if(iv_bluetooth_connected.getVisibility()==View.VISIBLE)
-            ll_device_and_bluetooth.setBackgroundResource(R.drawable.drawable_background_turn_on_device);
-        else
-            ll_device_and_bluetooth.setBackgroundResource(R.drawable.drawable_background_connect_to_pheezee);
+
 
         Drawable drawable = getResources().getDrawable(R.drawable.drawable_progress_battery_disconnected);
         battery_bar.setProgressDrawable(drawable);
@@ -933,8 +928,8 @@ public class PatientsView extends AppCompatActivity
         if(feedback!=null && feedback.ispopupshowing())
         {
             feedback.UpdateWindow(PatientsView.this,deviceMacc,connected_state,"Pheezee",sharedPref,mService);
-            feedback.dissmiss_popup();
-            feedback.showWindow();
+            feedback.refreshwindow();
+
         }
     }
 
@@ -1481,6 +1476,12 @@ public class PatientsView extends AppCompatActivity
                 battery_bar.setProgressDrawable(drawable);
             }
             battery_bar.setProgress(percent);
+            if(feedback!=null && feedback.ispopupshowing())
+            {
+                feedback.UpdateWindow(PatientsView.this,deviceMacc,connected_state,"Pheezee",sharedPref,mService);
+                feedback.refreshwindow();
+
+            }
         }
     };
 
@@ -1491,10 +1492,21 @@ public class PatientsView extends AppCompatActivity
     public final Handler batteryUsbState = new Handler(){
         @Override
         public void handleMessage(Message msg) {
-            if(msg.obj.toString().equalsIgnoreCase("c"))
+            if(msg.obj.toString().equalsIgnoreCase("c")) {
                 rl_battery_usb_state.setVisibility(View.VISIBLE);
-            else
+                usb_state_var=true;
+            }
+            else {
                 rl_battery_usb_state.setVisibility(View.GONE);
+                usb_state_var=false;
+            }
+
+            if(feedback!=null && feedback.ispopupshowing())
+            {
+                feedback.UpdateWindow(PatientsView.this,deviceMacc,connected_state,"Pheezee",sharedPref,mService,usb_state_var);
+                feedback.refreshwindow();
+
+            }
         }
     };
 
@@ -1856,7 +1868,6 @@ public class PatientsView extends AppCompatActivity
         tv_battery_percentage = findViewById(R.id.tv_battery_percent);
         battery_bar = findViewById(R.id.progress_battery_bar);
         tv_patient_view_add_patient = findViewById(R.id.tv_patient_view_add_patient);
-        ll_device_and_bluetooth = findViewById(R.id.ll_device_and_bluetooth);
         rl_battery_usb_state = findViewById(R.id.rl_battery_usb_state);
         iv_sync_data = findViewById(R.id.iv_sync_data);
         iv_sync_not_available = findViewById(R.id.iv_sync_data_disabled);

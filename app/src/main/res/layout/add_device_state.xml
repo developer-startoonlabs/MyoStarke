@@ -136,15 +136,64 @@
 
                     <LinearLayout
                         android:layout_width="wrap_content"
+                        android:id="@+id/battery_bar"
+                        android:layout_marginTop="8sp"
                         android:layout_height="wrap_content"
                         android:visibility="gone"
-                        android:orientation="vertical">
-                        <TextView
+                        android:orientation="horizontal">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:orientation="vertical"
+                            android:layout_height="wrap_content">
+                        <RelativeLayout
+                            android:layout_width="5sp"
+                            android:id="@+id/rl_cap_view"
+                            android:layout_height="3sp"
+                            android:foregroundGravity="center"
+                            android:layout_gravity="top|center"
+                            android:background="#AAA"/>
+                        <FrameLayout
                             android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="0dp">
+
+                            <ProgressBar
+                                style="@android:style/Widget.ProgressBar.Horizontal"
+                                android:layout_width="16dp"
+                                android:id="@+id/progress_battery_bar"
+                                android:layout_height="22dp"
+                                android:max="100"
+                                android:progress="0"
+                                android:layout_gravity="center"
+                                android:progressDrawable="@drawable/drawable_progress_battery" />
+                            <RelativeLayout
+                                android:layout_width="7dp"
+                                android:layout_height="20dp"
+                                android:id="@+id/rl_battery_usb_state"
+                                android:visibility="gone"
+                                android:background="@drawable/battery_usb_state_connected_updated"
+                                android:layout_gravity="center"></RelativeLayout>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="10sp"
+                                android:visibility="gone"
+                                android:layout_gravity="center"
+                                android:text="@string/battery_zero"/>
+                        </FrameLayout>
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_marginStart="8sp"
+                            android:id="@+id/tv_battery_percent"
+                            android:layout_width="wrap_content"
+                            android:layout_gravity="center"
                             android:layout_height="wrap_content"
                             android:textSize="14sp"
                             android:textColor="@color/good_green"
                             android:text="14%"></TextView>
+
                     </LinearLayout>
 
                 </LinearLayout>
