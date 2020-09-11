@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:background="@color/ic_add_patient_grey_background"
     android:foreground="@drawable/physiofeedback_background"
-
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
@@ -156,7 +155,7 @@
                                     android:paddingBottom="8dp"
                                     android:text="Session #"
                                     android:textColor="@color/good_green"
-                                    android:textSize="16sp" />
+                                    android:textSize="18sp" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -173,7 +172,7 @@
                                     android:paddingBottom="8dp"
                                     android:text="0"
                                     android:textColor="@color/good_green"
-                                    android:textSize="16sp" />
+                                    android:textSize="18sp" />
                             </LinearLayout>
                         </LinearLayout>
 
@@ -302,7 +301,7 @@
                                 android:layout_gravity="center"
                                 android:text="Range of Motion (ROM)"
                                 android:textColor="@color/good_green"
-                                android:textSize="16sp" />
+                                android:textSize="18sp" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -815,7 +814,7 @@
                                 android:fontFamily="@font/ebrima"
                                 android:text="Electromyogram (EMG)"
                                 android:textColor="@color/good_green"
-                                android:textSize="16sp" />
+                                android:textSize="18sp" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -858,7 +857,7 @@
                                     android:paddingLeft="5dp"
                                     android:paddingRight="5dp"
                                     android:text="165"
-                                    android:textColor="@color/good_green"
+                                    android:textColor="@color/pitch_black"
                                     android:textSize="14sp" />
                             </LinearLayout>
                         </LinearLayout>

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
 
-    android:background="@color/ic_add_patient_grey_background"
+    android:background="#E9E9E9"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
@@ -43,7 +43,6 @@
     </androidx.appcompat.widget.Toolbar>
     <androidx.constraintlayout.widget.ConstraintLayout
 
-        android:background="@color/ic_add_patient_grey_background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:context="com.startoonlabs.apps.pheezee.activities.PhizioProfile">
@@ -432,10 +431,12 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_weight="1"
-                    android:layout_height="match_parent"
+                    android:layout_height="100sp"
                     android:layout_marginEnd="5sp"
                     android:paddingLeft="10sp"
                     android:background="@color/white"
+                    android:paddingStart="25sp"
+                    android:gravity="center"
                     android:orientation="vertical">
                 <TextView
                     android:layout_width="match_parent"
@@ -443,21 +444,16 @@
 
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
-                    android:layout_marginTop="20sp"
                     android:background="@color/white"
-                    android:textColor="@color/good_green"
-                    android:layout_marginEnd="10sp"
-android:textStyle="bold"
+                    android:textColor="#012E57"
+                    android:textStyle="bold"
                     android:text="10"></TextView>
                     <TextView
                         android:layout_width="match_parent"
-
-
                         android:layout_height="wrap_content"
                         android:textSize="14sp"
                         android:background="@color/white"
-                        android:textColor="@color/good_green"
-                        android:layout_marginEnd="10sp"
+                        android:textColor="#012E57"
 
                         android:text="Patients"></TextView>
                 </LinearLayout>
@@ -465,36 +461,60 @@ android:textStyle="bold"
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                <TextView
-
-                    android:textColor="@color/good_green"
-                    android:layout_width="match_parent"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
+                    android:layout_height="100sp"
                     android:layout_marginEnd="5sp"
-
                     android:layout_marginStart="5sp"
+                    android:paddingLeft="10sp"
                     android:background="@color/white"
-                    android:padding="25sp"
-                    android:text="-\nSessions"></TextView>
+                    android:paddingStart="25sp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="match_parent"
+
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:background="@color/white"
+                        android:textColor="#012E57"
+                        android:textStyle="bold"
+                        android:text="-"></TextView>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:background="@color/white"
+                        android:textColor="#012E57"
+
+                        android:text="Sessions"></TextView>
+
                 </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_weight="1"
-                        android:layout_height="wrap_content"
+                        android:layout_height="100sp"
+                        android:paddingStart="25sp"
+                        android:layout_marginStart="5sp"
+                        android:background="@color/white"
+                        android:gravity="center"
                         android:orientation="vertical">
-                <TextView
-                    android:layout_marginStart="5sp"
-                    android:textColor="@color/good_green"
-                    android:layout_width="match_parent"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:padding="25sp"
-                    android:text="-\nReports"></TextView>
+                        <TextView
+                            android:layout_width="match_parent"
+
+                            android:layout_height="wrap_content"
+                            android:textSize="16sp"
+                            android:background="@color/white"
+                            android:textColor="#012E57"
+                            android:textStyle="bold"
+                            android:text="-"></TextView>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="14sp"
+                            android:background="@color/white"
+                            android:textColor="#012E57"
+
+                            android:text="Reports"></TextView>
                     </LinearLayout>
             </LinearLayout>
         </LinearLayout>

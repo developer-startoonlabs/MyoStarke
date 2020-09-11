@@ -202,7 +202,7 @@
                         android:paddingEnd="20dp"
                         android:textColor="@color/good_green"
 
-                        android:textSize="16sp" />
+                        android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/bodyPart"
@@ -547,7 +547,7 @@
                         android:gravity="center"
                         android:text="Electromyogram (EMG)"
                         android:textColor="@color/good_green"
-                        android:textSize="16sp"/>
+                        android:textSize="18sp"/>
 
                     <TextView
                         android:id="@+id/monitor_muscle_name"

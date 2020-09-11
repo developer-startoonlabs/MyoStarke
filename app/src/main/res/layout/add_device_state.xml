@@ -124,7 +124,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="18sp"
                         android:text="Hi there !"
-                        android:textColor="@color/good_green"></TextView>
+                        android:textColor="#012E57"></TextView>
 
                     <TextView
                         android:id="@+id/my_device_macaddress"
@@ -132,7 +132,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="14sp"
                         android:text="Hi there !"
-                        android:textColor="@color/good_green"></TextView>
+                        android:textColor="#012E57"></TextView>
 
                     <LinearLayout
                         android:layout_width="wrap_content"

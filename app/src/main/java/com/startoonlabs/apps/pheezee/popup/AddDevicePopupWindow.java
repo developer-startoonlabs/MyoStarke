@@ -112,60 +112,58 @@ public class AddDevicePopupWindow {
         rl_battery_usb_state = layout.findViewById(R.id.rl_battery_usb_state);
 
 
+        if(my_device_image_state!=null) {
+            if (connected_state == true) {
+                my_device_image_state.setImageResource(R.drawable.my_device_image_connected);
+                my_device_name.setText(device_name);
+                my_device_macaddress.setText(macc_address);
+                my_device_button_state.setText("Connected");
+                ll_battery_bar.setVisibility(View.VISIBLE);
+                if (usb_state) {
+                    rl_battery_usb_state.setVisibility(View.VISIBLE);
+                } else rl_battery_usb_state.setVisibility(View.GONE);
 
-        if(connected_state==true){
-            my_device_image_state.setImageResource(R.drawable.my_device_image_connected);
-            my_device_name.setText(device_name);
-            my_device_macaddress.setText(macc_address);
-            my_device_button_state.setText("Connected");
-            ll_battery_bar.setVisibility(View.VISIBLE);
-            if(usb_state)
-            {
-                rl_battery_usb_state.setVisibility(View.VISIBLE);
-            }else rl_battery_usb_state.setVisibility(View.GONE);
-
-            //Battery Status
-            int percent = BatteryOperation.convertBatteryToCell(deviceBatteryPercent);
-            if(deviceBatteryPercent<15) {
-                Drawable drawable = context.getResources().getDrawable(R.drawable.drawable_progress_battery_low);
-                battery_bar.setProgressDrawable(drawable);
-            }
-            else {
-                Drawable drawable = context.getResources().getDrawable(R.drawable.drawable_progress_battery);
-                battery_bar.setProgressDrawable(drawable);
-            }
-            battery_bar.setProgress(percent);
-            tv_battery_percent.setText(String.valueOf(deviceBatteryPercent)+"%");
-
-        }else
-        {
-            my_device_image_state.setImageResource(R.drawable.my_device_image_disconnected);
-            my_device_name.setText(device_name);
-            my_device_macaddress.setText(macc_address);
-            my_device_button_state.setText("Disconnected");
-            ll_battery_bar.setVisibility(View.GONE);
-        }
-
-        summary_go_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                add_device_popup.dismiss();
-            }
-        });
-
-
-        tv_add_new_device.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(macc_address.equalsIgnoreCase("")) {
-//                        add_device_popup.dismiss();
-                }else
-                {
-                    showForgetDeviceDialog();
+                //Battery Status
+                int percent = BatteryOperation.convertBatteryToCell(deviceBatteryPercent);
+                if (deviceBatteryPercent < 15) {
+                    Drawable drawable = context.getResources().getDrawable(R.drawable.drawable_progress_battery_low);
+                    battery_bar.setProgressDrawable(drawable);
+                } else {
+                    Drawable drawable = context.getResources().getDrawable(R.drawable.drawable_progress_battery);
+                    battery_bar.setProgressDrawable(drawable);
                 }
-            }
-        });
+                battery_bar.setProgress(percent);
+                tv_battery_percent.setText(String.valueOf(deviceBatteryPercent) + "%");
 
+            } else {
+
+                my_device_image_state.setImageResource(R.drawable.my_device_image_disconnected);
+                my_device_name.setText(device_name);
+                my_device_macaddress.setText(macc_address);
+                my_device_button_state.setText("Disconnected");
+                ll_battery_bar.setVisibility(View.GONE);
+
+            }
+
+            summary_go_back.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    add_device_popup.dismiss();
+                }
+            });
+
+
+            tv_add_new_device.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (macc_address.equalsIgnoreCase("")) {
+//                        add_device_popup.dismiss();
+                    } else {
+                        showForgetDeviceDialog();
+                    }
+                }
+            });
+        }
 
     }
 

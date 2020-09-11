@@ -2,6 +2,7 @@ package com.startoonlabs.apps.pheezee.popup;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -12,8 +13,10 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -338,20 +341,68 @@ public class SessionSummaryPopupWindow {
             public void onClick(View v) {
                 String type = tv_delete_pateint_session.getText().toString();
                 if(type.toLowerCase().contains("delete")) {
-                    tv_delete_pateint_session.setText("New Session");
-                    ll_click_to_next.setVisibility(View.GONE);
-                    Animation aniFade = AnimationUtils.loadAnimation(context, R.anim.fade_in);
-                    tv_delete_pateint_session.setAnimation(aniFade);
-                    JSONObject object = new JSONObject();
-                    try {
-                        object.put("phizioemail", phizioemail);
-                        object.put("patientid", patientid);
-                        object.put("heldon", dateString);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    MqttSync mqttSync = new MqttSync(mqtt_delete_pateint_session, object.toString());
-                    new StoreLocalDataAsync(mqttSync).execute();
+
+                    // Custom notification added by Haaris
+                    // custom dialog
+                    final Dialog dialog = new Dialog(context);
+                    dialog.setContentView(R.layout.notification_dialog_box);
+
+                    WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                    lp.copyFrom(dialog.getWindow().getAttributes());
+                    lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                    lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+                    TextView notification_title = dialog.findViewById(R.id.notification_box_title);
+                    TextView notification_message = dialog.findViewById(R.id.notification_box_message);
+
+                    Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);
+                    Button Notification_Button_cancel = (Button) dialog.findViewById(R.id.notification_ButtonCancel);
+
+                    Notification_Button_ok.setText("Confirm");
+                    Notification_Button_cancel.setText("Cancel");
+
+                    // Setting up the notification dialog
+                    notification_title.setText("Deleting a session");
+                    notification_message.setText("Are you sure you want to delete the \n session from the list. Please Confirm");
+
+                    // On click on Continue
+                    Notification_Button_ok.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            tv_delete_pateint_session.setText("New Session");
+                            ll_click_to_next.setVisibility(View.GONE);
+                            Animation aniFade = AnimationUtils.loadAnimation(context, R.anim.fade_in);
+                            tv_delete_pateint_session.setAnimation(aniFade);
+                            JSONObject object = new JSONObject();
+                            try {
+                                object.put("phizioemail", phizioemail);
+                                object.put("patientid", patientid);
+                                object.put("heldon", dateString);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            MqttSync mqttSync = new MqttSync(mqtt_delete_pateint_session, object.toString());
+                            new StoreLocalDataAsync(mqttSync).execute();
+                            dialog.dismiss();
+
+                        }
+                    });
+                    // On click Cancel
+                    Notification_Button_cancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+
+                        }
+                    });
+
+                    dialog.show();
+                    dialog.getWindow().setAttributes(lp);
+
+                    // End
+
+
+
                 }else {
                     report.dismiss();
                     ((Activity)context).finish();

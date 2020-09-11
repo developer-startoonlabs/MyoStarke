@@ -86,7 +86,7 @@ public class SessionListArrayAdapter extends ArrayAdapter<SessionListClass> {
         tv_bodypart_exercise.setText(mSessionArrayList.get(position).getBodypart() +" "+ mSessionArrayList.get(position).getExercise());
         tv_muscle_name.setText(mSessionArrayList.get(position).getMuscle_name());
         tv_orientation_position.setText(mSessionArrayList.get(position).getPosition()+" - "+mSessionArrayList.get(position).getOrientation());
-        tv_session_time.setText(mSessionArrayList.get(position).getSession_time());
+        tv_session_time.setText(mSessionArrayList.get(position).getSession_time()+"ec");
 
         ImageView image_exercise = convertView.findViewById(R.id.image_exercise);
 
