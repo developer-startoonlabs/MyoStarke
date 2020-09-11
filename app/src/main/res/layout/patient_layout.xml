@@ -87,7 +87,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/ebrima"
                     android:text="Last Session: -"
-                    android:textColor="@color/pitch_black"
+                    android:textColor="#707070"
                     android:textSize="13sp" />
 
                 <TextView

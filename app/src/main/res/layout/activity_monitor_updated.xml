@@ -69,6 +69,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
                 android:visibility="gone"
+                android:onClick="showPopup"
                 android:paddingLeft="5dp"
                 android:paddingRight="0dp"
                 android:src="@drawable/theme_smiley"

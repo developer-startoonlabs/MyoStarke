@@ -133,7 +133,9 @@ public class AddDevicePopupWindow {
                     battery_bar.setProgressDrawable(drawable);
                 }
                 battery_bar.setProgress(percent);
-                tv_battery_percent.setText(String.valueOf(deviceBatteryPercent) + "%");
+                if(deviceBatteryPercent==-1) {
+                    tv_battery_percent.setText(String.valueOf(1) + "%");
+                }else tv_battery_percent.setText(String.valueOf(deviceBatteryPercent) + "%");
 
             } else {
 
@@ -266,7 +268,9 @@ public class AddDevicePopupWindow {
                     battery_bar.setProgressDrawable(drawable);
                 }
                 battery_bar.setProgress(percent);
-                tv_battery_percent.setText(String.valueOf(deviceBatteryPercent)+"%");
+                if(deviceBatteryPercent==-1) {
+                    tv_battery_percent.setText(String.valueOf(1) + "%");
+                }else tv_battery_percent.setText(String.valueOf(deviceBatteryPercent) + "%");
 
             }else
             {

@@ -311,7 +311,7 @@ public class PhysiofeedbackPopupWindow {
                                 public void onCommentSessionUpdated(Boolean response) {
                                 }
                             });
-                            report.dismiss();
+//                            report.dismiss();
 //                            if (IS_SCEDULED_SESSION) {
 //                                if (IS_SCEDULED_SESSIONS_COMPLETED) {
 //                                    Intent i = new Intent(context, PatientsView.class);

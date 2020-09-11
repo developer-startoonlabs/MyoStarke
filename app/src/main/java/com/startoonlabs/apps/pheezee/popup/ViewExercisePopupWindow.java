@@ -489,7 +489,7 @@ public class ViewExercisePopupWindow {
                                 mmt_intent.putExtra("phizioemail", phizioemail);
                                 mmt_intent.putExtra("dateofjoin",dateofjoin);
                                 ((Activity)context).startActivity(mmt_intent);
-                                report.dismiss();
+//                                report.dismiss();
                             }
                             else {
                                 networkError_popup(context,report);
@@ -514,7 +514,7 @@ public class ViewExercisePopupWindow {
                         mmt_intent.putExtra("phizioemail", phizioemail);
                         mmt_intent.putExtra("dateofjoin",dateofjoin);
                         ((Activity)context).startActivity(mmt_intent);
-                        report.dismiss();
+//                        report.dismiss();
                     }
                     else {
                         networkError_popup(context,report);
@@ -528,7 +528,7 @@ public class ViewExercisePopupWindow {
         tv_delete_pateint_session.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                report.dismiss();
+//                report.dismiss();
                 if(IS_SCEDULED_SESSION){
                     if(IS_SCEDULED_SESSIONS_COMPLETED){
                         Intent i = new Intent(context, PatientsView.class);

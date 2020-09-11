@@ -404,7 +404,7 @@ public class SessionSummaryPopupWindow {
 
 
                 }else {
-                    report.dismiss();
+//                    report.dismiss();
                     ((Activity)context).finish();
                 }
             }
