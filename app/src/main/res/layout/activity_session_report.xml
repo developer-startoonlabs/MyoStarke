@@ -193,7 +193,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/pitch_black"
             android:textSize="14sp"
-            android:text="10 May - 28 June "></TextView>
+            android:text=" -  "></TextView>
     </LinearLayout>
     <ListView
         android:layout_width="match_parent"

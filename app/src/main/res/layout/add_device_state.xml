@@ -192,7 +192,7 @@
                             android:layout_height="wrap_content"
                             android:textSize="16sp"
                             android:textColor="@color/good_green"
-                            android:text="14%"></TextView>
+                            android:text="1%"></TextView>
 
                     </LinearLayout>
 
