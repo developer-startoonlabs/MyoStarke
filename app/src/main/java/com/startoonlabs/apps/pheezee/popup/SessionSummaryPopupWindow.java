@@ -126,7 +126,7 @@ public class SessionSummaryPopupWindow {
         final View layout;
         if (config.smallestScreenWidthDp >= 600)
         {
-            layout = ((Activity)context).getLayoutInflater().inflate(R.layout.session_summary_large, null);
+            layout = ((Activity)context).getLayoutInflater().inflate(R.layout.session_summary, null);
         }
         else
         {

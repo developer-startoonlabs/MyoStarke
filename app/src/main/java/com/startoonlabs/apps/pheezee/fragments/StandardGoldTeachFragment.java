@@ -360,7 +360,7 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
         View root = null;
         Configuration config = getResources().getConfiguration();
         if(config.smallestScreenWidthDp >= 600){
-            root = inflater.inflate(R.layout.fragment_standard_gold_teach_large, container, false);
+            root = inflater.inflate(R.layout.fragment_standard_gold_teach, container, false);
         }else {
             root = inflater.inflate(R.layout.fragment_standard_gold_teach, container, false);
         }

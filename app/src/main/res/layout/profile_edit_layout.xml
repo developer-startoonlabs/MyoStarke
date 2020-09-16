@@ -1,0 +1,577 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_margin="8dp"
+            android:padding="8dp"
+            android:src="@drawable/green_back_arrow"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayoutEditDoctorPageOne"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            tools:visibility="visible"
+            android:background="@drawable/constlayout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline86"
+            app:layout_constraintVertical_bias="1.0">
+
+
+            <EditText
+                android:id="@+id/editName"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/edit_text"
+                android:ems="10"
+                android:textSize="18sp"
+                android:fontFamily="@font/ebrima"
+                android:gravity="center_vertical"
+                android:hint="First Name"
+                android:inputType="textPersonName"
+                android:paddingStart="16dp"
+                android:textColor="@color/good_green"
+                app:layout_constraintBottom_toTopOf="@+id/guideline89"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"  />
+
+            <EditText
+                android:id="@+id/editLastName"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/edit_text"
+                android:ems="10"
+                android:textSize="18sp"
+                android:fontFamily="@font/ebrima"
+                android:gravity="center_vertical"
+                android:hint="Last Name"
+                android:inputType="textPersonName"
+                android:paddingStart="16dp"
+                android:textColor="@color/good_green"
+                app:layout_constraintBottom_toTopOf="@+id/guideline90"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/guideline89"  />
+
+            <EditText
+                android:id="@+id/editMobile"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/edit_text"
+                android:ems="10"
+                android:textSize="18sp"
+                android:fontFamily="@font/ebrima"
+                android:gravity="center_vertical"
+                android:hint="Mobile No."
+                android:inputType="phone"
+                android:paddingStart="16dp"
+                android:textColor="@color/good_green"
+                app:layout_constraintBottom_toTopOf="@+id/guideline91"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/guideline90" />
+
+            <TextView
+                android:id="@+id/textViewGender"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/edit_text"
+                android:fontFamily="@font/ebrima"
+                android:gravity="center_vertical"
+                android:hint="Gender"
+                android:paddingLeft="16dp"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@id/guideline92"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/guideline91"
+                app:layout_constraintVertical_bias="0.50" />
+
+            <TextView
+                android:id="@+id/textViewDOB"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/edit_text"
+                android:fontFamily="@font/ebrima"
+                android:gravity="center_vertical"
+                android:hint="DOB"
+                android:paddingStart="16dp"
+                android:textColor="@color/good_green"
+                android:textSize="18sp"
+                android:drawableRight="@drawable/ic_chevron_down"
+                android:drawablePadding="16dp"
+                android:paddingRight="16dp"
+                app:layout_constraintBottom_toTopOf="@id/guideline92"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/guideline93" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_edit_profile_screen_one"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+
+                app:layout_constraintBottom_toTopOf="@id/guideline93"
+                app:layout_constraintTop_toBottomOf="@+id/guideline94"></ImageView>
+
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline89"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.14" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline90"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.28" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline91"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.42" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline92"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.57" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline93"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.71" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline94"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.85" />
+
+            <Button
+                android:id="@+id/buttonNext"
+                android:layout_width="match_parent"
+                android:layout_marginEnd="2sp"
+                android:layout_marginStart="2sp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2sp"
+                android:background="@drawable/round_same_buttons"
+                android:fontFamily="@font/ebrima"
+                android:text="Next"
+                android:gravity="center_vertical|center_horizontal"
+                android:textAllCaps="false"
+                android:textColor="#FFF"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <RadioGroup
+                android:id="@+id/radioGenderGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="16dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="@+id/textViewGender"
+                app:layout_constraintEnd_toEndOf="@+id/textViewGender"
+                app:layout_constraintTop_toTopOf="@+id/textViewGender">
+
+                <RadioButton
+                    android:id="@+id/male"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="16dp"
+                    android:buttonTint="@color/good_green"
+                    android:text="Male"
+                    android:textSize="18sp"
+                    android:checked="true"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/ebrima"
+                    android:textColor="@color/good_green"/>
+
+                <RadioButton
+                    android:id="@+id/female"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/good_green"
+                    android:text="Female"
+                    android:textStyle="bold"
+                    android:textColor="@color/good_green"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/ebrima"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView68"
+                    app:layout_constraintTop_toTopOf="@+id/textView68"
+                    app:layout_constraintVertical_bias="0.464"
+                    tools:layout_editor_absoluteX="269dp" />
+
+
+            </RadioGroup>
+
+            <!--            <ImageView-->
+            <!--                android:id="@+id/imageView8"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                app:layout_constraintBottom_toTopOf="@+id/guideline94"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toTopOf="@+id/guideline93"-->
+            <!--                app:srcCompat="@drawable/group_4059" />-->
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayoutEditDoctorPageTwo"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@drawable/constlayout"
+            android:visibility="invisible"
+            tools:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline86"
+            app:layout_constraintVertical_bias="1.0">
+
+            <EditText
+                android:id="@+id/editDegree"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/edit_text"
+                android:ems="10"
+                android:textSize="18sp"
+                android:fontFamily="@font/ebrima"
+                android:gravity="center_vertical"
+                android:hint="Degree"
+                android:inputType="text"
+                android:paddingStart="16dp"
+                android:textColor="@color/good_green"
+                app:layout_constraintBottom_toTopOf="@id/guideline95"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+
+            <EditText
+                android:id="@+id/et_experience"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="24dp"
+                android:paddingEnd="10sp"
+                android:background="@drawable/edit_text"
+                android:ems="10"
+                android:inputType="number"
+
+                android:textSize="18sp"
+                android:fontFamily="@font/ebrima"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:hint="Experience"
+                android:textColor="@color/good_green"
+                app:layout_constraintBottom_toTopOf="@id/guideline96"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/guideline95" />
+            <TextView
+                android:id="@+id/tv_experience"
+                android:layout_width="wrap_content"
+                android:textSize="18sp"
+                android:textColor="@color/good_green"
+                android:text="Year(s) "
+                android:gravity="center"
+                android:textStyle="bold"
+                android:layout_height="48dp"
+                android:backgroundTint="@color/white"
+                android:layout_marginEnd="4sp"
+                android:layout_marginBottom="2sp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toTopOf="@id/guideline96"
+                app:layout_constraintEnd_toEndOf="@id/et_experience"></TextView>
+
+            <EditText
+                android:id="@+id/editDesignation"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="24dp"
+                android:background="@drawable/edit_text"
+                android:ems="10"
+                android:fontFamily="@font/ebrima"
+                android:gravity="center_vertical"
+                android:hint="Designation"
+                android:inputType="text"
+                android:paddingStart="16dp"
+                android:textSize="18sp"
+                android:textColor="@color/good_green"
+                app:layout_constraintBottom_toTopOf="@id/guideline97"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/guideline96" />
+
+            <EditText
+                android:id="@+id/phizio_clinic_name"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="24dp"
+                android:background="@drawable/edit_text"
+                android:ems="10"
+                android:fontFamily="@font/ebrima"
+                android:gravity="center_vertical"
+                android:hint="Hospital"
+                android:inputType="text"
+                android:paddingStart="16dp"
+                android:textSize="18sp"
+                android:textColor="@color/good_green"
+                app:layout_constraintBottom_toTopOf="@id/guideline98"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/guideline97" />
+
+            <EditText
+                android:id="@+id/editCity"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="24dp"
+                android:background="@drawable/edit_text"
+                android:ems="10"
+                android:fontFamily="@font/ebrima"
+                android:gravity="center_vertical"
+                android:hint="Address"
+                android:inputType="text"
+                android:paddingStart="16dp"
+                android:textSize="18sp"
+                android:textColor="@color/good_green"
+                app:layout_constraintBottom_toTopOf="@id/guideline99"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/guideline98" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_edit_profile_screen_two"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+
+                app:layout_constraintBottom_toTopOf="@id/guideline99"
+                app:layout_constraintTop_toBottomOf="@+id/guideline100"></ImageView>
+
+
+
+            <Button
+                android:id="@+id/buttonSave"
+                android:layout_width="match_parent"
+                android:layout_marginEnd="2sp"
+                android:layout_marginStart="2sp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round_same_buttons"
+                android:layout_marginBottom="2sp"
+                android:fontFamily="@font/ebrima"
+                android:text="Save"
+                android:textAllCaps="false"
+                android:textColor="#FFF"
+                android:gravity="center_vertical|center_horizontal"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline95"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.14" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline96"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.28" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline97"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.42" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline98"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.57" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline99"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.71" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline100"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.85" />
+
+            <!--            <ImageView-->
+            <!--                android:id="@+id/imageView7"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                app:layout_constraintBottom_toTopOf="@+id/guideline100"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toTopOf="@+id/guideline99"-->
+            <!--                app:srcCompat="@drawable/group_3246" />-->
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline86"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.33" />
+
+        <ImageView
+            android:id="@+id/cameraButtonDoctor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="92dp"
+            android:layout_marginTop="84dp"
+            android:elevation="2dp"
+            app:layout_constraintStart_toStartOf="@+id/doctorImage"
+            app:layout_constraintTop_toTopOf="@+id/doctorImage"
+            app:srcCompat="@drawable/camera_photo" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/doctorImage"
+            android:layout_width="128dp"
+            android:layout_height="119dp"
+            android:src="@drawable/default_profile"
+            app:layout_constraintBottom_toTopOf="@+id/guideline86"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.507"/>
+
+
+
+
+
+        <ImageView
+            android:id="@+id/cameraButtonHospital"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="92dp"
+            android:layout_marginTop="84dp"
+            android:elevation="2dp"
+            android:visibility="invisible"
+            android:clickable="false"
+            app:layout_constraintStart_toStartOf="@+id/hospitalImage"
+            app:layout_constraintTop_toTopOf="@+id/hospitalImage"
+            app:srcCompat="@drawable/camera_photo" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/hospitalImage"
+            android:layout_width="128dp"
+            android:layout_height="119dp"
+            android:visibility="invisible"
+            android:src="@drawable/ic_default_clinic"
+            app:layout_constraintBottom_toTopOf="@+id/guideline86"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.507"/>
+
+        <TextView
+            android:id="@+id/uploadLogoPhizio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Upload your photo"
+            android:visibility="invisible"
+            android:textSize="18sp"
+            android:fontFamily="@font/ebrima"
+            android:textColor="@color/good_green"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="@+id/doctorImage"
+            app:layout_constraintStart_toStartOf="@+id/doctorImage"
+            app:layout_constraintTop_toBottomOf="@id/doctorImage"/>
+
+        <TextView
+            android:id="@+id/uploadLogoClinic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Upload Hospital Logo"
+            android:visibility="invisible"
+            android:textSize="18sp"
+            android:fontFamily="@font/ebrima"
+            android:textColor="@color/good_green"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="@+id/hospitalImage"
+            app:layout_constraintStart_toStartOf="@+id/hospitalImage"
+            app:layout_constraintTop_toBottomOf="@id/hospitalImage"/>
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

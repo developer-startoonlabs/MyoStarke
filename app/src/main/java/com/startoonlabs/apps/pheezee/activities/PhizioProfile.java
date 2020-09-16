@@ -9,14 +9,14 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -74,7 +74,7 @@ public class PhizioProfile extends AppCompatActivity implements MqttSyncReposito
         super.onCreate(savedInstanceState);
         Configuration config = getResources().getConfiguration();
         if (config.smallestScreenWidthDp >= 600) {
-            setContentView(R.layout.activity_phizio_profile_large);
+            setContentView(R.layout.activity_phizio_profile);
         } else {
             setContentView(R.layout.activity_phizio_profile);
         }
@@ -133,13 +133,13 @@ public class PhizioProfile extends AppCompatActivity implements MqttSyncReposito
         tv_update_clinic_logo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(NetworkOperations.isNetworkAvailable(PhizioProfile.this)) {
-                    UploadImageDialog dialog1 = new UploadImageDialog(PhizioProfile.this, 7, 8);
-                    dialog1.showDialog();
-                }
-                else {
-                    NetworkOperations.networkError(PhizioProfile.this);
-                }
+//                if(NetworkOperations.isNetworkAvailable(PhizioProfile.this)) {
+//                    UploadImageDialog dialog1 = new UploadImageDialog(PhizioProfile.this, 7, 8);
+//                    dialog1.showDialog();
+//                }
+//                else {
+//                    NetworkOperations.networkError(PhizioProfile.this);
+//                }
             }
         });
         iv_phizio_profilepic = (ImageView)findViewById(R.id.iv_phizio_profilepic);
@@ -192,11 +192,10 @@ public class PhizioProfile extends AppCompatActivity implements MqttSyncReposito
         tv_edit_profile_details.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                focuseEditTexts(true);
-                setPaleWhiteBackground(true);
-                //Setting the visibility of the buttons tured on
-                btn_cancel_update.setVisibility(View.VISIBLE);
-                btn_update.setVisibility(View.VISIBLE);
+                Intent i = new Intent(PhizioProfile.this, EditProfileActivity.class);
+                i.putExtra("et_phizio_email", et_phizio_email.getText().toString());
+                startActivityForResult(i,31);
+
             }
         });
 
@@ -251,13 +250,13 @@ public class PhizioProfile extends AppCompatActivity implements MqttSyncReposito
         tv_edit_profile_pic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(NetworkOperations.isNetworkAvailable(PhizioProfile.this)) {
-                    UploadImageDialog dialog1 = new UploadImageDialog(PhizioProfile.this, 5, 6);
-                    dialog1.showDialog();
-                }
-                else {
-                    NetworkOperations.networkError(PhizioProfile.this);
-                }
+//                if(NetworkOperations.isNetworkAvailable(PhizioProfile.this)) {
+//                    UploadImageDialog dialog1 = new UploadImageDialog(PhizioProfile.this, 5, 6);
+//                    dialog1.showDialog();
+//                }
+//                else {
+//                    NetworkOperations.networkError(PhizioProfile.this);
+//                }
             }
         });
 
@@ -299,7 +298,7 @@ public class PhizioProfile extends AppCompatActivity implements MqttSyncReposito
             else
                 et_specialization.setText("");
             if(json_phizio.has("degree"))
-                et_degree.setText(json_phizio.getString("degree")+",");
+                et_degree.setText(json_phizio.getString("degree"));
             else
                 et_degree.setText("");
             if(json_phizio.has("gender"))
@@ -484,6 +483,18 @@ public class PhizioProfile extends AppCompatActivity implements MqttSyncReposito
                     }
 
                 }
+                break;
+            case 31:
+                if(resultCode == RESULT_OK){
+                    setPhizioDetails();
+                    et_phizio_name.setText(imageReturnedIntent.getStringExtra("et_phizio_name"));
+                    et_specialization.setText(imageReturnedIntent.getStringExtra("et_specialization"));
+                    et_degree.setText(imageReturnedIntent.getStringExtra("et_degree"));
+                    et_experience.setText(imageReturnedIntent.getStringExtra("et_experience"));
+                    et_phizio_phone.setText(imageReturnedIntent.getStringExtra("et_phizio_phone"));
+                    et_clinic_name.setText(imageReturnedIntent.getStringExtra("et_clinic_name"));
+                    et_address.setText(imageReturnedIntent.getStringExtra("et_address"));
+                    }
                 break;
         }
     }

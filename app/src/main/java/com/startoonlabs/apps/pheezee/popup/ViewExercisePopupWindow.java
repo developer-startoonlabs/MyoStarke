@@ -265,7 +265,7 @@ public class ViewExercisePopupWindow {
                             first_exercise.setSession_time(sessiontime);
 
 
-                            first_exercise.setHeldon(heldon);
+                            first_exercise.setHeldon(dateString);
 
                             first_exercise.setPatientemail(phizioemail);
                             first_exercise.setPatientid(patientid);
