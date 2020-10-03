@@ -104,7 +104,7 @@ public class ViewExercisePopupWindow {
     private String dateString,heldon;
     private Context context;
     private PopupWindow report;
-    private int maxEmgValue, maxAngle, minAngle, angleCorrection, exercise_selected_position, body_part_selected_position, repsselected;
+    private int maxEmgValue, maxAngle, minAngle, angleCorrection, exercise_selected_position, body_part_selected_position, repsselected,hold_angle_session;
     private String sessionNo, mmt_selected = "", orientation, bodypart, phizioemail, patientname, patientid, sessiontime, actiontime,
             holdtime, numofreps, body_orientation="", session_type="", dateofjoin, exercise_name, muscle_name, min_angle_selected,
             max_angle_selected, max_emg_selected;
@@ -121,7 +121,7 @@ public class ViewExercisePopupWindow {
                                    String holdtime, String numofreps, int angleCorrection,
                                    String patientid, String patientname, Long tsLong, String bodyOrientation, String dateOfJoin,
                                    int exercise_selected_position, int body_part_selected_position, String muscle_name, String exercise_name,
-                                   String min_angle_selected, String max_angle_selected, String max_emg_selected, int repsselected){
+                                   String min_angle_selected, String max_angle_selected, String max_emg_selected, int repsselected, int hold_angle_session){
         this.context = context;
         this.maxEmgValue = maxEmgValue;
         this.sessionNo = sessionNo;
@@ -148,6 +148,7 @@ public class ViewExercisePopupWindow {
         this.max_angle_selected = max_angle_selected;
         this.max_emg_selected = max_emg_selected;
         this.repsselected = repsselected;
+        this.hold_angle_session = hold_angle_session;
         repository = new MqttSyncRepository(((Activity)context).getApplication());
         repository.setOnSessionDataResponse(onSessionDataResponse);
 
@@ -694,6 +695,7 @@ public class ViewExercisePopupWindow {
                     object.put("anglecorrected",angleCorrection);
                     object.put("maxemg",maxEmgValue);
                     object.put("holdtime",holdtime);
+                    object.put("holdangle",hold_angle_session);
                     object.put("bodypart",bodypart);
                     object.put("sessiontime",sessiontime);
                     object.put("numofreps",numofreps);

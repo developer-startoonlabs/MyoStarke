@@ -771,7 +771,7 @@ public class PheezeeBleService extends Service {
                 byte header_main = temp_byte[0];
                 byte header_sub = temp_byte[1];
                 //session related
-                int sub_byte_size = 11;
+                int sub_byte_size = temp_byte.length-2;
                 byte[] sub_byte = new byte[sub_byte_size];
                 if (ByteToArrayOperations.byteToStringHexadecimal(header_main).equals("AA")) {
                     if (ByteToArrayOperations.byteToStringHexadecimal(header_sub).equals("01")) {

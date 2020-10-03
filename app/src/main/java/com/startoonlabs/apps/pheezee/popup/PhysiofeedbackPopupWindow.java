@@ -71,7 +71,7 @@ public class PhysiofeedbackPopupWindow {
     private String dateString;
     private Context context;
     private PopupWindow report;
-    private int maxEmgValue, maxAngle, minAngle, angleCorrection, exercise_selected_position, body_part_selected_position, repsselected;
+    private int maxEmgValue, maxAngle, minAngle, angleCorrection, exercise_selected_position, body_part_selected_position, repsselected,hold_angle_session;
     private String sessionNo, mmt_selected = "", orientation, bodypart, phizioemail, patientname, patientid, sessiontime, actiontime,
             holdtime, numofreps, body_orientation="", session_type="", dateofjoin, exercise_name, muscle_name, min_angle_selected,
             max_angle_selected, max_emg_selected;
@@ -88,7 +88,7 @@ public class PhysiofeedbackPopupWindow {
                                      String holdtime, String numofreps, int angleCorrection,
                                      String patientid, String patientname, Long tsLong, String bodyOrientation, String dateOfJoin,
                                      int exercise_selected_position, int body_part_selected_position, String muscle_name, String exercise_name,
-                                     String min_angle_selected, String max_angle_selected, String max_emg_selected, int repsselected,View layout_d,JSONArray emgJsonArray, JSONArray romJsonArray,int phizio_packagetype){
+                                     String min_angle_selected, String max_angle_selected, String max_emg_selected, int repsselected,View layout_d,JSONArray emgJsonArray, JSONArray romJsonArray,int phizio_packagetype,int hold_angle_session){
         this.context = context;
         this.maxEmgValue = maxEmgValue;
         this.sessionNo = sessionNo;
@@ -119,6 +119,7 @@ public class PhysiofeedbackPopupWindow {
         this.emgJsonArray = emgJsonArray;
         this.romJsonArray = romJsonArray;
         this.phizio_packagetype=phizio_packagetype;
+        this.hold_angle_session=hold_angle_session;
         repository = new MqttSyncRepository(((Activity)context).getApplication());
         repository.setOnSessionDataResponse(onSessionDataResponse);
     }
@@ -284,7 +285,7 @@ public class PhysiofeedbackPopupWindow {
                             ViewExercisePopupWindow feedback = new ViewExercisePopupWindow(context,maxEmgValue, sessionNo, maxAngle, minAngle, orientation, bodypart,
                                     phizioemail, sessiontime, actiontime, holdtime, numofreps,
                                     angleCorrection, patientid, patientname, tsLong, bodyOrientation, dateofjoin, exercise_selected_position,body_part_selected_position,
-                                    muscle_name,exercise_name,min_angle_selected,max_angle_selected,max_emg_selected,repsselected);
+                                    muscle_name,exercise_name,min_angle_selected,max_angle_selected,max_emg_selected,repsselected,hold_angle_session);
                             feedback.showWindow();
                             feedback.storeLocalSessionDetails(emgJsonArray,romJsonArray);
                             if(phizio_packagetype!=STANDARD_PACKAGE)
@@ -469,6 +470,7 @@ public class PhysiofeedbackPopupWindow {
                     object.put("anglecorrected",angleCorrection);
                     object.put("maxemg",maxEmgValue);
                     object.put("holdtime",holdtime);
+                    object.put("holdangle",hold_angle_session);
                     object.put("bodypart",bodypart);
                     object.put("sessiontime",sessiontime);
                     object.put("numofreps",numofreps);

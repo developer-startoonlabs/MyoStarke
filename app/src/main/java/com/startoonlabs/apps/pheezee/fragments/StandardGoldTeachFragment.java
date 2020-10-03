@@ -118,7 +118,8 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
             tv_session_no, tv_body_part, monitor_muscle_name,tv_repsselected, tv_repsselected_slash,EMG, time, patientId, patientName, tv_action_time,tv_recording;
     private int ui_rate = 0, gain_initial = 20, body_orientation = 0, angleCorrection = 0,
             currentAngle = 0, Seconds, Minutes, maxAngle, minAngle, maxEmgValue, orientation_position=0;
-
+    private int hold_angle_session=0,hold_time_minutes_session=0, hold_time_seconds_session=0;
+    String holdTime_final="00m:00s";
     boolean angleCorrected = false, deviceState = true, usbState = false;
     String bodypart, orientation = "NO", timeText = "", holdTimeValue = "0:0";
     private String  str_exercise_name, str_muscle_name, str_max_emg_selected, str_min_angle_selected, str_max_angle_selected;
@@ -1093,6 +1094,10 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
         emgJsonArray = new JSONArray();
         romJsonArray = new JSONArray();
         maxAngle = 0;minAngle = 360;maxEmgValue = 0;
+        hold_angle_session = 0;
+        hold_time_seconds_session = 0;
+        hold_time_minutes_session = 0;
+        holdTime_final="00m:00s";
         tv_recording.setText("Recording");
         Animation anim = new AlphaAnimation(0.0f, 1.0f);
         anim.setDuration(500); //You can manage the blinking time with this parameter
@@ -1214,7 +1219,8 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
                 if (mSessionStarted) {
 
 //                    ToneGenerator toneGen2 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
-                    int angleDetected = 0, num_of_reps = 0, hold_time_minutes, hold_time_seconds, active_time_minutes, active_time_seconds;
+                    int angleDetected = 0, num_of_reps = 0, hold_time_minutes, hold_time_seconds, active_time_minutes, active_time_seconds,hold_angle =0;
+
                     int emg_data, error_device = 0;
                     byte[] sub_byte;
                     sub_byte = (byte[]) message.obj;
@@ -1230,10 +1236,43 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
                                 maxAngle = angleDetected;
                             }
                             num_of_reps = ByteToArrayOperations.getNumberOfReps(sub_byte[4], sub_byte[5]);
+                            if(sub_byte.length > 11) {
+                                hold_angle = ByteToArrayOperations.getAngleFromData(sub_byte[11], sub_byte[12]);
+                            }
+
+
+
                             hold_time_minutes = sub_byte[6];
                             hold_time_seconds = sub_byte[7];
                             active_time_minutes = sub_byte[8];
                             active_time_seconds = sub_byte[9];
+
+                            // Updating the hold angle and hold time to latest values
+
+                            if(hold_time_minutes == 0 && hold_time_seconds ==0)
+                            {
+                                // Do nothing
+                            }else
+                            {
+                                if(hold_time_seconds>=hold_time_seconds_session && hold_time_minutes>=hold_time_minutes_session) {
+                                    hold_time_seconds_session = hold_time_seconds;
+                                    hold_time_minutes_session = hold_time_minutes;
+
+                                    String minutesValue = "" + hold_time_minutes, secondsValue = "" + hold_time_seconds;
+                                    if (hold_time_minutes < 10)
+                                        minutesValue = "0" + hold_time_minutes;
+                                    if (hold_time_seconds < 10)
+                                        secondsValue = "0" + hold_time_seconds;
+                                    holdTime_final = minutesValue + "m: " + secondsValue + "s";
+
+
+                                    if(hold_angle!=0 && hold_angle!=360){
+
+                                        hold_angle_session = hold_angle;
+                                    }
+                                }
+                            }
+
                             currentAngle = angleDetected;
                             String repetitionValue = "" + num_of_reps;
                             Repetitions.setText(repetitionValue);
@@ -1531,9 +1570,9 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
 //        romJsonArray = new JSONArray();
 
         SessionSummaryPopupWindow window = new SessionSummaryPopupWindow(getActivity(), maxEmgValue, sessionNo, maxAngle, minAngle, orientation, bodypart,
-                json_phizioemail, sessiontime, actiontime, holdTime.getText().toString(), Repetitions.getText().toString(),
+                json_phizioemail, sessiontime, actiontime, holdTime_final, Repetitions.getText().toString(),
                 angleCorrection, patientid, patientname, tsLong, bodyorientation, getActivity().getIntent().getStringExtra("dateofjoin"), exercise_position,bodypart_position,
-                str_muscle_name,str_exercise_name,str_min_angle_selected,str_max_angle_selected,str_max_emg_selected,repsselected,emgJsonArray,romJsonArray,phizio_packagetype);
+                str_muscle_name,str_exercise_name,str_min_angle_selected,str_max_angle_selected,str_max_emg_selected,repsselected,emgJsonArray,romJsonArray,phizio_packagetype,hold_angle_session);
         window.showWindow();
 //        window.storeLocalSessionDetails(emgJsonArray,romJsonArray);
         if(phizio_packagetype!=STANDARD_PACKAGE)

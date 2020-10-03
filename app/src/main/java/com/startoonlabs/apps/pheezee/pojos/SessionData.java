@@ -7,11 +7,11 @@ public class SessionData {
     String heldon,maxangle,minangle,anglecorrected,maxemg,holdtime,bodypart,sessiontime,numofreps,numofsessions,
             phizioemail,patientid, painscale, muscletone, exercisename, commentsession, symptoms, activetime,
             orientation,mmtgrade, bodyorientation, sessiontype ,repsselected, musclename, maxangleselected,
-            minangleselected, maxemgselected, sessioncolor, id;
+            minangleselected, maxemgselected, sessioncolor, id,holdangle;
     JSONArray emgdata, romdata;
 
 
-    public SessionData(String heldon, String maxangle, String minangle, String anglecorrected, String maxemg, String holdtime,
+    public SessionData(String heldon, String maxangle, String minangle, String anglecorrected, String maxemg, String holdtime,String holdangle,
                        String bodypart, String sessiontime, String numofreps, String numofsessions, String phizioemail, String patientid,
                        String painscale, String muscletone, String exercisename, String commentsession, String symptoms, String activetime,
                        String orientation, String mmtgrade, String bodyorientation, String sessiontype, String repsselected, String musclename,
@@ -23,6 +23,7 @@ public class SessionData {
         this.anglecorrected = anglecorrected;
         this.maxemg = maxemg;
         this.holdtime = holdtime;
+        this.holdangle = holdangle;
         this.bodypart = bodypart;
         this.sessiontime = sessiontime;
         this.numofreps = numofreps;
