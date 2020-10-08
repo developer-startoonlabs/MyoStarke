@@ -37,6 +37,7 @@ import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.activities.MonitorActivity;
 import com.startoonlabs.apps.pheezee.activities.PatientsView;
 import com.startoonlabs.apps.pheezee.activities.SessionReportActivity;
+import com.startoonlabs.apps.pheezee.classes.PatientActivitySingleton;
 import com.startoonlabs.apps.pheezee.pojos.DeleteSessionData;
 import com.startoonlabs.apps.pheezee.pojos.MmtData;
 import com.startoonlabs.apps.pheezee.pojos.SessionData;
@@ -499,6 +500,7 @@ public class PhysiofeedbackPopupWindow {
                     SessionData data = gson.fromJson(object.toString(),SessionData.class);
                     data.setEmgdata(emgJsonArray);
                     data.setRomdata(romJsonArray);
+                    data.setActivityList(PatientActivitySingleton.getInstance().getactivitylist());
                     object = new JSONObject(gson.toJson(data));
                     MqttSync sync = new MqttSync(mqtt_publish_add_patient_session_emg_data,object.toString());
                     lock.unlock();

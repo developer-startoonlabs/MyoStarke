@@ -6,6 +6,7 @@ import com.startoonlabs.apps.pheezee.activities.PatientsView;
 import com.startoonlabs.apps.pheezee.activities.SessionReportActivity;
 import com.startoonlabs.apps.pheezee.adapters.DeviceListArrayAdapter;
 import com.startoonlabs.apps.pheezee.adapters.SessionListArrayAdapter;
+import com.startoonlabs.apps.pheezee.classes.PatientActivitySingleton;
 import com.startoonlabs.apps.pheezee.classes.SessionListClass;
 
 import android.app.Activity;
@@ -724,6 +725,7 @@ public class ViewExercisePopupWindow {
                     SessionData data = gson.fromJson(object.toString(),SessionData.class);
                     data.setEmgdata(emgJsonArray);
                     data.setRomdata(romJsonArray);
+                    data.setActivityList(PatientActivitySingleton.getInstance().getactivitylist());
                     object = new JSONObject(gson.toJson(data));
                     MqttSync sync = new MqttSync(mqtt_publish_add_patient_session_emg_data,object.toString());
                     lock.unlock();

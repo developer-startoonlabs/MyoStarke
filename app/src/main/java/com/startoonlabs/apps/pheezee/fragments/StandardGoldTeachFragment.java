@@ -81,6 +81,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import android.util.Log;
@@ -102,7 +103,7 @@ import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.device_st
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.session_data;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.usb_state;
 import android.view.WindowManager;
-
+import com.startoonlabs.apps.pheezee.classes.PatientActivitySingleton;
 public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepository.GetSessionNumberResponse {
     private boolean can_beep = false, can_voice = false;
     private int peakSpeachComdition = 0;
@@ -1128,6 +1129,29 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
         StartTime = SystemClock.uptimeMillis();
 
         handler.postDelayed(runnable, 0);
+
+
+        // Checking for activity
+        PatientActivitySingleton activity = PatientActivitySingleton.getInstance();
+        JSONObject jsonObject = new JSONObject();
+        JSONArray array = new JSONArray();
+        //for held on date
+        Calendar calendar = Calendar.getInstance();
+        Date date_cal = calendar.getTime();
+        java.text.DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+        String heldon = dateFormat.format(date_cal);
+        try {
+            jsonObject.put("engagement", 1);
+            jsonObject.put("timespamp", heldon);
+
+        }catch (Throwable e)
+        {
+        }
+        array.put(jsonObject);
+        activity.setPatientDetails(patientid,patientname,json_phizioemail,array);
+
+
+
     }
 
     private void initializeAndWriteInitialToFile() {
@@ -1522,6 +1546,8 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
         }catch (NullPointerException e){
             e.printStackTrace();
         }
+
+
     }
 
 
@@ -1568,6 +1594,26 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
         //testing with empty emg and rom array
 //        emgJsonArray = new JSONArray();
 //        romJsonArray = new JSONArray();
+        // Updating the activity list
+        // Checking for activity
+        PatientActivitySingleton activity = PatientActivitySingleton.getInstance();
+        JSONObject jsonObject = new JSONObject();
+        JSONArray array = new JSONArray();
+        //for held on date
+        Calendar calendar = Calendar.getInstance();
+        Date date_cal = calendar.getTime();
+        java.text.DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+        String heldon = dateFormat.format(date_cal);
+        try {
+            jsonObject.put("engagement", 0);
+            jsonObject.put("timespamp", heldon);
+
+        }catch (Throwable e)
+        {
+        }
+        array.put(jsonObject);
+        activity.setPatientDetails(patientid,patientname,json_phizioemail,array);
+
 
         SessionSummaryPopupWindow window = new SessionSummaryPopupWindow(getActivity(), maxEmgValue, sessionNo, maxAngle, minAngle, orientation, bodypart,
                 json_phizioemail, sessiontime, actiontime, holdTime_final, Repetitions.getText().toString(),

@@ -164,12 +164,12 @@
       android:fillColor="#6b6caf"
       android:strokeColor="#161615"/>
   <path
-      android:pathData="M88.444,87.865l-11.563,0.61 -0.41,-4.618s4.084,-2.596 11.834,-0.336Z"
+      android:pathData="M87.7,98.092l-11.563,0.61 -0.41,-4.618s4.084,-2.596 11.834,-0.336Z"
       android:strokeWidth="1"
       android:fillColor="#fff"
       android:strokeColor="#161615"/>
   <path
-      android:pathData="M88.245,85.699L76.684,86.253"
+      android:pathData="M87.474,95.669L75.912,96.223"
       android:strokeWidth="1"
       android:fillColor="#6b6caf"
       android:strokeColor="#161615"/>

@@ -8,10 +8,10 @@ public class SessionData {
             phizioemail,patientid, painscale, muscletone, exercisename, commentsession, symptoms, activetime,
             orientation,mmtgrade, bodyorientation, sessiontype ,repsselected, musclename, maxangleselected,
             minangleselected, maxemgselected, sessioncolor, id,holdangle;
-    JSONArray emgdata, romdata;
+    JSONArray emgdata, romdata,activity_list;
 
 
-    public SessionData(String heldon, String maxangle, String minangle, String anglecorrected, String maxemg, String holdtime,String holdangle,
+    public SessionData(String heldon, String maxangle, String minangle, String anglecorrected, String maxemg, String holdtime,String holdangle, JSONArray activity_list,
                        String bodypart, String sessiontime, String numofreps, String numofsessions, String phizioemail, String patientid,
                        String painscale, String muscletone, String exercisename, String commentsession, String symptoms, String activetime,
                        String orientation, String mmtgrade, String bodyorientation, String sessiontype, String repsselected, String musclename,
@@ -49,6 +49,7 @@ public class SessionData {
         this.emgdata = emgdata;
         this.romdata = romdata;
         this.id = id;
+        this.activity_list = activity_list;
     }
 
     public String getId() {
@@ -297,5 +298,9 @@ public class SessionData {
 
     public void setRomdata(JSONArray romdata) {
         this.romdata = romdata;
+    }
+
+    public void setActivityList(JSONArray activity_list) {
+        this.activity_list = activity_list;
     }
 }

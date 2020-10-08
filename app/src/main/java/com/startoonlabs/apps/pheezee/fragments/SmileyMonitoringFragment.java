@@ -48,6 +48,7 @@ import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.activities.MonitorActivity;
 import com.startoonlabs.apps.pheezee.activities.PatientsView;
 import com.startoonlabs.apps.pheezee.classes.EmgPeak;
+import com.startoonlabs.apps.pheezee.classes.PatientActivitySingleton;
 import com.startoonlabs.apps.pheezee.popup.SessionSummaryPopupWindow;
 import com.startoonlabs.apps.pheezee.popup.SessionSummaryStandardPopupWindow;
 import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
@@ -850,6 +851,25 @@ public class SmileyMonitoringFragment extends Fragment implements MqttSyncReposi
         }
         StartTime = SystemClock.uptimeMillis();
         handler.postDelayed(runnable, 0);
+
+        // Checking for activity
+        PatientActivitySingleton activity = PatientActivitySingleton.getInstance();
+        JSONObject jsonObject = new JSONObject();
+        JSONArray array = new JSONArray();
+        //for held on date
+        Calendar calendar = Calendar.getInstance();
+        Date date_cal = calendar.getTime();
+        java.text.DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+        String heldon = dateFormat.format(date_cal);
+        try {
+            jsonObject.put("engagement", 1);
+            jsonObject.put("timespamp", heldon);
+
+        }catch (Throwable e)
+        {
+        }
+        array.put(jsonObject);
+        activity.setPatientDetails(patientid,patientname,json_phizioemail,array);
     }
 
     private void initializeAndWriteInitialToFile() {
@@ -1251,6 +1271,26 @@ public class SmileyMonitoringFragment extends Fragment implements MqttSyncReposi
         //testing with empty emg and rom array
 //        emgJsonArray = new JSONArray();
 //        romJsonArray = new JSONArray();
+
+        // Updating the activity list
+        // Checking for activity
+        PatientActivitySingleton activity = PatientActivitySingleton.getInstance();
+        JSONObject jsonObject = new JSONObject();
+        JSONArray array = new JSONArray();
+        //for held on date
+        Calendar calendar = Calendar.getInstance();
+        Date date_cal = calendar.getTime();
+        java.text.DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+        String heldon = dateFormat.format(date_cal);
+        try {
+            jsonObject.put("engagement", 0);
+            jsonObject.put("timespamp", heldon);
+
+        }catch (Throwable e)
+        {
+        }
+        array.put(jsonObject);
+        activity.setPatientDetails(patientid,patientname,json_phizioemail,array);
 
         SessionSummaryPopupWindow window = new SessionSummaryPopupWindow(getActivity(), maxEmgValue, sessionNo, maxAngle, minAngle, orientation, bodypart,
                 json_phizioemail, sessiontime, actiontime, holdTimeValue, str_reps,

@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.startoonlabs.apps.pheezee.R;
+import com.startoonlabs.apps.pheezee.classes.PatientActivitySingleton;
 import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
 import android.util.Log;
 public class OnStartActivity extends AppCompatActivity {
@@ -26,6 +27,13 @@ public class OnStartActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences_ob=getSharedPreferences("OnBoarding",MODE_PRIVATE);
         SharedPreferences.Editor sharedPreferences_ob_editor=sharedPreferences_ob.edit();
+
+        //Clearing the Activity param
+        if(PatientActivitySingleton.getInstance() != null)
+        {
+            PatientActivitySingleton.getInstance().setPatientDetails(null,null,null,null);
+        }
+
         if(!sharedPreferences.getBoolean("version_2.14.5",false)){
 //            editor = sharedPreferences.edit();
 //            editor.clear();

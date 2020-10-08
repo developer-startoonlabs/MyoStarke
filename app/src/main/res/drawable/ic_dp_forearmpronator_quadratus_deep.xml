@@ -49,12 +49,12 @@
       android:fillColor="#6c6caf"
       android:fillAlpha="0.45"/>
   <path
-      android:pathData="M91.835,108.695a3.987,3.987 119.991,1 1,-5.558 -0.953A3.987,3.987 119.991,0 1,91.835 108.695Z"
+      android:pathData="M96.433,106.137a3.987,3.987 119.991,1 1,-5.558 -0.953A3.987,3.987 119.991,0 1,96.433 106.137Z"
       android:strokeWidth="1"
       android:fillColor="#87a075"
       android:strokeColor="#161615"/>
   <path
-      android:pathData="M97.025,110.601a3.987,3.987 119.991,1 1,-5.559 -0.954A3.985,3.985 119.991,0 1,97.025 110.601Z"
+      android:pathData="M101.622,108.043a3.987,3.987 119.991,1 1,-5.559 -0.954A3.985,3.985 119.991,0 1,101.622 108.043Z"
       android:strokeWidth="1"
       android:fillColor="#e9a04f"
       android:strokeColor="#161615"/>
