@@ -665,6 +665,7 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
                     if(phizio_packagetype==TEACH_PACKAGE||phizio_packagetype==ACHEDAMIC_TEACH_PLUS)
                         insertValuesAndNotifyMediaStore("Canceled");
                 }
+                PatientActivitySingleton.getInstance().PopElement();
             }
         });
 
@@ -1142,7 +1143,7 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
         String heldon = dateFormat.format(date_cal);
         try {
             jsonObject.put("engagement", 1);
-            jsonObject.put("timespamp", heldon);
+            jsonObject.put("timestamp", heldon);
 
         }catch (Throwable e)
         {
@@ -1606,7 +1607,7 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
         String heldon = dateFormat.format(date_cal);
         try {
             jsonObject.put("engagement", 0);
-            jsonObject.put("timespamp", heldon);
+            jsonObject.put("timestamp", heldon);
 
         }catch (Throwable e)
         {

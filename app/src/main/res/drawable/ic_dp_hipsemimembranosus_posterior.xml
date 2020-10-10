@@ -79,7 +79,7 @@
       android:fillColor="#6c6caf"
       android:fillAlpha="0.45"/>
   <path
-      android:pathData="M49.535,30.666h52.242v4.735h-52.242z"
+      android:pathData="M49.535,23.666h52.242v4.735h-52.242z"
       android:fillColor="#7b7d7d"/>
   <path
       android:pathData="M75.627,73.115h31.098v4.735h-31.098z"

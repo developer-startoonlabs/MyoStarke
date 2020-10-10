@@ -98,12 +98,12 @@
       android:pathData="M76.947,76.901h29.984v4.748h-29.984z"
       android:fillColor="#7b7d7d"/>
   <path
-      android:pathData="M78.779,19.481h6.523v10.138h-6.523z"
+      android:pathData="M72.779,19.481h6.523v10.138h-6.523z"
       android:strokeWidth="1"
       android:fillColor="#fff"
       android:strokeColor="#161615"/>
   <path
-      android:pathData="M83.432,22.718a1.394,1.394 0,1 1,-1.391 -1.31A1.353,1.353 0,0 1,83.432 22.718Z"
+      android:pathData="M77.432,22.718a1.394,1.394 0,1 1,-1.391 -1.31A1.353,1.353 0,0 1,77.432 22.718Z"
       android:fillColor="#161615"/>
   <path
       android:pathData="M89.607,74.191h6.523v10.138h-6.523z"

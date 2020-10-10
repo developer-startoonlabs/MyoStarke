@@ -541,6 +541,7 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
                     if(phizio_packagetype==TEACH_PACKAGE||phizio_packagetype==ACHEDAMIC_TEACH_PLUS)
                         insertValuesAndNotifyMediaStore("Canceled");
                 }
+                PatientActivitySingleton.getInstance().PopElement();
             }
         });
 
@@ -856,7 +857,7 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
         String heldon = dateFormat.format(date_cal);
         try {
             jsonObject.put("engagement", 1);
-            jsonObject.put("timespamp", heldon);
+            jsonObject.put("timestamp", heldon);
 
         }catch (Throwable e)
         {
@@ -1303,7 +1304,7 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
         String heldon = dateFormat.format(date_cal);
         try {
             jsonObject.put("engagement", 0);
-            jsonObject.put("timespamp", heldon);
+            jsonObject.put("timestamp", heldon);
 
         }catch (Throwable e)
         {

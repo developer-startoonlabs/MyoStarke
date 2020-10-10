@@ -540,6 +540,7 @@ public class SmileyMonitoringFragment extends Fragment implements MqttSyncReposi
                     if(phizio_packagetype==TEACH_PACKAGE||phizio_packagetype==ACHEDAMIC_TEACH_PLUS)
                         insertValuesAndNotifyMediaStore("Canceled");
                 }
+                PatientActivitySingleton.getInstance().PopElement();
             }
         });
 
@@ -863,7 +864,7 @@ public class SmileyMonitoringFragment extends Fragment implements MqttSyncReposi
         String heldon = dateFormat.format(date_cal);
         try {
             jsonObject.put("engagement", 1);
-            jsonObject.put("timespamp", heldon);
+            jsonObject.put("timestamp", heldon);
 
         }catch (Throwable e)
         {
@@ -1284,7 +1285,7 @@ public class SmileyMonitoringFragment extends Fragment implements MqttSyncReposi
         String heldon = dateFormat.format(date_cal);
         try {
             jsonObject.put("engagement", 0);
-            jsonObject.put("timespamp", heldon);
+            jsonObject.put("timestamp", heldon);
 
         }catch (Throwable e)
         {

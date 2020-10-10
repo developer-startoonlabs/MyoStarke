@@ -99,4 +99,13 @@ public class PatientActivitySingleton {
         return this.ActivityList;
     }
 
+    public void PopElement()
+    {
+        if( INSTANCE!= null && this.ActivityList != null) {
+            if(this.ActivityList.length() > 0) {
+                this.ActivityList.remove(this.ActivityList.length() - 1);
+            }
+        }
+    }
+
 }
