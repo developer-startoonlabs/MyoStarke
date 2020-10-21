@@ -506,6 +506,7 @@
                     <TextView
                         android:layout_width="match_parent"
 
+                        android:id="@+id/profile_session_number"
                         android:layout_height="wrap_content"
                         android:textSize="16sp"
                         android:background="@color/white"
@@ -534,7 +535,7 @@
                         android:orientation="vertical">
                         <TextView
                             android:layout_width="match_parent"
-
+                            android:id="@+id/profile_report_number"
                             android:layout_height="wrap_content"
                             android:textSize="16sp"
                             android:background="@color/white"

@@ -27,6 +27,7 @@ import com.startoonlabs.apps.pheezee.pojos.PatientImageUploadResponse;
 import com.startoonlabs.apps.pheezee.pojos.PatientStatusData;
 import com.startoonlabs.apps.pheezee.pojos.PhizioDetailsData;
 import com.startoonlabs.apps.pheezee.pojos.PhizioEmailData;
+import com.startoonlabs.apps.pheezee.pojos.PhizioSessionReportData;
 import com.startoonlabs.apps.pheezee.pojos.ResponseData;
 import com.startoonlabs.apps.pheezee.pojos.SceduledSessionNotSaved;
 import com.startoonlabs.apps.pheezee.pojos.SessionData;
@@ -76,6 +77,9 @@ public interface GetDataService {
 
     @POST("/api/getheldon")
     Call<String> getHeldon(@Body PatientStatusData object);
+
+    @POST("/api/getsession_report_count")
+    Call<PhizioSessionReportData> getsession_report_count(@Body PatientStatusData object);
 
     @POST("/api/getoveralletails")
     Call<Overallresponse> getOverall_list(@Body PatientStatusData object);
