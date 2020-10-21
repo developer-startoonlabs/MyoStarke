@@ -29,7 +29,6 @@
         <item>Shoulder</item>
         <item>Forearm</item>
         <item>Spine</item>
-        <item>Others</item>
     </string-array>
 
 
@@ -184,7 +183,7 @@
     <!--Appinfo related tags-->
     <string name="app_info">App Info</string>
     <string name="app_version">Application Version</string>
-    <string name="application_version">2.16.27.h</string>
+    <string name="application_version">2.16.28.h</string>
 
     <!--phizio profile related tags-->
     <string name="your_profile">My Profile</string>

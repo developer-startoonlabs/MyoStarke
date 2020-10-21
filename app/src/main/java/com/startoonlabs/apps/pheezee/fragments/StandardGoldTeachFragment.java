@@ -484,7 +484,7 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
 
             Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);
 
-            Notification_Button_ok.setText("Start");
+            Notification_Button_ok.setText("Next");
 
             // On click on Continue
             Notification_Button_ok.setOnClickListener(new View.OnClickListener() {
@@ -492,7 +492,9 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
                 public void onClick(View v) {
 
                     if(deviceState && !usbState)
-                        startSession();
+                    {
+                        // Do nothing
+                    }
                     else {
                         if(!deviceState)
                             deviceDisconnectedPopup(false);
@@ -785,6 +787,8 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
                                     minAngle = angleCorrection;
                                     angleCorrection -= currentAngle;
                                     currentAngle += angleCorrection;
+
+                                    startSession_angleCorrected();
 
 
                                 }
@@ -1152,6 +1156,56 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
         activity.setPatientDetails(patientid,patientname,json_phizioemail,array);
 
 
+
+    }
+
+
+    public void startSession_angleCorrected() {
+        current_emg_peak_index=0;max_emg_peak_index=0;
+        emgPeakList = new ArrayList<>();
+        updateGainView();
+        error_device_dialog=null;
+        mSessionStarted = true;
+        sessionCompleted = false;
+        ui_rate = 0;
+
+        emgJsonArray = new JSONArray();
+        romJsonArray = new JSONArray();
+        maxEmgValue = 0;
+        hold_angle_session = 0;
+        hold_time_seconds_session = 0;
+        hold_time_minutes_session = 0;
+        holdTime_final="00m:00s";
+        tv_recording.setText("Recording");
+        Animation anim = new AlphaAnimation(0.0f, 1.0f);
+        anim.setDuration(500); //You can manage the blinking time with this parameter
+        anim.setStartOffset(20);
+        anim.setRepeatMode(Animation.REVERSE);
+        anim.setRepeatCount(Animation.INFINITE);
+        tv_recording.startAnimation(anim);
+
+        can_beeep_max=true;can_beep_min=true;
+        creatGraphView();
+        timer.setVisibility(View.GONE);
+        cancelBtn.setVisibility(View.VISIBLE);
+        stopBtn.setVisibility(View.VISIBLE);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+//                mService.sendBodypartDataToDevice(bodypart, body_orientation, patientname, exercise_position,
+//                        muscle_position, bodypart_position, orientation_position);
+
+                ((MonitorActivity)getActivity()).sendBodypartDataToDevice(bodypart, body_orientation, patientname, exercise_position,
+                        muscle_position, bodypart_position, orientation_position);
+            }
+        }, 100);
+        rawdata_timestamp = Calendar.getInstance().getTime();
+        if(phizio_packagetype==TEACH_PACKAGE||phizio_packagetype==ACHEDAMIC_TEACH_PLUS){
+            initializeAndWriteInitialToFile();
+        }
+        StartTime = SystemClock.uptimeMillis();
+
+        handler.postDelayed(runnable, 0);
 
     }
 

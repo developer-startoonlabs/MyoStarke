@@ -63,6 +63,495 @@ public class MuscleOperation {
             {"Select Exercise*","Others"}
     };
 
+    private final static String[][][][] primary_secondary_muscle_list = {
+            { // Shoulder - 0
+                    {// Shoulder Flexion - 0
+                            { // Primary
+                                    "Deltoid"
+
+                            },
+                            { // Secondary
+                                    "Biceps","Coracobrachialis"
+                            }
+
+                    },
+                    {// Shoulder Extension - 1
+                            { // Primary
+                                    "Latissimus Dorsi"
+
+                            },
+                            { // Secondary
+                                    "Deltoid"
+                            }
+
+                    },
+                    {// Shoulder Isometric - 2
+                            { // Primary
+                                    "Pectoralis Major", "Latissimus Dorsi", "Teres Major", "Subscapularis", "Deltoid",  "Biceps",
+                                    "Coracobrachialis",  "Pectoralis Minor", "Serratus Anterior", "Infraspinatus", "Teres Minor", "Trapezius","Supraspinatus","Others"
+
+                            },
+                            { // Secondary
+                                    ""
+                            }
+
+                    },
+                    {// Shoulder Adduction - 3
+                            { // Primary
+                                "Pectoralis Major","Latissimus Dorsi"
+
+                            },
+                            { // Secondary
+                                "Teres Major","Subscapularis"
+                            }
+
+                    },
+                    {// Shoulder Abduction - 4
+                            { // Primary
+                                    "Deltoid","Supraspinatus"
+
+                            },
+                            { // Secondary
+                                    "Latissimus Dorsi"
+                            }
+
+                    },
+                    {// Medial Rotation - 5
+                            { // Primary
+                                    "Pectoralis Major","Latissimus Dorsi","Subscapularis"
+
+                            },
+                            { // Secondary
+                                    "Teres Major","Pectoralis Minor"
+                            }
+
+                    },
+                    {// Lateral Rotation - 5
+                            { // Primary
+                                    "Infraspinatus","Teres Minor"
+
+                            },
+                            { // Secondary
+                                    "Serratus Anterior","Trapezius"
+                            }
+
+                    }
+
+            },
+            {   //Elbow - 1
+                    {// Elbow Flexion - 0
+                            { // Primary
+                                    "Biceps"
+
+                            },
+                            { // Secondary
+                                    "Brachialis (Deep)","Brachioradialis"
+                            }
+
+                    },
+                    {// Elbow Extension - 1
+                            { // Primary
+                                    "Tricep"
+
+                            },
+                            { // Secondary
+                                    "Anconeus"
+                            }
+
+                    },
+                    {// Elbow Isometric - 2
+                            { // Primary
+                                    "Biceps", "Brachialis (Deep)","Brachioradialis", "Tricep", "Anconeus", "Others"
+
+                            },
+                            { // Secondary
+                                    ""
+                            }
+
+                    }
+
+            },
+            { // Forearm - 2
+                    {// Forearm Supination - 0
+                            { // Primary
+                                    "Supinator (Deep)"
+
+                            },
+                            { // Secondary
+                                    "Biceps",
+                            }
+
+                    },
+                    {// Forearm Pronation - 1
+                            { // Primary
+                                    "Pronator Quadratus (Deep)"
+
+                            },
+                            { // Secondary
+                                    "Biceps","Pronator Teres (Deep)"
+                            }
+
+                    },
+                    {// Forearm Isometric - 2
+                            { // Primary
+                                    "Biceps","Supinator (Deep)","Pronator Quadratus (Deep)", "Pronator Teres (Deep)", "Others"
+
+                            },
+                            { // Secondary
+                                    ""
+                            }
+
+                    }
+
+            },
+            { // Wrist - 3
+                    {// Wrist Flexion - 0
+                            { // Primary
+                                    "Flexor Carpi Radialis","Flexor Carpi Ulnaris"
+
+                            },
+                            { // Secondary
+                                    "Palmaris Longus","Flexor Pollicis Longus (Deep)","Flexor Digitorum Superficialis (Intermediate)","Flexor Digitorum Profundus (Deep)"
+                            }
+
+                    },
+                    {// Wrist Extension - 1
+                            { // Primary
+                                    "Extensor Digitorum","Extensor Carpi Ulnaris","Extensor Carpi Radialis Longus and Brevis"
+
+                            },
+                            { // Secondary
+                                    "Extensor Digiti Minimi"
+                            }
+
+                    },
+                    {// Wrist Isometric - 2
+                            { // Primary
+                                    "Flexor Carpi Radialis", "Palmaris Longus", "Flexor Carpi Ulnaris", "Flexor Pollicis Longus (Deep)",
+                                    "Flexor Digitorum Superficialis (Intermediate)", "Flexor Digitorum Profundus (Deep)", "Extensor Carpi Radialis Longus and Brevis",
+                                    "Extensor Digitorum", "Extensor Carpi Ulnaris", "Extensor Digiti Minimi", "Others"
+
+                            },
+                            { // Secondary
+                                    ""
+                            }
+
+                    },
+                    {// Wrist Radial Deviation - 3
+                            { // Primary
+                                    "Flexor Carpi Radialis","Extensor Carpi Radialis Longus and Brevis"
+
+                            },
+                            { // Secondary
+                                    ""
+                            }
+
+                    },
+                    {// Wrist Ulnar Deviation - 4
+                            { // Primary
+                                    "Flexor Carpi Ulnaris","Extensor Carpi Ulnaris"
+
+                            },
+                            { // Secondary
+                                    ""
+                            }
+
+                    }
+
+            },
+            { // Ankle - 4
+                    {// Ankle Plantarflexion - 0
+                            { // Primary
+                                    "Soleus - Posterior","Gastrocnemius - Posterior"
+
+                            },
+                            { // Secondary
+                                    "Plantaris - Posterior","Peroneus Longus - Lateral","Peroneus Brevis - Lateral","Flexor Digitorum Longus (Deep)","Flexor Hallucis Longus (Deep)","Tibialis Posterior (Deep)"
+                            }
+
+                    },
+                    {// Ankle Dosrsiflexion - 1
+                            { // Primary
+                                    "Tibialis Anterior"
+
+                            },
+                            { // Secondary
+                                    "Extensor Digitorum Longus - Anterior","Extensor Hallucis Longus - Anterior","Peroneus Tertius - Anterior"
+                            }
+
+                    },
+                    {// Ankle Isometric - 2
+                            { // Primary
+                                    "Gastrocnemius - Posterior", /*"superficial-Part of Triceps Surae",*/ "Soleus - Posterior", "Plantaris - Posterior",
+                                    "Flexor Digitorum Longus (Deep)", "Flexor Hallucis Longus (Deep)", "Tibialis Posterior (Deep)", "Tibialis Anterior",
+                                    "Extensor Digitorum Longus - Anterior", "Extensor Hallucis Longus - Anterior", "Peroneus Tertius - Anterior",
+                                    "Peroneus Longus - Lateral", "Peroneus Brevis - Lateral", "Others"
+
+                            },
+                            { // Secondary
+                                    ""
+                            }
+
+                    },
+                    {// Ankle Inversion - 3
+                            { // Primary
+                                    "Tibialis Anterior"
+
+                            },
+                            { // Secondary
+                                    "Soleus - Posterior","Gastrocnemius - Posterior","Extensor Hallucis Longus - Anterior","Flexor Digitorum Longus (Deep)","Flexor Hallucis Longus (Deep)","Tibialis Posterior (Deep)"
+                            }
+
+                    },
+                    {// Ankle Eversion - 4
+                            { // Primary
+                                    "Peroneus Longus - Lateral","Peroneus Brevis - Lateral"
+
+                            },
+                            { // Secondary
+                                    "Extensor Digitorum Longus - Anterior","Peroneus Tertius - Anterior"
+                            }
+
+                    }
+
+            },
+            { // Knee - 5
+                    {// Knee Flexion - 0
+                            { // Primary
+                                    "Gastrocnemius - Posterior","Biceps Femoris - Posterior"
+
+                            },
+                            { // Secondary
+                                    "Sartorius - Anterior","Gracilis - Medial","Semimembranosus - Posterior","Semitendinosus - Posterior","Popliteus - Posterior (Deep)"
+                            }
+
+                    },
+                    {// Knee Extension - 1
+                            { // Primary
+                                    "Rectus Femoris - Anterior","Vastus Lateralis - Anterior", "Vastus Medialis - Anterior","Vastus Intermedius - Anterior (Deep)"
+
+                            },
+                            { // Secondary
+                                    ""
+                            }
+
+                    },
+                    {// Knee Isometric - 2
+                            { // Primary
+                                    "Sartorius - Anterior", "Gracilis - Medial", "Biceps Femoris - Posterior", "Semimembranosus - Posterior",
+                                    "Semitendinosus - Posterior", "Popliteus - Posterior (Deep)", "Gastrocnemius - Posterior", "Rectus Femoris - Anterior",
+                                    "Vastus Lateralis - Anterior", "Vastus Medialis - Anterior","Vastus Intermedius - Anterior (Deep)", "Others"
+
+                            },
+                            { // Secondary
+                                    ""
+                            }
+
+                    }
+
+            },
+            { // Hip - 6
+                    {// Hip Flexion - 0
+                            { // Primary
+                                    "Rectus Femoris - Anterior","Sartorius - Anterior","Tensor Fasciae Latae - Gluteal"
+
+                            },
+                            { // Secondary
+                                    "Gluteus Medius and Gluteus Minimus - Gluteal","Pectineus - Medial (Deep)","Adductor Longus - Medial","Adductor Brevis - Medial","Adductor Magnus - Medial"
+                            }
+
+                    },
+                    {// Hip Extension - 1
+                            { // Primary
+                                    "Gluteus Maximus - Gluteal","Biceps Femoris - Posterior"
+
+                            },
+                            { // Secondary
+                                    "Gluteus Medius and Gluteus Minimus - Gluteal","Semimembranosus - Posterior", "Semitendinosus - Posterior","Adductor Magnus - Medial"
+                            }
+
+                    },
+                    {// Hip Isometric - 2
+                            { // Primary
+                                    "Rectus Femoris - Anterior", "Sartorius - Anterior", "Pectineus - Medial (Deep)",
+                                    "Gluteus Medius and Gluteus Minimus - Gluteal", "Tensor Fasciae Latae - Gluteal", "Adductor Longus - Medial",
+                                    "Adductor Brevis - Medial","Adductor Magnus - Medial","Psoas Major","Iliacus","Gluteus Maximus - Gluteal","Biceps Femoris - Posterior",
+                                    "Semimembranosus - Posterior", "Semitendinosus - Posterior", "Gracilis - Medial","Piriformis (Deep)",
+                                    "Superior Gemellus (Deep)", "Obturator Internus (Deep)","Inferior Gemellus (Deep)", "Quadratus Femoris (Deep)","Obturator Externus (Deep)", "Others"
+
+                            },
+                            { // Secondary
+                                    ""
+                            }
+
+                    },
+                    {// Hip Adduction - 3
+                            { // Primary
+                                    "Adductor Magnus - Medial","Adductor Longus - Medial","Adductor Brevis - Medial"
+
+                            },
+                            { // Secondary
+                                    "Pectineus - Medial (Deep)","Gracilis - Medial"
+                            }
+
+                    },
+                    {// Hip Abduction - 4
+                            { // Primary
+                                    "Gluteus Medius and Gluteus Minimus - Gluteal"
+
+                            },
+                            { // Secondary
+                                    "Tensor Fasciae Latae - Gluteal"
+                            }
+
+                    },
+                    {// Hip Medial Rotation - 5
+                            { // Primary
+                                    "Tensor Fasciae Latae - Gluteal","Gluteus Medius and Gluteus Minimus - Gluteal","Adductor Longus - Medial","Adductor Brevis - Medial","Adductor Magnus - Medial"
+
+                            },
+                            { // Secondary
+                                    "Pectineus - Medial (Deep)"
+                            }
+
+                    },
+                    {// Hip Lateral Rotation - 6
+                            { // Primary
+                                    "Adductor Magnus - Medial"
+
+                            },
+                            { // Secondary
+                                    "Gluteus Medius and Gluteus Minimus - Gluteal","Gluteus Maximus - Gluteal","Piriformis (Deep)","Superior Gemellus (Deep)", "Obturator Internus (Deep)","Inferior Gemellus (Deep)", "Quadratus Femoris (Deep)","Obturator Externus (Deep)"
+                            }
+
+                    }
+
+            },
+            { // Spine - 7
+                    {// Spine Flexion - 0
+                            { // Primary
+                                    "Rectus Abdominis","External Oblique"
+
+                            },
+                            { // Secondary
+                                    ""
+                            }
+
+                    },
+                    {// Spine Extension - 1
+                            { // Primary
+                                    "Spinalis Thoracis","Spinalis Capitis","Spinalis Cervicis",
+                                    "Longissimus Thoracis","Longissimus Cervicis","Longissimus Capitis",
+                                    "Iliocostalis Cervicis", "Iliocostalis Thoracis","Iliocostalis Lumborum",
+                                    "Semispinalis"
+
+                            },
+                            { // Secondary
+                                    ""
+                            }
+
+                    },
+                    {// Spine Isometric - 2
+                            { // Primary
+                                    "Quadratus Lumborum","Rectus Abdominis","External Oblique","Spinalis Thoracis","Spinalis Capitis",
+                                    "Spinalis Cervicis","Longissimus Thoracis","Longissimus Cervicis","Longissimus Capitis",
+                                    "Iliocostalis Cervicis", "Iliocostalis Thoracis","Iliocostalis Lumborum","Semispinalis","Multifidus","Rotatores","Others"
+
+                            },
+                            { // Secondary
+                                    ""
+                            }
+
+                    },
+                    {// Spine Lateral Flexion - 3
+                            { // Primary
+                                    "Spinalis Thoracis","Spinalis Capitis","Spinalis Cervicis",
+                                    "Longissimus Thoracis","Longissimus Cervicis","Longissimus Capitis",
+                                    "Iliocostalis Cervicis", "Iliocostalis Thoracis","Iliocostalis Lumborum",
+                                    "Quadratus Lumborum"
+
+                            },
+                            { // Secondary
+                                    ""
+                            }
+
+                    },
+                    {// Spine Rotation - 4
+                            { // Primary
+                                    "External Oblique","Multifidus","Rotatores"
+
+                            },
+                            { // Secondary
+                                    ""
+                            }
+
+                    }
+
+            }
+
+    };
+
+    public static String[] getPrimarySecondaryMuscle(String bodypart_str,String exercise_str,int primary_secondary){
+
+        int bodypart=0;
+        int exercise=0;
+
+
+        // Selecting Bodypart
+        if(bodypart_str.equalsIgnoreCase("shoulder"))
+        {
+            bodypart= 0;
+        } else if(bodypart_str.equalsIgnoreCase("elbow"))
+        {
+            bodypart= 1;
+        } else if(bodypart_str.equalsIgnoreCase("forearm"))
+        {
+            bodypart= 2;
+        } else if(bodypart_str.equalsIgnoreCase("wrist"))
+        {
+            bodypart= 3;
+        } else if(bodypart_str.equalsIgnoreCase("ankle"))
+        {
+            bodypart= 4;
+        } else if(bodypart_str.equalsIgnoreCase("knee"))
+        {
+            bodypart= 5;
+        } else if(bodypart_str.equalsIgnoreCase("hip"))
+        {
+            bodypart= 6;
+        } else if(bodypart_str.equalsIgnoreCase("spine"))
+        {
+            bodypart= 7;
+        }
+
+
+        // Selection Exercise
+        if(exercise_str.equalsIgnoreCase("flexion") || exercise_str.equalsIgnoreCase("supination") || exercise_str.equalsIgnoreCase("plantarflexion"))
+        {
+            exercise= 0;
+        }else if(exercise_str.equalsIgnoreCase("extension") || exercise_str.equalsIgnoreCase("pronation") || exercise_str.equalsIgnoreCase("dorsiflexion"))
+        {
+            exercise= 1;
+        } else if(exercise_str.equalsIgnoreCase("isometric"))
+        {
+            exercise= 2;
+        } else if(exercise_str.equalsIgnoreCase("adduction") || exercise_str.equalsIgnoreCase("radial deviation") || exercise_str.equalsIgnoreCase("inversion") || exercise_str.equalsIgnoreCase("lateral flexion"))
+        {
+            exercise= 3;
+        } else if(exercise_str.equalsIgnoreCase("abduction") || exercise_str.equalsIgnoreCase("ulnar deviation") || exercise_str.equalsIgnoreCase("eversion") || exercise_str.equalsIgnoreCase("rotation"))
+        {
+            exercise= 4;
+        } else if(exercise_str.equalsIgnoreCase("medial rotation"))
+        {
+            exercise= 5;
+        } else if(exercise_str.equalsIgnoreCase("lateral rotation"))
+        {
+            exercise= 6;
+        }
+
+        return primary_secondary_muscle_list[bodypart][exercise][primary_secondary];
+    }
+
     public static String[] getExerciseNames(int postion){
         return exercise_names[postion];
     }

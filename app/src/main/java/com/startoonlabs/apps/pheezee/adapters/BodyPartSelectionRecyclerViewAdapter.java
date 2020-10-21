@@ -3,8 +3,11 @@ package com.startoonlabs.apps.pheezee.adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -30,12 +33,18 @@ import com.startoonlabs.apps.pheezee.classes.CircularRevealTransition;
 import com.startoonlabs.apps.pheezee.utils.MuscleOperation;
 import com.startoonlabs.apps.pheezee.utils.ValueBasedColorOperations;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 import static com.startoonlabs.apps.pheezee.activities.PatientsView.phizio_packagetype;
 import static com.startoonlabs.apps.pheezee.utils.PackageTypes.STANDARD_PACKAGE;
 
 public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<BodyPartSelectionRecyclerViewAdapter.ViewHolder> {
     private int selected_position = -1;
     Context context;
+    String bodypart_name_str;
     //    int[] myPartList = new int[]{R.drawable.elbow_part, R.drawable.knee_part,R.drawable.ankle_part,R.drawable.hip_part,
 //            R.drawable.wrist_part,R.drawable.shoulder_part,R.drawable.other_body_part};
     TypedArray myPartList;
@@ -45,6 +54,12 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
     private int color_after_selected , color_nothing_selected;
     private String str_start, str_end, str_max_emg;
     onBodyPartOptionsSelectedListner listner;
+    ArrayAdapter<String> array_exercise_names;
+    Map <String,String> primary_muscle_lookuptable =  new HashMap<String,String>();
+
+
+
+
 
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -59,8 +74,10 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
         EditText et_max_angle, et_min_angle, et_max_emg, et_muscle_name, et_exercise_name;
         TextView tv_start, tv_end, tv_max_emg, tv_max_emg_text, tv_max_angle_text;
 
+
         ViewHolder(View view) {
             super(view);
+
             cl_body_tv_and_image = view.findViewById(R.id.model_cl_image_tv);
             cl_selection = view.findViewById(R.id.model_selection);
             cl_dash = view.findViewById(R.id.constraintLayout2);
@@ -117,6 +134,56 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
         this.str_max_emg = context.getResources().getString(R.string.max_emg);
         this.color_after_selected = context.getResources().getColor(R.color.pitch_black);
         this.color_nothing_selected = context.getResources().getColor(R.color.pitch_black);
+
+        primary_muscle_lookuptable.put("shoulderflexion","Deltoid");
+        primary_muscle_lookuptable.put("shoulderextension","Latissimus Dorsi");
+        primary_muscle_lookuptable.put("shoulderadduction","Pectoralis Major");
+        primary_muscle_lookuptable.put("shoulderabduction","Deltoid");
+        primary_muscle_lookuptable.put("shouldermedial rotation","Pectoralis Major");
+        primary_muscle_lookuptable.put("shoulderlateral rotation","Infraspinatus");
+        primary_muscle_lookuptable.put("shoulderisometric","Select Muscle*");
+
+        primary_muscle_lookuptable.put("elbowflexion","Biceps");
+        primary_muscle_lookuptable.put("elbowextension","Tricep");
+        primary_muscle_lookuptable.put("elbowisometric","Select Muscle*");
+
+        primary_muscle_lookuptable.put("forearmsupination","Supinator (Deep)");
+        primary_muscle_lookuptable.put("forearmpronation","Pronator Quadratus (Deep)");
+        primary_muscle_lookuptable.put("forearmisometric","Select Muscle*");
+
+        primary_muscle_lookuptable.put("wristflexion","Flexor Carpi Radialis");
+        primary_muscle_lookuptable.put("wristextension","Extensor Digitorum");
+        primary_muscle_lookuptable.put("wristradial deviation","Flexor Carpi Radialis");
+        primary_muscle_lookuptable.put("wristulnar deviation","Extensor Carpi Ulnaris");
+        primary_muscle_lookuptable.put("wristisometric","Select Muscle*");
+
+        primary_muscle_lookuptable.put("ankleplantarflexion","Soleus - Posterior");
+        primary_muscle_lookuptable.put("ankledorsiflexion","Tibialis Anterior");
+        primary_muscle_lookuptable.put("ankleinversion","Tibialis Anterior");
+        primary_muscle_lookuptable.put("ankleeversion","Peroneus Longus - Lateral");
+        primary_muscle_lookuptable.put("ankleisometric","Select Muscle*");
+
+        primary_muscle_lookuptable.put("kneeflexion","Gastrocnemius - Posterior");
+        primary_muscle_lookuptable.put("kneeextension","Rectus Femoris - Anterior");
+        primary_muscle_lookuptable.put("kneeisometric","Select Muscle*");
+
+        primary_muscle_lookuptable.put("hipflexion","Rectus Femoris - Anterior");
+        primary_muscle_lookuptable.put("hipextension","Gluteus Maximus - Gluteal");
+        primary_muscle_lookuptable.put("hipadduction","Adductor Magnus - Medial");
+        primary_muscle_lookuptable.put("hipabduction","Gluteus Medius and Gluteus Minimus - Gluteal");
+        primary_muscle_lookuptable.put("hipmedial rotation","Tensor Fasciae Latae - Gluteal");
+        primary_muscle_lookuptable.put("hiplateral rotation","Adductor Magnus - Medial");
+        primary_muscle_lookuptable.put("hipisometric","Select Muscle*");
+
+
+
+        primary_muscle_lookuptable.put("spineflexion","Rectus Abdominis");
+        primary_muscle_lookuptable.put("spineextension","Iliocostalis Cervicis");
+        primary_muscle_lookuptable.put("spinelateral flexion","Iliocostalis Thoracis");
+        primary_muscle_lookuptable.put("spinerotation","Multifidus");
+        primary_muscle_lookuptable.put("spineisometric","Select Muscle*");
+
+
     }
 
 
@@ -134,6 +201,7 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
 //        BodyPartWithMmtSelectionModel bodyPartWithMmtSelectionModel = bodyPartsList.get(position);
         holder.iv_body_part_image.setImageResource(myPartList.getResourceId(position,-1));
         holder.tv_body_part_name.setText(string_array_bodypart[position]);
+
 
 
         if(selected_position!=position && selected_position!=-1){
@@ -176,6 +244,7 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
                     selected_position = position;
                     if(listner!=null){
                         String bodypart = string_array_bodypart[position];
+                        bodypart_name_str = string_array_bodypart[position];
                         listner.onBodyPartSelected(bodypart);
                         listner.onBodyPartSelectedPostion(selected_position);
                     }
@@ -187,7 +256,57 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
                     array_muscle_names.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
                     holder.sp_exercise_name.setAdapter(array_muscle_names);
 
-                    ArrayAdapter<String> array_exercise_names = new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item, MuscleOperation.getMusleNames(selected_position));
+
+
+                    array_exercise_names = new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item, MuscleOperation.getMusleNames(selected_position)){
+                        @Override
+                        public View getDropDownView(int position, View convertView,
+                                                    ViewGroup parent) {
+                            View view = super.getDropDownView(position, convertView, parent);
+                            TextView tv = (TextView) view;
+
+                            String[] temp = MuscleOperation.getPrimarySecondaryMuscle(bodypart_name_str.toLowerCase(),holder.sp_exercise_name.getSelectedItem().toString().toLowerCase(),0);
+
+//                            Log.d("string",String.valueOf(temp.length));
+//                            Log.d("string",temp[0]);
+//                            Log.d("string",bodypart_name_str);
+//                            Log.d("string",holder.sp_exercise_name.getSelectedItem().toString().toLowerCase());
+
+                            // Primary Muscles
+                            for(int i =0 ; i<temp.length; i++ )
+                            {
+                                if(temp[i].equalsIgnoreCase(holder.sp_muscle_name.getItemAtPosition(position).toString().toLowerCase()))
+                                {
+                                        // Do nothing
+                                        tv.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
+                                        tv.setTextColor(Color.parseColor("#FF000000"));
+                                        return view;
+                                }
+                            }
+
+                            // Secondary Muscles
+                            temp = MuscleOperation.getPrimarySecondaryMuscle(bodypart_name_str,holder.sp_exercise_name.getSelectedItem().toString().toLowerCase(),1);
+                            for(int i =0 ; i<temp.length; i++ )
+                            {
+                                if(temp[i].equalsIgnoreCase(holder.sp_muscle_name.getItemAtPosition(position).toString().toLowerCase()))
+                                {
+                                    // Make it italic
+                                    tv.setTypeface(Typeface.defaultFromStyle(Typeface.ITALIC));
+                                    tv.setTextColor(Color.parseColor("#FF000000"));
+                                    return view;
+                                }
+                            }
+
+                            // Other muscles
+                            tv.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
+                            tv.setTextColor(Color.parseColor("#707070"));
+
+
+
+                            return view;
+
+                        }
+                    };
                     array_exercise_names.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
                     holder.sp_muscle_name.setAdapter(array_exercise_names);
 
@@ -243,6 +362,23 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
                     holder.tv_max_emg.setTextColor(color_after_selected);
                     holder.tv_start.setTextColor(color_after_selected);
                     holder.tv_end.setTextColor(color_after_selected);
+
+                    ArrayList<String> arrayList = new ArrayList<>();
+                    Collections.addAll(arrayList,MuscleOperation.getMusleNames(selected_position));
+
+                    String dictionary_value = bodypart_name_str+exercise_name;
+                    dictionary_value = dictionary_value.toLowerCase();
+
+//                    Log.d("lookup",dictionary_value);
+//                    Log.d("lookup",primary_muscle_lookuptable.get(dictionary_value));
+
+
+                    if(arrayList.contains(primary_muscle_lookuptable.get(dictionary_value))) {
+                        holder.sp_muscle_name.setSelection(arrayList.indexOf(primary_muscle_lookuptable.get(dictionary_value)));
+                    }else{
+                        // Do nothing
+                    }
+
                     if(listner!=null){
                         listner.onExerciseNameSelected(exercise_name);
                         listner.onMinAngleUpdated(String.valueOf(normal_min));
