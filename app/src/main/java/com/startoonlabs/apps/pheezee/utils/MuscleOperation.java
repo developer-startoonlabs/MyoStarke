@@ -494,7 +494,7 @@ public class MuscleOperation {
     public static String[] getPrimarySecondaryMuscle(String bodypart_str,String exercise_str,int primary_secondary){
 
         int bodypart=0;
-        int exercise=0;
+        int exercise=2; // By default select isometric
 
 
         // Selecting Bodypart

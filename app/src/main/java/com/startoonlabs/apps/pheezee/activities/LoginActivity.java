@@ -206,7 +206,7 @@ public class LoginActivity extends AppCompatActivity implements MqttSyncReposito
     public void onLoginResponse(boolean response, String message) {
         if(response){
             setWelcomeText("Welcome");
-            tv_login_welcome_user.setText(message);
+            tv_login_welcome_user.setText("Dr. "+ message);
             dottedProgressBar.startProgress();
             new Handler().postDelayed(new Runnable() {
                 @Override

@@ -401,20 +401,20 @@ public class EditProfileActivity extends AppCompatActivity implements MqttSyncRe
 
             String phzio_name_var = json_phizio.getString("phizioname");
             String[] phzio_name_array = phzio_name_var.split(" ");
-            if(phzio_name_array.length > 0)
+            if(phzio_name_array.length > 0 && phzio_name_array[0]!=" " && phzio_name_array[0]!="")
             {
-                et_phizio_name.setText(phzio_name_array[0].substring(0,1).toUpperCase()+ phzio_name_array[0].substring(1).toLowerCase());
-                String phizio_lastname="";
-                for(int i =1;i<phzio_name_array.length;i++)
-                {
-                    if(i>1) {
-                        phizio_lastname = phizio_lastname + " ";
+                if(phzio_name_array[0].length()>1) {
+                    et_phizio_name.setText(phzio_name_array[0].substring(0, 1).toUpperCase() + phzio_name_array[0].substring(1).toLowerCase());
+                    String phizio_lastname = "";
+                    for (int i = 1; i < phzio_name_array.length; i++) {
+                        if (i > 1) {
+                            phizio_lastname = phizio_lastname + " ";
+                        }
+                        phizio_lastname = phizio_lastname + phzio_name_array[i];
+
                     }
-                    phizio_lastname=phizio_lastname+phzio_name_array[i];
-
+                    et_phizio_lastname.setText(phizio_lastname.substring(0, 1).toUpperCase() + phizio_lastname.substring(1).toLowerCase());
                 }
-                et_phizio_lastname.setText(phizio_lastname.substring(0,1).toUpperCase()+ phizio_lastname.substring(1).toLowerCase());
-
             }else et_phizio_name.setText(phzio_name_array[0].substring(0,1).toUpperCase()+ phzio_name_array[0].substring(1).toLowerCase());
 
             et_phizio_phone.setText(json_phizio.getString("phiziophone"));

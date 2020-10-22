@@ -262,9 +262,9 @@
     <string name="archive_patient">Archive Patients</string>
     <string name="what_is_pheezee">What is Pheezee without Patients!</string>
     <string name="cd_floating">Add Patient icon</string>
-    <string name="battery_percent_lower_than_15">Pheezee battery is less than 15%.\nContinuing session may lead to loss of data.\nPlease charge Pheezee.</string>
-    <string name="battery_percent_lower_than_10">Pheezee battery is less than 10%.\nContinuing session may lead to loss of data.\nPlease charge Pheezee.</string>
-    <string name="battery_percent_lower_than_5">Pheezee battery is less than 5%.\nContinuing session may lead to loss of data.\nPlease charge Pheezee.</string>
+    <string name="battery_percent_lower_than_15">Pheezee battery is less than 15%.\nContinuing session may lead to loss of data. Please charge Pheezee.</string>
+    <string name="battery_percent_lower_than_10">Pheezee battery is less than 10%.\nContinuing session may lead to loss of data. Please charge Pheezee.</string>
+    <string name="battery_percent_lower_than_5">Pheezee battery is less than 5%.\nContinuing session may lead to loss of data. Please charge Pheezee.</string>
 
 
     <!--on start Activity related tags-->

@@ -22,6 +22,8 @@ public class DeviceErrorCodesAndDialogs {
     public static long LDO_STATUS = 60;
     public static long OVER_CURRENT_PROTECTION_STATUS = 70;
 
+    static String error_heading="Device Error (";
+    static String error_message="Device is facing issue. Please contact Pheezee customer care to resolve.";
 
     public static void showDeviceErrorDialog(String error, Context context){
 
@@ -49,8 +51,8 @@ public class DeviceErrorCodesAndDialogs {
         Notification_Button_ok.setText("Okay");
 
         // Setting up the notification dialog
-        notification_title.setText("Pheezee Error");
-        notification_message.setText(error);
+        notification_title.setText(error_heading);
+        notification_message.setText(error_message);
 
         // On click on Continue
         Notification_Button_ok.setOnClickListener(new View.OnClickListener() {
@@ -66,6 +68,8 @@ public class DeviceErrorCodesAndDialogs {
 
 
         dialog.show();
+
+
 
         // End
 
@@ -129,33 +133,69 @@ public class DeviceErrorCodesAndDialogs {
 
     public static String getErrorCodeString(byte[] information_packet){
         String error = "Error Code ";
+        // Reseting the string
+        error_heading="Device Error (";
+        error_message = "Device is facing issue. Please contact Pheezee customer care to resolve.";
         try {
+
+
+
             if((information_packet[2]&0xFF)==1){
                 error = error.concat(String.valueOf(UPPER_LSM_INIT))+", ";
+                error_heading = error_heading.concat(String.valueOf(UPPER_LSM_INIT))+", ";
             }if((information_packet[7]&0xFF)==1){
                 error = error.concat(String.valueOf(UPPER_LSM_REGISTER_READ))+", ";
+                error_heading = error_heading.concat(String.valueOf(UPPER_LSM_REGISTER_READ))+", ";
             }if((information_packet[3]&0xFF)==1){
                 error = error.concat(String.valueOf(LOWER_LSM_INIT))+", ";
+                error_heading = error_heading.concat(String.valueOf(LOWER_LSM_INIT))+", ";
                 Log.i("Error",error);
             }if((information_packet[8]&0xFF)==1){
                 error = error.concat(String.valueOf(LOWER_LSM_REGISTER_READ))+", ";
+                error_heading = error_heading.concat(String.valueOf(LOWER_LSM_REGISTER_READ))+", ";
                 Log.i("Error",error);
             }if((information_packet[5]&0xFF)==1){
                 error = error.concat(String.valueOf(ATTINY_ERROR))+", ";
+                error_heading = error_heading.concat(String.valueOf(ATTINY_ERROR))+", ";
                 Log.i("Error",error);
             }if((information_packet[6]&0xFF)==1){
                 error = error.concat(String.valueOf(ADC_INIT))+", ";
+                error_heading = error_heading.concat(String.valueOf(ADC_INIT))+", ";
                 Log.i("Error",error);
             }if((information_packet[4]&0xFF)==1){
                 error = error.concat(String.valueOf(GAIN_AMPLIFIER_INIT))+", ";
+                error_heading = error_heading.concat(String.valueOf(GAIN_AMPLIFIER_INIT))+", ";
                 Log.i("Error",error);
             }if((information_packet[18]&0xFF)==1){
                 error = error.concat(String.valueOf(LDO_STATUS))+", ";
+                error_heading = error_heading.concat(String.valueOf(LDO_STATUS))+", ";
                 Log.i("Error",error);
             }if((information_packet[19]&0xFF)==1){
                 error = error.concat(String.valueOf(OVER_CURRENT_PROTECTION_STATUS))+", ";
+                error_heading = error_heading.concat(String.valueOf(OVER_CURRENT_PROTECTION_STATUS))+", ";
                 Log.i("Error",error);
             }
+            // Removing the comma
+            error_heading = error_heading.substring(0,error_heading.length()-2);
+            error_heading = error_heading + ")";
+
+            // Single Errors
+            // Gain amplifier
+            if((information_packet[2]&0xFF)==0 && (information_packet[7]&0xFF)==0 && (information_packet[3]&0xFF)==0 && (information_packet[8]&0xFF)==0 && (information_packet[5]&0xFF)==0 && (information_packet[6]&0xFF)==0 && (information_packet[4]&0xFF)==1)
+            {
+                error_heading = "Device Alert ";
+                error_message = "EMG view is restricted. Please contact Pheezee customer care to resolve.";
+
+            }
+
+            // Battery error
+            if((information_packet[2]&0xFF)==0 && (information_packet[7]&0xFF)==0 && (information_packet[3]&0xFF)==0 && (information_packet[8]&0xFF)==0 && (information_packet[5]&0xFF)==1 && (information_packet[6]&0xFF)==0 && (information_packet[4]&0xFF)==0)
+            {
+                error_heading = "Device Alert ";
+                 error_message ="Battery status is not communicated. Please contact Pheezee customer care to resolve.";
+            }
+
+
             error = error.concat("Please restart the device.");
         }catch (ArrayIndexOutOfBoundsException e){
             error = "No Error";

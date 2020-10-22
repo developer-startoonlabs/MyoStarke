@@ -471,7 +471,7 @@ public class PatientsView extends AppCompatActivity
 
         try {
             email.setText(json_phizioemail);
-            fullName.setText(json_phizio.getString("phizioname"));
+            fullName.setText("Dr. "+json_phizio.getString("phizioname"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -614,7 +614,7 @@ public class PatientsView extends AppCompatActivity
         try {
             json_phizio = new JSONObject(sharedPref.getString("phiziodetails", ""));
             email.setText(json_phizioemail);
-            fullName.setText(json_phizio.getString("phizioname"));
+            fullName.setText("Dr. "+json_phizio.getString("phizioname"));
         } catch (JSONException e) {
             e.printStackTrace();
         }

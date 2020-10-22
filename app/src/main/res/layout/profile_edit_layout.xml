@@ -32,6 +32,21 @@
             app:layout_constraintTop_toTopOf="@+id/guideline86"
             app:layout_constraintVertical_bias="1.0">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dr. "
+                app:layout_constraintHorizontal_bias="0.0"
+                android:textSize="18sp"
+                android:layout_marginStart="42sp"
+                android:textColor="@color/good_green"
+                app:layout_constraintVertical_bias="0.63"
+                app:layout_constraintBottom_toTopOf="@+id/guideline89"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </TextView>
 
             <EditText
                 android:id="@+id/editName"
@@ -45,9 +60,10 @@
                 android:textSize="18sp"
                 android:fontFamily="@font/ebrima"
                 android:gravity="center_vertical"
+
                 android:hint="First Name"
                 android:inputType="textPersonName"
-                android:paddingStart="16dp"
+                android:paddingStart="50dp"
                 android:textColor="@color/good_green"
                 app:layout_constraintBottom_toTopOf="@+id/guideline89"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -154,7 +170,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.14" />
+                app:layout_constraintGuide_begin="69dp" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline90"
