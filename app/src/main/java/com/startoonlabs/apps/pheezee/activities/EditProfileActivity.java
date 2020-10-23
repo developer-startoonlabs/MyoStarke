@@ -413,36 +413,60 @@ public class EditProfileActivity extends AppCompatActivity implements MqttSyncRe
                         phizio_lastname = phizio_lastname + phzio_name_array[i];
 
                     }
-                    et_phizio_lastname.setText(phizio_lastname.substring(0, 1).toUpperCase() + phizio_lastname.substring(1).toLowerCase());
+                    if(phizio_lastname.length()>1) {
+                        et_phizio_lastname.setText(phizio_lastname.substring(0, 1).toUpperCase() + phizio_lastname.substring(1).toLowerCase());
+                    }else et_phizio_lastname.setText("");
                 }
             }else et_phizio_name.setText(phzio_name_array[0].substring(0,1).toUpperCase()+ phzio_name_array[0].substring(1).toLowerCase());
 
             et_phizio_phone.setText(json_phizio.getString("phiziophone"));
 
             if(json_phizio.has("clinicname")) {
-                et_clinic_name.setText(json_phizio.getString("clinicname").substring(0,1).toUpperCase()+ json_phizio.getString("clinicname").substring(1).toLowerCase());
+                if(json_phizio.getString("clinicname").length()>0) {
+                    et_clinic_name.setText(json_phizio.getString("clinicname").substring(0, 1).toUpperCase() + json_phizio.getString("clinicname").substring(1));
+                }
             }
-            else
+            else {
                 et_clinic_name.setText("");
+            }
 
-            if(json_phizio.has("phiziodob"))
-                et_dob.setText(json_phizio.getString("phiziodob"));
-            else
+            if(json_phizio.has("phiziodob")) {
+                if(json_phizio.getString("phiziodob").length()>0) {
+                    et_dob.setText(json_phizio.getString("phiziodob"));
+                }
+            }
+            else {
                 et_dob.setText("");
+            }
 
-            if(json_phizio.has("experience"))
-                et_experience.setText(json_phizio.getString("experience").substring(0,1).toUpperCase()+ json_phizio.getString("experience").substring(1).toLowerCase());
-            else{
+            if(json_phizio.has("experience")) {
+
+                if(json_phizio.getString("experience").length()>0) {
+                    et_experience.setText(json_phizio.getString("experience").substring(0, 1).toUpperCase() + json_phizio.getString("experience").substring(1).toLowerCase());
+                }
+            }else{
 
             }
-            if(json_phizio.has("specialization"))
-                et_specialization.setText(json_phizio.getString("specialization").substring(0,1).toUpperCase()+ json_phizio.getString("specialization").substring(1).toLowerCase());
-            else
+            if(json_phizio.has("specialization")) {
+                if(json_phizio.getString("specialization").length()>0) {
+                    et_specialization.setText(json_phizio.getString("specialization").substring(0, 1).toUpperCase() + json_phizio.getString("specialization").substring(1));
+                }
+            }
+            else {
                 et_specialization.setText("");
-            if(json_phizio.has("degree"))
-                et_degree.setText(json_phizio.getString("degree").substring(0,1).toUpperCase()+ json_phizio.getString("degree").substring(1).toLowerCase());
-            else
+            }
+
+
+            if(json_phizio.has("degree")) {
+
+                if(json_phizio.getString("degree").length()>0) {
+                    et_degree.setText(json_phizio.getString("degree").substring(0, 1).toUpperCase() + json_phizio.getString("degree").substring(1));
+                }
+            }
+            else {
                 et_degree.setText("");
+            }
+
             if(json_phizio.has("gender")) {
                 gender = json_phizio.getString("gender");
                 if(gender.equalsIgnoreCase("male"))
@@ -458,10 +482,16 @@ public class EditProfileActivity extends AppCompatActivity implements MqttSyncRe
                 gender = "";
                 rg_gender.check(gender_male.getId());
             }
-            if(json_phizio.has("address"))
-                et_address.setText(json_phizio.getString("address"));
-            else
+
+            if(json_phizio.has("address")) {
+
+                if(json_phizio.getString("address").length()>0) {
+                    et_address.setText(json_phizio.getString("address"));
+                }
+            }
+            else {
                 et_address.setText("");
+            }
 
             if(json_phizio.has("cliniclogo") && !json_phizio.getString("cliniclogo").equalsIgnoreCase("/icons/clinic.png")) {
 //                iv_update_clinic_logo.setText("Update Clinic Logo");

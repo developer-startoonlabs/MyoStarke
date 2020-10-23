@@ -363,8 +363,66 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
                     holder.tv_start.setTextColor(color_after_selected);
                     holder.tv_end.setTextColor(color_after_selected);
 
+
+                    // Start
+
+                    array_exercise_names = new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item, MuscleOperation.getMusleNames(bodypart_name_str.toLowerCase(),holder.sp_exercise_name.getSelectedItem().toString().toLowerCase())){
+                        @Override
+                        public View getDropDownView(int position, View convertView,
+                                                    ViewGroup parent) {
+                            View view = super.getDropDownView(position, convertView, parent);
+                            TextView tv = (TextView) view;
+
+                            String[] temp = MuscleOperation.getPrimarySecondaryMuscle(bodypart_name_str.toLowerCase(),holder.sp_exercise_name.getSelectedItem().toString().toLowerCase(),0);
+
+//                            Log.d("string",String.valueOf(temp.length));
+//                            Log.d("string",temp[0]);
+//                            Log.d("string",bodypart_name_str);
+//                            Log.d("string",holder.sp_exercise_name.getSelectedItem().toString().toLowerCase());
+
+                            // Primary Muscles
+                            for(int i =0 ; i<temp.length; i++ )
+                            {
+                                if(temp[i].equalsIgnoreCase(holder.sp_muscle_name.getItemAtPosition(position).toString().toLowerCase()))
+                                {
+                                    // Do nothing
+                                    tv.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
+                                    tv.setTextColor(Color.parseColor("#FF000000"));
+                                    return view;
+                                }
+                            }
+
+                            // Secondary Muscles
+                            temp = MuscleOperation.getPrimarySecondaryMuscle(bodypart_name_str,holder.sp_exercise_name.getSelectedItem().toString().toLowerCase(),1);
+                            for(int i =0 ; i<temp.length; i++ )
+                            {
+                                if(temp[i].equalsIgnoreCase(holder.sp_muscle_name.getItemAtPosition(position).toString().toLowerCase()))
+                                {
+                                    // Make it italic
+                                    tv.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
+                                    tv.setTextColor(Color.parseColor("#FF000000"));
+                                    return view;
+                                }
+                            }
+
+                            // Other muscles
+                            tv.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
+                            tv.setTextColor(Color.parseColor("#707070"));
+
+
+
+                            return view;
+
+                        }
+                    };
+                    array_exercise_names.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                    holder.sp_muscle_name.setAdapter(array_exercise_names);
+
+
+                    // End
+
                     ArrayList<String> arrayList = new ArrayList<>();
-                    Collections.addAll(arrayList,MuscleOperation.getMusleNames(selected_position));
+                    Collections.addAll(arrayList,MuscleOperation.getMusleNames(bodypart_name_str.toLowerCase(),holder.sp_exercise_name.getSelectedItem().toString().toLowerCase()));
 
                     String dictionary_value = bodypart_name_str+exercise_name;
                     dictionary_value = dictionary_value.toLowerCase();
