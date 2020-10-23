@@ -97,4 +97,48 @@ public class NetworkOperations {
 
     }
 
+
+    public static void servicesNotDiscovered(Context context){
+
+        // Custom notification added by Haaris
+        // custom dialog
+        final Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.notification_dialog_box_single_button);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        dialog.getWindow().setAttributes(lp);
+
+        TextView notification_title = dialog.findViewById(R.id.notification_box_title);
+        TextView notification_message = dialog.findViewById(R.id.notification_box_message);
+
+        Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);
+
+        Notification_Button_ok.setText("Okay");
+
+        // Setting up the notification dialog
+        notification_title.setText("Connection fault");
+        notification_message.setText("Pheezee is not connecting. Please restart the device and try again.");
+
+
+        // On click on Continue
+        Notification_Button_ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+
+
+            }
+        });
+
+        dialog.show();
+
+        // End
+
+
+    }
+
 }

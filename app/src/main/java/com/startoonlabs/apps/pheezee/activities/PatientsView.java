@@ -999,7 +999,12 @@ public class PatientsView extends AppCompatActivity
                             }
 
                             if(!flag){
-                                NetworkOperations.firmwareVirsionNotCompatible(PatientsView.this);
+                                if(firmware_version[0] == -1 && firmware_version[1] == -1 && firmware_version[2] == -1)
+                                {
+                                    NetworkOperations.servicesNotDiscovered(PatientsView.this);
+                                }else {
+                                    NetworkOperations.firmwareVirsionNotCompatible(PatientsView.this);
+                                }
                             }else {
                                 if(!mDeviceDeactivated && !mDeviceHealthError)
                                     startActivity(intent);
@@ -1035,7 +1040,12 @@ public class PatientsView extends AppCompatActivity
                 }
 
                 if(!flag){
-                    NetworkOperations.firmwareVirsionNotCompatible(this);
+                    if(firmware_version[0] == -1 && firmware_version[1] == -1 && firmware_version[2] == -1)
+                    {
+                        NetworkOperations.servicesNotDiscovered(PatientsView.this);
+                    }else {
+                        NetworkOperations.firmwareVirsionNotCompatible(PatientsView.this);
+                    }
                 }else {
                     if(!mDeviceDeactivated && !mDeviceHealthError)
                         startActivity(intent);
@@ -2019,7 +2029,12 @@ public class PatientsView extends AppCompatActivity
                         }
 
                         if(!flag){
-                            NetworkOperations.firmwareVirsionNotCompatible(PatientsView.this);
+                            if(firmware_version[0] == -1 && firmware_version[1] == -1 && firmware_version[2] == -1)
+                            {
+                                NetworkOperations.servicesNotDiscovered(PatientsView.this);
+                            }else {
+                                NetworkOperations.firmwareVirsionNotCompatible(PatientsView.this);
+                            }
                         }else {
                             if(!mDeviceDeactivated && !mDeviceHealthError)
                                 startActivity(intent);
@@ -2056,7 +2071,12 @@ public class PatientsView extends AppCompatActivity
                 }
 
                 if(!flag){
-                    NetworkOperations.firmwareVirsionNotCompatible(this);
+                    if(firmware_version[0] == -1 && firmware_version[1] == -1 && firmware_version[2] == -1)
+                    {
+                        NetworkOperations.servicesNotDiscovered(PatientsView.this);
+                    }else {
+                        NetworkOperations.firmwareVirsionNotCompatible(PatientsView.this);
+                    }
                 }else {
                     if(!mDeviceDeactivated && !mDeviceHealthError)
                         startActivity(intent);
