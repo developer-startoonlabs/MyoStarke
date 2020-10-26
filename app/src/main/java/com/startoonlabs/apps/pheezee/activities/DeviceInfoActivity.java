@@ -275,7 +275,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
                         NetworkOperations.networkError(DeviceInfoActivity.this);
                     }
                 }else {
-                    Toast.makeText(DeviceInfoActivity.this, "Device Deactivated", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DeviceInfoActivity.this, "Pheeze Deactivated", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -684,7 +684,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
 
                                         } else {
                                             mCheckReactivationDialog.dismiss();
-                                            showDeviceDeactivatedDialog("Device Deactivated", "The device is still deactivated, please contact StartoonLabs.");
+                                            showDeviceDeactivatedDialog("Pheezee Deactivated", "The device is still deactivated, please contact StartoonLabs.");
                                         }
                                     } else {
                                         mCheckReactivationDialog.dismiss();
@@ -829,7 +829,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
             // End
 
         }else{
-            showToast("Please connect device");
+            showToast("Please connect Pheezee");
         }
 
     }

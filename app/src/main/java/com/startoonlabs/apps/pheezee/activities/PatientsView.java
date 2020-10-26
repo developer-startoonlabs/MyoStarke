@@ -646,7 +646,7 @@ public class PatientsView extends AppCompatActivity
         } else {
             backpressCount++;
             if (backpressCount == 1) {
-                Toast.makeText(PatientsView.this, "press again to close pheezee app", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PatientsView.this, "press again to close Pheezee app", Toast.LENGTH_SHORT).show();
                 Thread thread = new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -1613,7 +1613,7 @@ public class PatientsView extends AppCompatActivity
             Notification_Button_ok.setText("Check Reactivation");
 
             // Setting up the notification dialog
-            notification_title.setText("Device Deactivated");
+            notification_title.setText("Pheezee Deactivated");
             notification_message.setText("The device has been deactivated, please contact StartoonLabs.\nIf you have already contacted StartoonLabs, please click on check reactivation.");
 
 

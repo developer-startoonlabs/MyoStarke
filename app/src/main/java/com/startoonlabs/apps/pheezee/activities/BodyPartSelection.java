@@ -231,7 +231,7 @@ public class BodyPartSelection extends AppCompatActivity {
                 }
             }else {
                 if(usb_state){
-                    showToast("Please remove usb from device to continue..");
+                    showToast("Please remove usb from Pheezee to continue..");
                 }else if(device_disconnected_status==1){
                     showToast("Device has been deactivated");
                     Intent i = new Intent(BodyPartSelection.this, PatientsView.class);
@@ -239,14 +239,14 @@ public class BodyPartSelection extends AppCompatActivity {
                     startActivity(i);
                 }
                 else {
-                    showToast("Please connect device!");
+                    showToast("Please connect Pheezee!");
                     Intent i = new Intent(BodyPartSelection.this, PatientsView.class);
                     i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     startActivity(i);
                 }
             }
         }else {
-            showToast("Please connect device!");
+            showToast("Please connect Pheezee!");
             Intent i = new Intent(BodyPartSelection.this, PatientsView.class);
             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(i);
