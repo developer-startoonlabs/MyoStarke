@@ -75,7 +75,7 @@ public class MuscleOperation {
 
                             "Deltoid","Supraspinatus","Latissimus Dorsi",
                             "Pectoralis Major", "Teres Major",   "Biceps",
-                            "Coracobrachialis",  "Pectoralis Minor", "Serratus Anterior", "Infraspinatus", "Teres Minor", "Trapezius","Supraspinatus","Others"
+                            "Coracobrachialis",  "Pectoralis Minor", "Serratus Anterior", "Infraspinatus", "Teres Minor", "Trapezius","Subscapularis","Others"
 
 
                     },
