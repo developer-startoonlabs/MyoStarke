@@ -433,6 +433,7 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
 
                     if(arrayList.contains(primary_muscle_lookuptable.get(dictionary_value))) {
                         holder.sp_muscle_name.setSelection(arrayList.indexOf(primary_muscle_lookuptable.get(dictionary_value)));
+                        listner.onMuscleNameSelected(primary_muscle_lookuptable.get(dictionary_value),arrayList.indexOf(primary_muscle_lookuptable.get(dictionary_value)));
                     }else{
                         // Do nothing
                     }
@@ -472,17 +473,12 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
         holder.sp_muscle_name.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position!=0){
+
                     if(listner!=null){
                         String muscle_name = holder.sp_muscle_name.getSelectedItem().toString();
                         listner.onMuscleNameSelected(muscle_name, position);
                     }
-                }
-                else {
-                    if(listner!=null){
-                        listner.onMuscleNameSelected(null,0);
-                    }
-                }
+
             }
 
             @Override
