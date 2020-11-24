@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="60dp"
+    android:background="@color/ic_add_patient_grey_background"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.startoonlabs.apps.pheezee.activities.PatientsView"
     tools:showIn="@layout/app_bar_patients_view">
@@ -49,6 +50,112 @@
                     android:layout_height="wrap_content"
                     android:text="@string/connect_to_device" />
             </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:id="@+id/ll_profile_update"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/good_green"
+            android:orientation="vertical">
+
+
+
+
+
+            <LinearLayout
+                android:id="@+id/ll_profile_update_child"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="22sp"
+                android:gravity="center">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center_horizontal"
+                    android:layout_marginTop="2sp"
+                    android:layout_weight="3">
+                    <ImageView
+                        android:id="@+id/DialogWarning"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:src="@drawable/ic_warning_24pt"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/ll_profile_update_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="BRAND YOUR HOSPITAL ON REPORTS            "
+                        android:textSize="15sp"
+                        android:textColor="@color/white"/>
+                    <TextView
+                        android:id="@+id/ll_profile_update_text2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="13sp"
+                        android:text="Fill your hospital details and let your brand be visible on Pheezee reports."
+                        android:textColor="@color/white"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    android:gravity="center_horizontal"
+                    android:layout_weight="3">
+
+                    <ImageView
+                        android:id="@+id/DialogCloseButton"
+                        android:layout_width="wrap_content"
+                        android:layout_marginTop="5sp"
+                        android:layout_height="wrap_content"
+
+                        android:src="@drawable/ic_cross"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+            <Button
+                android:layout_marginTop="15sp"
+                android:id="@+id/edit_profile_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="30sp"
+                android:layout_gravity="center"
+                android:textSize="13sp"
+                android:text="Edit here"
+                android:textAllCaps="false"
+                android:paddingRight="25sp"
+                android:paddingLeft="25sp"
+                android:layout_marginBottom="10sp"
+
+                android:textColor="@color/good_green"
+                android:background="@drawable/round_cancel_buttons"
+                ></Button>
+
+
         </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout

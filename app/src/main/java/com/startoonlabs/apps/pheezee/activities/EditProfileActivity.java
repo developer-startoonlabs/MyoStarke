@@ -319,6 +319,7 @@ public class EditProfileActivity extends AppCompatActivity implements MqttSyncRe
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String profile_update_state="";
                 if(NetworkOperations.isNetworkAvailable(EditProfileActivity.this)) {
 
                     if(et_phizio_lastname.getText().toString().length()>1)
@@ -336,6 +337,24 @@ public class EditProfileActivity extends AppCompatActivity implements MqttSyncRe
                     String specialization = et_specialization.getText().toString();
                     String degree = et_degree.getText().toString();
                     String address = et_address.getText().toString();
+
+                    try {
+                        if(!str_clinicname.equalsIgnoreCase("") && !str_dob.equalsIgnoreCase("") && !str_experience.equalsIgnoreCase("") && !specialization.equalsIgnoreCase("") && !degree.equalsIgnoreCase("") && !address.equalsIgnoreCase("") && !json_phizio.getString("cliniclogo").equalsIgnoreCase("/icons/clinic.png"))
+                        {
+
+                            profile_update_state="completed";
+                            Log.d("clinichecking","fake");
+                            Log.d("clinichecking",address);
+                        }else profile_update_state="";
+
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        profile_update_state="";
+                    }
+
+
                     if(RegexOperations.isValidUpdatePhizioDetails(str_name,str_phone)){
                         PhizioDetailsData data = new PhizioDetailsData(str_name,str_phone,getIntent().getStringExtra("et_phizio_email"),str_clinicname,str_dob,str_experience,specialization,degree,gender,address);
                         repository.updatePhizioDetails(data);
@@ -357,8 +376,10 @@ public class EditProfileActivity extends AppCompatActivity implements MqttSyncRe
                 returnIntent.putExtra("et_phizio_phone",et_phizio_phone.getText().toString());
                 returnIntent.putExtra("et_clinic_name",et_clinic_name.getText().toString());
                 returnIntent.putExtra("et_address",et_address.getText().toString());
+                returnIntent.putExtra("profile_update_completed",profile_update_state);
+
                 setResult(Activity.RESULT_OK,returnIntent);
-            finish();
+                finish();
             }
         });
 

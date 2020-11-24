@@ -173,7 +173,8 @@ public class PatientsView extends AppCompatActivity
     SharedPreferences.Editor editor;
     AlertDialog.Builder builder;
     LinearLayout patientTabLayout;
-    ImageView iv_addPatient;
+    ImageView iv_addPatient,DialogCloseButton;
+    Button edit_profile_btn;
     private String deviceMacc = "";
     LinearLayout  add_device_bar;
     RelativeLayout rl_cap_view;
@@ -196,6 +197,7 @@ public class PatientsView extends AppCompatActivity
     ImageView iv_bluetooth_connected, iv_bluetooth_disconnected, iv_device_connected, iv_device_disconnected,iv_device, iv_sync_data,  iv_sync_not_available;
 
     AlertDialog mDialog, mDeactivatedDialog;
+    LinearLayout ll_profile_update;
     Dialog dialog;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -231,6 +233,50 @@ public class PatientsView extends AppCompatActivity
             iv_device_disconnected.setVisibility(View.VISIBLE);
             iv_device.setVisibility(View.GONE);
         }
+        profile_update_popup();
+
+
+    }
+
+    private void profile_update_popup() {
+
+        boolean profile_update = false;
+
+
+        try {
+
+            if (json_phizio.getString("clinicname").equalsIgnoreCase("")) {
+                profile_update = true;
+            }
+            if (json_phizio.getString("phiziodob").equalsIgnoreCase("")) {
+                profile_update = true;
+            }
+            if (json_phizio.getString("experience").equalsIgnoreCase("")) {
+                profile_update = true;
+            }
+            if (json_phizio.getString("specialization").equalsIgnoreCase("")) {
+                profile_update = true;
+            }
+            if (json_phizio.getString("degree").equalsIgnoreCase("")) {
+                profile_update = true;
+            }
+            if (json_phizio.getString("address").equalsIgnoreCase("")) {
+                profile_update = true;
+                Log.d("clinichecking","lapogba");
+            }
+            if (json_phizio.getString("cliniclogo").equalsIgnoreCase("")) {
+                profile_update = true;
+            }
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            profile_update = true;
+
+        }
+        if (profile_update) {
+            ll_profile_update.setVisibility(View.VISIBLE);
+        }else ll_profile_update.setVisibility(View.GONE);
     }
 
     private void checkAndSyncDataToTheServer() {
@@ -466,6 +512,28 @@ public class PatientsView extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(PatientsView.this, PhizioProfile.class));
+            }
+        });
+
+        DialogCloseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ll_profile_update.setVisibility(View.GONE);
+            }
+        });
+
+        edit_profile_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(NetworkOperations.isNetworkAvailable(PatientsView.this)){
+                    Intent i = new Intent(PatientsView.this, EditProfileActivity.class);
+                    i.putExtra("et_phizio_email", json_phizioemail);
+                    startActivityForResult(i,31);
+                }
+                else {
+                    NetworkOperations.networkError(PatientsView.this);
+                }
+
             }
         });
 
@@ -1305,7 +1373,10 @@ public class PatientsView extends AppCompatActivity
         }
         if(requestCode==31){
             if(resultCode == RESULT_OK){
-
+                if(data.getStringExtra("profile_update_completed").equalsIgnoreCase("completed"))
+                {
+                    ll_profile_update.setVisibility(View.GONE);
+                }
             }
         }
         if(requestCode==32){
@@ -1883,6 +1954,9 @@ public class PatientsView extends AppCompatActivity
         iv_sync_not_available = findViewById(R.id.iv_sync_data_disabled);
         tv_connect_to_pheezee = findViewById(R.id.tv_connect_to_pheezee);
         tv_start_clinic_session = findViewById(R.id.tv_start_clinic_session);
+        ll_profile_update = findViewById(R.id.ll_profile_update);
+        DialogCloseButton = findViewById(R.id.DialogCloseButton);
+        edit_profile_btn = findViewById(R.id.edit_profile_btn);
 
         //connecting dialog
         connecting_device_dialog = new ProgressDialog(this);
