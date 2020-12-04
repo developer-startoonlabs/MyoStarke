@@ -1,11 +1,14 @@
 package com.startoonlabs.apps.pheezee.activities;
 
 import android.app.ProgressDialog;
+import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.Typeface;
 import android.net.ParseException;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.text.Html;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -67,6 +70,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import com.startoonlabs.apps.pheezee.retrofit.GetDataService;
 import com.startoonlabs.apps.pheezee.retrofit.RetrofitClientInstance;
+import com.startoonlabs.apps.pheezee.services.PheezeeBleService;
 import com.startoonlabs.apps.pheezee.utils.DateOperations;
 
 public class SessionReportActivity extends AppCompatActivity implements MqttSyncRepository.OnReportDataResponseListner {
@@ -90,6 +94,9 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
     ImageView iv_go_back;
     ArrayList<SessionListClass> mSessionListResults,mOverallListResults;
     GetDataService getDataService;
+
+    boolean isBound = false;
+    PheezeeBleService mService;
 
 
     public static String patientId="", phizioemail="", patientName="", dateofjoin="";;
@@ -127,10 +134,28 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
             }
         });
 
+        Intent intent = new Intent(this, PheezeeBleService.class);
+        bindService(intent,mConnection,BIND_AUTO_CREATE);
+
 
         repository.getReportData(phizioemail,patientId);
 
     }
+
+    ServiceConnection mConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            isBound = true;
+            PheezeeBleService.LocalBinder mLocalBinder = (PheezeeBleService.LocalBinder)service;
+            mService = mLocalBinder.getServiceInstance();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            isBound = false;
+            mService = null;
+        }
+    };
 
     private void declareView() {
 
@@ -681,6 +706,7 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
     @Override
     protected void onDestroy() {
         repository.disableReportDataListner();
+        unbindService(mConnection);
         super.onDestroy();
     }
 

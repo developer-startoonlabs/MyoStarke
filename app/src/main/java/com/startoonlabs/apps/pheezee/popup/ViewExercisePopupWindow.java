@@ -108,7 +108,7 @@ public class ViewExercisePopupWindow {
     private int maxEmgValue, maxAngle, minAngle, angleCorrection, exercise_selected_position, body_part_selected_position, repsselected,hold_angle_session;
     private String sessionNo, mmt_selected = "", orientation, bodypart, phizioemail, patientname, patientid, sessiontime, actiontime,
             holdtime, numofreps, body_orientation="", session_type="", dateofjoin, exercise_name, muscle_name, min_angle_selected,
-            max_angle_selected, max_emg_selected;
+            max_angle_selected, max_emg_selected,comment_session;
     private String bodyOrientation="";
     private MqttSyncRepository repository;
     private MqttSyncRepository.OnSessionDataResponse response_data;
@@ -122,7 +122,7 @@ public class ViewExercisePopupWindow {
                                    String holdtime, String numofreps, int angleCorrection,
                                    String patientid, String patientname, Long tsLong, String bodyOrientation, String dateOfJoin,
                                    int exercise_selected_position, int body_part_selected_position, String muscle_name, String exercise_name,
-                                   String min_angle_selected, String max_angle_selected, String max_emg_selected, int repsselected, int hold_angle_session){
+                                   String min_angle_selected, String max_angle_selected, String max_emg_selected, int repsselected, int hold_angle_session, String mmt_selected, String session_type, String comment_session){
         this.context = context;
         this.maxEmgValue = maxEmgValue;
         this.sessionNo = sessionNo;
@@ -150,6 +150,10 @@ public class ViewExercisePopupWindow {
         this.max_emg_selected = max_emg_selected;
         this.repsselected = repsselected;
         this.hold_angle_session = hold_angle_session;
+
+        this.mmt_selected = mmt_selected;
+        this.session_type = session_type;
+        this.comment_session = comment_session;
         repository = new MqttSyncRepository(((Activity)context).getApplication());
         repository.setOnSessionDataResponse(onSessionDataResponse);
 
@@ -706,7 +710,7 @@ public class ViewExercisePopupWindow {
                     object.put("painscale","");
                     object.put("muscletone","");
                     object.put("exercisename",exercise_name);
-                    object.put("commentsession","");
+                    object.put("commentsession",comment_session);
                     object.put("symptoms","");
                     object.put("activetime",actiontime);
                     object.put("orientation", orientation);

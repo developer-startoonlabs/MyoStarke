@@ -88,6 +88,7 @@ import android.util.Log;
 
 import static com.startoonlabs.apps.pheezee.activities.MonitorActivity.IS_SCEDULED_SESSION;
 import static com.startoonlabs.apps.pheezee.activities.MonitorActivity.IS_SCEDULED_SESSIONS_COMPLETED;
+import static com.startoonlabs.apps.pheezee.activities.MonitorActivity.show_popup_once;
 import static com.startoonlabs.apps.pheezee.activities.MonitorActivity.total_sceduled_size;
 import static com.startoonlabs.apps.pheezee.utils.PackageTypes.ACHEDAMIC_TEACH_PLUS;
 import static com.startoonlabs.apps.pheezee.utils.PackageTypes.GOLD_PACKAGE;
@@ -508,7 +509,11 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
             });
 
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            dialog.show();
+            if(show_popup_once==true)
+            {
+                show_popup_once = false;
+                dialog.show();
+            }
 
         }else
         {

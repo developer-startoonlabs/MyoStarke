@@ -286,7 +286,7 @@ public class PhysiofeedbackPopupWindow {
                             ViewExercisePopupWindow feedback = new ViewExercisePopupWindow(context,maxEmgValue, sessionNo, maxAngle, minAngle, orientation, bodypart,
                                     phizioemail, sessiontime, actiontime, holdtime, numofreps,
                                     angleCorrection, patientid, patientname, tsLong, bodyOrientation, dateofjoin, exercise_selected_position,body_part_selected_position,
-                                    muscle_name,exercise_name,min_angle_selected,max_angle_selected,max_emg_selected,repsselected,hold_angle_session);
+                                    muscle_name,exercise_name,min_angle_selected,max_angle_selected,max_emg_selected,repsselected,hold_angle_session,mmt_selected,session_type,comment_session);
                             feedback.showWindow();
                             feedback.storeLocalSessionDetails(emgJsonArray,romJsonArray);
                             if(phizio_packagetype!=STANDARD_PACKAGE)

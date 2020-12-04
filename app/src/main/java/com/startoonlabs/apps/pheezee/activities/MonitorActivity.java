@@ -85,6 +85,7 @@ public class MonitorActivity extends AppCompatActivity implements PopupMenu.OnMe
     FragmentTransaction fragmentTransaction;
     MqttSyncRepository repository;
     private TextToSpeech mTTS;
+    static public boolean show_popup_once = true;
 
     @SuppressLint({"ClickableViewAccessibility", "SetTextI18n"})
     @Override
@@ -110,6 +111,7 @@ public class MonitorActivity extends AppCompatActivity implements PopupMenu.OnMe
         IS_SCEDULED_SESSION = getIntent().getBooleanExtra("issceduled",false);
         IS_SCEDULED_SESSIONS_COMPLETED = false;
         IS_SESSION_SCEDULED_ON = patientid;
+        show_popup_once=true;
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
