@@ -49,7 +49,6 @@ public class SessionListArrayAdapter extends ArrayAdapter<SessionListClass> {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         ViewHolder holder = null;
-        Log.v("ConvertView", String.valueOf(position));
 
         if (convertView == null) {
 
@@ -67,6 +66,7 @@ public class SessionListArrayAdapter extends ArrayAdapter<SessionListClass> {
                     CheckBox cb = (CheckBox) v ;
                     SessionListClass session_list_element = (SessionListClass) cb.getTag();
                     session_list_element.setSelected(cb.isChecked());
+
                 }
             });
         }
@@ -86,7 +86,7 @@ public class SessionListArrayAdapter extends ArrayAdapter<SessionListClass> {
         tv_bodypart_exercise.setText(mSessionArrayList.get(position).getBodypart() +" "+ mSessionArrayList.get(position).getExercise());
         tv_muscle_name.setText(mSessionArrayList.get(position).getMuscle_name());
         tv_orientation_position.setText(mSessionArrayList.get(position).getPosition()+" - "+mSessionArrayList.get(position).getOrientation());
-        tv_session_time.setText(mSessionArrayList.get(position).getSession_time()+"ec");
+        tv_session_time.setText(mSessionArrayList.get(position).getSession_time()+"sec");
 
         ImageView image_exercise = convertView.findViewById(R.id.image_exercise);
 
@@ -106,7 +106,7 @@ public class SessionListArrayAdapter extends ArrayAdapter<SessionListClass> {
             image_exercise.setImageResource(res);
         }
         CheckBox temp = (CheckBox) convertView.findViewById(R.id.checkBox1);
-        temp.setChecked(true);
+        temp.setChecked(temp.isChecked());
         selected_item.setSelected(temp.isChecked());
 
         return convertView;

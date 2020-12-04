@@ -41,7 +41,7 @@ public class SessionListClass {
     }
 
     long timeStampNano;
-    boolean selected = false;
+    boolean selected = true;
 
 
 
