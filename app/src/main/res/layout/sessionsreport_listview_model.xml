@@ -12,6 +12,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_weight="0.22"
+        android:layout_marginTop="5sp"
+        android:layout_marginBottom="5sp"
 
         android:layout_height="wrap_content">
         <RelativeLayout
@@ -80,15 +82,17 @@
 
         <Button
             android:id="@+id/view_button"
+
             android:focusable="false"
             android:layout_width="115sp"
-            android:layout_height="45sp"
-            android:layout_centerVertical="true"
+            android:layout_height="35sp"
+            android:layout_marginTop="5sp"
+            android:layout_alignTop="@+id/tv_s_no"
             android:paddingRight="35dp"
             android:paddingLeft="35dp"
-            android:background="@drawable/round_cancel_buttons"
+            android:background="@drawable/round_cancel_buttons_less_stroke_width"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="10dp"
+            android:layout_marginEnd="50dp"
             android:textSize="18sp"
             android:textAllCaps="false"
             android:textStyle="bold"
@@ -97,6 +101,17 @@
             >
 
         </Button>
+            <ImageView
+                android:id="@+id/share_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="7dp"
+                android:src="@drawable/ic_share_button"
+                android:layout_alignParentEnd="true"
+                android:layout_alignBottom="@+id/view_button"
+                android:layout_marginEnd="10dp"
+                android:layout_alignTop="@+id/view_button"
+                android:layout_marginStart="30dp"></ImageView>
         </RelativeLayout>
 
     </LinearLayout>

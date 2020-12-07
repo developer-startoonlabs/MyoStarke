@@ -40,6 +40,7 @@ public class OverallReportListArrayAdapter extends ArrayAdapter<SessionListClass
 
     private TextView tv_exercise, tv_exercise_no,tv_download_date;
     private Button view_button;
+    private ImageView share_icon;
     private ImageView bodypart_img;
 
 
@@ -101,6 +102,7 @@ public class OverallReportListArrayAdapter extends ArrayAdapter<SessionListClass
         tv_exercise_no = convertView.findViewById(R.id.tv_exercise_no);
         tv_exercise = convertView.findViewById(R.id.tv_exercise);
         view_button = convertView.findViewById(R.id.view_button);
+        share_icon = convertView.findViewById(R.id.share_icon);
         tv_download_date = convertView.findViewById(R.id.tv_download_date);
         bodypart_img = convertView.findViewById(R.id.image_exercise);
 
@@ -144,6 +146,23 @@ public class OverallReportListArrayAdapter extends ArrayAdapter<SessionListClass
             }
         });
 
+        share_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(NetworkOperations.isNetworkAvailable(context)) {
+                    Calendar calendar = Calendar.getInstance();
+                    String date = calenderToYYYMMDD(calendar);
+                    getOverallReportshare(date, mSessionArrayList.get(position).getBodypart(),context);
+                }
+                else {
+                    NetworkOperations.networkError(context);
+                }
+
+
+
+            }
+        });
+
 
 
         return convertView;
@@ -168,6 +187,18 @@ public class OverallReportListArrayAdapter extends ArrayAdapter<SessionListClass
         report_dialog.setMessage("Generating overall report for all the sessions held before "+date+", please wait....");
         report_dialog.show();
         repository.getDayReport(url,patientName+"-overall");
+    }
+    /**
+     * Retrofit call to get the report pdf from the server
+     * @param date
+     */
+    private void getOverallReportshare(String date,String bodypart,Context context){
+        String url = "/getreport/overall/"+patientId+"/"+phizioemail+"/" + date+"/" + bodypart.toLowerCase();
+        report_dialog = new ProgressDialog(context);
+        report_dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        report_dialog.setMessage("Sharing overall report for all the sessions held before "+date+", please wait....");
+        report_dialog.show();
+        repository.getDayReportshare(url,patientName+"-overall",context,report_dialog);
     }
 
     public void sendToast(String message){

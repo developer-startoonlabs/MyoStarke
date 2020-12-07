@@ -2,15 +2,18 @@ package com.startoonlabs.apps.pheezee.repository;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.FileProvider;
 import androidx.lifecycle.LiveData;
 
 import com.google.gson.Gson;
@@ -1102,6 +1105,41 @@ public class MqttSyncRepository {
                 if (file != null) {
                     if (reportDataResponseListner != null) {
                         reportDataResponseListner.onDayReportReceived(file, null, true);
+                    }
+                } else {
+                    if (reportDataResponseListner != null) {
+                        reportDataResponseListner.onDayReportReceived(null, "Not received!", false);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                if (reportDataResponseListner != null) {
+                    reportDataResponseListner.onDayReportReceived(null, "Server not responding, try again later", false);
+                }
+            }
+        });
+    }
+
+    public void getDayReportshare(String url, String fineName, Context context, ProgressDialog report_dialog) {
+        Call<ResponseBody> fileCall = getDataService.getReport(url);
+        fileCall.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                File file = WriteResponseBodyToDisk.writeResponseBodyToDisk(response.body(), fineName);
+                if (file != null) {
+                    if (reportDataResponseListner != null) {
+
+                        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                        Uri uri = FileProvider.getUriForFile(
+                                context,
+                                context.getApplicationContext().getPackageName() + ".my.package.name.provider", file);
+                        shareIntent.setType("application/pdf");
+                        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                        context.startActivity(shareIntent);
+                        report_dialog.dismiss();
+
                     }
                 } else {
                     if (reportDataResponseListner != null) {

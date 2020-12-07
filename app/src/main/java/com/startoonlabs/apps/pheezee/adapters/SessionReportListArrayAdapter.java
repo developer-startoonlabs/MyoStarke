@@ -44,6 +44,7 @@ public class SessionReportListArrayAdapter extends ArrayAdapter<SessionListClass
 
     private TextView tv_s_no,tv_date, tv_exercise_no,tv_download_date;
     private Button view_button;
+    private ImageView share_icon;
 
 
     private Context context;
@@ -108,6 +109,7 @@ public class SessionReportListArrayAdapter extends ArrayAdapter<SessionListClass
         tv_exercise_no = convertView.findViewById(R.id.tv_exercise_no);
         tv_download_date = convertView.findViewById(R.id.tv_download_date);
         view_button = convertView.findViewById(R.id.view_button);
+        share_icon = convertView.findViewById(R.id.share_icon);
 
         tv_s_no.setText(String.valueOf(mSessionArrayList.size()-position)+".");
 
@@ -148,6 +150,19 @@ public class SessionReportListArrayAdapter extends ArrayAdapter<SessionListClass
             }
         });
 
+        share_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(NetworkOperations.isNetworkAvailable(context))
+                    getDayReportshare(mSessionArrayList.get(position).getHeldon(),context);
+                else
+                    NetworkOperations.networkError(context);
+
+
+
+            }
+        });
+
 
 
         return convertView;
@@ -172,6 +187,18 @@ public class SessionReportListArrayAdapter extends ArrayAdapter<SessionListClass
         report_dialog.setMessage("Generating day report for sessions held on "+date+", please wait....");
         report_dialog.show();
         repository.getDayReport(url,patientName+"-day");
+    }
+    /**
+     * Retrofit call to get the report pdf from the server
+     * @param date
+     */
+    private void getDayReportshare(String date, Context context){
+        String url = "/getreport/"+patientId+"/"+phizioemail+"/" + date;
+        report_dialog = new ProgressDialog(context);
+        report_dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        report_dialog.setMessage("Sharing day report for sessions held on "+date+", please wait....");
+        report_dialog.show();
+        repository.getDayReportshare(url,patientName+"-day",context,report_dialog);
     }
 
     public void sendToast(String message){
