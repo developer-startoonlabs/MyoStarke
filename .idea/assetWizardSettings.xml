@@ -152,8 +152,8 @@
                           <map>
                             <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="ic_share_button" />
-                            <entry key="sourceFile" value="C:\Users\STARTOONLABS\Desktop\share button.svg" />
+                            <entry key="outputName" value="ic_qr_scan_code" />
+                            <entry key="sourceFile" value="C:\Users\STARTOONLABS\Desktop\QR scan code.svg" />
                           </map>
                         </option>
                       </PersistentState>

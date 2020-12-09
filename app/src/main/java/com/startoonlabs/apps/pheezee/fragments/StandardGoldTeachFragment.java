@@ -450,16 +450,19 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
         dialog.setContentView(R.layout.custom_dialog_box);
 
         ImageView device_placement = dialog.findViewById(R.id.image_device_placement);
+        String str_side_orientation = getActivity().getIntent().getStringExtra("orientation");
         String str_body_part = getActivity().getIntent().getStringExtra("exerciseType");
         str_exercise_name = getActivity().getIntent().getStringExtra("exercisename");
         str_muscle_name = getActivity().getIntent().getStringExtra("musclename");
-        String test = str_body_part+str_muscle_name;
+        String test = str_side_orientation+str_body_part+str_muscle_name;
         test = "ic_dp_"+test;
         test = test.replace(" - ","_");
         test = test.replace(" ","_");
         test = test.replace(")","");
         test = test.replace("(","");
         test = test.toLowerCase();
+
+        Log.d("newplacementtest",test);
 
 
         if(str_exercise_name.toLowerCase().contains("rotation") && str_body_part.toLowerCase().contains("shoulder"))
@@ -480,7 +483,7 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
             TextView exercise_name = dialog.findViewById(R.id.device_placement_title);
 
             muscle_name.setText(getActivity().getIntent().getStringExtra("musclename"));
-            exercise_name.setText(getActivity().getIntent().getStringExtra("exerciseType") +" - "+  getActivity().getIntent().getStringExtra("exercisename"));
+            exercise_name.setText(getActivity().getIntent().getStringExtra("orientation") +" "+getActivity().getIntent().getStringExtra("exerciseType") +" - "+  getActivity().getIntent().getStringExtra("exercisename"));
             // if button is clicked, close the custom dialog
 
             Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);
