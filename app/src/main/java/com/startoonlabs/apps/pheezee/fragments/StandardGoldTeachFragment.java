@@ -144,6 +144,8 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
     AngleOperations angleOperations;
     private boolean mSessionStarted = false;
 
+    private int prev_rep=0,current_rep=0,last_min_angle=360;
+
 
     AlertDialog  error_device_dialog;
     Dialog deviceDisconnectedDialog,usbPluggedInDialog;
@@ -1510,8 +1512,21 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
                             if (active_time_seconds < 10)
                                 secondsValue = "0" + active_time_seconds;
                             tv_action_time.setText(minutesValue + "m: " + secondsValue + "s");
+                            current_rep = num_of_reps;
+                            if(prev_rep != current_rep)
+                            {
+                                prev_rep = current_rep;
+                                if(prev_rep<repsselected){
+                                last_min_angle=360;
+                                }
+                            }
+                            if(prev_rep == current_rep &&prev_rep!=repsselected)
+                            {
+                                last_min_angle = last_min_angle > angleDetected ? angleDetected : last_min_angle;
 
-                            if (num_of_reps >= repsselected && repsselected != 0 && !sessionCompleted) {
+                            }
+
+                            if (num_of_reps >= repsselected && repsselected != 0 && !sessionCompleted && (last_min_angle+5)>angleDetected) {
                                 sessionCompleted = true;
                                 openSuccessfullDialogAndCloseSession();
                             }
