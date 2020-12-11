@@ -154,6 +154,8 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
     File file_session_emgdata, file_dir_session_emgdata, file_session_romdata, file_session_sessiondetails;
     FileOutputStream outputStream_session_emgdata, outputStream_session_romdata, outputStream_session_sessiondetails;
 
+    private int prev_rep=0,current_rep=0,last_min_angle=360;
+
     private String str_active_time,  str_reps, str_time = "Session time:   00 : 00";
 
     public void deviceDisconnectedPopup(boolean operation) {
@@ -1152,8 +1154,21 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
                             if (active_time_seconds < 10)
                                 secondsValue = "0" + active_time_seconds;
                             str_active_time = minutesValue + "m: " + secondsValue + "s";
+                            current_rep = num_of_reps;
+                            if(prev_rep != current_rep)
+                            {
+                                prev_rep = current_rep;
+                                if(prev_rep<repsselected){
+                                    last_min_angle=360;
+                                }
+                            }
+                            if(prev_rep == current_rep &&prev_rep!=repsselected)
+                            {
+                                last_min_angle = last_min_angle > angleDetected ? angleDetected : last_min_angle;
 
-                            if (num_of_reps >= repsselected && repsselected != 0 && !sessionCompleted) {
+                            }
+
+                            if (num_of_reps >= repsselected && repsselected != 0 && !sessionCompleted && (last_min_angle+5)>angleDetected) {
                                 sessionCompleted = true;
                                 openSuccessfullDialogAndCloseSession();
                             }
