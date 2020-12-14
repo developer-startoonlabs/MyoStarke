@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/pheezee_startup_logo"
-        android:layout_width="280sp"
-        android:layout_height="350sp"
+        android:layout_width="200sp"
+        android:layout_height="270sp"
         android:src="@drawable/pheezee_app_logo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

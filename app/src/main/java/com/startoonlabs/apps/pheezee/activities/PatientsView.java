@@ -932,7 +932,7 @@ public class PatientsView extends AppCompatActivity
         popUpWindow.openEditPopUpWindow();
         popUpWindow.setOnClickListner(new EditPopUpWindow.onClickListner() {
             @Override
-            public void onAddClickListner(PhizioPatients patients, PatientDetailsData data, boolean isvalid) {
+            public void onAddClickListner(PhizioPatients patients, PatientDetailsData data, boolean isvalid,Bitmap photo) {
                 if(isvalid){
                     deletepatient_progress = new ProgressDialog(PatientsView.this);
                     deletepatient_progress.setTitle("Updating patient details, please wait");
@@ -1362,6 +1362,80 @@ public class PatientsView extends AppCompatActivity
                                 repository.insertPatient(patient, data);
                                 Log.d("upload",patient.getPatientid());
                                 repository.uploadPatientImage(patient.getPatientid(),json_phizioemail,photo);
+                            } else {
+                                showToast("Invalid Input!!");
+                            }
+                        }
+                    });
+                }
+
+            }
+        }
+        if(requestCode==41){
+            if(resultCode == RESULT_OK){
+                Bitmap photo = (Bitmap) Objects.requireNonNull(data.getExtras()).get("data");
+                photo = BitmapOperations.getResizedBitmap(photo,128);
+//                imageView_patientpic.setImageBitmap(photo);
+                LayoutInflater inflater = getLayoutInflater();
+                View dialogLayout = inflater.inflate(R.layout.popup, null);
+                final TextView tv_create_account = dialogLayout.findViewById(R.id.tv_create_account);
+                EditPopUpWindow patientPopUpWindow = new EditPopUpWindow(this, json_phizioemail,photo);
+                patientPopUpWindow.openEditPopUpWindow();
+                patientPopUpWindow.setOnClickListner(new EditPopUpWindow.onClickListner() {
+                    @Override
+                    public void onAddClickListner(PhizioPatients patient, PatientDetailsData data, boolean isvalid,Bitmap photo) {
+                        if (isvalid) {
+
+                            Log.d("upload",patient.getPatientid());
+                            repository.uploadPatientImage(patient.getPatientid(),json_phizioemail,photo);
+                            deletepatient_progress = new ProgressDialog(PatientsView.this);
+                            deletepatient_progress.setTitle("Updating patient details, please wait");
+                            deletepatient_progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                            deletepatient_progress.setIndeterminate(true);
+                            deletepatient_progress.show();
+                            repository.updatePatientDetailsServer(patient,data);
+
+                        } else {
+                            showToast("Invalid Input!!");
+                        }
+                    }
+                });
+
+            }
+//            if(resultCode == RESULT_OK){
+//                if(data.getStringExtra("profile_update_completed").equalsIgnoreCase("completed"))
+//                {
+//                    ll_profile_update.setVisibility(View.GONE);
+//                }
+//            }
+        }
+        if(requestCode==42){
+            if(resultCode == RESULT_OK){
+                if(data!=null) {
+                    Uri selectedImage = data.getData();
+                    Bitmap photo = null;
+                    try {
+                        photo = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                        photo = BitmapOperations.getResizedBitmap(photo,128);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    EditPopUpWindow patientPopUpWindow = new EditPopUpWindow(this, json_phizioemail,photo);
+                    patientPopUpWindow.openEditPopUpWindow();
+                    patientPopUpWindow.setOnClickListner(new EditPopUpWindow.onClickListner() {
+                        @Override
+                        public void onAddClickListner(PhizioPatients patient, PatientDetailsData data, boolean isvalid,Bitmap photo) {
+                            if (isvalid) {
+
+                                Log.d("upload",patient.getPatientid());
+                                repository.uploadPatientImage(patient.getPatientid(),json_phizioemail,photo);
+                                deletepatient_progress = new ProgressDialog(PatientsView.this);
+                                deletepatient_progress.setTitle("Updating patient details, please wait");
+                                deletepatient_progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                                deletepatient_progress.setIndeterminate(true);
+                                deletepatient_progress.show();
+                                repository.updatePatientDetailsServer(patient,data);
+
                             } else {
                                 showToast("Invalid Input!!");
                             }

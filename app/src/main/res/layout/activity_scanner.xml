@@ -86,7 +86,7 @@
         android:id="@+id/ScannerOverlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/ic_qr_scan_code"
+        android:background="@drawable/ic_qr_screen_2"
         app:line_color="@color/good_green"
         app:line_speed="6"
         app:line_width="4"
