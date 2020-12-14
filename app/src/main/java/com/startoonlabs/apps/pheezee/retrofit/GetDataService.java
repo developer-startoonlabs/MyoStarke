@@ -75,6 +75,9 @@ public interface GetDataService {
     @POST("/api/phizioprofile/update/password")
     Call<String> updatePassword(@Body LoginData data);
 
+    @POST("/api/phizioprofile/update/app_version")
+    Call<String> updateApp_version(@Body LoginData data);
+
     @POST("/api/getheldon")
     Call<String> getHeldon(@Body PatientStatusData object);
 

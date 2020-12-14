@@ -113,6 +113,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+import static com.startoonlabs.apps.pheezee.BuildConfig.VERSION_NAME;
 import static com.startoonlabs.apps.pheezee.services.OtaMessagingService.CHANNEL_ID;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.health_error_present_in_device;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.jobid_sync_data_to_server;
@@ -234,7 +235,17 @@ public class PatientsView extends AppCompatActivity
             iv_device.setVisibility(View.GONE);
         }
         profile_update_popup();
+        Pheezee_app_version_send();
 
+
+    }
+
+    private void Pheezee_app_version_send()
+    {
+        if(NetworkOperations.isNetworkAvailable(PatientsView.this)) {
+            repository.updateApp_version(json_phizioemail,VERSION_NAME);
+
+        }
 
     }
 

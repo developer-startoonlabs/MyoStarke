@@ -697,6 +697,36 @@ public class MqttSyncRepository {
             }
         });
     }
+    public void updateApp_version(String email, String app_version) {
+        LoginData data = new LoginData(email, app_version);
+        Call<String> update_appversion_call = getDataService.updateApp_version(data);
+        update_appversion_call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
+                if (response.code() == 200) {
+                    String res = response.body();
+                    if (res != null) {
+//                        if (res.equalsIgnoreCase("updated")) {
+//                            if (loginlistner != null)
+//                                loginlistner.onPasswordUpdated("Password updated!");
+//                        } else {
+//                            if (loginlistner != null)
+//                                loginlistner.onPasswordUpdated("Error please try later");
+//                        }
+                    } else {
+//                        if (loginlistner != null)
+//                            loginlistner.onPasswordUpdated("Error please try later");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
+                if (loginlistner != null)
+                    loginlistner.onPasswordUpdated("Error please try later");
+            }
+        });
+    }
 
     public void confirmEmail(String email) {
         final String otp = OtpGeneration.OTP(4);
