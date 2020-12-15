@@ -354,8 +354,9 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
                     to_date = to_date +" "+ to_date_split[0];
 
 
-
-                    tv_session_duration.setText(from_date + " to " + to_date);
+                    if(!from_date.equalsIgnoreCase(to_date)) {
+                        tv_session_duration.setText(from_date + " to " + to_date);
+                    }
                 }
                 Collections.sort(dates_sessions,Collections.reverseOrder());
 
