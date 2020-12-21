@@ -170,7 +170,7 @@
                                     android:fontFamily="@font/ebrima"
                                     android:paddingTop="8dp"
                                     android:paddingBottom="8dp"
-                                    android:text="0"
+                                    android:text=" "
                                     android:textColor="@color/good_green"
                                     android:textSize="18sp" />
                             </LinearLayout>

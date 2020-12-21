@@ -11,6 +11,7 @@ import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -28,6 +29,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
@@ -41,8 +43,12 @@ import com.startoonlabs.apps.pheezee.activities.SessionReportActivity;
 import com.startoonlabs.apps.pheezee.classes.PatientActivitySingleton;
 import com.startoonlabs.apps.pheezee.pojos.DeleteSessionData;
 import com.startoonlabs.apps.pheezee.pojos.MmtData;
+import com.startoonlabs.apps.pheezee.pojos.PatientStatusData;
+import com.startoonlabs.apps.pheezee.pojos.PhizioSessionReportData;
 import com.startoonlabs.apps.pheezee.pojos.SessionData;
 import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
+import com.startoonlabs.apps.pheezee.retrofit.GetDataService;
+import com.startoonlabs.apps.pheezee.retrofit.RetrofitClientInstance;
 import com.startoonlabs.apps.pheezee.room.Entity.MqttSync;
 import com.startoonlabs.apps.pheezee.room.PheezeeDatabase;
 import com.startoonlabs.apps.pheezee.utils.NetworkOperations;
@@ -60,6 +66,10 @@ import java.util.Date;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 import static com.startoonlabs.apps.pheezee.activities.MonitorActivity.IS_SCEDULED_SESSION;
 import static com.startoonlabs.apps.pheezee.activities.MonitorActivity.IS_SCEDULED_SESSIONS_COMPLETED;
 import static com.startoonlabs.apps.pheezee.utils.PackageTypes.STANDARD_PACKAGE;
@@ -68,6 +78,8 @@ public class SessionSummaryPopupWindow {
     private String mqtt_delete_pateint_session = "phizio/patient/deletepatient/sesssion";
     private String mqtt_publish_update_patient_mmt_grade = "phizio/patient/updateMmtGrade";
     private String mqtt_publish_add_patient_session_emg_data = "patient/entireEmgData";
+
+    GetDataService getDataService;
 
     private boolean session_inserted_in_server = false;
     JSONArray emgJsonArray, romJsonArray;
@@ -164,6 +176,10 @@ public class SessionSummaryPopupWindow {
 
 
     public void showWindow(){
+
+        getDataService = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
+
+
         Configuration config = ((Activity)context).getResources().getConfiguration();
         final View layout;
         if (config.smallestScreenWidthDp >= 600)
@@ -221,8 +237,37 @@ public class SessionSummaryPopupWindow {
 //            ll_click_to_view_report.setVisibility(View.VISIBLE);
 //        }
 
+        try
+        {
+            //for held on date
+            SimpleDateFormat formatter_date = new SimpleDateFormat("yyyy-MM-dd");
+            String dateString_sessionnumber = formatter_date.format(new Date(tsLong));
+            // Haaris
+            PatientStatusData data = new PatientStatusData(phizioemail, patientid,dateString_sessionnumber,dateString_sessionnumber);
+            Call<PhizioSessionReportData> getsession_report_count_response = getDataService.getsession_number_count(data);
+            getsession_report_count_response.enqueue(new Callback<PhizioSessionReportData>() {
+                @Override
+                public void onResponse(@NonNull Call<PhizioSessionReportData> call, @NonNull Response<PhizioSessionReportData> response) {
+                    if (response.code() == 200) {
+                        PhizioSessionReportData res = response.body();
+                        sessionNo = res.getSession().toString();
+                        tv_session_num.setText(sessionNo);
 
-        tv_session_num.setText(sessionNo);
+
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<PhizioSessionReportData> call, @NonNull Throwable t) {
+
+                }
+            });
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+
         tv_orientation_and_bodypart.setText(orientation+"-"+bodypart+"-"+exercise_name);
         tv_musclename.setText(muscle_name);
 

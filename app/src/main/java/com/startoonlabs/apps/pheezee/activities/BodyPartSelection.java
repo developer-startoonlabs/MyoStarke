@@ -232,7 +232,7 @@ public class BodyPartSelection extends AppCompatActivity {
                 }
             }else {
                 if(usb_state){
-                    showToast("Please remove usb from Pheezee to continue..");
+                    showToast("Please remove USB from Pheezee to continue..");
                 }else if(device_disconnected_status==1){
                     showToast("Device has been deactivated");
                     Intent i = new Intent(BodyPartSelection.this, PatientsView.class);

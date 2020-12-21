@@ -84,6 +84,9 @@ public interface GetDataService {
     @POST("/api/getsession_report_count")
     Call<PhizioSessionReportData> getsession_report_count(@Body PatientStatusData object);
 
+    @POST("/api/getsession_number_count")
+    Call<PhizioSessionReportData> getsession_number_count(@Body PatientStatusData object);
+
     @POST("/api/getoveralletails")
     Call<Overallresponse> getOverall_list(@Body PatientStatusData object);
 

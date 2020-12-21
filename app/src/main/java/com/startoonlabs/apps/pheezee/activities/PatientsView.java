@@ -725,7 +725,7 @@ public class PatientsView extends AppCompatActivity
         } else {
             backpressCount++;
             if (backpressCount == 1) {
-                Toast.makeText(PatientsView.this, "press again to close Pheezee app", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PatientsView.this, "Press again to close Pheezee app", Toast.LENGTH_SHORT).show();
                 Thread thread = new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -1026,9 +1026,9 @@ public class PatientsView extends AppCompatActivity
         intent.putExtra("patientName", patientname);
         intent.putExtra("dateofjoin",dateofjoin);
         if (Objects.requireNonNull(sharedPref.getString("deviceMacaddress", "")).equals("") && !mDeviceState) {
-            Toast.makeText(this, "First add pheezee to your application", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "First add Pheezee to your application", Toast.LENGTH_LONG).show();
         } else if (!(iv_device_connected.getVisibility()==View.VISIBLE)  ) {
-            Toast.makeText(this, "Make sure that the pheezee is on", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Make sure that Pheezee is on", Toast.LENGTH_LONG).show();
         }
         else {
             if(deviceBatteryPercent<15){
@@ -2136,9 +2136,9 @@ public class PatientsView extends AppCompatActivity
         intent.putExtra("patientName", patient.getPatientname());
         intent.putExtra("dateofjoin",patient.getDateofjoin());
         if (Objects.requireNonNull(sharedPref.getString("deviceMacaddress", "")).equals("") && !mDeviceState) {
-            Toast.makeText(this, "First add pheezee to your application", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "First add Pheezee to your application", Toast.LENGTH_LONG).show();
         } else if (!(iv_device_connected.getVisibility()==View.VISIBLE)  ) {
-            Toast.makeText(this, "Make sure that the pheezee is on", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Make sure that Pheezee is on", Toast.LENGTH_LONG).show();
         }
         else {
             if(deviceBatteryPercent<15){
