@@ -38,6 +38,10 @@ public class SessionListArrayAdapter extends ArrayAdapter<SessionListClass> {
         this.notifyDataSetChanged();
     }
 
+    public int getLength(){
+        return mSessionArrayList.size();
+    }
+
     private class ViewHolder {
         TextView code;
         CheckBox name;
