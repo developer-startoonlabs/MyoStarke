@@ -145,6 +145,8 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
     private boolean mSessionStarted = false;
 
     private int prev_rep=0,current_rep=0,last_min_angle=360;
+    private int prev_angle=0;
+    private boolean first_read=true;
 
 
     AlertDialog  error_device_dialog;
@@ -457,15 +459,7 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
         str_exercise_name = getActivity().getIntent().getStringExtra("exercisename");
         str_muscle_name = getActivity().getIntent().getStringExtra("musclename");
 
-        // Fixing the images orientation
-        // Names of the images are saved as opposite of the actual orientation
-        if(str_side_orientation.equalsIgnoreCase("left"))
-        {
-            str_side_orientation="right";
-        }else if(str_side_orientation.equalsIgnoreCase("right"))
-        {
-            str_side_orientation="left";
-        }
+
         String test = str_side_orientation+str_body_part+str_muscle_name;
         test = "ic_dp_"+test;
         test = test.replace(" - ","_");
@@ -1523,6 +1517,20 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
                                 secondsValue = "0" + active_time_seconds;
                             tv_action_time.setText(minutesValue + "m: " + secondsValue + "s");
                             current_rep = num_of_reps;
+
+                            if(first_read)
+                            {
+                                first_read=false;
+                                prev_angle = angleDetected;
+
+                            }
+
+                            if(angleDetected - prev_angle > 90)
+                            {
+                                Log.d("anglelarge",Integer.toString(angleDetected - prev_angle));
+                            }
+                            prev_angle = angleDetected;
+
                             if(prev_rep != current_rep)
                             {
                                 prev_rep = current_rep;
