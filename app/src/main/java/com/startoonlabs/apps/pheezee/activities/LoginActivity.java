@@ -263,7 +263,7 @@ public class LoginActivity extends AppCompatActivity implements MqttSyncReposito
                             }
                         });
                     }
-                    else { showToast("Invalid pin"); }
+                    else { showToast("Invalid OTP"); }
                 }
             });
         }

@@ -128,7 +128,7 @@ public class SignUpActivity extends AppCompatActivity implements MqttSyncReposit
                         repository.signUp(data);
                     }
                     else {
-                        showToast("Invalid pin!");
+                        showToast("Invalid OTP!");
                     }
                 }
             });

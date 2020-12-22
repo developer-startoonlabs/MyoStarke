@@ -267,7 +267,7 @@ public class PhizioProfile extends AppCompatActivity implements MqttSyncReposito
                     if(RegexOperations.isValidUpdatePhizioDetails(str_name,str_phone)){
                         PhizioDetailsData data = new PhizioDetailsData(str_name,str_phone,str_phizioemail,str_clinicname,str_dob,str_experience,specialization,degree,gender,address);
                         repository.updatePhizioDetails(data);
-                        dialog.setMessage("Updated details, please wait");
+                        dialog.setMessage("Updating details, please wait");
                         dialog.show();
                     }
                     else {

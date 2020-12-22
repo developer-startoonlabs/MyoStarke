@@ -306,7 +306,7 @@ public class ViewExercisePopupWindow {
 
                         lv_sessionlist.setAdapter(sessionListArrayAdapter);
                         TextView Session_heading = layout.findViewById(R.id.Session_heading);
-                        Session_heading.setText("Exercise"+" "+sessionListArrayAdapter.getLength());
+                        Session_heading.setText("Session"+" "+sessionNo);
 
                         progress.dismiss();
 

@@ -752,7 +752,7 @@ public class MqttSyncRepository {
                             signUpResponse.onConfirmEmail(false, "Invalid package id.");
                         } else {
                             if (signUpResponse != null) {
-                                signUpResponse.onConfirmEmail(false, "Email not sent, try again later!");
+                                signUpResponse.onConfirmEmail(false, "Connection error, Please try again later!");
                             }
                         }
                     } else {

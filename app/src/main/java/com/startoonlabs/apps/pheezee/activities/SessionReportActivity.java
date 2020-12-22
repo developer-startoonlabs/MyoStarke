@@ -188,7 +188,7 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 SessionListClass temp = (SessionListClass) adapterView.getItemAtPosition(i);
 
-                ViewExercisePopupWindow feedback = new ViewExercisePopupWindow(SessionReportActivity.this,0, " ", 0, 0, "", "",
+                ViewExercisePopupWindow feedback = new ViewExercisePopupWindow(SessionReportActivity.this,0, Integer.toString(mSessionListResults.size()-i), 0, 0, "", "",
                         phizioemail, "", "", "", "",
                         0, temp.getPatientid(), "", 0L, "", dateofjoin, 0,0,
                         "","","","","",0,temp.getHeldon());
