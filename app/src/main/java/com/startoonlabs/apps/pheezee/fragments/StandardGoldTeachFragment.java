@@ -829,7 +829,7 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
                     dialog.show();
                     dialog.getWindow().setAttributes(lp);
                 } else {
-                    showToast("Please start session!");
+                    showToast("Please start the session!");
                 }
 
 //                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

@@ -1579,7 +1579,7 @@ public class PatientsView extends AppCompatActivity
         if(response){
             if(deletepatient_progress!=null){
                 deletepatient_progress.dismiss();
-                showToast("Patient Deleted");
+                showToast("Patient deleted");
             }
         }
         else {
@@ -1608,7 +1608,7 @@ public class PatientsView extends AppCompatActivity
         if(response){
             if(deletepatient_progress!=null){
                 deletepatient_progress.dismiss();
-                showToast("Patient Staus Updated");
+                showToast("Patient status updated");
             }
         }
         else {

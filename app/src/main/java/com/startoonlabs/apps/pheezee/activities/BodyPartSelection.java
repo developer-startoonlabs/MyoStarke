@@ -266,10 +266,10 @@ public class BodyPartSelection extends AppCompatActivity {
 
     public String getInvalidMessage(){
         if(str_body_part==null){
-            return "Please select body part!";
+            return "Please select body part";
         }
         else if (str_orientation==null){
-            return "Please select body part side!";
+            return "Please select body part side";
         }
         else if (str_body_orientation==null){
             return "Please select body position";
@@ -279,7 +279,7 @@ public class BodyPartSelection extends AppCompatActivity {
         else if (str_muscle_name==null){
             return "Please select muscle name";
         }else {
-            return "Please fill all details";
+            return "Please select the exercise";
         }
     }
 

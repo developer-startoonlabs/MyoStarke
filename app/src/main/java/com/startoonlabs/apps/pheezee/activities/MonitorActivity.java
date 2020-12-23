@@ -276,7 +276,7 @@ public class MonitorActivity extends AppCompatActivity implements PopupMenu.OnMe
 
 
     public void startBleRequest(){
-        showToast("Bluetooth Disabled");
+        showToast("Bluetooth disabled");
         Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
         startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
     }

@@ -49,7 +49,7 @@ public class RegexOperations {
         if(email.equals("")||password.equals(""))
             return "Please fill all details";
         else
-            return "Invalid Email Address";
+            return "Invalid email address";
     }
 
     public static boolean isSignupValid(String name, String email, String password, String phone){
@@ -68,11 +68,11 @@ public class RegexOperations {
 
         else {
             if(!RegexOperations.isValidEmail(email)&& !RegexOperations.isValidMobileNumber(phone))
-                return "Invalid Credentials";
+                return "Invalid credentials";
             else if(!RegexOperations.isValidEmail(email))
-                return "Invalid Email Address";
+                return "Invalid email address";
             else
-                return "Invalid Phone Number";
+                return "Invalid phone number";
         }
     }
 

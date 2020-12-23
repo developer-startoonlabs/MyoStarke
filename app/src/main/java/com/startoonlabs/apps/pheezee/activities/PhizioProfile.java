@@ -574,7 +574,7 @@ public class PhizioProfile extends AppCompatActivity implements MqttSyncReposito
             focuseEditTexts(false);
         }
         else {
-            showToast("Error try again, later");
+            showToast("Error please try again later");
         }
     }
 
@@ -588,7 +588,7 @@ public class PhizioProfile extends AppCompatActivity implements MqttSyncReposito
     public void onClinicLogoUpdated(Boolean response) {
         dialog.dismiss();
         if(response){
-            showToast("Updated Clinic Logo");
+//            showToast("Updated clinic logo");
             if(tv_update_clinic_logo!=null){
 //                tv_update_clinic_logo.setText("Update Clinic Logo");
             }

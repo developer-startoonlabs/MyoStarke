@@ -576,7 +576,7 @@ public class EditProfileActivity extends AppCompatActivity implements MqttSyncRe
             showToast("Details updated");
         }
         else {
-            showToast("Error try again, later");
+            showToast("Error please try again later");
         }
     }
 
@@ -590,7 +590,7 @@ public class EditProfileActivity extends AppCompatActivity implements MqttSyncRe
     public void onClinicLogoUpdated(Boolean response) {
         dialog.dismiss();
         if(response){
-            showToast("Updated Clinic Logo");
+//            showToast("Updated clinic logo");
             if(iv_update_clinic_logo!=null){
 //                iv_update_clinic_logo.setText("Update Clinic Logo");
             }

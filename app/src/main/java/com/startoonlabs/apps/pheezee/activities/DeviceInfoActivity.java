@@ -651,7 +651,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
                 }
             });
         }else {
-            showToast("Device Not Connected");
+            showToast("Pheezee not connected, please connect and try again");
         }
     }
 
@@ -678,7 +678,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
                                                     mCheckReactivationDialog.setMessage("Reactivating device, please wait..");
                                                     mService.reactivateDevice();
                                                 } else {
-                                                    showToast("Device Not Connected");
+                                                    showToast("Pheezee not connected, please connect and try again");
                                                 }
                                             }
 
@@ -696,7 +696,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
                     }
                 }
             } else {
-                showToast("Device Not Connected");
+                showToast("Pheezee not connected, please connect and try again");
             }
         }else {
             NetworkOperations.networkError(this);
@@ -736,7 +736,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
                 calibration_handler.postDelayed(calibration_time_runnable,32000);
             }
         } else {
-            showToast("Device Not Connected");
+            showToast("Pheezee not connected, please connect and try again");
         }
     }
 

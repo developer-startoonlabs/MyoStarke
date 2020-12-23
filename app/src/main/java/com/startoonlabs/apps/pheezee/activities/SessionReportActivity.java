@@ -413,7 +413,7 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
                 sesssionreport_adapter = new SessionReportListArrayAdapter(this, mSessionListResults,this.getApplication());
                 lv_sessionlist.setAdapter(sesssionreport_adapter);
             } else {
-                showToast("Fetching report data, please wait...");
+                showToast("Fetching report data, please wait..");
             }
     }
 
@@ -428,7 +428,7 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
                     fm.popBackStack();
                 }
             } else {
-                showToast("Fetching report data, please wait...");
+                showToast("Fetching report data, please wait..");
             }
     }
 
@@ -686,7 +686,7 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
             lv_sessionlist.setAdapter(overallreport_adapter);
         }
         else {
-            showToast("Fetching report data, please wait...");
+            showToast("Fetching report data, please wait..");
         }
     }
 

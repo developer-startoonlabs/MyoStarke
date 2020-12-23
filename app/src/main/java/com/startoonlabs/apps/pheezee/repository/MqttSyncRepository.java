@@ -747,9 +747,9 @@ public class MqttSyncRepository {
                                 signUpResponse.onConfirmEmail(false, "Email already present!");
                             }
                         } else if(res.equalsIgnoreCase("packagealready")){
-                            signUpResponse.onConfirmEmail(false, "Package id already being used.");
+                            signUpResponse.onConfirmEmail(false, "Package id already being used");
                         }else if(res.equalsIgnoreCase("invalidpackageid")){
-                            signUpResponse.onConfirmEmail(false, "Invalid package id.");
+                            signUpResponse.onConfirmEmail(false, "Invalid package id");
                         } else {
                             if (signUpResponse != null) {
                                 signUpResponse.onConfirmEmail(false, "Connection error, Please try again later!");
@@ -757,12 +757,12 @@ public class MqttSyncRepository {
                         }
                     } else {
                         if (signUpResponse != null) {
-                            signUpResponse.onConfirmEmail(false, "Error try again later!");
+                            signUpResponse.onConfirmEmail(false, "Error please try again later");
                         }
                     }
                 } else {
                     if (signUpResponse != null) {
-                        signUpResponse.onConfirmEmail(false, "Error try again later!");
+                        signUpResponse.onConfirmEmail(false, "Error please try again later");
                     }
                 }
             }
@@ -770,7 +770,7 @@ public class MqttSyncRepository {
             @Override
             public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
                 if (signUpResponse != null) {
-                    signUpResponse.onConfirmEmail(false, "Error try again later!");
+                    signUpResponse.onConfirmEmail(false, "Error please try again later");
                 }
             }
         });
@@ -913,11 +913,11 @@ public class MqttSyncRepository {
                                 new InsertAllPatients(phizioPatientsDao).execute(phiziopatients);
                             } else {
                                 if (loginlistner != null)
-                                    loginlistner.onLoginResponse(false, "Invalid Credentials");
+                                    loginlistner.onLoginResponse(false, "Invalid credentials");
                             }
                         } else {
                             if (loginlistner != null)
-                                loginlistner.onLoginResponse(false, "Invalid Credentials");
+                                loginlistner.onLoginResponse(false, "Invalid credentials");
                         }
                     }
                 });
@@ -926,7 +926,7 @@ public class MqttSyncRepository {
             @Override
             public void onFailure(@NonNull Call<List<LoginResult>> call, @NonNull Throwable t) {
                 if (loginlistner != null)
-                    loginlistner.onLoginResponse(false, "Invalid Credentials");
+                    loginlistner.onLoginResponse(false, "Invalid credentials");
             }
         });
     }
@@ -1202,12 +1202,12 @@ public class MqttSyncRepository {
                             }
                         } else {
                             if (onSessionDataResponse != null) {
-                                onSessionDataResponse.onInsertSessionData(false, "Not inserted, Try again later");
+                                onSessionDataResponse.onInsertSessionData(false, "Exercise not saved, Try again later");
                             }
                         }
                     } else {
                         if (onSessionDataResponse != null) {
-                            onSessionDataResponse.onInsertSessionData(false, "Not inserted, Try again later");
+                            onSessionDataResponse.onInsertSessionData(false, "Exercise not saved, Try again later");
                         }
                     }
                 }
