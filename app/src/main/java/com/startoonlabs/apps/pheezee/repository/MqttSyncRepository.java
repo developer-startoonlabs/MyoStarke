@@ -1198,7 +1198,7 @@ public class MqttSyncRepository {
                         if (res.getResponse().equalsIgnoreCase("inserted")) {
                             deleteParticular(res.getId());
                             if (onSessionDataResponse != null) {
-                                onSessionDataResponse.onInsertSessionData(true, res.getResponse().substring(0,1).toUpperCase()+ res.getResponse().substring(1));
+                                onSessionDataResponse.onInsertSessionData(true, "Exercise saved");
                             }
                         } else {
                             if (onSessionDataResponse != null) {
@@ -1233,7 +1233,7 @@ public class MqttSyncRepository {
                         if (res.getResponse().equalsIgnoreCase("deleted")) {
                             deleteParticular(res.getId());
                             if (onSessionDataResponse != null)
-                                onSessionDataResponse.onSessionDeleted(true, res.getResponse().substring(0,1).toUpperCase()+ res.getResponse().substring(1).toLowerCase());
+                                onSessionDataResponse.onSessionDeleted(true, "Exercise removed");
                         } else {
                             if (onSessionDataResponse != null)
                                 onSessionDataResponse.onSessionDeleted(false, "");

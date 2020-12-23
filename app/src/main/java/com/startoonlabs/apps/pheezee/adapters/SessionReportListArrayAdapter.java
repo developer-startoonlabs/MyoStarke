@@ -184,7 +184,7 @@ public class SessionReportListArrayAdapter extends ArrayAdapter<SessionListClass
         String url = "/getreport/"+patientId+"/"+phizioemail+"/" + date;
         report_dialog = new ProgressDialog(context);
         report_dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        report_dialog.setMessage("Generating day report for sessions held on "+date+", please wait....");
+        report_dialog.setMessage("Generating session report for sessions held on "+date+", please wait..");
         report_dialog.show();
         repository.getDayReport(url,patientName+"-day");
     }
@@ -196,7 +196,7 @@ public class SessionReportListArrayAdapter extends ArrayAdapter<SessionListClass
         String url = "/getreport/"+patientId+"/"+phizioemail+"/" + date;
         report_dialog = new ProgressDialog(context);
         report_dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        report_dialog.setMessage("Sharing day report for sessions held on "+date+", please wait....");
+        report_dialog.setMessage("Sharing session report for sessions held on "+date+", please wait..");
         report_dialog.show();
         repository.getDayReportshare(url,patientName+"-day",context,report_dialog);
     }

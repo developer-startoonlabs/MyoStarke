@@ -358,7 +358,7 @@ public class EditProfileActivity extends AppCompatActivity implements MqttSyncRe
                     if(RegexOperations.isValidUpdatePhizioDetails(str_name,str_phone)){
                         PhizioDetailsData data = new PhizioDetailsData(str_name,str_phone,getIntent().getStringExtra("et_phizio_email"),str_clinicname,str_dob,str_experience,specialization,degree,gender,address);
                         repository.updatePhizioDetails(data);
-                        dialog.setMessage("Updated details, please wait");
+                        dialog.setMessage("Updating details, please wait");
                         dialog.show();
                     }
                     else {

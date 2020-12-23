@@ -454,7 +454,7 @@ public class ViewExercisePopupWindow {
                                                     if (res.getResponse().equalsIgnoreCase("deleted")) {
 //                                            deleteParticular(res.getId());Animation aniFade = AnimationUtils.loadAnimation(context, R.anim.fade_in);
                                                         if (onSessionDataResponse != null)
-                                                            onSessionDataResponse.onSessionDeleted(true, res.getResponse().toUpperCase());
+                                                            onSessionDataResponse.onSessionDeleted(true, "Exercise removed");
                                                     } else {
                                                         if (onSessionDataResponse != null)
                                                             onSessionDataResponse.onSessionDeleted(false, "");
