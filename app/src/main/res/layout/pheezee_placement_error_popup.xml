@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="40dp"
+    android:background="@drawable/feedback_background"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:id="@+id/image"
+        android:gravity="center"
+        android:layout_height="match_parent">
+        <ImageView
+            android:layout_width="wrap_content"
+
+            android:id="@+id/image_exercise"
+            android:layout_height="wrap_content"
+            android:src="@drawable/pheezee_placement_error_logo"></ImageView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_overall_summary"
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="8dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="5dp"
+            android:textStyle="bold"
+            android:fontFamily="@font/ebrima"
+            android:text="Pheezee placement error"
+            android:textColor="@color/pitch_black"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="40sp"
+            android:textAlignment="center"
+            android:fontFamily="@font/ebrima"
+            android:text="@string/pheezee_placement_error"
+            android:textColor="@color/pitch_black"
+            android:textSize="16sp" />
+
+
+
+
+
+
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="90sp"
+            android:baselineAligned="false">
+
+
+            <LinearLayout
+                android:id="@+id/bp_model_mmt_confirm"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/repeat_exercise_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Repeat Exercise"
+                    android:gravity="center"
+                    android:background="@drawable/round_same_buttons"
+                    android:elevation="16dp"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@android:color/white" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

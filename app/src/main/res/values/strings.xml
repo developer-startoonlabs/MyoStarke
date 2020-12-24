@@ -215,6 +215,7 @@
     <string name="mmt_grade">Mmt Grade - </string>
     <string name="mmt_grade_dynamic">Mmt Grade -</string>
     <string name="select_mmt_grading">Select MMT Grading</string>
+    <string name="pheezee_placement_error">The placement of Pheezee is \n incorrect or moved during the \n exercise. Please check the position \n and start again.</string>
     <string name="physio_remarks">Therapist Remarks</string>
     <string name="zero">0</string>
     <string name="one">1</string>
