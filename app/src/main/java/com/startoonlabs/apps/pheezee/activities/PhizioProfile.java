@@ -240,9 +240,15 @@ public class PhizioProfile extends AppCompatActivity implements MqttSyncReposito
         tv_edit_profile_details.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(PhizioProfile.this, EditProfileActivity.class);
-                i.putExtra("et_phizio_email", et_phizio_email.getText().toString());
-                startActivityForResult(i,31);
+                if(NetworkOperations.isNetworkAvailable(PhizioProfile.this)){
+                    Intent i = new Intent(PhizioProfile.this, EditProfileActivity.class);
+                    i.putExtra("et_phizio_email", et_phizio_email.getText().toString());
+                    startActivityForResult(i,31);
+                 }
+                else {
+                    NetworkOperations.networkError(PhizioProfile.this);
+                }
+
 
             }
         });

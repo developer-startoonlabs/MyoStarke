@@ -827,7 +827,7 @@ public class PatientsView extends AppCompatActivity
                         if (isvalid) {
                             repository.insertPatient(patient, data);
                         } else {
-                            showToast("Invalid Input!!");
+                            showToast("Please fill all details");
                         }
                     }
                 });
@@ -953,7 +953,7 @@ public class PatientsView extends AppCompatActivity
                     repository.updatePatientDetailsServer(patient,data);
                 }
                 else {
-                    showToast("Invalid Input!!");
+                    showToast("Please fill all details");
                 }
             }
         });
@@ -1346,7 +1346,7 @@ public class PatientsView extends AppCompatActivity
                             Log.d("upload",patient.getPatientid());
                             repository.uploadPatientImage(patient.getPatientid(),json_phizioemail,photo);
                         } else {
-                            showToast("Invalid Input!!");
+                            showToast("Invalid Input!");
                         }
                     }
                 });
@@ -1374,7 +1374,7 @@ public class PatientsView extends AppCompatActivity
                                 Log.d("upload",patient.getPatientid());
                                 repository.uploadPatientImage(patient.getPatientid(),json_phizioemail,photo);
                             } else {
-                                showToast("Invalid Input!!");
+                                showToast("Invalid Input!");
                             }
                         }
                     });
@@ -1407,7 +1407,7 @@ public class PatientsView extends AppCompatActivity
                             repository.updatePatientDetailsServer(patient,data);
 
                         } else {
-                            showToast("Invalid Input!!");
+                            showToast("Invalid Input!");
                         }
                     }
                 });
@@ -1448,7 +1448,7 @@ public class PatientsView extends AppCompatActivity
                                 repository.updatePatientDetailsServer(patient,data);
 
                             } else {
-                                showToast("Invalid Input!!");
+                                showToast("Invalid Input!");
                             }
                         }
                     });
@@ -1770,7 +1770,7 @@ public class PatientsView extends AppCompatActivity
 
             // Setting up the notification dialog
             notification_title.setText("Pheezee Deactivated");
-            notification_message.setText("The device has been deactivated, please contact StartoonLabs.\nIf you have already contacted StartoonLabs, please click on check reactivation.");
+            notification_message.setText("Pheezee has been deactivated, please contact us at support@pheezee.com. If you have already contacted us, please click on check reactivation.");
 
 
             // On click on Continue
