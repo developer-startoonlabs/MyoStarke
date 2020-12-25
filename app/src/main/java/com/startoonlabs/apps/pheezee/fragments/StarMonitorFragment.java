@@ -9,6 +9,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
 import android.media.MediaScannerConnection;
 import android.media.ToneGenerator;
@@ -155,6 +157,8 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
     FileOutputStream outputStream_session_emgdata, outputStream_session_romdata, outputStream_session_sessiondetails;
 
     private int prev_rep=0,current_rep=0,last_min_angle=360;
+    private int prev_angle=0;
+    private boolean first_read=true;
 
     private String str_active_time,  str_reps, str_time = "Session time:   00 : 00";
 
@@ -606,6 +610,10 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
                         IS_SCEDULED_SESSIONS_COMPLETED = true;
                         repository.removeAllSessionsForPataient(patientid);
                     }
+                }
+
+                if (current_rep < repsselected && repsselected != 0 ) {
+                    openUnsuccessfullDialog();
                 }
             }
         });
@@ -1155,6 +1163,37 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
                                 secondsValue = "0" + active_time_seconds;
                             str_active_time = minutesValue + "m: " + secondsValue + "s";
                             current_rep = num_of_reps;
+
+
+                            if(first_read)
+                            {
+                                first_read=false;
+                                prev_angle = angleDetected;
+
+                            }
+
+                            if(angleDetected - prev_angle > 90)
+                            {
+                                Log.d("anglelarge",Integer.toString(angleDetected - prev_angle));
+                                cancelBtn.performClick();
+                                // custom dialog
+                                final Dialog dialog = new Dialog(getActivity());
+                                dialog.setContentView(R.layout.pheezee_placement_error_popup);
+
+                                TextView Notification_Button_ok =  dialog.findViewById(R.id.repeat_exercise_btn);
+                                // On click on Continue
+                                Notification_Button_ok.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        dialog.dismiss();
+                                    }
+                                });
+
+                                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                                dialog.show();
+                            }
+                            prev_angle = angleDetected;
+
                             if(prev_rep != current_rep)
                             {
                                 prev_rep = current_rep;
@@ -1235,6 +1274,55 @@ public class StarMonitorFragment extends Fragment implements MqttSyncRepository.
             }
         }, 2000);
     }
+
+
+    private void openUnsuccessfullDialog() {
+
+        //
+        // Custom notification added by Haaris
+        // custom dialog
+
+
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.setContentView(R.layout.notification_dialog_box_session_complete);
+        dialog.setCancelable(false);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        dialog.getWindow().setAttributes(lp);
+
+        TextView notification_title = dialog.findViewById(R.id.notification_box_title);
+        TextView notification_message = dialog.findViewById(R.id.notification_box_message);
+        ImageView smileyimage = dialog.findViewById(R.id.image_notification);
+
+        int res = getResources().getIdentifier("ic_award_dissapointed", "drawable",getActivity().getPackageName());
+
+        smileyimage.setImageResource(res);
+
+        Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);
+
+        Notification_Button_ok.setText("View Summary");
+
+        // Setting up the notification dialog
+        notification_title.setText("Try Again");
+        notification_message.setText("You have not reached your goal today");
+
+        // On click on Continue
+        Notification_Button_ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+
+        dialog.show();
+
+    }
+
 
     private void errorInDeviceDialog() {
         String title = "Error";
