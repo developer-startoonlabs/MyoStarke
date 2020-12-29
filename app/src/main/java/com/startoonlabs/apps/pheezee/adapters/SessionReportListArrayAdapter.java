@@ -5,6 +5,9 @@ import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,6 +30,7 @@ import com.startoonlabs.apps.pheezee.pojos.GetReportDataResponse;
 import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
 import com.startoonlabs.apps.pheezee.utils.DateOperations;
 import com.startoonlabs.apps.pheezee.utils.NetworkOperations;
+import com.startoonlabs.apps.pheezee.utils.WriteResponseBodyToDisk;
 
 import org.json.JSONArray;
 
@@ -51,6 +55,9 @@ public class SessionReportListArrayAdapter extends ArrayAdapter<SessionListClass
     public ArrayList<SessionListClass> mSessionArrayList;
     MqttSyncRepository repository;
     ProgressDialog report_dialog;
+
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
     public SessionReportListArrayAdapter(Context context, ArrayList<SessionListClass> mSessionArrayList, Application application){
         super(context, R.layout.sessionsreport_listview_model, mSessionArrayList);
@@ -182,11 +189,31 @@ public class SessionReportListArrayAdapter extends ArrayAdapter<SessionListClass
      */
     private void getDayReport(String date){
         String url = "/getreport/"+patientId+"/"+phizioemail+"/" + date;
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+        Log.d("reportmoney",Boolean.toString(sharedPreferences.getBoolean(patientId+date,false)));
+        Log.d("reportmoney",patientId+date);
+
+        if(WriteResponseBodyToDisk.checkFileInDisk(patientId+date) && !sharedPreferences.getBoolean(patientId+date,false))
+        {
+            Intent target = new Intent(Intent.ACTION_VIEW);
+            target.setDataAndType(FileProvider.getUriForFile(context, context.getPackageName() + ".my.package.name.provider", WriteResponseBodyToDisk.GetFileFromDisk(patientId+date)), "application/pdf");
+            target.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            target.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            try {
+                context.startActivity(target);
+            } catch (ActivityNotFoundException e) {
+                // Instruct the user to install a PDF reader here, or something
+            }
+        return;
+        }
+
         report_dialog = new ProgressDialog(context);
         report_dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         report_dialog.setMessage("Generating session report held on "+date+", please wait..");
         report_dialog.show();
-        repository.getDayReport(url,patientName+"-day");
+        repository.getDayReport(url,patientId+date);
     }
     /**
      * Retrofit call to get the report pdf from the server
@@ -194,6 +221,19 @@ public class SessionReportListArrayAdapter extends ArrayAdapter<SessionListClass
      */
     private void getDayReportshare(String date, Context context){
         String url = "/getreport/"+patientId+"/"+phizioemail+"/" + date;
+
+        if(WriteResponseBodyToDisk.checkFileInDisk(patientId+date))
+        {
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            Uri uri = FileProvider.getUriForFile(
+                    context,
+                    context.getApplicationContext().getPackageName() + ".my.package.name.provider", WriteResponseBodyToDisk.GetFileFromDisk(patientId+date));
+            shareIntent.setType("application/pdf");
+            shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+            context.startActivity(shareIntent);
+            return;
+        }
+
         report_dialog = new ProgressDialog(context);
         report_dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         report_dialog.setMessage("Sharing session report held on "+date+", please wait..");

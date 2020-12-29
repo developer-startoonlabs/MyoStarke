@@ -1135,6 +1135,10 @@ public class MqttSyncRepository {
                 if (file != null) {
                     if (reportDataResponseListner != null) {
                         reportDataResponseListner.onDayReportReceived(file, null, true);
+                        editor = sharedPref.edit();
+                        // For removing the shared preference of Session reports
+                        editor.remove(fineName).apply();
+                        editor.apply();
                     }
                 } else {
                     if (reportDataResponseListner != null) {

@@ -66,4 +66,40 @@ public class WriteResponseBodyToDisk {
 
         return file;
     }
+
+    public static File GetFileFromDisk( String name) {
+        File reportPdf=null, file=null;
+
+        // todo change the file location/name according to your needs
+        reportPdf = new File(Environment.getExternalStorageDirectory() + "/Pheezee/files", "reports");
+        if (!reportPdf.exists())
+            reportPdf.mkdirs();
+
+        file = new File(reportPdf, name + ".pdf");
+
+
+        return file;
+
+
+    }
+
+
+
+    public static boolean checkFileInDisk(String name) {
+        File reportPdf=null, file=null;
+
+        // todo change the file location/name according to your needs
+        reportPdf = new File(Environment.getExternalStorageDirectory()+"/Pheezee/files","reports");
+        if(!reportPdf.exists())
+            reportPdf.mkdirs();
+
+        file = new File(reportPdf,name+".pdf");
+        if(!file.exists())
+        {
+            return false;
+        }else
+        {
+            return true;
+        }
+    }
 }

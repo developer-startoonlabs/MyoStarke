@@ -3,6 +3,7 @@ package com.startoonlabs.apps.pheezee.popup;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -10,6 +11,7 @@ import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
@@ -84,6 +86,10 @@ public class PhysiofeedbackPopupWindow {
     private View layout_d;
     JSONArray emgJsonArray, romJsonArray;
     int phizio_packagetype;
+
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+
     public PhysiofeedbackPopupWindow(Context context, int maxEmgValue, String sessionNo, int maxAngle, int minAngle,
                                      String orientation, String bodypart, String phizioemail, String sessiontime, String actiontime,
                                      String holdtime, String numofreps, int angleCorrection,
@@ -289,6 +295,18 @@ public class PhysiofeedbackPopupWindow {
                                     muscle_name,exercise_name,min_angle_selected,max_angle_selected,max_emg_selected,repsselected,hold_angle_session,mmt_selected,session_type,comment_session);
                             feedback.showWindow();
                             feedback.storeLocalSessionDetails(emgJsonArray,romJsonArray);
+
+                            // Setting shared preference for deciding to download the report or not
+                            sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+                            editor = sharedPreferences.edit();
+
+                            //Setting date in yyyy/mm/dd format
+                            SimpleDateFormat date_formatter = new SimpleDateFormat("yyyy-MM-dd");
+                            String sharedpref_date = date_formatter.format(new Date(tsLong));
+                            editor.putBoolean(patientid+sharedpref_date, true);
+                            editor.apply();
+                            Log.d("sharedpreff",patientid+sharedpref_date);
+
                             if(phizio_packagetype!=STANDARD_PACKAGE)
                                 repository.getPatientSessionNo(patientid);
                             feedback.setOnSessionDataResponse(new MqttSyncRepository.OnSessionDataResponse() {
