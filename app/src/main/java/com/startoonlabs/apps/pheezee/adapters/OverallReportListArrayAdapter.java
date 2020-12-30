@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import com.startoonlabs.apps.pheezee.classes.SessionListClass;
 import com.startoonlabs.apps.pheezee.pojos.GetReportDataResponse;
 import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
 import com.startoonlabs.apps.pheezee.utils.NetworkOperations;
+import com.startoonlabs.apps.pheezee.utils.WriteResponseBodyToDisk;
 
 import org.json.JSONArray;
 
@@ -135,7 +137,7 @@ public class OverallReportListArrayAdapter extends ArrayAdapter<SessionListClass
                 if(NetworkOperations.isNetworkAvailable(context)) {
                     Calendar calendar = Calendar.getInstance();
                     String date = calenderToYYYMMDD(calendar);
-                    getOverallReport(date, mSessionArrayList.get(position).getBodypart());
+                    getOverallReport(date, mSessionArrayList.get(position).getBodypart(),mSessionArrayList.get(position).getDownload_status());
                 }
                 else {
                     NetworkOperations.networkError(context);
@@ -152,7 +154,7 @@ public class OverallReportListArrayAdapter extends ArrayAdapter<SessionListClass
                 if(NetworkOperations.isNetworkAvailable(context)) {
                     Calendar calendar = Calendar.getInstance();
                     String date = calenderToYYYMMDD(calendar);
-                    getOverallReportshare(date, mSessionArrayList.get(position).getBodypart(),context);
+                    getOverallReportshare(date, mSessionArrayList.get(position).getBodypart(),context,mSessionArrayList.get(position).getDownload_status());
                 }
                 else {
                     NetworkOperations.networkError(context);
@@ -180,19 +182,47 @@ public class OverallReportListArrayAdapter extends ArrayAdapter<SessionListClass
      * Retrofit call to get the report pdf from the server
      * @param date
      */
-    private void getOverallReport(String date,String bodypart){
+    private void getOverallReport(String date,String bodypart, Boolean download_status){
+
+        if(WriteResponseBodyToDisk.checkFileInDisk(patientName+ bodypart.toLowerCase()+"-overall") && !download_status)
+        {
+            Intent target = new Intent(Intent.ACTION_VIEW);
+            target.setDataAndType(FileProvider.getUriForFile(context, context.getPackageName() + ".my.package.name.provider", WriteResponseBodyToDisk.GetFileFromDisk(patientName+ bodypart.toLowerCase()+"-overall")), "application/pdf");
+            target.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            target.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            try {
+                context.startActivity(target);
+            } catch (ActivityNotFoundException e) {
+                // Instruct the user to install a PDF reader here, or something
+            }
+            return;
+        }
+
         String url = "/getreport/overall/"+patientId+"/"+phizioemail+"/" + date+"/" + bodypart.toLowerCase();
         report_dialog = new ProgressDialog(context);
         report_dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         report_dialog.setMessage("Generating overall report held before "+date+", please wait..");
         report_dialog.show();
-        repository.getDayReport(url,patientName+"-overall");
+        repository.getDayReport(url,patientName+ bodypart.toLowerCase()+"-overall");
     }
     /**
      * Retrofit call to get the report pdf from the server
      * @param date
      */
-    private void getOverallReportshare(String date,String bodypart,Context context){
+    private void getOverallReportshare(String date,String bodypart,Context context, Boolean download_status){
+
+        if(WriteResponseBodyToDisk.checkFileInDisk(patientName+ bodypart.toLowerCase()+"-overall") && !download_status)
+        {
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            Uri uri = FileProvider.getUriForFile(
+                    context,
+                    context.getApplicationContext().getPackageName() + ".my.package.name.provider", WriteResponseBodyToDisk.GetFileFromDisk(patientName+ bodypart.toLowerCase()+"-overall"));
+            shareIntent.setType("application/pdf");
+            shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+            context.startActivity(shareIntent);
+            return;
+        }
+
         String url = "/getreport/overall/"+patientId+"/"+phizioemail+"/" + date+"/" + bodypart.toLowerCase();
         report_dialog = new ProgressDialog(context);
         report_dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);

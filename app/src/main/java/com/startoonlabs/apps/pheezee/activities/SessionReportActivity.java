@@ -488,6 +488,7 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
                                             if (("elbow").equals(download_date_array.get(k).getBodypart())) {
                                                 // Storing the download date in musclename.
                                                 temp.setMuscle_name(download_date_array.get(k).getDate());
+                                                temp.setDownload_status(download_date_array.get(k).getDownload_status());
                                             }
                                         }
                                     }
@@ -509,6 +510,7 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
                                             if (("knee").equals(download_date_array.get(k).getBodypart())) {
                                                 // Storing the download date in musclename.
                                                 temp.setMuscle_name(download_date_array.get(k).getDate());
+                                                temp.setDownload_status(download_date_array.get(k).getDownload_status());
                                             }
                                         }
                                     }
@@ -530,6 +532,7 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
                                             if (("ankle").equals(download_date_array.get(k).getBodypart())) {
                                                 // Storing the download date in musclename.
                                                 temp.setMuscle_name(download_date_array.get(k).getDate());
+                                                temp.setDownload_status(download_date_array.get(k).getDownload_status());
                                             }
                                         }
                                     }
@@ -551,6 +554,7 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
                                             if (("hip").equals(download_date_array.get(k).getBodypart())) {
                                                 // Storing the download date in musclename.
                                                 temp.setMuscle_name(download_date_array.get(k).getDate());
+                                                temp.setDownload_status(download_date_array.get(k).getDownload_status());
                                             }
                                         }
                                     }
@@ -572,6 +576,7 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
                                             if (("wrist").equals(download_date_array.get(k).getBodypart())) {
                                                 // Storing the download date in musclename.
                                                 temp.setMuscle_name(download_date_array.get(k).getDate());
+                                                temp.setDownload_status(download_date_array.get(k).getDownload_status());
                                             }
                                         }
                                     }
@@ -593,6 +598,7 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
                                             if (("shoulder").equals(download_date_array.get(k).getBodypart())) {
                                                 // Storing the download date in musclename.
                                                 temp.setMuscle_name(download_date_array.get(k).getDate());
+                                                temp.setDownload_status(download_date_array.get(k).getDownload_status());
                                             }
                                         }
                                     }
@@ -614,6 +620,7 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
                                             if (("forearm").equals(download_date_array.get(k).getBodypart())) {
                                                 // Storing the download date in musclename.
                                                 temp.setMuscle_name(download_date_array.get(k).getDate());
+                                                temp.setDownload_status(download_date_array.get(k).getDownload_status());
                                             }
                                         }
                                     }
@@ -635,6 +642,7 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
                                             if (("spine").equals(download_date_array.get(k).getBodypart())) {
                                                 // Storing the download date in musclename.
                                                 temp.setMuscle_name(download_date_array.get(k).getDate());
+                                                temp.setDownload_status(download_date_array.get(k).getDownload_status());
                                             }
                                         }
                                     }
@@ -656,6 +664,7 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
                                             if (("others").equals(download_date_array.get(k).getBodypart())) {
                                                 // Storing the download date in musclename.
                                                 temp.setMuscle_name(download_date_array.get(k).getDate());
+                                                temp.setDownload_status(download_date_array.get(k).getDownload_status());
                                             }
                                         }
                                     }

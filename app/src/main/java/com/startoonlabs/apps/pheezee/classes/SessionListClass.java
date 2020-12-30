@@ -8,6 +8,16 @@ public class SessionListClass {
     String heldon;
     String bodypart,exercise,muscle_name, orientation,position, session_time;
 
+    Boolean download_status=null;
+
+    public Boolean getDownload_status() {
+        return download_status;
+    }
+
+    public void setDownload_status(Boolean download_status) {
+        this.download_status = download_status;
+    }
+
     public String getBodypart() {
         return bodypart;
     }

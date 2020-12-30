@@ -192,8 +192,6 @@ public class SessionReportListArrayAdapter extends ArrayAdapter<SessionListClass
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-        Log.d("reportmoney",Boolean.toString(sharedPreferences.getBoolean(patientId+date,false)));
-        Log.d("reportmoney",patientId+date);
 
         if(WriteResponseBodyToDisk.checkFileInDisk(patientId+date) && !sharedPreferences.getBoolean(patientId+date,false))
         {
@@ -222,7 +220,9 @@ public class SessionReportListArrayAdapter extends ArrayAdapter<SessionListClass
     private void getDayReportshare(String date, Context context){
         String url = "/getreport/"+patientId+"/"+phizioemail+"/" + date;
 
-        if(WriteResponseBodyToDisk.checkFileInDisk(patientId+date))
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+        if(WriteResponseBodyToDisk.checkFileInDisk(patientId+date) && !sharedPreferences.getBoolean(patientId+date,false))
         {
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
             Uri uri = FileProvider.getUriForFile(

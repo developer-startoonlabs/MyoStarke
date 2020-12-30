@@ -20,6 +20,19 @@ public class Overalldetail {
     @Expose
     private String date;
 
+    @SerializedName("download_status")
+    @Expose
+    private Boolean download_status;
+
+    public Boolean getDownload_status() {
+        return download_status;
+    }
+
+    public void setDownload_status(Boolean download_status) {
+        this.download_status = download_status;
+    }
+
+
     public String getId() {
         return id;
     }
