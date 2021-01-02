@@ -35,6 +35,7 @@ public class MuscleOperation {
             {"Select Muscle*","Quadratus Lumborum","Rectus Abdominis","External Oblique","Spinalis Thoracis","Spinalis Capitis",
                     "Spinalis Cervicis","Longissimus Thoracis","Longissimus Cervicis","Longissimus Capitis",
                     "Iliocostalis Cervicis", "Iliocostalis Thoracis","Iliocostalis Lumborum","Semispinalis","Multifidus","Rotatores","Others"}, //Spine
+            {"Select Muscle*","Quadratus Lumborum","Rectus Abdominis","External Oblique","Others"}, //Abdomen
             {"Select Muscle*","Others"}
     };
 
@@ -413,6 +414,41 @@ public class MuscleOperation {
 
                     }
 
+            },
+            { // Abdomen - 7
+                    {// Abdomen Flexion - 0
+                            // Primary
+                            "Quadratus Lumborum","Rectus Abdominis","External Oblique","Others"
+
+
+
+                    },
+                    {// Abdomen Extension - 1
+                            // Primary
+                            "Quadratus Lumborum","Rectus Abdominis","External Oblique","Others"
+
+
+
+                    },
+                    {// Abdomen Isometric - 2
+                            // Primary
+                            "Quadratus Lumborum","Rectus Abdominis","External Oblique","Others"
+
+
+
+                    },
+                    {// Abdomen Lateral Flexion - 3
+                            // Primary
+                            "Quadratus Lumborum","Rectus Abdominis","External Oblique","Others"
+
+                    },
+                    {// Abdomen Rotation - 4
+                            // Primary
+                            "Quadratus Lumborum","Rectus Abdominis","External Oblique","Others"
+
+
+                    }
+
             }
 
     };
@@ -450,6 +486,9 @@ public class MuscleOperation {
         } else if(bodypart_str.equalsIgnoreCase("spine"))
         {
             bodypart= 7;
+        } else if(bodypart_str.equalsIgnoreCase("abdomen"))
+        {
+            bodypart= 8;
         }
 
 
@@ -497,6 +536,7 @@ public class MuscleOperation {
                     "Isometric"},   //Shoulder
             {"Select Exercise*","Supination", "Pronation","Isometric"},//forearm
             {"Select Exercise*","Flexion", "Extension","Lateral Flexion","Rotation","Isometric"},//Spine
+            {"Select Exercise*","Flexion","Extension","Lateral Flexion","Rotation","Isometric"},//Abdomen
             {"Select Exercise*","Others"}
     };
 
@@ -924,6 +964,59 @@ public class MuscleOperation {
 
                     }
 
+            },
+            { // Abdomen - 7
+                    {// Abdomen Flexion - 0
+                            { // Primary
+                                    "Quadratus Lumborum"
+
+                            },
+                            { // Secondary
+                                    "" 
+                            }
+
+                    },
+                    {// Abdomen Extension - 1
+                            { // Primary
+                                    "Quadratus Lumborum"
+
+                            },
+                            { // Secondary
+                                    ""
+                            }
+
+                    },
+                    {// Abdomen Isometric - 2
+                            { // Primary
+                                    "Quadratus Lumborum","Rectus Abdominis","External Oblique"
+
+                            },
+                            { // Secondary
+                                    ""
+                            }
+
+                    },
+                    {// Abdomen Lateral Flexion - 3
+                            { // Primary
+                                 "Rectus Abdominis"
+
+                            },
+                            { // Secondary
+                                    ""
+                            }
+
+                    },
+                    {// Abdomen Rotation - 4
+                            { // Primary
+                                    "External Oblique"
+
+                            },
+                            { // Secondary
+                                    ""
+                            }
+
+                    }
+
             }
 
     };
@@ -959,6 +1052,9 @@ public class MuscleOperation {
         } else if(bodypart_str.equalsIgnoreCase("spine"))
         {
             bodypart= 7;
+        } else if(bodypart_str.equalsIgnoreCase("abdomen"))
+        {
+            bodypart= 8;
         }
 
 

@@ -650,6 +650,31 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
                                 mOverallListResults.add(temp);
 
                             }
+                            try{
+                            if(obj.getAbdomen()>0)
+                            {
+                                SessionListClass temp= new SessionListClass();
+                                temp.setBodypart("Abdomen");
+                                temp.setSession_time(String.valueOf(obj.getSpine()));
+                                temp.setPatientid(patientId);
+                                temp.setPatientemail(phizioemail);
+                                //Adding download date
+                                if(download_date_array != null) {
+                                    for (int k = 0; k < download_date_array.size(); k++) {
+                                        if(download_date_array.get(k).getBodypart() != null) {
+                                            if (("abdomen").equals(download_date_array.get(k).getBodypart())) {
+                                                // Storing the download date in musclename.
+                                                temp.setMuscle_name(download_date_array.get(k).getDate());
+                                                temp.setDownload_status(download_date_array.get(k).getDownload_status());
+                                            }
+                                        }
+                                    }
+                                }
+                                mOverallListResults.add(temp);
+
+                            }
+                            }catch( Exception err)
+                            {}
                             if(obj.getOthers()>0)
                             {
                                 SessionListClass temp= new SessionListClass();

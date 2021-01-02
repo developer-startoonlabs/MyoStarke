@@ -24,6 +24,7 @@
         <item>@drawable/shoulder_part_new</item>
         <item>@drawable/forearm_part_new</item>
         <item>@drawable/spine_part_new</item>
+        <item>@drawable/spine_part_new</item>
         <item>@drawable/other_part_new</item>
     </array>
 

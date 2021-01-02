@@ -31,6 +31,10 @@ public class Overallresponse {
     @SerializedName("spine")
     @Expose
     private Integer spine;
+
+    @SerializedName("abdomen")
+    @Expose
+    private Integer abdomen;
     @SerializedName("others")
     @Expose
     private Integer others;
@@ -97,6 +101,14 @@ public class Overallresponse {
 
     public void setSpine(Integer spine) {
         this.spine = spine;
+    }
+
+    public Integer getAbdomen() {
+        return abdomen;
+    }
+
+    public void setAbdomen(Integer abdomen) {
+        this.abdomen = abdomen;
     }
 
     public Integer getOthers() {

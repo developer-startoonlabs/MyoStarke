@@ -166,6 +166,7 @@ public class ValueBasedColorOperations {
             {0,0,0,0,0,0,0,0}, //shoulder
             {0,0,0,0},
             {0,0,0,0,0,0},
+            {0,0,0,0,0,0},
             {0,0}
             //elbow
     };
@@ -181,6 +182,7 @@ public class ValueBasedColorOperations {
             {0,80,70,20,45,0},             //wrist
             {0,180,180,180,45,70,90,0}, //shoulder
             {0,90,90,0},
+            {0,75,30,35,30,0},
             {0,75,30,35,30,0},
             {0,0}
     };
@@ -258,6 +260,9 @@ public class ValueBasedColorOperations {
             }
 
             case "spine":{
+                return R.drawable.spine_part_new;
+            }
+            case "abdomen":{
                 return R.drawable.spine_part_new;
             }
 

@@ -100,6 +100,9 @@ public class ReportOverall extends Fragment implements MqttSyncRepository.OnRepo
                     case 7:
                         record[0] = "spine";
                         break;
+                    case 8:
+                        record[0] = "abdomen";
+                        break;
                 }
 
             }

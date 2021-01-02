@@ -183,6 +183,12 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
         primary_muscle_lookuptable.put("spinerotation","Multifidus");
         primary_muscle_lookuptable.put("spineisometric","Select Muscle*");
 
+        primary_muscle_lookuptable.put("abdomenflexion","Rectus Abdominis");
+        primary_muscle_lookuptable.put("abdomenextension","Rectus Abdominis");
+        primary_muscle_lookuptable.put("abdomenlateral flexion","Quadratus Lumborum");
+        primary_muscle_lookuptable.put("abdomenrotation","External Oblique");
+        primary_muscle_lookuptable.put("abdomenisometric","Select Muscle*");
+
 
     }
 
@@ -310,12 +316,12 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
                     array_exercise_names.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
                     holder.sp_muscle_name.setAdapter(array_exercise_names);
 
-                    if(selected_position==8){
-                        holder.sp_exercise_name.setVisibility(View.INVISIBLE);
-                        holder.et_exercise_name.setVisibility(View.VISIBLE);
-                        holder.sp_muscle_name.setVisibility(View.INVISIBLE);
-                        holder.et_muscle_name.setVisibility(View.VISIBLE);
-                    }
+//                    if(selected_position==8){
+//                        holder.sp_exercise_name.setVisibility(View.INVISIBLE);
+//                        holder.et_exercise_name.setVisibility(View.VISIBLE);
+//                        holder.sp_muscle_name.setVisibility(View.INVISIBLE);
+//                        holder.et_muscle_name.setVisibility(View.VISIBLE);
+//                    }
                 }
             }
         });

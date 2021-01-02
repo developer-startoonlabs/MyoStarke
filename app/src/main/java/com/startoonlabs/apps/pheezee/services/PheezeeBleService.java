@@ -516,6 +516,7 @@ public class PheezeeBleService extends Service {
                                          int muscle_position, int bodypart_position, int orientation_position){
         String session_performing_notif = "Device Connected, Session is going on ";
         showNotification(session_performing_notif +patientName);
+        if(bodypart_position==8) bodypart_position=7; // Abdomen and spine exercises are same
         writeCharacteristic(mCustomCharacteristic, ValueBasedColorOperations.getParticularDataToPheeze(body_orientation, muscle_position, exercise_position, bodypart_position, orientation_position),"AE");
     }
 
