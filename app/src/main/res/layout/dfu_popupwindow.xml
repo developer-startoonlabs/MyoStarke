@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/dfu_frame"
+    android:layout_height="match_parent"
+    android:background="@color/ic_add_patient_grey_background"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:ignore="MissingDefaultResource">
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/session_root"
+        >
+        <LinearLayout
+            android:id="@+id/session_header"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar_session_summary"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/toolbar_height_scandevices"
+                app:elevation="5dp"
+                android:elevation="5dp"
+                android:background="@color/white_opaque"
+                tools:ignore="MissingConstraints">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:baselineAligned="false">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.6"
+                        android:layout_gravity="center"
+                        >
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/go_back"
+                            android:src="@drawable/green_back_arrow"
+                            android:layout_gravity="center"
+                            android:contentDescription="@string/todo" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAllCaps="false"
+                            android:text="Device Version Update"
+                            android:fontFamily="@font/ebrima"
+                            android:textColor="@color/good_green"
+                            android:textSize="20sp"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="20dp"
+                            />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center|end"
+                        android:visibility="invisible"
+                        android:layout_weight="0.09"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:id="@+id/summary_share"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:src="@drawable/ic_share_black_24dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+
+
+                    </LinearLayout>
+
+
+
+                </LinearLayout>
+
+            </androidx.appcompat.widget.Toolbar>
+
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="60sp"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:layout_weight="1">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100sp"
+                android:id="@+id/ota_status"
+                android:src="@drawable/ic_dfu_initializing"
+                android:baselineAlignBottom="true"
+                android:layout_gravity="bottom"></ImageView>
+
+
+
+
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <TextView
+                android:layout_marginTop="120sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/ota_status_text"
+                android:text="Initializing the process"
+                android:textAlignment="center"
+                android:textColor="@color/good_green"
+                android:textSize="18sp"
+                ></TextView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="5sp"
+                android:layout_marginStart="20sp"
+                android:layout_marginEnd="20sp">
+
+                <ProgressBar
+                    android:id="@+id/ota_loading"
+                    android:layout_marginTop="5sp"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="30sp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_weight="1"
+                    android:progress="1" />
+
+                <ProgressBar
+                    android:visibility="gone"
+                    android:layout_marginTop="25sp"
+                    android:id="@+id/ota_update_progress"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:max="100"
+                    android:layout_width="match_parent"
+                    android:layout_height="8sp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_weight="1"
+                    android:progress="1"
+                    android:progressDrawable="@drawable/dfu_progress_bar" />
+                <TextView
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/dfu_progress_text"
+                    android:textSize="14sp"
+                    android:textColor="@color/good_green"
+                    android:gravity="end"
+                    android:text="1% Complete"></TextView>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/summaryView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:foregroundGravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</FrameLayout>
+

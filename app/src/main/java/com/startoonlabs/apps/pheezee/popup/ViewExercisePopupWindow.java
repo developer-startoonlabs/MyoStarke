@@ -801,7 +801,7 @@ public class ViewExercisePopupWindow {
 
         // Setting up the notification dialog
         notification_title.setText("Network Error");
-        notification_message.setText("Please connect to internet and try again");
+        notification_message.setText("Please connect to internet to view the exercise list");
 
 
         // On click on Continue

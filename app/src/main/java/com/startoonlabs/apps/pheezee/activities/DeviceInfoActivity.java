@@ -29,6 +29,7 @@ import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
@@ -59,6 +60,7 @@ import com.startoonlabs.apps.pheezee.dfu.DfuService;
 import com.startoonlabs.apps.pheezee.dfu.fragment.UploadCancelFragment;
 import com.startoonlabs.apps.pheezee.pojos.DeviceDeactivationStatus;
 import com.startoonlabs.apps.pheezee.popup.AddDevicePopupWindow;
+import com.startoonlabs.apps.pheezee.popup.DFUPopupWindow;
 import com.startoonlabs.apps.pheezee.repository.MqttSyncRepository;
 import com.startoonlabs.apps.pheezee.services.PheezeeBleService;
 import com.startoonlabs.apps.pheezee.services.Scanner;
@@ -138,6 +140,8 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
     ProgressDialog mCheckReactivationDialog;
     Handler calibration_handler  = new Handler();
     Button btn_start_calibration, btn_cancel_calibration;
+
+    DFUPopupWindow dfu_popupwindow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -894,7 +898,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
         if(!isDfuServiceRunning())
             super.onBackPressed();
         else {
-            showUploadCancelDialog();
+//            showUploadCancelDialog();
         }
     }
 
@@ -963,7 +967,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
                                 }
                             }, 200);
 
-                            dfuStatusDialog("Device update failed","Please turn on mobile bluetooth and try again.");
+                            dfuStatusDialogfail("Update Failed","Please turn on mobile bluetooth and try again.");
                         }
                     }
                     tv_connection_status.setText("Not Connected");
@@ -1073,6 +1077,11 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
         mTextPercentage.setText("");
         mTextUploading.setText("");
         mProgressBar.setProgress(0);
+
+        if(dfu_popupwindow!=null)
+        {
+            dfu_popupwindow.dismiss();
+        }
     }
 
     @Override
@@ -1119,6 +1128,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
             mProgressBar.setIndeterminate(true);
             mTextPercentage.setText(R.string.dfu_status_connecting);
             inside_bootloader = false;
+            dfu_popupwindow.connecting();
 
         }
 
@@ -1151,6 +1161,16 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
 
         @Override
         public void onDfuProcessStarting(final String deviceAddress) {
+
+            // This callback function is called 2-times during the DFU update.
+            // To make sure the popup window instance is only created once we are using this.
+            if(dfu_popupwindow==null)
+            {
+                // Showing DFU popupwindow
+                dfu_popupwindow = new DFUPopupWindow(DeviceInfoActivity.this);
+                dfu_popupwindow.showWindow();
+            }
+
             tv_update_firmware.setVisibility(View.INVISIBLE);
             mProgressBar.setIndeterminate(true);
             mTextPercentage.setText(R.string.dfu_switching_to_dfu);
@@ -1158,6 +1178,9 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
             if(mService!=null){
                 mService.showNotification("Updating device");
             }
+
+
+
         }
 
         @Override
@@ -1186,9 +1209,10 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
         @Override
         public void onDfuCompleted(final String deviceAddress) {
             inside_bootloader = false;
+            dfu_popupwindow.successfull();
             tv_update_firmware.setVisibility(View.GONE);
             mTextPercentage.setText(R.string.dfu_status_completed);
-            dfuStatusDialog("Device Updated",getResources().getString(R.string.dfu_successfull)+" "+preferences.getString("firmware_version",""));
+            dfuStatusDialogsucessfull("Pheezee Updated",getResources().getString(R.string.dfu_successfull)+" "+preferences.getString("firmware_version",""));
             editor = preferences.edit();
             editor.putString("firmware_update","");
             editor.putString("firmware_version", "");
@@ -1213,7 +1237,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
         @Override
         public void onDfuAborted(final String deviceAddress) {
             inside_bootloader = false;
-            tv_update_firmware.setText("Update");
+            tv_update_firmware.setText("Update available");
             tv_update_firmware.setVisibility(View.VISIBLE);
             mTextPercentage.setText(R.string.dfu_status_aborted);
             dfuStatusDialog("Device Update Aborted","The device update has been aborted, please try again later");
@@ -1238,6 +1262,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
         @Override
         public void onProgressChanged(final String deviceAddress, final int percent, final float speed, final float avgSpeed, final int currentPart, final int partsTotal) {
             inside_bootloader = false;
+            dfu_popupwindow.updating(percent);
             mProgressBar.setIndeterminate(false);
             mProgressBar.setProgress(percent);
             mTextPercentage.setText(getString(R.string.dfu_uploading_percentage, percent));
@@ -1252,14 +1277,14 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
             inside_bootloader = false;
             dfuCanceledView();
             if(error== DfuBaseService.ERROR_BLUETOOTH_DISABLED){
-                dfuStatusDialog("Device Update failed","Please turn on mobile bluetooth and try again.");
+                dfuStatusDialogfail("Update Failed","Please turn on mobile bluetooth and try again");
             }
             else if( error==DfuBaseService.ERROR_DEVICE_DISCONNECTED){
-                dfuStatusDialog("Device Update Failed","Please make sure Pheezee is turned ON and try again.");
+                dfuStatusDialogfail("Update Failed","Reset Pheezee and try again");
             }else if(errorType==2){
-                dfuStatusDialog("Device Update Failed","Please make sure Pheezee is turned ON and try again.");
+                dfuStatusDialogfail("Update Failed","Reset Pheezee and try again");
             }
-            tv_update_firmware.setText("Update");
+            tv_update_firmware.setText("Update available");
             tv_update_firmware.setVisibility(View.VISIBLE);
 //            showToast("Error :"+message);
             // We have to wait a bit before canceling notification. This is called before DfuService creates the last notification.
@@ -1276,6 +1301,114 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
             }
         }
     };
+
+    private  void dfuStatusDialogsucessfull(String title, String message){
+        if(mDialog!=null){
+            mDialog.dismiss();
+        }
+
+        // Custom notification added by Haaris
+        // custom dialog
+        final Dialog dialog = new Dialog(DeviceInfoActivity.this);
+        dialog.setContentView(R.layout.dfu_successful_notification_box);
+
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        TextView notification_title = dialog.findViewById(R.id.notification_box_title);
+        TextView notification_message = dialog.findViewById(R.id.notification_box_message);
+
+        Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);
+
+        Notification_Button_ok.setText("Okay");
+
+        // Setting up the notification dialog
+        notification_title.setText(title);
+        notification_message.setText(message);
+
+        // On click on Continue
+        Notification_Button_ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                if(dfu_popupwindow!=null)
+                {
+                    dfu_popupwindow.dismiss();
+                }
+
+            }
+        });
+
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
+
+        // End
+
+
+    }
+
+    private  void dfuStatusDialogfail(String title, String message){
+        if(mDialog!=null){
+            mDialog.dismiss();
+        }
+
+        if(dfu_popupwindow!=null)
+        {
+            dfu_popupwindow.dismiss();
+        }
+
+        // Custom notification added by Haaris
+        // custom dialog
+        final Dialog dialog = new Dialog(DeviceInfoActivity.this);
+        dialog.setContentView(R.layout.dfu_fail_notification_box);
+
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        TextView notification_title = dialog.findViewById(R.id.notification_box_title);
+        TextView notification_message = dialog.findViewById(R.id.notification_box_message);
+
+        Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);
+        Button Notification_Button_cancel = (Button) dialog.findViewById(R.id.notification_ButtonCancel);
+
+        Notification_Button_ok.setText("Restart");
+
+        // Setting up the notification dialog
+        notification_title.setText(title);
+        notification_message.setText(message);
+
+        // On click on Continue
+        Notification_Button_ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+
+            }
+        });
+        // On click on Continue
+        Notification_Button_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+
+            }
+        });
+
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
+
+        // End
+
+
+    }
 
     private  void dfuStatusDialog(String title, String message){
         if(mDialog!=null){
