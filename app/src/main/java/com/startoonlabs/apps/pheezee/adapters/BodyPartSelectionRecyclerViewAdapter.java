@@ -177,14 +177,14 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
 
 
 
-        primary_muscle_lookuptable.put("spineflexion","Rectus Abdominis");
+        primary_muscle_lookuptable.put("spineflexion","");
         primary_muscle_lookuptable.put("spineextension","Iliocostalis Cervicis");
         primary_muscle_lookuptable.put("spinelateral flexion","Iliocostalis Thoracis");
         primary_muscle_lookuptable.put("spinerotation","Multifidus");
         primary_muscle_lookuptable.put("spineisometric","Select Muscle*");
 
         primary_muscle_lookuptable.put("abdomenflexion","Rectus Abdominis");
-        primary_muscle_lookuptable.put("abdomenextension","Rectus Abdominis");
+        primary_muscle_lookuptable.put("abdomenextension","");
         primary_muscle_lookuptable.put("abdomenlateral flexion","Quadratus Lumborum");
         primary_muscle_lookuptable.put("abdomenrotation","External Oblique");
         primary_muscle_lookuptable.put("abdomenisometric","Select Muscle*");

@@ -32,7 +32,7 @@ public class MuscleOperation {
                     "Coracobrachialis",  "Pectoralis Minor", "Serratus Anterior", "Infraspinatus", "Teres Minor", "Trapezius","Supraspinatus","Others"},   //Shoulder
 
             {"Select Muscle*","Biceps","Supinator (Deep)","Pronator Quadratus (Deep)", "Pronator Teres (Deep)", "Others"}, //forearm
-            {"Select Muscle*","Quadratus Lumborum","Rectus Abdominis","External Oblique","Spinalis Thoracis","Spinalis Capitis",
+            {"Select Muscle*","Spinalis Thoracis","Spinalis Capitis",
                     "Spinalis Cervicis","Longissimus Thoracis","Longissimus Cervicis","Longissimus Capitis",
                     "Iliocostalis Cervicis", "Iliocostalis Thoracis","Iliocostalis Lumborum","Semispinalis","Multifidus","Rotatores","Others"}, //Spine
             {"Select Muscle*","Quadratus Lumborum","Rectus Abdominis","External Oblique","Others"}, //Abdomen
@@ -363,9 +363,9 @@ public class MuscleOperation {
             { // Spine - 7
                     {// Spine Flexion - 0
                             // Primary
-                            "Rectus Abdominis","External Oblique",
 
-                            "Quadratus Lumborum","Spinalis Thoracis","Spinalis Capitis",
+
+                            "Spinalis Thoracis","Spinalis Capitis",
                             "Spinalis Cervicis","Longissimus Thoracis","Longissimus Cervicis","Longissimus Capitis",
                             "Iliocostalis Cervicis", "Iliocostalis Thoracis","Iliocostalis Lumborum","Semispinalis","Multifidus","Rotatores","Others"
 
@@ -379,14 +379,14 @@ public class MuscleOperation {
                             "Iliocostalis Cervicis", "Iliocostalis Thoracis","Iliocostalis Lumborum",
                             "Semispinalis",
 
-                            "Quadratus Lumborum","Rectus Abdominis","External Oblique","Multifidus","Rotatores","Others"
+                            "Multifidus","Rotatores","Others"
 
 
 
                     },
                     {// Spine Isometric - 2
                             // Primary
-                            "Quadratus Lumborum","Rectus Abdominis","External Oblique","Spinalis Thoracis","Spinalis Capitis",
+                            "Spinalis Thoracis","Spinalis Capitis",
                             "Spinalis Cervicis","Longissimus Thoracis","Longissimus Cervicis","Longissimus Capitis",
                             "Iliocostalis Cervicis", "Iliocostalis Thoracis","Iliocostalis Lumborum","Semispinalis","Multifidus","Rotatores","Others"
 
@@ -398,16 +398,16 @@ public class MuscleOperation {
                             "Spinalis Thoracis","Spinalis Capitis","Spinalis Cervicis",
                             "Longissimus Thoracis","Longissimus Cervicis","Longissimus Capitis",
                             "Iliocostalis Cervicis", "Iliocostalis Thoracis","Iliocostalis Lumborum",
-                            "Quadratus Lumborum",
 
-                            "Rectus Abdominis","External Oblique","Semispinalis","Multifidus","Rotatores","Others"
+
+                            "Semispinalis","Multifidus","Rotatores","Others"
 
                     },
                     {// Spine Rotation - 4
                             // Primary
-                            "External Oblique","Multifidus","Rotatores",
+                            "Multifidus","Rotatores",
 
-                            "Quadratus Lumborum","Rectus Abdominis","Spinalis Thoracis","Spinalis Capitis",
+                            "Spinalis Thoracis","Spinalis Capitis",
                             "Spinalis Cervicis","Longissimus Thoracis","Longissimus Cervicis","Longissimus Capitis",
                             "Iliocostalis Cervicis", "Iliocostalis Thoracis","Iliocostalis Lumborum","Semispinalis","Others"
 
@@ -907,7 +907,7 @@ public class MuscleOperation {
             { // Spine - 7
                     {// Spine Flexion - 0
                             { // Primary
-                                    "Rectus Abdominis","External Oblique"
+                                    ""
 
                             },
                             { // Secondary
@@ -930,7 +930,7 @@ public class MuscleOperation {
                     },
                     {// Spine Isometric - 2
                             { // Primary
-                                    "Quadratus Lumborum","Rectus Abdominis","External Oblique","Spinalis Thoracis","Spinalis Capitis",
+                                    "Spinalis Thoracis","Spinalis Capitis",
                                     "Spinalis Cervicis","Longissimus Thoracis","Longissimus Cervicis","Longissimus Capitis",
                                     "Iliocostalis Cervicis", "Iliocostalis Thoracis","Iliocostalis Lumborum","Semispinalis","Multifidus","Rotatores","Others"
 
@@ -945,7 +945,7 @@ public class MuscleOperation {
                                     "Spinalis Thoracis","Spinalis Capitis","Spinalis Cervicis",
                                     "Longissimus Thoracis","Longissimus Cervicis","Longissimus Capitis",
                                     "Iliocostalis Cervicis", "Iliocostalis Thoracis","Iliocostalis Lumborum",
-                                    "Quadratus Lumborum"
+
 
                             },
                             { // Secondary
@@ -955,7 +955,7 @@ public class MuscleOperation {
                     },
                     {// Spine Rotation - 4
                             { // Primary
-                                    "External Oblique","Multifidus","Rotatores"
+                                    "Multifidus","Rotatores"
 
                             },
                             { // Secondary
@@ -968,7 +968,7 @@ public class MuscleOperation {
             { // Abdomen - 7
                     {// Abdomen Flexion - 0
                             { // Primary
-                                    "Quadratus Lumborum"
+                                    "Rectus Abdominis","External Oblique"
 
                             },
                             { // Secondary
@@ -978,7 +978,7 @@ public class MuscleOperation {
                     },
                     {// Abdomen Extension - 1
                             { // Primary
-                                    "Quadratus Lumborum"
+                                    ""
 
                             },
                             { // Secondary
@@ -998,7 +998,7 @@ public class MuscleOperation {
                     },
                     {// Abdomen Lateral Flexion - 3
                             { // Primary
-                                 "Rectus Abdominis"
+                                 "Quadratus Lumborum"
 
                             },
                             { // Secondary
