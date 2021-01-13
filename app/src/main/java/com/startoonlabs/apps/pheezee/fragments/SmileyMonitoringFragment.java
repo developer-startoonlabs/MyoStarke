@@ -145,7 +145,7 @@ public class SmileyMonitoringFragment extends Fragment implements MqttSyncReposi
     LinearLayout emgSignal;
     ImageView iv_recording_icon;
 
-    private int prev_rep=0,current_rep=0,last_min_angle=360;
+    private int prev_rep=0,current_rep=0,last_min_angle=360,last_max_angle=0;
     private int prev_angle=0;
     private boolean first_read=true;
 
@@ -1142,7 +1142,6 @@ public class SmileyMonitoringFragment extends Fragment implements MqttSyncReposi
                             str_active_time = minutesValue + "m: " + secondsValue + "s";
                             current_rep = num_of_reps;
 
-
                             if(first_read)
                             {
                                 first_read=false;
@@ -1170,6 +1169,7 @@ public class SmileyMonitoringFragment extends Fragment implements MqttSyncReposi
                                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                                 dialog.show();
                             }
+                            // Target reps
                             prev_angle = angleDetected;
 
                             if(prev_rep != current_rep)
@@ -1177,6 +1177,7 @@ public class SmileyMonitoringFragment extends Fragment implements MqttSyncReposi
                                 prev_rep = current_rep;
                                 if(prev_rep<repsselected){
                                     last_min_angle=360;
+                                    last_max_angle=0;
                                 }
                             }
                             if(prev_rep == current_rep &&prev_rep!=repsselected)
@@ -1184,8 +1185,18 @@ public class SmileyMonitoringFragment extends Fragment implements MqttSyncReposi
                                 last_min_angle = last_min_angle > angleDetected ? angleDetected : last_min_angle;
 
                             }
+                            if(prev_rep == current_rep &&prev_rep!=repsselected)
+                            {
+                                last_max_angle= last_max_angle < angleDetected ? angleDetected : last_max_angle;
+                            }
 
-                            if (num_of_reps >= repsselected && repsselected != 0 && !sessionCompleted && (last_min_angle+5)>angleDetected) {
+
+
+
+                            if (num_of_reps >= repsselected && repsselected != 0 && !sessionCompleted && ( last_min_angle+ (last_max_angle-last_min_angle)*0.3 +5)>angleDetected) {
+                                sessionCompleted = true;
+                                openSuccessfullDialogAndCloseSession();
+                            }else if (num_of_reps > repsselected && repsselected != 0 && !sessionCompleted) {
                                 sessionCompleted = true;
                                 openSuccessfullDialogAndCloseSession();
                             }
@@ -1205,52 +1216,54 @@ public class SmileyMonitoringFragment extends Fragment implements MqttSyncReposi
      * Close session in 2000ms once the session goal is reached
      */
     private void openSuccessfullDialogAndCloseSession() {
-        //
-        // Custom notification added by Haaris
-        // custom dialog
 
-
-        final Dialog dialog = new Dialog(getActivity());
-        dialog.setContentView(R.layout.notification_dialog_box_session_complete);
-        dialog.setCancelable(false);
-
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(dialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-
-        dialog.getWindow().setAttributes(lp);
-
-        TextView notification_title = dialog.findViewById(R.id.notification_box_title);
-        TextView notification_message = dialog.findViewById(R.id.notification_box_message);
-
-        Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);
-
-        Notification_Button_ok.setText("View Summary");
-
-        // Setting up the notification dialog
-        notification_title.setText("Congratulations");
-        notification_message.setText("You have reached the goal");
-
-        // On click on Continue
-        Notification_Button_ok.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-
-        dialog.show();
-
-        // End
-        stopBtn.performClick();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-//                dialog.cancel();
+
+                //
+                // Custom notification added by Haaris
+                // custom dialog
+
+
+                final Dialog dialog = new Dialog(getActivity());
+                dialog.setContentView(R.layout.notification_dialog_box_session_complete);
+                dialog.setCancelable(false);
+
+                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                lp.copyFrom(dialog.getWindow().getAttributes());
+                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+                dialog.getWindow().setAttributes(lp);
+
+                TextView notification_title = dialog.findViewById(R.id.notification_box_title);
+                TextView notification_message = dialog.findViewById(R.id.notification_box_message);
+
+                Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);
+
+                Notification_Button_ok.setText("View Summary");
+
+                // Setting up the notification dialog
+                notification_title.setText("Congratulations");
+                notification_message.setText("You have reached the goal");
+
+                // On click on Continue
+                Notification_Button_ok.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+
+                dialog.show();
+
+                // End
+                stopBtn.performClick();
+
             }
-        }, 2000);
+        }, 200);
     }
 
 

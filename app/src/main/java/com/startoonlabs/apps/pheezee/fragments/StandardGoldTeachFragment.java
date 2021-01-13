@@ -144,7 +144,7 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
     AngleOperations angleOperations;
     private boolean mSessionStarted = false;
 
-    private int prev_rep=0,current_rep=0,last_min_angle=360;
+    private int prev_rep=0,current_rep=0,last_min_angle=360,last_max_angle=0;
     private int prev_angle=0;
     private boolean first_read=true;
 
@@ -1372,7 +1372,12 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
 
                             currentAngle = angleDetected;
                             String repetitionValue = "" + num_of_reps;
+
+
                             Repetitions.setText(repetitionValue);
+
+                            if(num_of_reps >= repsselected && repsselected != 0) Repetitions.setText(Integer.toString(repsselected));
+
                             String minutesValue = "" + hold_time_minutes, secondsValue = "" + hold_time_seconds;
                             if (hold_time_minutes < 10)
                                 minutesValue = "0" + hold_time_minutes;
@@ -1540,22 +1545,24 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
                                 TextView Notification_Button_ok =  dialog.findViewById(R.id.repeat_exercise_btn);
                                 // On click on Continue
                                 Notification_Button_ok.setOnClickListener(new View.OnClickListener() {
-                                      @Override
-                                      public void onClick(View v) {
-                                          dialog.dismiss();
-                                        }
-                                    });
+                                    @Override
+                                    public void onClick(View v) {
+                                        dialog.dismiss();
+                                    }
+                                });
 
                                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                                 dialog.show();
                             }
+                            // Target reps
                             prev_angle = angleDetected;
 
                             if(prev_rep != current_rep)
                             {
                                 prev_rep = current_rep;
                                 if(prev_rep<repsselected){
-                                last_min_angle=360;
+                                    last_min_angle=360;
+                                    last_max_angle=0;
                                 }
                             }
                             if(prev_rep == current_rep &&prev_rep!=repsselected)
@@ -1563,8 +1570,15 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
                                 last_min_angle = last_min_angle > angleDetected ? angleDetected : last_min_angle;
 
                             }
+                            if(prev_rep == current_rep &&prev_rep!=repsselected)
+                            {
+                                last_max_angle= last_max_angle < angleDetected ? angleDetected : last_max_angle;
+                            }
 
-                            if (num_of_reps >= repsselected && repsselected != 0 && !sessionCompleted && (last_min_angle+5)>angleDetected) {
+                            if (num_of_reps >= repsselected && repsselected != 0 && !sessionCompleted && ( last_min_angle+ (last_max_angle-last_min_angle)*0.3 +5)>angleDetected) {
+                                sessionCompleted = true;
+                                openSuccessfullDialogAndCloseSession();
+                            }else if (num_of_reps > repsselected && repsselected != 0 && !sessionCompleted) {
                                 sessionCompleted = true;
                                 openSuccessfullDialogAndCloseSession();
                             }
@@ -1585,53 +1599,54 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
      */
     private void openSuccessfullDialogAndCloseSession() {
 
-        //
-        // Custom notification added by Haaris
-        // custom dialog
-
-
-        final Dialog dialog = new Dialog(getActivity());
-        dialog.setContentView(R.layout.notification_dialog_box_session_complete);
-        dialog.setCancelable(false);
-
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(dialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-
-        dialog.getWindow().setAttributes(lp);
-
-        TextView notification_title = dialog.findViewById(R.id.notification_box_title);
-        TextView notification_message = dialog.findViewById(R.id.notification_box_message);
-
-        Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);
-
-        Notification_Button_ok.setText("View Summary");
-
-        // Setting up the notification dialog
-        notification_title.setText("Congratulations");
-        notification_message.setText("You have reached the goal");
-
-        // On click on Continue
-        Notification_Button_ok.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-
-        dialog.show();
-
-        // End
-
-        stopBtn.performClick();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-//                dialog.cancel();
+
+                //
+                // Custom notification added by Haaris
+                // custom dialog
+
+
+                final Dialog dialog = new Dialog(getActivity());
+                dialog.setContentView(R.layout.notification_dialog_box_session_complete);
+                dialog.setCancelable(false);
+
+                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                lp.copyFrom(dialog.getWindow().getAttributes());
+                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+                dialog.getWindow().setAttributes(lp);
+
+                TextView notification_title = dialog.findViewById(R.id.notification_box_title);
+                TextView notification_message = dialog.findViewById(R.id.notification_box_message);
+
+                Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);
+
+                Notification_Button_ok.setText("View Summary");
+
+                // Setting up the notification dialog
+                notification_title.setText("Congratulations");
+                notification_message.setText("You have reached the goal");
+
+                // On click on Continue
+                Notification_Button_ok.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+
+                dialog.show();
+
+                // End
+
+                stopBtn.performClick();
+
             }
-        }, 2000);
+        }, 200);
     }
 
 

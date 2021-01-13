@@ -60,29 +60,7 @@
             android:src="@drawable/ic_green_tick"
             ></ImageView>
 
-    <LinearLayout
 
-        app:layout_constraintTop_toBottomOf="@+id/notifcation_instruction_image"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="50sp">
-
-        <TextView
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp"
-            android:textColor="@color/good_green"
-            android:text=" "
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/notification_box_instruction"
-            android:textSize="18sp"
-            android:layout_alignParentTop="true" />
-
-
-
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
