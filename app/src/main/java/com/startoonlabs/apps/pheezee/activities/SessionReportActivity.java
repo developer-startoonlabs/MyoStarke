@@ -1,5 +1,6 @@
 package com.startoonlabs.apps.pheezee.activities;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -8,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.net.ParseException;
 import android.os.Bundle;
@@ -28,6 +30,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -143,7 +147,7 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
         Intent intent = new Intent(this, PheezeeBleService.class);
         bindService(intent,mConnection,BIND_AUTO_CREATE);
 
-
+        checkPermissionsRequired();
         repository.getReportData(phizioemail,patientId);
 
     }
@@ -844,6 +848,14 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
     @Override
     public void onDayReportReceived(File file, String message, Boolean response) {
     }
+
+    private void checkPermissionsRequired() {
+        //external storage permission
+        if (ContextCompat.checkSelfPermission(SessionReportActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(SessionReportActivity.this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        }
+    }
+
 
 
 
