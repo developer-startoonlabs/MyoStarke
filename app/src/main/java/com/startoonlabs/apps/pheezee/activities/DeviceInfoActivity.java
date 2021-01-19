@@ -1081,6 +1081,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
         if(dfu_popupwindow!=null)
         {
             dfu_popupwindow.dismiss();
+            dfu_popupwindow=null;
         }
     }
 
@@ -1337,6 +1338,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
                 if(dfu_popupwindow!=null)
                 {
                     dfu_popupwindow.dismiss();
+                    dfu_popupwindow=null;
                 }
 
             }
@@ -1359,6 +1361,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
         if(dfu_popupwindow!=null)
         {
             dfu_popupwindow.dismiss();
+            dfu_popupwindow=null;
         }
 
         // Custom notification added by Haaris
