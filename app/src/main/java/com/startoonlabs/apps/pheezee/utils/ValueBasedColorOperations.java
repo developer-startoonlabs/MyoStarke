@@ -263,7 +263,7 @@ public class ValueBasedColorOperations {
                 return R.drawable.spine_part_new;
             }
             case "abdomen":{
-                return R.drawable.spine_part_new;
+                return R.drawable.abdomen_part_new;
             }
 
             default:{

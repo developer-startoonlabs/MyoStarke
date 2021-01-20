@@ -2,6 +2,7 @@ package com.startoonlabs.apps.pheezee.popup;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -13,6 +14,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -35,6 +37,7 @@ import static com.startoonlabs.apps.pheezee.activities.PatientsView.REQ_CAMERA;
 import static com.startoonlabs.apps.pheezee.activities.PatientsView.REQ_GALLERY;
 import android.provider.MediaStore;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.pojos.PatientDetailsData;
@@ -51,6 +54,8 @@ public class AddPatientPopUpWindow {
     Context context;
     String json_phizioemail;
     Bitmap profile;
+    boolean gallery_selected=false;
+    boolean camera_selected=false;
     AlertDialog.Builder builder = null;
     final CharSequence[] items = { "Take Photo", "Choose from Library",
             "Cancel" };
@@ -192,30 +197,98 @@ public class AddPatientPopUpWindow {
         patient_profilepic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                builder = new AlertDialog.Builder(context);
-                builder.setTitle("Add Photo!");
-                builder.setItems(items, new DialogInterface.OnClickListener() {
+                // Custom notification added by Haaris
+                // custom dialog
+                final Dialog dialog = new Dialog(context);
+                dialog.setContentView(R.layout.set_profile_photo_layout);
+
+
+                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                lp.copyFrom(dialog.getWindow().getAttributes());
+                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+                dialog.getWindow().setAttributes(lp);
+
+                ImageView take_photo_asset =  dialog.findViewById(R.id.take_photo_asset);
+                ImageView gallery_asset =  dialog.findViewById(R.id.gallery_asset);
+
+                Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);
+
+
+
+                // On click on Continue
+                Notification_Button_ok.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int item) {
-                        if (items[item].equals("Take Photo")) {
-                            pw.dismiss();
+                    public void onClick(View v) {
+
+
+                        if(camera_selected==true)
+                        {
                             if(ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
                                     == PackageManager.PERMISSION_DENIED) {
+                                pw.dismiss();
                                 ActivityCompat.requestPermissions(((Activity)context), new String[]{Manifest.permission.CAMERA}, 5);
                                 cameraIntent();
                             }
                             else {
+                                pw.dismiss();
                                 cameraIntent();
                             }
-                        } else if (items[item].equals("Choose from Library")) {
-                            pw.dismiss();
-                            galleryIntent();
-                        } else if (items[item].equals("Cancel")) {
+
                             dialog.dismiss();
+
+                        }else if(gallery_selected==true)
+                        {
+                            galleryIntent();
+                            pw.dismiss();
+                            dialog.dismiss();
+                        }else
+                        {
+                            Toast.makeText(context, "Please select any one option.", Toast.LENGTH_SHORT).show();
                         }
+
+
                     }
                 });
-                builder.show();
+
+                // On click on Continue
+                take_photo_asset.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        gallery_selected=false;
+                        camera_selected=true;
+                        gallery_asset.setImageResource(context.getResources().getIdentifier("ic_gallery_unselected", "drawable",context.getPackageName()));
+                        take_photo_asset.setImageResource(context.getResources().getIdentifier("ic_camera_selected", "drawable",context.getPackageName()));
+                        Notification_Button_ok.setBackground(context.getResources().getDrawable(R.drawable.round_same_buttons));
+                        Notification_Button_ok.setTextColor(ContextCompat.getColor(context,R.color.white));
+
+
+
+
+                    }
+                });
+
+                // On click on Continue
+                gallery_asset.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        gallery_selected=true;
+                        camera_selected=false;
+                        gallery_asset.setImageResource(context.getResources().getIdentifier("ic_gallery_selected", "drawable",context.getPackageName()));
+                        take_photo_asset.setImageResource(context.getResources().getIdentifier("ic_camera_unselected", "drawable",context.getPackageName()));
+                        Notification_Button_ok.setBackground(context.getResources().getDrawable(R.drawable.round_same_buttons));
+                        Notification_Button_ok.setTextColor(ContextCompat.getColor(context,R.color.white));
+
+
+                    }
+                });
+
+                dialog.show();
+
+                // End
             }
         });
     }
