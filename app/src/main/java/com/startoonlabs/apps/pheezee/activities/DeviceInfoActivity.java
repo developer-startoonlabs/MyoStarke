@@ -1241,7 +1241,11 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
             tv_update_firmware.setText("Update available");
             tv_update_firmware.setVisibility(View.VISIBLE);
             mTextPercentage.setText(R.string.dfu_status_aborted);
-            dfuStatusDialog("Device Update Aborted","The device update has been aborted, please try again later");
+            if(mDeviceState){
+                dfuStatusDialog("Device Update Aborted", "The device update has been aborted, please try again later");
+            }else {
+                dfuStatusDialog("Device Update Aborted", "The device update has been aborted, please reset Pheezee and try again later");
+            }
             // let's wait a bit until we cancel the notification. When canceled immediately it will be recreated by service again.
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -1476,7 +1480,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
             showUploadCancelDialog();
             return;
         }
-        ll_dfu.setVisibility(View.VISIBLE);
+//        ll_dfu.setVisibility(View.VISIBLE);
         showProgressBar();
         new Thread(new Runnable() {
             @Override
