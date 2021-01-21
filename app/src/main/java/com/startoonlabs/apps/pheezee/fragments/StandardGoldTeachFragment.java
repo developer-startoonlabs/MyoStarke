@@ -1328,6 +1328,13 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
                             if(phizio_packagetype==GOLD_PLUS_PACKAGE||phizio_packagetype==ACHEDAMIC_TEACH_PLUS)
                                 emgPeakDetectionAndVoiceAleart(emg_data);
                             angleDetected = ByteToArrayOperations.getAngleFromData(sub_byte[2], sub_byte[3]);
+                            currentAngle = angleDetected;
+                            if (angleCorrected) {
+                                angleDetected += angleCorrection;
+                                arcViewInside.setMaxAngle(angleDetected);
+                            } else {
+                                arcViewInside.setMaxAngle(angleDetected);
+                            }
                             if (ui_rate == 0) {
                                 minAngle = angleDetected;
                                 maxAngle = angleDetected;
@@ -1370,7 +1377,7 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
                                 }
                             }
 
-                            currentAngle = angleDetected;
+
                             String repetitionValue = "" + num_of_reps;
 
 
@@ -1384,12 +1391,7 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
                             if (hold_time_seconds < 10)
                                 secondsValue = "0" + hold_time_seconds;
                             holdTimeValue = minutesValue + "m: " + secondsValue + "s";
-                            if (angleCorrected) {
-                                angleDetected += angleCorrection;
-                                arcViewInside.setMaxAngle(angleDetected);
-                            } else {
-                                arcViewInside.setMaxAngle(angleDetected);
-                            }
+
                             romJsonArray.put(angleDetected);
                             if(phizio_packagetype==GOLD_PLUS_PACKAGE || phizio_packagetype==ACHEDAMIC_TEACH_PLUS) {
                                 if (hold_time_seconds == 0 && hold_time_minutes == 0) {
