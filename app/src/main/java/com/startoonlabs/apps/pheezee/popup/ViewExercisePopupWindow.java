@@ -15,12 +15,14 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -95,6 +97,9 @@ public class ViewExercisePopupWindow {
     private String mqtt_delete_pateint_session = "phizio/patient/deletepatient/sesssion";
     private String mqtt_publish_update_patient_mmt_grade = "phizio/patient/updateMmtGrade";
     private String mqtt_publish_add_patient_session_emg_data = "patient/entireEmgData";
+
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
     SessionListArrayAdapter sessionListArrayAdapter;
     ListView lv_sessionlist;
@@ -429,7 +434,16 @@ public class ViewExercisePopupWindow {
                         public void onClick(View v) {
 
 
+                            // Setting shared preference for deciding to download the report or not
+                            sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+                            editor = sharedPreferences.edit();
 
+                            //Setting date in yyyy/mm/dd format
+                            SimpleDateFormat date_formatter = new SimpleDateFormat("yyyy-MM-dd");
+                            String sharedpref_date = date_formatter.format(new Date(tsLong));
+                            editor.putBoolean(patientid+heldon, true);
+                            editor.apply();
+                            Log.d("sharedpreff",patientid+sharedpref_date);
 
                             for(int i=0;i<session_list.size();i++){
                                 SessionListClass session_list_element = session_list.get(i);

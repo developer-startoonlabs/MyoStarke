@@ -35,6 +35,7 @@ public class Overallresponse {
     @SerializedName("abdomen")
     @Expose
     private Integer abdomen;
+
     @SerializedName("others")
     @Expose
     private Integer others;
