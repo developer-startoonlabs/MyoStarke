@@ -541,6 +541,12 @@ public class SmileyMonitoringFragment extends Fragment implements MqttSyncReposi
                     UpdateTime = 0L;
                     Seconds = 0;
                     Minutes = 0;
+                    time.setText("00m:00s");
+                    LinearLayout.LayoutParams params;
+                    params = (LinearLayout.LayoutParams) emgSignal.getLayoutParams();
+                    params.height = (int) (20);
+                    emgSignal.setLayoutParams(params);
+                    creatGraphView();
                     timer.setText(R.string.timer_start);
                     tsLong = System.currentTimeMillis();
                     if(phizio_packagetype==TEACH_PACKAGE||phizio_packagetype==ACHEDAMIC_TEACH_PLUS)

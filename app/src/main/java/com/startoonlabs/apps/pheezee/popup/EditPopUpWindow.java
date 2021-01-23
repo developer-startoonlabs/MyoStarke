@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
@@ -31,6 +32,10 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.startoonlabs.apps.pheezee.R;
 import com.startoonlabs.apps.pheezee.activities.MonitorActivity;
 import com.startoonlabs.apps.pheezee.pojos.PatientDetailsData;
@@ -41,6 +46,7 @@ import com.bumptech.glide.request.RequestOptions;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -119,6 +125,7 @@ public class EditPopUpWindow {
         RadioButton btn_female = layout.findViewById(R.id.radioBtn_female);
         final Spinner sp_case_des = layout.findViewById(R.id.sp_case_des);
         ImageView patient_profilepic = layout.findViewById(R.id.imageView4);
+        ImageView patient_profilepic_image = layout.findViewById(R.id.profile_picture);
 
         if(use_new_photo==false)
         {
@@ -126,11 +133,29 @@ public class EditPopUpWindow {
                 .load("https://s3.ap-south-1.amazonaws.com/pheezee/physiotherapist/" + json_phizioemail.replaceFirst("@", "%40") + "/patients/" + patient.getPatientid() + "/images/profilepic.png")
                 .apply(new RequestOptions()
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .skipMemoryCache(true))
-                .into(patient_profilepic);
+                        .skipMemoryCache(true)
+                        .error(R.drawable.test_patient_add_1))
+                        .listener(new RequestListener<Drawable>() {
+                              @Override
+                              public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                  return false;
+                              }
+
+                              @Override
+                              public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                  patient_profilepic_image.setVisibility(View.VISIBLE);
+                                  patient_profilepic.setVisibility(View.GONE);
+                                  return false;
+                              }
+                          }
+                )
+                .into(patient_profilepic_image);
+
         }else {
             if(this.profile!=null){
-                patient_profilepic.setImageBitmap(this.profile);
+                patient_profilepic_image.setImageBitmap(this.profile);
+                patient_profilepic_image.setVisibility(View.VISIBLE);
+                patient_profilepic.setVisibility(View.GONE);
             }
 
         }
@@ -229,6 +254,106 @@ public class EditPopUpWindow {
         });
 
         patient_profilepic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // Custom notification added by Haaris
+                // custom dialog
+                final Dialog dialog = new Dialog(context);
+                dialog.setContentView(R.layout.set_profile_photo_layout);
+
+
+                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                lp.copyFrom(dialog.getWindow().getAttributes());
+                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+                dialog.getWindow().setAttributes(lp);
+
+                ImageView take_photo_asset =  dialog.findViewById(R.id.take_photo_asset);
+                ImageView gallery_asset =  dialog.findViewById(R.id.gallery_asset);
+
+                Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);
+
+
+
+                // On click on Continue
+                Notification_Button_ok.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+
+                        if(camera_selected==true)
+                        {
+                            if(ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
+                                    == PackageManager.PERMISSION_DENIED) {
+                                pw.dismiss();
+                                ActivityCompat.requestPermissions(((Activity)context), new String[]{Manifest.permission.CAMERA}, 5);
+                                cameraIntent();
+                            }
+                            else {
+                                pw.dismiss();
+                                cameraIntent();
+                            }
+
+                            dialog.dismiss();
+
+                        }else if(gallery_selected==true)
+                        {
+                            galleryIntent();
+                            pw.dismiss();
+                            dialog.dismiss();
+                        }else
+                        {
+                            Toast.makeText(context, "Please select any one option.", Toast.LENGTH_SHORT).show();
+                        }
+
+
+                    }
+                });
+
+                // On click on Continue
+                take_photo_asset.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        gallery_selected=false;
+                        camera_selected=true;
+                        gallery_asset.setImageResource(context.getResources().getIdentifier("ic_gallery_unselected", "drawable",context.getPackageName()));
+                        take_photo_asset.setImageResource(context.getResources().getIdentifier("ic_camera_selected", "drawable",context.getPackageName()));
+                        Notification_Button_ok.setBackground(context.getResources().getDrawable(R.drawable.round_same_buttons));
+                        Notification_Button_ok.setTextColor(ContextCompat.getColor(context,R.color.white));
+
+
+
+
+                    }
+                });
+
+                // On click on Continue
+                gallery_asset.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        gallery_selected=true;
+                        camera_selected=false;
+                        gallery_asset.setImageResource(context.getResources().getIdentifier("ic_gallery_selected", "drawable",context.getPackageName()));
+                        take_photo_asset.setImageResource(context.getResources().getIdentifier("ic_camera_unselected", "drawable",context.getPackageName()));
+                        Notification_Button_ok.setBackground(context.getResources().getDrawable(R.drawable.round_same_buttons));
+                        Notification_Button_ok.setTextColor(ContextCompat.getColor(context,R.color.white));
+
+
+                    }
+                });
+
+                dialog.show();
+
+                // End
+
+            }
+        });
+
+        patient_profilepic_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 

@@ -109,6 +109,7 @@ public class AddPatientPopUpWindow {
         final RadioGroup radioGroup = layout.findViewById(R.id.patientGender);
         final Spinner sp_case_des = layout.findViewById(R.id.sp_case_des);
         ImageView patient_profilepic = layout.findViewById(R.id.imageView4);
+        ImageView patient_profilepic_image = layout.findViewById(R.id.profile_picture);
         //Adapter for spinner
         ArrayAdapter<String> array_exercise_names = new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item, context.getResources().getStringArray(R.array.case_description));
         array_exercise_names.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
@@ -126,7 +127,9 @@ public class AddPatientPopUpWindow {
         Button addBtn = layout.findViewById(R.id.addBtn);
         Button cancelBtn = layout.findViewById(R.id.cancelBtn);
         if(this.profile!=null){
-            patient_profilepic.setImageBitmap(this.profile);
+            patient_profilepic_image.setImageBitmap(this.profile);
+            patient_profilepic_image.setVisibility(View.VISIBLE);
+            patient_profilepic.setVisibility(View.GONE);
         }
 
         sp_case_des.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -195,6 +198,104 @@ public class AddPatientPopUpWindow {
 
 
         patient_profilepic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Custom notification added by Haaris
+                // custom dialog
+                final Dialog dialog = new Dialog(context);
+                dialog.setContentView(R.layout.set_profile_photo_layout);
+
+
+                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                lp.copyFrom(dialog.getWindow().getAttributes());
+                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+                dialog.getWindow().setAttributes(lp);
+
+                ImageView take_photo_asset =  dialog.findViewById(R.id.take_photo_asset);
+                ImageView gallery_asset =  dialog.findViewById(R.id.gallery_asset);
+
+                Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);
+
+
+
+                // On click on Continue
+                Notification_Button_ok.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+
+                        if(camera_selected==true)
+                        {
+                            if(ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
+                                    == PackageManager.PERMISSION_DENIED) {
+                                pw.dismiss();
+                                ActivityCompat.requestPermissions(((Activity)context), new String[]{Manifest.permission.CAMERA}, 5);
+                                cameraIntent();
+                            }
+                            else {
+                                pw.dismiss();
+                                cameraIntent();
+                            }
+
+                            dialog.dismiss();
+
+                        }else if(gallery_selected==true)
+                        {
+                            galleryIntent();
+                            pw.dismiss();
+                            dialog.dismiss();
+                        }else
+                        {
+                            Toast.makeText(context, "Please select any one option.", Toast.LENGTH_SHORT).show();
+                        }
+
+
+                    }
+                });
+
+                // On click on Continue
+                take_photo_asset.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        gallery_selected=false;
+                        camera_selected=true;
+                        gallery_asset.setImageResource(context.getResources().getIdentifier("ic_gallery_unselected", "drawable",context.getPackageName()));
+                        take_photo_asset.setImageResource(context.getResources().getIdentifier("ic_camera_selected", "drawable",context.getPackageName()));
+                        Notification_Button_ok.setBackground(context.getResources().getDrawable(R.drawable.round_same_buttons));
+                        Notification_Button_ok.setTextColor(ContextCompat.getColor(context,R.color.white));
+
+
+
+
+                    }
+                });
+
+                // On click on Continue
+                gallery_asset.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        gallery_selected=true;
+                        camera_selected=false;
+                        gallery_asset.setImageResource(context.getResources().getIdentifier("ic_gallery_selected", "drawable",context.getPackageName()));
+                        take_photo_asset.setImageResource(context.getResources().getIdentifier("ic_camera_unselected", "drawable",context.getPackageName()));
+                        Notification_Button_ok.setBackground(context.getResources().getDrawable(R.drawable.round_same_buttons));
+                        Notification_Button_ok.setTextColor(ContextCompat.getColor(context,R.color.white));
+
+
+                    }
+                });
+
+                dialog.show();
+
+                // End
+            }
+        });
+
+        patient_profilepic_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Custom notification added by Haaris

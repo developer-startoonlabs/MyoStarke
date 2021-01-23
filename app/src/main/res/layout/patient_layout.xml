@@ -29,8 +29,7 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:background="@drawable/text_view_shape"
-                    android:backgroundTint="@color/good_green"
-                    android:onClick="chooseImageUpdateAction">
+                    android:backgroundTint="@color/good_green">
                     <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">

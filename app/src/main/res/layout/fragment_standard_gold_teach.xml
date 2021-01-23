@@ -303,7 +303,7 @@
                                 android:layout_alignParentBottom="true"
                                 android:paddingTop="2dp"
                                 android:fontFamily="@font/ebrima"
-                                android:text="0"
+                                android:text="0°"
                                 android:textColor="@color/pitch_black"
                                 android:textSize="14sp"
                                 app:layout_constraintStart_toEndOf="@+id/testMinAngle" />
@@ -336,16 +336,16 @@
                             <TextView
                                 android:id="@+id/tv_max_angle"
                                 android:layout_width="70dp"
-                                android:layout_height="26sp"
-                                android:textAlignment="center"
-
+                                android:layout_height="match_parent"
                                 android:layout_alignParentBottom="true"
+
+                                android:layout_marginEnd="10dp"
                                 android:background="@drawable/round_cancel_buttons_less_stroke_black_width"
 
-                                android:paddingTop="2dp"
-                                android:layout_marginEnd="10dp"
                                 android:fontFamily="@font/ebrima"
-                                android:text="0"
+                                android:paddingTop="2dp"
+                                android:text="0°"
+                                android:textAlignment="center"
                                 android:textColor="@color/pitch_black"
                                 android:textSize="14sp"
                                 app:layout_constraintEnd_toEndOf="parent" />
@@ -447,7 +447,7 @@
                                 android:fontFamily="@font/ebrima"
                                 android:paddingTop="2dp"
                                 android:textColor="@color/pitch_black"
-                                android:text="00:00"
+                                android:text="00m:00s"
                                 android:textSize="14sp" />
                         </LinearLayout>
 
@@ -673,7 +673,7 @@
 
                                 android:paddingTop="2dp"
                                 android:layout_marginStart="10dp"
-                                android:text="0"
+                                android:text="0μV"
                                 android:textColor="@color/pitch_black"
                                 android:textSize="14sp"/>
                         </LinearLayout>
@@ -734,7 +734,7 @@
                                 <LinearLayout
                                     android:id="@+id/emg"
                                     android:layout_width="match_parent"
-                                    android:layout_height="10dp"
+                                    android:layout_height="10sp"
                                     android:background="@drawable/emg_background"
                                     android:orientation="vertical">
 

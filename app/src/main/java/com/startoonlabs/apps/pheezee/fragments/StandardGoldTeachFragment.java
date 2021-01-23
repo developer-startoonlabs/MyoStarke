@@ -435,7 +435,7 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
         UpdateTime = 0L;
         Seconds = 0;
         Minutes = 0;
-        time.setText("00 : 00");
+        time.setText("00m:00s");
 
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(device_state);
@@ -655,6 +655,19 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
                 if (timer.getVisibility() == View.GONE) {
                     sessionCompleted = true;
                     mSessionStarted = false;
+                    tv_max_angle.setText(String.valueOf(0)+"°");
+                    tv_min_angle.setText(String.valueOf(0)+"°");
+                    time.setText("00m:00s");
+                    holdTime.setText("00m:00s");
+                    tv_max_emg.setText(String.valueOf(0)+"μV");
+                    EMG.setText(String.valueOf(0)+"μV");
+                    arcViewInside.setMinAngle(0);
+                    arcViewInside.setMaxAngle(0);
+                    creatGraphView();
+                    LinearLayout.LayoutParams params;
+                    params = (LinearLayout.LayoutParams) emgSignal.getLayoutParams();
+                    params.height = (int) (20);
+                    emgSignal.setLayoutParams(params);
                     tv_recording.setText("");
                     tv_recording.clearAnimation();
                     iv_recording_icon.setImageDrawable(getResources().getDrawable(R.drawable.bg_circle_red));
