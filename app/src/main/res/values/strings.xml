@@ -12,7 +12,7 @@
     <string name="start_clinic_session">Start Clinic Session</string>
     <string name="title_activity_scan_devices">ScanDevicesActivity</string>
     <string name="repetition">Repetitions</string>
-    <string name="copy_rights">2020, Startoon Labs Pvt. Ltd.</string>
+    <string name="copy_rights">2021, Startoon Labs Pvt. Ltd.</string>
     <string name="feature_not_available">This feature is not available in current package. Please upgrade to <b>Gold</b> or <b>Gold Plus</b> to avail this feature.</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>

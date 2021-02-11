@@ -108,6 +108,7 @@ import com.startoonlabs.apps.pheezee.utils.RegexOperations;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
@@ -788,6 +789,21 @@ public class PatientsView extends AppCompatActivity
             startActivity(new Intent(this, LoginActivity.class));
             NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.cancelAll();
+            File reportPdf=null;
+
+            // For deleting all the locally saved PDFs on logout.
+            reportPdf = new File(Environment.getExternalStorageDirectory()+"/Pheezee/files/reports");
+            if (reportPdf.exists() && reportPdf.isDirectory()) {
+                //write same defination for it.
+
+                if (reportPdf.isDirectory()) {
+                    String[] children = reportPdf.list();
+                    for (int i = 0; i < children.length; i++) {
+                        new File(reportPdf, children[i]).delete();
+                    }
+                }
+            }
+
             finish();
         }
 
