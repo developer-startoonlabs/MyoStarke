@@ -665,7 +665,7 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
                             {
                                 SessionListClass temp= new SessionListClass();
                                 temp.setBodypart("Abdomen");
-                                temp.setSession_time(String.valueOf(obj.getSpine()));
+                                temp.setSession_time(String.valueOf(obj.getAbdomen()));
                                 temp.setPatientid(patientId);
                                 temp.setPatientemail(phizioemail);
                                 //Adding download date
