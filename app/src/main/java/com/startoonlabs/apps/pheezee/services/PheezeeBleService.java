@@ -101,6 +101,8 @@ public class PheezeeBleService extends Service {
     public static String calibration_state = "calibration.state";
     public static String magnetometer_present = "magnetometer.present";
 
+    public static boolean usb_interrupt_check=false;
+
 
     public static int jobid_firmware_log = 0;
     public static  int jobid_fimware_update = 1;
@@ -749,7 +751,12 @@ public class PheezeeBleService extends Service {
                 byte[] b = characteristic.getValue();
                 int battery  = b[0];
                 int usb_state = b[1];
-                Log.i("usb state", String.valueOf(usb_state));
+
+                if(Math.abs(mBatteryPercent - battery) > 9 && usb_state!=1)
+                {
+                    usb_interrupt_check=true;
+                }
+
                 if(usb_state==1) {
                     if(!mUsbState) {
                         mUsbState = true;

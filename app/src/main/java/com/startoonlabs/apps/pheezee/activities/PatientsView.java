@@ -119,6 +119,7 @@ import static com.startoonlabs.apps.pheezee.services.OtaMessagingService.CHANNEL
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.health_error_present_in_device;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.jobid_sync_data_to_server;
 import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.show_device_health_error;
+import static com.startoonlabs.apps.pheezee.services.PheezeeBleService.usb_interrupt_check;
 import static com.startoonlabs.apps.pheezee.utils.PackageTypes.GOLD_PACKAGE;
 import static com.startoonlabs.apps.pheezee.utils.PackageTypes.NUMBER_OF_PATIENTS_THAT_CAN_BE_ADDED;
 import static com.startoonlabs.apps.pheezee.utils.PackageTypes.STANDARD_PACKAGE;
@@ -1663,6 +1664,45 @@ public class PatientsView extends AppCompatActivity
                 feedback.UpdateWindow(PatientsView.this,deviceMacc,connected_state,"Pheezee",sharedPref,mService);
                 feedback.refreshwindow();
 
+            }
+
+            if(usb_interrupt_check==true)
+            {
+                usb_interrupt_check=false;
+
+                final Dialog dialog = new Dialog(PatientsView.this);
+                dialog.setContentView(R.layout.notification_dialog_box_single_button);
+                dialog.setCancelable(false);
+
+                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                lp.copyFrom(dialog.getWindow().getAttributes());
+                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+                dialog.getWindow().setAttributes(lp);
+
+                TextView notification_title = dialog.findViewById(R.id.notification_box_title);
+                TextView notification_message = dialog.findViewById(R.id.notification_box_message);
+
+                Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);
+
+                Notification_Button_ok.setText("Okay");
+
+                // Setting up the notification dialog
+                notification_title.setText("USB Alert");
+                notification_message.setText("USB port is facing an issue. Please contact us at support@pheezee.com to resolve.");
+
+                // On click on Continue
+                Notification_Button_ok.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+
+                dialog.show();
+                // End
             }
         }
     };
