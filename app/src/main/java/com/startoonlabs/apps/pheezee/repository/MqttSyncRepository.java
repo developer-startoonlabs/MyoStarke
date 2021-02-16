@@ -860,6 +860,8 @@ public class MqttSyncRepository {
                                     object.put("gender", results.get(0).getGender());
                                     object.put("phiziodob", results.get(0).getPhiziodob());
                                     object.put("specialization", results.get(0).getSpecialization());
+                                    object.put("patientlimit", results.get(0).getPatientlimit());
+
 //                                    object.put("type", results.get(0).getType());
 //                                    object.put("packagetype", results.get(0).getPackagetype());
                                     if(results.get(0).getType()>0){

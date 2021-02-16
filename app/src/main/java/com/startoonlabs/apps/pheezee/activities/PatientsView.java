@@ -188,6 +188,7 @@ public class PatientsView extends AppCompatActivity
     MqttSyncRepository repository ;
     public static String json_phizioemail = "";
     public static int phizio_packagetype=0;
+    public static int patient_limit=0;
     ConstraintLayout cl_phizioProfileNavigation;
     TextView tv_connect_to_pheezee;
     boolean connected_state;
@@ -678,6 +679,7 @@ public class PatientsView extends AppCompatActivity
             json_phizio = new JSONObject(sharedPref.getString("phiziodetails", ""));
             json_phizioemail = json_phizio.getString("phizioemail");
             phizio_packagetype = json_phizio.getInt("packagetype");
+            patient_limit = json_phizio.getInt("patientlimit");
 
             if(NetworkOperations.isNetworkAvailable(this)){
                 repository.sendFirebaseTopkenToTheServer(json_phizioemail, FirebaseInstanceId.getInstance().getToken());
@@ -835,7 +837,7 @@ public class PatientsView extends AppCompatActivity
 
     private void initiatePopupWindow() {
         if(phizio_packagetype!=STANDARD_PACKAGE) {
-            if(mAdapter.getItemCount()<=NUMBER_OF_PATIENTS_THAT_CAN_BE_ADDED|| phizio_packagetype==GOLD_PACKAGE || phizio_packagetype==TEACH_PACKAGE) {
+            if(mAdapter.getItemCount()<patient_limit) {
                 AddPatientPopUpWindow patientPopUpWindow = new AddPatientPopUpWindow(this, json_phizioemail);
                 patientPopUpWindow.openAddPatientPopUpWindow();
                 patientPopUpWindow.setOnClickListner(new AddPatientPopUpWindow.onClickListner() {

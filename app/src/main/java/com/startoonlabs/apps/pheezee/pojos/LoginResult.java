@@ -59,6 +59,11 @@ public class LoginResult {
     @SerializedName("packagetype")
     @Expose
     private int packagetype;
+    @SerializedName("patientlimit")
+    @Expose
+    private int patientlimit;
+
+
 
     public int getType() {
         return type;
@@ -71,6 +76,8 @@ public class LoginResult {
     public int getPackagetype() {
         return packagetype;
     }
+
+    public int getPatientlimit() { return patientlimit;    }
 
     public void setPackagetype(int packagetype) {
         this.packagetype = packagetype;
