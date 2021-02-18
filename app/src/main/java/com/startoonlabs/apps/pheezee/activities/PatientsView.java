@@ -1692,7 +1692,7 @@ public class PatientsView extends AppCompatActivity
 
                 // Setting up the notification dialog
                 notification_title.setText("USB Alert");
-                notification_message.setText("USB port is facing an issue. Please contact us at support@pheezee.com to resolve.");
+                notification_message.setText("USB port is facing an issue. Please contact us at customercare@startoonlabs.com to resolve.");
 
                 // On click on Continue
                 Notification_Button_ok.setOnClickListener(new View.OnClickListener() {
@@ -1828,7 +1828,7 @@ public class PatientsView extends AppCompatActivity
 
             // Setting up the notification dialog
             notification_title.setText("Pheezee Deactivated");
-            notification_message.setText("Pheezee has been deactivated, please contact us at support@pheezee.com. If you have already contacted us, please click on check reactivation.");
+            notification_message.setText("Pheezee has been deactivated, please contact us at customercare@startoonlabs.com. If you have already contacted us, please click on check reactivation.");
 
 
             // On click on Continue

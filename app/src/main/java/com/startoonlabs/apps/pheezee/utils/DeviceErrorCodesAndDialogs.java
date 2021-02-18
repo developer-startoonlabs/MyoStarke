@@ -23,7 +23,7 @@ public class DeviceErrorCodesAndDialogs {
     public static long OVER_CURRENT_PROTECTION_STATUS = 70;
 
     static String error_heading="Device Error (";
-    static String error_message="Device is facing issue. Please contact us at support@pheezee.com to resolve.";
+    static String error_message="Device is facing issue. Please contact us at customercare@startoonlabs.com to resolve.";
 
     public static void showDeviceErrorDialog(String error, Context context){
 
@@ -135,7 +135,7 @@ public class DeviceErrorCodesAndDialogs {
         String error = "Error Code ";
         // Reseting the string
         error_heading="Device Error (";
-        error_message = "Device is facing issue. Please contact us at support@pheezee.com to resolve.";
+        error_message = "Device is facing issue. Please contact us at customercare@startoonlabs.com to resolve.";
         try {
 
 
@@ -184,7 +184,7 @@ public class DeviceErrorCodesAndDialogs {
             if((information_packet[2]&0xFF)==0 && (information_packet[7]&0xFF)==0 && (information_packet[3]&0xFF)==0 && (information_packet[8]&0xFF)==0 && (information_packet[5]&0xFF)==0 && (information_packet[6]&0xFF)==0 && (information_packet[4]&0xFF)==1)
             {
                 error_heading = "Device Alert ";
-                error_message = "EMG view is restricted. Please contact us at support@pheezee.com to resolve.";
+                error_message = "EMG view is restricted. Please contact us at customercare@startoonlabs.com to resolve.";
 
             }
 
@@ -192,7 +192,7 @@ public class DeviceErrorCodesAndDialogs {
             if((information_packet[2]&0xFF)==0 && (information_packet[7]&0xFF)==0 && (information_packet[3]&0xFF)==0 && (information_packet[8]&0xFF)==0 && (information_packet[5]&0xFF)==1 && (information_packet[6]&0xFF)==0 && (information_packet[4]&0xFF)==0)
             {
                 error_heading = "Device Alert ";
-                 error_message ="Battery status is not communicated. Please contact us at support@pheezee.com to resolve.";
+                 error_message ="Battery status is not communicated. Please contact us at customercare@startoonlabs.com to resolve.";
             }
 
 

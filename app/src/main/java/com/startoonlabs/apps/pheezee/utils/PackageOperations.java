@@ -27,7 +27,7 @@ public class PackageOperations {
                 public void onClick(DialogInterface dialog, int which) {
                     Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
                     emailIntent.setData(Uri.parse("mailto:"));
-                    emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"support@pheezee.com"});
+                    emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"customercare@startoonlabs.com"});
                     emailIntent.putExtra(Intent.EXTRA_SUBJECT, "upgrade for " + phizioemail);
                     emailIntent.putExtra(Intent.EXTRA_TEXT, "Name: " + phizioname + '\n' + "Mobile Number: " + phone + '\n' + "My Current Package: " + curent_package);
                     context.startActivity(Intent.createChooser(emailIntent, "Send Email"));

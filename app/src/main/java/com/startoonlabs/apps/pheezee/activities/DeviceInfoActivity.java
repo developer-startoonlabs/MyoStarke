@@ -688,7 +688,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements UploadCance
 
                                         } else {
                                             mCheckReactivationDialog.dismiss();
-                                            showDeviceDeactivatedDialog("Pheezee Deactivated", "The device is still deactivated, please contact us at support@pheezee.com");
+                                            showDeviceDeactivatedDialog("Pheezee Deactivated", "The device is still deactivated, please contact us at customercare@startoonlabs.com");
                                         }
                                     } else {
                                         mCheckReactivationDialog.dismiss();
