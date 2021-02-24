@@ -50,6 +50,7 @@ import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -174,6 +175,7 @@ public class PheezeeBleService extends Service {
 
     private MqttSyncRepository repository;
 
+    HashMap<String, Integer> Bodypart_number = new HashMap<String, Integer>();
 
     public PheezeeBleService() {
     }
@@ -191,6 +193,16 @@ public class PheezeeBleService extends Service {
         if(!Objects.requireNonNull(preferences.getString("deviceMacaddress", "")).equalsIgnoreCase(""))
             deviceMacc = preferences.getString("deviceMacaddress","");
         repository = new MqttSyncRepository(this.getApplication());
+
+        Bodypart_number.put("Elbow", 0);
+        Bodypart_number.put("Knee", 1);
+        Bodypart_number.put("Ankle", 2);
+        Bodypart_number.put("Hip", 3);
+        Bodypart_number.put("Wrist", 4);
+        Bodypart_number.put("Shoulder", 5);
+        Bodypart_number.put("Forearm", 6);
+        Bodypart_number.put("Spine", 7);
+        Bodypart_number.put("Abdomen", 7);
     }
 
 
@@ -514,12 +526,12 @@ public class PheezeeBleService extends Service {
         writeCharacteristic(mCustomCharacteristic,b,"AD02");
     }
 
-    public void sendBodypartDataToDevice(String exerciseType, int body_orientation, String patientName, int exercise_position,
+    public void sendBodypartDataToDevice(String bodypart, int body_orientation, String patientName, int exercise_position,
                                          int muscle_position, int bodypart_position, int orientation_position){
         String session_performing_notif = "Device Connected, Session is going on ";
         showNotification(session_performing_notif +patientName);
         if(bodypart_position==8) bodypart_position=7; // Abdomen and spine exercises are same
-        writeCharacteristic(mCustomCharacteristic, ValueBasedColorOperations.getParticularDataToPheeze(body_orientation, muscle_position, exercise_position, bodypart_position, orientation_position),"AE");
+        writeCharacteristic(mCustomCharacteristic, ValueBasedColorOperations.getParticularDataToPheeze(body_orientation, muscle_position, exercise_position, Bodypart_number.get(bodypart), orientation_position),"AE");
     }
 
     public void disableNotificationOfSession(){

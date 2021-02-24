@@ -43,7 +43,7 @@
     </string-array>
 
     <string-array name="case_description">
-        <item>Select Case</item>
+        <item>Select Condition</item>
         <item>GBS</item>
         <item>Spinal Cord Injury</item>
         <item>Stroke</item>
@@ -63,7 +63,7 @@
         <item>Paralize</item>
         <item>Dyselectrolytemia</item>
         <item>Laminectomy</item>
-        <item>Enter case description</item>
+        <item>Enter Condition</item>
     </string-array>
 
 

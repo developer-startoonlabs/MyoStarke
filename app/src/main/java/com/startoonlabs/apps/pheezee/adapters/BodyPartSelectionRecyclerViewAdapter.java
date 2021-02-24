@@ -210,6 +210,8 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
 
 
 
+
+
         if(selected_position!=position && selected_position!=-1){
             holder.cl_selection.setVisibility(View.GONE);
         }
