@@ -670,8 +670,8 @@ public class SmileyMonitoringFragment extends Fragment implements MqttSyncReposi
         if(phizio_packagetype==STANDARD_PACKAGE || phizio_packagetype==GOLD_PACKAGE || phizio_packagetype==TEACH_PACKAGE){
             can_beep = true;
         }else {
-            if((Integer.parseInt(str_min_angle_selected)!=ValueBasedColorOperations.getBodyPartMinValue(bodypart_position,exercise_position))
-            ||(Integer.parseInt(str_max_angle_selected)!=ValueBasedColorOperations.getBodyPartMaxValue(bodypart_position,exercise_position))){
+            if((Integer.parseInt(str_min_angle_selected)!=ValueBasedColorOperations.getBodyPartMinValue(bodypart,exercise_position))
+            ||(Integer.parseInt(str_max_angle_selected)!=ValueBasedColorOperations.getBodyPartMaxValue(bodypart,exercise_position))){
                 can_beep = true;
                 can_voice = false;
             }else {
@@ -708,7 +708,7 @@ public class SmileyMonitoringFragment extends Fragment implements MqttSyncReposi
         str_min_angle_selected = session.getAngleMin();
 
         bodypart_position = MuscleOperation.getBodypartPosition(bodypart,getActivity());
-        exercise_position = MuscleOperation.getExercisePosition(str_exercise_name,bodypart_position);
+        exercise_position = MuscleOperation.getExercisePosition(str_exercise_name,bodypart);
         try {
             repsselected = Integer.parseInt(session.getReps());
         }catch (NumberFormatException e){
@@ -741,8 +741,8 @@ public class SmileyMonitoringFragment extends Fragment implements MqttSyncReposi
         if(phizio_packagetype==STANDARD_PACKAGE || phizio_packagetype==GOLD_PACKAGE || phizio_packagetype==TEACH_PACKAGE){
             can_beep = true;
         }else {
-            if((Integer.parseInt(str_min_angle_selected)!=ValueBasedColorOperations.getBodyPartMinValue(bodypart_position,exercise_position))
-                    ||(Integer.parseInt(str_max_angle_selected)!=ValueBasedColorOperations.getBodyPartMaxValue(bodypart_position,exercise_position))){
+            if((Integer.parseInt(str_min_angle_selected)!=ValueBasedColorOperations.getBodyPartMinValue(bodypart,exercise_position))
+                    ||(Integer.parseInt(str_max_angle_selected)!=ValueBasedColorOperations.getBodyPartMaxValue(bodypart,exercise_position))){
                 can_beep = true;
                 can_voice = false;
             }else {

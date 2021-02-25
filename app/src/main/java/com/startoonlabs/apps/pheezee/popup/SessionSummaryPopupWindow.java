@@ -194,7 +194,7 @@ public class SessionSummaryPopupWindow {
         FrameLayout layout_MainMenu = (FrameLayout) layout.findViewById(R.id.session_summary_frame);
         layout_MainMenu.getForeground().setAlpha(0);
 
-        int color = ValueBasedColorOperations.getCOlorBasedOnTheBodyPart(body_part_selected_position,
+        int color = ValueBasedColorOperations.getCOlorBasedOnTheBodyPart(bodypart,
                 exercise_selected_position,maxAngle,minAngle,context);
 
         int emg_color = ValueBasedColorOperations.getEmgColor(400,maxEmgValue,context);
@@ -640,7 +640,7 @@ public class SessionSummaryPopupWindow {
                     object.put("maxangleselected",max_angle_selected);
                     object.put("minangleselected",min_angle_selected);
                     object.put("maxemgselected",max_emg_selected);
-                    object.put("sessioncolor",ValueBasedColorOperations.getCOlorBasedOnTheBodyPartExercise(body_part_selected_position,exercise_selected_position,maxAngle,minAngle,context));
+                    object.put("sessioncolor",ValueBasedColorOperations.getCOlorBasedOnTheBodyPartExercise(bodypart,exercise_selected_position,maxAngle,minAngle,context));
                     Gson gson = new GsonBuilder().create();
                     Lock lock = new ReentrantLock();
                     lock.lock();

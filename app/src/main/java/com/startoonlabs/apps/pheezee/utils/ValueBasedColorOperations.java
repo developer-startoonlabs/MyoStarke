@@ -10,10 +10,26 @@ import com.startoonlabs.apps.pheezee.R;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+import java.util.HashMap;
 
 public class ValueBasedColorOperations {
     public static final int MAX_NORMAL_EMG = 900;
     public static final int SMILE_ARC_MAX_ANGLE = 180;
+
+
+    static HashMap<String, Integer> Bodypart_exercise_lookuptable = new HashMap<String, Integer>(){
+        {
+            put("Shoulder", 0);
+            put("Elbow", 1);
+            put("Forearm", 2);
+            put("Wrist", 3);
+            put("Hip", 4);
+            put("Knee", 5);
+            put("Ankle", 6);
+            put("Spine", 7);
+            put("Abdomen", 8);
+        }
+    };
     /**
      *
      * @param bodypart
@@ -22,7 +38,7 @@ public class ValueBasedColorOperations {
      * @param context
      * @return
      */
-    public static int getCOlorBasedOnTheBodyPart(int bodypart, int exercise, int max, int min, Context context){
+    public static int getCOlorBasedOnTheBodyPart(String bodypart, int exercise, int max, int min, Context context){
         int bodyPart;
         int maxStaticRange = getBodyPartMaxValue(bodypart,exercise);
         int range = max-min;
@@ -55,7 +71,7 @@ public class ValueBasedColorOperations {
     }
 
 
-    public static int getCOlorBasedOnTheBodyPartExercise(int bodypart, int exercise, int max, int min, Context context){
+    public static int getCOlorBasedOnTheBodyPartExercise(String bodypart, int exercise, int max, int min, Context context){
         int bodyPart;
         int maxStaticRange = getBodyPartMaxValue(bodypart,exercise);
         int range = max-min;
@@ -158,37 +174,36 @@ public class ValueBasedColorOperations {
         return max;
     }
     private final static int[][] min_values = {
+            {0,0,0,0,0,0,0,0}, //shoulder
             {0,0,0,0},    //elbow
+            {0,0,0,0},        // forearm
+            {0,0,0,0,0,0},             //wrist
+            {0,0,0,0,0,0,0,0},  //Hip
             {0,0,0,0,0,0},          //knee
             {0,0,0,0,0,0},             //ankle
-            {0,0,0,0,0,0,0,0},  //Hip
-            {0,0,0,0,0,0},             //wrist
-            {0,0,0,0,0,0,0,0}, //shoulder
-            {0,0,0,0},
-            {0,0,0,0,0,0},
-            {0,0,0,0,0,0},
+            {0,0,0,0,0,0},    // spine
+            {0,0,0,0,0,0},    // abdomen
             {0,0}
-            //elbow
     };
-    public static int getBodyPartMinValue(int bodypart, int exercisename){
-        return min_values[bodypart][exercisename];
+    public static int getBodyPartMinValue(String bodypart, int exercisename){
+        return min_values[Bodypart_exercise_lookuptable.get(bodypart)][exercisename];
     }
 
     private final static int[][] max_values = {
+            {0,180,180,180,45,70,90,0}, //shoulder
             {0,145,145,0},    //elbow
+            {0,90,90,0},            // forearm
+            {0,80,70,20,45,0},             //wrist
+            {0,125,10,10,45,45,45,0},  //Hip
             {0,140,140,0},          //knee
             {0,45,20,40,20,0},             //ankle
-            {0,125,10,10,45,45,45,0},  //Hip
-            {0,80,70,20,45,0},             //wrist
-            {0,180,180,180,45,70,90,0}, //shoulder
-            {0,90,90,0},
-            {0,75,30,35,30,0},
-            {0,75,30,35,30,0},
+            {0,75,30,35,30,0},      // spine
+            {0,75,30,35,30,0},      // abdomen
             {0,0}
     };
 
-    public static int getBodyPartMaxValue(int bodypart, int exercisename){
-        return max_values[bodypart][exercisename];
+    public static int getBodyPartMaxValue(String bodypart, int exercisename){
+        return max_values[Bodypart_exercise_lookuptable.get(bodypart)][exercisename];
     }
 
     public static byte[] getParticularDataToPheeze(int body_orientation, int muscle_index, int exercise_index, int bodypart_index,

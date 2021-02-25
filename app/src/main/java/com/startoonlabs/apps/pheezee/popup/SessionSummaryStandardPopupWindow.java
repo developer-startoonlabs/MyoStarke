@@ -78,7 +78,7 @@ public class SessionSummaryStandardPopupWindow {
         }
 
 
-        int color = ValueBasedColorOperations.getCOlorBasedOnTheBodyPart(body_part_selected_position,
+        int color = ValueBasedColorOperations.getCOlorBasedOnTheBodyPart(bodypart,
                 exercise_selected_position,maxAngle,minAngle,context);
 
         int emg_color = ValueBasedColorOperations.getEmgColor(400,maxEmgValue,context);

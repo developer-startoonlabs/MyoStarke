@@ -21,14 +21,18 @@
     <string name="start_bodypart_to_monitor">Done</string>
 
     <string-array name="bodyPartName">
+        <item>Upper Extremity</item>
+        <item>Shoulder</item>
         <item>Elbow</item>
+        <item>Forearm</item>
+        <item>Wrist</item>
+        <item>Lower Extremity</item>
+        <item>Hip</item>
         <item>Knee</item>
         <item>Ankle</item>
-        <item>Hip</item>
-        <item>Wrist</item>
-        <item>Shoulder</item>
-        <item>Forearm</item>
         <item>Spine</item>
+        <item>Spine</item>
+        <item>Abdomen</item>
         <item>Abdomen</item>
     </string-array>
 
@@ -184,7 +188,7 @@
     <!--Appinfo related tags-->
     <string name="app_info">App Info</string>
     <string name="app_version">Application Version</string>
-    <string name="application_version">2.17.7.h</string>
+    <string name="application_version">2.18.0.h</string>
 
     <!--phizio profile related tags-->
     <string name="your_profile">My Profile</string>

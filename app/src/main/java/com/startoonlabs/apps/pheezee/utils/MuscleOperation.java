@@ -1,10 +1,47 @@
 package com.startoonlabs.apps.pheezee.utils;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.startoonlabs.apps.pheezee.R;
 
+import java.util.HashMap;
+
 public class MuscleOperation {
+    static HashMap<String, Integer> Bodypart_muscle_lookuptable = new HashMap<String, Integer>(){
+        {
+            put("Elbow", 0);
+            put("Knee", 1);
+            put("Ankle", 2);
+            put("Hip", 3);
+            put("Wrist", 4);
+            put("Shoulder", 5);
+            put("Forearm", 6);
+            put("Spine", 7);
+            put("Abdomen", 8);
+        }
+
+    };
+    static HashMap<String, Integer> Bodypart_exercise_lookuptable = new HashMap<String, Integer>(){
+        {
+            put("Shoulder", 0);
+            put("Elbow", 1);
+            put("Forearm", 2);
+            put("Wrist", 3);
+            put("Hip", 4);
+            put("Knee", 5);
+            put("Ankle", 6);
+            put("Spine", 7);
+            put("Abdomen", 8);
+        }
+    };
+
+
+
+
+
+
+
     private final static String[][] musle_names = {
             {"Select Muscle*", "Biceps", "Brachialis (Deep)","Brachioradialis", "Tricep", "Anconeus", "Others"},//elbow
 
@@ -453,8 +490,13 @@ public class MuscleOperation {
 
     };
 
-    public static String[] getMusleNames(int postion){
-        return musle_names[postion];
+    public static String[] getMusleNames(String bodypart){
+        try {
+            return musle_names[Bodypart_muscle_lookuptable.get(bodypart)];
+        }catch (Exception e)
+        {
+            return musle_names[0];
+        }
     }
 
     public static String[] getMusleNames(String bodypart_str,String exercise_str){
@@ -521,20 +563,21 @@ public class MuscleOperation {
 
 
     private final static String[][] exercise_names = {
+            {"Select Exercise*", "Adduction","Abduction", "Flexion", "Extension", "Medial Rotation", "Lateral Rotation",
+//                    "Protraction", "Retraction", "Elevation", "Depression",
+                    "Isometric"},   //Shoulder
             {"Select Exercise*", "Flexion", "Extension", "Isometric"},//elbow
+
+            {"Select Exercise*","Supination", "Pronation","Isometric"},//forearm
+
+            {"Select Exercise*", "Flexion", "Extension", "Radial deviation", "Ulnar deviation", "Isometric"},  //Wrist
+
+            {"Select Exercise*", "Flexion", "Extension",  "Adduction", "Abduction", "Medial Rotation","Lateral Rotation", "Isometric"},  //Hip
 
             {"Select Exercise*", "Flexion", "Extension",  "Isometric"}, //Knee
 
             {"Select Exercise*",  "Plantarflexion", "Dorsiflexion", "Inversion", "Eversion", "Isometric"},    //Ankle
 
-            {"Select Exercise*", "Flexion", "Extension",  "Adduction", "Abduction", "Medial Rotation","Lateral Rotation", "Isometric"},  //Hip
-
-            {"Select Exercise*", "Flexion", "Extension", "Radial deviation", "Ulnar deviation", "Isometric"},  //Wrist
-
-            {"Select Exercise*", "Adduction","Abduction", "Flexion", "Extension", "Medial Rotation", "Lateral Rotation",
-//                    "Protraction", "Retraction", "Elevation", "Depression",
-                    "Isometric"},   //Shoulder
-            {"Select Exercise*","Supination", "Pronation","Isometric"},//forearm
             {"Select Exercise*","Flexion", "Extension","Lateral Flexion","Rotation","Isometric"},//Spine
             {"Select Exercise*","Flexion","Extension","Lateral Flexion","Rotation","Isometric"},//Abdomen
             {"Select Exercise*","Others"}
@@ -1085,8 +1128,13 @@ public class MuscleOperation {
         return primary_secondary_muscle_list[bodypart][exercise][primary_secondary];
     }
 
-    public static String[] getExerciseNames(int postion){
-        return exercise_names[postion];
+    public static String[] getExerciseNames(String bodypart){
+        try {
+            return exercise_names[Bodypart_exercise_lookuptable.get(bodypart)];
+        }catch (Exception e)
+        {
+            return exercise_names[0];
+        }
     }
 
 
@@ -1101,10 +1149,10 @@ public class MuscleOperation {
         return muscle_index;
     }
 
-    public static int getExercisePosition(String exercisename, int bodypart){
+    public static int getExercisePosition(String exercisename, String bodypart){
         int exercise_index = 1;
-        for (int i=0;i<exercise_names[bodypart].length;i++){
-            if(exercisename.equalsIgnoreCase(exercise_names[bodypart][i])){
+        for (int i=0;i<exercise_names[Bodypart_exercise_lookuptable.get(bodypart)].length;i++){
+            if(exercisename.equalsIgnoreCase(exercise_names[Bodypart_exercise_lookuptable.get(bodypart)][i])){
                 exercise_index = i;
                 break;
             }

@@ -58,10 +58,6 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
     Map <String,String> primary_muscle_lookuptable =  new HashMap<String,String>();
 
 
-
-
-
-
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tv_body_part_name;
         ImageView iv_body_part_image;
@@ -197,9 +193,33 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
     @Override
     public BodyPartSelectionRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // create a new view
+        if(viewType == 0)
+        {
+            final View itemView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.body_part_selection_list_header, parent, false);
+            return new BodyPartSelectionRecyclerViewAdapter.ViewHolder(itemView);
+        }else if(viewType == 5)
+        {
+            final View itemView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.body_part_selection_list_header, parent, false);
+            return new BodyPartSelectionRecyclerViewAdapter.ViewHolder(itemView);
+        }else if(viewType == 9)
+        {
+            final View itemView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.body_part_selection_list_header, parent, false);
+            return new BodyPartSelectionRecyclerViewAdapter.ViewHolder(itemView);
+        }else if(viewType == 11)
+        {
+            final View itemView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.body_part_selection_list_header, parent, false);
+            return new BodyPartSelectionRecyclerViewAdapter.ViewHolder(itemView);
+        }else{
+
         final View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.body_part_selection_list_model, parent, false);
-        return new BodyPartSelectionRecyclerViewAdapter.ViewHolder(itemView);
+            return new BodyPartSelectionRecyclerViewAdapter.ViewHolder(itemView);
+        }
+
     }
 
     @Override
@@ -260,13 +280,13 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
                     adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
                     holder.sp_goal.setAdapter(adapter);
 
-                    ArrayAdapter<CharSequence> array_muscle_names = new ArrayAdapter<CharSequence>(context, R.layout.support_simple_spinner_dropdown_item, MuscleOperation.getExerciseNames(selected_position));
+                    ArrayAdapter<CharSequence> array_muscle_names = new ArrayAdapter<CharSequence>(context, R.layout.support_simple_spinner_dropdown_item, MuscleOperation.getExerciseNames(bodypart_name_str));
                     array_muscle_names.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
                     holder.sp_exercise_name.setAdapter(array_muscle_names);
 
 
 
-                    array_exercise_names = new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item, MuscleOperation.getMusleNames(selected_position)){
+                    array_exercise_names = new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item, MuscleOperation.getMusleNames(bodypart_name_str)){
                         @Override
                         public View getDropDownView(int position, View convertView,
                                                     ViewGroup parent) {
@@ -359,8 +379,8 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(position!=0){
                     String exercise_name = holder.sp_exercise_name.getSelectedItem().toString();
-                    int normal_min = ValueBasedColorOperations.getBodyPartMinValue(selected_position,position);
-                    int normal_max = ValueBasedColorOperations.getBodyPartMaxValue(selected_position,position);
+                    int normal_min = ValueBasedColorOperations.getBodyPartMinValue(bodypart_name_str,position);
+                    int normal_max = ValueBasedColorOperations.getBodyPartMaxValue(bodypart_name_str,position);
                     holder.tv_end.setText(str_end.concat(String.valueOf(normal_max)));
                     holder.tv_start.setText(str_start.concat(String.valueOf(normal_min)));
                     holder.tv_max_emg.setText(str_max_emg.concat(": "+String.valueOf(900)));

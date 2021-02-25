@@ -511,7 +511,7 @@ public class PhysiofeedbackPopupWindow {
                     object.put("maxangleselected",max_angle_selected);
                     object.put("minangleselected",min_angle_selected);
                     object.put("maxemgselected",max_emg_selected);
-                    object.put("sessioncolor",ValueBasedColorOperations.getCOlorBasedOnTheBodyPartExercise(body_part_selected_position,exercise_selected_position,maxAngle,minAngle,context));
+                    object.put("sessioncolor",ValueBasedColorOperations.getCOlorBasedOnTheBodyPartExercise(bodypart,exercise_selected_position,maxAngle,minAngle,context));
                     Gson gson = new GsonBuilder().create();
                     Lock lock = new ReentrantLock();
                     lock.lock();
