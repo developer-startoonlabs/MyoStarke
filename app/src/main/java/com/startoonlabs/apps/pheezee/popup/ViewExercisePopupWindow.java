@@ -259,8 +259,8 @@ public class ViewExercisePopupWindow {
             public void onResponse(Call<List<SessionDetailsResult>> call, Response<List<SessionDetailsResult>> response) {
 
                 if(response.isSuccessful()){
-
                     if (response.code() == 200) {
+
 
                         if(bodypart.length()>0) {
                             // Adding current exercise
@@ -321,6 +321,37 @@ public class ViewExercisePopupWindow {
 
             @Override
             public void onFailure(@NonNull Call<List<SessionDetailsResult>> call, @NonNull Throwable t) {
+                try{
+                    // Adding current exercise
+                    SessionListClass first_exercise = new SessionListClass();
+                    first_exercise.setBodypart(bodypart);
+                    first_exercise.setOrientation(bodyOrientation);
+
+                    first_exercise.setPosition(orientation);
+                    first_exercise.setExercise(exercise_name);
+                    first_exercise.setMuscle_name(muscle_name);
+                    first_exercise.setSession_time(sessiontime);
+
+
+                    first_exercise.setHeldon(dateString);
+
+                    first_exercise.setPatientemail(phizioemail);
+                    first_exercise.setPatientid(patientid);
+                    first_exercise.setPatientname(patientname);
+                    mSessionListResults.add(first_exercise);
+
+                    sessionListArrayAdapter = new SessionListArrayAdapter(context, mSessionListResults);
+
+                    lv_sessionlist.setAdapter(sessionListArrayAdapter);
+                    TextView Session_heading = layout.findViewById(R.id.Session_heading);
+                    Session_heading.setText("Session"+" "+sessionNo);
+
+                    progress.dismiss();
+                }
+                catch (Exception e)
+                {
+
+                }
 
             }
         });
