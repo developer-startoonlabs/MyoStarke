@@ -27,6 +27,9 @@ public class ValueBasedColorOperations {
             put("Knee", 5);
             put("Ankle", 6);
             put("Spine", 7);
+            put("Cervical", 9);
+            put("Thoracic", 10);
+            put("Lumbar", 11);
             put("Abdomen", 8);
         }
     };
@@ -183,6 +186,9 @@ public class ValueBasedColorOperations {
             {0,0,0,0,0,0},             //ankle
             {0,0,0,0,0,0},    // spine
             {0,0,0,0,0,0},    // abdomen
+            {0,0,0,0,0,0},    // cervical
+            {0,0,0,0,0,0},    // thoracic
+            {0,0,0,0,0,0},    // lumbar
             {0,0}
     };
     public static int getBodyPartMinValue(String bodypart, int exercisename){
@@ -199,6 +205,9 @@ public class ValueBasedColorOperations {
             {0,45,20,40,20,0},             //ankle
             {0,75,30,35,30,0},      // spine
             {0,75,30,35,30,0},      // abdomen
+            {0,75,30,35,30,0},      // cervical
+            {0,75,30,35,30,0},      // thoracic
+            {0,75,30,35,30,0},      // lumbar
             {0,0}
     };
 
@@ -276,6 +285,15 @@ public class ValueBasedColorOperations {
 
             case "spine":{
                 return R.drawable.spine_part_new;
+            }
+            case "cervical":{
+                return R.drawable.cervical_part_new;
+            }
+            case "thoracic":{
+                return R.drawable.thoracic_part_new;
+            }
+            case "lumbar":{
+                return R.drawable.lumbar_part_new;
             }
             case "abdomen":{
                 return R.drawable.abdomen_part_new;

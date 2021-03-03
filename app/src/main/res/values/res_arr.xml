@@ -28,7 +28,9 @@
         <item>@drawable/ankle_part_new</item>
 
         <item>@drawable/spine_part_new</item>
-        <item>@drawable/spine_part_new</item>
+<!--        <item>@drawable/cervical_part_new</item>-->
+        <item>@drawable/thoracic_part_new</item>
+        <item>@drawable/lumbar_part_new</item>
 
         <item>@drawable/abdomen_part_new</item>
         <item>@drawable/abdomen_part_new</item>

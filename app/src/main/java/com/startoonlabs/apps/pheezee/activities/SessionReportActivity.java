@@ -683,6 +683,78 @@ public class SessionReportActivity extends AppCompatActivity implements MqttSync
                                 mOverallListResults.add(temp);
 
                             }
+
+                                if(obj.getCervical()>0)
+                                {
+                                    SessionListClass temp= new SessionListClass();
+                                    temp.setBodypart("Cervical");
+                                    temp.setSession_time(String.valueOf(obj.getCervical()));
+                                    temp.setPatientid(patientId);
+                                    temp.setPatientemail(phizioemail);
+                                    //Adding download date
+                                    if(download_date_array != null) {
+                                        for (int k = 0; k < download_date_array.size(); k++) {
+                                            if(download_date_array.get(k).getBodypart() != null) {
+                                                if (("cervical").equals(download_date_array.get(k).getBodypart())) {
+                                                    // Storing the download date in musclename.
+                                                    temp.setMuscle_name(download_date_array.get(k).getDate());
+                                                    temp.setDownload_status(download_date_array.get(k).getDownload_status());
+                                                }
+                                            }
+                                        }
+                                    }
+                                    mOverallListResults.add(temp);
+
+                                }
+
+
+                                if(obj.getThoracic()>0)
+                                {
+                                    SessionListClass temp= new SessionListClass();
+                                    temp.setBodypart("Thoracic");
+                                    temp.setSession_time(String.valueOf(obj.getThoracic()));
+                                    temp.setPatientid(patientId);
+                                    temp.setPatientemail(phizioemail);
+                                    //Adding download date
+                                    if(download_date_array != null) {
+                                        for (int k = 0; k < download_date_array.size(); k++) {
+                                            if(download_date_array.get(k).getBodypart() != null) {
+                                                if (("thoracic").equals(download_date_array.get(k).getBodypart())) {
+                                                    // Storing the download date in musclename.
+                                                    temp.setMuscle_name(download_date_array.get(k).getDate());
+                                                    temp.setDownload_status(download_date_array.get(k).getDownload_status());
+                                                }
+                                            }
+                                        }
+                                    }
+                                    mOverallListResults.add(temp);
+
+                                }
+
+                                if(obj.getLumbar()>0)
+                                {
+                                    SessionListClass temp= new SessionListClass();
+                                    temp.setBodypart("Lumbar");
+                                    temp.setSession_time(String.valueOf(obj.getLumbar()));
+                                    temp.setPatientid(patientId);
+                                    temp.setPatientemail(phizioemail);
+                                    //Adding download date
+                                    if(download_date_array != null) {
+                                        for (int k = 0; k < download_date_array.size(); k++) {
+                                            if(download_date_array.get(k).getBodypart() != null) {
+                                                if (("lumbar").equals(download_date_array.get(k).getBodypart())) {
+                                                    // Storing the download date in musclename.
+                                                    temp.setMuscle_name(download_date_array.get(k).getDate());
+                                                    temp.setDownload_status(download_date_array.get(k).getDownload_status());
+                                                }
+                                            }
+                                        }
+                                    }
+                                    mOverallListResults.add(temp);
+
+                                }
+
+
                             }catch( Exception err)
                             {}
                             if(obj.getOthers()>0)

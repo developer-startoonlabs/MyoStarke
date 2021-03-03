@@ -202,6 +202,10 @@ public class PheezeeBleService extends Service {
         Bodypart_number.put("Shoulder", 5);
         Bodypart_number.put("Forearm", 6);
         Bodypart_number.put("Spine", 7);
+        Bodypart_number.put("Cervical", 7);
+        Bodypart_number.put("Thoracic", 7);
+        Bodypart_number.put("Lumbar", 7);
+
         Bodypart_number.put("Abdomen", 7);
     }
 

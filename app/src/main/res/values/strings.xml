@@ -31,7 +31,9 @@
         <item>Knee</item>
         <item>Ankle</item>
         <item>Spine</item>
-        <item>Spine</item>
+<!--        <item>Cervical</item>-->
+        <item>Thoracic</item>
+        <item>Lumbar</item>
         <item>Abdomen</item>
         <item>Abdomen</item>
     </string-array>

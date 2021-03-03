@@ -18,6 +18,9 @@ public class MuscleOperation {
             put("Shoulder", 5);
             put("Forearm", 6);
             put("Spine", 7);
+            put("Cervical", 9);
+            put("Thoracic", 10);
+            put("Lumbar", 11);
             put("Abdomen", 8);
         }
 
@@ -32,6 +35,9 @@ public class MuscleOperation {
             put("Knee", 5);
             put("Ankle", 6);
             put("Spine", 7);
+            put("Cervical", 9);
+            put("Thoracic", 10);
+            put("Lumbar", 11);
             put("Abdomen", 8);
         }
     };
@@ -73,6 +79,9 @@ public class MuscleOperation {
                     "Spinalis Cervicis","Longissimus Thoracis","Longissimus Cervicis","Longissimus Capitis",
                     "Iliocostalis Cervicis", "Iliocostalis Thoracis","Iliocostalis Lumborum","Semispinalis","Multifidus","Rotatores","Others"}, //Spine
             {"Select Muscle*","Quadratus Lumborum","Rectus Abdominis","External Oblique","Others"}, //Abdomen
+            {"Select Muscle*", "Spinalis Cervicis","Longissimus Cervicis", "Iliocostalis Cervicis", "Others"}, //Cervical
+            {"Select Muscle*","Spinalis Thoracis","Longissimus Thoracis","Iliocostalis Thoracis","Others"}, //Thoracic
+            {"Select Muscle*","Rectus Abdominis","Psoas major","Iliocostalis Lumborum","Quadratus Lumborum","Semispinalis","Multifidus","Rotatores","External Oblique","Others"}, //Lumbar
             {"Select Muscle*","Others"}
     };
 
@@ -486,6 +495,107 @@ public class MuscleOperation {
 
                     }
 
+            },
+            { // Cervical - 7
+                    {// Cervical Flexion - 0
+                            // Primary
+                            "Spinalis Cervicis","Longissimus Cervicis", "Iliocostalis Cervicis", "Others"
+                    },
+                    {// Cervical Extension - 1
+                            // Primary
+                            "Spinalis Cervicis","Longissimus Cervicis", "Iliocostalis Cervicis", "Others"
+
+
+
+                    },
+                    {// Cervical Isometric - 2
+                            // Primary
+                            "Spinalis Cervicis","Longissimus Cervicis", "Iliocostalis Cervicis", "Others"
+
+
+
+                    },
+                    {// Cervical Lateral Flexion - 3
+                            // Primary
+                            "Spinalis Cervicis","Longissimus Cervicis", "Iliocostalis Cervicis", "Others"
+
+                    },
+                    {// Cervical Rotation - 4
+                            // Primary
+                            "Spinalis Cervicis","Longissimus Cervicis", "Iliocostalis Cervicis", "Others"
+
+
+                    }
+
+            },
+            { // Thoracic - 7
+                    {// Thoracic Flexion - 0
+                            // Primary
+                            "Spinalis Thoracis","Longissimus Thoracis","Iliocostalis Thoracis","Others"
+
+
+                    },
+                    {// Thoracic Extension - 1
+                            // Primary
+                            "Spinalis Thoracis","Longissimus Thoracis","Iliocostalis Thoracis","Others"
+
+
+
+                    },
+                    {// Thoracic Isometric - 2
+                            // Primary
+                            "Spinalis Thoracis","Longissimus Thoracis","Iliocostalis Thoracis","Others"
+
+
+
+                    },
+                    {// Thoracic Lateral Flexion - 3
+                            // Primary
+                            "Spinalis Thoracis","Longissimus Thoracis","Iliocostalis Thoracis","Others"
+
+                    },
+                    {// Thoracic Rotation - 4
+                            // Primary
+                            "Spinalis Thoracis","Longissimus Thoracis","Iliocostalis Thoracis","Others"
+
+
+                    }
+
+            },
+            { // Lumbar - 7
+                    {// Lumbar Flexion - 0
+                            // Primary
+                            "Rectus Abdominis","Psoas major","Iliocostalis Lumborum","Quadratus Lumborum","Semispinalis","Multifidus","Rotatores","External Oblique","Others"
+
+
+
+                    },
+                    {// Lumbar Extension - 1
+                            // Primary
+                            "Rectus Abdominis","Psoas major","Iliocostalis Lumborum","Quadratus Lumborum","Semispinalis","Multifidus","Rotatores","External Oblique","Others"
+
+
+
+                    },
+                    {// Lumbar Isometric - 2
+                            // Primary
+                            "Rectus Abdominis","Psoas major","Iliocostalis Lumborum","Quadratus Lumborum","Semispinalis","Multifidus","Rotatores","External Oblique","Others"
+
+
+
+                    },
+                    {// Lumbar Lateral Flexion - 3
+                            // Primary
+                            "Rectus Abdominis","Psoas major","Iliocostalis Lumborum","Quadratus Lumborum","Semispinalis","Multifidus","Rotatores","External Oblique","Others"
+
+                    },
+                    {// Lumbar Rotation - 4
+                            // Primary
+                           "Rectus Abdominis","Psoas major","Iliocostalis Lumborum","Quadratus Lumborum","Semispinalis","Multifidus","Rotatores","External Oblique","Others"
+
+
+                    }
+
             }
 
     };
@@ -528,6 +638,15 @@ public class MuscleOperation {
         } else if(bodypart_str.equalsIgnoreCase("spine"))
         {
             bodypart= 7;
+        } else if( bodypart_str.equalsIgnoreCase("cervical") )
+        {
+            bodypart= 9;
+        } else if( bodypart_str.equalsIgnoreCase("thoracic"))
+        {
+            bodypart= 10;
+        } else if( bodypart_str.equalsIgnoreCase("lumbar"))
+        {
+            bodypart= 11;
         } else if(bodypart_str.equalsIgnoreCase("abdomen"))
         {
             bodypart= 8;
@@ -580,6 +699,9 @@ public class MuscleOperation {
 
             {"Select Exercise*","Flexion", "Extension","Lateral Flexion","Rotation","Isometric"},//Spine
             {"Select Exercise*","Flexion","Extension","Lateral Flexion","Rotation","Isometric"},//Abdomen
+            {"Select Exercise*","Flexion", "Extension","Lateral Flexion","Rotation","Isometric"},//Cervical
+            {"Select Exercise*","Flexion", "Extension","Lateral Flexion","Rotation","Isometric"},//Thoracic
+            {"Select Exercise*","Flexion", "Extension","Lateral Flexion","Rotation","Isometric"},//Lumbar
             {"Select Exercise*","Others"}
     };
 
@@ -1060,7 +1182,161 @@ public class MuscleOperation {
 
                     }
 
+            },
+            { // Cervical - 7
+                    {// Cervical Flexion - 0
+                            { // Primary
+                                    ""
+
+                            },
+                            { // Secondary
+                                    ""
+                            }
+
+                    },
+                    {// Cervical Extension - 1
+                            { // Primary
+                                    "Spinalis Cervicis","Longissimus Cervicis", "Iliocostalis Cervicis"
+                            },
+                            { // Secondary
+                                    ""
+                            }
+
+                    },
+                    {// Cervical Isometric - 2
+                            { // Primary
+                                    "Spinalis Cervicis","Longissimus Cervicis", "Iliocostalis Cervicis"
+                            },
+                            { // Secondary
+                                    ""
+                            }
+
+                    },
+                    {// Cervical Lateral Flexion - 3
+                            { // Primary
+                                    "Spinalis Cervicis","Longissimus Cervicis", "Iliocostalis Cervicis"
+
+                            },
+                            { // Secondary
+                                    ""
+                            }
+
+                    },
+                    {// Cervical Rotation - 4
+                            { // Primary
+                                    "Spinalis Cervicis","Longissimus Cervicis", "Iliocostalis Cervicis"
+
+                            },
+                            { // Secondary
+                                    ""
+                            }
+
+                    }
+
+            },
+            { // Thoracic - 7
+            {// Thoracic Flexion - 0
+                    { // Primary
+                            ""
+
+                    },
+                    { // Secondary
+                            ""
+                    }
+
+            },
+            {// Thoracic Extension - 1
+                    { // Primary
+                            "Spinalis Thoracis","Longissimus Thoracis","Iliocostalis Thoracis"
+
+                    },
+                    { // Secondary
+                            ""
+                    }
+
+            },
+            {// Thoracic Isometric - 2
+                    { // Primary
+                            "Spinalis Thoracis","Longissimus Thoracis","Iliocostalis Thoracis"
+                    },
+                    { // Secondary
+                            ""
+                    }
+
+            },
+            {// Thoracic Lateral Flexion - 3
+                    { // Primary
+                            ""
+
+                    },
+                    { // Secondary
+                            ""
+                    }
+
+            },
+            {// Thoracic Rotation - 4
+                    { // Primary
+                            ""
+
+                    },
+                    { // Secondary
+                            ""
+                    }
+
             }
+
+    },
+            { // Lumbar - 7
+            {// Lumbar Flexion - 0
+                    { // Primary
+                            "Rectus Abdominis","Psoas major"
+
+                    },
+                    { // Secondary
+                            ""
+                    }
+
+            },
+            {// Lumbar Extension - 1
+                    { // Primary
+                            "Iliocostalis Lumborum","Quadratus Lumborum","Semispinalis"
+
+                    },
+                    { // Secondary
+                            ""
+                    }
+
+            },
+            {// Lumbar Isometric - 2
+                    { // Primary
+                            "Rectus Abdominis","Psoas major","Iliocostalis Lumborum","Quadratus Lumborum","Semispinalis","Multifidus","Rotatores","External Oblique"                  },
+                    { // Secondary
+                            ""
+                    }
+
+            },
+            {// Lumbar Lateral Flexion - 3
+                    { // Primary
+                          "Psoas major","Iliocostalis Lumborum","Quadratus Lumborum","External Oblique"
+
+                    },
+                    { // Secondary
+                            ""
+                    }
+
+            },
+            {// Lumbar Rotation - 4
+                    { // Primary
+                           "Multifidus","Rotatores","External Oblique"
+
+                    },
+                    { // Secondary
+                            ""
+                    }
+
+            }
+
+    }
 
     };
 
@@ -1095,7 +1371,16 @@ public class MuscleOperation {
         } else if(bodypart_str.equalsIgnoreCase("spine"))
         {
             bodypart= 7;
-        } else if(bodypart_str.equalsIgnoreCase("abdomen"))
+        } else if( bodypart_str.equalsIgnoreCase("cervical") )
+        {
+            bodypart= 9;
+        } else if( bodypart_str.equalsIgnoreCase("thoracic"))
+        {
+            bodypart= 10;
+        } else if( bodypart_str.equalsIgnoreCase("lumbar"))
+        {
+            bodypart= 11;
+        }  else if(bodypart_str.equalsIgnoreCase("abdomen"))
         {
             bodypart= 8;
         }

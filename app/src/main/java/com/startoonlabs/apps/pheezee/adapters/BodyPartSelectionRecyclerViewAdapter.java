@@ -179,6 +179,24 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
         primary_muscle_lookuptable.put("spinerotation","Multifidus");
         primary_muscle_lookuptable.put("spineisometric","Select Muscle*");
 
+        primary_muscle_lookuptable.put("cervicalflexion","");
+        primary_muscle_lookuptable.put("cervicalextension","Iliocostalis Cervicis");
+        primary_muscle_lookuptable.put("cervicallateral flexion","Iliocostalis Cervicis");
+        primary_muscle_lookuptable.put("cervicalrotation","Iliocostalis Cervicis");
+        primary_muscle_lookuptable.put("cervicalisometric","Select Muscle*");
+
+        primary_muscle_lookuptable.put("thoracicflexion","");
+        primary_muscle_lookuptable.put("thoracicextension","Iliocostalis Thoracis");
+        primary_muscle_lookuptable.put("thoraciclateral flexion","");
+        primary_muscle_lookuptable.put("thoracicrotation","");
+        primary_muscle_lookuptable.put("thoracicisometric","Select Muscle*");
+
+        primary_muscle_lookuptable.put("lumbarflexion","Rectus Abdominis");
+        primary_muscle_lookuptable.put("lumbarextension","Quadratus Lumborum");
+        primary_muscle_lookuptable.put("lumbarlateral flexion","Quadratus Lumborum");
+        primary_muscle_lookuptable.put("lumbarrotation","External Oblique");
+        primary_muscle_lookuptable.put("lumbarisometric","Select Muscle*");
+
         primary_muscle_lookuptable.put("abdomenflexion","Rectus Abdominis");
         primary_muscle_lookuptable.put("abdomenextension","");
         primary_muscle_lookuptable.put("abdomenlateral flexion","Quadratus Lumborum");
@@ -208,7 +226,7 @@ public class BodyPartSelectionRecyclerViewAdapter extends RecyclerView.Adapter<B
             final View itemView = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.body_part_selection_list_header, parent, false);
             return new BodyPartSelectionRecyclerViewAdapter.ViewHolder(itemView);
-        }else if(viewType == 11)
+        }else if(viewType == 12)
         {
             final View itemView = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.body_part_selection_list_header, parent, false);

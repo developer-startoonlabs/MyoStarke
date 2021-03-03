@@ -32,6 +32,18 @@ public class Overallresponse {
     @Expose
     private Integer spine;
 
+    @SerializedName("cervical")
+    @Expose
+    private Integer cervical;
+
+    @SerializedName("thoracic")
+    @Expose
+    private Integer thoracic;
+
+    @SerializedName("lumbar")
+    @Expose
+    private Integer lumbar;
+
     @SerializedName("abdomen")
     @Expose
     private Integer abdomen;
@@ -103,6 +115,32 @@ public class Overallresponse {
     public void setSpine(Integer spine) {
         this.spine = spine;
     }
+
+
+    public Integer getCervical() {
+        return cervical;
+    }
+
+    public void setCervical(Integer cervical) {
+        this.cervical = cervical;
+    }
+
+    public Integer getThoracic() {
+        return thoracic;
+    }
+
+    public void setThoracic(Integer thoracic) {
+        this.thoracic = thoracic;
+    }
+
+    public Integer getLumbar() {
+        return lumbar;
+    }
+
+    public void setLumbar(Integer lumbar) {
+        this.lumbar = lumbar;
+    }
+
 
     public Integer getAbdomen() {
         return abdomen;
