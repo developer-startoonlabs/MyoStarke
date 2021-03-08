@@ -534,7 +534,11 @@ public class PheezeeBleService extends Service {
                                          int muscle_position, int bodypart_position, int orientation_position){
         String session_performing_notif = "Device Connected, Session is going on ";
         showNotification(session_performing_notif +patientName);
-        if(bodypart_position==8) bodypart_position=7; // Abdomen and spine exercises are same
+
+        // When Abdomen is selected, extension is removed and current implementation checks the exercise position.
+        // TODO: Improve the passing of exercise information using strings are similar to that of bodypart selected.
+        if(bodypart_position==13 && exercise_position>=2) exercise_position=exercise_position+1;
+
         writeCharacteristic(mCustomCharacteristic, ValueBasedColorOperations.getParticularDataToPheeze(body_orientation, muscle_position, exercise_position, Bodypart_number.get(bodypart), orientation_position),"AE");
     }
 

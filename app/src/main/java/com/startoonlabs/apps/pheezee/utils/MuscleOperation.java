@@ -78,7 +78,7 @@ public class MuscleOperation {
             {"Select Muscle*","Spinalis Thoracis","Spinalis Capitis",
                     "Spinalis Cervicis","Longissimus Thoracis","Longissimus Cervicis","Longissimus Capitis",
                     "Iliocostalis Cervicis", "Iliocostalis Thoracis","Iliocostalis Lumborum","Semispinalis","Multifidus","Rotatores","Others"}, //Spine
-            {"Select Muscle*","Quadratus Lumborum","Rectus Abdominis","External Oblique","Others"}, //Abdomen
+            {"Select Muscle*","Rectus Abdominis","External Oblique","Internal Oblique","Others"}, //Abdomen
             {"Select Muscle*", "Spinalis Cervicis","Longissimus Cervicis", "Iliocostalis Cervicis", "Others"}, //Cervical
             {"Select Muscle*","Spinalis Thoracis","Longissimus Thoracis","Iliocostalis Thoracis","Others"}, //Thoracic
             {"Select Muscle*","Rectus Abdominis","Psoas major","Iliocostalis Lumborum","Quadratus Lumborum","Semispinalis","Multifidus","Rotatores","External Oblique","Others"}, //Lumbar
@@ -464,33 +464,33 @@ public class MuscleOperation {
             { // Abdomen - 7
                     {// Abdomen Flexion - 0
                             // Primary
-                            "Quadratus Lumborum","Rectus Abdominis","External Oblique","Others"
+                            "Rectus Abdominis","External Oblique","Internal Oblique","Others"
 
 
 
                     },
                     {// Abdomen Extension - 1
                             // Primary
-                            "Quadratus Lumborum","Rectus Abdominis","External Oblique","Others"
+                            "Rectus Abdominis","External Oblique","Internal Oblique","Others"
 
 
 
                     },
                     {// Abdomen Isometric - 2
                             // Primary
-                            "Quadratus Lumborum","Rectus Abdominis","External Oblique","Others"
+                            "Rectus Abdominis","External Oblique","Internal Oblique","Others"
 
 
 
                     },
                     {// Abdomen Lateral Flexion - 3
                             // Primary
-                            "Quadratus Lumborum","Rectus Abdominis","External Oblique","Others"
+                            "Rectus Abdominis","External Oblique","Internal Oblique","Others"
 
                     },
                     {// Abdomen Rotation - 4
                             // Primary
-                            "Quadratus Lumborum","Rectus Abdominis","External Oblique","Others"
+                            "Rectus Abdominis","External Oblique","Internal Oblique","Others"
 
 
                     }
@@ -698,7 +698,7 @@ public class MuscleOperation {
             {"Select Exercise*",  "Plantarflexion", "Dorsiflexion", "Inversion", "Eversion", "Isometric"},    //Ankle
 
             {"Select Exercise*","Flexion", "Extension","Lateral Flexion","Rotation","Isometric"},//Spine
-            {"Select Exercise*","Flexion","Extension","Lateral Flexion","Rotation","Isometric"},//Abdomen
+            {"Select Exercise*","Flexion","Lateral Flexion","Rotation","Isometric"},//Abdomen
             {"Select Exercise*","Flexion", "Extension","Lateral Flexion","Rotation","Isometric"},//Cervical
             {"Select Exercise*","Flexion", "Extension","Lateral Flexion","Rotation","Isometric"},//Thoracic
             {"Select Exercise*","Flexion", "Extension","Lateral Flexion","Rotation","Isometric"},//Lumbar
@@ -1153,7 +1153,7 @@ public class MuscleOperation {
                     },
                     {// Abdomen Isometric - 2
                             { // Primary
-                                    "Quadratus Lumborum","Rectus Abdominis","External Oblique"
+                                    "Rectus Abdominis","External Oblique"
 
                             },
                             { // Secondary
@@ -1163,7 +1163,7 @@ public class MuscleOperation {
                     },
                     {// Abdomen Lateral Flexion - 3
                             { // Primary
-                                 "Quadratus Lumborum"
+                                    "Rectus Abdominis","External Oblique"
 
                             },
                             { // Secondary
