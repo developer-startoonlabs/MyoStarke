@@ -138,7 +138,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:layout_marginEnd="8dp"
-                android:text="@string/supine" />
+                android:text="@string/Lying" />
         </RadioGroup>
     </LinearLayout>
 

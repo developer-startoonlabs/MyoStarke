@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:567862502878:android:3bfb79f6fde56347ad294f",
         "android_client_info": {
-          "package_name": "com.startoonlabs.apps.pheezee"
+          "package_name": "com.start.apps.pheezee"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "567862502878-kbsss4h6ku8d5lli6j0ho09lfnt4tthc.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.startoonlabs.apps.pheezee",
+            "package_name": "com.start.apps.pheezee",
             "certificate_hash": "9cb1d209c100fa2344d5fc18d3b6ce2551abf40a"
           }
         },

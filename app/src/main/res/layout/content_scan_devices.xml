@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.startoonlabs.apps.pheezee.activities.ScanDevicesActivity"
+    tools:context="com.start.apps.pheezee.activities.ScanDevicesActivity"
     tools:showIn="@layout/activity_scan_devices"
     android:paddingTop="5dp">
 

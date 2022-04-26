@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    tools:context="com.startoonlabs.apps.pheezee.activities.ScanDevicesActivity"
+    tools:context="com.start.apps.pheezee.activities.ScanDevicesActivity"
     android:layout_height="match_parent"
     android:background="@color/progress_gray_trans">
 
@@ -12,7 +12,7 @@
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar_scandevices"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/toolbar_height_scandevices"
+                android:layout_height="?attr/actionBarSize"
                 app:elevation="5dp"
                 android:elevation="5dp"
                 android:background="@color/white_opaque">
@@ -75,11 +75,13 @@
 android:layout_height="match_parent"
     android:background="@color/white"
     android:layout_marginTop="2dp"
-tools:context="com.startoonlabs.apps.pheezee.activities.ScanDevicesActivity">
+tools:context="start.apps.pheezee.activities.ScanDevicesActivity">
     <include layout="@layout/content_scan_devices" />
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_marginBottom="50dp"
@@ -115,9 +117,9 @@ tools:context="com.startoonlabs.apps.pheezee.activities.ScanDevicesActivity">
         android:layout_width="match_parent"
         android:layout_height="@dimen/button_heigt_done"
         android:layout_gravity="bottom"
-        android:layout_marginBottom="1sp"
-        android:layout_marginStart="6sp"
-        android:layout_marginEnd="6sp"
+        android:layout_marginBottom="10sp"
+        android:layout_marginStart="20sp"
+        android:layout_marginEnd="20sp"
         android:background="@drawable/round_same_buttons"
         android:textAllCaps="false"
         android:textSize="18dp"

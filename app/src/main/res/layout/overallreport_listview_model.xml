@@ -44,67 +44,64 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="0sp"
                 android:layout_alignTop="@+id/image_exercise_layout"
+                android:layout_marginStart="0sp"
                 android:layout_toEndOf="@+id/image_exercise_layout"
                 android:orientation="vertical">
-            <TextView
-                android:id="@+id/tv_exercise"
 
-                android:layout_alignTop="@+id/image_exercise_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/good_green"
+                <TextView
+                    android:id="@+id/tv_exercise"
 
-                android:textSize="16sp"
-                android:text="11 Exercises" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/image_exercise_layout"
+                    android:text="11 Exercises"
 
-            <TextView
-                android:id="@+id/tv_exercise_no"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                    android:textColor="@color/good_green"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_exercise_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
 
 
-                android:textColor="#707070"
-                android:textSize="14sp"
-                android:text="11 Exercises" />
+                    android:text="11 Exercises"
+                    android:textColor="#707070"
+                    android:textSize="14sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="10dp"
                     android:gravity="bottom">
-                <TextView
-                    android:id="@+id/tv_download_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/pitch_black"
-                    android:textSize="12sp"
-                    android:text="11 Exercises" />
+
+                    <TextView
+                        android:id="@+id/tv_download_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="11 Exercises"
+                        android:textColor="@color/pitch_black"
+                        android:textSize="12sp" />
                 </LinearLayout>
 
             </LinearLayout>
 
 
-
-        <Button
-            android:id="@+id/view_button"
-            android:layout_width="115sp"
-            android:layout_height="35sp"
-            android:layout_marginTop="5sp"
-            android:layout_alignTop="@+id/image_exercise_layout"
-            android:background="@drawable/round_cancel_buttons_less_stroke_width"
-            android:paddingRight="35dp"
-            android:paddingLeft="35dp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="50dp"
-            android:textSize="18sp"
-            android:textAllCaps="false"
-            android:textColor="@color/good_green"
-            android:textStyle="bold"
-            android:text="View"
-            >
-        </Button>
+            <Button
+                android:id="@+id/view_button"
+                android:layout_width="80dp"
+                android:layout_height="35dp"
+                android:layout_alignTop="@+id/image_exercise_layout"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="5sp"
+                android:layout_marginEnd="50dp"
+                android:background="@drawable/round_cancel_buttons_less_stroke_width"
+                android:text="View"
+                android:textAllCaps="false"
+                android:textColor="@color/good_green"
+                android:textSize="13dp"
+                android:textStyle="bold"></Button>
             <ImageView
                 android:id="@+id/share_icon"
                 android:layout_width="wrap_content"

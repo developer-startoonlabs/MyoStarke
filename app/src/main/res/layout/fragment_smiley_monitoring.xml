@@ -10,7 +10,7 @@
     android:layout_marginStart="5dp"
     android:orientation="vertical"
     android:background="@color/ic_add_patient_grey_background"
-    tools:context=".activities.MonitorActivity">
+    tools:context="com.start.apps.pheezee.activities.MonitorActivity">
 
 
 
@@ -249,7 +249,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginTop="50sp"
                     android:layout_marginBottom="50sp">
-                    <com.startoonlabs.apps.smileyprogressbar.SmileyArcView
+                    <com.start.apps.smileyprogressbar.SmileyArcView
                         android:id="@+id/smileyArcView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -420,7 +420,7 @@
                             <TextView
                                 android:id="@+id/tv_max_emg_show"
 
-                                android:layout_gravity="bottom"
+                                android:layout_gravity="bottom|center"
                                 android:layout_width="70dp"
                                 android:layout_height="26sp"
                                 android:textAlignment="center"
@@ -455,7 +455,7 @@
                             <TextView
                                 android:id="@+id/emgValue"
 
-                                android:layout_gravity="bottom"
+                                android:layout_gravity="bottom|center"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/ebrima"

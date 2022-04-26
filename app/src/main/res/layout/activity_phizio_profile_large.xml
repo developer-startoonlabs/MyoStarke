@@ -42,7 +42,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:context="com.startoonlabs.apps.pheezee.activities.PhizioProfile">
+            tools:context="start.apps.pheezee.activities.PhizioProfile">
 
 
             <TextView

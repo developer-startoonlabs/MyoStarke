@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:layout_height="match_parent"
-    tools:context="com.startoonlabs.apps.pheezee.activities.AppInfo">
+    android:layout_height="match_parent">
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/my_toolbar_bodypart"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_alignParentStart="true"
-        app:elevation="5dp"
-        android:elevation="5dp"
+        app:elevation="@dimen/toolbar_dim_5"
+        android:elevation="@dimen/toolbar_dim_5"
         android:background="@color/white_opaque"
         tools:ignore="ObsoleteLayoutParam">
         <LinearLayout
@@ -38,10 +37,11 @@
                 android:paddingStart="20dp"/>
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:background="@color/progress_gray_trans"
-        android:layout_height="match_parent">
+        android:layout_height="80dp"
+        android:background="@color/progress_gray_trans">
 
 
         <LinearLayout
@@ -57,9 +57,11 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:baselineAligned="false"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
                 android:gravity="right"
-                android:orientation="horizontal"
-                android:baselineAligned="false">
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -70,7 +72,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-
                         android:layout_margin="5dp"
                         android:fontFamily="@font/ebrima"
                         android:text="@string/app_version"
@@ -81,8 +82,8 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.4"
                     android:layout_marginEnd="5dp"
+                    android:layout_weight="0.4"
                     android:gravity="right"
                     android:orientation="horizontal">
 
@@ -102,6 +103,12 @@
 
         </LinearLayout>
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/progress_gray_trans">
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

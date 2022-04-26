@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:background="@color/progress_gray_trans"
+    android:background="@color/white"
     android:layout_height="match_parent"
-    tools:context="com.startoonlabs.apps.pheezee.activities.DeviceInfoActivity">
+    tools:context="com.start.apps.pheezee.activities.DeviceInfoActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
@@ -69,17 +69,15 @@
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:layout_marginStart="5sp"
-
                         android:layout_weight="0.4">
-
-
-
                         <ImageView
                             android:id="@+id/my_device_image"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="150dp"
                             android:src="@drawable/my_device_pheezee"
-                            ></ImageView>
+                            >
+
+                        </ImageView>
                     </LinearLayout>
 
                     <LinearLayout
@@ -95,7 +93,7 @@
                         <TextView
                             android:id="@+id/tv_deviceinfo_device_name"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="33dp"
                             android:layout_gravity="start"
                             android:layout_marginStart="5dp"
                             android:layout_marginTop="5dp"
@@ -172,7 +170,10 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    >
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -222,6 +223,7 @@
                             android:textSize="12sp"/>
                     </LinearLayout>
                 </LinearLayout>
+
             </LinearLayout>
 
             <LinearLayout
@@ -237,7 +239,10 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/element_height_device_info">
+                    android:layout_height="@dimen/element_height_device_info"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    >
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -351,6 +356,8 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
                     android:layout_height="match_parent"
                     android:baselineAligned="false">
 
@@ -405,6 +412,8 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
                     android:layout_height="match_parent"
                     android:baselineAligned="false">
 
@@ -491,7 +500,9 @@
             android:id="@+id/tv_disconnect_forget"
             android:layout_width="fill_parent"
             android:layout_height="50dp"
-            android:layout_gravity="bottom"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="12dp"
             android:textAllCaps="false"
             android:text="+ Add Pheezee"
             android:textColor="@color/white"

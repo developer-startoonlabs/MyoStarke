@@ -1,5 +1,6 @@
 <resources>
-    <string name="app_name">Pheezee</string>
+    <string name="app_name">Pheezee App</string>
+    <string name="demo_name">Demo Account</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="facebook_app_id">2061772390522951</string>
@@ -31,7 +32,7 @@
         <item>Knee</item>
         <item>Ankle</item>
         <item>Spine</item>
-<!--        <item>Cervical</item>-->
+        <!--        <item>Cervical</item>-->
         <item>Thoracic</item>
         <item>Lumbar</item>
         <item>Abdomen</item>
@@ -66,7 +67,7 @@
         <item>Subdural Hygroma</item>
         <item>Cardioembolic Stroke</item>
         <item>Hemiplegia</item>
-<!--        <item>Thalamic CG Bleed</item>-->
+        <!--        <item>Thalamic CG Bleed</item>-->
         <item>Dyselectrolytemia</item>
         <item>Laminectomy</item>
         <item>Enter Condition</item>
@@ -136,6 +137,7 @@
     <string name="nav_app_version">App Info</string>
     <string name="nav_device_info">My Pheezee</string>
     <string name="nav_log_out">Logout</string>
+    <string name="nav_my_account_pannel">My Account</string>
 
     <string name="home_home">Home</string>
 
@@ -186,11 +188,19 @@
     <string name="instructions2_dfu"> \u2022 The phone is near the Pheezee.\n \u2022 The device must be turned ON.\n \u2022 The mobile bluetooth is ON.\n</string>
 
 
-
     <!--Appinfo related tags-->
     <string name="app_info">App Info</string>
     <string name="app_version">Application Version</string>
-    <string name="application_version">2.18.2.h</string>
+    <string name="application_version">3.0.9</string>
+    <string name="user_manual_version">User Manual</string>
+    <string name="Paragraph">In the computer world, a bug is an error in a software program. <H>It</H>may cause a program to unexpectedly quit or behave in an unintended manner. For example, a small bug may cause a button within a programs interface not to respond when you click it \n Most bugs occur due to the mistakes and errors made by the developers while constructing the source code. It can be within the components and operating system which is used by the program. Some bugs are also the result of errors in translation between different languages by compilers which produce the incorrect code.
+    </string>
+
+    <!--Myaccount related tags-->
+    <string name="change_password">Change Password</string>
+    <string name="delete_account">Delete Account</string>
+    <string name="Term_conditions">Terms and conditions</string>
+    <string name="warrenty">Warranty</string>
 
     <!--phizio profile related tags-->
     <string name="your_profile">My Profile</string>
@@ -215,14 +225,13 @@
     </string-array>
 
 
-
     <!--body part related tags-->
     <string name="left">Left</string>
     <string name="right">Right</string>
     <string name="mmt_grade">Mmt Grade - </string>
     <string name="mmt_grade_dynamic">Mmt Grade -</string>
     <string name="select_mmt_grading">Select MMT Grading</string>
-    <string name="pheezee_placement_error">The placement of Pheezee is \n incorrect or moved during the \n exercise. Please check the position \n and start again.</string>
+    <string name="pheezee_placement_error">The movement is not performed \n correctly or the device Placement is done \n incorrectly. Please check and start again.\n</string>
     <string name="physio_remarks">Therapist Remarks</string>
     <string name="zero">0</string>
     <string name="one">1</string>
@@ -339,7 +348,7 @@
     <string name="ss_click_to_view_report">click to view report&#032; </string>
     <string name="stand">Stand</string>
     <string name="sit">Sit</string>
-    <string name="supine">Supine</string>
+    <string name="Lying">Lying</string>
     <string name="session_type">Session Type</string>
     <string name="body_orientation">Body Orientation</string>
     <string name="active">Active</string>
@@ -411,11 +420,13 @@
     <string name="calibrate_cancel">Cancel</string>
     <string name="calibration_movement_instruction">Please move the Pheezee device as shown below.</string>
     <string name="pheezee_calibration"><b>Pheezee Calibration</b></string>
-    <string name="clibrating_status">Calibrating...</string>
+    <string name="clibrating_status">Calibrating</string>
 
-<!--    Exercises Prescription Related-->
+    <!--    Exercises Prescription Related-->
     <string name="exercise_prescription">Exercise Prescription</string>
     <string name="body_part_images">Body part images</string>
     <string name="l_elbow_flexion_demo_exercise_prescription">L. Elbow Flexion</string>
     <string name="btn_confirm_exercise_prescription">Confirm</string>
+
+
 </resources>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-
     android:background="#E9E9E9"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -42,10 +42,13 @@
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
     <androidx.constraintlayout.widget.ConstraintLayout
-
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:context="com.startoonlabs.apps.pheezee.activities.PhizioProfile">
+        android:layout_height="290dp"
+        android:background="@drawable/round_corner_layout"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="10dp"
+        tools:context="start.apps.pheezee.activities.PhizioProfile">
 
         <ImageView
             android:id="@+id/edit_phizio_details"
@@ -54,11 +57,9 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:src="@drawable/ic_profile_edit"
-
             android:layout_marginEnd="16dp"
             android:fontFamily="@font/ebrima"
             android:gravity="center"
-
             android:textColor="@color/good_green"
             android:textSize="22sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -131,10 +132,11 @@
                     android:layout_height="wrap_content"
                     android:textColor="#012E57"
                     android:textSize="18sp"
-                    android:text="Dr."></TextView>
+                    android:text="Dr.">
+
+                </TextView>
             <EditText
                 android:id="@+id/et_phizio_name"
-
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
@@ -161,9 +163,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-
                 android:text="Firmware"
-
                 android:background="@android:color/transparent"
                 android:fontFamily="@font/ebrima"
                 android:inputType="textCapSentences"
@@ -229,7 +229,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
                     android:textSize="14sp"
                     android:textColor="#012E57"
                     android:text="year(s) experience"
@@ -241,6 +240,7 @@
 
 
         </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:id="@+id/main_layout"
@@ -248,14 +248,14 @@
             app:layout_constraintEnd_toEndOf="@+id/profile_details_layout1"
             app:layout_constraintStart_toStartOf="@+id/profile_details_layout1"
             app:layout_constraintTop_toBottomOf="@+id/profile_details_layout1"
-            android:layout_marginEnd="20sp"
-            android:layout_marginStart="20sp"
+            android:layout_marginEnd="5sp"
+            android:layout_marginStart="5sp"
             android:orientation="vertical"
             >
         <LinearLayout
             android:id="@+id/profile_details_layout2"
-            android:background="@color/white"
-            android:layout_marginTop="40sp"
+            android:background="@drawable/round_corner_layout"
+            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="@+id/profile_details_layout1"
@@ -272,7 +272,9 @@
                 android:layout_height="wrap_content"
                 android:text="Contact details"
                 android:textSize="16sp"
-                android:textColor="#012E57"></TextView>
+                android:textColor="#012E57">
+
+            </TextView>
 
             <EditText
                 android:id="@+id/et_phizio_phone"
@@ -371,11 +373,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/change_profile_address"
-
                 android:orientation="horizontal">
             <EditText
                 android:id="@+id/et_phizio_address"
-
                 android:gravity="start"
                 android:layout_marginStart="26.477sp"
                 android:layout_marginEnd="10sp"
@@ -456,7 +456,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10sp"
+                android:layout_marginTop="5dp"
                 android:orientation="horizontal"
                 android:gravity="center"
                 android:layout_gravity="center">
@@ -466,61 +466,61 @@
                     android:layout_width="match_parent"
                     android:layout_weight="1"
                     android:layout_height="100sp"
-                    android:layout_marginEnd="5sp"
+                    android:layout_marginEnd="0sp"
                     android:paddingLeft="10sp"
-                    android:background="@color/white"
-                    android:paddingStart="25sp"
+                    android:background="@drawable/round_corner_layout"
                     android:gravity="center"
                     android:orientation="vertical">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:id="@+id/profile_patient_number"
 
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:background="@color/white"
-                    android:textColor="#012E57"
-                    android:textStyle="bold"
-                    android:text="10"></TextView>
                     <TextView
-                        android:layout_width="match_parent"
+                        android:id="@+id/profile_patient_number"
+                        android:layout_width="84dp"
                         android:layout_height="wrap_content"
-                        android:textSize="14sp"
                         android:background="@color/white"
+                        android:text="10"
                         android:textColor="#012E57"
+                        android:textSize="16sp"
+                        android:textStyle="bold"></TextView>
 
-                        android:text="Patients"></TextView>
+                    <TextView
+                        android:layout_width="83dp"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:text="Patients"
+                        android:textColor="#012E57"
+                        android:textSize="14sp"></TextView>
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_weight="1"
                     android:layout_height="100sp"
-                    android:layout_marginEnd="5sp"
+                    android:layout_marginEnd="0sp"
                     android:layout_marginStart="5sp"
                     android:paddingLeft="10sp"
-                    android:background="@color/white"
-                    android:paddingStart="25sp"
+                    android:background="@drawable/round_corner_layout"
                     android:gravity="center"
                     android:orientation="vertical">
-                    <TextView
-                        android:layout_width="match_parent"
 
+                    <TextView
                         android:id="@+id/profile_session_number"
+
+                        android:layout_width="81dp"
                         android:layout_height="wrap_content"
-                        android:textSize="16sp"
                         android:background="@color/white"
+                        android:text="-"
                         android:textColor="#012E57"
-                        android:textStyle="bold"
-                        android:text="-"></TextView>
+                        android:textSize="16sp"
+                        android:textStyle="bold"></TextView>
+
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="81dp"
                         android:layout_height="wrap_content"
-                        android:textSize="14sp"
                         android:background="@color/white"
+                        android:text="Sessions"
                         android:textColor="#012E57"
 
-                        android:text="Sessions"></TextView>
+                        android:textSize="14sp"></TextView>
 
                 </LinearLayout>
 
@@ -528,28 +528,30 @@
                         android:layout_width="match_parent"
                         android:layout_weight="1"
                         android:layout_height="100sp"
-                        android:paddingStart="25sp"
+
                         android:layout_marginStart="5sp"
-                        android:background="@color/white"
+                        android:background="@drawable/round_corner_layout"
                         android:gravity="center"
                         android:orientation="vertical">
+
                         <TextView
-                            android:layout_width="match_parent"
                             android:id="@+id/profile_report_number"
+                            android:layout_width="82dp"
                             android:layout_height="wrap_content"
-                            android:textSize="16sp"
                             android:background="@color/white"
+                            android:text="-"
                             android:textColor="#012E57"
-                            android:textStyle="bold"
-                            android:text="-"></TextView>
+                            android:textSize="16sp"
+                            android:textStyle="bold"></TextView>
+
                         <TextView
-                            android:layout_width="match_parent"
+                            android:layout_width="82dp"
                             android:layout_height="wrap_content"
-                            android:textSize="14sp"
                             android:background="@color/white"
+                            android:text="Reports"
                             android:textColor="#012E57"
 
-                            android:text="Reports"></TextView>
+                            android:textSize="14sp"></TextView>
                     </LinearLayout>
             </LinearLayout>
         </LinearLayout>
@@ -712,6 +714,5 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.5" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
-</ScrollView>
+    </ScrollView>

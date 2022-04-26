@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             tools:visibility="visible"
-            android:background="@drawable/constlayout"
+            android:background="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -210,10 +210,11 @@
             <Button
                 android:id="@+id/buttonNext"
                 android:layout_width="match_parent"
-                android:layout_marginEnd="2sp"
-                android:layout_marginStart="2sp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginVertical="16dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="2sp"
+                android:layout_marginBottom="10dp"
                 android:background="@drawable/round_same_buttons"
                 android:fontFamily="@font/ebrima"
                 android:text="Next"
@@ -241,26 +242,28 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="16dp"
                     android:buttonTint="@color/good_green"
-                    android:text="Male"
-                    android:textSize="18sp"
                     android:checked="true"
-                    android:textStyle="bold"
                     android:fontFamily="@font/ebrima"
-                    android:textColor="@color/good_green"/>
+                    android:text="Male"
+                    android:textColor="@color/good_green"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    tools:ignore="TouchTargetSizeCheck" />
 
                 <RadioButton
                     android:id="@+id/female"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:buttonTint="@color/good_green"
+                    android:fontFamily="@font/ebrima"
                     android:text="Female"
-                    android:textStyle="bold"
                     android:textColor="@color/good_green"
                     android:textSize="18sp"
-                    android:fontFamily="@font/ebrima"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="@+id/textView68"
                     app:layout_constraintTop_toTopOf="@+id/textView68"
                     app:layout_constraintVertical_bias="0.464"
+                    tools:ignore="TouchTargetSizeCheck"
                     tools:layout_editor_absoluteX="269dp" />
 
 
@@ -282,7 +285,7 @@
             android:id="@+id/constraintLayoutEditDoctorPageTwo"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@drawable/constlayout"
+            android:background="@color/white"
             android:visibility="invisible"
             tools:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -326,7 +329,6 @@
                 android:background="@drawable/edit_text"
                 android:ems="10"
                 android:inputType="number"
-
                 android:textSize="18sp"
                 android:fontFamily="@font/ebrima"
                 android:gravity="center_vertical"
@@ -342,16 +344,16 @@
                 android:layout_width="wrap_content"
                 android:textSize="18sp"
                 android:textColor="@color/good_green"
-                android:text="Year(s) "
+                android:text="Year(s)"
                 android:gravity="center"
                 android:textStyle="bold"
-                android:layout_height="48dp"
+                android:layout_height="46dp"
                 android:backgroundTint="@color/white"
                 android:layout_marginEnd="4sp"
                 android:layout_marginBottom="2sp"
                 android:visibility="visible"
                 app:layout_constraintBottom_toTopOf="@id/guideline96"
-                app:layout_constraintEnd_toEndOf="@id/et_experience"></TextView>
+                app:layout_constraintEnd_toEndOf="@id/et_experience"/>
 
             <EditText
                 android:id="@+id/editDesignation"
@@ -431,8 +433,9 @@
             <Button
                 android:id="@+id/buttonSave"
                 android:layout_width="match_parent"
-                android:layout_marginEnd="2sp"
-                android:layout_marginStart="2sp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginVertical="16dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/round_same_buttons"
                 android:layout_marginBottom="2sp"

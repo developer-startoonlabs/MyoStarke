@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activities.BodyPartSelection">
+    tools:context="com.start.apps.pheezee.activities.BodyPartSelection">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/my_toolbar_bodypart"
@@ -16,7 +16,6 @@
         android:background="@color/white_opaque"
         android:elevation="@dimen/toolbar_dim_5"
         app:elevation="@dimen/toolbar_dim_5">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -64,6 +63,8 @@
         <Button
             android:id="@+id/fab_done"
             android:layout_width="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:layout_height="@dimen/button_heigt_done"
             android:layout_gravity="bottom"
             android:layout_marginBottom="1sp"

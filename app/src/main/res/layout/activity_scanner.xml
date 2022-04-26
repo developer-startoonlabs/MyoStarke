@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".services.Scanner">
+    tools:context="com.start.apps.pheezee.services.Scanner">
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_session_summary"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="?attr/actionBarSize"
         app:elevation="5dp"
         android:elevation="5dp"
         android:background="@color/white"

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.ReportOverall">
+    tools:context="com.start.apps.pheezee.fragments.ReportOverall">
 
 
     <TextView
@@ -35,6 +35,7 @@
         android:entries="@array/bodyPartName"
         android:gravity="center_horizontal"
         tools:layout_editor_absoluteX="106dp"
-        tools:layout_editor_absoluteY="185dp"/>
+        tools:layout_editor_absoluteY="185dp"
+        tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

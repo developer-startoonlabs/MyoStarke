@@ -1,14 +1,242 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Backup Code/Option/pheezeeandroid-1/app/src/main/res/drawable/ic_dp_ankleextensor_digitorum_longus_anterior.xml" value="0.15208333333333332" />
+        <entry key="..\:/Backup Code/Option/pheezeeandroid-1/app/src/main/res/drawable/ic_dp_wristpalmaris_longus.xml" value="0.15208333333333332" />
+        <entry key="..\:/Backup Code/Option/pheezeeandroid-1/app/src/main/res/drawable/ic_group_8943.xml" value="0.18769230769230769" />
+        <entry key="..\:/Backup Code/Option/pheezeeandroid-1/app/src/main/res/layout/activity_change_password.xml" value="0.264" />
+        <entry key="..\:/Backup Code/Option/pheezeeandroid-1/app/src/main/res/layout/activity_phizio_profile.xml" value="0.536" />
+        <entry key="..\:/Backup Code/Option/pheezeeandroid-1/app/src/main/res/layout/pheezee_placement_error_popup.xml" value="0.176" />
+        <entry key="..\:/Backup Code/Option/pheezeeandroid-1/app/src/main/res/layout/physiofeedback_popup.xml" value="0.264" />
+        <entry key="..\:/Backup Code/Option/pheezeeandroid-1/app/src/main/res/layout/session_summary_large.xml" value="0.16510416666666666" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable-v21/waranty_card.xml" value="0.16458333333333333" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable-xxxhdpi/delete_bt.xml" value="0.16458333333333333" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable-xxxhdpi/green_back_arrow_w.xml" value="0.15260416666666668" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable-xxxhdpi/rectangle_4.xml" value="0.15260416666666668" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable-xxxhdpi/rectangle_email.xml" value="0.190625" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/bg_circle_red.xml" value="0.16458333333333333" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/default_profile.xml" value="0.1625" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/device_placement_background_layout.xml" value="0.264" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/dfu_progress_bar.xml" value="0.11388888888888889" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/drawable_progress_battery_disconnected.xml" value="0.15625" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/ic_bluetooth_connected.xml" value="0.15625" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/ic_dfu_connecting.xml" value="0.1625" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/ic_dfu_initializing.xml" value="0.1625" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/ic_dfu_successful.xml" value="0.11388888888888889" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/ic_dfu_updating.xml" value="0.1625" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/ic_dk_leftankledorsiflexionsoleus_posterior.xml" value="0.18489583333333334" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/ic_dp_leftshoulderbiceps.xml" value="0.13802083333333334" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/ic_dp_leftshoulderbicepsl.xml" value="0.25625" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/ic_dp_leftshoulderpectoralis_major.xml" value="0.13802083333333334" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/ic_dp_leftshoulderpectoralis_major_rotation.xml" value="0.13802083333333334" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/ic_dp_leftshoulderpectoralis_minor.xml" value="0.13802083333333334" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/ic_dp_leftshoulderpectoralis_minor_rotation.xml" value="0.13802083333333334" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/ic_dp_leftshouldersubscapularis_rotation.xml" value="0.18489583333333334" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/ic_dp_leftshoulderteres_minor.xml" value="0.2361111111111111" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/ic_dp_leftshouldertrapezius.xml" value="0.15572916666666667" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/ic_dp_leftwristflexor_carpi_radialis.xml" value="0.2755208333333333" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/ic_dp_rightshoulderpectoralis_major.xml" value="0.13802083333333334" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/ic_dp_rightwristflexor_digitorum_profundus_deep.xml" value="0.2755208333333333" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/ic_dp_rightwristflexor_digitorum_superficialis_intermediate.xml" value="0.2755208333333333" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/ic_dp_rightwristflexor_pollicis_longus_deep.xml" value="0.2755208333333333" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/ic_dp_rightwristpalmaris_longus.xml" value="0.2755208333333333" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/ic_edit_profile_screen_one.xml" value="0.2755208333333333" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/ic_fb_left_abdomen_extension.xml" value="0.2361111111111111" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/ic_fb_left_abdomen_flexion.xml" value="0.2361111111111111" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/ic_fb_left_abdomen_rotation.xml" value="0.2361111111111111" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/ic_fb_left_ankle_inversion.xml" value="0.2361111111111111" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/ic_fb_left_cervical_rotation.xml" value="0.2361111111111111" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/ic_fb_left_elbow_extension.xml" value="0.2361111111111111" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/ic_fb_left_elbow_flexion.xml" value="0.2361111111111111" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/ic_fb_left_hip_abduction.xml" value="0.2361111111111111" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/ic_my_device_icon.xml" value="0.1625" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/ic_profile_edit.xml" value="0.20052083333333334" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/ic_qr_scan_code.xml" value="0.15625" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/ic_qr_screen_2.xml" value="0.15625" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/ic_update_firmware.xml" value="0.16458333333333333" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/my_device_background.xml" value="0.11388888888888889" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/my_device_ble_scan.xml" value="0.11388888888888889" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/my_device_qr_code.xml" value="0.15625" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/round_corner_layout.xml" value="0.1625" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/test_add_patient_3.xml" value="0.2755208333333333" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/test_my_device_1.xml" value="0.11388888888888889" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/test_my_device_2.xml" value="0.2755208333333333" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/test_my_device_3.xml" value="0.2755208333333333" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/drawable/user_profile.xml" value="0.2755208333333333" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/activity_app_info.xml" value="0.2" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/activity_body_part_selection.xml" value="0.2" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/activity_change_password.xml" value="0.264" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/activity_delete_account_one.xml" value="0.264" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/activity_delete_account_two.xml" value="0.264" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/activity_device_info.xml" value="0.264" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/activity_exercise_prescription.xml" value="0.4" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/activity_monitor_updated.xml" value="0.2" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/activity_my_account_pannel.xml" value="0.21031286210892236" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/activity_on_start.xml" value="0.12552083333333333" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/activity_onboarding.xml" value="0.136" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/activity_patients_view.xml" value="0.3658854166666667" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/activity_phizio_profile.xml" value="0.264" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/activity_phizio_profile_large.xml" value="0.264" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/activity_scan_devices.xml" value="0.264" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/activity_scanner.xml" value="0.152" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/activity_session_report.xml" value="0.264" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/activity_sign_up.xml" value="0.176" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/activity_teams_and_conditions.xml" value="0.12552083333333333" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/activity_usermanual.xml" value="0.4" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/activity_warranty_details.xml" value="0.4" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/add_device_popup.xml" value="0.2" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/add_device_state.xml" value="0.176" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/angle_correction_dialog_box.xml" value="0.2" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/app_bar_patients_view.xml" value="0.28546712802768165" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/body_part_selection_list_header.xml" value="0.176" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/body_part_selection_list_model.xml" value="0.536" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/content_patients_view.xml" value="0.2" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/content_scan_devices.xml" value="0.264" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/custom_dialog_box.xml" value="0.4" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/custom_green_spinner.xml" value="0.12552083333333333" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/dfu_fail_notification_box.xml" value="0.2" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/dfu_popupwindow.xml" value="0.136" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/dfu_successful_notification_box.xml" value="0.176" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/dialog_calibrate_device.xml" value="0.264" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/fragment_fragment_report_day.xml" value="0.176" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/fragment_onboarding.xml" value="0.264" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/fragment_overall_report.xml" value="0.152" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/fragment_report_month.xml" value="0.16" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/fragment_report_week.xml" value="0.4" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/fragment_smiley_monitoring.xml" value="0.12613981762917933" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/fragment_standard_gold_teach.xml" value="0.264" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/fragment_standard_gold_teach_large.xml" value="0.152" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/fragment_star_monitor.xml" value="0.12864583333333332" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/fragment_zip_info.xml" value="0.536" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/layout_login_continue.xml" value="0.12552083333333333" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/layout_patient_options.xml" value="0.264" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/layout_reactivation_dialog.xml" value="0.12552083333333333" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/layout_sync_progress.xml" value="0.4" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/model_recycler_exercise_prescription.xml" value="0.4" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/monitor_screen.xml" value="0.264" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/nav_header_patients_view.xml" value="0.152" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/notic_activity.xml" value="0.4" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/notification_dialog_box.xml" value="0.2596599690880989" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/notification_dialog_box_instruction.xml" value="0.152" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/notification_dialog_box_otp.xml" value="0.264" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/notification_dialog_box_session_complete.xml" value="0.12552083333333333" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/notification_dialog_box_single_button.xml" value="0.264" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/notification_dialog_forgot_password.xml" value="0.536" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/overallreport_listview_model.xml" value="0.264" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/patient_layout.xml" value="0.536" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/pheezee_placement_error_popup.xml" value="0.2" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/physiofeedback_popup.xml" value="0.2" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/pop_otp.xml" value="0.2" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/popup.xml" value="0.4" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/popup_comment_session.xml" value="0.4" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/popup_muscle_selection.xml" value="0.12552083333333333" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/popup_new_password.xml" value="0.12552083333333333" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/popup_set_reference.xml" value="0.4" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/profile_edit_layout.xml" value="0.3658854166666667" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/scanned_devices_listview_model.xml" value="0.4" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/session_summary.xml" value="0.264" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/session_summary_large.xml" value="0.264" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/session_summary_large_standard.xml" value="0.264" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/session_summary_standard.xml" value="0.264" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/sessions_listview_model.xml" value="0.264" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/sessionsreport_listview_model.xml" value="0.3658854166666667" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/set_profile_photo_layout.xml" value="0.4" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/spinner_layout_experience.xml" value="0.121875" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/view_exercise_popup.xml" value="0.264" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/layout/warant_card.xml" value="0.1484375" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/menu/activity_patients_view_drawer.xml" value="0.72" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/menu/patients_view.xml" value="0.12552083333333333" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/menu/theme_chooser.xml" value="0.12552083333333333" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/mipmap-anydpi-v26/pheezee_app_icon.xml" value="0.16458333333333333" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/mipmap-anydpi-v26/pheezee_app_icon_round.xml" value="0.11388888888888889" />
+        <entry key="..\:/Option/pheezeeandroid-1/app/src/main/res/mipmap-anydpi-v26/pheezee_logos_final_square_round.xml" value="0.16458333333333333" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/drawable/burger_menu.xml" value="0.15729166666666666" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/drawable/constlayout.xml" value="0.15729166666666666" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/drawable/custom_button_color.xml" value="0.14947916666666666" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/drawable/custom_dialog_background.xml" value="0.14947916666666666" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/drawable/custom_dialog_background2.xml" value="0.14947916666666666" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/drawable/default_profile.xml" value="0.15729166666666666" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/drawable/device_placement_background_layout.xml" value="0.15729166666666666" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/drawable/devider_gridview_bodypart.xml" value="0.15729166666666666" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/drawable/dfu_progress_bar.xml" value="0.15729166666666666" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/drawable/green_back_arrow.xml" value="0.2755208333333333" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/drawable/green_front_arrow.xml" value="0.2598958333333333" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/drawable/grey_circle_feedback.xml" value="0.2755208333333333" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/drawable/ic_baseline_arrow_forward_24.xml" value="0.2755208333333333" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/drawable/ic_dp_lefthipobturator_internus_deep.xml" value="0.13541666666666666" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/drawable/ic_dp_rightthoracicexternal_oblique.xml" value="0.15729166666666666" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/drawable/ic_dp_shoulderbiceps.xml" value="0.15729166666666666" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/drawable/ic_dp_shoulderbiceps_rotation.xml" value="0.15729166666666666" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/drawable/ic_fb_right_spine_flexion.xml" value="0.15729166666666666" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/drawable/ic_log_out_png_3.xml" value="0.16458333333333333" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/drawable/ic_my_account_png_1.xml" value="0.16458333333333333" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/drawable/login_dotted_progress.xml" value="0.15104166666666666" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/drawable/side_nav_bar.xml" value="0.13541666666666666" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/drawable/spinner_background.xml" value="0.15729166666666666" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/drawable/square_corners_progress_bar.xml" value="0.15729166666666666" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/drawable/start_clinic_session_background.xml" value="0.15729166666666666" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/drawable/test_about_info_1.xml" value="0.15729166666666666" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/drawable/test_add_patient_1.xml" value="0.15729166666666666" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/drawable/test_add_patient_2.xml" value="0.15729166666666666" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/drawable/test_add_patient_3.xml" value="0.15729166666666666" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/drawable/test_feedback.xml" value="0.15729166666666666" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/drawable/test_log_out_2.xml" value="0.2755208333333333" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/drawable/test_logout_1.xml" value="0.15729166666666666" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/drawable/text_view_shape.xml" value="0.15729166666666666" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/drawable/theme_chooser_svg.xml" value="0.15729166666666666" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/drawable/theme_smiley.xml" value="0.15729166666666666" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/layout/activity_app_info.xml" value="0.264" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/layout/activity_body_part_selection.xml" value="0.14114583333333333" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/layout/activity_change_password.xml" value="0.176" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/layout/activity_exercise_prescription.xml" value="0.14114583333333333" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/layout/activity_my_account_pannel.xml" value="0.20072992700729927" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/layout/activity_patients_view.xml" value="0.14114583333333333" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/layout/activity_phizio_profile.xml" value="0.4" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/layout/activity_teams_and_conditions.xml" value="0.259375" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/layout/activity_usermanual.xml" value="0.1484375" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/layout/add_device_popup.xml" value="0.13333333333333333" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/layout/add_device_state.xml" value="0.13333333333333333" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/layout/angle_correction_dialog_box.xml" value="0.13333333333333333" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/layout/app_bar_patients_view.xml" value="0.11927083333333334" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/layout/body_part_selection_list_header.xml" value="0.264" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/layout/body_part_selection_list_model.xml" value="0.16394927536231885" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/layout/content_patients_view.xml" value="0.146875" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/layout/custom_dialog_box.xml" value="0.264" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/layout/custom_green_spinner.xml" value="0.14479166666666668" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/layout/dfu_fail_notification_box.xml" value="0.13385416666666666" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/layout/dfu_popupwindow.xml" value="0.14479166666666668" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/layout/dfu_successful_notification_box.xml" value="0.14479166666666668" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/layout/dialog_calibrate_device.xml" value="0.4" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/layout/fragment_fragment_report_day.xml" value="0.13385416666666666" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/layout/fragment_overall_report.xml" value="0.13385416666666666" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/layout/layout_login_continue.xml" value="0.152" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/layout/limit_reached.xml" value="0.1" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/layout/my_account.xml" value="0.259375" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/layout/nav_header_patients_view.xml" value="0.264" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/layout/notification_dialog_box.xml" value="0.264" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/layout/notification_dialog_box_otp.xml" value="0.14479166666666668" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/layout/notification_dialog_forgot_password.xml" value="0.264" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/layout/popup.xml" value="0.264" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/layout/popup_comment_session.xml" value="0.14479166666666668" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/layout/profile_edit_layout.xml" value="0.14479166666666668" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/layout/session_summary_large.xml" value="0.1203125" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/layout/viewname.xml" value="0.14479166666666668" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/menu/activity_patients_view_drawer.xml" value="0.6" />
+        <entry key="..\:/Users/ADMIN/StudioProjects/pheezeeandroid/app/src/main/res/menu/theme_chooser.xml" value="0.4" />
+      </map>
+    </option>
+  </component>
   <component name="JavadocGenerationManager">
-    <option name="OUTPUT_DIRECTORY" value="D:/Pheezee Doc/Documentation in format/version_2.14.2,2.14.3" />
+    <option name="OUTPUT_DIRECTORY" value="D:/pheezeedoc/version_2.8.1" />
   </component>
   <component name="NullableNotNullManager">
     <option name="myDefaultNullable" value="android.support.annotation.Nullable" />
     <option name="myDefaultNotNull" value="android.support.annotation.NonNull" />
     <option name="myNullables">
       <value>
-        <list size="12">
+        <list size="14">
           <item index="0" class="java.lang.String" itemvalue="org.jetbrains.annotations.Nullable" />
           <item index="1" class="java.lang.String" itemvalue="javax.annotation.Nullable" />
           <item index="2" class="java.lang.String" itemvalue="javax.annotation.CheckForNull" />
@@ -19,14 +247,16 @@
           <item index="7" class="java.lang.String" itemvalue="org.checkerframework.checker.nullness.qual.Nullable" />
           <item index="8" class="java.lang.String" itemvalue="org.checkerframework.checker.nullness.compatqual.NullableDecl" />
           <item index="9" class="java.lang.String" itemvalue="org.checkerframework.checker.nullness.compatqual.NullableType" />
-          <item index="10" class="java.lang.String" itemvalue="android.annotation.Nullable" />
-          <item index="11" class="java.lang.String" itemvalue="com.android.annotations.Nullable" />
+          <item index="10" class="java.lang.String" itemvalue="com.android.annotations.Nullable" />
+          <item index="11" class="java.lang.String" itemvalue="org.eclipse.jdt.annotation.Nullable" />
+          <item index="12" class="java.lang.String" itemvalue="io.reactivex.annotations.Nullable" />
+          <item index="13" class="java.lang.String" itemvalue="io.reactivex.rxjava3.annotations.Nullable" />
         </list>
       </value>
     </option>
     <option name="myNotNulls">
       <value>
-        <list size="11">
+        <list size="14">
           <item index="0" class="java.lang.String" itemvalue="org.jetbrains.annotations.NotNull" />
           <item index="1" class="java.lang.String" itemvalue="javax.annotation.Nonnull" />
           <item index="2" class="java.lang.String" itemvalue="edu.umd.cs.findbugs.annotations.NonNull" />
@@ -36,13 +266,16 @@
           <item index="6" class="java.lang.String" itemvalue="org.checkerframework.checker.nullness.qual.NonNull" />
           <item index="7" class="java.lang.String" itemvalue="org.checkerframework.checker.nullness.compatqual.NonNullDecl" />
           <item index="8" class="java.lang.String" itemvalue="org.checkerframework.checker.nullness.compatqual.NonNullType" />
-          <item index="9" class="java.lang.String" itemvalue="android.annotation.NonNull" />
-          <item index="10" class="java.lang.String" itemvalue="com.android.annotations.NonNull" />
+          <item index="9" class="java.lang.String" itemvalue="com.android.annotations.NonNull" />
+          <item index="10" class="java.lang.String" itemvalue="org.eclipse.jdt.annotation.NonNull" />
+          <item index="11" class="java.lang.String" itemvalue="io.reactivex.annotations.NonNull" />
+          <item index="12" class="java.lang.String" itemvalue="io.reactivex.rxjava3.annotations.NonNull" />
+          <item index="13" class="java.lang.String" itemvalue="lombok.NonNull" />
         </list>
       </value>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

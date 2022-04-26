@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -97,17 +98,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/patientGender"
-        android:paddingTop="1dp"></LinearLayout>
+        android:paddingTop="1dp">
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="14dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/patientGender"
         android:paddingTop="30dp"
-        android:paddingBottom="5dp">
+        android:paddingBottom="13dp">
 
 
 
@@ -122,7 +127,7 @@
             android:background="@drawable/round_cancel_buttons"
             android:textColor="@color/good_green"
             android:layout_marginStart="1dp"
-            android:layout_marginEnd="1dp"
+            android:layout_marginEnd="3dp"
             android:layout_gravity="center" />
 
         <Button
@@ -130,7 +135,7 @@
             android:layout_width="fill_parent"
             android:layout_weight="1"
             android:layout_height="50dp"
-            android:layout_marginStart="1dp"
+            android:layout_marginStart="3dp"
             android:layout_marginEnd="1dp"
             android:textAllCaps="false"
             android:textSize="18sp"

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activities.MonitorActivity">
+    tools:context="com.start.apps.pheezee.activities.MonitorActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/my_toolbar_bodypart"
@@ -16,7 +16,6 @@
         android:background="@color/white_opaque"
         android:elevation="@dimen/toolbar_dim_5"
         app:elevation="@dimen/toolbar_dim_5">
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

@@ -6,7 +6,7 @@
     android:background="@color/white"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.startoonlabs.apps.pheezee.activities.SessionReportActivity">
+    tools:context="com.start.apps.pheezee.activities.SessionReportActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/my_toolbar_session_report"
@@ -176,6 +176,8 @@
         android:id="@+id/ll_session_duration"
         android:visibility="gone"
         android:layout_width="match_parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_margin="15sp"
@@ -203,6 +205,7 @@
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+
         android:id="@+id/report_listview"/>
 
 </LinearLayout>

@@ -38,80 +38,77 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_toEndOf="@+id/tv_s_no"
-                android:layout_marginTop="10dp"
                 android:layout_marginStart="25dp"
+                android:layout_marginTop="10dp"
+                android:layout_toEndOf="@+id/tv_s_no"
                 android:orientation="vertical">
-            <TextView
-                android:id="@+id/tv_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:textColor="@color/good_green"
-                android:textSize="16sp"
-                android:text="14 May" />
 
-            <TextView
-                android:id="@+id/tv_exercise_no"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:textColor="#707070"
-                android:textSize="14sp"
-                android:text="11 Exercises" />
+                <TextView
+                    android:id="@+id/tv_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="14 May"
+                    android:textColor="@color/good_green"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_exercise_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:text="11 Exercises"
+                    android:textColor="#707070"
+                    android:textSize="14sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="10dp"
                     android:gravity="bottom">
+
                     <TextView
                         android:id="@+id/tv_download_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/good_green"
+                        android:text="11 Exercises"
 
-                        android:textSize="12sp"
-                        android:text="11 Exercises" />
+                        android:textColor="@color/good_green"
+                        android:textSize="12sp" />
                 </LinearLayout>
 
             </LinearLayout>
 
 
+            <Button
+                android:id="@+id/view_button"
+                android:layout_width="100dp"
+                android:layout_height="35dp"
+                android:layout_alignTop="@+id/tv_s_no"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="5sp"
+                android:layout_marginEnd="50dp"
+                android:background="@drawable/round_cancel_buttons_less_stroke_width"
+                android:focusable="false"
+                android:text="View"
+                android:textAllCaps="false"
+                android:textColor="@color/good_green"
+                android:textSize="13dp">
 
-        <Button
-            android:id="@+id/view_button"
+            </Button>
 
-            android:focusable="false"
-            android:layout_width="115sp"
-            android:layout_height="35sp"
-            android:layout_marginTop="5sp"
-            android:layout_alignTop="@+id/tv_s_no"
-            android:paddingRight="35dp"
-            android:paddingLeft="35dp"
-            android:background="@drawable/round_cancel_buttons_less_stroke_width"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="50dp"
-            android:textSize="18sp"
-            android:textAllCaps="false"
-            android:textStyle="bold"
-            android:textColor="@color/good_green"
-            android:text="View"
-            >
-
-        </Button>
             <ImageView
                 android:id="@+id/share_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="7dp"
-                android:src="@drawable/ic_share_button"
-                android:layout_alignParentEnd="true"
-                android:layout_alignBottom="@+id/view_button"
-                android:layout_marginEnd="10dp"
                 android:layout_alignTop="@+id/view_button"
-                android:layout_marginStart="30dp"></ImageView>
+                android:layout_alignBottom="@+id/view_button"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="20dp"
+                android:paddingBottom="7dp"
+                android:src="@drawable/ic_share_button"></ImageView>
         </RelativeLayout>
 
     </LinearLayout>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.start.apps.pheezee.Usermanual"
+    android:background="@color/good_green">
+
+  <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+      android:layout_marginTop="10dp"
+      android:paddingLeft="10dp"
+        android:id="@+id/iv_back_phizio_profile"
+        android:paddingTop="@dimen/bodypart_back_padding_top"
+        android:paddingRight="@dimen/bodypart_back_padding_right"
+        android:paddingBottom="@dimen/bodypart_back_padding_bottom"
+        android:src="@drawable/green_back_arrow_w"/>
+
+  <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      android:layout_marginStart="10sp"
+      android:layout_marginTop="10dp"
+      android:paddingLeft="35dp"
+      android:text="@string/user_manual_version"
+      android:textColor="@color/white"
+      android:textSize="@dimen/textsize_deviceinfo_toolbar" />
+
+
+  <com.github.barteksc.pdfviewer.PDFView
+      android:id="@+id/pdfView"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_marginTop="50dp" />
+
+</RelativeLayout>
+

@@ -8,12 +8,78 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:567862502878:android:579741f6a9e1b77fad294f",
+        "android_client_info": {
+          "package_name": "com.start.apps.pheezee"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "567862502878-4klan85e5mihs97ecnignq3macgfimnb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANT9T6PHEyVntMFPbWBYHfYR9pOKcphcA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "567862502878-4klan85e5mihs97ecnignq3macgfimnb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:567862502878:android:36838439f669cc7fad294f",
+        "android_client_info": {
+          "package_name": "com.startoon.apps.pheezee"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "567862502878-4klan85e5mihs97ecnignq3macgfimnb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANT9T6PHEyVntMFPbWBYHfYR9pOKcphcA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "567862502878-4klan85e5mihs97ecnignq3macgfimnb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:567862502878:android:3bfb79f6fde56347ad294f",
         "android_client_info": {
           "package_name": "com.startoonlabs.apps.pheezee"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "567862502878-ap6b23qm8u89hfhs6mapb2v4mskjq3ip.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.startoonlabs.apps.pheezee",
+            "certificate_hash": "419e40c699e578ab36666113f07282a0cadf5183"
+          }
+        },
         {
           "client_id": "567862502878-kbsss4h6ku8d5lli6j0ho09lfnt4tthc.apps.googleusercontent.com",
           "client_type": 1,
