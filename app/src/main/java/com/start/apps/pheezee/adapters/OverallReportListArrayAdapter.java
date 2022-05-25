@@ -199,7 +199,7 @@ public class OverallReportListArrayAdapter extends ArrayAdapter<SessionListClass
         String url = "/getreport/overall/"+patientId+"/"+phizioemail+"/" + date+"/" + bodypart.toLowerCase();
         report_dialog = new ProgressDialog(context);
         report_dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        report_dialog.setMessage("Generating overall report held before "+date+", please wait..");
+        report_dialog.setMessage("Please Wait"); //("Generating overall report held before "+date+", please wait..");
         report_dialog.show();
         repository.getDayReport(url,patientName+ bodypart.toLowerCase()+"-overall");
     }
@@ -224,7 +224,7 @@ public class OverallReportListArrayAdapter extends ArrayAdapter<SessionListClass
         String url = "/getreport/overall/"+patientId+"/"+phizioemail+"/" + date+"/" + bodypart.toLowerCase();
         report_dialog = new ProgressDialog(context);
         report_dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        report_dialog.setMessage("Sharing overall report held before "+date+", please wait..");
+        report_dialog.setMessage("Please Wait");   //("Sharing overall report held before "+date+", please wait..");
         report_dialog.show();
         repository.getDayReportshare(url,patientName+"-overall",context,report_dialog);
     }

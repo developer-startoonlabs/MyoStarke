@@ -465,6 +465,10 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
         arcViewInside.setMaxAngle(0);
         arcViewInside.setMinAngle(0);
 
+
+
+
+
         if(!str_min_angle_selected.equals("") && !str_max_angle_selected.equals("")){
             int reference_min_angle = Integer.parseInt(str_min_angle_selected);
             int reference_max_angle = Integer.parseInt(str_max_angle_selected);
@@ -479,6 +483,9 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
         test = test.replace(")","");
         test = test.replace("(","");
         test = test.toLowerCase();
+
+
+
 
         Log.d("newplacementtest",test);
 
@@ -1359,6 +1366,11 @@ public class StandardGoldTeachFragment extends Fragment implements MqttSyncRepos
                                 emgPeakDetectionAndVoiceAleart(emg_data);
                             angleDetected = ByteToArrayOperations.getAngleFromData(sub_byte[2], sub_byte[3]);
                             currentAngle = angleDetected;
+                            if(str_exercise_name.equals("Isometric")){
+                                angleDetected = 0 * angleDetected;
+                                currentAngle = angleDetected;
+                                arcViewInside.setRadius(0);
+                            }
                             if (angleCorrected) {
                                 angleDetected += angleCorrection;
                                 arcViewInside.setMaxAngle(angleDetected);

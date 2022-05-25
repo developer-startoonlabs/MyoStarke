@@ -115,7 +115,7 @@ public class WarrantyDetails extends AppCompatActivity implements MqttSyncReposi
             CharSequence format = android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", date);
             try {
                 // Initialising the directory of storage
-                String dirpath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/Pheezee/files"+"warranty";
+                String dirpath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/PheezeeApp/files"+"warranty";
                 File file = new File(dirpath);
                 if (!file.exists()) {
                     boolean mkdir = file.mkdir();

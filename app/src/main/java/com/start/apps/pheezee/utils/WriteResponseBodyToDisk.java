@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -31,7 +32,13 @@ public class WriteResponseBodyToDisk {
             File reportPdf = null, file = null;
             try {
                 // todo change the file location/name according to your needs
-                reportPdf = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/Pheezee/files", "reports");
+
+                reportPdf = new File( getApplicationContext().getExternalFilesDir(null)+"/Pheezee");
+
+
+
+
+//                reportPdf = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/PheezeeApp/files", "reports");
                 if (!reportPdf.exists())
                     reportPdf.mkdirs();
 
@@ -86,7 +93,9 @@ public class WriteResponseBodyToDisk {
             File reportPdf = null, file = null;
 
             // todo change the file location/name according to your needs
-            reportPdf = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/Pheezee/files", "reports");
+            reportPdf = new File( getApplicationContext().getExternalFilesDir(null)+"/Pheezee");
+//            reportPdf = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/PheezeeApp/files", "reports");
+
             if (!reportPdf.exists())
                 reportPdf.mkdirs();
 
@@ -99,13 +108,14 @@ public class WriteResponseBodyToDisk {
         }
 
 
+
+
         public static boolean checkFileInDisk (String name){
             File reportPdf = null, file = null;
 
             // todo change the file location/name according to your needs
-            reportPdf = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/Pheezee/files", "reports");
-            if (!reportPdf.exists())
-                reportPdf.mkdirs();
+            reportPdf = new File( getApplicationContext().getExternalFilesDir(null)+"/Pheezee");
+//            reportPdf = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/PheezeeApp/files", "reports");
 
             file = new File(reportPdf, name + ".pdf");
             if (!file.exists()) {
@@ -116,6 +126,8 @@ public class WriteResponseBodyToDisk {
         }
 
     }
+
+
 
      /*   File reportPdf, file=null;
         try {

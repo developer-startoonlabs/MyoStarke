@@ -4,6 +4,7 @@ import static com.start.apps.pheezee.activities.PatientsView.json_phizioemail;
 import static com.start.apps.pheezee.services.PheezeeBleService.hardware_version_characteristic_uuid;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -21,6 +22,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -638,8 +640,9 @@ public class MyAccountPannel extends AppCompatActivity /*implements MqttSyncRepo
         }
         });
         //Change Password button
-        ImageView button1 = findViewById(R.id.change_password_btr);
-        button1.setOnClickListener(new View.OnClickListener() {
+
+        LinearLayout app_layer = (LinearLayout) findViewById (R.id.lchange_password_btr);
+        app_layer.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
         Intent intent = new Intent(getApplicationContext(), ChangePassword.class);
@@ -647,15 +650,101 @@ public class MyAccountPannel extends AppCompatActivity /*implements MqttSyncRepo
         }
         });
         //Delete Account Button
-        ImageView button2 = findViewById(R.id.delete_btr);
-        button2.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), DeleteAccountOne.class);
-                startActivity(intent);
-        }
-        });
+                LinearLayout app_layer2 = (LinearLayout) findViewById (R.id.ldelete_btr);
+                app_layer2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                                Intent intent = new Intent(getApplicationContext(), DeleteAccountOne.class);
+                                startActivity(intent);
+                        }
+                });
+
+
+//        ImageView button2 = findViewById(R.id.delete_btr);
+//        LinearLayout app_layer2 = (LinearLayout) findViewById (R.id.ldelete_btr);
+//        app_layer2.setOnClickListener(new View.OnClickListener() {
+//        @Override
+//        public void onClick(View view) {
+//                Intent intent = new Intent(getApplicationContext(), DeleteAccountOne.class);
+//                startActivity(intent);
+//
+////                final Dialog dialog = new Dialog(MyAccountPannel.this);
+////                dialog.setContentView(R.layout.notification_dialog_box);
+////
+////                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+////                lp.copyFrom(dialog.getWindow().getAttributes());
+////                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+////                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+////
+////                dialog.getWindow().setAttributes(lp);
+////
+////                TextView notification_title = dialog.findViewById(R.id.notification_box_title);
+////                TextView notification_message = dialog.findViewById(R.id.notification_box_message);
+////
+////                Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);
+////                Button Notification_Button_cancel = (Button) dialog.findViewById(R.id.notification_ButtonCancel);
+////
+////                Notification_Button_ok.setText("Send Request");
+////                Notification_Button_cancel.setText("No");
+////
+////                // Setting up the notification dialog
+////                notification_title.setText("Delete Account");
+////                notification_message.setText("Are you sure you want to Delete you account?");
+////
+////                // On click on Continue
+////                Notification_Button_ok.setOnClickListener(new View.OnClickListener() {
+////                        @Override
+////                        public void onClick(View v) {
+////                                Intent intent=new Intent(Intent.ACTION_SEND);
+////                                String[] recipients={"care@startoonlabs.com"};
+////                                String mail = json_phizioemail;
+////                                intent.putExtra(Intent.EXTRA_EMAIL, recipients);
+////                                intent.putExtra(Intent.EXTRA_SUBJECT,"Delete My Pheezee Account");
+////                                intent.putExtra(Intent.EXTRA_TEXT,"Dear Startoonlabs Team,\n I have an account in your Pheezee App with Mail id :"+ mail +". \n Thank you");
+////
+////                                intent.setType("text/html");
+////                                intent.setPackage("com.google.android.gm");
+////                                startActivity(Intent.createChooser(intent, "Send mail"));
+////
+////                        }
+////                });
+////                // On click Cancel
+////                Notification_Button_cancel.setOnClickListener(new View.OnClickListener() {
+////                        @Override
+////                        public void onClick(View v) {
+////                                dialog.dismiss();
+////
+////                        }
+////                });
+////
+////                dialog.show();
+////
+////                // End
+////
+////
+//        }
+////
+//        });
+        // App_Info
+                LinearLayout app_layer3 = (LinearLayout) findViewById (R.id.lapp_info);
+                app_layer3.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                                Intent intent = new Intent(getApplicationContext(), AppInfo.class);
+                                startActivity(intent);
+                        }
+                });
+
         //Term and Conditions
+//        ImageView button3 = findViewById(iv_go3);
+//        button3.setOnClickListener(new View.OnClickListener() {
+//        @Override
+//        public void onClick(View view) {
+//        Intent intent = new Intent(getApplicationContext(), TeamsAndConditions.class);
+//        startActivity(intent);
+//        }
+//        });
+//       Rate Us Button
 //        ImageView button3 = findViewById(iv_go3);
 //        button3.setOnClickListener(new View.OnClickListener() {
 //        @Override

@@ -13,6 +13,7 @@ import android.app.ProgressDialog;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.bluetooth.BluetoothAdapter;
+import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -23,6 +24,7 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -66,6 +68,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -75,6 +78,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.play.core.review.ReviewInfo;
+import com.google.android.play.core.review.ReviewManager;
+import com.google.android.play.core.review.ReviewManagerFactory;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.MemoryPolicy;
@@ -117,6 +123,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Timer;
+import java.util.TimerTask;
 
 
 import static com.start.apps.pheezee.services.PheezeeBleService.health_error_present_in_device;
@@ -152,6 +159,8 @@ public class PatientsView extends AppCompatActivity
     private static final int REQUEST_FINE_LOCATION = 14;
     public static final int REQ_CAMERA = 17;
     public static final int REQ_GALLERY = 18;
+//    private ReviewManager manager;
+//    private ReviewInfo reviewInfo;
     PheezeeBleService mService;
     private boolean mDeviceState = false, mDeviceDeactivated = false, mDeviceHealthError = false, mInsideHome = true;
     boolean isBound = false;
@@ -212,6 +221,9 @@ public class PatientsView extends AppCompatActivity
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patients_view);
+
+
+
         initializeView();
         getFirmwareIntentIfPresent();
         getPhizioDetails();
@@ -229,8 +241,25 @@ public class PatientsView extends AppCompatActivity
         chekHealthStatusLogPresentAndSrartService();
         registerFirmwareUpdateReceiver();
         subscribeFirebaseFirmwareUpdateTopic();
-//        rewardFirebaseUpdateTopic();
+       // rewardFirebaseUpdateTopic();
         checkAndSyncDataToTheServer();
+
+
+//          /***  Reload Function ***/
+//
+//     final SwipeRefreshLayout refreshLayout = findViewById(R.id.refesh_layout);
+//     refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//         @Override
+//         public void onRefresh() {
+//
+//             refreshLayout.setRefreshing(false);
+//         }
+//     });
+
+
+
+
+
         deviceMacc = sharedPref.getString("deviceMacaddress", "");
 
         iv_device_connected.setVisibility(View.GONE);
@@ -248,12 +277,16 @@ public class PatientsView extends AppCompatActivity
         Pheezee_app_version_send();
 
 
+
+
     }
+
+
 
 
     private void Pheezee_app_version_send() {
         if (NetworkOperations.isNetworkAvailable(PatientsView.this)) {
-            repository.updateApp_version(json_phizioemail, "3.0.9");
+            repository.updateApp_version(json_phizioemail, "3.0.13.T");
 
         }
 
@@ -690,7 +723,17 @@ public class PatientsView extends AppCompatActivity
         mAdapter.setOnItemClickListner(this);
     }
 
+
+
     private void getPhizioDetails() {
+
+//        // Timer pass setting Enable
+//        if (timer != null) {
+//            timer.cancel();
+//            Log.i("Main", "cancel timer");
+//            timer = null;
+//        }
+
         //Getting previous patient data
         try {
             json_phizio = new JSONObject(sharedPref.getString("phiziodetails", ""));
@@ -704,12 +747,19 @@ public class PatientsView extends AppCompatActivity
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        Log.i("Testing_Service:","Working Fine");
+
     }
+
 
 
     @Override
     protected void onResume() {
         super.onResume();
+
+
+
+
         mInsideHome = true;
         try {
             json_phizio = new JSONObject(sharedPref.getString("phiziodetails", ""));
@@ -728,6 +778,13 @@ public class PatientsView extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        timer = new Timer();
+        Log.i("Time_Testing", "Timer Started for Logout");
+        LogOutTimerTask logoutTimeTask = new LogOutTimerTask();
+        timer.schedule(logoutTimeTask, 1); //auto logout in 1 minutes
+        mInsideHome = false;
+        unregisterReceiver(firmware_update_receiver);
+
         if (isBound) {
             unbindService(mConnection);
         }
@@ -736,41 +793,144 @@ public class PatientsView extends AppCompatActivity
         stopService(new Intent(this, PheezeeBleService.class));
     }
 
-
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            backpressCount++;
-            if (backpressCount == 1) {
-                Toast.makeText(PatientsView.this, "Press again to close Pheezee app", Toast.LENGTH_SHORT).show();
-                Thread thread = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Thread.sleep(1000);
-                            backpressCount = 0;
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-                thread.start();
+
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.notification_dialog_box);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        dialog.getWindow().setAttributes(lp);
+
+        TextView notification_title = dialog.findViewById(R.id.notification_box_title);
+        TextView notification_message = dialog.findViewById(R.id.notification_box_message);
+
+        Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);
+        Button Notification_Button_cancel = (Button) dialog.findViewById(R.id.notification_ButtonCancel);
+
+        Notification_Button_ok.setText("Yes");
+        Notification_Button_cancel.setText("No");
+
+        // Setting up the notification dialog
+        notification_title.setText("Exit Notification");
+        notification_message.setText("Are you sure you want to Exit the App?");
+
+        // On click on Continue
+        Notification_Button_ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
-            if (backpressCount == 2) {
-                Intent intent = new Intent(Intent.ACTION_MAIN);
-                intent.addCategory(Intent.CATEGORY_HOME);
-                startActivity(intent);
-                finishAffinity();
+        });
+        // On click Cancel
+        Notification_Button_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+
             }
-        }
+        });
+
+        dialog.show();
+
+        // End
+
+
     }
+
+
+
+
+
+
+//    @Override
+//    public void onBackPressed() {
+//// TODO Auto-generated method stub
+//        AlertDialog.Builder builder=new AlertDialog.Builder(PatientsView.this);
+//        // builder.setCancelable(false);
+//        builder.setTitle("Rate Us if u like this");
+//        builder.setMessage("Do you want to Exit?");
+//        builder.setPositiveButton("yes",new DialogInterface.OnClickListener() {
+//
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                // TODO Auto-generated method stub
+//                Toast.makeText(PatientsView.this, "Yes i wanna exit", Toast.LENGTH_LONG).show();
+//
+//                finish();
+//            }
+//        });
+//        builder.setNegativeButton("No",new DialogInterface.OnClickListener() {
+//
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                // TODO Auto-generated method stub
+//                Toast.makeText(PatientsView.this, "i wanna stay on this page", Toast.LENGTH_LONG).show();
+//                dialog.cancel();
+//
+//            }
+//        });
+////        builder.setNeutralButton("Rate",new DialogInterface.OnClickListener() {
+////
+//////            @Override
+//////            public void onClick(DialogInterface dialog, int which) {
+//////                // TODO Auto-generated method stub
+//////
+//////                final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+//////                try {
+//////                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + getPackageName())));
+//////                } catch (android.content.ActivityNotFoundException ) {
+//////                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + getPackageName())));
+//////                }
+//////
+//////            }
+////        });
+//        AlertDialog alert=builder.create();
+//        alert.show();
+//        //super.onBackPressed();
+//    }
+
+//    @Override
+//    public void onBackPressed() {
+//        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+//        if (drawer.isDrawerOpen(GravityCompat.START)) {
+//            drawer.closeDrawer(GravityCompat.START);
+//        } else {
+//            backpressCount++;
+//            if (backpressCount == 1) {
+////                 Toast.makeText(PatientsView.this, "Press again to close Pheezee app", Toast.LENGTH_SHORT).show();
+//
+//
+//                Thread thread = new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        try {
+//                            Thread.sleep(1000);
+//                            backpressCount = 0;
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                });
+//                thread.start();
+//            }
+//            if (backpressCount == 2) {
+//                Intent intent = new Intent(Intent.ACTION_MAIN);
+//                intent.addCategory(Intent.CATEGORY_HOME);
+//                startActivity(intent);
+//                finishAffinity();
+//            }
+//        }
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.patients_view, menu);
+        Log.i("STOPING SERVICE", "START SERVICES");
         return true;
     }
 
@@ -790,14 +950,50 @@ public class PatientsView extends AppCompatActivity
                 i.putExtra("start_update", false);
                 i.putExtra("reactivate_device", false);
                 startActivityForResult(i, 13);
-            }
-        else if (id == R.id.nav_add_patient) {
-            initiatePopupWindow();
-        } else if (id == R.id.nav_app_version) {
-            startActivity(new Intent(PatientsView.this, AppInfo.class));
+            }else if(id == R.id.nav_rate) {
+                rateApp();
+//                rateApp();
+            }else if (id == R.id.nav_customer){
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://api.whatsapp.com/send?phone=919014528949&text=Hello Team,")));
+
+
+//            }
+//        else if (id == R.id.nav_add_patient) {
+//            initiatePopupWindow();
+//        } else if (id == R.id.nav_app_version) {
+//            startActivity(new Intent(PatientsView.this, AppInfo.class));
         }else if (id == R.id.my_account) {
             startActivity(new Intent(PatientsView.this, MyAccountPannel.class));
         } else if (id == R.id.nav_logout) {
+            //Logout Pop Code
+//                AlertDialog.Builder builder=new AlertDialog.Builder(PatientsView.this); //Home is name of the activity
+//                builder.setMessage("Do you want to exit?");
+//                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int id) {
+//
+//                        finish();
+//                        Intent i=new Intent();
+//                        i.putExtra("finish", true);
+//                        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // To clean up all activities
+//                        //startActivity(i);
+//                        finish();
+//
+//                    }
+//                });
+//
+//                builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        dialog.cancel();
+//                    }
+//                });
+//
+//                AlertDialog alert=builder.create();
+//                alert.show();
+
+
+
             editor = sharedPref.edit();
             editor.clear();
             editor.commit();
@@ -813,7 +1009,7 @@ public class PatientsView extends AppCompatActivity
 
             // For deleting all the locally saved PDFs on logout.
 //            reportPdf = new File(Environment.getExternalStorageDirectory() + "/Pheezee/files/reports");
-                reportPdf = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/Pheezee/files", "reports");
+                reportPdf = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/PheezeeApp/files", "reports");
             if (reportPdf.exists() && reportPdf.isDirectory()) {
                 //write same defination for it.
 
@@ -856,6 +1052,57 @@ public class PatientsView extends AppCompatActivity
     private void bluetoothConnected() {
         iv_bluetooth_disconnected.setVisibility(View.GONE);
         iv_bluetooth_connected.setVisibility(View.INVISIBLE);
+    }
+
+
+
+    public void rateApp()
+    {
+        try
+        {
+            Intent rateIntent = rateIntentForUrl("market://details");
+            startActivity(rateIntent);
+        }
+        catch (ActivityNotFoundException e)
+        {
+            Intent rateIntent = rateIntentForUrl("https://play.google.com/store/apps/details");
+            startActivity(rateIntent);
+        }
+    }
+
+    private Intent rateIntentForUrl(String url)
+    {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("%s?id=%s", url, getPackageName())));
+        int flags = Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_MULTIPLE_TASK;
+        flags |= Intent.FLAG_ACTIVITY_NEW_DOCUMENT;
+        intent.addFlags(flags);
+        return intent;
+    }
+
+
+    private void showpop(){
+
+
+        ReviewManager manager = ReviewManagerFactory.create(PatientsView.this);
+        Task<ReviewInfo> request = manager.requestReviewFlow();
+        request.addOnCompleteListener(task -> {
+            if(task.isSuccessful()){
+                Log.e("Status: ","Working");
+                ReviewInfo reviewInfo = task.getResult();
+                Task<Void> flow = manager.launchReviewFlow(PatientsView.this,reviewInfo);
+                flow.addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void result) {
+
+                    }
+                });
+
+
+            }
+            else{
+                Log.e("Status: ","Not Working");
+            }
+        });
     }
 
     private void initiatePopupWindow() {
@@ -1835,23 +2082,35 @@ public class PatientsView extends AppCompatActivity
             Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);
             Button Notification_Button_cancel = (Button) dialog.findViewById(R.id.notification_ButtonCancel);
 
-            Notification_Button_ok.setText("Check Reactivation");
+            Notification_Button_ok.setText("Send Request");
 
             // Setting up the notification dialog
             notification_title.setText("Pheezee Deactivated");
-            notification_message.setText("Pheezee has been deactivated, please contact us at care@startoonlabs.com. If you have already contacted us, please click on check reactivation.");
+            notification_message.setText("Pheezee has been deactivated. Please contact us at care@startoonlabs.com for reactivation");
 
 
             // On click on Continue
             Notification_Button_ok.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    dialog.dismiss();
-                    Intent i = new Intent(PatientsView.this, DeviceInfoActivity.class);
-                    i.putExtra("start_update", false);
-                    i.putExtra("reactivate_device", true);
-                    i.putExtra("deviceMacAddress", sharedPref.getString("deviceMacaddress", ""));
-                    startActivityForResult(i, 13);
+                    Intent intent=new Intent(Intent.ACTION_SEND);
+                    String[] recipients={"care@startoonlabs.com"};
+                    String mail = json_phizioemail;
+                    String macid = deviceMacc;
+                    intent.putExtra(Intent.EXTRA_EMAIL, recipients);
+                    intent.putExtra(Intent.EXTRA_SUBJECT,"Activate My Device");
+                    intent.putExtra(Intent.EXTRA_TEXT,"My device stopped working. \n Requesting for reactivation "+ System.getProperty("line.separator") +"Login :" + mail + System.getProperty("line.separator") +"Device Mac Id:" + macid);
+
+                    intent.setType("text/html");
+                    intent.setPackage("com.google.android.gm");
+                    startActivity(Intent.createChooser(intent, "Send mail"));
+
+//                    dialog.dismiss();
+//                    Intent i = new Intent(PatientsView.this, DeviceInfoActivity.class);
+//                    i.putExtra("start_update", false);
+//                    i.putExtra("reactivate_device", true);
+//                    i.putExtra("deviceMacAddress", sharedPref.getString("deviceMacaddress", ""));
+//                    startActivityForResult(i, 13);
 
 
                 }
@@ -2030,8 +2289,6 @@ public class PatientsView extends AppCompatActivity
     @Override
     protected void onPause() {
         super.onPause();
-        mInsideHome = false;
-        unregisterReceiver(firmware_update_receiver);
     }
 
     private boolean hasPermissions() {
@@ -2128,8 +2385,10 @@ public class PatientsView extends AppCompatActivity
         DialogCloseButton = findViewById(R.id.DialogCloseButton);
         edit_profile_btn = findViewById(R.id.edit_profile_btn);
 
+
         //connecting dialog
         connecting_device_dialog = new ProgressDialog(this);
+        Log.i("Testing_Internal","Working Fine");
     }
 
     private void setInitialMaccIfPresent() {
@@ -2403,6 +2662,44 @@ public class PatientsView extends AppCompatActivity
         }
 
     }
+    private class LogOutTimerTask extends TimerTask {
 
+        @Override
+        public void run() {
+            editor = sharedPref.edit();
+            editor.clear();
+            editor.commit();
+            repository.clearDatabase();
+            repository.deleteAllSync();
+            FirebaseMessaging.getInstance().unsubscribeFromTopic("ota");
+//            startActivity(new Intent(PatientsView.this, LoginActivity.class));
+            NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.cancelAll();
+            File reportPdf = null;
+            reportPdf = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/PheezeeApp/files", "reports");
+
+
+
+
+            if (reportPdf.exists() && reportPdf.isDirectory()) {
+                //write same defination for it.
+
+                if (reportPdf.isDirectory()) {
+                    String[] children = reportPdf.list();
+                    for (int i = 0; i < children.length; i++) {
+
+                        new File(reportPdf, children[i]).delete();
+                    }
+
+                }
+
+            }
+
+
+
+            finish();
+        }
+
+    }
 
 }

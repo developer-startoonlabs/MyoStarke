@@ -3,13 +3,16 @@ package com.start.apps.pheezee.adapters;
 import android.app.Application;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.se.omapi.Session;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +25,10 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.core.content.FileProvider;
 
+import retrofit2.http.Url;
 import start.apps.pheezee.R;
+
+import com.nayaastra.skewpdfview.SkewPdfView;
 import com.start.apps.pheezee.classes.SessionListClass;
 import com.start.apps.pheezee.pojos.GetReportDataResponse;
 import com.start.apps.pheezee.repository.MqttSyncRepository;
@@ -45,6 +51,8 @@ public class SessionReportListArrayAdapter extends ArrayAdapter<SessionListClass
     private TextView tv_s_no,tv_date, tv_exercise_no,tv_download_date;
     private Button view_button;
     private ImageView share_icon;
+
+    SkewPdfView skewPdfView;
 
 
     private Context context;
@@ -141,7 +149,7 @@ public class SessionReportListArrayAdapter extends ArrayAdapter<SessionListClass
         }
 
         view_button.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.R)
+            @RequiresApi(api = Build.VERSION_CODES.Q)
             @Override
             public void onClick(View v) {
                 if(NetworkOperations.isNetworkAvailable(context))
@@ -155,7 +163,7 @@ public class SessionReportListArrayAdapter extends ArrayAdapter<SessionListClass
 
 
         share_icon.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.R)
+            @RequiresApi(api = Build.VERSION_CODES.Q)
             @Override
             public void onClick(View v) {
                 if(NetworkOperations.isNetworkAvailable(context))
@@ -190,20 +198,27 @@ public class SessionReportListArrayAdapter extends ArrayAdapter<SessionListClass
 
     private void getDayReport(String date){
         String url = "/getreport/"+patientId+"/"+phizioemail+"/" + date;
+        String url1 = "http://"+"13.127.78.38:3000"+"/getreport/"+patientId+"/"+phizioemail+"/" + date;
+        Log.i("url1", url1);
+
+
+        Log.i("Url Testing",url);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-
-        if(WriteResponseBodyToDisk.checkFileInDisk(patientId+date) && !sharedPreferences.getBoolean(patientId+date,true))
+        if(WriteResponseBodyToDisk.checkFileInDisk(patientId+date) && !sharedPreferences.getBoolean(patientId+date,false))
         {
 
             Intent target = new Intent(Intent.ACTION_VIEW);
             target.setDataAndType(FileProvider.getUriForFile(context, context.getPackageName() + ".my.package.name.provider", WriteResponseBodyToDisk.GetFileFromDisk(patientId+date)), "application/pdf");
+            target.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             target.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             target.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
             try {
                 context.startActivity(target);
+
             } catch (ActivityNotFoundException e) {
+
                 // Instruct the user to install a PDF reader here, or something
             }
         return;
@@ -237,9 +252,10 @@ public class SessionReportListArrayAdapter extends ArrayAdapter<SessionListClass
 
         report_dialog = new ProgressDialog(context);
         report_dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        report_dialog.setMessage("Sharing session report held on "+date+", please wait..");
+        report_dialog.setMessage("Please Wait");       // ("Sharing session report held on "+date+", please wait..");
         report_dialog.show();
         repository.getDayReportshare(url,patientName+"-day",context,report_dialog);
+
     }
 
     public void sendToast(String message){

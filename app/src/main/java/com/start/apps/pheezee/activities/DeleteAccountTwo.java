@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CheckedTextView;
@@ -88,10 +89,60 @@ public class DeleteAccountTwo extends AppCompatActivity implements MqttSyncRepos
                 str_feedback = feedback.getText().toString();
                 str_todelete = todelete.getText().toString();
                 str_needdata = needdata.getText().toString();
-                repository.deletePhiziouser(str_phizioemail,str_feedback,str_todelete,str_needdata);
-                showToast("Your Account Deleted Sucessfully");
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(intent);
+//                repository.deletePhiziouser(str_phizioemail,str_feedback,str_todelete,str_needdata);
+//                showToast("");
+//                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+//                startActivity(intent);
+                final Dialog dialog = new Dialog(DeleteAccountTwo.this);
+                dialog.setContentView(R.layout.notification_dialog_box);
+
+                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                lp.copyFrom(dialog.getWindow().getAttributes());
+                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+                dialog.getWindow().setAttributes(lp);
+
+                TextView notification_title = dialog.findViewById(R.id.notification_box_title);
+                TextView notification_message = dialog.findViewById(R.id.notification_box_message);
+
+                Button Notification_Button_ok = (Button) dialog.findViewById(R.id.notification_ButtonOK);
+                Button Notification_Button_cancel = (Button) dialog.findViewById(R.id.notification_ButtonCancel);
+
+                Notification_Button_ok.setText("Send Request");
+                Notification_Button_cancel.setText("No");
+
+                // Setting up the notification dialog
+                notification_title.setText("Delete Account");
+                notification_message.setText("Are you sure you want to Delete your account?");
+
+                // On click on Continue
+                Notification_Button_ok.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                                Intent intent=new Intent(Intent.ACTION_SEND);
+                                String[] recipients={"care@startoonlabs.com"};
+                                String mail = json_phizioemail;
+                                intent.putExtra(Intent.EXTRA_EMAIL, recipients);
+                                intent.putExtra(Intent.EXTRA_SUBJECT,"Delete My Pheezee Account");
+                                intent.putExtra(Intent.EXTRA_TEXT,"Dear Startoonlabs Team,\n I have an account in your Pheezee App with Mail id :"+ mail +System.getProperty("line.separator")+"Reason:"+str2+System.getProperty("line.separator")+" Thank you");
+                                intent.setType("text/html");
+                                intent.setPackage("com.google.android.gm");
+                                startActivity(Intent.createChooser(intent, "Send mail"));
+
+                        }
+                });
+                // On click Cancel
+                Notification_Button_cancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                                dialog.dismiss();
+
+                        }
+                });
+
+                dialog.show();
+
             }
         });
 
